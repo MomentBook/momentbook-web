@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { journeys, places, days } from "@/lib/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 
   const staticRoutes = [
     "",
