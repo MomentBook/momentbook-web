@@ -13,32 +13,32 @@ export default function Home() {
       <div className={styles.content}>
         {/* Hero Section */}
         <section className={styles.hero}>
-          <h1 className={styles.heroTitle}>A quiet space for your day</h1>
+          <h1 className={styles.heroTitle}>A place for your day to rest</h1>
           <p className={styles.heroSubtitle}>
-            MomentBook is a travel journal that remembers where you've been. You live your day. The app quietly gathers the pieces.
+            You move through the world. MomentBook quietly remembers where you've been.
           </p>
         </section>
 
         {/* Key Ideas - Not Features */}
         <section className={styles.ideas}>
           <div className={styles.idea}>
-            <h2 className={styles.ideaTitle}>Just take photos</h2>
+            <h2 className={styles.ideaTitle}>You don't need to write</h2>
             <p className={styles.ideaText}>
-              When something catches your eye, take a photo. You don't need to write anything. The image and the moment are enough.
+              Take a photo when something feels worth keeping. The image is enough.
             </p>
           </div>
 
           <div className={styles.idea}>
-            <h2 className={styles.ideaTitle}>Your steps become a path</h2>
+            <h2 className={styles.ideaTitle}>Your movement becomes memory</h2>
             <p className={styles.ideaText}>
-              The app notices where you go. Over time, your movements form quiet maps of the places that matter.
+              The app notices where you go. Over time, a quiet map forms.
             </p>
           </div>
 
           <div className={styles.idea}>
-            <h2 className={styles.ideaTitle}>A gentle recap at night</h2>
+            <h2 className={styles.ideaTitle}>Your day returns at night</h2>
             <p className={styles.ideaText}>
-              Before you sleep, the day returns as a simple story. Nothing is demanded. It's just there if you want to see it.
+              When the day ends, everything gathers into one gentle story. Nothing is required of you.
             </p>
           </div>
         </section>
@@ -53,7 +53,7 @@ export default function Home() {
         {/* How It Feels */}
         <section className={styles.feeling}>
           <p className={styles.feelingText}>
-            MomentBook isn't about tracking or optimizing. It's about noticing you were somewhere, and that it happened. Some days you'll use it. Some days you won't. The app doesn't mind either way.
+            This isn't about tracking or optimizing. It's about noticing you were somewhere. Some days you'll open it. Some days you won't.
           </p>
         </section>
 

@@ -10,11 +10,11 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(8px);
-  background: rgba(250, 249, 247, 0.95);
+  backdrop-filter: blur(12px);
+  background: rgba(252, 251, 249, 0.92);
 
   @media (prefers-color-scheme: dark) {
-    background: rgba(26, 24, 22, 0.95);
+    background: rgba(28, 25, 22, 0.92);
   }
 }
 
@@ -32,11 +32,12 @@
 }
 
 .logo {
-  font-weight: 500;
-  font-size: 1.125rem;
+  font-weight: 400;
+  font-size: 1.1875rem;
   line-height: 1.75rem;
   color: var(--color-text-primary);
-  transition: color 0.2s ease;
+  transition: color 0.25s ease;
+  letter-spacing: -0.01em;
 
   &:hover {
     color: var(--color-accent);
@@ -48,6 +49,7 @@
   gap: var(--spacing-md);
   font-size: 0.9375rem;
   line-height: 1.5rem;
+  font-weight: 300;
 
   @media (min-width: 768px) {
     gap: var(--spacing-lg);
@@ -56,27 +58,11 @@
 
 .navLink {
   color: var(--color-text-secondary);
-  transition: color 0.2s ease;
+  transition: color 0.25s ease;
   position: relative;
 
   &:hover {
-    color: var(--color-text-primary);
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--color-accent);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  &:hover::after {
-    opacity: 1;
+    color: var(--color-accent);
   }
 }
 
