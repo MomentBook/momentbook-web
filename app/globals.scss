@@ -31,25 +31,26 @@
 
 /* Light theme (default) */
 [data-theme="light"] {
-  /* Colors - Bright, warm, open - IMPROVED CONTRAST */
-  --color-bg-light: #fcfbf9;
-  --color-bg-canvas: #fffffe;
-  --color-text-primary: #2a2622;
-  --color-text-secondary: #4a4642;
-  --color-text-tertiary: #7a7470;
+  /* Colors - Bright, warm, open - HIGH CONTRAST */
+  --color-bg-light: #fdfcfa;
+  --color-bg-canvas: #ffffff;
+  --color-text-primary: #1a1614;
+  --color-text-secondary: #3a3632;
+  --color-text-tertiary: #6a6662;
 
   /* Journey accent - warm terracotta */
   --color-accent: #c17854;
   --color-accent-hover: #a86343;
-  --color-accent-soft: #fdf6f2;
+  --color-accent-soft: #fef8f4;
 
-  /* Borders & Dividers - Very soft */
-  --color-border: #f0ebe6;
-  --color-border-hover: #e3dcd4;
+  /* Borders & Dividers - Soft but visible */
+  --color-border: #ede8e3;
+  --color-border-hover: #ddd6cf;
 
-  /* Shadows - Slightly more visible */
-  --shadow-sm: 0 1px 3px rgba(42, 38, 34, 0.08);
-  --shadow-md: 0 4px 12px rgba(42, 38, 34, 0.12);
+  /* Shadows - More pronounced */
+  --shadow-sm: 0 2px 8px rgba(26, 22, 20, 0.06);
+  --shadow-md: 0 8px 24px rgba(26, 22, 20, 0.1);
+  --shadow-lg: 0 16px 48px rgba(26, 22, 20, 0.12);
 }
 
 /* Dark theme */
