@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
+import { LayoutClient } from "@/components/LayoutClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,53 +36,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <header className="border-b border-zinc-200 dark:border-zinc-800">
-          <nav className="max-w-5xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/" className="font-semibold text-lg">
-                MomentBook
-              </Link>
-              <div className="flex gap-6 text-sm">
-                <Link href="/about" className="hover:text-zinc-600 dark:hover:text-zinc-400">
-                  About
-                </Link>
-                <Link href="/how-it-works" className="hover:text-zinc-600 dark:hover:text-zinc-400">
-                  How It Works
-                </Link>
-                <Link href="/faq" className="hover:text-zinc-600 dark:hover:text-zinc-400">
-                  FAQ
-                </Link>
-                <Link href="/download" className="hover:text-zinc-600 dark:hover:text-zinc-400">
-                  Download
-                </Link>
-              </div>
-            </div>
-          </nav>
-        </header>
-        <main className="min-h-screen">{children}</main>
-        <footer className="border-t border-zinc-200 dark:border-zinc-800 mt-16">
-          <div className="max-w-5xl mx-auto px-6 py-8">
-            <div className="flex flex-col gap-6 text-sm text-zinc-600 dark:text-zinc-400">
-              <div className="flex gap-6">
-                <Link href="/privacy" className="hover:text-zinc-900 dark:hover:text-zinc-100">
-                  Privacy
-                </Link>
-                <Link href="/terms" className="hover:text-zinc-900 dark:hover:text-zinc-100">
-                  Terms
-                </Link>
-                <Link href="/support" className="hover:text-zinc-900 dark:hover:text-zinc-100">
-                  Support
-                </Link>
-              </div>
-              <p className="text-xs">
-                MomentBook is an app that quietly remembers your day.
-              </p>
-            </div>
-          </div>
-        </footer>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   );

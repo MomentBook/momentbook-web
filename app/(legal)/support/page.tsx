@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Container, ContentWrapper, Title, Subtitle, TextContent, Heading2, StyledLink, Note } from "@/components/styled";
 
 export const metadata: Metadata = {
   title: "Support",
@@ -7,41 +8,35 @@ export const metadata: Metadata = {
 
 export default function SupportPage() {
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
-      <div className="flex flex-col gap-8">
-        <h1 className="text-4xl font-semibold tracking-tight">
-          Support
-        </h1>
+    <Container>
+      <ContentWrapper>
+        <Title>Support</Title>
 
-        <p className="text-lg text-zinc-600 dark:text-zinc-400">
+        <Subtitle>
           If you need help with MomentBook, we're here.
-        </p>
+        </Subtitle>
 
-        <div className="flex flex-col gap-6 text-zinc-700 dark:text-zinc-300 leading-relaxed">
-          <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mt-8">
-            Common questions
-          </h2>
+        <TextContent>
+          <Heading2>Common questions</Heading2>
 
           <p>
-            You might find answers in our <a href="/faq" className="underline hover:text-zinc-900 dark:hover:text-zinc-100">FAQ</a>.
+            You might find answers in our <StyledLink href="/faq">FAQ</StyledLink>.
           </p>
 
-          <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mt-8">
-            Contact
-          </h2>
+          <Heading2>Contact</Heading2>
 
           <p>
             For other questions or issues, you can reach us at{" "}
-            <a href="mailto:support@momentbook.app" className="underline hover:text-zinc-900 dark:hover:text-zinc-100">
+            <StyledLink href="mailto:support@momentbook.app">
               support@momentbook.app
-            </a>
+            </StyledLink>
           </p>
 
-          <p className="text-sm text-zinc-500 dark:text-zinc-500 mt-4">
+          <Note>
             We typically respond within 1-2 business days.
-          </p>
-        </div>
-      </div>
-    </div>
+          </Note>
+        </TextContent>
+      </ContentWrapper>
+    </Container>
   );
 }

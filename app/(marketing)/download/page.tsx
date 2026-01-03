@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Container, ContentWrapper, Title, Subtitle, Button, ButtonGroup, Note } from "@/components/styled";
 
 export const metadata: Metadata = {
   title: "Download",
@@ -7,35 +8,27 @@ export const metadata: Metadata = {
 
 export default function DownloadPage() {
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
-      <div className="flex flex-col gap-8">
-        <h1 className="text-4xl font-semibold tracking-tight">
-          Download MomentBook
-        </h1>
+    <Container>
+      <ContentWrapper>
+        <Title>Download MomentBook</Title>
 
-        <p className="text-lg text-zinc-600 dark:text-zinc-400">
+        <Subtitle>
           MomentBook is available for iOS and Android.
-        </p>
+        </Subtitle>
 
-        <div className="flex flex-col gap-4 mt-8">
-          <a
-            href="#"
-            className="inline-flex items-center justify-center px-6 py-4 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
-          >
+        <ButtonGroup>
+          <Button href="#">
             Download on the App Store
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center justify-center px-6 py-4 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
-          >
+          </Button>
+          <Button href="#">
             Get it on Google Play
-          </a>
-        </div>
+          </Button>
+        </ButtonGroup>
 
-        <p className="text-sm text-zinc-500 dark:text-zinc-500 mt-8">
+        <Note>
           Links will be available when the app launches.
-        </p>
-      </div>
-    </div>
+        </Note>
+      </ContentWrapper>
+    </Container>
   );
 }

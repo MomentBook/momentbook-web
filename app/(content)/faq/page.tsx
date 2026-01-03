@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Container, ContentWrapper, Title, FAQList, FAQItem, FAQQuestion, FAQAnswer, CalloutBox, StyledLink } from "@/components/styled";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -46,34 +47,26 @@ export default function FAQPage() {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
-      <div className="flex flex-col gap-8">
-        <h1 className="text-4xl font-semibold tracking-tight">
-          Frequently Asked Questions
-        </h1>
+    <Container>
+      <ContentWrapper>
+        <Title>Frequently Asked Questions</Title>
 
-        <div className="flex flex-col gap-8 mt-8">
+        <FAQList>
           {faqs.map((faq, index) => (
-            <div key={index} className="flex flex-col gap-3">
-              <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-                {faq.question}
-              </h2>
-              <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                {faq.answer}
-              </p>
-            </div>
+            <FAQItem key={index}>
+              <FAQQuestion>{faq.question}</FAQQuestion>
+              <FAQAnswer>{faq.answer}</FAQAnswer>
+            </FAQItem>
           ))}
-        </div>
+        </FAQList>
 
-        <div className="mt-8 p-6 bg-zinc-50 dark:bg-zinc-900 rounded-lg">
-          <p className="text-zinc-700 dark:text-zinc-300">
+        <CalloutBox>
+          <p>
             Have a question that's not answered here?{" "}
-            <a href="/support" className="underline hover:text-zinc-900 dark:hover:text-zinc-100">
-              Get in touch
-            </a>
+            <StyledLink href="/support">Get in touch</StyledLink>
           </p>
-        </div>
-      </div>
-    </div>
+        </CalloutBox>
+      </ContentWrapper>
+    </Container>
   );
 }
