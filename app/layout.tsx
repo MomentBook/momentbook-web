@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import Script from "next/script";
 import "./globals.scss";
 import styles from "./layout.module.scss";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +38,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
+      <head>
+        <Script id="theme-script" strategy="beforeInteractive">
+          {`
+            (function() {
+              const stored = localStorage.getItem('theme');
+              const theme = (stored === 'light' || stored === 'dark') ? stored : 'light';
+              document.documentElement.setAttribute('data-theme', theme);
+            })();
+          `}
+        </Script>
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <header className={styles.header}>
           <nav className={styles.nav}>
@@ -56,6 +69,7 @@ export default function RootLayout({
               <Link href="/download" className={styles.navLink}>
                 Download
               </Link>
+              <ThemeToggle />
             </div>
           </nav>
         </header>
