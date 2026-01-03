@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, ContentWrapper, Title, Subtitle, Button, ButtonGroup, Note } from "@/components/styled";
+import styles from "@/styles/common.module.scss";
 
 export const metadata: Metadata = {
   title: "Download",
@@ -8,27 +8,28 @@ export const metadata: Metadata = {
 
 export default function DownloadPage() {
   return (
-    <Container>
-      <ContentWrapper>
-        <Title>Download MomentBook</Title>
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <header>
+          <h1 className={styles.title}>Download MomentBook</h1>
+          <p className={styles.subtitle}>
+            MomentBook is available for iOS and Android.
+          </p>
+        </header>
 
-        <Subtitle>
-          MomentBook is available for iOS and Android.
-        </Subtitle>
-
-        <ButtonGroup>
-          <Button href="#">
+        <div className={styles.buttonGroup}>
+          <a href="#" className={styles.button}>
             Download on the App Store
-          </Button>
-          <Button href="#">
+          </a>
+          <a href="#" className={styles.button}>
             Get it on Google Play
-          </Button>
-        </ButtonGroup>
+          </a>
+        </div>
 
-        <Note>
+        <p className={styles.note}>
           Links will be available when the app launches.
-        </Note>
-      </ContentWrapper>
-    </Container>
+        </p>
+      </div>
+    </div>
   );
 }

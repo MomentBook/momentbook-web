@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Container, ContentWrapper, Title, Subtitle, TextContent, Heading2, StyledLink, Note } from "@/components/styled";
+import Link from "next/link";
+import styles from "@/styles/common.module.scss";
 
 export const metadata: Metadata = {
   title: "Support",
@@ -8,35 +9,36 @@ export const metadata: Metadata = {
 
 export default function SupportPage() {
   return (
-    <Container>
-      <ContentWrapper>
-        <Title>Support</Title>
+    <div className={styles.container}>
+      <article className={styles.content}>
+        <header>
+          <h1 className={styles.title}>Support</h1>
+          <p className={styles.subtitle}>
+            If you need help with MomentBook, we're here.
+          </p>
+        </header>
 
-        <Subtitle>
-          If you need help with MomentBook, we're here.
-        </Subtitle>
-
-        <TextContent>
-          <Heading2>Common questions</Heading2>
+        <div className={styles.textContent}>
+          <h2 className={styles.heading2}>Common questions</h2>
 
           <p>
-            You might find answers in our <StyledLink href="/faq">FAQ</StyledLink>.
+            You might find answers in our <Link href="/faq" className={styles.link}>FAQ</Link>.
           </p>
 
-          <Heading2>Contact</Heading2>
+          <h2 className={styles.heading2}>Contact</h2>
 
           <p>
             For other questions or issues, you can reach us at{" "}
-            <StyledLink href="mailto:support@momentbook.app">
+            <a href="mailto:support@momentbook.app" className={styles.link}>
               support@momentbook.app
-            </StyledLink>
+            </a>
           </p>
 
-          <Note>
+          <p className={styles.note}>
             We typically respond within 1-2 business days.
-          </Note>
-        </TextContent>
-      </ContentWrapper>
-    </Container>
+          </p>
+        </div>
+      </article>
+    </div>
   );
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Container, ContentWrapper, Title, FAQList, FAQItem, FAQQuestion, FAQAnswer, CalloutBox, StyledLink } from "@/components/styled";
+import Link from "next/link";
+import styles from "@/styles/common.module.scss";
+import faqStyles from "./faq.module.scss";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -47,26 +49,28 @@ export default function FAQPage() {
   ];
 
   return (
-    <Container>
-      <ContentWrapper>
-        <Title>Frequently Asked Questions</Title>
+    <div className={styles.container}>
+      <article className={styles.content}>
+        <header>
+          <h1 className={styles.title}>Frequently Asked Questions</h1>
+        </header>
 
-        <FAQList>
+        <div className={faqStyles.faqList}>
           {faqs.map((faq, index) => (
-            <FAQItem key={index}>
-              <FAQQuestion>{faq.question}</FAQQuestion>
-              <FAQAnswer>{faq.answer}</FAQAnswer>
-            </FAQItem>
+            <section key={index} className={faqStyles.faqItem}>
+              <h2 className={faqStyles.faqQuestion}>{faq.question}</h2>
+              <p className={faqStyles.faqAnswer}>{faq.answer}</p>
+            </section>
           ))}
-        </FAQList>
+        </div>
 
-        <CalloutBox>
+        <aside className={styles.callout}>
           <p>
             Have a question that's not answered here?{" "}
-            <StyledLink href="/support">Get in touch</StyledLink>
+            <Link href="/support" className={styles.link}>Get in touch</Link>
           </p>
-        </CalloutBox>
-      </ContentWrapper>
-    </Container>
+        </aside>
+      </article>
+    </div>
   );
 }

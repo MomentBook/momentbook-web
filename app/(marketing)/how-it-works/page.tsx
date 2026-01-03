@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, ContentWrapper, Title, TextContent, Heading2 } from "@/components/styled";
+import styles from "@/styles/common.module.scss";
 
 export const metadata: Metadata = {
   title: "How It Works",
@@ -8,16 +8,18 @@ export const metadata: Metadata = {
 
 export default function HowItWorksPage() {
   return (
-    <Container>
-      <ContentWrapper>
-        <Title>How it works</Title>
+    <div className={styles.container}>
+      <article className={styles.content}>
+        <header>
+          <h1 className={styles.title}>How it works</h1>
+        </header>
 
-        <TextContent>
+        <div className={styles.textContent}>
           <p>
             MomentBook doesn't prescribe a process. It creates space for whatever you notice.
           </p>
 
-          <Heading2>Noticing</Heading2>
+          <h2 className={styles.heading2}>Noticing</h2>
 
           <p>
             When something in your day feels worth remembering—a moment, a thought, a recognition—you can open the app and record it. Or not. Nothing is required.
@@ -27,7 +29,7 @@ export default function HowItWorksPage() {
             The app doesn't prompt you, remind you, or ask for consistency. It simply waits, quietly, until you need it.
           </p>
 
-          <Heading2>Remembering</Heading2>
+          <h2 className={styles.heading2}>Remembering</h2>
 
           <p>
             What you record stays with you. It's not shared, published, or made visible to others. It's not optimized for search or performance.
@@ -37,7 +39,7 @@ export default function HowItWorksPage() {
             You can revisit what you've noticed, or you can let it rest. The choice is yours.
           </p>
 
-          <Heading2>No expectations</Heading2>
+          <h2 className={styles.heading2}>No expectations</h2>
 
           <p>
             MomentBook doesn't ask you to use it every day, or in any particular way. There are no streaks, no goals, no metrics.
@@ -46,8 +48,8 @@ export default function HowItWorksPage() {
           <p>
             The app meets you where you are, when you are, without judgment.
           </p>
-        </TextContent>
-      </ContentWrapper>
-    </Container>
+        </div>
+      </article>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, ContentWrapper, Title, Subtitle, TextContent, Heading2, List, Note } from "@/components/styled";
+import styles from "@/styles/common.module.scss";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -8,41 +8,42 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <Container>
-      <ContentWrapper>
-        <Title>Privacy Policy</Title>
-
-        <TextContent>
-          <Subtitle>
+    <div className={styles.container}>
+      <article className={styles.content}>
+        <header>
+          <h1 className={styles.title}>Privacy Policy</h1>
+          <p className={styles.subtitle}>
             Your moments are yours. MomentBook doesn't share, sell, or analyze your data.
-          </Subtitle>
+          </p>
+        </header>
 
-          <Heading2>What we collect</Heading2>
+        <div className={styles.textContent}>
+          <h2 className={styles.heading2}>What we collect</h2>
 
           <p>
             MomentBook stores the moments you choose to record. This data lives on your device and in your personal cloud storage (if you enable sync).
           </p>
 
-          <Heading2>What we don't do</Heading2>
+          <h2 className={styles.heading2}>What we don't do</h2>
 
-          <List>
+          <ul className={styles.list}>
             <li>We don't read your moments</li>
             <li>We don't share your data with third parties</li>
             <li>We don't use your content for training or analytics</li>
             <li>We don't track your behavior across apps or websites</li>
-          </List>
+          </ul>
 
-          <Heading2>Your control</Heading2>
+          <h2 className={styles.heading2}>Your control</h2>
 
           <p>
             You can export or delete your data at any time. Nothing is permanent unless you choose it to be.
           </p>
 
-          <Note>
+          <p className={styles.note}>
             Last updated: January 2026
-          </Note>
-        </TextContent>
-      </ContentWrapper>
-    </Container>
+          </p>
+        </div>
+      </article>
+    </div>
   );
 }

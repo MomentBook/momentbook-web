@@ -1,0 +1,32 @@
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.faqItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faqQuestion {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: #18181b;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fafafa;
+  }
+}
+
+.faqAnswer {
+  color: #3f3f46;
+  line-height: 1.625;
+
+  @media (prefers-color-scheme: dark) {
+    color: #d4d4d8;
+  }
+}

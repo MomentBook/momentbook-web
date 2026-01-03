@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Container, ContentWrapper, Title, Subtitle, TextContent, Heading2, Note } from "@/components/styled";
+import styles from "@/styles/common.module.scss";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -8,44 +8,45 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <Container>
-      <ContentWrapper>
-        <Title>Terms of Service</Title>
-
-        <TextContent>
-          <Subtitle>
+    <div className={styles.container}>
+      <article className={styles.content}>
+        <header>
+          <h1 className={styles.title}>Terms of Service</h1>
+          <p className={styles.subtitle}>
             By using MomentBook, you agree to these terms.
-          </Subtitle>
+          </p>
+        </header>
 
-          <Heading2>Your content</Heading2>
+        <div className={styles.textContent}>
+          <h2 className={styles.heading2}>Your content</h2>
 
           <p>
             Everything you record in MomentBook belongs to you. We don't claim ownership, and we don't have access to it.
           </p>
 
-          <Heading2>How you can use the app</Heading2>
+          <h2 className={styles.heading2}>How you can use the app</h2>
 
           <p>
             MomentBook is for personal, non-commercial use. You're welcome to use it however makes sense for you, as long as you're not harming others or violating laws.
           </p>
 
-          <Heading2>No guarantees</Heading2>
+          <h2 className={styles.heading2}>No guarantees</h2>
 
           <p>
             We work to keep MomentBook reliable and secure, but we can't guarantee it will always be available or error-free. Use the app at your own discretion.
           </p>
 
-          <Heading2>Changes</Heading2>
+          <h2 className={styles.heading2}>Changes</h2>
 
           <p>
             We may update these terms from time to time. If we make significant changes, we'll let you know through the app.
           </p>
 
-          <Note>
+          <p className={styles.note}>
             Last updated: January 2026
-          </Note>
-        </TextContent>
-      </ContentWrapper>
-    </Container>
+          </p>
+        </div>
+      </article>
+    </div>
   );
 }
