@@ -5,6 +5,28 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  position: relative;
+
+  /* Subtle travel-inspired texture background */
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(95, 163, 184, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255, 107, 157, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(95, 163, 184, 0.02) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 /* Hero Section - Large visual, minimal text */
