@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FadeIn } from "@/components/FadeIn";
+import { DeviceMock } from "@/components/DeviceMock";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -9,64 +11,103 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        {/* Hero Section */}
-        <section className={styles.hero}>
-          <h1 className={styles.heroTitle}>A place for your day to rest</h1>
-          <p className={styles.heroSubtitle}>
-            You move through the world. MomentBook quietly remembers where you've been.
+    <div className={styles.page}>
+      {/* Hero - Large visual, minimal text */}
+      <section className={styles.hero}>
+        <FadeIn>
+          <DeviceMock>
+            <span>A day remembered</span>
+          </DeviceMock>
+        </FadeIn>
+        <FadeIn delay={200}>
+          <h1 className={styles.heroTitle}>Your day, quietly kept</h1>
+        </FadeIn>
+      </section>
+
+      {/* Flow Section 1 - Photos */}
+      <section className={styles.flow}>
+        <FadeIn>
+          <div className={styles.flowVisual}>
+            <DeviceMock>
+              <span>A photo, nothing more</span>
+            </DeviceMock>
+          </div>
+        </FadeIn>
+        <FadeIn delay={150}>
+          <p className={styles.flowText}>Take a photo when something feels worth keeping.</p>
+        </FadeIn>
+      </section>
+
+      {/* Flow Section 2 - Movement */}
+      <section className={styles.flow}>
+        <FadeIn>
+          <div className={styles.flowVisual}>
+            <DeviceMock>
+              <span>Paths form</span>
+            </DeviceMock>
+          </div>
+        </FadeIn>
+        <FadeIn delay={150}>
+          <p className={styles.flowText}>The app notices where you go.</p>
+        </FadeIn>
+      </section>
+
+      {/* Flow Section 3 - Recap */}
+      <section className={styles.flow}>
+        <FadeIn>
+          <div className={styles.flowVisual}>
+            <DeviceMock>
+              <span>Evening arrives</span>
+            </DeviceMock>
+          </div>
+        </FadeIn>
+        <FadeIn delay={150}>
+          <p className={styles.flowText}>When the day ends, everything gathers into one gentle story.</p>
+        </FadeIn>
+      </section>
+
+      {/* Emotional Pause */}
+      <section className={styles.pause}>
+        <FadeIn>
+          <p className={styles.pauseText}>
+            Nothing is required.
+            <br />
+            Some days you'll open it.
+            <br />
+            Some days you won't.
           </p>
-        </section>
+        </FadeIn>
+      </section>
 
-        {/* Key Ideas - Not Features */}
-        <section className={styles.ideas}>
-          <div className={styles.idea}>
-            <h2 className={styles.ideaTitle}>You don't need to write</h2>
-            <p className={styles.ideaText}>
-              Take a photo when something feels worth keeping. The image is enough.
-            </p>
-          </div>
-
-          <div className={styles.idea}>
-            <h2 className={styles.ideaTitle}>Your movement becomes memory</h2>
-            <p className={styles.ideaText}>
-              The app notices where you go. Over time, a quiet map forms.
-            </p>
-          </div>
-
-          <div className={styles.idea}>
-            <h2 className={styles.ideaTitle}>Your day returns at night</h2>
-            <p className={styles.ideaText}>
-              When the day ends, everything gathers into one gentle story. Nothing is required of you.
-            </p>
-          </div>
-        </section>
-
-        {/* Privacy Note */}
-        <aside className={styles.privacyNote}>
+      {/* Privacy Note */}
+      <section className={styles.privacy}>
+        <FadeIn>
           <p className={styles.privacyText}>
-            Private by default. No sharing pressure. What you remember stays with you.
+            Private by default. Your journey is yours first.
           </p>
-        </aside>
+        </FadeIn>
+      </section>
 
-        {/* How It Feels */}
-        <section className={styles.feeling}>
-          <p className={styles.feelingText}>
-            This isn't about tracking or optimizing. It's about noticing you were somewhere. Some days you'll open it. Some days you won't.
-          </p>
-        </section>
-
-        {/* CTA */}
-        <div className={styles.cta}>
-          <Link href="/download" className={styles.ctaButton}>
-            Get the app
-          </Link>
-          <Link href="/how-it-works" className={styles.ctaSecondary}>
-            See how it works
-          </Link>
-        </div>
-      </div>
+      {/* CTA */}
+      <section className={styles.cta}>
+        <FadeIn>
+          <div className={styles.ctaVisual}>
+            <DeviceMock>
+              <span>Waiting quietly</span>
+            </DeviceMock>
+          </div>
+        </FadeIn>
+        <FadeIn delay={150}>
+          <div className={styles.ctaActions}>
+            <Link href="/download" className={styles.ctaButton}>
+              Get the app
+            </Link>
+            <Link href="/how-it-works" className={styles.ctaSecondary}>
+              See how it works
+            </Link>
+          </div>
+        </FadeIn>
+      </section>
     </div>
   );
 }

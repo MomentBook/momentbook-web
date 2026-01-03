@@ -16,13 +16,13 @@ MomentBook is a **quiet travel and daily movement journal**.
 It helps a day be remembered  
 **without asking the user to consciously record it**.
 
-MomentBook assumes that:
+The app assumes:
 
 -   life happens first
 -   recording should be optional
 -   memory can be shaped gently, after the day ends
 
-The app stays out of the user’s way.
+MomentBook stays out of the user’s way.
 
 ---
 
@@ -60,8 +60,7 @@ It does **not**:
 -   encourage streaks
 -   push daily engagement
 -   reward consistency
--   promote sharing
--   turn memory into performance
+-   promote performance or comparison
 
 If an idea resembles any of the above, it is likely wrong.
 
@@ -75,7 +74,7 @@ These principles override features, UI, and technical convenience.
 -   No commands — only gentle invitations
 -   State-first experience, not screen-first
 -   Less interaction is better than more interaction
--   No SNS logic, no engagement thinking
+-   No SNS logic or engagement thinking
 
 When uncertain, **remove instead of adding**.
 
@@ -102,20 +101,47 @@ This recap is:
 
 ---
 
-## 6. Privacy & Storage Philosophy
+## 6. Privacy & Sharing Philosophy
 
 MomentBook is **private by default**.
 
--   Records are personal
--   No social graph
--   No public feed
--   No engagement metrics
+-   Records are personal first.
+-   Nothing is shared automatically.
+-   Sharing is always **optional**, never required.
 
-Memory is treated as something to be held, not published.
+If sharing exists:
+
+-   It shares **the result**, not the full process.
+-   It happens after the day is complete, not during it.
+-   It does not turn memory into performance.
+
+Sharing does **not** create:
+
+-   a social graph
+-   a feed
+-   likes, comments, or reactions
+-   engagement metrics
+
+Memory is something to be held first.
 
 ---
 
-## 7. Who This App Fits
+## 7. Storage & Ownership
+
+MomentBook treats memory as something personal.
+
+-   Records belong to the user first.
+-   Storage decisions must preserve:
+    -   privacy
+    -   ownership
+    -   non-obligation
+
+Whether stored locally or backed up elsewhere,  
+the default posture remains quiet and personal.
+
+---
+
+## 8. Who This App Fits
 
 MomentBook fits:
 
@@ -128,13 +154,13 @@ MomentBook may **not** fit:
 
 -   people seeking productivity or habit enforcement
 -   people wanting public sharing or feedback
--   people who want detailed manual logging
+-   people who expect constant interaction or rewards
 
 This is intentional.
 
 ---
 
-## 8. The Emotional Outcome
+## 9. The Emotional Outcome
 
 When a day ends, the intended feeling is:
 
@@ -151,10 +177,10 @@ Just closure.
 
 ---
 
-## 9. Final Rule
+## 10. Final Principle
 
-MomentBook is not something to be optimized.
+MomentBook is not an app that avoids sharing.
 
-It is something a user may quietly recognize — or not.
+It is an app that does **not depend on sharing**.
 
-The product must respect both outcomes.
+The day belongs to the user first.

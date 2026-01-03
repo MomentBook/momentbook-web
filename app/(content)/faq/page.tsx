@@ -28,7 +28,7 @@ export default function FAQPage() {
     },
     {
       question: "Who can see what I write?",
-      answer: "Only you. MomentBook doesn't share your moments with anyone, including us."
+      answer: "Only you, unless you choose to share. MomentBook doesn't access or distribute your moments."
     },
     {
       question: "Do I need to use it every day?",
@@ -44,7 +44,7 @@ export default function FAQPage() {
     },
     {
       question: "Will you add social features?",
-      answer: "No. MomentBook is intentionally private and non-social."
+      answer: "No. MomentBook is private by default and doesn't depend on social interaction."
     }
   ];
 

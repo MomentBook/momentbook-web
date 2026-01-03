@@ -32,7 +32,7 @@ export default function HowItWorksPage() {
           <h2 className={styles.heading2}>Remembering</h2>
 
           <p>
-            What you record stays with you. It's not shared, published, or made visible to others. It's not optimized for search or performance.
+            What you record is yours first. It's not optimized for search, performance, or validation.
           </p>
 
           <p>
