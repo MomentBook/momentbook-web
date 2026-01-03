@@ -11,48 +11,59 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <section className={styles.intro}>
-          <h1 className={styles.title}>An app that quietly remembers your day.</h1>
-          <p className={styles.subtitle}>
-            MomentBook creates space for noticing. It doesn't ask you to be productive or optimized. It simply holds what you choose to remember.
+        {/* Hero Section */}
+        <section className={styles.hero}>
+          <h1 className={styles.heroTitle}>A quiet space for your day</h1>
+          <p className={styles.heroSubtitle}>
+            MomentBook is a travel journal that remembers where you've been. You live your day. The app quietly gathers the pieces.
           </p>
         </section>
 
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>You might find this useful if...</h2>
-          <ul className={styles.list}>
-            <li>You notice small moments that don't fit anywhere else</li>
-            <li>You want to remember days, not tasks</li>
-            <li>You prefer observation over optimization</li>
-            <li>You value quietness over performance</li>
-          </ul>
-        </section>
+        {/* Key Ideas - Not Features */}
+        <section className={styles.ideas}>
+          <div className={styles.idea}>
+            <h2 className={styles.ideaTitle}>Just take photos</h2>
+            <p className={styles.ideaText}>
+              When something catches your eye, take a photo. You don't need to write anything. The image and the moment are enough.
+            </p>
+          </div>
 
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Explore</h2>
-          <div className={styles.grid}>
-            <article>
-              <Link href="/journeys/a-quiet-morning" className={styles.card}>
-                <h3 className={styles.cardTitle}>A Quiet Morning</h3>
-                <p className={styles.cardDescription}>
-                  The stillness before the day begins.
-                </p>
-              </Link>
-            </article>
-            <article>
-              <Link href="/places/familiar-spaces" className={styles.card}>
-                <h3 className={styles.cardTitle}>Familiar Spaces</h3>
-                <p className={styles.cardDescription}>
-                  The rooms and corners you return to.
-                </p>
-              </Link>
-            </article>
+          <div className={styles.idea}>
+            <h2 className={styles.ideaTitle}>Your steps become a path</h2>
+            <p className={styles.ideaText}>
+              The app notices where you go. Over time, your movements form quiet maps of the places that matter.
+            </p>
+          </div>
+
+          <div className={styles.idea}>
+            <h2 className={styles.ideaTitle}>A gentle recap at night</h2>
+            <p className={styles.ideaText}>
+              Before you sleep, the day returns as a simple story. Nothing is demanded. It's just there if you want to see it.
+            </p>
           </div>
         </section>
 
-        <div className={styles.downloadSection}>
-          <Link href="/download" className={styles.downloadButton}>
-            Download MomentBook
+        {/* Privacy Note */}
+        <aside className={styles.privacyNote}>
+          <p className={styles.privacyText}>
+            Private by default. No sharing pressure. What you remember stays with you.
+          </p>
+        </aside>
+
+        {/* How It Feels */}
+        <section className={styles.feeling}>
+          <p className={styles.feelingText}>
+            MomentBook isn't about tracking or optimizing. It's about noticing you were somewhere, and that it happened. Some days you'll use it. Some days you won't. The app doesn't mind either way.
+          </p>
+        </section>
+
+        {/* CTA */}
+        <div className={styles.cta}>
+          <Link href="/download" className={styles.ctaButton}>
+            Get the app
+          </Link>
+          <Link href="/how-it-works" className={styles.ctaSecondary}>
+            See how it works
           </Link>
         </div>
       </div>
