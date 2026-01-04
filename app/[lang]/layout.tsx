@@ -112,6 +112,9 @@ export default async function LangLayout({
                 <Link href={`/${lang}/community-guidelines`} className={styles.footerLink}>
                   {dict.footer.links.communityGuidelines}
                 </Link>
+                <Link href={`/${lang}/marketing-consent`} className={styles.footerLink}>
+                  {dict.footer.links.marketingConsent}
+                </Link>
                 <Link href={`/${lang}/support`} className={styles.footerLink}>
                   {dict.footer.links.support}
                 </Link>

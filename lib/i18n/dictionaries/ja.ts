@@ -58,6 +58,7 @@ export const ja: Dictionary = {
       privacy: 'プライバシー',
       terms: '利用規約',
       communityGuidelines: 'コミュニティガイドライン',
+      marketingConsent: 'マーケティング同意',
       support: 'サポート',
     },
     copyright: '© 2024 MomentBook. All rights reserved.',

@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
     "/terms",
     "/community-guidelines",
+    "/marketing-consent",
     "/support",
   ];
 

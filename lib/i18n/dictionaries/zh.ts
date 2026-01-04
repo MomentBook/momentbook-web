@@ -58,6 +58,7 @@ export const zh: Dictionary = {
       privacy: '隐私政策',
       terms: '服务条款',
       communityGuidelines: '社区准则',
+      marketingConsent: '营销同意',
       support: '支持',
     },
     copyright: '© 2024 MomentBook. All rights reserved.',
