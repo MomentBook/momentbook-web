@@ -55,6 +55,7 @@ export const en = {
     links: {
       privacy: 'Privacy',
       terms: 'Terms',
+      communityGuidelines: 'Community Guidelines',
       support: 'Support',
     },
     copyright: '© 2024 MomentBook. All rights reserved.',
@@ -110,6 +111,7 @@ export type Dictionary = {
     links: {
       privacy: string;
       terms: string;
+      communityGuidelines: string;
       support: string;
     };
     copyright: string;

@@ -57,6 +57,7 @@ export const ko: Dictionary = {
     links: {
       privacy: '개인정보 보호',
       terms: '이용약관',
+      communityGuidelines: '커뮤니티 가이드라인',
       support: '고객 지원',
     },
     copyright: '© 2024 MomentBook. All rights reserved.',

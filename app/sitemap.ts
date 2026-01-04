@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/faq",
     "/privacy",
     "/terms",
+    "/community-guidelines",
     "/support",
   ];
 
