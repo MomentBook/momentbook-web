@@ -5,7 +5,8 @@ import Script from "next/script";
 import "../globals.scss";
 import styles from "./layout.module.scss";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { LanguageDropdown } from "@/components/LanguageDropdown";
+import { MobileMenu } from "@/components/MobileMenu";
 import { languageList, type Language, languages } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -78,7 +79,9 @@ export default async function LangLayout({
             <Link href={`/${lang}`} className={styles.logo}>
               MomentBook
             </Link>
-            <div className={styles.navLinks}>
+
+            {/* Desktop Navigation */}
+            <div className={styles.desktopNav}>
               <Link href={`/${lang}/about`} className={styles.navLink}>
                 {dict.nav.about}
               </Link>
@@ -91,8 +94,13 @@ export default async function LangLayout({
               <Link href={`/${lang}/download`} className={styles.navLink}>
                 {dict.nav.download}
               </Link>
-              <LanguageSwitcher currentLang={lang} />
+            </div>
+
+            {/* Controls (Language + Theme) */}
+            <div className={styles.controls}>
+              <LanguageDropdown currentLang={lang} />
               <ThemeToggle />
+              <MobileMenu lang={lang} dict={dict} />
             </div>
           </nav>
         </header>

@@ -153,3 +153,29 @@ MomentBook is not something to be sold.
 It is something a user either quietly recognizes — or does not.
 
 The web should respect that choice.
+
+## Data & Monetization Guardrails (Critical)
+
+MomentBook processes user data for core functionality
+(e.g. photos, location, movement context).
+
+The product:
+
+-   Does NOT currently display ads
+-   Does NOT currently track users for advertising purposes
+
+However:
+
+-   The product MAY introduce advertising or monetization features in the future
+-   Do NOT describe MomentBook as:
+    -   “never tracking users”
+    -   “collecting no usage data”
+    -   “guaranteed ad-free forever”
+
+When writing public-facing copy:
+
+-   Avoid absolute or permanent claims
+-   Prefer qualified language such as:
+    “currently”, “at this stage”, “for core functionality only”
+
+If unsure, default to understatement rather than idealized promises.

@@ -126,6 +126,40 @@ Memory is something to be held first.
 
 ---
 
+## 6-1. Data Usage & Future Monetization Clarity
+
+MomentBook’s philosophy is privacy-first, not data-denial.
+
+The app processes certain user data
+(such as photos, location, and movement context)
+in order to quietly organize a day into a single memory.
+
+This data processing exists to support the experience —
+not to observe, profile, or optimize the user.
+
+At the current stage:
+
+-   The app does not run advertisements
+-   The app does not sell user data
+-   The app does not track users for advertising or cross-service profiling
+
+However, MomentBook does not make absolute promises about never using data beyond today.
+
+In the future:
+
+-   Optional monetization features (including advertising) may be introduced
+-   Any use of behavioral or usage data beyond core functionality must:
+    -   be explicitly disclosed
+    -   require clear, opt-in user consent
+    -   be reflected in updated Terms and Privacy Policy
+
+Public-facing language must never claim that
+MomentBook “never tracks users” or “never uses data for ads.”
+
+The philosophy is quiet respect — not irreversible guarantees.
+
+---
+
 ## 7. Storage & Ownership
 
 MomentBook treats memory as something personal.
