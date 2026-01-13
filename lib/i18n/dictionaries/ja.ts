@@ -33,12 +33,12 @@ export const ja: Dictionary = {
         text: '日付や場所から見返せます。続ける義務はありません。',
       },
     },
-  pause: {
-      text: "連続記録はありません。\n\n移動検知と旅の終了リマインドを必要なときに通知します。",
-  },
-  privacy: {
+    pause: {
+      text: '連続記録はありません。\n\n移動検知と旅の終了リマインドを必要なときに通知します。',
+    },
+    privacy: {
       text: '基本は非公開。投稿時に公開されます。',
-  },
+    },
     cta: {
       deviceText: '最初の一日へ',
       primaryButton: 'MomentBook をダウンロード',
@@ -54,6 +54,16 @@ export const ja: Dictionary = {
 
   // Footer
   footer: {
+    summary: '写真、メモ、場所を保存して、後から一日をすぐに見つけられます。',
+    ctaPrimary: 'ダウンロード',
+    ctaSecondary: 'サポート',
+    sections: {
+      product: 'プロダクト',
+      download: 'アプリを入手',
+      support: 'サポート',
+      legal: '法的情報',
+    },
+    email: 'メール',
     links: {
       privacy: 'プライバシー',
       terms: '利用規約',

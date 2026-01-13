@@ -30,7 +30,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaDescription: "Capture, organize, and revisit your moments without a routine.",
     title: "How MomentBook works",
     subtitle: "Clear steps, minimal effort.",
-    intro: "MomentBook is built for real days. It keeps your moments without demanding attention.",
+    intro: "MomentBook is built for real days. It keeps your moments without a daily routine.",
     steps: [
       {
         title: "Capture",
@@ -72,7 +72,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaDescription: "기록하고, 모으고, 원할 때 돌아보는 방식입니다.",
     title: "MomentBook 작동 방식",
     subtitle: "단순한 흐름, 최소한의 노력.",
-    intro: "MomentBook은 현실적인 하루를 위한 앱입니다. 방해하지 않고 기록만 남깁니다.",
+    intro: "MomentBook은 현실적인 하루를 위한 앱입니다. 매일 습관을 요구하지 않고 기록만 남깁니다.",
     steps: [
       {
         title: "기록",
@@ -110,7 +110,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaDescription: "記録して整理し、必要なときに戻れます。",
     title: "MomentBook の仕組み",
     subtitle: "シンプルな流れ、最小限の負担。",
-    intro: "MomentBook は現実の一日に寄り添うアプリです。注意を奪わず記録だけ残します。",
+    intro: "MomentBook は現実の一日に寄り添うアプリです。毎日の習慣を求めず、記録だけ残します。",
     steps: [
       {
         title: "記録",
@@ -148,7 +148,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaDescription: "记录、整理，并在需要时回看。",
     title: "MomentBook 如何运作",
     subtitle: "简单流程，最小负担。",
-    intro: "MomentBook 贴合真实生活，不打扰，只记录。",
+    intro: "MomentBook 贴合真实生活，不需要每日习惯，只记录。",
     steps: [
       {
         title: "记录",

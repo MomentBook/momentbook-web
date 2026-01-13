@@ -33,12 +33,12 @@ export const zh: Dictionary = {
         text: '可按日期或地点回看，不必坚持或打卡。',
       },
     },
-  pause: {
-      text: "没有连续记录。\n\n在需要时提供行程提醒。",
-  },
-  privacy: {
+    pause: {
+      text: '没有连续记录。\n\n在需要时提供旅行提醒和行程结束提醒。',
+    },
+    privacy: {
       text: '默认私密，发布后公开。',
-  },
+    },
     cta: {
       deviceText: '开始第一天',
       primaryButton: '下载 MomentBook',
@@ -54,6 +54,16 @@ export const zh: Dictionary = {
 
   // Footer
   footer: {
+    summary: '保存照片、笔记和地点，之后能轻松找回某一天。',
+    ctaPrimary: '下载',
+    ctaSecondary: '支持',
+    sections: {
+      product: '产品',
+      download: '获取应用',
+      support: '支持',
+      legal: '法律',
+    },
+    email: '邮箱',
     links: {
       privacy: '隐私政策',
       terms: '服务条款',

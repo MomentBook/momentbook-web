@@ -32,7 +32,7 @@ export const en = {
       },
     },
     pause: {
-      text: "No streaks.\n\nTravel alerts and journey reminders when it helps.",
+      text: "No streaks.\n\nTravel alerts and journey-end reminders when it helps.",
     },
     privacy: {
       text: 'Private by default. Publish only when you choose.',
@@ -52,6 +52,16 @@ export const en = {
 
   // Footer
   footer: {
+    summary: 'Save photos, notes, and places so you can find a day later.',
+    ctaPrimary: 'Download',
+    ctaSecondary: 'Support',
+    sections: {
+      product: 'Product',
+      download: 'Get the app',
+      support: 'Support',
+      legal: 'Legal',
+    },
+    email: 'Email',
     links: {
       privacy: 'Privacy',
       terms: 'Terms',
@@ -109,6 +119,16 @@ export type Dictionary = {
     learnMore: string;
   };
   footer: {
+    summary: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    sections: {
+      product: string;
+      download: string;
+      support: string;
+      legal: string;
+    };
+    email: string;
     links: {
       privacy: string;
       terms: string;

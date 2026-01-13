@@ -36,7 +36,7 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "매일 사용해야 하나요?",
-          answer: "아니요. 연속 기록이나 알림이 없습니다.",
+          answer: "아니요. 연속 기록이나 일일 목표는 없고, 필요할 때 이동 감지/여정 마무리 알림이 있습니다.",
         },
         {
           question: "무엇을 기록할 수 있나요?",
@@ -86,7 +86,7 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "毎日使う必要はありますか？",
-          answer: "ありません。連続記録や通知はありません。",
+          answer: "ありません。連続記録や日々の目標はなく、必要なときに移動検知/旅の終了リマインドがあります。",
         },
         {
           question: "何を記録できますか？",
@@ -136,7 +136,7 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "需要每天使用吗？",
-          answer: "不需要。没有连续记录或提醒。",
+          answer: "不需要。没有连续记录或每日目标，但需要时会有行程变化与结束提醒。",
         },
         {
           question: "可以记录什么？",
@@ -152,7 +152,7 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "会一直追踪位置吗？",
-          answer: "只在你允许时使用，用于整理记录和行程提醒。",
+          answer: "只在你允许时使用，用于整理记录和行程变化与结束提醒。",
         },
         {
           question: "可以跨设备同步吗？",
@@ -185,7 +185,7 @@ function getFaqContent(lang: Language): FAQContent {
       },
       {
         question: "Do I have to use it every day?",
-        answer: "No. There are no streaks or reminders.",
+        answer: "No. There are no streaks or daily goals. Travel and journey-end reminders appear only when needed.",
       },
       {
         question: "What can I capture?",
@@ -201,7 +201,7 @@ function getFaqContent(lang: Language): FAQContent {
       },
       {
         question: "Does it track my location?",
-        answer: "Only if you enable it. Location helps organize moments and send travel or journey reminders.",
+        answer: "Only if you enable it. Location helps organize moments and send travel and journey-end reminders.",
       },
       {
         question: "Can I sync across devices?",

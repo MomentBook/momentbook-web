@@ -55,7 +55,7 @@ const aboutContent: Record<Language, AboutContent> = {
       {
         heading: "Who it is not for",
         paragraphs: [
-          "If you need public sharing, long-form journaling, or habit tracking, this may not fit.",
+          "If you want a public-first feed, long-form journaling, or habit tracking, this may not fit.",
         ],
       },
     ],
@@ -64,7 +64,7 @@ const aboutContent: Record<Language, AboutContent> = {
       "Your moments stay on your device by default. Publishing a journey makes it public on the web.",
       "Sync is optional, and we do not sell data or track behavior.",
     ],
-    closingTitle: "Simple by intent",
+    closingTitle: "Practical by intent",
     closingParagraph: "If you want a practical way to remember places and days, MomentBook is built for that.",
   },
   ko: {
@@ -97,7 +97,7 @@ const aboutContent: Record<Language, AboutContent> = {
       {
         heading: "맞지 않을 수 있는 경우",
         paragraphs: [
-          "공개 공유, 긴 글쓰기, 습관 관리가 필요하다면 맞지 않을 수 있습니다.",
+          "공개 피드 중심 공유, 긴 글쓰기, 습관 관리가 필요하다면 맞지 않을 수 있습니다.",
         ],
       },
     ],
@@ -106,7 +106,7 @@ const aboutContent: Record<Language, AboutContent> = {
       "기본은 기기 저장이며, 게시하면 웹에 공개됩니다.",
       "동기화는 선택이고 데이터 판매나 추적을 하지 않습니다.",
     ],
-    closingTitle: "의도적으로 단순하게",
+    closingTitle: "의도적으로 실용하게",
     closingParagraph: "장소와 하루를 실용적으로 기억하고 싶다면 MomentBook이 맞습니다.",
   },
   ja: {
@@ -139,7 +139,7 @@ const aboutContent: Record<Language, AboutContent> = {
       {
         heading: "合わないかもしれない人",
         paragraphs: [
-          "公開共有、長文の記録、習慣管理が必要な方には合わないかもしれません。",
+          "公開フィード中心の共有、長文の記録、習慣管理が必要な方には合わないかもしれません。",
         ],
       },
     ],
@@ -148,7 +148,7 @@ const aboutContent: Record<Language, AboutContent> = {
       "基本は端末保存で、投稿するとWebで公開されます。",
       "同期は任意で、データ販売や行動追跡は行いません。",
     ],
-    closingTitle: "必要十分を大切に",
+    closingTitle: "実用を優先",
     closingParagraph: "場所と一日を実用的に覚えたいなら MomentBook が合います。",
   },
   zh: {
@@ -181,7 +181,7 @@ const aboutContent: Record<Language, AboutContent> = {
       {
         heading: "可能不适合谁",
         paragraphs: [
-          "如果你需要公开分享、长篇记录或习惯管理，可能不适合。",
+          "如果你需要公开信息流式分享、长篇记录或习惯管理，可能不适合。",
         ],
       },
     ],
@@ -190,7 +190,7 @@ const aboutContent: Record<Language, AboutContent> = {
       "默认保存在设备中，发布后会在网页公开。",
       "同步可选，我们不出售数据也不追踪行为。",
     ],
-    closingTitle: "保持实用",
+    closingTitle: "以实用为先",
     closingParagraph: "如果你想实用地记住地点和日子，MomentBook 就是为此而做。",
   },
 };
