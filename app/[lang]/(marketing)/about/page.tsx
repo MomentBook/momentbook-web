@@ -175,7 +175,7 @@ const aboutContent: Record<Language, AboutContent> = {
           "瞬間が集まって一日の流れが見えてきます。",
           "見たいときに開き、必要なければ休んでも大丈夫です。",
         ],
-        deviceText: "一日を戻す",
+        deviceText: "一日を振り返る",
       },
     ],
     privacy: {
