@@ -6,11 +6,14 @@ export type Theme = "light" | "dark";
 const themeStorage = createJSONStorage<Theme>();
 const languageStorage = createJSONStorage<Language | "">();
 
-export const themeAtom = atomWithStorage<Theme>("theme", "light", themeStorage);
+export const themeAtom = atomWithStorage<Theme>("theme", "light", themeStorage, {
+  getOnInit: true,
+});
 export const languageAtom = atomWithStorage<Language | "">(
   "language",
   "",
-  languageStorage
+  languageStorage,
+  { getOnInit: true }
 );
 
 export function normalizeLanguage(value: string | null): Language | "" {

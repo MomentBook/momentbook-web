@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
-import Script from "next/script";
-import "../globals.scss";
 import styles from "./layout.module.scss";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
@@ -81,19 +79,7 @@ export default async function LangLayout({
   const storeLinks = getStoreLinks(lang);
 
   return (
-    <html lang={lang} data-theme="light">
-      <head>
-        <Script id="theme-script" strategy="beforeInteractive">
-          {`
-            (function() {
-              const stored = localStorage.getItem('theme');
-              const theme = (stored === 'light' || stored === 'dark') ? stored : 'light';
-              document.documentElement.setAttribute('data-theme', theme);
-            })();
-          `}
-        </Script>
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    <div className={`${geistSans.variable} ${geistMono.variable}`}>
         <LanguagePreferenceSync currentLang={lang} />
         <header className={styles.header}>
           <nav className={styles.nav}>
@@ -253,7 +239,6 @@ export default async function LangLayout({
             </div>
           </div>
         </footer>
-      </body>
-    </html>
+    </div>
   );
 }

@@ -11,7 +11,9 @@ export function LanguagePreferenceSync({ currentLang }: { currentLang: Language 
   useEffect(() => {
     const normalized = normalizeLanguage(preferredLanguage);
 
-    if (!normalized) {
+    document.documentElement.setAttribute("lang", currentLang);
+
+    if (!normalized || normalized !== currentLang) {
       setPreferredLanguage(currentLang);
     }
   }, [currentLang, preferredLanguage, setPreferredLanguage]);
