@@ -43,7 +43,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         title: "Return",
-        text: "Browse by day or place when you want to remember. Export anytime.",
+        text: "Review your journey path—places visited and photos captured. Publish when you want to share.",
       },
     ],
     details: [
@@ -85,7 +85,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         title: "돌아보기",
-        text: "날짜나 장소로 다시 볼 수 있습니다. 언제든 내보내기 가능합니다.",
+        text: "방문한 장소와 사진이 여정으로 정리되어 다시 볼 수 있습니다. 원할 때 게시해 공유합니다.",
       },
     ],
     details: [
@@ -123,7 +123,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         title: "戻る",
-        text: "日付や場所で見返せます。いつでもエクスポート可能です。",
+        text: "訪れた場所と写真が旅として整理され、いつでも見返せます。必要なら投稿して共有できます。",
       },
     ],
     details: [
@@ -161,7 +161,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         title: "回看",
-        text: "按日期或地点查看，需要时随时导出。",
+        text: "访问过的地点和拍下的照片会整理成行程，随时回看，需要时发布分享。",
       },
     ],
     details: [

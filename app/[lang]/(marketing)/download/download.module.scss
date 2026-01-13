@@ -51,6 +51,22 @@
   align-items: center;
 }
 
+.heroDevice {
+  width: 100%;
+  max-width: 260px;
+}
+
+@media (min-width: 768px) {
+  .heroDevice {
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroDevice {
+    max-width: 340px;
+  }
+}
 .storeButtons {
   display: flex;
   flex-direction: column;

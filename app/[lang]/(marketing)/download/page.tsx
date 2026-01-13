@@ -352,7 +352,10 @@ export default async function DownloadPage({
 
           <FadeIn delay={150}>
             <div className={styles.heroVisual}>
-              <DeviceMock screenClassName={deviceStyles.screenMedia}>
+              <DeviceMock
+                className={styles.heroDevice}
+                screenClassName={deviceStyles.screenMedia}
+              >
                 <Image
                   src={content.deviceImage}
                   alt={content.deviceAlt}
