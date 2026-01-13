@@ -10,44 +10,76 @@ export async function generateMetadata({
   const { lang } = await params as { lang: Language };
 
   if (lang === "ko") {
+    const title = "MomentBook 개인정보 처리방침";
+    const description = "MomentBook 개인정보 처리방침을 안내합니다.";
+
     return {
-      title: "MomentBook 개인정보 처리방침",
-      description: "MomentBook 개인정보 처리방침을 안내합니다.",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 개인정보 처리방침",
-        description: "MomentBook 개인정보 처리방침을 안내합니다.",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "ja") {
+    const title = "MomentBook プライバシーポリシー";
+    const description = "MomentBookのプライバシーポリシーをご案内します。";
+
     return {
-      title: "MomentBook プライバシーポリシー",
-      description: "MomentBookのプライバシーポリシーをご案内します。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook プライバシーポリシー",
-        description: "MomentBookのプライバシーポリシーをご案内します。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "zh") {
+    const title = "MomentBook 隐私政策";
+    const description = "了解 MomentBook 的隐私政策。";
+
     return {
-      title: "MomentBook 隐私政策",
-      description: "了解 MomentBook 的隐私政策。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 隐私政策",
-        description: "了解 MomentBook 的隐私政策。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
+  const title = "MomentBook Privacy Policy";
+  const description = "How MomentBook handles your data.";
+
   return {
-    title: "MomentBook Privacy Policy",
-    description: "How MomentBook handles your data.",
+    title,
+    description,
     openGraph: {
-      title: "MomentBook Privacy Policy",
-      description: "How MomentBook handles your data.",
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
     },
   };
 }

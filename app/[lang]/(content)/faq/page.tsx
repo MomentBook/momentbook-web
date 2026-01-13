@@ -247,6 +247,11 @@ export async function generateMetadata({
       title: content.metaTitle,
       description: content.metaDescription,
     },
+    twitter: {
+      card: "summary",
+      title: content.metaTitle,
+      description: content.metaDescription,
+    },
   };
 }
 

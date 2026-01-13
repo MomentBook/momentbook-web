@@ -10,44 +10,76 @@ export async function generateMetadata({
   const { lang } = await params as { lang: Language };
 
   if (lang === "ko") {
+    const title = "MomentBook 마케팅 정보 수신 동의";
+    const description = "MomentBook 마케팅 수신 동의 정책입니다.";
+
     return {
-      title: "MomentBook 마케팅 정보 수신 동의",
-      description: "MomentBook 마케팅 수신 동의 정책입니다.",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 마케팅 정보 수신 동의",
-        description: "MomentBook 마케팅 수신 동의 정책입니다.",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "ja") {
+    const title = "MomentBook マーケティング情報同意";
+    const description = "MomentBookのマーケティング同意ポリシーです。";
+
     return {
-      title: "MomentBook マーケティング情報同意",
-      description: "MomentBookのマーケティング同意ポリシーです。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook マーケティング情報同意",
-        description: "MomentBookのマーケティング同意ポリシーです。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "zh") {
+    const title = "MomentBook 营销信息同意";
+    const description = "MomentBook 的营销信息同意政策。";
+
     return {
-      title: "MomentBook 营销信息同意",
-      description: "MomentBook 的营销信息同意政策。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 营销信息同意",
-        description: "MomentBook 的营销信息同意政策。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
+  const title = "MomentBook Marketing Information Consent";
+  const description = "Marketing information and promotional communications consent policy.";
+
   return {
-    title: "MomentBook Marketing Consent",
-    description: "Marketing and promotional communications consent policy.",
+    title,
+    description,
     openGraph: {
-      title: "MomentBook Marketing Consent",
-      description: "Marketing and promotional communications consent policy.",
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
     },
   };
 }

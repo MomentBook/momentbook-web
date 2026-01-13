@@ -10,44 +10,76 @@ export async function generateMetadata({
   const { lang } = await params as { lang: Language };
 
   if (lang === "ko") {
+    const title = "MomentBook 커뮤니티 가이드라인";
+    const description = "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.";
+
     return {
-      title: "MomentBook 커뮤니티 가이드라인",
-      description: "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 커뮤니티 가이드라인",
-        description: "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "ja") {
+    const title = "MomentBook コミュニティガイドライン";
+    const description = "MomentBookのコミュニティガイドラインとコンテンツポリシーです。";
+
     return {
-      title: "MomentBook コミュニティガイドライン",
-      description: "MomentBookのコミュニティガイドラインとコンテンツポリシーです。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook コミュニティガイドライン",
-        description: "MomentBookのコミュニティガイドラインとコンテンツポリシーです。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "zh") {
+    const title = "MomentBook 社区指南";
+    const description = "MomentBook 的社区指南与内容政策。";
+
     return {
-      title: "MomentBook 社区指南",
-      description: "MomentBook 的社区指南与内容政策。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 社区指南",
-        description: "MomentBook 的社区指南与内容政策。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
+  const title = "MomentBook Community Guidelines";
+  const description = "MomentBook community guidelines and content policy.";
+
   return {
-    title: "MomentBook Community Guidelines",
-    description: "MomentBook community guidelines and content policy.",
+    title,
+    description,
     openGraph: {
-      title: "MomentBook Community Guidelines",
-      description: "MomentBook community guidelines and content policy.",
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
     },
   };
 }

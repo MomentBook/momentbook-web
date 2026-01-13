@@ -11,44 +11,76 @@ export async function generateMetadata({
   const { lang } = await params as { lang: Language };
 
   if (lang === "ko") {
+    const title = "MomentBook 지원";
+    const description = "MomentBook 도움말과 문의 방법을 안내합니다.";
+
     return {
-      title: "MomentBook 지원",
-      description: "MomentBook 도움말과 문의 방법을 안내합니다.",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 지원",
-        description: "MomentBook 도움말과 문의 방법을 안내합니다.",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "ja") {
+    const title = "MomentBook サポート";
+    const description = "MomentBookのヘルプとお問い合わせ方法をご案内します。";
+
     return {
-      title: "MomentBook サポート",
-      description: "MomentBookのヘルプとお問い合わせ方法をご案内します。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook サポート",
-        description: "MomentBookのヘルプとお問い合わせ方法をご案内します。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "zh") {
+    const title = "MomentBook 支持";
+    const description = "了解 MomentBook 的帮助与联系方法。";
+
     return {
-      title: "MomentBook 支持",
-      description: "了解 MomentBook 的帮助与联系方法。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 支持",
-        description: "了解 MomentBook 的帮助与联系方法。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
+  const title = "MomentBook Support";
+  const description = "Help and contact for MomentBook.";
+
   return {
-    title: "MomentBook Support",
-    description: "Help and contact for MomentBook.",
+    title,
+    description,
     openGraph: {
-      title: "MomentBook Support",
-      description: "Help and contact for MomentBook.",
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
     },
   };
 }
@@ -117,7 +149,7 @@ function KoreanSupport() {
       <header className={styles.header}>
         <h1 className={styles.title}>MomentBook 지원</h1>
         <p className={styles.subtitle}>
-          MomentBook 사용 중 도움이 필요하시면 언제든지 문의하세요.
+          MomentBook 도움이 필요할 때 언제든지 찾아주세요.
         </p>
       </header>
 
@@ -155,7 +187,7 @@ function JapaneseSupport() {
       <header className={styles.header}>
         <h1 className={styles.title}>MomentBook サポート</h1>
         <p className={styles.subtitle}>
-          MomentBookでお困りの際はいつでもご連絡ください。
+          MomentBookでお困りのときはいつでもお手伝いします。
         </p>
       </header>
 
@@ -193,7 +225,7 @@ function ChineseSupport() {
       <header className={styles.header}>
         <h1 className={styles.title}>MomentBook 支持</h1>
         <p className={styles.subtitle}>
-          需要 MomentBook 帮助时，随时联系我们。
+          需要 MomentBook 帮助时，我们随时在这里。
         </p>
       </header>
 

@@ -10,44 +10,76 @@ export async function generateMetadata({
   const { lang } = await params as { lang: Language };
 
   if (lang === "ko") {
+    const title = "MomentBook 이용약관";
+    const description = "MomentBook 이용약관을 안내합니다.";
+
     return {
-      title: "MomentBook 이용약관",
-      description: "MomentBook 이용약관을 안내합니다.",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 이용약관",
-        description: "MomentBook 이용약관을 안내합니다.",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "ja") {
+    const title = "MomentBook 利用規約";
+    const description = "MomentBookの利用規約をご案内します。";
+
     return {
-      title: "MomentBook 利用規約",
-      description: "MomentBookの利用規約をご案内します。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 利用規約",
-        description: "MomentBookの利用規約をご案内します。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
   if (lang === "zh") {
+    const title = "MomentBook 服务条款";
+    const description = "了解 MomentBook 的服务条款。";
+
     return {
-      title: "MomentBook 服务条款",
-      description: "了解 MomentBook 的服务条款。",
+      title,
+      description,
       openGraph: {
-        title: "MomentBook 服务条款",
-        description: "了解 MomentBook 的服务条款。",
+        title,
+        description,
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
       },
     };
   }
 
+  const title = "MomentBook Terms of Service";
+  const description = "Terms of use for MomentBook.";
+
   return {
-    title: "MomentBook Terms of Service",
-    description: "Terms of use for MomentBook.",
+    title,
+    description,
     openGraph: {
-      title: "MomentBook Terms of Service",
-      description: "Terms of use for MomentBook.",
+      title,
+      description,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
     },
   };
 }
