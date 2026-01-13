@@ -2,10 +2,39 @@ import type { Metadata } from "next";
 import styles from "./privacy.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "How MomentBook handles your data.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params as { lang: Language };
+
+  if (lang === "ko") {
+    return {
+      title: "개인정보 처리방침",
+      description: "MomentBook 개인정보 처리방침을 안내합니다.",
+    };
+  }
+
+  if (lang === "ja") {
+    return {
+      title: "プライバシーポリシー",
+      description: "MomentBookのプライバシーポリシーをご案内します。",
+    };
+  }
+
+  if (lang === "zh") {
+    return {
+      title: "隐私政策",
+      description: "了解 MomentBook 的隐私政策。",
+    };
+  }
+
+  return {
+    title: "Privacy Policy",
+    description: "How MomentBook handles your data.",
+  };
+}
 
 export default async function PrivacyPage({
   params,

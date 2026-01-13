@@ -2,10 +2,39 @@ import type { Metadata } from "next";
 import styles from "./marketing-consent.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Marketing Consent",
-  description: "Marketing and promotional communications consent policy.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params as { lang: Language };
+
+  if (lang === "ko") {
+    return {
+      title: "마케팅 정보 수신 동의",
+      description: "MomentBook 마케팅 수신 동의 정책입니다.",
+    };
+  }
+
+  if (lang === "ja") {
+    return {
+      title: "マーケティング情報同意",
+      description: "MomentBookのマーケティング同意ポリシーです。",
+    };
+  }
+
+  if (lang === "zh") {
+    return {
+      title: "营销信息同意",
+      description: "MomentBook 的营销信息同意政策。",
+    };
+  }
+
+  return {
+    title: "Marketing Consent",
+    description: "Marketing and promotional communications consent policy.",
+  };
+}
 
 export default async function MarketingConsentPage({
   params,

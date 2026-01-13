@@ -2,10 +2,39 @@ import type { Metadata } from "next";
 import styles from "./terms.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Terms of Service",
-  description: "Terms of use for MomentBook.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params as { lang: Language };
+
+  if (lang === "ko") {
+    return {
+      title: "이용약관",
+      description: "MomentBook 이용약관을 안내합니다.",
+    };
+  }
+
+  if (lang === "ja") {
+    return {
+      title: "利用規約",
+      description: "MomentBookの利用規約をご案内します。",
+    };
+  }
+
+  if (lang === "zh") {
+    return {
+      title: "服务条款",
+      description: "了解 MomentBook 的服务条款。",
+    };
+  }
+
+  return {
+    title: "Terms of Service",
+    description: "Terms of use for MomentBook.",
+  };
+}
 
 export default async function TermsPage({
   params,

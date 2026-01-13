@@ -2,10 +2,39 @@ import type { Metadata } from "next";
 import styles from "./community-guidelines.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
-export const metadata: Metadata = {
-  title: "Community Guidelines",
-  description: "MomentBook community guidelines and content policy.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params as { lang: Language };
+
+  if (lang === "ko") {
+    return {
+      title: "커뮤니티 가이드라인",
+      description: "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.",
+    };
+  }
+
+  if (lang === "ja") {
+    return {
+      title: "コミュニティガイドライン",
+      description: "MomentBookのコミュニティガイドラインとコンテンツポリシーです。",
+    };
+  }
+
+  if (lang === "zh") {
+    return {
+      title: "社区指南",
+      description: "MomentBook 的社区指南与内容政策。",
+    };
+  }
+
+  return {
+    title: "Community Guidelines",
+    description: "MomentBook community guidelines and content policy.",
+  };
+}
 
 export default async function CommunityGuidelinesPage({
   params,
