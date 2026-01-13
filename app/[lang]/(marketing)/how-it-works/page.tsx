@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import styles from "./how-it-works.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
-type HowItWorksSection = {
-  heading: string;
-  paragraphs: string[];
+type HowItWorksStep = {
+  title: string;
+  text: string;
+};
+
+type HowItWorksDetail = {
+  title: string;
+  items: string[];
 };
 
 type HowItWorksContent = {
@@ -13,7 +18,8 @@ type HowItWorksContent = {
   title: string;
   subtitle: string;
   intro: string;
-  steps: HowItWorksSection[];
+  steps: HowItWorksStep[];
+  details: HowItWorksDetail[];
   noPressureTitle: string;
   noPressureItems: string[];
 };
@@ -23,129 +29,133 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "How MomentBook Works",
     metaDescription: "Capture, organize, and revisit your moments without a routine.",
     title: "How MomentBook works",
-    subtitle: "Three gentle steps, no routine required.",
-    intro: "MomentBook is designed to fit around your day, not the other way around.",
+    subtitle: "Clear steps, minimal effort.",
+    intro: "MomentBook is built for real days. It keeps your moments without demanding attention.",
     steps: [
       {
-        heading: "Capture",
-        paragraphs: [
-          "Open the app when something feels worth keeping. Save a photo or a short line.",
-          "If you allow location, the place is quietly saved too.",
-        ],
+        title: "Capture",
+        text: "Save a photo or a short note when something feels worth keeping. Add location if you want.",
       },
       {
-        heading: "Let the day assemble",
-        paragraphs: [
-          "Moments gather by time and place into a simple day view.",
-          "No folders to manage, no tags to maintain.",
-        ],
+        title: "Organize",
+        text: "Moments group by time and place into a simple day view. No folders, no tags.",
       },
       {
-        heading: "Return when you want",
-        paragraphs: [
-          "Browse by day or place whenever you want to remember.",
-          "Export your moments anytime.",
-        ],
+        title: "Return",
+        text: "Browse by day or place when you want to remember. Export anytime.",
+      },
+    ],
+    details: [
+      {
+        title: "What gets saved",
+        items: ["Photos", "Short notes", "Location (if enabled)", "Time of capture"],
+      },
+      {
+        title: "What we do not collect",
+        items: ["Public posts", "Ads or trackers", "Behavior profiles"],
       },
     ],
     noPressureTitle: "No pressure by design",
-    noPressureItems: ["No streaks or goals", "No reminders or prompts", "No public feed or likes"],
+    noPressureItems: ["No streaks", "No reminders", "No social feed"],
   },
   ko: {
     metaTitle: "MomentBook 작동 방식",
     metaDescription: "기록하고, 모으고, 원할 때 돌아보는 방식입니다.",
     title: "MomentBook 작동 방식",
-    subtitle: "루틴 없이, 세 단계로 끝납니다.",
-    intro: "MomentBook은 하루에 맞춰 조용히 따라옵니다.",
+    subtitle: "단순한 흐름, 최소한의 노력.",
+    intro: "MomentBook은 현실적인 하루를 위한 앱입니다. 방해하지 않고 기록만 남깁니다.",
     steps: [
       {
-        heading: "기록하기",
-        paragraphs: [
-          "기억하고 싶은 순간에 앱을 열고 사진이나 짧은 메모를 남기세요.",
-          "위치 권한을 허용하면 장소도 함께 저장됩니다.",
-        ],
+        title: "기록",
+        text: "기억하고 싶은 순간에 사진이나 짧은 메모를 남깁니다. 원하면 위치도 저장합니다.",
       },
       {
-        heading: "하루가 모이기",
-        paragraphs: [
-          "시간과 장소를 기준으로 순간이 모여 하루가 정리됩니다.",
-          "폴더나 태그를 관리할 필요가 없습니다.",
-        ],
+        title: "정리",
+        text: "시간과 장소로 순간이 모여 하루가 정리됩니다. 폴더나 태그는 필요 없습니다.",
       },
       {
-        heading: "원할 때 돌아보기",
-        paragraphs: [
-          "날짜나 장소로 쉽게 다시 볼 수 있습니다.",
-          "필요할 때 언제든 내보낼 수 있습니다.",
-        ],
+        title: "돌아보기",
+        text: "날짜나 장소로 다시 볼 수 있습니다. 언제든 내보내기 가능합니다.",
+      },
+    ],
+    details: [
+      {
+        title: "저장되는 것",
+        items: ["사진", "짧은 메모", "위치(허용 시)", "기록 시각"],
+      },
+      {
+        title: "수집하지 않는 것",
+        items: ["공개 게시물", "광고/추적", "행동 프로필"],
       },
     ],
     noPressureTitle: "부담 없는 설계",
-    noPressureItems: ["연속 기록이나 목표 없음", "알림이나 재촉 없음", "공개 피드나 좋아요 없음"],
+    noPressureItems: ["연속 기록 없음", "알림 없음", "소셜 피드 없음"],
   },
   ja: {
     metaTitle: "MomentBook の仕組み",
-    metaDescription: "記録して、まとまり、好きなときに戻れます。",
+    metaDescription: "記録して整理し、必要なときに戻れます。",
     title: "MomentBook の仕組み",
-    subtitle: "習慣不要の3ステップ。",
-    intro: "MomentBook は一日の流れに合わせて静かに寄り添います。",
+    subtitle: "シンプルな流れ、最小限の負担。",
+    intro: "MomentBook は現実の一日に寄り添うアプリです。注意を奪わず記録だけ残します。",
     steps: [
       {
-        heading: "記録する",
-        paragraphs: [
-          "残したいときに開いて、写真や短いメモを保存します。",
-          "位置情報を許可すると場所も一緒に保存されます。",
-        ],
+        title: "記録",
+        text: "残したい瞬間に写真や短いメモを保存します。必要なら場所も保存します。",
       },
       {
-        heading: "一日がまとまる",
-        paragraphs: [
-          "時間と場所で瞬間が集まり、一日の流れが見えてきます。",
-          "フォルダやタグの管理は不要です。",
-        ],
+        title: "整理",
+        text: "時間と場所で瞬間がまとまり、一日が見えてきます。フォルダやタグは不要です。",
       },
       {
-        heading: "好きなときに戻る",
-        paragraphs: [
-          "日付や場所から見返せます。",
-          "必要なときにいつでもエクスポートできます。",
-        ],
+        title: "戻る",
+        text: "日付や場所で見返せます。いつでもエクスポート可能です。",
       },
     ],
-    noPressureTitle: "プレッシャーのない設計",
-    noPressureItems: ["連続記録や目標なし", "通知や促しなし", "公開フィードやいいねなし"],
+    details: [
+      {
+        title: "保存されるもの",
+        items: ["写真", "短いメモ", "位置情報(許可時)", "記録時刻"],
+      },
+      {
+        title: "収集しないもの",
+        items: ["公開投稿", "広告や追跡", "行動プロファイル"],
+      },
+    ],
+    noPressureTitle: "負担のない設計",
+    noPressureItems: ["連続記録なし", "通知なし", "ソーシャルフィードなし"],
   },
   zh: {
     metaTitle: "MomentBook 如何运作",
     metaDescription: "记录、整理，并在需要时回看。",
     title: "MomentBook 如何运作",
-    subtitle: "无需习惯，三步完成。",
-    intro: "MomentBook 贴合你的日常，而不是要求你改变。",
+    subtitle: "简单流程，最小负担。",
+    intro: "MomentBook 贴合真实生活，不打扰，只记录。",
     steps: [
       {
-        heading: "记录",
-        paragraphs: [
-          "当你想留下时打开应用，保存照片或短句。",
-          "允许定位时，地点会一起保存。",
-        ],
+        title: "记录",
+        text: "当你想留下时，保存照片或短句。需要的话可以保存地点。",
       },
       {
-        heading: "一天自动成形",
-        paragraphs: [
-          "瞬间会按时间和地点整理成一天的视图。",
-          "无需管理文件夹或标签。",
-        ],
+        title: "整理",
+        text: "瞬间按时间与地点汇总成一天的视图，不需要文件夹或标签。",
       },
       {
-        heading: "想起时再看",
-        paragraphs: [
-          "可按日期或地点回看。",
-          "需要时随时导出。",
-        ],
+        title: "回看",
+        text: "按日期或地点查看，需要时随时导出。",
       },
     ],
-    noPressureTitle: "没有压力的设计",
-    noPressureItems: ["没有连续记录或目标", "没有提醒或催促", "没有公开动态或点赞"],
+    details: [
+      {
+        title: "保存的内容",
+        items: ["照片", "短句", "位置信息(允许时)", "记录时间"],
+      },
+      {
+        title: "不收集的内容",
+        items: ["公开发布", "广告或追踪", "行为画像"],
+      },
+    ],
+    noPressureTitle: "无压力设计",
+    noPressureItems: ["没有连续记录", "没有提醒", "没有公开动态"],
   },
 };
 
@@ -192,15 +202,25 @@ export default async function HowItWorksPage({
         <p className={styles.intro}>{content.intro}</p>
       </header>
 
-      <section className={styles.stepGrid}>
+      <section className={styles.steps}>
         {content.steps.map((step, index) => (
-          <div key={`${step.heading}-${index}`} className={styles.stepCard}>
-            <h2 className={styles.stepTitle}>{step.heading}</h2>
-            {step.paragraphs.map((paragraph, paragraphIndex) => (
-              <p key={`${step.heading}-${paragraphIndex}`} className={styles.stepText}>
-                {paragraph}
-              </p>
-            ))}
+          <div key={`${step.title}-${index}`} className={styles.stepCard}>
+            <span className={styles.stepNumber}>{index + 1}</span>
+            <h2 className={styles.stepTitle}>{step.title}</h2>
+            <p className={styles.stepText}>{step.text}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className={styles.detailGrid}>
+        {content.details.map((detail) => (
+          <div key={detail.title} className={styles.detailCard}>
+            <h2 className={styles.detailTitle}>{detail.title}</h2>
+            <ul className={styles.detailList}>
+              {detail.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
         ))}
       </section>

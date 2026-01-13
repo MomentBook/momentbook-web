@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { FadeIn } from "@/components/FadeIn";
-import { DeviceMock } from "@/components/DeviceMock";
 import styles from "./about.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
@@ -14,228 +12,186 @@ type AboutContent = {
   metaDescription: string;
   title: string;
   subtitle: string;
-  heroDeviceText: string;
+  lead: string;
+  missionTitle: string;
+  missionParagraphs: string[];
+  principlesTitle: string;
+  principles: string[];
   sections: AboutSection[];
-  privacy: {
-    heading: string;
-    paragraphs: string[];
-    emphasized: string;
-  };
-  closing: {
-    heading: string;
-    paragraphs: string[];
-    emphasized: string;
-  };
+  privacyTitle: string;
+  privacyParagraphs: string[];
+  closingTitle: string;
+  closingParagraph: string;
 };
 
 const aboutContent: Record<Language, AboutContent> = {
   en: {
     metaTitle: "About MomentBook",
-    metaDescription: "Why MomentBook exists and who it is for.",
-    title: "MomentBook is a quiet place for noticing",
-    subtitle: "No pressure, no performance. Just the moments you want to keep.",
-    heroDeviceText: "A day, softly held",
+    metaDescription: "The philosophy behind MomentBook and who it is for.",
+    title: "About MomentBook",
+    subtitle: "A quiet record for travel and everyday life.",
+    lead:
+      "MomentBook exists for people who want to remember without keeping a journal. It holds small moments without asking for consistency.",
+    missionTitle: "Why it exists",
+    missionParagraphs: [
+      "We move through places every day. Most of it fades. A photo, a note, a location can be enough to keep a day from disappearing.",
+      "MomentBook is intentionally small. It does not compete for attention. It waits until you want to return.",
+    ],
+    principlesTitle: "Design principles",
+    principles: [
+      "Keep it quiet and lightweight",
+      "Let places shape the story",
+      "Private by default",
+      "No social performance",
+    ],
     sections: [
-      {
-        heading: "What it is",
-        paragraphs: [
-          "A space to save the small things: a photo, a short note, a place on the map.",
-          "Moments gather into days, so the story stays simple.",
-        ],
-      },
       {
         heading: "Who it is for",
         paragraphs: [
-          "For people who want to remember without a routine.",
-          "If you want to keep travel days and ordinary days in the same way, this is for you.",
+          "People who travel and want to remember where they were without writing long entries.",
+          "People who want a gentle record of their everyday movement.",
         ],
       },
       {
-        heading: "What it avoids",
+        heading: "Who it is not for",
         paragraphs: [
-          "No social feed, no likes, no streaks.",
-          "No performance, no pressure, no public timeline.",
-        ],
-      },
-      {
-        heading: "How it fits",
-        paragraphs: [
-          "Open it when you want. Close it when you do not.",
-          "It is meant to be quiet, not demanding.",
+          "If you need public sharing, long-form journaling, or habit tracking, this may not fit.",
         ],
       },
     ],
-    privacy: {
-      heading: "Privacy by design",
-      paragraphs: [
-        "Your moments stay on your device unless you choose to sync.",
-        "You stay in control of what is kept and what is shared.",
-      ],
-      emphasized: "We do not sell data or track behavior.",
-    },
-    closing: {
-      heading: "Who it might not fit",
-      paragraphs: [
-        "If you want public sharing, long-form journaling, or habit tracking, this may not be for you.",
-      ],
-      emphasized: "MomentBook is for quiet remembering, not performance.",
-    },
+    privacyTitle: "Privacy, clearly",
+    privacyParagraphs: [
+      "Your moments stay on your device unless you choose to sync.",
+      "We do not sell data or track behavior.",
+    ],
+    closingTitle: "A small place to return to",
+    closingParagraph: "MomentBook is built for remembering, not performing. If that feels right, it is for you.",
   },
   ko: {
     metaTitle: "MomentBook 소개",
-    metaDescription: "MomentBook이 왜 필요한지, 누구에게 어울리는지 안내합니다.",
-    title: "MomentBook은 알아차림을 위한 조용한 공간입니다",
-    subtitle: "성과도, 공개도 없습니다. 남기고 싶은 순간만 담습니다.",
-    heroDeviceText: "하루를 조용히 담다",
+    metaDescription: "MomentBook의 철학과 목적을 소개합니다.",
+    title: "MomentBook 소개",
+    subtitle: "여행과 일상을 위한 조용한 기록.",
+    lead:
+      "MomentBook은 일기를 꾸준히 쓰기 어려운 사람을 위한 앱입니다. 작은 순간을 남기고, 필요할 때 돌아볼 수 있게 합니다.",
+    missionTitle: "왜 만들었나요",
+    missionParagraphs: [
+      "하루는 금방 사라집니다. 사진 한 장, 짧은 메모, 한 장소가 그날을 다시 떠올리게 합니다.",
+      "MomentBook은 조용한 앱입니다. 주의를 끌지 않고, 돌아오고 싶을 때만 열립니다.",
+    ],
+    principlesTitle: "디자인 원칙",
+    principles: [
+      "가볍고 조용하게",
+      "장소가 흐름을 만들게",
+      "기본은 프라이버시",
+      "보여주기 없는 기록",
+    ],
     sections: [
-      {
-        heading: "무엇인가요",
-        paragraphs: [
-          "사진, 짧은 메모, 그리고 지도를 통해 순간을 남깁니다.",
-          "순간이 모여 하루가 단순하게 정리됩니다.",
-        ],
-      },
       {
         heading: "누구에게 어울리나요",
         paragraphs: [
-          "루틴 없이도 기억하고 싶은 사람에게 어울립니다.",
-          "여행과 일상을 같은 방식으로 남기고 싶다면 적합합니다.",
+          "여행 중 길고 복잡한 기록 없이 장소와 순간을 남기고 싶은 분.",
+          "일상의 이동을 가볍게 기록하고 싶은 분.",
         ],
       },
       {
-        heading: "하지 않는 것",
+        heading: "어울리지 않을 수도 있어요",
         paragraphs: [
-          "소셜 피드, 좋아요, 연속 기록이 없습니다.",
-          "보여주기 위한 기록이 아니라 나를 위한 기록입니다.",
-        ],
-      },
-      {
-        heading: "어떻게 맞춰지는지",
-        paragraphs: [
-          "원할 때 열고, 원치 않으면 닫으면 됩니다.",
-          "조용히 곁에 있는 방식을 지향합니다.",
+          "공개 공유, 긴 글쓰기, 습관 관리가 필요하다면 맞지 않을 수 있습니다.",
         ],
       },
     ],
-    privacy: {
-      heading: "프라이버시 중심",
-      paragraphs: [
-        "동기화를 선택하지 않는 한 기록은 기기에 남습니다.",
-        "무엇을 남길지, 공유할지는 당신이 결정합니다.",
-      ],
-      emphasized: "데이터를 판매하거나 행동을 추적하지 않습니다.",
-    },
-    closing: {
-      heading: "맞지 않을 수 있는 분",
-      paragraphs: [
-        "공개 공유, 긴 글쓰기, 습관 관리를 원한다면 맞지 않을 수 있습니다.",
-      ],
-      emphasized: "MomentBook은 조용한 기억을 위한 앱입니다.",
-    },
+    privacyTitle: "프라이버시",
+    privacyParagraphs: [
+      "동기화를 선택하지 않는 한 기록은 기기에 남습니다.",
+      "데이터를 판매하거나 행동을 추적하지 않습니다.",
+    ],
+    closingTitle: "작게 돌아올 수 있는 공간",
+    closingParagraph: "보여주기보다 기억을 위해 만든 앱입니다. 그 방향이 맞는 분께 어울립니다.",
   },
   ja: {
     metaTitle: "MomentBook について",
-    metaDescription: "MomentBook がなぜ必要か、誰に合うかを紹介します。",
-    title: "MomentBook は気づきを残す静かな場所です",
-    subtitle: "成果も公開もありません。残したい瞬間だけ。",
-    heroDeviceText: "一日をそっと残す",
+    metaDescription: "MomentBook の哲学と目的を紹介します。",
+    title: "MomentBook について",
+    subtitle: "旅と日常のための静かな記録。",
+    lead:
+      "MomentBook は日記を続けるのが難しい人のためのアプリです。小さな瞬間を残し、必要なときに戻れます。",
+    missionTitle: "なぜ作ったのか",
+    missionParagraphs: [
+      "一日はすぐに消えていきます。写真、短いメモ、場所だけでも思い出を呼び戻せます。",
+      "MomentBook は静かなアプリです。注意を奪わず、戻りたいときだけ開けます。",
+    ],
+    principlesTitle: "デザイン原則",
+    principles: [
+      "軽く、静かに",
+      "場所が流れを作る",
+      "プライバシーが基本",
+      "見せるための記録はしない",
+    ],
     sections: [
       {
-        heading: "どんなアプリか",
+        heading: "合う人",
         paragraphs: [
-          "写真、短いメモ、地図で瞬間を残します。",
-          "瞬間が集まり、一日がシンプルにまとまります。",
+          "旅先で長文を書かずに場所と瞬間を残したい人。",
+          "日常の移動を軽く記録したい人。",
         ],
       },
       {
-        heading: "誰に合うか",
+        heading: "合わないかもしれない人",
         paragraphs: [
-          "習慣にしなくても記録したい人に合います。",
-          "旅の日も日常も同じように残したい方へ。",
-        ],
-      },
-      {
-        heading: "やらないこと",
-        paragraphs: [
-          "ソーシャルフィード、いいね、連続記録はありません。",
-          "見せるためではなく、自分のための記録です。",
-        ],
-      },
-      {
-        heading: "どう寄り添うか",
-        paragraphs: [
-          "開きたいときに開き、そうでないときは閉じるだけ。",
-          "静かに寄り添うことを大切にしています。",
+          "公開共有、長文の記録、習慣管理が必要な方には合わないかもしれません。",
         ],
       },
     ],
-    privacy: {
-      heading: "プライバシー中心",
-      paragraphs: [
-        "同期を選ばない限り記録は端末に保存されます。",
-        "残す内容も共有も自分で決められます。",
-      ],
-      emphasized: "データ販売や行動追跡は行いません。",
-    },
-    closing: {
-      heading: "合わないかもしれない人",
-      paragraphs: [
-        "公開共有、長文の記録、習慣管理が必要な方には合わないかもしれません。",
-      ],
-      emphasized: "MomentBook は静かな記憶のためのアプリです。",
-    },
+    privacyTitle: "プライバシー",
+    privacyParagraphs: [
+      "同期を選ばない限り記録は端末に保存されます。",
+      "データ販売や行動追跡は行いません。",
+    ],
+    closingTitle: "小さく戻れる場所",
+    closingParagraph: "見せるためではなく、覚えておくためのアプリです。",
   },
   zh: {
     metaTitle: "关于 MomentBook",
-    metaDescription: "MomentBook 的理念与适合的人群。",
-    title: "MomentBook 是记录注意力的安静空间",
-    subtitle: "没有成绩，也没有公开。只留下你想要的瞬间。",
-    heroDeviceText: "安静留下这一天",
+    metaDescription: "介绍 MomentBook 的理念与目的。",
+    title: "关于 MomentBook",
+    subtitle: "为旅行与日常准备的安静记录。",
+    lead:
+      "MomentBook 为不想坚持写日记的人而做。它保存小小瞬间，需要时可以回来查看。",
+    missionTitle: "为什么存在",
+    missionParagraphs: [
+      "一天很容易被忘记。一张照片、一句短句、一个地点就足以唤起记忆。",
+      "MomentBook 保持安静，不争夺注意力，需要时再打开。",
+    ],
+    principlesTitle: "设计原则",
+    principles: [
+      "轻盈与安静",
+      "地点形成故事",
+      "隐私优先",
+      "拒绝表演式记录",
+    ],
     sections: [
       {
-        heading: "它是什么",
+        heading: "适合谁",
         paragraphs: [
-          "用照片、短句和地图保存瞬间。",
-          "瞬间会汇总成简单的一天。",
+          "旅行中不想写长文，只想留下地点与瞬间的人。",
+          "想轻松记录日常移动的人。",
         ],
       },
       {
-        heading: "它适合谁",
+        heading: "可能不适合谁",
         paragraphs: [
-          "适合不想被习惯束缚、却想留下记忆的人。",
-          "如果你想同样保存旅行和日常，这里适合你。",
-        ],
-      },
-      {
-        heading: "它不会做什么",
-        paragraphs: [
-          "没有社交动态、没有点赞、没有连续记录。",
-          "不是为了展示，而是为了自己。",
-        ],
-      },
-      {
-        heading: "如何融入生活",
-        paragraphs: [
-          "想打开时打开，不想时就关闭。",
-          "它的存在应该是安静的。",
+          "如果你需要公开分享、长篇记录或习惯管理，可能不适合。",
         ],
       },
     ],
-    privacy: {
-      heading: "隐私优先",
-      paragraphs: [
-        "除非你选择同步，记录只保存在设备中。",
-        "保存与分享都由你决定。",
-      ],
-      emphasized: "我们不出售数据，也不追踪行为。",
-    },
-    closing: {
-      heading: "可能不适合谁",
-      paragraphs: [
-        "如果你需要公开分享、长篇记录或习惯管理，这里可能不适合你。",
-      ],
-      emphasized: "MomentBook 适合安静地记住。",
-    },
+    privacyTitle: "隐私",
+    privacyParagraphs: [
+      "除非选择同步，记录只保存在设备中。",
+      "我们不出售数据，也不追踪行为。",
+    ],
+    closingTitle: "可以安静回来的地方",
+    closingParagraph: "这是为记住而做的，不是为了展示。",
   },
 };
 
@@ -278,21 +234,30 @@ export default async function AboutPage({
     <div className={styles.page}>
       <header className={styles.hero}>
         <div className={styles.heroInner}>
-          <FadeIn>
-            <div className={styles.heroCopy}>
-              <h1 className={styles.title}>{content.title}</h1>
-              <p className={styles.subtitle}>{content.subtitle}</p>
-            </div>
-          </FadeIn>
-          <FadeIn delay={150}>
-            <div className={styles.heroVisual}>
-              <DeviceMock>
-                <span>{content.heroDeviceText}</span>
-              </DeviceMock>
-            </div>
-          </FadeIn>
+          <h1 className={styles.title}>{content.title}</h1>
+          <p className={styles.subtitle}>{content.subtitle}</p>
+          <p className={styles.lead}>{content.lead}</p>
         </div>
       </header>
+
+      <section className={styles.mission}>
+        <div className={styles.missionCopy}>
+          <h2 className={styles.sectionTitle}>{content.missionTitle}</h2>
+          {content.missionParagraphs.map((paragraph, index) => (
+            <p key={`${content.missionTitle}-${index}`} className={styles.sectionText}>
+              {paragraph}
+            </p>
+          ))}
+        </div>
+        <aside className={styles.principles}>
+          <h3 className={styles.sectionTitle}>{content.principlesTitle}</h3>
+          <ul className={styles.principleList}>
+            {content.principles.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </aside>
+      </section>
 
       <section className={styles.sectionGrid}>
         {content.sections.map((section, index) => (
@@ -308,27 +273,17 @@ export default async function AboutPage({
       </section>
 
       <section className={styles.privacySection}>
-        <FadeIn>
-          <h2 className={styles.sectionTitle}>{content.privacy.heading}</h2>
-          {content.privacy.paragraphs.map((paragraph, paragraphIndex) => (
-            <p key={`${content.privacy.heading}-${paragraphIndex}`} className={styles.sectionText}>
-              {paragraph}
-            </p>
-          ))}
-          <p className={styles.emphasized}>{content.privacy.emphasized}</p>
-        </FadeIn>
+        <h2 className={styles.sectionTitle}>{content.privacyTitle}</h2>
+        {content.privacyParagraphs.map((paragraph, index) => (
+          <p key={`${content.privacyTitle}-${index}`} className={styles.sectionText}>
+            {paragraph}
+          </p>
+        ))}
       </section>
 
       <section className={styles.closingSection}>
-        <FadeIn>
-          <h2 className={styles.sectionTitle}>{content.closing.heading}</h2>
-          {content.closing.paragraphs.map((paragraph, paragraphIndex) => (
-            <p key={`${content.closing.heading}-${paragraphIndex}`} className={styles.sectionText}>
-              {paragraph}
-            </p>
-          ))}
-          <p className={styles.emphasized}>{content.closing.emphasized}</p>
-        </FadeIn>
+        <h2 className={styles.sectionTitle}>{content.closingTitle}</h2>
+        <p className={styles.sectionText}>{content.closingParagraph}</p>
       </section>
     </div>
   );
