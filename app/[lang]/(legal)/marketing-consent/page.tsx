@@ -11,28 +11,44 @@ export async function generateMetadata({
 
   if (lang === "ko") {
     return {
-      title: "마케팅 정보 수신 동의",
+      title: "MomentBook 마케팅 정보 수신 동의",
       description: "MomentBook 마케팅 수신 동의 정책입니다.",
+      openGraph: {
+        title: "MomentBook 마케팅 정보 수신 동의",
+        description: "MomentBook 마케팅 수신 동의 정책입니다.",
+      },
     };
   }
 
   if (lang === "ja") {
     return {
-      title: "マーケティング情報同意",
+      title: "MomentBook マーケティング情報同意",
       description: "MomentBookのマーケティング同意ポリシーです。",
+      openGraph: {
+        title: "MomentBook マーケティング情報同意",
+        description: "MomentBookのマーケティング同意ポリシーです。",
+      },
     };
   }
 
   if (lang === "zh") {
     return {
-      title: "营销信息同意",
+      title: "MomentBook 营销信息同意",
       description: "MomentBook 的营销信息同意政策。",
+      openGraph: {
+        title: "MomentBook 营销信息同意",
+        description: "MomentBook 的营销信息同意政策。",
+      },
     };
   }
 
   return {
-    title: "Marketing Consent",
+    title: "MomentBook Marketing Consent",
     description: "Marketing and promotional communications consent policy.",
+    openGraph: {
+      title: "MomentBook Marketing Consent",
+      description: "Marketing and promotional communications consent policy.",
+    },
   };
 }
 
@@ -59,7 +75,7 @@ function EnglishConsent() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>Marketing Information Consent</h1>
+        <h1 className={styles.title}>MomentBook Marketing Information Consent</h1>
         <div className={styles.meta}>
           <p><strong>Version:</strong> 1.0.1</p>
           <p><strong>Effective Date:</strong> January 4, 2025</p>
@@ -109,7 +125,7 @@ function KoreanConsent() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>마케팅 정보 수신 동의</h1>
+        <h1 className={styles.title}>MomentBook 마케팅 정보 수신 동의</h1>
         <div className={styles.meta}>
           <p><strong>버전:</strong> 1.0.1</p>
           <p><strong>시행일:</strong> 2025년 1월 4일</p>
@@ -159,7 +175,7 @@ function JapaneseConsent() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>マーケティング情報受信同意</h1>
+        <h1 className={styles.title}>MomentBook マーケティング情報受信同意</h1>
         <div className={styles.meta}>
           <p><strong>バージョン:</strong> 1.0.1</p>
           <p><strong>施行日:</strong> 2025年1月4日</p>
@@ -209,7 +225,7 @@ function ChineseConsent() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>营销信息接收同意</h1>
+        <h1 className={styles.title}>MomentBook 营销信息接收同意</h1>
         <div className={styles.meta}>
           <p><strong>版本:</strong> 1.0.1</p>
           <p><strong>生效日期:</strong> 2025年1月4日</p>

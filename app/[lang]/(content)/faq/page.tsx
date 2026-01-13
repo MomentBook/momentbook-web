@@ -23,9 +23,9 @@ type FAQContent = {
 function getFaqContent(lang: Language): FAQContent {
   if (lang === "ko") {
     return {
-      metaTitle: "자주 묻는 질문",
+      metaTitle: "MomentBook 자주 묻는 질문",
       metaDescription: "MomentBook에 대한 자주 묻는 질문을 모았습니다.",
-      pageTitle: "자주 묻는 질문",
+      pageTitle: "MomentBook 자주 묻는 질문",
       pageSubtitle: "MomentBook에 대한 빠른 답변을 모았습니다.",
       calloutPrefix: "여기에서 답을 찾지 못하셨나요? ",
       calloutLink: "문의하기",
@@ -76,9 +76,9 @@ function getFaqContent(lang: Language): FAQContent {
 
   if (lang === "ja") {
     return {
-      metaTitle: "よくある質問",
+      metaTitle: "MomentBook よくある質問",
       metaDescription: "MomentBookに関するよくある質問をまとめています。",
-      pageTitle: "よくある質問",
+      pageTitle: "MomentBook よくある質問",
       pageSubtitle: "MomentBookについての簡単な回答をまとめました。",
       calloutPrefix: "ここで解決しない場合は、",
       calloutLink: "お問い合わせ",
@@ -129,9 +129,9 @@ function getFaqContent(lang: Language): FAQContent {
 
   if (lang === "zh") {
     return {
-      metaTitle: "常见问题",
+      metaTitle: "MomentBook 常见问题",
       metaDescription: "汇总了关于 MomentBook 的常见问题。",
-      pageTitle: "常见问题",
+      pageTitle: "MomentBook 常见问题",
       pageSubtitle: "关于 MomentBook 的简要解答。",
       calloutPrefix: "还有其他问题？",
       calloutLink: "联系我们",
@@ -181,9 +181,9 @@ function getFaqContent(lang: Language): FAQContent {
   }
 
   return {
-    metaTitle: "FAQ",
+    metaTitle: "MomentBook FAQ",
     metaDescription: "Frequently asked questions about MomentBook.",
-    pageTitle: "Frequently Asked Questions",
+    pageTitle: "MomentBook FAQ",
     pageSubtitle: "Quick answers about MomentBook.",
     calloutPrefix: "Have a question that's not answered here? ",
     calloutLink: "Get in touch",
@@ -243,6 +243,10 @@ export async function generateMetadata({
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    openGraph: {
+      title: content.metaTitle,
+      description: content.metaDescription,
+    },
   };
 }
 

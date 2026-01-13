@@ -12,28 +12,44 @@ export async function generateMetadata({
 
   if (lang === "ko") {
     return {
-      title: "지원",
+      title: "MomentBook 지원",
       description: "MomentBook 도움말과 문의 방법을 안내합니다.",
+      openGraph: {
+        title: "MomentBook 지원",
+        description: "MomentBook 도움말과 문의 방법을 안내합니다.",
+      },
     };
   }
 
   if (lang === "ja") {
     return {
-      title: "サポート",
+      title: "MomentBook サポート",
       description: "MomentBookのヘルプとお問い合わせ方法をご案内します。",
+      openGraph: {
+        title: "MomentBook サポート",
+        description: "MomentBookのヘルプとお問い合わせ方法をご案内します。",
+      },
     };
   }
 
   if (lang === "zh") {
     return {
-      title: "支持",
+      title: "MomentBook 支持",
       description: "了解 MomentBook 的帮助与联系方法。",
+      openGraph: {
+        title: "MomentBook 支持",
+        description: "了解 MomentBook 的帮助与联系方法。",
+      },
     };
   }
 
   return {
-    title: "Support",
-    description: "Get help with MomentBook.",
+    title: "MomentBook Support",
+    description: "Help and contact for MomentBook.",
+    openGraph: {
+      title: "MomentBook Support",
+      description: "Help and contact for MomentBook.",
+    },
   };
 }
 
@@ -60,9 +76,9 @@ function EnglishSupport() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>Support</h1>
+        <h1 className={styles.title}>MomentBook Support</h1>
         <p className={styles.subtitle}>
-          If you need help with MomentBook, we're here.
+          Help with MomentBook, whenever you need it.
         </p>
       </header>
 
@@ -99,7 +115,7 @@ function KoreanSupport() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>지원</h1>
+        <h1 className={styles.title}>MomentBook 지원</h1>
         <p className={styles.subtitle}>
           MomentBook 사용 중 도움이 필요하시면 언제든지 문의하세요.
         </p>
@@ -137,9 +153,9 @@ function JapaneseSupport() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>サポート</h1>
+        <h1 className={styles.title}>MomentBook サポート</h1>
         <p className={styles.subtitle}>
-          MomentBookでお困りの際はお気軽にご連絡ください。
+          MomentBookでお困りの際はいつでもご連絡ください。
         </p>
       </header>
 
@@ -175,9 +191,9 @@ function ChineseSupport() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>支持</h1>
+        <h1 className={styles.title}>MomentBook 支持</h1>
         <p className={styles.subtitle}>
-          如果你在使用 MomentBook 时需要帮助，我们随时在这里。
+          需要 MomentBook 帮助时，随时联系我们。
         </p>
       </header>
 

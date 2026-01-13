@@ -11,28 +11,44 @@ export async function generateMetadata({
 
   if (lang === "ko") {
     return {
-      title: "커뮤니티 가이드라인",
+      title: "MomentBook 커뮤니티 가이드라인",
       description: "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.",
+      openGraph: {
+        title: "MomentBook 커뮤니티 가이드라인",
+        description: "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.",
+      },
     };
   }
 
   if (lang === "ja") {
     return {
-      title: "コミュニティガイドライン",
+      title: "MomentBook コミュニティガイドライン",
       description: "MomentBookのコミュニティガイドラインとコンテンツポリシーです。",
+      openGraph: {
+        title: "MomentBook コミュニティガイドライン",
+        description: "MomentBookのコミュニティガイドラインとコンテンツポリシーです。",
+      },
     };
   }
 
   if (lang === "zh") {
     return {
-      title: "社区指南",
+      title: "MomentBook 社区指南",
       description: "MomentBook 的社区指南与内容政策。",
+      openGraph: {
+        title: "MomentBook 社区指南",
+        description: "MomentBook 的社区指南与内容政策。",
+      },
     };
   }
 
   return {
-    title: "Community Guidelines",
+    title: "MomentBook Community Guidelines",
     description: "MomentBook community guidelines and content policy.",
+    openGraph: {
+      title: "MomentBook Community Guidelines",
+      description: "MomentBook community guidelines and content policy.",
+    },
   };
 }
 
@@ -59,7 +75,7 @@ function EnglishGuidelines() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>Community Guidelines & Content Policy</h1>
+        <h1 className={styles.title}>MomentBook Community Guidelines</h1>
         <div className={styles.meta}>
           <p><strong>Version:</strong> 1.0.0</p>
           <p><strong>Effective Date:</strong> August 25, 2025</p>
@@ -121,7 +137,7 @@ function KoreanGuidelines() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>커뮤니티 가이드라인 & 콘텐츠 정책</h1>
+        <h1 className={styles.title}>MomentBook 커뮤니티 가이드라인</h1>
         <div className={styles.meta}>
           <p><strong>버전:</strong> 1.0.0</p>
           <p><strong>시행일:</strong> 2025년 8월 25일</p>
@@ -183,7 +199,7 @@ function JapaneseGuidelines() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>コミュニティガイドライン & コンテンツポリシー</h1>
+        <h1 className={styles.title}>MomentBook コミュニティガイドライン</h1>
         <div className={styles.meta}>
           <p><strong>バージョン:</strong> 1.0.0</p>
           <p><strong>施行日:</strong> 2025年8月25日</p>
@@ -245,7 +261,7 @@ function ChineseGuidelines() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>社区准则 & 内容政策</h1>
+        <h1 className={styles.title}>MomentBook 社区指南</h1>
         <div className={styles.meta}>
           <p><strong>版本:</strong> 1.0.0</p>
           <p><strong>生效日期:</strong> 2025年8月25日</p>

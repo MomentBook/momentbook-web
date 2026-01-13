@@ -11,28 +11,44 @@ export async function generateMetadata({
 
   if (lang === "ko") {
     return {
-      title: "이용약관",
+      title: "MomentBook 이용약관",
       description: "MomentBook 이용약관을 안내합니다.",
+      openGraph: {
+        title: "MomentBook 이용약관",
+        description: "MomentBook 이용약관을 안내합니다.",
+      },
     };
   }
 
   if (lang === "ja") {
     return {
-      title: "利用規約",
+      title: "MomentBook 利用規約",
       description: "MomentBookの利用規約をご案内します。",
+      openGraph: {
+        title: "MomentBook 利用規約",
+        description: "MomentBookの利用規約をご案内します。",
+      },
     };
   }
 
   if (lang === "zh") {
     return {
-      title: "服务条款",
+      title: "MomentBook 服务条款",
       description: "了解 MomentBook 的服务条款。",
+      openGraph: {
+        title: "MomentBook 服务条款",
+        description: "了解 MomentBook 的服务条款。",
+      },
     };
   }
 
   return {
-    title: "Terms of Service",
+    title: "MomentBook Terms of Service",
     description: "Terms of use for MomentBook.",
+    openGraph: {
+      title: "MomentBook Terms of Service",
+      description: "Terms of use for MomentBook.",
+    },
   };
 }
 
@@ -59,7 +75,7 @@ function EnglishTerms() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>Terms of Service</h1>
+        <h1 className={styles.title}>MomentBook Terms of Service</h1>
         <div className={styles.meta}>
           <p><strong>Version:</strong> 1.0.1</p>
           <p><strong>Effective Date:</strong> January 4, 2025</p>
@@ -153,7 +169,7 @@ function KoreanTerms() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>이용약관</h1>
+        <h1 className={styles.title}>MomentBook 이용약관</h1>
         <div className={styles.meta}>
           <p><strong>버전:</strong> 1.0.1</p>
           <p><strong>시행일:</strong> 2025년 1월 4일</p>
@@ -247,7 +263,7 @@ function JapaneseTerms() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>利用規約</h1>
+        <h1 className={styles.title}>MomentBook 利用規約</h1>
         <div className={styles.meta}>
           <p><strong>バージョン:</strong> 1.0.1</p>
           <p><strong>施行日:</strong> 2025年1月4日</p>
@@ -341,7 +357,7 @@ function ChineseTerms() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>服务条款</h1>
+        <h1 className={styles.title}>MomentBook 服务条款</h1>
         <div className={styles.meta}>
           <p><strong>版本:</strong> 1.0.1</p>
           <p><strong>生效日期:</strong> 2025年1月4日</p>

@@ -11,28 +11,44 @@ export async function generateMetadata({
 
   if (lang === "ko") {
     return {
-      title: "개인정보 처리방침",
+      title: "MomentBook 개인정보 처리방침",
       description: "MomentBook 개인정보 처리방침을 안내합니다.",
+      openGraph: {
+        title: "MomentBook 개인정보 처리방침",
+        description: "MomentBook 개인정보 처리방침을 안내합니다.",
+      },
     };
   }
 
   if (lang === "ja") {
     return {
-      title: "プライバシーポリシー",
+      title: "MomentBook プライバシーポリシー",
       description: "MomentBookのプライバシーポリシーをご案内します。",
+      openGraph: {
+        title: "MomentBook プライバシーポリシー",
+        description: "MomentBookのプライバシーポリシーをご案内します。",
+      },
     };
   }
 
   if (lang === "zh") {
     return {
-      title: "隐私政策",
+      title: "MomentBook 隐私政策",
       description: "了解 MomentBook 的隐私政策。",
+      openGraph: {
+        title: "MomentBook 隐私政策",
+        description: "了解 MomentBook 的隐私政策。",
+      },
     };
   }
 
   return {
-    title: "Privacy Policy",
+    title: "MomentBook Privacy Policy",
     description: "How MomentBook handles your data.",
+    openGraph: {
+      title: "MomentBook Privacy Policy",
+      description: "How MomentBook handles your data.",
+    },
   };
 }
 
@@ -59,7 +75,7 @@ function EnglishPrivacy() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>Privacy Policy</h1>
+        <h1 className={styles.title}>MomentBook Privacy Policy</h1>
         <div className={styles.meta}>
           <p><strong>Version:</strong> 1.0.1</p>
           <p><strong>Effective Date:</strong> January 4, 2025</p>
@@ -155,7 +171,7 @@ function KoreanPrivacy() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>개인정보 처리방침</h1>
+        <h1 className={styles.title}>MomentBook 개인정보 처리방침</h1>
         <div className={styles.meta}>
           <p><strong>버전:</strong> 1.0.1</p>
           <p><strong>시행일:</strong> 2025년 1월 4일</p>
@@ -251,7 +267,7 @@ function JapanesePrivacy() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>プライバシーポリシー</h1>
+        <h1 className={styles.title}>MomentBook プライバシーポリシー</h1>
         <div className={styles.meta}>
           <p><strong>バージョン:</strong> 1.0.1</p>
           <p><strong>施行日:</strong> 2025年1月4日</p>
@@ -347,7 +363,7 @@ function ChinesePrivacy() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>隐私政策</h1>
+        <h1 className={styles.title}>MomentBook 隐私政策</h1>
         <div className={styles.meta}>
           <p><strong>版本:</strong> 1.0.1</p>
           <p><strong>生效日期:</strong> 2025年1月4日</p>
