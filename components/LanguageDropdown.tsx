@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useAtom } from "jotai";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { languages, type Language } from "@/lib/i18n/config";
+import { languageAtom } from "@/lib/state/preferences";
 import styles from "./LanguageDropdown.module.scss";
 
 export function LanguageDropdown({ currentLang }: { currentLang: Language }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const [, setPreferredLanguage] = useAtom(languageAtom);
 
   const pathWithoutLang = pathname.replace(/^\/(en|ko|zh|ja)/, "");
   const currentLanguage = languages[currentLang];
@@ -97,7 +100,10 @@ export function LanguageDropdown({ currentLang }: { currentLang: Language }) {
                 key={lang}
                 href={href}
                 className={`${styles.menuItem} ${isActive ? styles.active : ""}`}
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  setPreferredLanguage(lang as Language);
+                  setIsOpen(false);
+                }}
                 aria-current={isActive ? "page" : undefined}
               >
                 <span className={styles.nativeName}>{nativeName}</span>

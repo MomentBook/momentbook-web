@@ -7,6 +7,7 @@ import styles from "./layout.module.scss";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
+import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
 import { languageList, type Language } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -92,6 +93,7 @@ export default async function LangLayout({
         </Script>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <LanguagePreferenceSync currentLang={lang} />
         <header className={styles.header}>
           <nav className={styles.nav}>
             <Link href={`/${lang}`} className={styles.logo}>

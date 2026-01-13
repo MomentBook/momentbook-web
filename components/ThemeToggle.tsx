@@ -1,25 +1,28 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAtom } from "jotai";
+import { themeAtom } from "@/lib/state/preferences";
 import styles from "./ThemeToggle.module.scss";
 
 export function ThemeToggle() {
-  const [theme, setThemeState] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useAtom(themeAtom);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("theme") as "light" | "dark" | null;
-    if (stored === "light" || stored === "dark") {
-      setThemeState(stored);
-    }
   }, []);
 
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
+
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [mounted, theme]);
+
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setThemeState(newTheme);
-    document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
+    setTheme(theme === "light" ? "dark" : "light");
   };
 
   if (!mounted) {

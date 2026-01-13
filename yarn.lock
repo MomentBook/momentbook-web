@@ -3008,6 +3008,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jotai@npm:^2.16.1":
+  version: 2.16.1
+  resolution: "jotai@npm:2.16.1"
+  peerDependencies:
+    "@babel/core": ">=7.0.0"
+    "@babel/template": ">=7.0.0"
+    "@types/react": ">=17.0.0"
+    react: ">=17.0.0"
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    "@babel/template":
+      optional: true
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 2b265d16c8c2bc937dcf6b124f072a647d9388ebcc851d4c274e9df92cb0014f632246c00dc7b29aa4fccc3143819e02af03b6834f9f05625887e22f72f9da1f
+  languageName: node
+  linkType: hard
+
 "js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -3328,6 +3349,7 @@ __metadata:
     "@types/react-dom": 18
     eslint: ^9
     eslint-config-next: 16.1.1
+    jotai: ^2.16.1
     next: 16.1.1
     react: 18
     react-dom: 18
