@@ -303,7 +303,10 @@ export default async function Home({
 
           <FadeIn delay={150}>
             <div className={styles.heroVisual}>
-              <DeviceMock screenClassName={deviceStyles.screenMedia}>
+              <DeviceMock
+                className={styles.heroDevice}
+                screenClassName={deviceStyles.screenMedia}
+              >
                 <Image
                   src={content.heroDeviceImage}
                   alt={content.heroDeviceAlt}
@@ -368,7 +371,7 @@ export default async function Home({
           <div className={styles.previewGrid}>
             {content.previewItems.map((item, index) => (
               <div key={`${item.deviceText}-${index}`} className={styles.previewCard}>
-                <DeviceMock>
+                <DeviceMock className={styles.previewDevice}>
                   <span>{item.deviceText}</span>
                 </DeviceMock>
                 <p className={styles.previewCaption}>{item.caption}</p>
