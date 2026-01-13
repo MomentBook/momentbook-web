@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { journeys, places, days } from "@/lib/content";
+import { publicJourneys, publicPhotos, publicUsers } from "@/lib/public-content";
 import { languageList } from "@/lib/i18n/config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -29,31 +29,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   const journeyRoutes = languageList.flatMap((lang) =>
-    journeys.map((journey) => ({
-      url: `${siteUrl}/${lang}/journeys/${journey.slug}`,
+    publicJourneys.map((journey) => ({
+      url: `${siteUrl}/${lang}/journeys/${journey.journeyId}`,
       lastModified: new Date(),
-      changeFrequency: "monthly" as const,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    }))
+  );
+
+  const photoRoutes = languageList.flatMap((lang) =>
+    publicPhotos.map((photo) => ({
+      url: `${siteUrl}/${lang}/photos/${photo.photoId}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
       priority: 0.6,
     }))
   );
 
-  const placeRoutes = languageList.flatMap((lang) =>
-    places.map((place) => ({
-      url: `${siteUrl}/${lang}/places/${place.slug}`,
+  const userRoutes = languageList.flatMap((lang) =>
+    publicUsers.map((user) => ({
+      url: `${siteUrl}/${lang}/users/${user.userId}`,
       lastModified: new Date(),
-      changeFrequency: "monthly" as const,
+      changeFrequency: "weekly" as const,
       priority: 0.6,
     }))
   );
 
-  const dayRoutes = languageList.flatMap((lang) =>
-    days.map((day) => ({
-      url: `${siteUrl}/${lang}/days/${day.date}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    }))
-  );
-
-  return [...staticRoutes, ...journeyRoutes, ...placeRoutes, ...dayRoutes];
+  return [...staticRoutes, ...journeyRoutes, ...photoRoutes, ...userRoutes];
 }

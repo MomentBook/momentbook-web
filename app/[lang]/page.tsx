@@ -50,7 +50,7 @@ type HomeContent = {
 const homeContent: Record<Language, HomeContent> = {
   en: {
     metaTitle: "MomentBook",
-    metaDescription: "Save photos, notes, and places from your day in one app.",
+    metaDescription: "Track your day's journey and share your places and photos in one app.",
     eyebrow: "MomentBook",
     title: "Save travel and daily moments in one place",
     lead: "Track your day's journey—places, photos, and moments—then share it when you choose.",
@@ -103,7 +103,7 @@ const homeContent: Record<Language, HomeContent> = {
   },
   ko: {
     metaTitle: "MomentBook",
-    metaDescription: "하루의 사진, 메모, 장소를 한 앱에 저장하세요.",
+    metaDescription: "하루의 여정을 기록하고 사진과 장소를 공유하세요.",
     eyebrow: "MomentBook",
     title: "여행과 일상의 순간을 한곳에 저장하세요",
     lead: "하루의 여정을 트래킹해 방문한 장소와 사진을 기록하고, 원할 때 게시해 공유합니다.",
@@ -150,7 +150,7 @@ const homeContent: Record<Language, HomeContent> = {
   },
   ja: {
     metaTitle: "MomentBook",
-    metaDescription: "一日の写真、メモ、場所を一つに保存するアプリ。",
+    metaDescription: "一日の旅を記録し、場所や写真を共有できるアプリ。",
     eyebrow: "MomentBook",
     title: "旅と日常の瞬間を一つに保存",
     lead: "一日の旅を記録し、訪れた場所や写真を残して、必要なら公開して共有できます。",
@@ -197,7 +197,7 @@ const homeContent: Record<Language, HomeContent> = {
   },
   zh: {
     metaTitle: "MomentBook",
-    metaDescription: "把一天的照片、短句和地点集中保存。",
+    metaDescription: "记录一天的行程，并分享地点与照片。",
     eyebrow: "MomentBook",
     title: "把旅行与日常的瞬间集中保存",
     lead: "记录一天的行程，保留去过的地点和拍下的照片，并可在发布后分享给他人。",
