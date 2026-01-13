@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import styles from "./terms.module.scss";
 import { type Language } from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 export async function generateMetadata({
   params,
@@ -8,73 +9,35 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
+  let title = "MomentBook Terms of Service";
+  let description = "Terms of use for MomentBook.";
 
   if (lang === "ko") {
-    const title = "MomentBook 이용약관";
-    const description = "MomentBook 이용약관을 안내합니다.";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 이용약관";
+    description = "MomentBook 이용약관을 안내합니다.";
   }
 
   if (lang === "ja") {
-    const title = "MomentBook 利用規約";
-    const description = "MomentBookの利用規約をご案内します。";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 利用規約";
+    description = "MomentBookの利用規約をご案内します。";
   }
 
   if (lang === "zh") {
-    const title = "MomentBook 服务条款";
-    const description = "了解 MomentBook 的服务条款。";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 服务条款";
+    description = "了解 MomentBook 的服务条款。";
   }
 
-  const title = "MomentBook Terms of Service";
-  const description = "Terms of use for MomentBook.";
+  const path = "/terms";
+  const url = buildOpenGraphUrl(lang, path);
 
   return {
     title,
     description,
+    alternates: buildAlternates(lang, path),
     openGraph: {
       title,
       description,
+      url,
     },
     twitter: {
       card: "summary",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "@/styles/common.module.scss";
 import { type Language } from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const supportHref = `mailto:${supportEmail}`;
@@ -12,73 +13,35 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
+  let title = "MomentBook Support";
+  let description = "Help and contact for MomentBook.";
 
   if (lang === "ko") {
-    const title = "MomentBook 지원";
-    const description = "MomentBook 도움말과 문의 방법을 안내합니다.";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 지원";
+    description = "MomentBook 도움말과 문의 방법을 안내합니다.";
   }
 
   if (lang === "ja") {
-    const title = "MomentBook サポート";
-    const description = "MomentBookのヘルプとお問い合わせ方法をご案内します。";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook サポート";
+    description = "MomentBookのヘルプとお問い合わせ方法をご案内します。";
   }
 
   if (lang === "zh") {
-    const title = "MomentBook 支持";
-    const description = "了解 MomentBook 的帮助与联系方法。";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 支持";
+    description = "了解 MomentBook 的帮助与联系方法。";
   }
 
-  const title = "MomentBook Support";
-  const description = "Help and contact for MomentBook.";
+  const path = "/support";
+  const url = buildOpenGraphUrl(lang, path);
 
   return {
     title,
     description,
+    alternates: buildAlternates(lang, path),
     openGraph: {
       title,
       description,
+      url,
     },
     twitter: {
       card: "summary",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import styles from "./how-it-works.module.scss";
 import { type Language } from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 type HowItWorksStep = {
   title: string;
@@ -189,13 +190,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
   const content = getHowItWorksContent(lang);
+  const path = "/how-it-works";
+  const url = buildOpenGraphUrl(lang, path);
 
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    alternates: buildAlternates(lang, path),
     openGraph: {
       title: content.metaTitle,
       description: content.metaDescription,
+      url,
     },
     twitter: {
       card: "summary",

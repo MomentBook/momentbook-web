@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import styles from "./marketing-consent.module.scss";
 import { type Language } from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 export async function generateMetadata({
   params,
@@ -8,73 +9,35 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
+  let title = "MomentBook Marketing Information Consent";
+  let description = "Marketing information and promotional communications consent policy.";
 
   if (lang === "ko") {
-    const title = "MomentBook 마케팅 정보 수신 동의";
-    const description = "MomentBook 마케팅 수신 동의 정책입니다.";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 마케팅 정보 수신 동의";
+    description = "MomentBook 마케팅 수신 동의 정책입니다.";
   }
 
   if (lang === "ja") {
-    const title = "MomentBook マーケティング情報同意";
-    const description = "MomentBookのマーケティング同意ポリシーです。";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook マーケティング情報同意";
+    description = "MomentBookのマーケティング同意ポリシーです。";
   }
 
   if (lang === "zh") {
-    const title = "MomentBook 营销信息同意";
-    const description = "MomentBook 的营销信息同意政策。";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 营销信息同意";
+    description = "MomentBook 的营销信息同意政策。";
   }
 
-  const title = "MomentBook Marketing Information Consent";
-  const description = "Marketing information and promotional communications consent policy.";
+  const path = "/marketing-consent";
+  const url = buildOpenGraphUrl(lang, path);
 
   return {
     title,
     description,
+    alternates: buildAlternates(lang, path),
     openGraph: {
       title,
       description,
+      url,
     },
     twitter: {
       card: "summary",

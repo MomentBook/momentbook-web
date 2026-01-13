@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import faqStyles from "./faq.module.scss";
 import { type Language } from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 type FAQItem = {
   question: string;
@@ -226,13 +227,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
   const content = getFaqContent(lang);
+  const path = "/faq";
+  const url = buildOpenGraphUrl(lang, path);
 
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    alternates: buildAlternates(lang, path),
     openGraph: {
       title: content.metaTitle,
       description: content.metaDescription,
+      url,
     },
     twitter: {
       card: "summary",

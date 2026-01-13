@@ -6,6 +6,7 @@ import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./page.module.scss";
 import { type Language } from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 type HomeCard = {
   title: string;
@@ -248,13 +249,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
   const content = getHomeContent(lang);
+  const path = "";
+  const url = buildOpenGraphUrl(lang, path);
 
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    alternates: buildAlternates(lang, path),
     openGraph: {
       title: content.metaTitle,
       description: content.metaDescription,
+      url,
     },
     twitter: {
       card: "summary",

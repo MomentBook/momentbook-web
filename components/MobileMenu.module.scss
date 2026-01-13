@@ -3,14 +3,17 @@
 .hamburger {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  width: 2rem;
-  height: 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  width: 2.25rem;
+  height: 2.25rem;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.35rem;
   z-index: 200;
+  overflow: visible;
 
   @media (min-width: 768px) {
     display: none;
@@ -18,16 +21,17 @@
 }
 
 .line {
+  display: block;
   width: 100%;
   height: 2px;
   background: var(--color-text-primary);
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: transform 0.25s ease, opacity 0.2s ease;
   transform-origin: center;
 
   &.open {
     &:nth-child(1) {
-      transform: rotate(45deg) translateY(0.5rem);
+      transform: translateY(0.4rem) rotate(45deg);
     }
 
     &:nth-child(2) {
@@ -35,19 +39,20 @@
     }
 
     &:nth-child(3) {
-      transform: rotate(-45deg) translateY(-0.5rem);
+      transform: translateY(-0.4rem) rotate(-45deg);
     }
   }
 }
 
 .overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100vh;
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 150;
   animation: fadeIn 0.2s ease;
 
@@ -69,7 +74,12 @@
   width: min(80vw, 320px);
   background: var(--color-bg-canvas);
   border-left: 1px solid var(--color-border);
-  padding: var(--spacing-xl) var(--spacing-lg);
+  height: 100dvh;
+  max-height: 100dvh;
+  padding-top: calc(var(--spacing-xl) + env(safe-area-inset-top));
+  padding-bottom: calc(var(--spacing-lg) + env(safe-area-inset-bottom));
+  padding-left: calc(var(--spacing-lg) + env(safe-area-inset-left));
+  padding-right: calc(var(--spacing-lg) + env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
@@ -92,6 +102,7 @@
   color: var(--color-text-primary);
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
+  min-height: 44px;
   transition: all 0.2s ease;
 
   &:hover,

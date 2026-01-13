@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import styles from "./community-guidelines.module.scss";
 import { type Language } from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 export async function generateMetadata({
   params,
@@ -8,73 +9,35 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
+  let title = "MomentBook Community Guidelines";
+  let description = "MomentBook community guidelines and content policy.";
 
   if (lang === "ko") {
-    const title = "MomentBook 커뮤니티 가이드라인";
-    const description = "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 커뮤니티 가이드라인";
+    description = "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.";
   }
 
   if (lang === "ja") {
-    const title = "MomentBook コミュニティガイドライン";
-    const description = "MomentBookのコミュニティガイドラインとコンテンツポリシーです。";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook コミュニティガイドライン";
+    description = "MomentBookのコミュニティガイドラインとコンテンツポリシーです。";
   }
 
   if (lang === "zh") {
-    const title = "MomentBook 社区指南";
-    const description = "MomentBook 的社区指南与内容政策。";
-
-    return {
-      title,
-      description,
-      openGraph: {
-        title,
-        description,
-      },
-      twitter: {
-        card: "summary",
-        title,
-        description,
-      },
-    };
+    title = "MomentBook 社区指南";
+    description = "MomentBook 的社区指南与内容政策。";
   }
 
-  const title = "MomentBook Community Guidelines";
-  const description = "MomentBook community guidelines and content policy.";
+  const path = "/community-guidelines";
+  const url = buildOpenGraphUrl(lang, path);
 
   return {
     title,
     description,
+    alternates: buildAlternates(lang, path),
     openGraph: {
       title,
       description,
+      url,
     },
     twitter: {
       card: "summary",
