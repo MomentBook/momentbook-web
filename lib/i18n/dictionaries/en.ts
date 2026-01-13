@@ -14,32 +14,32 @@ export const en = {
   // Home page
   home: {
     hero: {
-      title: 'Your day, quietly kept',
-      deviceText: 'A day remembered',
+      title: 'A quiet record of the places your day takes you',
+      deviceText: 'Moments, gently kept',
     },
     flow: {
       photo: {
-        deviceText: 'A photo, nothing more',
-        text: 'Take a photo when something feels worth keeping.',
+        deviceText: 'Capture a moment',
+        text: 'Save a photo or a short note when something feels worth keeping.',
       },
       moment: {
-        deviceText: 'A moment passes',
-        text: 'No caption required. No context needed.',
+        deviceText: 'The day finds its shape',
+        text: 'Moments gather by place and time, so your day becomes a simple story.',
       },
       memory: {
-        deviceText: 'A memory stays',
-        text: 'Weeks later, you might remember. Or you might not. Either way is fine.',
+        deviceText: 'Return when you want',
+        text: 'Browse by day or place. Nothing to keep up, nothing to miss.',
       },
     },
     pause: {
-      text: "Nothing is required.\n\nThat's the point.",
+      text: "No streaks. No prompts.\n\nJust a place that waits for you.",
     },
     privacy: {
-      text: 'Private by default. Your journey is yours first.',
+      text: 'Private by default. Your moments stay yours—no feed, no tracking.',
     },
     cta: {
-      deviceText: 'Start quietly',
-      primaryButton: 'Download for iOS',
+      deviceText: 'Start a day',
+      primaryButton: 'Download MomentBook',
       secondaryButton: 'Download for Android',
     },
   },
@@ -47,7 +47,7 @@ export const en = {
   // Common
   common: {
     comingSoon: 'Coming soon',
-    learnMore: 'Learn more',
+    learnMore: 'See how it works',
   },
 
   // Footer

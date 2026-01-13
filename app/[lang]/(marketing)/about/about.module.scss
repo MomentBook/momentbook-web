@@ -95,6 +95,18 @@
   }
 }
 
+.sectionReverse {
+  @media (min-width: 768px) {
+    .visual {
+      order: 2;
+    }
+
+    .text {
+      order: 1;
+    }
+  }
+}
+
 .visual {
   display: flex;
   justify-content: center;

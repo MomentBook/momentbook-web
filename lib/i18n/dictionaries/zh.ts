@@ -16,32 +16,32 @@ export const zh: Dictionary = {
   // Home page - Placeholder, needs proper translation
   home: {
     hero: {
-      title: 'Your day, quietly kept',
-      deviceText: 'A day remembered',
+      title: '把一天去过的地方安静记录下来',
+      deviceText: '轻轻留下瞬间',
     },
     flow: {
       photo: {
-        deviceText: 'A photo, nothing more',
-        text: 'Take a photo when something feels worth keeping.',
+        deviceText: '记录瞬间',
+        text: '当你觉得值得留下时，记录一张照片或一句短句。',
       },
       moment: {
-        deviceText: 'A moment passes',
-        text: 'No caption required. No context needed.',
+        deviceText: '一天有了形状',
+        text: '时间与地点把瞬间串起来，形成一天的轨迹。',
       },
       memory: {
-        deviceText: 'A memory stays',
-        text: 'Weeks later, you might remember. Or you might not. Either way is fine.',
+        deviceText: '想起时再看',
+        text: '可按日期或地点回看，不必坚持或打卡。',
       },
     },
     pause: {
-      text: "Nothing is required.\n\nThat's the point.",
+      text: "没有连续记录，也没有提醒。\n\n需要时再打开。",
     },
     privacy: {
-      text: 'Private by default. Your journey is yours first.',
+      text: '默认私密。记录只属于你，没有追踪，也没有信息流。',
     },
     cta: {
-      deviceText: 'Start quietly',
-      primaryButton: '下载 iOS 版',
+      deviceText: '开始第一天',
+      primaryButton: '下载 MomentBook',
       secondaryButton: '下载 Android 版',
     },
   },
@@ -49,7 +49,7 @@ export const zh: Dictionary = {
   // Common
   common: {
     comingSoon: '即将推出',
-    learnMore: '了解更多',
+    learnMore: '了解工作方式',
   },
 
   // Footer

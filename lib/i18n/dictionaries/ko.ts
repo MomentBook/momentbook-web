@@ -16,32 +16,32 @@ export const ko: Dictionary = {
   // Home page - Placeholder, needs proper translation
   home: {
     hero: {
-      title: 'Your day, quietly kept',
-      deviceText: 'A day remembered',
+      title: '하루가 지나간 자리를 조용히 기록합니다',
+      deviceText: '순간을 조용히 담다',
     },
     flow: {
       photo: {
-        deviceText: 'A photo, nothing more',
-        text: 'Take a photo when something feels worth keeping.',
+        deviceText: '순간을 기록',
+        text: '기억하고 싶은 순간에 사진이나 짧은 메모를 남기세요.',
       },
       moment: {
-        deviceText: 'A moment passes',
-        text: 'No caption required. No context needed.',
+        deviceText: '하루가 모입니다',
+        text: '장소와 시간으로 순간이 모여 하루의 흐름이 만들어집니다.',
       },
       memory: {
-        deviceText: 'A memory stays',
-        text: 'Weeks later, you might remember. Or you might not. Either way is fine.',
+        deviceText: '원할 때 돌아보기',
+        text: '날짜나 장소로 다시 볼 수 있어요. 따라갈 필요도, 놓칠 걱정도 없습니다.',
       },
     },
     pause: {
-      text: "Nothing is required.\n\nThat's the point.",
+      text: "연속 기록도, 알림도 없습니다.\n\n그냥 필요할 때 열면 됩니다.",
     },
     privacy: {
-      text: 'Private by default. Your journey is yours first.',
+      text: '기본은 비공개. 기록은 나에게 남고, 추적이나 피드는 없습니다.',
     },
     cta: {
-      deviceText: 'Start quietly',
-      primaryButton: 'iOS 다운로드',
+      deviceText: '첫날을 시작',
+      primaryButton: 'MomentBook 다운로드',
       secondaryButton: 'Android 다운로드',
     },
   },
@@ -49,7 +49,7 @@ export const ko: Dictionary = {
   // Common
   common: {
     comingSoon: '곧 출시',
-    learnMore: '자세히 알아보기',
+    learnMore: '작동 방식 보기',
   },
 
   // Footer
