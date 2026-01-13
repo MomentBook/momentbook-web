@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import styles from "@/styles/common.module.scss";
+import styles from "./how-it-works.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
 type HowItWorksSection = {
@@ -49,11 +49,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
     ],
     noPressureTitle: "No pressure by design",
-    noPressureItems: [
-      "No streaks or goals",
-      "No reminders or prompts",
-      "No public feed or likes",
-    ],
+    noPressureItems: ["No streaks or goals", "No reminders or prompts", "No public feed or likes"],
   },
   ko: {
     metaTitle: "MomentBook 작동 방식",
@@ -85,11 +81,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
     ],
     noPressureTitle: "부담 없는 설계",
-    noPressureItems: [
-      "연속 기록이나 목표 없음",
-      "알림이나 재촉 없음",
-      "공개 피드나 좋아요 없음",
-    ],
+    noPressureItems: ["연속 기록이나 목표 없음", "알림이나 재촉 없음", "공개 피드나 좋아요 없음"],
   },
   ja: {
     metaTitle: "MomentBook の仕組み",
@@ -121,11 +113,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
     ],
     noPressureTitle: "プレッシャーのない設計",
-    noPressureItems: [
-      "連続記録や目標なし",
-      "通知や促しなし",
-      "公開フィードやいいねなし",
-    ],
+    noPressureItems: ["連続記録や目標なし", "通知や促しなし", "公開フィードやいいねなし"],
   },
   zh: {
     metaTitle: "MomentBook 如何运作",
@@ -157,11 +145,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
     ],
     noPressureTitle: "没有压力的设计",
-    noPressureItems: [
-      "没有连续记录或目标",
-      "没有提醒或催促",
-      "没有公开动态或点赞",
-    ],
+    noPressureItems: ["没有连续记录或目标", "没有提醒或催促", "没有公开动态或点赞"],
   },
 };
 
@@ -201,33 +185,36 @@ export default async function HowItWorksPage({
   const content = getHowItWorksContent(lang);
 
   return (
-    <div className={styles.container}>
-      <article className={styles.content}>
-        <header className={styles.header}>
-          <h1 className={styles.title}>{content.title}</h1>
-          <p className={styles.subtitle}>{content.subtitle}</p>
-        </header>
+    <div className={styles.page}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>{content.title}</h1>
+        <p className={styles.subtitle}>{content.subtitle}</p>
+        <p className={styles.intro}>{content.intro}</p>
+      </header>
 
-        <div className={styles.textContent}>
-          <p>{content.intro}</p>
-
-          {content.steps.map((step, index) => (
-            <section key={`${step.heading}-${index}`}>
-              <h2 className={styles.heading2}>{step.heading}</h2>
-              {step.paragraphs.map((paragraph, paragraphIndex) => (
-                <p key={`${step.heading}-${paragraphIndex}`}>{paragraph}</p>
-              ))}
-            </section>
-          ))}
-
-          <h2 className={styles.heading2}>{content.noPressureTitle}</h2>
-          <ul className={styles.list}>
-            {content.noPressureItems.map((item, index) => (
-              <li key={`${content.noPressureTitle}-${index}`}>{item}</li>
+      <section className={styles.stepGrid}>
+        {content.steps.map((step, index) => (
+          <div key={`${step.heading}-${index}`} className={styles.stepCard}>
+            <h2 className={styles.stepTitle}>{step.heading}</h2>
+            {step.paragraphs.map((paragraph, paragraphIndex) => (
+              <p key={`${step.heading}-${paragraphIndex}`} className={styles.stepText}>
+                {paragraph}
+              </p>
             ))}
-          </ul>
-        </div>
-      </article>
+          </div>
+        ))}
+      </section>
+
+      <section className={styles.noPressure}>
+        <h2 className={styles.noPressureTitle}>{content.noPressureTitle}</h2>
+        <ul className={styles.noPressureList}>
+          {content.noPressureItems.map((item) => (
+            <li key={item} className={styles.noPressureItem}>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

@@ -295,103 +295,84 @@ export default async function DownloadPage({
 
   return (
     <div className={styles.page}>
-      {/* Hero Section - Visual First */}
       <section className={styles.hero}>
-        <FadeIn>
-          <div className={styles.heroVisual}>
-            <DeviceMock>
-              <span>{content.deviceText}</span>
-            </DeviceMock>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={150}>
-          <h1 className={styles.heroTitle}>
-            {content.title}
-          </h1>
-        </FadeIn>
-
-        <FadeIn delay={250}>
-          <p className={styles.heroSubtitle}>
-            {content.subtitle}
-          </p>
-        </FadeIn>
-
-        <FadeIn delay={350}>
-          <div className={styles.downloadButtons}>
-            <a
-              href={storeLinks.ios}
-              className={styles.storeButton}
-              aria-label={content.storeLabels.iosAriaLabel}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div className={styles.storeButtonContent}>
-                <span className={styles.storeButtonLabel}>{content.storeLabels.iosLabel}</span>
-                <span className={styles.storeButtonName}>{content.storeLabels.iosName}</span>
+        <div className={styles.heroInner}>
+          <FadeIn>
+            <div className={styles.heroCopy}>
+              <h1 className={styles.heroTitle}>{content.title}</h1>
+              <p className={styles.heroSubtitle}>{content.subtitle}</p>
+              <div className={styles.storeButtons}>
+                <a
+                  href={storeLinks.ios}
+                  className={styles.storeButton}
+                  aria-label={content.storeLabels.iosAriaLabel}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <div className={styles.storeButtonContent}>
+                    <span className={styles.storeButtonLabel}>{content.storeLabels.iosLabel}</span>
+                    <span className={styles.storeButtonName}>{content.storeLabels.iosName}</span>
+                  </div>
+                </a>
+                <a
+                  href={storeLinks.android}
+                  className={styles.storeButton}
+                  aria-label={content.storeLabels.androidAriaLabel}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <div className={styles.storeButtonContent}>
+                    <span className={styles.storeButtonLabel}>{content.storeLabels.androidLabel}</span>
+                    <span className={styles.storeButtonName}>{content.storeLabels.androidName}</span>
+                  </div>
+                </a>
               </div>
-            </a>
-            <a
-              href={storeLinks.android}
-              className={styles.storeButton}
-              aria-label={content.storeLabels.androidAriaLabel}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div className={styles.storeButtonContent}>
-                <span className={styles.storeButtonLabel}>{content.storeLabels.androidLabel}</span>
-                <span className={styles.storeButtonName}>{content.storeLabels.androidName}</span>
-              </div>
-            </a>
-          </div>
-        </FadeIn>
+              <p className={styles.availability}>{content.availability}</p>
+              <p className={styles.supportNote}>
+                {content.supportPrefix}
+                <Link href={`/${lang}/support`} className={styles.supportLink}>
+                  {content.supportLink}
+                </Link>
+                {content.supportSuffix}
+              </p>
+            </div>
+          </FadeIn>
 
-        <FadeIn delay={450}>
-          <p className={styles.availability}>
-            {content.availability}
-          </p>
-        </FadeIn>
-
-        <FadeIn delay={520}>
-          <p className={styles.supportNote}>
-            {content.supportPrefix}
-            <Link href={`/${lang}/support`} className={styles.supportLink}>
-              {content.supportLink}
-            </Link>
-            {content.supportSuffix}
-          </p>
-        </FadeIn>
-      </section>
-
-      {/* What You Get Section */}
-      <section className={styles.features}>
-        <FadeIn>
-          <h2 className={styles.featuresTitle}>{content.featuresTitle}</h2>
-        </FadeIn>
-
-        <div className={styles.featureGrid}>
-          {content.features.map((feature, index) => (
-            <FadeIn key={`${feature.title}-${index}`} delay={(index + 1) * 100}>
-              <div className={styles.feature}>
-                <h3 className={styles.featureTitle}>{feature.title}</h3>
-                <p className={styles.featureText}>{feature.text}</p>
-              </div>
-            </FadeIn>
-          ))}
+          <FadeIn delay={150}>
+            <div className={styles.heroVisual}>
+              <DeviceMock>
+                <span>{content.deviceText}</span>
+              </DeviceMock>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
-      {/* System Requirements */}
-      <section className={styles.requirements}>
-        <FadeIn>
-          <h2 className={styles.requirementsTitle}>{content.requirementsTitle}</h2>
-        </FadeIn>
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <header className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>{content.featuresTitle}</h2>
+          </header>
+          <div className={styles.featureGrid}>
+            {content.features.map((feature, index) => (
+              <div key={`${feature.title}-${index}`} className={styles.featureCard}>
+                <h3 className={styles.featureTitle}>{feature.title}</h3>
+                <p className={styles.featureText}>{feature.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        <div className={styles.requirementsList}>
-          {content.requirements.map((requirement, index) => (
-            <FadeIn key={`${requirement.platform}-${index}`} delay={(index + 1) * 100}>
-              <div className={styles.requirement}>
-                <h3 className={styles.requirementPlatform}>{requirement.platform}</h3>
+      <section className={styles.section}>
+        <div className={styles.sectionInner}>
+          <header className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>{content.requirementsTitle}</h2>
+          </header>
+          <div className={styles.requirementsGrid}>
+            {content.requirements.map((requirement, index) => (
+              <div key={`${requirement.platform}-${index}`} className={styles.requirementCard}>
+                <h3 className={styles.requirementTitle}>{requirement.platform}</h3>
                 <p className={styles.requirementDetails}>
                   {requirement.details.map((detail, detailIndex) => (
                     <span key={`${requirement.platform}-${detailIndex}`}>
@@ -401,18 +382,13 @@ export default async function DownloadPage({
                   ))}
                 </p>
               </div>
-            </FadeIn>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Privacy Note */}
-      <section className={styles.privacy}>
-        <FadeIn>
-          <p className={styles.privacyText}>
-            {content.privacyText}
-          </p>
-        </FadeIn>
+      <section className={styles.privacyBand}>
+        <p className={styles.privacyText}>{content.privacyText}</p>
       </section>
     </div>
   );

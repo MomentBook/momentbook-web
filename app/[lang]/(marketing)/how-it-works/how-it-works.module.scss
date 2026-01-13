@@ -7,7 +7,7 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--spacing-sm);
   margin-bottom: var(--spacing-lg);
 }
 
@@ -15,6 +15,11 @@
   font-size: 2.1rem;
   line-height: 1.25;
   font-weight: 500;
+  color: var(--color-text-primary);
+
+  @media (min-width: 768px) {
+    font-size: 2.6rem;
+  }
 }
 
 .subtitle {
@@ -23,16 +28,23 @@
   max-width: 36rem;
 }
 
-.faqGrid {
+.intro {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.stepGrid {
   display: grid;
   gap: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.faqItem {
+.stepCard {
   padding: var(--spacing-md);
   border-radius: var(--radius-lg);
   background: var(--color-bg-canvas);
@@ -40,35 +52,42 @@
   box-shadow: var(--shadow-sm);
 }
 
-.faqQuestion {
-  font-size: 1.05rem;
+.stepTitle {
+  font-size: 1.1rem;
   font-weight: 500;
   margin-bottom: var(--spacing-xs);
 }
 
-.faqAnswer {
+.stepText {
   font-size: 0.98rem;
   line-height: 1.7;
   color: var(--color-text-secondary);
 }
 
-.callout {
-  margin-top: var(--spacing-lg);
-  padding: var(--spacing-md);
+.noPressure {
+  padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   background: var(--color-accent-soft);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
 }
 
-.link {
-  color: var(--color-accent);
-  text-decoration: underline;
-  text-decoration-color: var(--color-accent);
-  text-underline-offset: 2px;
+.noPressureTitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+}
 
-  &:hover {
-    color: var(--color-accent-hover);
-    text-decoration-color: var(--color-accent-hover);
-  }
+.noPressureList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  list-style: none;
+}
+
+.noPressureItem {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: var(--color-bg-canvas);
+  border: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
 }

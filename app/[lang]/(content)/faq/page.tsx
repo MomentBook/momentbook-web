@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import styles from "@/styles/common.module.scss";
 import faqStyles from "./faq.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
@@ -33,8 +32,7 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook이 무엇인가요?",
-          answer:
-            "사진, 짧은 메모, 그리고 장소를 함께 남기는 조용한 기록 앱입니다.",
+          answer: "사진, 짧은 메모, 그리고 장소를 함께 남기는 조용한 기록 앱입니다.",
         },
         {
           question: "매일 사용해야 하나요?",
@@ -54,8 +52,7 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "항상 위치를 추적하나요?",
-          answer:
-            "허용한 경우에만 위치를 사용합니다. 순간을 정리하는 데만 쓰이며 판매하거나 공유하지 않습니다.",
+          answer: "허용한 경우에만 위치를 사용합니다. 순간 정리에만 쓰이며 판매하거나 공유하지 않습니다.",
         },
         {
           question: "기기 간 동기화가 되나요?",
@@ -85,8 +82,7 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook とは何ですか？",
-          answer:
-            "写真や短いメモ、場所を静かに残すアプリです。",
+          answer: "写真や短いメモ、場所を静かに残すアプリです。",
         },
         {
           question: "毎日使う必要はありますか？",
@@ -106,8 +102,7 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "位置情報は常に追跡しますか？",
-          answer:
-            "許可した場合のみ使用します。記録整理のためだけに使い、販売や共有はしません。",
+          answer: "許可した場合のみ使用します。記録整理のためだけに使い、販売や共有はしません。",
         },
         {
           question: "端末間の同期はできますか？",
@@ -137,8 +132,7 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook 是什么？",
-          answer:
-            "用于保存照片、短句和地点的安静记录应用。",
+          answer: "用于保存照片、短句和地点的安静记录应用。",
         },
         {
           question: "需要每天使用吗？",
@@ -187,8 +181,7 @@ function getFaqContent(lang: Language): FAQContent {
     items: [
       {
         question: "What is MomentBook?",
-        answer:
-          "A quiet app for saving moments—photos, short notes, and the places they happened.",
+        answer: "A quiet app for saving moments—photos, short notes, and the places they happened.",
       },
       {
         question: "Do I have to use it every day?",
@@ -208,8 +201,7 @@ function getFaqContent(lang: Language): FAQContent {
       },
       {
         question: "Does it track my location?",
-        answer:
-          "Only if you choose to enable it. Location helps organize moments and isn't sold or shared.",
+        answer: "Only if you choose to enable it. Location helps organize moments and isn't sold or shared.",
       },
       {
         question: "Can I sync across devices?",
@@ -259,32 +251,30 @@ export default async function FAQPage({
   const content = getFaqContent(lang);
 
   return (
-    <div className={styles.container}>
-      <article className={styles.content}>
-        <header>
-          <h1 className={styles.title}>{content.pageTitle}</h1>
-          <p className={styles.subtitle}>{content.pageSubtitle}</p>
-        </header>
+    <div className={faqStyles.page}>
+      <header className={faqStyles.header}>
+        <h1 className={faqStyles.title}>{content.pageTitle}</h1>
+        <p className={faqStyles.subtitle}>{content.pageSubtitle}</p>
+      </header>
 
-        <div className={faqStyles.faqList}>
-          {content.items.map((faq, index) => (
-            <section key={index} className={faqStyles.faqItem}>
-              <h2 className={faqStyles.faqQuestion}>{faq.question}</h2>
-              <p className={faqStyles.faqAnswer}>{faq.answer}</p>
-            </section>
-          ))}
-        </div>
+      <div className={faqStyles.faqGrid}>
+        {content.items.map((faq, index) => (
+          <section key={`${faq.question}-${index}`} className={faqStyles.faqItem}>
+            <h2 className={faqStyles.faqQuestion}>{faq.question}</h2>
+            <p className={faqStyles.faqAnswer}>{faq.answer}</p>
+          </section>
+        ))}
+      </div>
 
-        <aside className={styles.callout}>
-          <p>
-            {content.calloutPrefix}
-            <Link href={`/${lang}/support`} className={styles.link}>
-              {content.calloutLink}
-            </Link>
-            {content.calloutSuffix}
-          </p>
-        </aside>
-      </article>
+      <aside className={faqStyles.callout}>
+        <p>
+          {content.calloutPrefix}
+          <Link href={`/${lang}/support`} className={faqStyles.link}>
+            {content.calloutLink}
+          </Link>
+          {content.calloutSuffix}
+        </p>
+      </aside>
     </div>
   );
 }
