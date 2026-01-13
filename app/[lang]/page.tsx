@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
+import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./page.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
@@ -24,7 +26,8 @@ type HomeContent = {
   note: string;
   primaryCta: string;
   secondaryCta: string;
-  heroDeviceText: string;
+  heroDeviceImage: string;
+  heroDeviceAlt: string;
   heroVisualCaption: string;
   highlightTitle: string;
   highlightLead: string;
@@ -53,7 +56,8 @@ const homeContent: Record<Language, HomeContent> = {
     note: "Offline first. Sync optional.",
     primaryCta: "Download MomentBook",
     secondaryCta: "See how it works",
-    heroDeviceText: "A day, organized automatically",
+    heroDeviceImage: "/device-mocks/home-en.png",
+    heroDeviceAlt: "MomentBook home screen in English",
     heroVisualCaption: "Grouped by time and place.",
     highlightTitle: "Built for quick recall",
     highlightLead: "Fast capture, simple organization, private storage.",
@@ -99,7 +103,8 @@ const homeContent: Record<Language, HomeContent> = {
     note: "오프라인 사용 가능. 동기화는 선택.",
     primaryCta: "MomentBook 다운로드",
     secondaryCta: "작동 방식",
-    heroDeviceText: "하루 자동 정리",
+    heroDeviceImage: "/device-mocks/home-ko.png",
+    heroDeviceAlt: "한국어 MomentBook 홈 화면",
     heroVisualCaption: "시간과 장소로 묶입니다.",
     highlightTitle: "빠르게 기록하는 방법",
     highlightLead: "빠른 입력, 자동 정리, 비공개 저장.",
@@ -145,7 +150,8 @@ const homeContent: Record<Language, HomeContent> = {
     note: "オフライン対応。同期は任意です。",
     primaryCta: "MomentBook をダウンロード",
     secondaryCta: "仕組みを見る",
-    heroDeviceText: "一日を自動整理",
+    heroDeviceImage: "/device-mocks/home-ja.png",
+    heroDeviceAlt: "日本語の MomentBook ホーム画面",
     heroVisualCaption: "時間と場所でまとめます。",
     highlightTitle: "すぐに記録できる",
     highlightLead: "素早い入力、整理、非公開保存。",
@@ -191,7 +197,8 @@ const homeContent: Record<Language, HomeContent> = {
     note: "支持离线，同步可选。",
     primaryCta: "下载 MomentBook",
     secondaryCta: "了解工作方式",
-    heroDeviceText: "自动整理一天",
+    heroDeviceImage: "/device-mocks/home-zh.png",
+    heroDeviceAlt: "MomentBook 中文主屏幕",
     heroVisualCaption: "按时间与地点分组。",
     highlightTitle: "快速记录方式",
     highlightLead: "快速输入、自动整理、私密保存。",
@@ -296,8 +303,14 @@ export default async function Home({
 
           <FadeIn delay={150}>
             <div className={styles.heroVisual}>
-              <DeviceMock>
-                <span>{content.heroDeviceText}</span>
+              <DeviceMock screenClassName={deviceStyles.screenMedia}>
+                <Image
+                  src={content.heroDeviceImage}
+                  alt={content.heroDeviceAlt}
+                  fill
+                  sizes="(max-width: 768px) 300px, (max-width: 1024px) 360px, 440px"
+                  className={deviceStyles.screenImage}
+                />
               </DeviceMock>
               <p className={styles.heroCaption}>{content.heroVisualCaption}</p>
             </div>
