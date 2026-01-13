@@ -143,6 +143,7 @@ function EnglishPrivacy() {
           <h2>2. Purpose of Use</h2>
           <p>- User identification and authentication, profile display</p>
           <p>- Provision of location-based features (post tagging, nearby exposure, etc.)</p>
+          <p>- If you publish a journey, that content becomes publicly accessible on the web</p>
           <p>- Service stability improvement and quality enhancement (error response, etc. using de-identified logs)</p>
         </section>
 
@@ -239,6 +240,7 @@ function KoreanPrivacy() {
           <h2>2. 이용 목적</h2>
           <p>- 사용자 식별 및 인증, 프로필 표시</p>
           <p>- 위치 기반 기능 제공(게시물 태그·근처 노출 등)</p>
+          <p>- 게시하기를 선택한 여정은 웹에 공개되어 누구나 볼 수 있습니다</p>
           <p>- 서비스 안정성 향상 및 품질 개선(오류 대응 등 비식별 로그 활용)</p>
         </section>
 
@@ -335,6 +337,7 @@ function JapanesePrivacy() {
           <h2>2. 利用目的</h2>
           <p>- ユーザー識別および認証、プロフィール表示</p>
           <p>- 位置ベース機能の提供（投稿タグ・付近表示など）</p>
+          <p>- 投稿すると旅の内容がWebで公開されます</p>
           <p>- サービスの安定性向上および品質改善（エラー対応等の非識別ログ活用）</p>
         </section>
 
@@ -431,6 +434,7 @@ function ChinesePrivacy() {
           <h2>2. 使用目的</h2>
           <p>- 用户识别和认证、个人资料显示</p>
           <p>- 提供基于位置的功能（帖子标签、附近显示等）</p>
+          <p>- 发布后，行程内容会在网页公开</p>
           <p>- 服务稳定性提升及质量改善（错误应对等使用非识别日志）</p>
         </section>
 

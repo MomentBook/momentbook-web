@@ -34,7 +34,7 @@ export const zh: Dictionary = {
       },
     },
     pause: {
-      text: '没有连续记录。\n\n在需要时提供旅行提醒和行程结束提醒。',
+      text: '没有连续记录。\n\n在需要时提供行程变化提醒和行程结束提醒。',
     },
     privacy: {
       text: '默认私密，发布后公开。',

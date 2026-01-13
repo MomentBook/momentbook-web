@@ -147,6 +147,7 @@ function EnglishTerms() {
           <h2>5. User-Generated Content (UGC) and Rights</h2>
           <p>- Copyright of text, images, and metadata uploaded by users (hereinafter "UGC") generally belongs to the user.</p>
           <p>- Users grant the Company a <strong>non-exclusive, worldwide, royalty-free, sublicensable</strong> license to use UGC for the purpose of providing, operating, and promoting the Service (including display, storage, backup, and transmission within the Service).</p>
+          <p>- If you choose to publish a journey, that content becomes publicly accessible on the web.</p>
           <p>- Users may only upload UGC that does not infringe upon the rights of others.</p>
         </section>
 
@@ -241,6 +242,7 @@ function KoreanTerms() {
           <h2>5. 사용자 생성 콘텐츠(UGC)와 권리</h2>
           <p>- 사용자가 업로드한 텍스트·이미지·메타데이터(이하 "UGC")의 저작권은 원칙적으로 사용자에게 있습니다.</p>
           <p>- 사용자는 회사에 대해 서비스 제공·운영·홍보 목적의 <strong>비독점적·전세계적·무상·재라이선스 가능</strong> 이용권을 부여합니다(서비스 내 표시·저장·백업·전송 포함).</p>
+          <p>- 게시하기를 선택하면 해당 콘텐츠는 웹에 공개됩니다.</p>
           <p>- 사용자는 타인의 권리를 침해하지 않는 UGC만 업로드해야 합니다.</p>
         </section>
 
@@ -335,6 +337,7 @@ function JapaneseTerms() {
           <h2>5. ユーザー生成コンテンツ（UGC）と権利</h2>
           <p>- 利用者がアップロードしたテキスト・画像・メタデータ（以下「UGC」といいます）の著作権は、原則として利用者に帰属します。</p>
           <p>- 利用者は、当社に対し、本サービスの提供・運営・広報目的での <strong>非独占的・全世界的・無償・再許諾可能な</strong> 利用権を付与します（サービス内での表示・保存・バックアップ・送信を含みます）。</p>
+          <p>- 投稿すると旅の内容がWebで公開されます。</p>
           <p>- 利用者は、他者の権利を侵害しないUGCのみをアップロードする必要があります。</p>
         </section>
 
@@ -429,6 +432,7 @@ function ChineseTerms() {
           <h2>5. 用户生成内容（UGC）及权利</h2>
           <p>- 用户上传的文本、图像、元数据（以下简称"UGC"）的著作权原则上归属于用户。</p>
           <p>- 用户授予公司为提供、运营及推广服务目的的 <strong>非独占性、全球性、免费、可再许可</strong> 使用权（包括在服务内展示、存储、备份、传输）。</p>
+          <p>- 发布后，该内容会在网页公开。</p>
           <p>- 用户仅可上传不侵犯他人权利的UGC。</p>
         </section>
 
