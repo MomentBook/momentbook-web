@@ -33,12 +33,12 @@ export const ko: Dictionary = {
         text: '날짜나 장소로 다시 볼 수 있어요. 따라갈 필요도, 놓칠 걱정도 없습니다.',
       },
     },
-    pause: {
-      text: "연속 기록도, 알림도 없습니다.\n\n그냥 필요할 때 열면 됩니다.",
-    },
-    privacy: {
-      text: '기본은 비공개. 기록은 나에게 남고, 추적이나 피드는 없습니다.',
-    },
+  pause: {
+      text: "연속 기록은 없습니다.\n\n이동 감지와 여정 마무리 알림을 필요할 때 제공합니다.",
+  },
+  privacy: {
+      text: '기본은 비공개. 게시할 때만 공개됩니다.',
+  },
     cta: {
       deviceText: '첫날을 시작',
       primaryButton: 'MomentBook 다운로드',

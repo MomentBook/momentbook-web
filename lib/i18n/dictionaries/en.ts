@@ -32,10 +32,10 @@ export const en = {
       },
     },
     pause: {
-      text: "No streaks. No prompts.\n\nJust a place that waits for you.",
+      text: "No streaks.\n\nTravel alerts and journey reminders when it helps.",
     },
     privacy: {
-      text: 'Private by default. Your moments stay yours—no feed, no tracking.',
+      text: 'Private by default. Publish only when you choose.',
     },
     cta: {
       deviceText: 'Start a day',

@@ -98,7 +98,7 @@ function getDownloadContent(lang: Language): DownloadContent {
         },
         {
           title: "기본은 비공개",
-          text: "광고, 추적, 공개 피드 없이 기록은 나에게만 남습니다.",
+          text: "기본은 비공개이며, 게시하면 웹에 공개됩니다.",
         },
       ],
       requirementsTitle: "시스템 요구 사항",
@@ -112,7 +112,7 @@ function getDownloadContent(lang: Language): DownloadContent {
           details: ["Android 10.0 이상 필요", "대부분의 Android 기기 지원"],
         },
       ],
-      privacyText: "동기화를 선택하지 않는 한 기록은 기기에만 남습니다.",
+      privacyText: "기본은 기기 저장이며, 게시하면 웹에 공개됩니다. 동기화는 선택입니다.",
       supportPrefix: "도움이 필요하신가요? ",
       supportLink: "지원 페이지",
       supportSuffix: "로 이동하세요.",
@@ -148,7 +148,7 @@ function getDownloadContent(lang: Language): DownloadContent {
         },
         {
           title: "デフォルトは非公開",
-          text: "広告や追跡、公開フィードはありません。",
+          text: "基本は非公開。投稿するとWebで公開されます。",
         },
       ],
       requirementsTitle: "システム要件",
@@ -162,7 +162,7 @@ function getDownloadContent(lang: Language): DownloadContent {
           details: ["Android 10.0 以上が必要", "ほとんどの Android 端末に対応"],
         },
       ],
-      privacyText: "同期を選ばない限り、記録は端末に保存されます。",
+      privacyText: "基本は端末保存。投稿するとWebで公開されます。同期は任意です。",
       supportPrefix: "お困りの際は",
       supportLink: "サポート",
       supportSuffix: "へ。",
@@ -198,7 +198,7 @@ function getDownloadContent(lang: Language): DownloadContent {
         },
         {
           title: "默认私密",
-          text: "没有广告、没有追踪、没有公开动态。",
+          text: "默认私密，发布后会在网页公开。",
         },
       ],
       requirementsTitle: "系统要求",
@@ -212,7 +212,7 @@ function getDownloadContent(lang: Language): DownloadContent {
           details: ["需要 Android 10.0 或以上", "支持大多数 Android 设备"],
         },
       ],
-      privacyText: "除非你选择同步，记录只保存在设备中。",
+      privacyText: "默认保存在设备中，发布后会在网页公开，同步可选。",
       supportPrefix: "需要帮助？",
       supportLink: "前往支持页",
       supportSuffix: "。",
@@ -236,7 +236,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       androidAriaLabel: "Get it on Google Play",
     },
     featuresTitle: "Why people choose MomentBook",
-    features: [
+      features: [
       {
         title: "Capture in seconds",
         text: "Save a photo or a short line. No setup required.",
@@ -245,11 +245,11 @@ function getDownloadContent(lang: Language): DownloadContent {
         title: "Your day, organized",
         text: "Moments gather by time and place into a simple view.",
       },
-      {
-        title: "Private by default",
-        text: "No ads, no tracking, no public feed.",
-      },
-    ],
+        {
+          title: "Private by default",
+          text: "Publish to the web only when you choose.",
+        },
+      ],
     requirementsTitle: "System requirements",
     requirements: [
       {
@@ -261,7 +261,7 @@ function getDownloadContent(lang: Language): DownloadContent {
         details: ["Requires Android 10.0 or later", "Compatible with most Android devices"],
       },
     ],
-    privacyText: "Your moments stay on your device unless you choose to sync.",
+    privacyText: "Stored on your device by default. Publishing makes a journey public. Sync is optional.",
     supportPrefix: "Need help? ",
     supportLink: "Visit support",
     supportSuffix: ".",

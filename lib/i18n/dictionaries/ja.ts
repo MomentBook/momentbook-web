@@ -33,12 +33,12 @@ export const ja: Dictionary = {
         text: '日付や場所から見返せます。続ける義務はありません。',
       },
     },
-    pause: {
-      text: "連続記録も通知もありません。\n\n必要なときに開くだけ。",
-    },
-    privacy: {
-      text: 'デフォルトは非公開。記録は自分のために、追跡やフィードはありません。',
-    },
+  pause: {
+      text: "連続記録はありません。\n\n移動検知と旅の終了リマインドを必要なときに通知します。",
+  },
+  privacy: {
+      text: '基本は非公開。投稿時に公開されます。',
+  },
     cta: {
       deviceText: '最初の一日へ',
       primaryButton: 'MomentBook をダウンロード',

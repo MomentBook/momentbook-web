@@ -61,8 +61,8 @@ const aboutContent: Record<Language, AboutContent> = {
     ],
     privacyTitle: "Data handling",
     privacyParagraphs: [
-      "Your moments stay on your device unless you choose to sync.",
-      "We do not sell data or track behavior.",
+      "Your moments stay on your device by default. Publishing a journey makes it public on the web.",
+      "Sync is optional, and we do not sell data or track behavior.",
     ],
     closingTitle: "Simple by intent",
     closingParagraph: "If you want a practical way to remember places and days, MomentBook is built for that.",
@@ -103,8 +103,8 @@ const aboutContent: Record<Language, AboutContent> = {
     ],
     privacyTitle: "데이터 처리",
     privacyParagraphs: [
-      "동기화를 선택하지 않는 한 기록은 기기에 남습니다.",
-      "데이터를 판매하거나 행동을 추적하지 않습니다.",
+      "기본은 기기 저장이며, 게시하면 웹에 공개됩니다.",
+      "동기화는 선택이고 데이터 판매나 추적을 하지 않습니다.",
     ],
     closingTitle: "의도적으로 단순하게",
     closingParagraph: "장소와 하루를 실용적으로 기억하고 싶다면 MomentBook이 맞습니다.",
@@ -145,8 +145,8 @@ const aboutContent: Record<Language, AboutContent> = {
     ],
     privacyTitle: "データの扱い",
     privacyParagraphs: [
-      "同期を選ばない限り記録は端末に保存されます。",
-      "データ販売や行動追跡は行いません。",
+      "基本は端末保存で、投稿するとWebで公開されます。",
+      "同期は任意で、データ販売や行動追跡は行いません。",
     ],
     closingTitle: "必要十分を大切に",
     closingParagraph: "場所と一日を実用的に覚えたいなら MomentBook が合います。",
@@ -187,8 +187,8 @@ const aboutContent: Record<Language, AboutContent> = {
     ],
     privacyTitle: "数据处理",
     privacyParagraphs: [
-      "除非选择同步，记录只保存在设备中。",
-      "我们不出售数据，也不追踪行为。",
+      "默认保存在设备中，发布后会在网页公开。",
+      "同步可选，我们不出售数据也不追踪行为。",
     ],
     closingTitle: "保持实用",
     closingParagraph: "如果你想实用地记住地点和日子，MomentBook 就是为此而做。",

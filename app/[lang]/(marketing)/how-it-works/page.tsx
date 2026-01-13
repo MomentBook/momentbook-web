@@ -51,12 +51,21 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         items: ["Photos", "Short notes", "Location (if enabled)", "Time of capture"],
       },
       {
-        title: "What we do not collect",
-        items: ["Public posts", "Ads or trackers", "Behavior profiles"],
+        title: "When it becomes public",
+        items: [
+          "Only when you tap Publish",
+          "Published journeys appear on the web",
+          "You control what is shared",
+        ],
       },
     ],
-    noPressureTitle: "No pressure by design",
-    noPressureItems: ["No streaks", "No reminders", "No social feed"],
+    noPressureTitle: "On your terms",
+    noPressureItems: [
+      "No streaks or daily goals",
+      "Travel alerts when location changes",
+      "Journey-end reminders",
+      "Public sharing only when you post",
+    ],
   },
   ko: {
     metaTitle: "MomentBook 작동 방식",
@@ -84,12 +93,17 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         items: ["사진", "짧은 메모", "위치(허용 시)", "기록 시각"],
       },
       {
-        title: "수집하지 않는 것",
-        items: ["공개 게시물", "광고/추적", "행동 프로필"],
+        title: "웹에 공개되는 경우",
+        items: ["게시하기를 눌렀을 때만", "게시된 여정은 웹에 공개", "공개 범위는 사용자가 선택"],
       },
     ],
-    noPressureTitle: "부담 없는 설계",
-    noPressureItems: ["연속 기록 없음", "알림 없음", "소셜 피드 없음"],
+    noPressureTitle: "내 방식대로",
+    noPressureItems: [
+      "연속 기록이나 목표 없음",
+      "이동 감지 알림",
+      "여정 마무리 알림",
+      "게시할 때만 공개",
+    ],
   },
   ja: {
     metaTitle: "MomentBook の仕組み",
@@ -117,12 +131,17 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         items: ["写真", "短いメモ", "位置情報(許可時)", "記録時刻"],
       },
       {
-        title: "収集しないもの",
-        items: ["公開投稿", "広告や追跡", "行動プロファイル"],
+        title: "公開される条件",
+        items: ["投稿したときだけ", "公開した旅はWebで表示", "公開範囲は自分で決める"],
       },
     ],
-    noPressureTitle: "負担のない設計",
-    noPressureItems: ["連続記録なし", "通知なし", "ソーシャルフィードなし"],
+    noPressureTitle: "自分のペースで",
+    noPressureItems: [
+      "連続記録や目標なし",
+      "移動検知の通知",
+      "旅の終了リマインド",
+      "投稿時のみ公開",
+    ],
   },
   zh: {
     metaTitle: "MomentBook 如何运作",
@@ -150,12 +169,12 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         items: ["照片", "短句", "位置信息(允许时)", "记录时间"],
       },
       {
-        title: "不收集的内容",
-        items: ["公开发布", "广告或追踪", "行为画像"],
+        title: "何时公开",
+        items: ["仅在点击发布时", "发布的旅程会在网页公开", "公开范围由你决定"],
       },
     ],
-    noPressureTitle: "无压力设计",
-    noPressureItems: ["没有连续记录", "没有提醒", "没有公开动态"],
+    noPressureTitle: "按你的节奏",
+    noPressureItems: ["没有连续记录或目标", "行程变化提醒", "行程结束提醒", "仅发布时公开"],
   },
 };
 

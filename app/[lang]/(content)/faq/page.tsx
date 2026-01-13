@@ -48,11 +48,11 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "비공개인가요?",
-          answer: "네. 공개 피드, 광고, 추적이 없습니다.",
+          answer: "기본은 비공개입니다. 게시하면 웹에 공개됩니다.",
         },
         {
           question: "항상 위치를 추적하나요?",
-          answer: "허용한 경우에만 위치를 사용합니다. 순간 정리에만 쓰이며 판매하거나 공유하지 않습니다.",
+          answer: "허용한 경우에만 위치를 사용하며, 순간 정리와 이동 감지/여정 마무리 알림에 사용합니다.",
         },
         {
           question: "기기 간 동기화가 되나요?",
@@ -98,11 +98,11 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "非公開ですか？",
-          answer: "はい。公開フィード、広告、追跡はありません。",
+          answer: "基本は非公開です。投稿するとWebで公開されます。",
         },
         {
           question: "位置情報は常に追跡しますか？",
-          answer: "許可した場合のみ使用します。記録整理のためだけに使い、販売や共有はしません。",
+          answer: "許可した場合のみ使用し、記録の整理や移動検知/旅の終了リマインドに使います。",
         },
         {
           question: "端末間の同期はできますか？",
@@ -148,11 +148,11 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "是私密的吗？",
-          answer: "是的。没有公开动态、广告或追踪。",
+          answer: "默认私密，发布后会在网页公开。",
         },
         {
           question: "会一直追踪位置吗？",
-          answer: "只在你允许时使用，用于整理记录，不会出售或分享。",
+          answer: "只在你允许时使用，用于整理记录和行程提醒。",
         },
         {
           question: "可以跨设备同步吗？",
@@ -197,11 +197,11 @@ function getFaqContent(lang: Language): FAQContent {
       },
       {
         question: "Is it private?",
-        answer: "Yes. No public feed, no ads, no tracking.",
+        answer: "Private by default. If you publish, that journey is public on the web.",
       },
       {
         question: "Does it track my location?",
-        answer: "Only if you choose to enable it. Location helps organize moments and isn't sold or shared.",
+        answer: "Only if you enable it. Location helps organize moments and send travel or journey reminders.",
       },
       {
         question: "Can I sync across devices?",

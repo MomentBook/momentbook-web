@@ -33,12 +33,12 @@ export const zh: Dictionary = {
         text: '可按日期或地点回看，不必坚持或打卡。',
       },
     },
-    pause: {
-      text: "没有连续记录，也没有提醒。\n\n需要时再打开。",
-    },
-    privacy: {
-      text: '默认私密。记录只属于你，没有追踪，也没有信息流。',
-    },
+  pause: {
+      text: "没有连续记录。\n\n在需要时提供行程提醒。",
+  },
+  privacy: {
+      text: '默认私密，发布后公开。',
+  },
     cta: {
       deviceText: '开始第一天',
       primaryButton: '下载 MomentBook',
