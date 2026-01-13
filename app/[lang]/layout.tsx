@@ -22,6 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const iosPath = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
 
 const storeRegionMap: Record<Language, { ios: string; hl: string; gl: string }> = {
@@ -208,7 +209,7 @@ export default async function LangLayout({
                     </li>
                     <li>
                       <a
-                        href="mailto:support@momentbook.app"
+                        href={`mailto:${supportEmail}`}
                         className={styles.footerLink}
                       >
                         {dict.footer.email}

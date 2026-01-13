@@ -3,6 +3,9 @@ import Link from "next/link";
 import styles from "@/styles/common.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
+const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
+const supportHref = `mailto:${supportEmail}`;
+
 export async function generateMetadata({
   params,
 }: {
@@ -129,8 +132,8 @@ function EnglishSupport() {
 
         <p>
           For other questions or issues, you can reach us at{" "}
-          <a href="mailto:support@momentbook.app" className={styles.link}>
-            support@momentbook.app
+          <a href={supportHref} className={styles.link}>
+            {supportEmail}
           </a>
           .
         </p>
@@ -167,8 +170,8 @@ function KoreanSupport() {
 
         <p>
           그 외 문의는{" "}
-          <a href="mailto:support@momentbook.app" className={styles.link}>
-            support@momentbook.app
+          <a href={supportHref} className={styles.link}>
+            {supportEmail}
           </a>
           로 연락해 주세요.
         </p>
@@ -205,8 +208,8 @@ function JapaneseSupport() {
 
         <p>
           その他のご質問や不具合は{" "}
-          <a href="mailto:support@momentbook.app" className={styles.link}>
-            support@momentbook.app
+          <a href={supportHref} className={styles.link}>
+            {supportEmail}
           </a>
           までご連絡ください。
         </p>
@@ -244,8 +247,8 @@ function ChineseSupport() {
 
         <p>
           其他问题或故障，请联系{" "}
-          <a href="mailto:support@momentbook.app" className={styles.link}>
-            support@momentbook.app
+          <a href={supportHref} className={styles.link}>
+            {supportEmail}
           </a>
           。
         </p>
