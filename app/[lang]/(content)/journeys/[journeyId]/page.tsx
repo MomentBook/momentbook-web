@@ -166,9 +166,40 @@ export default async function JourneyPage({
   const labels = journeyLabels[lang] ?? journeyLabels.en;
   const dateRange = formatDateRange(lang, journey.startedAt, journey.endedAt, labels.openEnded);
   const stats = journey.recapDraft.inputSummary;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, `/journeys/${journey.journeyId}`), siteUrl).toString();
+  const authorUrl = user
+    ? new URL(buildOpenGraphUrl(lang, `/users/${user.userId}`), siteUrl).toString()
+    : undefined;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: journey.title,
+    description: journey.description,
+    image: journey.images.map((image) => image.url),
+    author: user
+      ? {
+          "@type": "Person",
+          name: user.displayName,
+          url: authorUrl,
+        }
+      : undefined,
+    publisher: {
+      "@type": "Organization",
+      name: "MomentBook",
+      url: siteUrl,
+    },
+    datePublished: new Date(journey.startedAt).toISOString(),
+    dateModified: new Date(journey.endedAt || journey.startedAt).toISOString(),
+    mainEntityOfPage: pageUrl,
+  };
 
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={styles.hero}>
         <div className={styles.heroTop}>
           <div>

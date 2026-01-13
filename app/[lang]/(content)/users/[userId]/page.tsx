@@ -103,9 +103,29 @@ export default async function UserPage({
 
   const journeys = getUserJourneys(user.userId);
   const labels = userLabels[lang] ?? userLabels.en;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, `/users/${user.userId}`), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: `${user.displayName} · MomentBook`,
+    url: pageUrl,
+    mainEntity: {
+      "@type": "Person",
+      name: user.displayName,
+      identifier: user.userId,
+      description: user.bio,
+      image: user.avatarUrl,
+      url: pageUrl,
+    },
+  };
 
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={styles.header}>
         <div className={styles.avatarFrame}>
           <Image
