@@ -7,16 +7,18 @@ interface DeviceMockProps {
   children?: ReactNode;
   type?: "phone" | "tablet";
   className?: string;
+  screenClassName?: string;
 }
 
 export function DeviceMock({
   children,
   type = "phone",
   className = "",
+  screenClassName = "",
 }: DeviceMockProps) {
   return (
     <div className={`${styles.device} ${styles[type]} ${className}`}>
-      <div className={styles.screen}>{children}</div>
+      <div className={`${styles.screen} ${screenClassName}`}>{children}</div>
     </div>
   );
 }

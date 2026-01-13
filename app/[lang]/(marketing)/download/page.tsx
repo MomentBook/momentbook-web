@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
+import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./download.module.scss";
 import { type Language } from "@/lib/i18n/config";
 
@@ -34,7 +36,8 @@ type DownloadContent = {
   metaDescription: string;
   title: string;
   subtitle: string;
-  deviceText: string;
+  deviceImage: string;
+  deviceAlt: string;
   availability: string;
   storeLabels: StoreLabels;
   featuresTitle: string;
@@ -72,7 +75,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "iOS와 Android에서 MomentBook을 다운로드하세요.",
       title: "MomentBook 다운로드",
       subtitle: "기억하고 싶은 하루를 조용히 담는 공간. iPhone과 Android에서 사용 가능합니다.",
-      deviceText: "하루를 조용히 남기기",
+      deviceImage: "/device-mocks/home-ko.png",
+      deviceAlt: "한국어 MomentBook 홈 화면",
       availability: "스토어에서 바로 설치하세요.",
       storeLabels: {
         iosLabel: "App Store에서",
@@ -121,7 +125,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "iOS と Android で MomentBook をダウンロードできます。",
       title: "MomentBook をダウンロード",
       subtitle: "覚えておきたい一日を静かに残す場所。iPhone と Android に対応。",
-      deviceText: "一日をそっと残す",
+      deviceImage: "/device-mocks/home-ja.png",
+      deviceAlt: "日本語の MomentBook ホーム画面",
       availability: "ストアからインストールできます。",
       storeLabels: {
         iosLabel: "App Storeで",
@@ -170,7 +175,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "在 iOS 与 Android 下载 MomentBook。",
       title: "下载 MomentBook",
       subtitle: "为想记住的日子留一个安静的空间。支持 iPhone 与 Android。",
-      deviceText: "安静地留住一天",
+      deviceImage: "/device-mocks/home-zh.png",
+      deviceAlt: "MomentBook 中文主屏幕",
       availability: "可在应用商店直接安装。",
       storeLabels: {
         iosLabel: "在 App Store",
@@ -218,7 +224,8 @@ function getDownloadContent(lang: Language): DownloadContent {
     metaDescription: "Get MomentBook for iOS and Android.",
     title: "Download MomentBook",
     subtitle: "A calm place for the days you want to remember. Available for iPhone and Android.",
-    deviceText: "Keep the day, quietly",
+    deviceImage: "/device-mocks/home-en.png",
+    deviceAlt: "MomentBook home screen in English",
     availability: "Install from your store.",
     storeLabels: {
       iosLabel: "Download on the",
@@ -340,8 +347,14 @@ export default async function DownloadPage({
 
           <FadeIn delay={150}>
             <div className={styles.heroVisual}>
-              <DeviceMock>
-                <span>{content.deviceText}</span>
+              <DeviceMock screenClassName={deviceStyles.screenMedia}>
+                <Image
+                  src={content.deviceImage}
+                  alt={content.deviceAlt}
+                  fill
+                  sizes="(max-width: 768px) 300px, (max-width: 1024px) 360px, 440px"
+                  className={deviceStyles.screenImage}
+                />
               </DeviceMock>
             </div>
           </FadeIn>
