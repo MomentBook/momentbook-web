@@ -6,11 +6,18 @@ import styles from "./journey.module.scss";
 import { type Language, languageList } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
+  type JourneyImage,
+  type JourneyInputSummary,
+  type PublicJourney,
   publicJourneys,
   getPublicJourney,
   getJourneyPhotos,
   getPublicUser,
 } from "@/lib/public-content";
+import {
+  fetchPublishedJourney,
+  type PublishedJourneyApi,
+} from "@/lib/published-journey";
 
 export const revalidate = 3600;
 
@@ -76,7 +83,142 @@ const journeyLabels: Record<Language, {
   },
 };
 
-function formatDateRange(lang: Language, start: number, end: number, openEnded: string) {
+type JourneyView = {
+  source: "api" | "static";
+  journeyId: string;
+  userId?: string;
+  title: string;
+  description: string;
+  startedAt: number;
+  endedAt?: number;
+  recapStage?: "NONE" | "SYSTEM_DONE" | "USER_DONE" | "FINALIZED" | "DRAFT";
+  recapDraft: {
+    inputSummary: JourneyInputSummary;
+    computed?: Record<string, any>;
+  };
+  highlights: string[];
+  locations: string[];
+  images: JourneyImage[];
+};
+
+type JourneyPhotoCard = {
+  id: string;
+  url: string;
+  caption?: string;
+  locationName?: string;
+  href?: string;
+};
+
+function getMetadataString(
+  metadata: Record<string, any> | undefined,
+  key: string,
+): string | undefined {
+  const value = metadata?.[key];
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  return trimmed.length ? trimmed : undefined;
+}
+
+function getMetadataStringArray(
+  metadata: Record<string, any> | undefined,
+  key: string,
+): string[] {
+  const value = metadata?.[key];
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value
+    .filter((item): item is string => typeof item === "string")
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0);
+}
+
+function extractLocationNames(recapDraft?: PublishedJourneyApi["recapDraft"]): string[] {
+  const names = new Set<string>();
+
+  const addName = (value: unknown) => {
+    if (typeof value !== "string") {
+      return;
+    }
+    const trimmed = value.trim();
+    if (trimmed.length) {
+      names.add(trimmed);
+    }
+  };
+
+  const routeClusters = recapDraft?.computed?.route?.routeClusters ?? [];
+  for (const cluster of routeClusters) {
+    addName(cluster?.locationName);
+  }
+
+  const orphanClusters = recapDraft?.computed?.unmapped?.orphanClusters ?? [];
+  for (const cluster of orphanClusters) {
+    addName(cluster?.locationName);
+  }
+
+  return Array.from(names);
+}
+
+function buildJourneyFromApi(apiJourney: PublishedJourneyApi): JourneyView {
+  const metadata = apiJourney.metadata ?? {};
+  const images = Array.isArray(apiJourney.images) ? apiJourney.images : [];
+  const locationNames = [
+    ...getMetadataStringArray(metadata, "locations"),
+    ...extractLocationNames(apiJourney.recapDraft),
+  ];
+  const uniqueLocations = Array.from(new Set(locationNames));
+  const metadataHighlights = getMetadataStringArray(metadata, "highlights");
+  const highlights =
+    metadataHighlights.length > 0
+      ? metadataHighlights
+      : uniqueLocations.slice(0, 3);
+
+  const fallbackSummary: JourneyInputSummary = {
+    totalPhotos: images.length,
+    totalLocations: uniqueLocations.length,
+    totalStayPoints: uniqueLocations.length,
+    timeSpanMs: apiJourney.endedAt
+      ? apiJourney.endedAt - apiJourney.startedAt
+      : 0,
+  };
+
+  const recapDraft = apiJourney.recapDraft ?? {};
+  const inputSummary = recapDraft.inputSummary ?? fallbackSummary;
+
+  return {
+    source: "api",
+    journeyId: apiJourney.publicId,
+    userId: apiJourney.userId ?? getMetadataString(metadata, "userId"),
+    title: getMetadataString(metadata, "title") ?? "Untitled journey",
+    description: getMetadataString(metadata, "description") ?? "",
+    startedAt: apiJourney.startedAt,
+    endedAt: apiJourney.endedAt,
+    recapStage: apiJourney.recapStage,
+    recapDraft: {
+      ...recapDraft,
+      inputSummary,
+    },
+    highlights,
+    locations: uniqueLocations,
+    images,
+  };
+}
+
+function buildJourneyFromStatic(journey: PublicJourney): JourneyView {
+  return {
+    ...journey,
+    source: "static",
+  };
+}
+
+function formatDateRange(
+  lang: Language,
+  start: number,
+  end: number | undefined,
+  openEnded: string,
+) {
   const formatter = new Intl.DateTimeFormat(lang, {
     year: "numeric",
     month: "short",
@@ -112,7 +254,13 @@ export async function generateMetadata({
   params: Promise<{ lang: string; journeyId: string }>;
 }): Promise<Metadata> {
   const { lang, journeyId } = await params as { lang: Language; journeyId: string };
-  const journey = getPublicJourney(journeyId);
+  const apiJourney = await fetchPublishedJourney(journeyId);
+  const journey = apiJourney
+    ? buildJourneyFromApi(apiJourney)
+    : (() => {
+        const staticJourney = getPublicJourney(journeyId);
+        return staticJourney ? buildJourneyFromStatic(staticJourney) : null;
+      })();
 
   if (!journey) {
     return {
@@ -120,7 +268,7 @@ export async function generateMetadata({
     };
   }
 
-  const path = `/journeys/${journeyId}`;
+  const path = `/journeys/${journey.journeyId}`;
   const url = buildOpenGraphUrl(lang, path);
   const images = journey.images.map((image) => ({
     url: image.url,
@@ -155,14 +303,21 @@ export default async function JourneyPage({
   params: Promise<{ lang: string; journeyId: string }>;
 }) {
   const { lang, journeyId } = await params as { lang: Language; journeyId: string };
-  const journey = getPublicJourney(journeyId);
+  const apiJourney = await fetchPublishedJourney(journeyId);
+  const journey = apiJourney
+    ? buildJourneyFromApi(apiJourney)
+    : (() => {
+        const staticJourney = getPublicJourney(journeyId);
+        return staticJourney ? buildJourneyFromStatic(staticJourney) : null;
+      })();
 
   if (!journey) {
     notFound();
   }
 
-  const user = getPublicUser(journey.userId);
-  const photos = getJourneyPhotos(journey.journeyId);
+  const user = journey.userId ? getPublicUser(journey.userId) : undefined;
+  const photos =
+    journey.source === "static" ? getJourneyPhotos(journey.journeyId) : [];
   const labels = journeyLabels[lang] ?? journeyLabels.en;
   const dateRange = formatDateRange(lang, journey.startedAt, journey.endedAt, labels.openEnded);
   const stats = journey.recapDraft.inputSummary;
@@ -194,6 +349,23 @@ export default async function JourneyPage({
     mainEntityOfPage: pageUrl,
   };
 
+  const photoCards: JourneyPhotoCard[] =
+    journey.source === "static"
+      ? photos.map((photo) => ({
+          id: photo.photoId,
+          url: photo.url,
+          caption: photo.caption,
+          locationName: photo.locationName,
+          href: `/${lang}/photos/${photo.photoId}`,
+        }))
+      : journey.images.map((image, index) => ({
+          id: image.photoId || image.url || `photo-${index}`,
+          url: image.url,
+          caption: image.caption,
+          locationName: image.locationName,
+          href: image.photoId ? `/${lang}/photos/${image.photoId}` : undefined,
+        }));
+
   return (
     <div className={styles.page}>
       <script
@@ -220,30 +392,34 @@ export default async function JourneyPage({
         <div className={styles.metaRow}>
           <span>{dateRange}</span>
           <span>{stats.totalPhotos} {labels.photoCountLabel}</span>
-          <span>{stats.totalLocations} {labels.locationCountLabel}</span>
+          <span>{stats.totalStayPoints} {labels.locationCountLabel}</span>
           <span>{formatDuration(stats.timeSpanMs, labels.hoursLabel, labels.openEnded)}</span>
         </div>
       </header>
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{labels.highlights}</h2>
-        <ul className={styles.highlightList}>
-          {journey.highlights.map((highlight) => (
-            <li key={highlight}>{highlight}</li>
-          ))}
-        </ul>
-      </section>
+      {journey.highlights.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>{labels.highlights}</h2>
+          <ul className={styles.highlightList}>
+            {journey.highlights.map((highlight) => (
+              <li key={highlight}>{highlight}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{labels.places}</h2>
-        <div className={styles.tagGrid}>
-          {journey.locations.map((location) => (
-            <span key={location} className={styles.tag}>
-              {location}
-            </span>
-          ))}
-        </div>
-      </section>
+      {journey.locations.length > 0 && (
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>{labels.places}</h2>
+          <div className={styles.tagGrid}>
+            {journey.locations.map((location) => (
+              <span key={location} className={styles.tag}>
+                {location}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
@@ -253,28 +429,46 @@ export default async function JourneyPage({
           </Link>
         </div>
         <div className={styles.photoGrid}>
-          {photos.map((photo) => (
-            <Link
-              key={photo.photoId}
-              href={`/${lang}/photos/${photo.photoId}`}
-              className={styles.photoCard}
-            >
-              <div className={styles.photoFrame}>
-                <Image
-                  src={photo.url}
-                  alt={photo.caption}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className={styles.photoImage}
-                />
+          {photoCards.map((photo) => {
+            const content = (
+              <>
+                <div className={styles.photoFrame}>
+                  <Image
+                    src={photo.url}
+                    alt={photo.caption ?? journey.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className={styles.photoImage}
+                  />
+                </div>
+                {(photo.caption || photo.locationName) && (
+                  <div className={styles.photoMeta}>
+                    {photo.caption && (
+                      <p className={styles.photoCaption}>{photo.caption}</p>
+                    )}
+                    {photo.locationName && (
+                      <p className={styles.photoLocation}>{photo.locationName}</p>
+                    )}
+                  </div>
+                )}
+              </>
+            );
+
+            if (photo.href) {
+              return (
+                <Link key={photo.id} href={photo.href} className={styles.photoCard}>
+                  {content}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={photo.id} className={styles.photoCard}>
+                {content}
               </div>
-              <div className={styles.photoMeta}>
-                <p className={styles.photoCaption}>{photo.caption}</p>
-                <p className={styles.photoLocation}>{photo.locationName}</p>
-              </div>
-            </Link>
-          ))}
-          {photos.length === 0 && (
+            );
+          })}
+          {photoCards.length === 0 && (
             <div className={styles.emptyState}>
               {labels.empty}
             </div>

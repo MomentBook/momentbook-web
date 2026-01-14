@@ -155,7 +155,7 @@ export default async function UserPage({
               <div className={styles.journeyHeader}>
                 <p className={styles.journeyTitle}>{journey.title}</p>
                 <p className={styles.journeyMeta}>
-                  {journey.recapDraft.inputSummary.totalLocations} {labels.places} · {journey.recapDraft.inputSummary.totalPhotos} {labels.photos}
+                  {journey.recapDraft.inputSummary.totalStayPoints} {labels.places} · {journey.recapDraft.inputSummary.totalPhotos} {labels.photos}
                 </p>
               </div>
               <p className={styles.journeyDescription}>{journey.description}</p>

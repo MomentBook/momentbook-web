@@ -95,7 +95,7 @@ export default async function JourneysPage({
   const cards = publicJourneys.map((journey) => {
     const user = getPublicUser(journey.userId);
     const cover = journey.images[0];
-    const meta = `${journey.recapDraft.inputSummary.totalLocations} ${labels.placesLabel} · ${journey.recapDraft.inputSummary.totalPhotos} ${labels.photosLabel}`;
+    const meta = `${journey.recapDraft.inputSummary.totalStayPoints} ${labels.placesLabel} · ${journey.recapDraft.inputSummary.totalPhotos} ${labels.photosLabel}`;
     const searchText = [
       journey.title,
       journey.description,
