@@ -1,0 +1,169 @@
+/* ============================================
+   Design Tokens - MomentBook
+   Calm, warm, journey-friendly aesthetic
+   Theme controlled by data-theme attribute
+   ============================================ */
+
+:root {
+  /* Typography - Theme independent */
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+  /* Spacing - Theme independent */
+  --spacing-xs: 0.625rem;
+  --spacing-sm: 1.25rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 3rem;
+  --spacing-xl: 5rem;
+
+  /* Reading experience - Theme independent */
+  --line-height-body: 1.8;
+  --line-height-heading: 1.35;
+  --max-width-reading: 38rem;
+  --max-width-content: 56rem;
+  --max-width-wide: 72rem;
+
+  /* Border radius - Theme independent */
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+}
+
+/* Light theme (default) */
+[data-theme="light"] {
+  /* Colors - Inspired by app design (warm, journey-friendly) */
+  --color-bg-light: #FAF7FB;
+  --color-bg-canvas: #FFFFFF;
+  --color-text-primary: #382C21;
+  --color-text-secondary: #6A5C4F;
+  --color-text-tertiary: #9E958C;
+
+  /* Journey accent - Balanced blue & vibrant pink blend */
+  --color-accent: #5FA3B8;
+  --color-accent-hover: #4A8A9D;
+  --color-accent-soft: #E8F5F9;
+  --color-accent-secondary: #FF6B9D;
+  --color-accent-secondary-soft: #FFE8F0;
+
+  /* Borders & Dividers - From app border color */
+  --color-border: #C5B8AB;
+  --color-border-hover: #B9B1A8;
+
+  /* Shadows - Warmer, more natural */
+  --shadow-sm: 0 1px 2px rgba(56, 44, 33, 0.1), 0 2px 4px rgba(56, 44, 33, 0.06);
+  --shadow-md: 0 4px 8px rgba(56, 44, 33, 0.12), 0 6px 12px rgba(56, 44, 33, 0.08);
+  --shadow-lg: 0 8px 16px rgba(56, 44, 33, 0.14), 0 12px 24px rgba(56, 44, 33, 0.1);
+
+  /* Gray scale from app */
+  --gray-50: #F8F5F2;
+  --gray-100: #F0EDE9;
+  --gray-200: #E3DED8;
+  --gray-300: #D1CAC2;
+  --gray-400: #B9B1A8;
+  --gray-500: #9E958C;
+  --gray-600: #847B72;
+  --gray-700: #69625B;
+  --gray-800: #524A43;
+  --gray-900: #38312A;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  /* Colors - From app dark theme */
+  --color-bg-light: #121212;
+  --color-bg-canvas: #1E1E1E;
+  --color-text-primary: #E6E1D9;
+  --color-text-secondary: #D8D1C9;
+  --color-text-tertiary: #9E9E9E;
+
+  /* Journey accent - From app (brighter brown & soft pink) */
+  --color-accent: #BFA78F;
+  --color-accent-hover: #D4BBA5;
+  --color-accent-soft: #3E2723;
+  --color-accent-secondary: #FF8FB3;
+  --color-accent-secondary-soft: #4A1F33;
+
+  /* Borders & Dividers - From app */
+  --color-border: #505050;
+  --color-border-hover: #666666;
+
+  /* Shadows - Darker, more pronounced */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.32), 0 4px 8px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 5px 10px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.3);
+
+  /* Gray scale from app (dark theme) */
+  --gray-50: #2A2A2A;
+  --gray-100: #333333;
+  --gray-200: #3D3D3D;
+  --gray-300: #4F4F4F;
+  --gray-400: #666666;
+  --gray-500: #808080;
+  --gray-600: #9E9E9E;
+  --gray-700: #BDBDBD;
+  --gray-800: #D8D8D8;
+  --gray-900: #F0F0F0;
+}
+
+/* ============================================
+   CSS Reset & Base Styles
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg-light);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-body);
+  overflow-x: hidden;
+  font-size: 1rem;
+}
+
+/* Link defaults */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+/* Image defaults - prevent CLS */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Button resets */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* List resets when needed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Focus styles - calm & accessible */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}

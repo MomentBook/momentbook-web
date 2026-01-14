@@ -1,0 +1,238 @@
+/* ============================================
+   Layout - Header, Navigation, Footer
+   Responsive & Accessible Design
+   ============================================ */
+
+/* Header */
+.header {
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--color-bg-canvas) 92%, transparent);
+}
+
+.nav {
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+  padding: 1rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  @media (min-width: 768px) {
+    padding: var(--spacing-md) var(--spacing-lg);
+    gap: var(--spacing-lg);
+  }
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  color: var(--color-text-primary);
+  transition: color 0.25s ease;
+  letter-spacing: -0.015em;
+  flex-shrink: 0;
+
+  @media (min-width: 768px) {
+    font-size: 1.5rem;
+  }
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+/* Desktop Navigation Links */
+.desktopNav {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    align-items: center;
+    flex: 1;
+  }
+}
+
+.navLink {
+  color: var(--color-text-primary);
+  transition: color 0.25s ease;
+  position: relative;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+/* Controls (Language + Theme + Mobile Menu) */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+
+  @media (min-width: 768px) {
+    gap: var(--spacing-md);
+  }
+}
+
+/* Main Content Area */
+.main {
+  min-height: calc(100vh - 120px);
+}
+
+/* Footer */
+.footer {
+  background: var(--color-bg-canvas);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--spacing-xl);
+}
+
+.footerContainer {
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+
+  @media (min-width: 768px) {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+}
+
+.footerTop {
+  display: grid;
+  gap: var(--spacing-xl);
+
+  @media (min-width: 900px) {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr);
+    align-items: start;
+  }
+}
+
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.footerLogo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.footerSummary {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 22rem;
+}
+
+.footerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.footerButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: var(--color-text-primary);
+  color: var(--color-bg-canvas);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--color-accent);
+    transform: translateY(-1px);
+  }
+}
+
+.footerButtonGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+}
+
+.footerGrid {
+  display: grid;
+  gap: var(--spacing-lg);
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.footerHeading {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.footerList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.footerLink {
+  color: var(--color-text-secondary);
+  font-size: 0.92rem;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.footerBottom {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.footerCopyright {
+  font-size: 0.85rem;
+  color: var(--color-text-tertiary);
+}

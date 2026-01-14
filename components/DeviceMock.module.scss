@@ -1,0 +1,70 @@
+/* Device Mock - Enhanced Visual Appeal */
+
+.device {
+  position: relative;
+  margin: 0 auto;
+  background: var(--color-bg-canvas);
+  border: 2px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  border-radius: calc(var(--radius-lg) * 1.5);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    box-shadow: 0 20px 60px rgba(26, 22, 20, 0.15);
+    transform: translateY(-4px);
+  }
+}
+
+.phone {
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 9 / 19.5;
+
+  @media (min-width: 768px) {
+    max-width: 400px;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 440px;
+  }
+}
+
+.tablet {
+  width: 100%;
+  max-width: 680px;
+  aspect-ratio: 4 / 3;
+
+  @media (min-width: 1024px) {
+    max-width: 760px;
+  }
+}
+
+.screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-canvas) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  font-weight: 400;
+  padding: var(--spacing-lg);
+
+  @media (min-width: 768px) {
+    font-size: 1.125rem;
+  }
+}
+
+.screenMedia {
+  padding: 0;
+  background: transparent;
+}
+
+.screenImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
