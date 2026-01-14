@@ -29,17 +29,17 @@ Each ADR follows this structure:
 2. [ADR 0002: Legal Document Internationalization](./0002-legal-document-internationalization.md)
    - **Date**: 2025-01-04
    - **Status**: Accepted
-   - **Summary**: Component-based architecture for multilingual legal documents (Terms, Privacy, Community Guidelines)
+   - **Summary**: Component-based architecture for multilingual legal documents (Terms, Privacy, Community Guidelines, Marketing Consent)
 
 3. [ADR 0003: Static Site Generation Strategy](./0003-static-site-generation-strategy.md)
    - **Date**: 2025-01-04
    - **Status**: Accepted
-   - **Summary**: Full static site generation with Next.js for optimal performance and SEO
+   - **Summary**: SSG + ISR mix for fast static pages and cacheable public content
 
 4. [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)
    - **Date**: 2025-01-04
    - **Status**: Accepted
-   - **Summary**: Simple, consistent footer with Privacy, Terms, Community Guidelines, and Support links
+   - **Summary**: Multi-column footer with brand CTA + Product/Download/Support/Legal links
 
 ## Creating New ADRs
 

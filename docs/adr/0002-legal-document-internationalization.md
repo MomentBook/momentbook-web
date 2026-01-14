@@ -7,10 +7,11 @@ Accepted
 2025-01-04
 
 ## Context
-MomentBook requires three legal documents to be published on the web:
+MomentBook requires four legal documents to be published on the web:
 1. Terms of Service (EULA)
 2. Privacy Policy
 3. Community Guidelines & Content Policy
+4. Marketing Consent
 
 These documents must:
 - Be available in all supported languages (en, ko, ja, zh)
@@ -65,7 +66,11 @@ Each document includes metadata:
 ### 5. Navigation Integration
 Legal documents accessible via:
 - Footer links on every page
-- Direct URL: `/{lang}/privacy`, `/{lang}/terms`, `/{lang}/community-guidelines`
+- Direct URL:
+  - `/{lang}/privacy`
+  - `/{lang}/terms`
+  - `/{lang}/community-guidelines`
+  - `/{lang}/marketing-consent`
 - Sitemap inclusion for SEO
 
 ## Consequences
@@ -114,16 +119,19 @@ Legal documents accessible via:
 - `/app/[lang]/(legal)/terms/page.tsx` - Terms of Service
 - `/app/[lang]/(legal)/privacy/page.tsx` - Privacy Policy
 - `/app/[lang]/(legal)/community-guidelines/page.tsx` - Community Guidelines
+- `/app/[lang]/(legal)/marketing-consent/page.tsx` - Marketing Consent
 
 ### Styles
 - `/app/[lang]/(legal)/terms/terms.module.scss`
 - `/app/[lang]/(legal)/privacy/privacy.module.scss`
 - `/app/[lang]/(legal)/community-guidelines/community-guidelines.module.scss`
+- `/app/[lang]/(legal)/marketing-consent/marketing-consent.module.scss`
 
 ### Versions
 - **Terms of Service**: v1.0.1 (2025-01-04)
 - **Privacy Policy**: v1.0.1 (2025-01-04)
 - **Community Guidelines**: v1.0.0 (2025-08-25)
+- **Marketing Consent**: v1.0.1 (2025-01-04)
 
 ## Alternatives Considered
 

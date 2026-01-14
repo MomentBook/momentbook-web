@@ -7,10 +7,10 @@ This document describes the responsive layout improvements made to the Header an
 ## Problems Addressed
 
 ### Original Issues
-1. **Header overcrowding**: 6 items (4 nav links + language switcher + theme toggle) caused horizontal overflow on mobile
-2. **Language switcher space**: Displayed all 4 languages inline, consuming excessive horizontal space
-3. **No mobile menu**: Users on narrow screens had difficulty accessing navigation
-4. **Footer density**: 5 legal document links became cramped on mobile devices
+1. **Header overcrowding**: 다국어/테마/내비게이션이 한 줄에 몰려 모바일에서 overflow 발생
+2. **Language switcher 공간 문제**: 언어 옵션을 인라인으로 나열해 폭 과다 사용
+3. **모바일 메뉴 부재**: 좁은 화면에서 전체 내비게이션 접근 어려움
+4. **Footer 정보 밀집**: 법적 링크 + CTA가 한 줄에 몰려 가독성 저하
 
 ## Solution Architecture
 
@@ -76,14 +76,14 @@ This document describes the responsive layout improvements made to the Header an
 ### 2. Responsive Footer
 
 #### Mobile (<768px)
-- **Vertical stacking**: Links wrap naturally with reduced gap
-- **Smaller font**: 0.9375rem for link text
-- **Footer text**: Stacked below links with top margin
+- **Vertical stacking**: 브랜드 요약/CTA/링크가 세로로 자연스럽게 적층
+- **Compact spacing**: 링크 간격 축소 + 가독성 유지
+- **CTA 우선 배치**: 다운로드/지원 링크를 상단에 배치
 
 #### Desktop (≥768px)
-- **Horizontal layout**: Links and text side-by-side
-- **Larger font**: 1rem for link text
-- **Text alignment**: Right-aligned footer text
+- **Grid layout**: 브랜드 블록 + 3열 링크 컬럼
+- **균형 있는 정보 배치**: Product/Download/Support/Legal을 분리
+- **CTA 유지**: 브랜드 블록에 버튼 제공
 
 ### 3. CSS Architecture
 
