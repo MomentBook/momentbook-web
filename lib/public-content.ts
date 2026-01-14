@@ -6,10 +6,17 @@ export type JourneyInputSummary = {
 };
 
 export type JourneyImage = {
+  photoId?: string;
   url: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   caption?: string;
+  takenAt?: number;
+  locationName?: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+  };
 };
 
 export type PublicJourney = {
@@ -18,8 +25,8 @@ export type PublicJourney = {
   title: string;
   description: string;
   startedAt: number;
-  endedAt: number;
-  recapStage: "USER_DONE" | "DRAFT";
+  endedAt?: number;
+  recapStage: "NONE" | "SYSTEM_DONE" | "USER_DONE" | "FINALIZED" | "DRAFT";
   recapDraft: {
     inputSummary: JourneyInputSummary;
   };

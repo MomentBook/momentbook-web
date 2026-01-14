@@ -56,7 +56,7 @@ const { lang } = await params as { lang: Language };
 - ✅ Type-safe translations
 - ✅ Easy to add new languages (add dictionary file + update config)
 - ✅ Clean separation of content from structure
-- ✅ Supports 74+ static pages across 4 languages
+- ✅ All key routes pre-rendered per language (marketing/legal/content/public pages)
 
 ### Negative
 - ⚠️ Type assertion needed for Next.js params (minor TypeScript friction)
