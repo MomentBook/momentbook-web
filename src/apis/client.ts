@@ -1,0 +1,3410 @@
+/* eslint-disable */
+/* tslint:disable */
+// @ts-nocheck
+/*
+ * ---------------------------------------------------------------
+ * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
+ * ##                                                           ##
+ * ## AUTHOR: acacode                                           ##
+ * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
+ * ---------------------------------------------------------------
+ */
+
+export interface HealthzResponseDto {
+  /** @example "success" */
+  status: string;
+  /**
+   * 프로세스 레벨 헬스체크(서버 살아있음)
+   * @example {"ok":true,"ts":1700000000000}
+   */
+  data: object;
+}
+
+export interface ReadyzResponseDto {
+  /** @example "success" */
+  status: string;
+  /**
+   * 서비스 준비 상태(DB 포함)
+   * @example {"mongo":"up","ts":1700000000000}
+   */
+  data: object;
+}
+
+export interface ReadyzUnavailableResponseDto {
+  /** @example "fail" */
+  status: string;
+  /**
+   * 준비되지 않은 이유 메시지
+   * @example "Service not ready (mongo down)"
+   */
+  message: string;
+  /** @example {"mongo":"down","ts":1700000000000} */
+  data?: object;
+}
+
+export interface GoogleTokenAuthDto {
+  /**
+   * Google Access Token
+   * @example "ya29.a0AfH6SMBx..."
+   */
+  accessToken?: string;
+  /**
+   * Google ID Token (주로 iOS에서 사용)
+   * @example "eyJhbGciOiJSUzI1NiIs..."
+   */
+  idToken?: string;
+}
+
+export interface GoogleUserResponseDto {
+  /**
+   * 사용자 고유 ID
+   * @example "60f1b2b3c8e8a40015f4c8d1"
+   */
+  _id: string;
+  /**
+   * 사용자 이름
+   * @example "홍길동"
+   */
+  name: string;
+  /**
+   * 사용자 이메일
+   * @example "user@gmail.com"
+   */
+  email: string;
+  /**
+   * 프로필 사진 URL
+   * @example "https://lh3.googleusercontent.com/a/ACg8ocIfvPgD_eecUmPaS9M4-w-2Kt7praV3OYyAMkASOUci0RQOIV8=s96-c"
+   */
+  picture?: object | null;
+  /**
+   * 게스트 여부
+   * @example false
+   */
+  isGuest: boolean;
+}
+
+export interface ConsentStatusDto {
+  /**
+   * 모든 필수 동의를 완료했는지 여부
+   * @example false
+   */
+  isAllRequiredConsented: boolean;
+  /**
+   * 누락된 필수 동의 항목 키 목록
+   * @example ["terms_of_service","privacy_policy"]
+   */
+  missingRequiredConsents: string[];
+  /**
+   * 사용자 액션(동의 제공)이 필요한지 여부
+   * @example true
+   */
+  requiresAction?: boolean;
+}
+
+export interface GoogleLoginResponseDataDto {
+  user: GoogleUserResponseDto;
+  /**
+   * 인증 제공자 타입
+   * @example "google"
+   */
+  provider: "google" | "apple" | "email" | "anonymous";
+  /**
+   * JWT 액세스 토큰 (하위 호환성)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  token: string;
+  /**
+   * JWT 액세스 토큰 (짧은 만료시간, 2시간)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  accessToken: string;
+  /**
+   * JWT 리프레시 토큰 (긴 만료시간, 30일)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refreshToken"
+   */
+  refreshToken: string;
+  /**
+   * 액세스 토큰 만료시간 (초)
+   * @example 7200
+   */
+  expiresIn: number;
+  /** 필수 동의 상태 정보 */
+  consents: ConsentStatusDto;
+}
+
+export interface GoogleLoginSuccessResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "Google 로그인이 성공적으로 완료되었습니다." */
+  message: string;
+  data: GoogleLoginResponseDataDto;
+}
+
+export interface AppleFullName {
+  /** 이름 */
+  givenName?: string;
+  /** 성 */
+  familyName?: string;
+}
+
+export interface AppleAuthDto {
+  /**
+   * Apple Identity Token (iOS)
+   * @example "eyJraWQiOiJXNldjT0tCIiwiYWxn..."
+   */
+  identityToken?: string;
+  /**
+   * Apple Authorization Code (iOS)
+   * @example "c1234567890abcdefghijk..."
+   */
+  authorizationCode?: string;
+  /**
+   * Apple User Identifier (iOS)
+   * @example "000123.abc456def789ghi..."
+   */
+  user?: string;
+  /** 사용자 이름 (iOS, 최초 로그인 시에만 제공) */
+  fullName?: AppleFullName;
+  /**
+   * 이메일 (iOS, 최초 로그인 시에만 제공)
+   * @example "user@privaterelay.appleid.com"
+   */
+  email?: string;
+  /**
+   * Apple ID Token (Android/Web)
+   * @example "eyJraWQiOiJXNldjT0tCIiwiYWxn..."
+   */
+  id_token?: string;
+  /**
+   * Apple Authorization Code (Android/Web)
+   * @example "c1234567890abcdefghijk..."
+   */
+  code?: string;
+  /** Nonce for security (Android/Web) */
+  nonce?: string;
+  /** State parameter (Android/Web) */
+  state?: string;
+}
+
+export interface AppleUserResponseDto {
+  /**
+   * 사용자 고유 ID
+   * @example "680657032be53a7892fe5aff"
+   */
+  _id: string;
+  /**
+   * 사용자 이름
+   * @example "홍길동"
+   */
+  name: string;
+  /**
+   * 사용자 이메일
+   * @example "user@example.com"
+   */
+  email?: object | null;
+  /**
+   * 프로필 사진 URL (Apple은 항상 null)
+   * @example null
+   */
+  picture?: object | null;
+  /**
+   * 게스트 사용자 여부
+   * @example false
+   */
+  isGuest: boolean;
+}
+
+export interface AppleLoginResponseDataDto {
+  user: AppleUserResponseDto;
+  /**
+   * 인증 제공자 타입
+   * @example "apple"
+   */
+  provider: "google" | "apple" | "email" | "anonymous";
+  /**
+   * JWT 액세스 토큰 (하위 호환성)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  token: string;
+  /**
+   * JWT 액세스 토큰 (짧은 만료시간, 2시간)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  accessToken: string;
+  /**
+   * JWT 리프레시 토큰 (긴 만료시간, 30일)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refreshToken"
+   */
+  refreshToken: string;
+  /**
+   * 액세스 토큰 만료시간 (초)
+   * @example 7200
+   */
+  expiresIn: number;
+  /**
+   * 로그인한 플랫폼 정보
+   * @example "ios"
+   */
+  platform: "ios" | "android";
+  /** 필수 동의 상태 정보 */
+  consents: ConsentStatusDto;
+}
+
+export interface AppleLoginSuccessResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "Apple 로그인이 성공적으로 완료되었습니다." */
+  message: string;
+  data: AppleLoginResponseDataDto;
+}
+
+export interface GuestAuthDto {
+  /**
+   * 디바이스 고유 식별자 (UUID)
+   * @example "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+   */
+  deviceId: string;
+}
+
+export interface GuestUserResponseDto {
+  /**
+   * 사용자 ID (게스트 ID와 동일)
+   * @example "836273c6-1311-40c2-a7e8-30400124f43c"
+   */
+  userId: string;
+  /**
+   * 게스트 고유 식별자
+   * @example "836273c6-1311-40c2-a7e8-30400124f43c"
+   */
+  guestId: string;
+  /**
+   * 디바이스 고유 식별자
+   * @example "test-device-12345"
+   */
+  deviceId: string;
+  /**
+   * 사용자 이름
+   * @example "게스트"
+   */
+  name: string;
+  /**
+   * 이메일
+   * @example null
+   */
+  email?: object | null;
+  /**
+   * 프로필 사진
+   * @example null
+   */
+  picture?: object | null;
+  /**
+   * 게스트 여부
+   * @example true
+   */
+  isGuest: boolean;
+}
+
+export interface GuestLoginResponseDataDto {
+  user: GuestUserResponseDto;
+  /**
+   * 인증 제공자 타입
+   * @example "anonymous"
+   */
+  provider: "google" | "apple" | "email" | "anonymous";
+  /**
+   * JWT 액세스 토큰 (하위 호환성)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  token: string;
+  /**
+   * JWT 액세스 토큰 (짧은 만료시간, 2시간)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  accessToken: string;
+  /**
+   * JWT 리프레시 토큰 (긴 만료시간, 30일)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refreshToken"
+   */
+  refreshToken: string;
+  /**
+   * 액세스 토큰 만료시간 (초)
+   * @example 7200
+   */
+  expiresIn: number;
+  /** 필수 동의 상태 정보 (게스트는 항상 모든 동의 완료 상태) */
+  consents: ConsentStatusDto;
+}
+
+export interface GuestLoginSuccessResponseDto {
+  /** @example "success" */
+  status: string;
+  data: GuestLoginResponseDataDto;
+}
+
+export interface RefreshTokenDto {
+  /**
+   * Refresh Token
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   */
+  refreshToken: string;
+}
+
+export interface TokenRefreshResponseDataDto {
+  /**
+   * 새로 발급된 AccessToken (하위 호환성)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.newAccessToken"
+   */
+  token: string;
+  /**
+   * 새로 발급된 AccessToken
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.newAccessToken"
+   */
+  accessToken: string;
+  /**
+   * 새로 발급된 RefreshToken
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.newRefreshToken"
+   */
+  refreshToken: string;
+  /**
+   * AccessToken 만료시간 (초)
+   * @example 7200
+   */
+  expiresIn: number;
+}
+
+export interface TokenRefreshResponseDto {
+  /** @example "success" */
+  status: string;
+  data: TokenRefreshResponseDataDto;
+  /** @example "토큰이 성공적으로 갱신되었습니다." */
+  message: string;
+}
+
+export interface LogoutDto {
+  /**
+   * Refresh Token to invalidate
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   */
+  refreshToken: string;
+}
+
+export interface LogoutResponseDataDto {
+  /** @example "로그아웃되었습니다." */
+  message: string;
+}
+
+export interface LogoutResponseDto {
+  /** @example "success" */
+  status: string;
+  data: LogoutResponseDataDto;
+  /** @example "로그아웃이 성공적으로 완료되었습니다." */
+  message: string;
+}
+
+export interface LogoutAllResponseDataDto {
+  /** @example "모든 디바이스에서 로그아웃되었습니다." */
+  message: string;
+  /**
+   * 무효화된 토큰 수
+   * @example 3
+   */
+  invalidatedTokens: number;
+}
+
+export interface LogoutAllResponseDto {
+  /** @example "success" */
+  status: string;
+  data: LogoutAllResponseDataDto;
+  /** @example "3개의 디바이스에서 로그아웃이 완료되었습니다." */
+  message: string;
+}
+
+export interface SendVerificationCodeDto {
+  /**
+   * Email address
+   * @example "user@example.com"
+   */
+  email: string;
+}
+
+export interface SendVerificationCodeResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "인증 코드가 이메일로 발송되었습니다." */
+  message: string;
+}
+
+export interface VerifyEmailCodeDto {
+  /**
+   * Email address
+   * @example "user@example.com"
+   */
+  email: string;
+  /**
+   * 6-digit verification code
+   * @example "123456"
+   */
+  code: string;
+}
+
+export interface VerifyEmailCodeResponseDataDto {
+  /**
+   * 인증 완료 후 발급되는 토큰
+   * @example "verification-token-here"
+   */
+  verificationToken: string;
+}
+
+export interface VerifyEmailCodeResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "이메일이 인증되었습니다." */
+  message: string;
+  data: VerifyEmailCodeResponseDataDto;
+}
+
+export interface EmailSignupDto {
+  /**
+   * Email address
+   * @example "user@example.com"
+   */
+  email: string;
+  /**
+   * Password (8-20 characters)
+   * @example "password123"
+   */
+  password: string;
+  /**
+   * User name
+   * @example "John Doe"
+   */
+  name: string;
+  /**
+   * Verification token from email verification
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   */
+  verificationToken: string;
+}
+
+export interface EmailUserResponseDto {
+  /**
+   * 사용자 고유 ID
+   * @example "60f1b2b3c8e8a40015f4c8d1"
+   */
+  userId: string;
+  /**
+   * 사용자 이름
+   * @example "홍길동"
+   */
+  name: string;
+  /**
+   * 사용자 이메일
+   * @example "user@example.com"
+   */
+  email: string;
+  /**
+   * 게스트 여부
+   * @example false
+   */
+  isGuest: boolean;
+}
+
+export interface EmailSignupResponseDataDto {
+  user: EmailUserResponseDto;
+  /**
+   * 인증 제공자 타입
+   * @example "email"
+   */
+  provider: "google" | "apple" | "email" | "anonymous";
+  /**
+   * JWT 액세스 토큰 (하위 호환성)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  token: string;
+  /**
+   * JWT 액세스 토큰
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  accessToken: string;
+  /**
+   * JWT 리프레시 토큰
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refreshToken"
+   */
+  refreshToken: string;
+  /** 필수 동의 상태 정보 */
+  consents: ConsentStatusDto;
+}
+
+export interface EmailSignupResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "회원가입이 완료되었습니다." */
+  message: string;
+  data: EmailSignupResponseDataDto;
+}
+
+export interface EmailLoginDto {
+  /**
+   * Email address
+   * @example "user@example.com"
+   */
+  email: string;
+  /**
+   * Password
+   * @example "password123"
+   */
+  password: string;
+}
+
+export interface EmailLoginResponseDataDto {
+  user: EmailUserResponseDto;
+  /**
+   * 인증 제공자 타입
+   * @example "email"
+   */
+  provider: "google" | "apple" | "email" | "anonymous";
+  /**
+   * JWT 액세스 토큰 (하위 호환성)
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  token: string;
+  /**
+   * JWT 액세스 토큰
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.accessToken"
+   */
+  accessToken: string;
+  /**
+   * JWT 리프레시 토큰
+   * @example "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.refreshToken"
+   */
+  refreshToken: string;
+  /** 필수 동의 상태 정보 */
+  consents: ConsentStatusDto;
+}
+
+export interface EmailLoginResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "로그인이 완료되었습니다." */
+  message: string;
+  data: EmailLoginResponseDataDto;
+}
+
+export interface ChangePasswordDto {
+  /**
+   * Current password
+   * @example "oldpassword123"
+   */
+  currentPassword: string;
+  /**
+   * New password (8-20 characters)
+   * @example "newpassword123"
+   */
+  newPassword: string;
+}
+
+export interface PasswordChangeResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "비밀번호가 변경되었습니다." */
+  message: string;
+}
+
+export interface RequestPasswordResetDto {
+  /**
+   * Email address
+   * @example "user@example.com"
+   */
+  email: string;
+}
+
+export interface PasswordResetRequestResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "비밀번호 재설정 코드가 이메일로 발송되었습니다." */
+  message: string;
+}
+
+export interface ResetPasswordDto {
+  /**
+   * Email address
+   * @example "user@example.com"
+   */
+  email: string;
+  /**
+   * 6-digit verification code
+   * @example "123456"
+   */
+  code: string;
+  /**
+   * New password (8-20 characters)
+   * @example "newpassword123"
+   */
+  newPassword: string;
+}
+
+export interface PasswordResetResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "비밀번호가 재설정되었습니다." */
+  message: string;
+}
+
+export interface EmailCheckResponseDataDto {
+  /**
+   * 이메일 존재 여부
+   * @example false
+   */
+  exists: boolean;
+}
+
+export interface EmailCheckResponseDto {
+  /** @example "success" */
+  status: string;
+  data: EmailCheckResponseDataDto;
+}
+
+export interface UserProfileDataDto {
+  /**
+   * 사용자 ID
+   * @example "507f1f77bcf86cd799439011"
+   */
+  _id: string;
+  /**
+   * OAuth Provider ID
+   * @example "107848228778116215867"
+   */
+  providerId: string;
+  /**
+   * 인증 제공자
+   * @example "google"
+   */
+  provider: "google" | "apple" | "email" | "anonymous" | null;
+  /**
+   * 사용자 이름
+   * @example "홍길동"
+   */
+  name: string | null;
+  /**
+   * 사용자 이메일
+   * @example "user@example.com"
+   */
+  email: object | null;
+  /**
+   * 사용자 자기소개
+   * @example "안녕하세요"
+   */
+  biography: object | null;
+  /**
+   * 프로필 사진 URL
+   * @example "https://example.com/profile.jpg"
+   */
+  picture: object | null;
+  /**
+   * 게스트 사용자 여부
+   * @example false
+   */
+  isGuest: boolean;
+  /**
+   * 디바이스 고유 식별자 (게스트 사용자인 경우에만)
+   * @example "test-device-123"
+   */
+  deviceId: string | null;
+  /**
+   * 사용자 상태
+   * @example "active"
+   */
+  status: "active" | "inactive" | "deleted";
+  /**
+   * 생성일시
+   * @example "2024-01-01T00:00:00.000Z"
+   */
+  createdAt: string;
+  /**
+   * 수정일시
+   * @example "2024-01-01T00:00:00.000Z"
+   */
+  updatedAt: string;
+  /**
+   * MongoDB 버전
+   * @example 0
+   */
+  __v: number;
+}
+
+export interface ConsentStatusDataDto {
+  /**
+   * 모든 필수 동의 완료 여부
+   * @example true
+   */
+  isAllRequiredConsented: boolean;
+  /**
+   * 미완료 필수 동의 항목 키 배열
+   * @example []
+   */
+  missingRequiredConsents: string[];
+  /**
+   * 동의 화면 이동 필요 여부 (UI 편의 플래그)
+   * @example false
+   */
+  requiresAction: boolean;
+}
+
+export interface UserProfileSuccessResponseDto {
+  /**
+   * 응답 상태
+   * @example "success"
+   */
+  status: string;
+  /**
+   * 응답 메시지
+   * @example "User profile retrieved successfully"
+   */
+  message: string;
+  /** 사용자 프로필 데이터 */
+  data: UserProfileDataDto;
+  /** 동의 상태 정보 */
+  consents: ConsentStatusDataDto;
+}
+
+export interface UpdateUserProfileDto {
+  /**
+   * 사용자 이름
+   * @example "홍길동"
+   */
+  name?: string | null;
+  /**
+   * 사용자 이메일
+   * @example "user@example.com"
+   */
+  email?: string | null;
+  /**
+   * 사용자 자기소개
+   * @example "안녕하세요"
+   */
+  biography?: string | null;
+  /**
+   * 프로필 사진 URL
+   * @example "https://example.com/profile.jpg"
+   */
+  picture?: string | null;
+  /**
+   * Base64 인코딩된 프로필 사진 (업로드용)
+   * @example "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+   */
+  pictureBase64?: string | null;
+}
+
+export interface UserProfileUpdateSuccessResponseDto {
+  /**
+   * 응답 상태
+   * @example "success"
+   */
+  status: string;
+  /** 업데이트된 사용자 프로필 데이터 */
+  data: UserProfileDataDto;
+}
+
+export interface UsersGetResponseDataDto {
+  /** 사용자 목록 */
+  users: UserProfileDataDto[];
+}
+
+export interface PaginationDataDto {
+  /**
+   * 전체 항목 수
+   * @example 100
+   */
+  total: number;
+  /**
+   * 현재 페이지
+   * @example 1
+   */
+  page: number;
+  /**
+   * 전체 페이지 수
+   * @example 10
+   */
+  pages: number;
+  /**
+   * 페이지당 항목 수
+   * @example 10
+   */
+  limit: number;
+}
+
+export interface UsersListSuccessResponseDto {
+  /**
+   * 응답 상태
+   * @example "success"
+   */
+  status: string;
+  /**
+   * 응답 메시지
+   * @example "Users retrieved successfully"
+   */
+  message: string;
+  /** 사용자 목록 데이터 */
+  data: UsersGetResponseDataDto;
+  /** 페이지네이션 정보 */
+  paginationData: PaginationDataDto;
+}
+
+export interface BasicSuccessResponseDto {
+  /**
+   * 응답 상태
+   * @example "success"
+   */
+  status: string;
+  /**
+   * 응답 메시지
+   * @example "User account deactivated successfully"
+   */
+  message: string;
+}
+
+export interface BlockResponseDataDto {
+  /**
+   * 차단을 실행한 사용자의 ID
+   * @example "60f7b3c4e0b2c4a5d0e8f9a2"
+   */
+  blockerId: string;
+  /**
+   * 차단된 사용자의 ID
+   * @example "60f7b3c4e0b2c4a5d0e8f9a3"
+   */
+  blockedId: string;
+  /**
+   * 차단 상태
+   * @example true
+   */
+  isBlocked: boolean;
+  /**
+   * 차단된 시간
+   * @example "2023-01-15T10:30:00.000Z"
+   */
+  createdAt: string;
+}
+
+export interface BlockUserResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "사용자가 차단되었습니다." */
+  message: string;
+  data: BlockResponseDataDto;
+}
+
+export interface UnblockUserResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "사용자 차단이 해제되었습니다." */
+  message: string;
+}
+
+export interface BlockStatusResponseDataDto {
+  /**
+   * 해당 사용자가 차단되었는지 여부
+   * @example true
+   */
+  isBlocked: boolean;
+}
+
+export interface BlockStatusResponseDto {
+  /** @example "success" */
+  status: string;
+  data: BlockStatusResponseDataDto;
+}
+
+export interface BlockedUserDetailDto {
+  /**
+   * 사용자 ID
+   * @example "60f7b3c4e0b2c4a5d0e8f9a3"
+   */
+  _id: string;
+  /**
+   * 사용자 이름
+   * @example "차단된 사용자"
+   */
+  name: string;
+  /**
+   * 사용자 이메일
+   * @example "blocked@example.com"
+   */
+  email?: string;
+  /**
+   * 프로필 이미지 URL
+   * @example "https://example.com/profile.jpg"
+   */
+  picture?: string;
+  /**
+   * 사용자 상태
+   * @example "active"
+   */
+  status: "active" | "inactive" | "deleted";
+}
+
+export interface BlockedUserDto {
+  /**
+   * 차단 기록의 ID
+   * @example "60f7b3c4e0b2c4a5d0e8f9a1"
+   */
+  _id: string;
+  /**
+   * 차단된 사용자의 ID
+   * @example "60f7b3c4e0b2c4a5d0e8f9a3"
+   */
+  blockedUserId: string;
+  /** 차단된 사용자의 상세 정보 */
+  blockedUser?: BlockedUserDetailDto;
+  /**
+   * 차단된 시간
+   * @example "2023-01-15T10:30:00.000Z"
+   */
+  createdAt: string;
+}
+
+export interface BlockedUsersResponseDataDto {
+  /** 차단된 사용자 목록 */
+  blockedUsers: BlockedUserDto[];
+  /**
+   * 전체 차단된 사용자 수
+   * @example 5
+   */
+  total: number;
+  /**
+   * 현재 페이지 번호
+   * @example 1
+   */
+  page: number;
+  /**
+   * 전체 페이지 수
+   * @example 1
+   */
+  pages: number;
+}
+
+export interface BlockedUsersResponseDto {
+  /** @example "success" */
+  status: string;
+  data: BlockedUsersResponseDataDto;
+}
+
+export interface ConsentTemplateDto {
+  /**
+   * 동의 항목 템플릿 ID
+   * @example "507f1f77bcf86cd799439011"
+   */
+  _id: string;
+  /**
+   * 동의 항목의 고유 키
+   * @example "eula"
+   */
+  key: string;
+  /**
+   * 클라이언트에 표시될 라벨
+   * @example "EULA 동의"
+   */
+  label: string;
+  /**
+   * 동의 항목의 상세 내용
+   * @example "최종 사용자 라이선스 계약(EULA)에 동의합니다."
+   */
+  content: string;
+  /**
+   * 필수 동의 여부
+   * @example true
+   */
+  required: boolean;
+  /**
+   * 활성화 상태
+   * @example true
+   */
+  isActive: boolean;
+  /**
+   * 표시 순서
+   * @example 1
+   */
+  order: number;
+  /**
+   * 템플릿 버전
+   * @example "1.0.0"
+   */
+  version: string;
+  /**
+   * 동의 항목에 대한 추가 설명
+   * @example "최종 사용자 라이선스 계약 동의"
+   */
+  description?: string;
+  /**
+   * 동의 항목의 카테고리
+   * @example "essential"
+   */
+  category?: "essential" | "optional";
+  /**
+   * 동의 항목의 상세 내용이 있는 노션 페이지 URI
+   * @example "https://reflectalab.notion.site/EULA-240b7b7c3626805299e8e57b6d842123"
+   */
+  contentUri?: string;
+  /**
+   * 생성일시
+   * @example "2023-12-01T12:00:00.000Z"
+   */
+  createdAt: string;
+  /**
+   * 수정일시
+   * @example "2023-12-01T12:00:00.000Z"
+   */
+  updatedAt: string;
+}
+
+export interface ConsentTemplatesDataDto {
+  /** 동의 항목 템플릿 목록 */
+  templates: ConsentTemplateDto[];
+  /**
+   * 최신 버전
+   * @example "1.0.0"
+   */
+  version: string;
+}
+
+export interface ConsentTemplatesResponseDto {
+  /** @example "success" */
+  status: string;
+  data: ConsentTemplatesDataDto;
+}
+
+export interface UserConsentItemDto {
+  /**
+   * 동의 항목 ID
+   * @example "consentId123"
+   */
+  _id: string;
+  /**
+   * 사용자 ID
+   * @example "userId456"
+   */
+  userId: string;
+  /**
+   * 동의 여부
+   * @example true
+   */
+  agreement: boolean;
+  /**
+   * 동의 내용
+   * @example "이용 약관 내용"
+   */
+  content: string;
+  /**
+   * 필수 동의 항목 여부
+   * @example true
+   */
+  isRequired: boolean;
+  /**
+   * 동의 항목 유형
+   * @example "terms_of_service"
+   */
+  consentType: string;
+  /**
+   * 생성일시
+   * @example "2023-10-01T12:00:00Z"
+   */
+  createdAt: string;
+  /**
+   * 수정일시
+   * @example "2023-10-01T12:00:00Z"
+   */
+  updatedAt: string;
+  /**
+   * MongoDB 버전
+   * @example 0
+   */
+  __v: number;
+}
+
+export interface UserConsentsDataDto {
+  /** 동의 목록 */
+  consents: UserConsentItemDto[];
+}
+
+export interface UserConsentsResponseDto {
+  /**
+   * 응답 상태
+   * @example "success"
+   */
+  status: string;
+  /** 동의 목록 데이터 */
+  data: UserConsentsDataDto;
+  /** 페이지네이션 정보 */
+  paginationData: PaginationDataDto;
+}
+
+export interface UserConsentItemUpdateDto {
+  /**
+   * 동의 항목 ID (선택)
+   * @example "consentId123"
+   */
+  _id?: string;
+  /**
+   * 동의 여부
+   * @example true
+   */
+  agreement: boolean;
+  /**
+   * 동의 내용 (선택)
+   * @example "이용 약관 내용 수정"
+   */
+  content?: string;
+  /**
+   * 필수 동의 항목 여부 (선택)
+   * @example true
+   */
+  isRequired?: boolean;
+  /**
+   * 동의 항목 유형
+   * @example "terms_of_service"
+   */
+  consentType: string;
+}
+
+export interface UpdateUserConsentsDto {
+  /** 동의 항목 목록 */
+  consents: UserConsentItemUpdateDto[];
+  /**
+   * 버전 정보
+   * @example "1.0.1"
+   */
+  version: string;
+}
+
+export interface UpdateUserConsentsResponseDto {
+  /**
+   * 응답 상태
+   * @example "success"
+   */
+  status: string;
+  /** 동의 목록 및 검증 결과 */
+  data: object;
+  /** 페이지네이션 정보 */
+  paginationData: PaginationDataDto;
+}
+
+export interface ConsentValidationDto {
+  /**
+   * 모든 필수 동의 항목에 동의했는지 여부
+   * @example true
+   */
+  isAllRequiredConsented: boolean;
+  /**
+   * 동의하지 않은 필수 항목 목록
+   * @example []
+   */
+  missingRequiredConsents: string[];
+}
+
+export interface ValidateUserConsentsResponseDto {
+  /**
+   * 응답 상태
+   * @example "success"
+   */
+  status: string;
+  /** 동의 검증 데이터 */
+  data: ConsentValidationDto;
+}
+
+export interface CreateReportDto {
+  /**
+   * 신고 대상 타입
+   * @example "thought"
+   */
+  targetType: "thought" | "comment" | "user";
+  /**
+   * 신고 대상 ID
+   * @example "680657032be53a7892fe5abc"
+   */
+  targetId: string;
+  /**
+   * 신고 사유
+   * @example "spam"
+   */
+  reason: "spam" | "abuse" | "hate" | "sexual" | "inappropriate" | "other";
+  /**
+   * 기타 사유 상세 설명 (reason이 other인 경우 필수)
+   * @example "광고성 게시물입니다"
+   */
+  description?: string | null;
+}
+
+export interface ReportDataDto {
+  /**
+   * 신고 ID
+   * @example "680657032be53a7892fe5abc"
+   */
+  _id: string;
+  /**
+   * 신고 대상 타입
+   * @example "thought"
+   */
+  targetType: "thought" | "comment" | "user";
+  /**
+   * 신고 대상 ID
+   * @example "680657032be53a7892fe5def"
+   */
+  targetId: string;
+  /**
+   * 신고 사유
+   * @example "spam"
+   */
+  reason: "spam" | "abuse" | "hate" | "sexual" | "inappropriate" | "other";
+  /**
+   * 신고 처리 상태
+   * @example "pending"
+   */
+  status: "pending" | "reviewed" | "resolved" | "rejected";
+  /**
+   * 신고 생성 시간
+   * @example "2023-01-01T00:00:00.000Z"
+   */
+  createdAt: string;
+}
+
+export interface CreateReportResponseDto {
+  /**
+   * 상태
+   * @example "success"
+   */
+  status: string;
+  /**
+   * 메시지
+   * @example "신고가 접수되었습니다. 감사합니다."
+   */
+  message: string;
+  /** 생성된 신고 데이터 */
+  data: ReportDataDto;
+}
+
+export interface ReportDetailDataDto {
+  /**
+   * 신고 ID
+   * @example "680657032be53a7892fe5abc"
+   */
+  _id: string;
+  /**
+   * 신고한 사용자 ID
+   * @example "680657032be53a7892fe5ghi"
+   */
+  reporterId: string;
+  /**
+   * 신고 대상 타입
+   * @example "thought"
+   */
+  targetType: "thought" | "comment" | "user";
+  /**
+   * 신고 대상 ID
+   * @example "680657032be53a7892fe5def"
+   */
+  targetId: string;
+  /**
+   * 신고 사유
+   * @example "spam"
+   */
+  reason: "spam" | "abuse" | "hate" | "sexual" | "inappropriate" | "other";
+  /**
+   * 신고 상세 설명
+   * @example "광고성 게시물입니다"
+   */
+  description?: object | null;
+  /**
+   * 신고 처리 상태
+   * @example "pending"
+   */
+  status: "pending" | "reviewed" | "resolved" | "rejected";
+  /**
+   * 관리자 메모
+   * @example "검토 중입니다"
+   */
+  adminNote?: object | null;
+  /**
+   * 처리 완료 시간
+   * @example "2023-01-01T00:00:00.000Z"
+   */
+  resolvedAt?: object | null;
+  /**
+   * 처리한 관리자 ID
+   * @example "680657032be53a7892fe5jkl"
+   */
+  resolvedBy?: object | null;
+  /**
+   * 신고 생성 시간
+   * @example "2023-01-01T00:00:00.000Z"
+   */
+  createdAt: string;
+  /**
+   * 신고 수정 시간
+   * @example "2023-01-01T00:00:00.000Z"
+   */
+  updatedAt: string;
+}
+
+export interface ReportsListDataDto {
+  /** 신고 목록 */
+  reports: ReportDetailDataDto[];
+}
+
+export interface GetReportsResponseDto {
+  /**
+   * 상태
+   * @example "success"
+   */
+  status: string;
+  /** 응답 데이터 */
+  data: ReportsListDataDto;
+  /** 페이지네이션 데이터 */
+  paginationData: PaginationDataDto;
+}
+
+export interface ReportStatsDataDto {
+  /**
+   * 전체 신고 수
+   * @example 150
+   */
+  totalReports: number;
+  /**
+   * 대기 중인 신고 수
+   * @example 20
+   */
+  pendingReports: number;
+  /**
+   * 해결된 신고 수
+   * @example 120
+   */
+  resolvedReports: number;
+  /**
+   * 거부된 신고 수
+   * @example 10
+   */
+  rejectedReports: number;
+}
+
+export interface GetReportStatsResponseDto {
+  /**
+   * 상태
+   * @example "success"
+   */
+  status: string;
+  /** 신고 통계 데이터 */
+  data: ReportStatsDataDto;
+}
+
+export interface TargetReportCountDataDto {
+  /**
+   * 신고 대상 타입
+   * @example "thought"
+   */
+  targetType: "thought" | "comment" | "user";
+  /**
+   * 신고 대상 ID
+   * @example "680657032be53a7892fe5abc"
+   */
+  targetId: string;
+  /**
+   * 신고 개수
+   * @example 5
+   */
+  reportCount: number;
+}
+
+export interface GetTargetReportCountResponseDto {
+  /**
+   * 상태
+   * @example "success"
+   */
+  status: string;
+  /** 대상별 신고 개수 데이터 */
+  data: TargetReportCountDataDto;
+}
+
+export interface GetReportResponseDto {
+  /**
+   * 상태
+   * @example "success"
+   */
+  status: string;
+  /** 신고 상세 데이터 */
+  data: ReportDetailDataDto;
+}
+
+export interface UpdateReportDto {
+  /**
+   * 신고 처리 상태
+   * @example "resolved"
+   */
+  status?: "pending" | "reviewed" | "resolved" | "rejected";
+  /**
+   * 관리자 메모
+   * @example "부적절한 내용으로 확인되어 처리 완료"
+   */
+  adminNote?: string | null;
+}
+
+export interface ReportUpdateDataDto {
+  /**
+   * 신고 ID
+   * @example "680657032be53a7892fe5abc"
+   */
+  _id: string;
+  /**
+   * 업데이트된 처리 상태
+   * @example "resolved"
+   */
+  status: "pending" | "reviewed" | "resolved" | "rejected";
+  /**
+   * 관리자 메모
+   * @example "부적절한 내용으로 확인되어 처리 완료"
+   */
+  adminNote?: object | null;
+  /**
+   * 처리 완료 시간
+   * @example "2023-01-01T00:00:00.000Z"
+   */
+  resolvedAt?: object | null;
+  /**
+   * 처리한 관리자 ID
+   * @example "680657032be53a7892fe5jkl"
+   */
+  resolvedBy?: object | null;
+  /**
+   * 수정 시간
+   * @example "2023-01-01T00:00:00.000Z"
+   */
+  updatedAt: string;
+}
+
+export interface UpdateReportResponseDto {
+  /**
+   * 상태
+   * @example "success"
+   */
+  status: string;
+  /**
+   * 메시지
+   * @example "신고가 성공적으로 업데이트되었습니다."
+   */
+  message: string;
+  /** 업데이트된 신고 데이터 */
+  data: ReportUpdateDataDto;
+}
+
+export interface DeleteReportResponseDto {
+  /**
+   * 상태
+   * @example "success"
+   */
+  status: string;
+  /**
+   * 메시지
+   * @example "신고가 성공적으로 삭제되었습니다."
+   */
+  message: string;
+}
+
+export interface JourneyTitleSummaryDto {
+  /**
+   * 전체 사진 수
+   * @example 86
+   */
+  photoCountTotal: number;
+  /**
+   * 총 소요 시간(분)
+   * @example 360
+   */
+  durationMin?: number;
+  /**
+   * 총 이동 거리(km)
+   * @example 8.4
+   */
+  distanceKm?: number;
+  /**
+   * STOP(스팟) 개수
+   * @example 5
+   */
+  stopCount?: number;
+}
+
+export interface JourneyTopStopDto {
+  /**
+   * 상위 스팟 라벨 (공개면 동/구 정도로만)
+   * @example "성수동"
+   */
+  label: string;
+  /**
+   * 체류 시간(분)
+   * @example 45
+   */
+  dwellMin?: number;
+}
+
+export interface GenerateJourneyTitleRequest {
+  /**
+   * 정리 모드
+   * @example "route_strong"
+   */
+  mode: "route_strong" | "route_weak" | "route_none" | "photo_only";
+  /**
+   * 공개 범위
+   * @example "unlisted"
+   */
+  privacyLevel: "public" | "unlisted" | "private";
+  /**
+   * 여정 날짜 (YYYY-MM-DD)
+   * @example "2026-01-07"
+   */
+  date: string;
+  /** 요약 정보 */
+  summary: JourneyTitleSummaryDto;
+  /**
+   * 제목에 반영할 하이라이트 키워드(3~8개 추천). 장소/행동/분위기 키워드 위주.
+   * @example ["산책","카페","노을","조용한 시간"]
+   */
+  highlights: string[];
+  /** 상위 스팟(있으면 1~3개). public이면 개인 위치 특정 가능한 상세 라벨 금지. */
+  topStops?: JourneyTopStopDto[];
+  /**
+   * ROUTE_WEAK일 때 신뢰도(0~1)
+   * @example 0.62
+   */
+  confidence?: number;
+}
+
+export interface GeneratedTitleData {
+  /**
+   * 추천 제목
+   * @example "노을빛 성수 산책"
+   */
+  title: string;
+  /**
+   * 대안 제목 리스트(최대 3개)
+   * @example ["카페 들렀던 오후","조용히 걸었던 하루"]
+   */
+  alternatives?: string[];
+}
+
+export interface GenerateJourneyTitleResponseData {
+  suggestion: GeneratedTitleData;
+}
+
+export interface GenerateJourneyTitleResponse {
+  /** @example "success" */
+  status: string;
+  data: GenerateJourneyTitleResponseData;
+  /** @example "제목이 성공적으로 생성되었습니다." */
+  message: string;
+}
+
+export interface CreateJourneyAiCommonRequestDto {
+  /**
+   * 입력 이미지 URL (presigned URL 권장)
+   * @example "https://example.com/input.jpg"
+   */
+  inputUrl: string;
+  /**
+   * 옵션(모델 파라미터 등)
+   * @example {"lang":"ko"}
+   */
+  options?: object;
+}
+
+export interface JourneyAiJobResponseDto {
+  /**
+   * 작업 ID(UUID)
+   * @example "c2b4c3b4-1d6b-4b0b-9a9d-4d5fd0e4b2c1"
+   */
+  jobId: string;
+  /**
+   * 여정 ID
+   * @example "journey_123"
+   */
+  journeyId: string;
+  /** 작업 타입 */
+  type: "pano" | "title";
+  /** 상태 */
+  status: "queued" | "running" | "done" | "failed";
+  /** 입력 이미지 URL */
+  inputUrl?: string;
+  /** 결과(JSON) */
+  result?: object;
+  /** 워커가 제공한 결과 파일 경로(내부용) */
+  resultPath?: string;
+  /** 에러 메시지 */
+  error?: string;
+  /**
+   * 마지막 폴링 시각
+   * @format date-time
+   */
+  lastPolledAt?: string;
+  /** 폴링 횟수 */
+  pollCount?: number;
+}
+
+export interface GpsMetricsDto {
+  sampleCount: number;
+  timeRangeMs: number;
+  coveragePercent: number;
+  avgAccuracyM: number;
+  p50AccuracyM: number;
+  p95AccuracyM: number;
+  avgSamplingIntervalMs: number;
+  maxGapMs: number;
+  samplingConsistency: number;
+  avgSpeedMps: number;
+  maxSpeedMps: number;
+  totalDistanceM: number;
+}
+
+export interface RecapInputSummaryDto {
+  journeyId: string;
+  timeRange: object;
+  gpsMetrics?: GpsMetricsDto;
+  photoCount: number;
+  photoWithGpsCount: number;
+  photoWithoutGpsCount: number;
+  photoGpsRatio: number;
+  photoTimeRange?: object;
+}
+
+export interface RecapAlgorithmConfigDto {
+  clustering: object;
+  photoMapping: object;
+  computedAt: number;
+  processingTimeMs?: number;
+}
+
+export interface RecapComputedDto {
+  route: object;
+  unmapped: object;
+  quality: object;
+}
+
+export interface RecapOperationDto {
+  opId: string;
+  type: string;
+  atMs: number;
+  photoId?: string;
+  photoIds?: string[];
+  fromClusterId?: string;
+  toClusterId?: string;
+  clusterId?: string;
+  photoOrder?: string[];
+}
+
+export interface PhotoAssignmentDto {
+  photoId: string;
+  targetClusterId: string;
+}
+
+export interface ClusterEditDto {
+  clusterId: string;
+  edits: object;
+}
+
+export interface RecapOverridesDto {
+  ops: RecapOperationDto[];
+  hiddenPhotoIds: string[];
+  manualAssignments: PhotoAssignmentDto[];
+  manualClusterEdits: ClusterEditDto[];
+}
+
+export interface RecapDraftDto {
+  /**
+   * Schema version
+   * @example 1
+   */
+  schemaVersion: number;
+  /**
+   * Draft ID (content-based hash)
+   * @example "draft_000d77d4d4"
+   */
+  draftId: string;
+  /** Journey ID (UUIDv4) */
+  journeyId: string;
+  /** Draft creation time (Unix ms) */
+  createdAt: number;
+  /** Draft last update time (Unix ms) */
+  updatedAt: number;
+  /** Input data summary */
+  inputSummary: RecapInputSummaryDto;
+  /** Journey mode classification */
+  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
+  /** Explanation of mode classification */
+  modeReason: string;
+  /** Algorithm configuration */
+  algorithm: RecapAlgorithmConfigDto;
+  /** Computed results (IMMUTABLE) */
+  computed: RecapComputedDto;
+  /** User overrides */
+  overrides: RecapOverridesDto;
+}
+
+export interface JourneyImageLocationDto {
+  /**
+   * Latitude coordinate
+   * @example 37.5665
+   */
+  latitude: number;
+  /**
+   * Longitude coordinate
+   * @example 126.978
+   */
+  longitude: number;
+}
+
+export interface JourneyImageDto {
+  /**
+   * Public URL of the uploaded image
+   * @example "https://cdn.momentbook.app/journeys/user123/1234567890-abc.jpg"
+   */
+  url: string;
+  /** Public photo identifier (URL-safe) */
+  photoId?: string;
+  /**
+   * Image width in pixels
+   * @example 1080
+   */
+  width?: number;
+  /**
+   * Image height in pixels
+   * @example 1920
+   */
+  height?: number;
+  /** Optional caption provided by the user */
+  caption?: string;
+  /** Photo captured time (ms) */
+  takenAt?: number;
+  /** Optional location coordinates */
+  location?: JourneyImageLocationDto;
+  /** Optional human-friendly location label */
+  locationName?: string;
+}
+
+export interface PublishJourneyRequestDto {
+  /**
+   * Journey ID (client-side)
+   * @example "journey_abc123"
+   */
+  journeyId: string;
+  /**
+   * Journey start timestamp (ms)
+   * @example 1704067200000
+   */
+  startedAt: number;
+  /** Journey end timestamp (ms) */
+  endedAt?: number;
+  /** RecapDraft - 핵심 recap 데이터 (computed + overrides) */
+  recapDraft: RecapDraftDto;
+  /**
+   * Recap stage
+   * @example "USER_DONE"
+   */
+  recapStage: "NONE" | "SYSTEM_DONE" | "USER_DONE" | "FINALIZED";
+  /**
+   * Photo ID to S3 URL mapping (local uri → downloadUrl)
+   * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
+   */
+  photoUrlMapping: object;
+  /** Array of uploaded images (max 100) */
+  images: JourneyImageDto[];
+  /** Optional metadata */
+  metadata?: object;
+  /** 제목/설명 자동 생성 요청. 제공 시 AI가 title/description을 생성하여 metadata에 저장. */
+  autoGenerate?: GenerateJourneyTitleRequest;
+}
+
+export interface PublishJourneyResponseDto {
+  /**
+   * Status of the request
+   * @example "success"
+   */
+  status: string;
+  /** Published journey data */
+  data: {
+    /** Unique public identifier for the journey */
+    publicId?: string;
+    /** ISO timestamp of creation */
+    createdAt?: string;
+    /** Publish status */
+    publishStatus?: "PUBLISHING" | "PUBLISHED" | "FAILED";
+  };
+}
+
+export interface PublishStatusResponseDto {
+  /**
+   * Status of the request
+   * @example "success"
+   */
+  status: string;
+  /** Publish status data */
+  data: {
+    publishStatus?: "NOT_PUBLISHED" | "PUBLISHING" | "PUBLISHED" | "FAILED";
+    publicId?: string;
+    publishedUrl?: string;
+  };
+}
+
+export interface PublishJourneyInfoResponseDto {
+  /**
+   * Status of the request
+   * @example "success"
+   */
+  status: string;
+  /** Publish info for the journey */
+  data: {
+    publishStatus?: "NOT_PUBLISHED" | "PUBLISHING" | "PUBLISHED" | "FAILED";
+    publicId?: string;
+    publishedUrl?: string;
+    publishedAt?: string;
+    lastPublishError?: string;
+    createdAt?: string;
+    updatedAt?: string;
+  };
+}
+
+export interface PublishedJourneysResponseDto {
+  /** @example "success" */
+  status: string;
+  data: {
+    journeys?: any[];
+    total?: number;
+    page?: number;
+    pages?: number;
+    limit?: number;
+  };
+}
+
+export interface PublishedJourneyDetailDto {
+  /**
+   * Public ID for sharing
+   * @example "abc123xyz789"
+   */
+  publicId: string;
+  /** Author user ID */
+  userId: string;
+  /** Journey start timestamp (ms) */
+  startedAt: number;
+  /** Journey end timestamp (ms) */
+  endedAt?: number;
+  /** Journey title */
+  title?: string;
+  /** Journey description */
+  description?: string;
+  /** Journey mode */
+  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
+  /** Total photo count */
+  photoCount: number;
+  /** Published images with S3 URLs */
+  images: string[];
+  /** Clusters for rendering (stops + orphan clusters) */
+  clusters: string[];
+  /** Published timestamp */
+  publishedAt: string;
+  /** Creation timestamp */
+  createdAt: string;
+}
+
+export interface PublishedJourneyDetailResponseDto {
+  /** @example "success" */
+  status: string;
+  data: PublishedJourneyDetailDto;
+}
+
+export interface UnpublishJourneyResponseDto {
+  /** @example "success" */
+  status: string;
+  /** Unpublish result data */
+  data: {
+    /** The public ID of the unpublished journey */
+    publicId?: string;
+    /** Number of S3 images deleted */
+    deletedImages?: number;
+  };
+}
+
+export interface PresignUploadRequestDto {
+  /**
+   * Content type of the file
+   * @example "image/jpeg"
+   */
+  contentType: "image/jpeg" | "image/png" | "image/webp";
+  /**
+   * File extension
+   * @example "jpg"
+   */
+  fileExt?: string;
+  /**
+   * File size in bytes (max 5MB)
+   * @example 1048576
+   */
+  sizeBytes?: number;
+  /**
+   * Purpose of the upload
+   * @example "journey"
+   */
+  purpose: "journey";
+}
+
+export interface PresignUploadResponseDto {
+  /**
+   * Status of the request
+   * @example "success"
+   */
+  status: string;
+  /** Presigned URL data */
+  data: {
+    /** Presigned URL for uploading the file */
+    uploadUrl?: string;
+    /** Public URL to access the uploaded file */
+    downloadUrl?: string;
+    /** S3 object key */
+    key?: string;
+  };
+}
+
+export interface VersionPolicyResponseDto {
+  /** @example "success" */
+  status: string;
+  data: object;
+}
+
+export interface VersionCheckDataDto {
+  /** @example "ios" */
+  platform: "ios" | "android";
+  /** @example "1.8.4" */
+  clientVersion: string;
+  /** @example "2.0.0" */
+  minSupportedVersion: string;
+  /** @example "2.1.3" */
+  latestVersion?: string;
+  /** @example "force" */
+  updateMode: "force" | "soft" | "none";
+  /** @example "https://apps.apple.com/app/idXXXX" */
+  storeUrl?: string;
+  /** @example true */
+  shouldUpdate: boolean;
+  /** @example true */
+  shouldForceUpdate: boolean;
+  /** @example "BELOW_MIN_SUPPORTED" */
+  reason: "BELOW_MIN_SUPPORTED" | "BELOW_LATEST" | "UP_TO_DATE" | "MODE_NONE";
+  /** @example 1700000000000 */
+  ts: number;
+}
+
+export interface VersionCheckResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "Version check completed" */
+  message: string;
+  data: VersionCheckDataDto;
+}
+
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+
+export interface FullRequestParams extends Omit<RequestInit, "body"> {
+  /** set parameter to `true` for call `securityWorker` for this request */
+  secure?: boolean;
+  /** request path */
+  path: string;
+  /** content type of request body */
+  type?: ContentType;
+  /** query params */
+  query?: QueryParamsType;
+  /** format of response (i.e. response.json() -> format: "json") */
+  format?: ResponseFormat;
+  /** request body */
+  body?: unknown;
+  /** base url */
+  baseUrl?: string;
+  /** request cancellation token */
+  cancelToken?: CancelToken;
+}
+
+export type RequestParams = Omit<
+  FullRequestParams,
+  "body" | "method" | "query" | "path"
+>;
+
+export interface ApiConfig<SecurityDataType = unknown> {
+  baseUrl?: string;
+  baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
+  securityWorker?: (
+    securityData: SecurityDataType | null,
+  ) => Promise<RequestParams | void> | RequestParams | void;
+  customFetch?: typeof fetch;
+}
+
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
+  data: D;
+  error: E;
+}
+
+type CancelToken = Symbol | string | number;
+
+export enum ContentType {
+  Json = "application/json",
+  FormData = "multipart/form-data",
+  UrlEncoded = "application/x-www-form-urlencoded",
+  Text = "text/plain",
+}
+
+export class HttpClient<SecurityDataType = unknown> {
+  public baseUrl: string = "";
+  private securityData: SecurityDataType | null = null;
+  private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+  private abortControllers = new Map<CancelToken, AbortController>();
+  private customFetch = (...fetchParams: Parameters<typeof fetch>) =>
+    fetch(...fetchParams);
+
+  private baseApiParams: RequestParams = {
+    credentials: "same-origin",
+    headers: {},
+    redirect: "follow",
+    referrerPolicy: "no-referrer",
+  };
+
+  constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
+    Object.assign(this, apiConfig);
+  }
+
+  public setSecurityData = (data: SecurityDataType | null) => {
+    this.securityData = data;
+  };
+
+  protected encodeQueryParam(key: string, value: any) {
+    const encodedKey = encodeURIComponent(key);
+    return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
+  }
+
+  protected addQueryParam(query: QueryParamsType, key: string) {
+    return this.encodeQueryParam(key, query[key]);
+  }
+
+  protected addArrayQueryParam(query: QueryParamsType, key: string) {
+    const value = query[key];
+    return value.map((v: any) => this.encodeQueryParam(key, v)).join("&");
+  }
+
+  protected toQueryString(rawQuery?: QueryParamsType): string {
+    const query = rawQuery || {};
+    const keys = Object.keys(query).filter(
+      (key) => "undefined" !== typeof query[key],
+    );
+    return keys
+      .map((key) =>
+        Array.isArray(query[key])
+          ? this.addArrayQueryParam(query, key)
+          : this.addQueryParam(query, key),
+      )
+      .join("&");
+  }
+
+  protected addQueryParams(rawQuery?: QueryParamsType): string {
+    const queryString = this.toQueryString(rawQuery);
+    return queryString ? `?${queryString}` : "";
+  }
+
+  private contentFormatters: Record<ContentType, (input: any) => any> = {
+    [ContentType.Json]: (input: any) =>
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.Text]: (input: any) =>
+      input !== null && typeof input !== "string"
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.FormData]: (input: any) =>
+      Object.keys(input || {}).reduce((formData, key) => {
+        const property = input[key];
+        formData.append(
+          key,
+          property instanceof Blob
+            ? property
+            : typeof property === "object" && property !== null
+              ? JSON.stringify(property)
+              : `${property}`,
+        );
+        return formData;
+      }, new FormData()),
+    [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+  };
+
+  protected mergeRequestParams(
+    params1: RequestParams,
+    params2?: RequestParams,
+  ): RequestParams {
+    return {
+      ...this.baseApiParams,
+      ...params1,
+      ...(params2 || {}),
+      headers: {
+        ...(this.baseApiParams.headers || {}),
+        ...(params1.headers || {}),
+        ...((params2 && params2.headers) || {}),
+      },
+    };
+  }
+
+  protected createAbortSignal = (
+    cancelToken: CancelToken,
+  ): AbortSignal | undefined => {
+    if (this.abortControllers.has(cancelToken)) {
+      const abortController = this.abortControllers.get(cancelToken);
+      if (abortController) {
+        return abortController.signal;
+      }
+      return void 0;
+    }
+
+    const abortController = new AbortController();
+    this.abortControllers.set(cancelToken, abortController);
+    return abortController.signal;
+  };
+
+  public abortRequest = (cancelToken: CancelToken) => {
+    const abortController = this.abortControllers.get(cancelToken);
+
+    if (abortController) {
+      abortController.abort();
+      this.abortControllers.delete(cancelToken);
+    }
+  };
+
+  public request = async <T = any, E = any>({
+    body,
+    secure,
+    path,
+    type,
+    query,
+    format,
+    baseUrl,
+    cancelToken,
+    ...params
+  }: FullRequestParams): Promise<HttpResponse<T, E>> => {
+    const secureParams =
+      ((typeof secure === "boolean" ? secure : this.baseApiParams.secure) &&
+        this.securityWorker &&
+        (await this.securityWorker(this.securityData))) ||
+      {};
+    const requestParams = this.mergeRequestParams(params, secureParams);
+    const queryString = query && this.toQueryString(query);
+    const payloadFormatter = this.contentFormatters[type || ContentType.Json];
+    const responseFormat = format || requestParams.format;
+
+    return this.customFetch(
+      `${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`,
+      {
+        ...requestParams,
+        headers: {
+          ...(requestParams.headers || {}),
+          ...(type && type !== ContentType.FormData
+            ? { "Content-Type": type }
+            : {}),
+        },
+        signal:
+          (cancelToken
+            ? this.createAbortSignal(cancelToken)
+            : requestParams.signal) || null,
+        body:
+          typeof body === "undefined" || body === null
+            ? null
+            : payloadFormatter(body),
+      },
+    ).then(async (response) => {
+      const r = response.clone() as HttpResponse<T, E>;
+      r.data = null as unknown as T;
+      r.error = null as unknown as E;
+
+      const data = !responseFormat
+        ? r
+        : await response[responseFormat]()
+            .then((data) => {
+              if (r.ok) {
+                r.data = data;
+              } else {
+                r.error = data;
+              }
+              return r;
+            })
+            .catch((e) => {
+              r.error = e;
+              return r;
+            });
+
+      if (cancelToken) {
+        this.abortControllers.delete(cancelToken);
+      }
+
+      if (!response.ok) throw data;
+      return data;
+    });
+  };
+}
+
+/**
+ * @title MomentBook API
+ * @version 2.0.0
+ * @contact
+ *
+ * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
+ */
+export class Api<
+  SecurityDataType extends unknown,
+> extends HttpClient<SecurityDataType> {
+  v2 = {
+    /**
+     * No description
+     *
+     * @tags health
+     * @name HealthControllerHealthz
+     * @summary Health Check (process only)
+     * @request GET:/v2/health/healthz
+     */
+    healthControllerHealthz: (params: RequestParams = {}) =>
+      this.request<HealthzResponseDto, any>({
+        path: `/v2/health/healthz`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags health
+     * @name HealthControllerReadyz
+     * @summary Ready Check (includes Mongo ping)
+     * @request GET:/v2/health/readyz
+     */
+    healthControllerReadyz: (params: RequestParams = {}) =>
+      this.request<ReadyzResponseDto, ReadyzUnavailableResponseDto>({
+        path: `/v2/health/readyz`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerSignInWithGoogle
+     * @summary Google OAuth 인증 시작 (웹 브라우저 리다이렉트)
+     * @request GET:/v2/auth/google
+     */
+    authControllerSignInWithGoogle: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/v2/auth/google`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerHandleGoogleCallback
+     * @summary Google OAuth Callback
+     * @request GET:/v2/auth/google/callback
+     */
+    authControllerHandleGoogleCallback: (
+      query: {
+        code: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/v2/auth/google/callback`,
+        method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerSignInWithGoogleToken
+     * @summary Google Token으로 인증 (모바일)
+     * @request POST:/v2/auth/google/token
+     */
+    authControllerSignInWithGoogleToken: (
+      data: GoogleTokenAuthDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<GoogleLoginSuccessResponseDto, any>({
+        path: `/v2/auth/google/token`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerSignInWithApple
+     * @summary Apple Sign-In 인증
+     * @request POST:/v2/auth/apple
+     */
+    authControllerSignInWithApple: (
+      data: AppleAuthDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<AppleLoginSuccessResponseDto, any>({
+        path: `/v2/auth/apple`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerContinueAsGuest
+     * @summary 게스트로 계속하기
+     * @request POST:/v2/auth/guest
+     */
+    authControllerContinueAsGuest: (
+      data: GuestAuthDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<GuestLoginSuccessResponseDto, any>({
+        path: `/v2/auth/guest`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerRefreshToken
+     * @summary Access Token 갱신
+     * @request POST:/v2/auth/refresh
+     */
+    authControllerRefreshToken: (
+      data: RefreshTokenDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<TokenRefreshResponseDto, any>({
+        path: `/v2/auth/refresh`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerLogout
+     * @summary 로그아웃 (단일 디바이스)
+     * @request POST:/v2/auth/logout
+     */
+    authControllerLogout: (data: LogoutDto, params: RequestParams = {}) =>
+      this.request<LogoutResponseDto, any>({
+        path: `/v2/auth/logout`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerLogoutAll
+     * @summary 모든 디바이스에서 로그아웃
+     * @request POST:/v2/auth/logout-all
+     * @secure
+     */
+    authControllerLogoutAll: (params: RequestParams = {}) =>
+      this.request<LogoutAllResponseDto, any>({
+        path: `/v2/auth/logout-all`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerSendEmailVerificationCode
+     * @summary 이메일 인증 코드 발송
+     * @request POST:/v2/auth/email/send-verification
+     */
+    authControllerSendEmailVerificationCode: (
+      data: SendVerificationCodeDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<SendVerificationCodeResponseDto, any>({
+        path: `/v2/auth/email/send-verification`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerVerifyEmailCode
+     * @summary 이메일 인증 코드 확인
+     * @request POST:/v2/auth/email/verify-code
+     */
+    authControllerVerifyEmailCode: (
+      data: VerifyEmailCodeDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<VerifyEmailCodeResponseDto, any>({
+        path: `/v2/auth/email/verify-code`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerSignupWithEmail
+     * @summary 이메일 회원가입
+     * @request POST:/v2/auth/email/signup
+     */
+    authControllerSignupWithEmail: (
+      data: EmailSignupDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<EmailSignupResponseDto, any>({
+        path: `/v2/auth/email/signup`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerLoginWithEmail
+     * @summary 이메일 로그인
+     * @request POST:/v2/auth/email/login
+     */
+    authControllerLoginWithEmail: (
+      data: EmailLoginDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<EmailLoginResponseDto, any>({
+        path: `/v2/auth/email/login`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerChangePassword
+     * @summary 비밀번호 변경
+     * @request POST:/v2/auth/email/password
+     * @secure
+     */
+    authControllerChangePassword: (
+      data: ChangePasswordDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<PasswordChangeResponseDto, any>({
+        path: `/v2/auth/email/password`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerRequestPasswordReset
+     * @summary 비밀번호 재설정 코드 요청
+     * @request POST:/v2/auth/email/request-password-reset
+     */
+    authControllerRequestPasswordReset: (
+      data: RequestPasswordResetDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<PasswordResetRequestResponseDto, any>({
+        path: `/v2/auth/email/request-password-reset`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerResetPassword
+     * @summary 비밀번호 재설정
+     * @request POST:/v2/auth/email/reset-password
+     */
+    authControllerResetPassword: (
+      data: ResetPasswordDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<PasswordResetResponseDto, any>({
+        path: `/v2/auth/email/reset-password`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags auth
+     * @name AuthControllerCheckEmail
+     * @summary 이메일 존재 여부 확인
+     * @request GET:/v2/auth/email/check
+     */
+    authControllerCheckEmail: (
+      query: {
+        /**
+         * Email address to check
+         * @example "user@example.com"
+         */
+        email: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<EmailCheckResponseDto, any>({
+        path: `/v2/auth/email/check`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 현재 인증된 사용자의 프로필 정보를 조회합니다. **주요 변경사항 (v1.0.14):** - 필수 동의 미완료 사용자도 프로필 조회 가능 (403 에러 제거) - 응답에 `consents` 필드 추가하여 동의 상태 정보 제공 - 클라이언트는 `consents.requiresAction`을 확인하여 동의 화면으로 네비게이션 **동의 상태 처리:** - `consents.requiresAction: true` → 동의 화면으로 이동 필요 - `consents.requiresAction: false` → 모든 필수 동의 완료
+     *
+     * @tags users
+     * @name UsersControllerGetMyProfile
+     * @summary 내 프로필 조회
+     * @request GET:/v2/users/profile/me
+     * @secure
+     */
+    usersControllerGetMyProfile: (params: RequestParams = {}) =>
+      this.request<UserProfileSuccessResponseDto, void>({
+        path: `/v2/users/profile/me`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 현재 인증된 사용자의 프로필 정보를 업데이트합니다
+     *
+     * @tags users
+     * @name UsersControllerUpdateMyProfile
+     * @summary 내 프로필 업데이트
+     * @request PUT:/v2/users/profile/me
+     * @secure
+     */
+    usersControllerUpdateMyProfile: (
+      data: UpdateUserProfileDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<UserProfileUpdateSuccessResponseDto, void>({
+        path: `/v2/users/profile/me`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 시스템에 가입한 모든 활성 사용자 목록을 조회합니다. activeUser 미들웨어를 통해 사용자 상태를 확인합니다.
+     *
+     * @tags users
+     * @name UsersControllerGetAllUsers
+     * @summary 모든 사용자 목록 조회
+     * @request GET:/v2/users
+     * @secure
+     */
+    usersControllerGetAllUsers: (
+      query?: {
+        /**
+         * 페이지 번호
+         * @example 1
+         */
+        page?: number;
+        /**
+         * 페이지당 항목 수
+         * @example 10
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<UsersListSuccessResponseDto, void>({
+        path: `/v2/users`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 특정 사용자의 프로필 정보를 조회합니다.
+     *
+     * @tags users
+     * @name UsersControllerGetUserById
+     * @summary 특정 사용자 정보 조회
+     * @request GET:/v2/users/profile/{userId}
+     */
+    usersControllerGetUserById: (userId: string, params: RequestParams = {}) =>
+      this.request<UserProfileSuccessResponseDto, void>({
+        path: `/v2/users/profile/${userId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 현재 인증된 사용자의 계정을 삭제합니다. **삭제 처리 내용:** - 사용자 상태를 'deleted'로 변경 (실제 데이터는 보관) - FCM 토큰 완전 삭제 및 푸시 알림 비활성화 - 사용자가 동의한 모든 이용약관 정보 완전 삭제 - 개인정보 보호를 위한 동의 기록 삭제 **푸시 알림 관련 처리:** - 등록된 FCM 토큰 삭제 - notificationEnabled 값을 false로 설정 - 향후 푸시 알림 수신 불가 탈퇴 후에는 해당 계정으로 로그인할 수 없으며, 동의 정보는 복구되지 않습니다.
+     *
+     * @tags users
+     * @name UsersControllerDeleteMyAccount
+     * @summary 회원 탈퇴
+     * @request DELETE:/v2/users/me
+     * @secure
+     */
+    usersControllerDeleteMyAccount: (params: RequestParams = {}) =>
+      this.request<BasicSuccessResponseDto, void>({
+        path: `/v2/users/me`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 특정 사용자를 차단합니다
+     *
+     * @tags users
+     * @name UsersControllerBlockUser
+     * @summary 사용자 차단
+     * @request POST:/v2/users/blocks/{blockedUserId}
+     * @secure
+     */
+    usersControllerBlockUser: (
+      blockedUserId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<BlockUserResponseDto, void>({
+        path: `/v2/users/blocks/${blockedUserId}`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 특정 사용자의 차단을 해제합니다
+     *
+     * @tags users
+     * @name UsersControllerUnblockUser
+     * @summary 사용자 차단 해제
+     * @request DELETE:/v2/users/blocks/{blockedUserId}
+     * @secure
+     */
+    usersControllerUnblockUser: (
+      blockedUserId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<UnblockUserResponseDto, void>({
+        path: `/v2/users/blocks/${blockedUserId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 특정 사용자의 차단 상태를 조회합니다
+     *
+     * @tags users
+     * @name UsersControllerGetBlockStatus
+     * @summary 사용자 차단 상태 조회
+     * @request GET:/v2/users/blocks/{blockedUserId}/status
+     * @secure
+     */
+    usersControllerGetBlockStatus: (
+      blockedUserId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<BlockStatusResponseDto, void>({
+        path: `/v2/users/blocks/${blockedUserId}/status`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 현재 사용자가 차단한 모든 사용자의 목록을 조회합니다
+     *
+     * @tags users
+     * @name UsersControllerGetBlockedUsers
+     * @summary 차단된 사용자 목록 조회
+     * @request GET:/v2/users/blocks
+     * @secure
+     */
+    usersControllerGetBlockedUsers: (
+      query?: {
+        /**
+         * 페이지 번호
+         * @example 1
+         */
+        page?: number;
+        /**
+         * 페이지당 항목 수
+         * @example 10
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<BlockedUsersResponseDto, void>({
+        path: `/v2/users/blocks`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 클라이언트에서 사용할 수 있는 활성화된 동의 항목 템플릿들을 조회합니다
+     *
+     * @tags consents
+     * @name ConsentTemplatesControllerGetConsentTemplates
+     * @summary 동의 항목 템플릿 목록 조회
+     * @request GET:/v2/consent-templates
+     */
+    consentTemplatesControllerGetConsentTemplates: (
+      params: RequestParams = {},
+    ) =>
+      this.request<ConsentTemplatesResponseDto, void>({
+        path: `/v2/consent-templates`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 인증된 사용자가 동의한 이용 약관 목록을 조회합니다
+     *
+     * @tags consents
+     * @name UserConsentsControllerGetUserConsents
+     * @summary 사용자 동의 목록 조회
+     * @request GET:/v2/users/consents
+     * @secure
+     */
+    userConsentsControllerGetUserConsents: (
+      query?: {
+        /**
+         * 페이지 번호
+         * @example 1
+         */
+        page?: number;
+        /**
+         * 페이지당 항목 수
+         * @example 10
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<UserConsentsResponseDto, void>({
+        path: `/v2/users/consents`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 인증된 사용자의 이용 약관 동의 정보를 업데이트합니다
+     *
+     * @tags consents
+     * @name UserConsentsControllerUpdateUserConsents
+     * @summary 사용자 동의 업데이트
+     * @request POST:/v2/users/consents
+     * @secure
+     */
+    userConsentsControllerUpdateUserConsents: (
+      data: UpdateUserConsentsDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<UpdateUserConsentsResponseDto, void>({
+        path: `/v2/users/consents`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 사용자가 필수 동의 항목에 모두 동의했는지 검증합니다
+     *
+     * @tags consents
+     * @name UserConsentsControllerValidateUserConsents
+     * @summary 필수 동의 항목 검증
+     * @request GET:/v2/users/consents/validate
+     * @secure
+     */
+    userConsentsControllerValidateUserConsents: (params: RequestParams = {}) =>
+      this.request<ValidateUserConsentsResponseDto, void>({
+        path: `/v2/users/consents/validate`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 콘텐츠 또는 사용자를 신고합니다
+     *
+     * @tags reports
+     * @name ReportsControllerCreateReport
+     * @summary 신고 생성
+     * @request POST:/v2/reports
+     * @secure
+     */
+    reportsControllerCreateReport: (
+      data: CreateReportDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<CreateReportResponseDto, void>({
+        path: `/v2/reports`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 모든 신고 목록을 조회합니다
+     *
+     * @tags reports
+     * @name ReportsControllerGetReports
+     * @summary 신고 목록 조회 (관리자용)
+     * @request GET:/v2/reports
+     * @secure
+     */
+    reportsControllerGetReports: (
+      query?: {
+        /**
+         * 페이지 번호
+         * @example 1
+         */
+        page?: number;
+        /**
+         * 페이지당 항목 수
+         * @example 20
+         */
+        limit?: number;
+        /** 신고 상태 필터 */
+        status?: "pending" | "reviewed" | "resolved" | "rejected";
+        /** 신고 대상 타입 필터 */
+        targetType?: "thought" | "comment" | "user";
+        /** 신고 사유 필터 */
+        reason?:
+          | "spam"
+          | "abuse"
+          | "hate"
+          | "sexual"
+          | "inappropriate"
+          | "other";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GetReportsResponseDto, void>({
+        path: `/v2/reports`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 신고 통계 정보를 조회합니다
+     *
+     * @tags reports
+     * @name ReportsControllerGetReportStats
+     * @summary 신고 통계 조회 (관리자용)
+     * @request GET:/v2/reports/stats
+     * @secure
+     */
+    reportsControllerGetReportStats: (params: RequestParams = {}) =>
+      this.request<GetReportStatsResponseDto, void>({
+        path: `/v2/reports/stats`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 특정 대상에 대한 신고 개수를 조회합니다
+     *
+     * @tags reports
+     * @name ReportsControllerGetTargetReportCount
+     * @summary 특정 대상의 신고 개수 조회
+     * @request GET:/v2/reports/target/{targetType}/{targetId}/count
+     */
+    reportsControllerGetTargetReportCount: (
+      targetType: "thought" | "comment" | "user",
+      targetId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetTargetReportCountResponseDto, void>({
+        path: `/v2/reports/target/${targetType}/${targetId}/count`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 특정 신고의 상세 정보를 조회합니다
+     *
+     * @tags reports
+     * @name ReportsControllerGetReport
+     * @summary 특정 신고 조회 (관리자용)
+     * @request GET:/v2/reports/{reportId}
+     * @secure
+     */
+    reportsControllerGetReport: (
+      reportId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetReportResponseDto, void>({
+        path: `/v2/reports/${reportId}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 신고의 상태나 관리자 메모를 업데이트합니다
+     *
+     * @tags reports
+     * @name ReportsControllerUpdateReport
+     * @summary 신고 업데이트 (관리자용)
+     * @request PUT:/v2/reports/{reportId}
+     * @secure
+     */
+    reportsControllerUpdateReport: (
+      reportId: string,
+      data: UpdateReportDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<UpdateReportResponseDto, void>({
+        path: `/v2/reports/${reportId}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 신고를 삭제합니다
+     *
+     * @tags reports
+     * @name ReportsControllerDeleteReport
+     * @summary 신고 삭제 (관리자용)
+     * @request DELETE:/v2/reports/{reportId}
+     * @secure
+     */
+    reportsControllerDeleteReport: (
+      reportId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<DeleteReportResponseDto, void>({
+        path: `/v2/reports/${reportId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 게시 시 사용할 제목을 GPT 모델로 자동 생성합니다. Accept-Language 헤더로 언어를 지정할 수 있습니다.
+     *
+     * @tags journeys
+     * @name JourneyTitleControllerGenerateTitle
+     * @summary 게시 제목 자동 생성
+     * @request POST:/v2/journeys/{journeyId}/title/auto
+     * @secure
+     */
+    journeyTitleControllerGenerateTitle: (
+      journeyId: string,
+      data: GenerateJourneyTitleRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<GenerateJourneyTitleResponse, void>({
+        path: `/v2/journeys/${journeyId}/title/auto`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description momentbook-worker로 비동기 작업을 요청하고 jobId를 반환합니다.
+     *
+     * @tags journeys
+     * @name JourneyAiControllerCreatePanoramaJob
+     * @summary 파노라마(360) 생성 작업 요청
+     * @request POST:/v2/journeys/{journeyId}/ai/panorama
+     * @secure
+     */
+    journeyAiControllerCreatePanoramaJob: (
+      journeyId: string,
+      data: CreateJourneyAiCommonRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<JourneyAiJobResponseDto, any>({
+        path: `/v2/journeys/${journeyId}/ai/panorama`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description momentbook-worker로 비동기 작업을 요청하고 jobId를 반환합니다.
+     *
+     * @tags journeys
+     * @name JourneyAiControllerCreateTitleJob
+     * @summary 제목 생성 작업 요청
+     * @request POST:/v2/journeys/{journeyId}/ai/title
+     * @secure
+     */
+    journeyAiControllerCreateTitleJob: (
+      journeyId: string,
+      data: CreateJourneyAiCommonRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<JourneyAiJobResponseDto, any>({
+        path: `/v2/journeys/${journeyId}/ai/title`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description refresh=1이면 worker에서 최신 상태를 가져와 DB에 반영합니다.
+     *
+     * @tags journeys
+     * @name JourneyAiControllerGetJob
+     * @summary AI 작업 상태 조회
+     * @request GET:/v2/journeys/{journeyId}/ai/jobs/{jobId}
+     * @secure
+     */
+    journeyAiControllerGetJob: (
+      journeyId: string,
+      jobId: string,
+      query?: {
+        /** 1이면 worker에서 상태 갱신 */
+        refresh?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<JourneyAiJobResponseDto, any>({
+        path: `/v2/journeys/${journeyId}/ai/jobs/${jobId}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Store published journey content with images for later SEO page generation. Title/description will be generated in the language specified by Accept-Language header.
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerPublishJourney
+     * @summary Publish a journey
+     * @request POST:/v2/journeys/publish
+     * @secure
+     */
+    publishJourneyControllerPublishJourney: (
+      data: PublishJourneyRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishJourneyResponseDto, void>({
+        path: `/v2/journeys/publish`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns NOT_PUBLISHED, PUBLISHING, PUBLISHED, or FAILED for the given journeyId
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishStatus
+     * @summary Get publish status for a journey
+     * @request GET:/v2/journeys/publish/status/{journeyId}
+     */
+    publishJourneyControllerGetPublishStatus: (
+      journeyId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishStatusResponseDto, any>({
+        path: `/v2/journeys/publish/status/${journeyId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns publish status and server-side publish metadata for the given journeyId
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishInfo
+     * @summary Get publish info for a journey
+     * @request GET:/v2/journeys/publish/info/{journeyId}
+     */
+    publishJourneyControllerGetPublishInfo: (
+      journeyId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishJourneyInfoResponseDto, any>({
+        path: `/v2/journeys/publish/info/${journeyId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Public endpoint to retrieve a paginated list of all published journeys
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishedJourneys
+     * @summary Get list of published journeys (public feed)
+     * @request GET:/v2/journeys/public
+     */
+    publishJourneyControllerGetPublishedJourneys: (
+      query?: {
+        /**
+         * Page number (default: 1)
+         * @example 1
+         */
+        page?: number;
+        /**
+         * Number of items per page (default: 20, max: 100)
+         * @example 20
+         */
+        limit?: number;
+        /** Sort order (default: recent) */
+        sort?: "recent" | "oldest";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishedJourneysResponseDto, any>({
+        path: `/v2/journeys/public`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Public endpoint to retrieve published journey data for rendering. Returns only essential data (clusters, images, metadata).
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishedJourney
+     * @summary Get published journey by public ID
+     * @request GET:/v2/journeys/public/{publicId}
+     */
+    publishJourneyControllerGetPublishedJourney: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishedJourneyDetailResponseDto, void>({
+        path: `/v2/journeys/public/${publicId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Public endpoint to retrieve a published photo with its journey context
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishedPhoto
+     * @summary Get published photo by photo ID (for SEO)
+     * @request GET:/v2/journeys/public/photos/{photoId}
+     */
+    publishJourneyControllerGetPublishedPhoto: (
+      photoId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/v2/journeys/public/photos/${photoId}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Delete a published journey and its associated S3 images. Only the owner can unpublish.
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerUnpublishJourney
+     * @summary Unpublish a journey
+     * @request DELETE:/v2/journeys/publish/{publicId}
+     * @secure
+     */
+    publishJourneyControllerUnpublishJourney: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<UnpublishJourneyResponseDto, void>({
+        path: `/v2/journeys/publish/${publicId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns a presigned URL that allows the client to upload files directly to S3 without exposing AWS credentials
+     *
+     * @tags uploads
+     * @name UploadsControllerGeneratePresignedUrl
+     * @summary Generate presigned URL for client-side S3 upload
+     * @request POST:/v2/uploads/presign
+     * @secure
+     */
+    uploadsControllerGeneratePresignedUrl: (
+      data: PresignUploadRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<PresignUploadResponseDto, void>({
+        path: `/v2/uploads/presign`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags apps
+     * @name AppsVersionControllerGetVersionPolicy
+     * @summary Get app version policy (min supported / latest / store URL)
+     * @request GET:/v2/apps/version-policy
+     */
+    appsVersionControllerGetVersionPolicy: (params: RequestParams = {}) =>
+      this.request<VersionPolicyResponseDto, any>({
+        path: `/v2/apps/version-policy`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags apps
+     * @name AppsVersionControllerCheckVersion
+     * @summary Check if app should update (force/soft)
+     * @request GET:/v2/apps/check
+     */
+    appsVersionControllerCheckVersion: (
+      query: {
+        platform: "ios" | "android";
+        /**
+         * SemVer like 1.2.3
+         * @example "1.8.4"
+         */
+        version: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<VersionCheckResponseDto, any>({
+        path: `/v2/apps/check`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+}
