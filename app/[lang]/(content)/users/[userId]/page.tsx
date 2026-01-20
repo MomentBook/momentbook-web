@@ -6,39 +6,38 @@ import styles from "./user.module.scss";
 import { type Language, languageList } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
-  publicUsers,
-  getPublicUser,
-  getUserJourneys,
-} from "@/lib/public-content";
+  fetchPublicUsers,
+  fetchPublicUser,
+  fetchUserJourneys,
+} from "@/lib/public-users";
 
 export const revalidate = 3600;
 
-const userLabels: Record<Language, { journeys: string; places: string; photos: string }> = {
+const userLabels: Record<Language, { journeys: string; photos: string }> = {
   en: {
     journeys: "Journeys",
-    places: "places",
     photos: "photos",
   },
   ko: {
     journeys: "여정",
-    places: "곳",
     photos: "장",
   },
   ja: {
     journeys: "旅",
-    places: "か所",
     photos: "枚",
   },
   zh: {
     journeys: "行程",
-    places: "个地点",
     photos: "张照片",
   },
 };
 
 export async function generateStaticParams() {
+  const response = await fetchPublicUsers({ limit: 1000, sort: "recent" });
+  const users = response?.data?.users ?? [];
+
   return languageList.flatMap((lang) =>
-    publicUsers.map((user) => ({
+    users.map((user) => ({
       lang,
       userId: user.userId,
     }))
@@ -51,7 +50,7 @@ export async function generateMetadata({
   params: Promise<{ lang: string; userId: string }>;
 }): Promise<Metadata> {
   const { lang, userId } = await params as { lang: Language; userId: string };
-  const user = getPublicUser(userId);
+  const user = await fetchPublicUser(userId);
 
   if (!user) {
     return {
@@ -63,28 +62,28 @@ export async function generateMetadata({
   const url = buildOpenGraphUrl(lang, path);
 
   return {
-    title: `${user.displayName} · MomentBook`,
-    description: user.bio,
+    title: `${user.name} · MomentBook`,
+    description: user.biography ?? "",
     alternates: buildAlternates(lang, path),
     openGraph: {
-      title: `${user.displayName} · MomentBook`,
-      description: user.bio,
+      title: `${user.name} · MomentBook`,
+      description: user.biography ?? "",
       type: "profile",
       url,
-      images: [
+      images: user.picture ? [
         {
-          url: user.avatarUrl,
+          url: user.picture,
           width: 800,
           height: 800,
-          alt: user.displayName,
+          alt: user.name,
         },
-      ],
+      ] : [],
     },
     twitter: {
       card: "summary",
-      title: `${user.displayName} · MomentBook`,
-      description: user.bio,
-      images: [user.avatarUrl],
+      title: `${user.name} · MomentBook`,
+      description: user.biography ?? "",
+      images: user.picture ? [user.picture] : [],
     },
   };
 }
@@ -95,27 +94,28 @@ export default async function UserPage({
   params: Promise<{ lang: string; userId: string }>;
 }) {
   const { lang, userId } = await params as { lang: Language; userId: string };
-  const user = getPublicUser(userId);
+  const user = await fetchPublicUser(userId);
 
   if (!user) {
     notFound();
   }
 
-  const journeys = getUserJourneys(user.userId);
+  const journeysResponse = await fetchUserJourneys(userId, { limit: 100 });
+  const journeys = journeysResponse?.data?.journeys ?? [];
   const labels = userLabels[lang] ?? userLabels.en;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, `/users/${user.userId}`), siteUrl).toString();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    name: `${user.displayName} · MomentBook`,
+    name: `${user.name} · MomentBook`,
     url: pageUrl,
     mainEntity: {
       "@type": "Person",
-      name: user.displayName,
+      name: user.name,
       identifier: user.userId,
-      description: user.bio,
-      image: user.avatarUrl,
+      description: user.biography ?? "",
+      image: user.picture ?? "",
       url: pageUrl,
     },
   };
@@ -127,19 +127,20 @@ export default async function UserPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <header className={styles.header}>
-        <div className={styles.avatarFrame}>
-          <Image
-            src={user.avatarUrl}
-            alt={user.displayName}
-            fill
-            sizes="120px"
-            className={styles.avatar}
-          />
-        </div>
+        {user.picture && (
+          <div className={styles.avatarFrame}>
+            <Image
+              src={user.picture}
+              alt={user.name}
+              fill
+              sizes="120px"
+              className={styles.avatar}
+            />
+          </div>
+        )}
         <div>
-          <p className={styles.name}>{user.displayName}</p>
-          <p className={styles.handle}>{user.handle}</p>
-          <p className={styles.bio}>{user.bio}</p>
+          <p className={styles.name}>{user.name}</p>
+          {user.biography && <p className={styles.bio}>{user.biography}</p>}
         </div>
       </header>
 
@@ -148,17 +149,30 @@ export default async function UserPage({
         <div className={styles.journeyGrid}>
           {journeys.map((journey) => (
             <Link
-              key={journey.journeyId}
-              href={`/${lang}/journeys/${journey.journeyId}`}
+              key={journey.publicId}
+              href={`/${lang}/journeys/${journey.publicId}`}
               className={styles.journeyCard}
             >
+              {journey.images[0] && (
+                <div className={styles.coverImageFrame}>
+                  <Image
+                    src={journey.images[0].url}
+                    alt={journey.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className={styles.coverImage}
+                  />
+                </div>
+              )}
               <div className={styles.journeyHeader}>
                 <p className={styles.journeyTitle}>{journey.title}</p>
                 <p className={styles.journeyMeta}>
-                  {journey.recapDraft.inputSummary.totalStayPoints} {labels.places} · {journey.recapDraft.inputSummary.totalPhotos} {labels.photos}
+                  {journey.photoCount} {labels.photos}
                 </p>
               </div>
-              <p className={styles.journeyDescription}>{journey.description}</p>
+              {journey.description && (
+                <p className={styles.journeyDescription}>{journey.description}</p>
+              )}
             </Link>
           ))}
         </div>

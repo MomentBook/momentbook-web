@@ -27,7 +27,7 @@ ${url.alternates
 </urlset>`;
 }
 
-async function fetchPublishedUsers() {
+async function fetchPublishedUsers(): Promise<Array<{ userId: string; lastUpdate: string }>> {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!apiBaseUrl) {
@@ -36,10 +36,10 @@ async function fetchPublishedUsers() {
   }
 
   try {
-    // Get unique user IDs from published journeys
-    const response = await fetch(`${apiBaseUrl}/v2/journeys/public?limit=10000`, {
-      next: { revalidate: 3600 },
-    });
+    const response = await fetch(
+      `${apiBaseUrl}/v2/users/public?limit=10000&sort=recent`,
+      { next: { revalidate: 3600 } }
+    );
 
     if (!response.ok) {
       return [];
@@ -47,25 +47,10 @@ async function fetchPublishedUsers() {
 
     const data = await response.json();
 
-    if (data.status === "success" && Array.isArray(data.data)) {
-      // Extract unique user IDs
-      const userMap = new Map<string, string>();
-
-      data.data.forEach((journey: any) => {
-        if (journey.userId) {
-          const lastUpdate = journey.publishedAt || journey.createdAt || new Date().toISOString();
-          const existing = userMap.get(journey.userId);
-
-          // Keep the most recent update
-          if (!existing || lastUpdate > existing) {
-            userMap.set(journey.userId, lastUpdate);
-          }
-        }
-      });
-
-      return Array.from(userMap.entries()).map(([userId, lastUpdate]) => ({
-        userId,
-        lastUpdate,
+    if (data.status === "success" && data.data?.users) {
+      return data.data.users.map((user: { userId: string; updatedAt?: string; createdAt?: string }) => ({
+        userId: user.userId,
+        lastUpdate: user.updatedAt || user.createdAt || new Date().toISOString(),
       }));
     }
 
