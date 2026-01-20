@@ -1,10 +1,9 @@
-export type PublicUserApi = {
-    userId: string;
-    name: string;
-    picture?: string;
-    biography?: string;
-    publishedJourneyCount: number;
-};
+import type {
+    PublicUserProfileDto,
+} from "@/src/apis/client";
+
+// Re-export API types for consistency
+export type PublicUserApi = PublicUserProfileDto;
 
 export type UserJourneyApi = {
     publicId: string;

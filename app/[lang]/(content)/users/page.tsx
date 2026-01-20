@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublicUsers } from "@/lib/public-users";
-import { UserList } from "./UserList";
+import { UserSearchForm } from "./UserSearchForm";
 import styles from "./users.module.scss";
 
 export const revalidate = 3600;
@@ -78,29 +80,31 @@ export async function generateMetadata({
 
 export default async function UsersPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ lang: string }>;
+  searchParams: Promise<{ q?: string }>;
 }) {
   const { lang } = await params as { lang: Language };
+  const { q } = await searchParams as { q?: string };
   const labels = userListLabels[lang] ?? userListLabels.en;
 
   const response = await fetchPublicUsers({ limit: 100, sort: "recent" });
-  const users = response?.data?.users ?? [];
+  const allUsers = response?.data?.users ?? [];
 
-  const cards = users.map((user) => {
-    const searchText = [user.name, user.biography]
-      .filter(Boolean)
-      .join(" ");
+  // Server-side filtering
+  const query = q?.trim().toLowerCase() || "";
+  const filteredUsers = query
+    ? allUsers.filter((user) => {
+        const searchText = [user.name, user.biography]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return searchText.includes(query);
+      })
+    : allUsers;
 
-    return {
-      userId: user.userId,
-      name: user.name,
-      picture: user.picture,
-      biography: user.biography,
-      journeyCount: user.publishedJourneyCount,
-      searchText,
-    };
-  });
+  const countText = labels.countLabel.replace("{count}", String(filteredUsers.length));
 
   return (
     <div className={styles.page}>
@@ -109,11 +113,45 @@ export default async function UsersPage({
         <p className={styles.subtitle}>{labels.subtitle}</p>
       </header>
 
-      <UserList
-        lang={lang}
-        cards={cards}
-        labels={labels}
-      />
+      <div className={styles.listSection}>
+        <div className={styles.searchRow}>
+          <UserSearchForm lang={lang} placeholder={labels.searchPlaceholder} />
+          <p className={styles.countText}>{countText}</p>
+        </div>
+
+        <div className={styles.grid}>
+          {filteredUsers.map((user) => (
+            <Link
+              key={user.userId}
+              href={`/${lang}/users/${user.userId}`}
+              className={styles.card}
+            >
+              {user.picture && (
+                <div className={styles.avatarFrame}>
+                  <Image
+                    src={user.picture}
+                    alt={user.name}
+                    fill
+                    sizes="120px"
+                    className={styles.avatar}
+                  />
+                </div>
+              )}
+              <div className={styles.cardBody}>
+                <p className={styles.name}>{user.name}</p>
+                {user.biography && <p className={styles.bio}>{user.biography}</p>}
+                <p className={styles.meta}>
+                  {user.publishedJourneyCount} {labels.journeysLabel}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {filteredUsers.length === 0 && (
+          <div className={styles.emptyState}>{labels.empty}</div>
+        )}
+      </div>
     </div>
   );
 }

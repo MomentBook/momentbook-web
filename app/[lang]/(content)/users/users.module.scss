@@ -41,9 +41,13 @@
   }
 }
 
-.searchInput {
+.searchForm {
   width: 100%;
   max-width: 28rem;
+}
+
+.searchInput {
+  width: 100%;
   padding: 0.7rem 1rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
