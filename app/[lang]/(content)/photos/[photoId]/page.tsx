@@ -3,122 +3,67 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./photo.module.scss";
-import { type Language, languageList } from "@/lib/i18n/config";
+import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import {
-  publicPhotos,
-  getPublicPhoto,
-  getPublicJourney,
-  getPublicUser,
-} from "@/lib/public-content";
 import {
   fetchPublishedPhoto,
   type PublishedPhotoApi,
-} from "@/lib/published-photo";
+} from "@/lib/published-journey";
 
 export const revalidate = 3600;
 
-const photoLabels: Record<Language, {
-  back: string;
-  journey: string;
-  traveler: string;
-  captured: string;
-  untitled: string;
-}> = {
+const photoLabels: Record<
+  Language,
+  {
+    backToJourney: string;
+    takenAt: string;
+    location: string;
+    fromJourney: string;
+  }
+> = {
   en: {
-    back: "← Back to journey",
-    journey: "Journey",
-    traveler: "Traveler",
-    captured: "Captured",
-    untitled: "Moment",
+    backToJourney: "Back to Journey",
+    takenAt: "Taken at",
+    location: "Location",
+    fromJourney: "From Journey",
   },
   ko: {
-    back: "← 여정으로 돌아가기",
-    journey: "여정",
-    traveler: "여행자",
-    captured: "기록 시각",
-    untitled: "순간",
+    backToJourney: "여정으로 돌아가기",
+    takenAt: "촬영 시각",
+    location: "장소",
+    fromJourney: "이 여정에서",
   },
   ja: {
-    back: "← 旅に戻る",
-    journey: "旅",
-    traveler: "旅行者",
-    captured: "記録時刻",
-    untitled: "瞬間",
+    backToJourney: "旅に戻る",
+    takenAt: "撮影日時",
+    location: "場所",
+    fromJourney: "この旅から",
   },
   zh: {
-    back: "← 返回行程",
-    journey: "行程",
-    traveler: "旅行者",
-    captured: "记录时间",
-    untitled: "瞬间",
+    backToJourney: "返回行程",
+    takenAt: "拍摄时间",
+    location: "地点",
+    fromJourney: "来自行程",
   },
 };
 
-type PhotoView = {
-  photoId: string;
-  url: string;
-  width?: number;
-  height?: number;
-  caption: string;
-  locationName?: string;
-  takenAt?: number;
-  journeySlug: string;
-  journeyTitle?: string;
-  userId?: string;
-};
-
-function buildPhotoViewFromApi(photo: PublishedPhotoApi): PhotoView {
-  const caption = photo.caption?.trim() || "";
-
-  return {
-    photoId: photo.photoId,
-    url: photo.url,
-    width: photo.width,
-    height: photo.height,
-    caption,
-    locationName: photo.locationName,
-    takenAt: photo.takenAt,
-    journeySlug: photo.journey.publicId,
-    journeyTitle:
-      typeof photo.journey.metadata?.title === "string"
-        ? photo.journey.metadata.title
-        : undefined,
-    userId:
-      typeof photo.journey.userId === "string"
-        ? photo.journey.userId
-        : typeof photo.journey.metadata?.userId === "string"
-          ? photo.journey.metadata.userId
-          : undefined,
-  };
-}
-
-function buildPhotoViewFromStatic(photo: ReturnType<typeof getPublicPhoto>): PhotoView {
-  if (!photo) {
-    throw new Error("Photo not found");
+function formatDateTime(lang: Language, timestamp?: number): string | null {
+  if (!timestamp || isNaN(timestamp)) {
+    return null;
   }
 
-  return {
-    photoId: photo.photoId,
-    url: photo.url,
-    width: photo.width,
-    height: photo.height,
-    caption: photo.caption,
-    locationName: photo.locationName,
-    takenAt: photo.takenAt,
-    journeySlug: photo.journeyId,
-    journeyTitle: getPublicJourney(photo.journeyId)?.title,
-    userId: photo.userId,
-  };
-}
-
-export async function generateStaticParams() {
-  return languageList.flatMap((lang) =>
-    publicPhotos.map((photo) => ({
-      lang,
-      photoId: photo.photoId,
-    }))
-  );
+  try {
+    const formatter = new Intl.DateTimeFormat(lang, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return formatter.format(new Date(timestamp));
+  } catch {
+    return null;
+  }
 }
 
 export async function generateMetadata({
@@ -126,15 +71,11 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: string; photoId: string }>;
 }): Promise<Metadata> {
-  const { lang, photoId } = await params as { lang: Language; photoId: string };
-  const labels = photoLabels[lang] ?? photoLabels.en;
-  const apiPhoto = await fetchPublishedPhoto(photoId);
-  const photo = apiPhoto
-    ? buildPhotoViewFromApi(apiPhoto)
-    : (() => {
-        const staticPhoto = getPublicPhoto(photoId);
-        return staticPhoto ? buildPhotoViewFromStatic(staticPhoto) : null;
-      })();
+  const { lang, photoId } = (await params) as {
+    lang: Language;
+    photoId: string;
+  };
+  const photo = await fetchPublishedPhoto(photoId);
 
   if (!photo) {
     return {
@@ -142,36 +83,39 @@ export async function generateMetadata({
     };
   }
 
-  const path = `/photos/${photoId}`;
+  const path = `/photos/${photo.photoId}`;
   const url = buildOpenGraphUrl(lang, path);
-  const title = photo.caption || labels.untitled;
+  const title = photo.caption || `Photo from ${photo.journey.title}`;
+  const description =
+    photo.caption ||
+    `A photo from ${photo.journey.title}${photo.locationName ? ` taken at ${photo.locationName}` : ""}`;
+
+  const publishedTime =
+    photo.takenAt && !isNaN(photo.takenAt)
+      ? new Date(photo.takenAt).toISOString()
+      : undefined;
 
   return {
     title,
-    description: photo.locationName
-      ? `${photo.locationName} · ${title}`
-      : title,
+    description,
     alternates: buildAlternates(lang, path),
     openGraph: {
       title,
-      description: photo.locationName
-        ? `${photo.locationName} · ${title}`
-        : title,
+      description,
       type: "article",
       url,
       images: [
         {
           url: photo.url,
-          width: photo.width,
-          height: photo.height,
           alt: title,
         },
       ],
+      publishedTime,
     },
     twitter: {
       card: "summary_large_image",
       title,
-      description: photo.locationName || title,
+      description,
       images: [photo.url],
     },
   };
@@ -182,76 +126,113 @@ export default async function PhotoPage({
 }: {
   params: Promise<{ lang: string; photoId: string }>;
 }) {
-  const { lang, photoId } = await params as { lang: Language; photoId: string };
-  const apiPhoto = await fetchPublishedPhoto(photoId);
-  const photo = apiPhoto
-    ? buildPhotoViewFromApi(apiPhoto)
-    : (() => {
-        const staticPhoto = getPublicPhoto(photoId);
-        return staticPhoto ? buildPhotoViewFromStatic(staticPhoto) : null;
-      })();
+  const { lang, photoId } = (await params) as {
+    lang: Language;
+    photoId: string;
+  };
+  const photo = await fetchPublishedPhoto(photoId);
 
   if (!photo) {
     notFound();
   }
 
-  const journey = photo.journeyTitle
-    ? { title: photo.journeyTitle, journeyId: photo.journeySlug }
-    : getPublicJourney(photo.journeySlug);
-  const user = photo.userId ? getPublicUser(photo.userId) : undefined;
   const labels = photoLabels[lang] ?? photoLabels.en;
-  const title = photo.caption || labels.untitled;
+  const dateTime = formatDateTime(lang, photo.takenAt);
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(
+    buildOpenGraphUrl(lang, `/photos/${photo.photoId}`),
+    siteUrl
+  ).toString();
+
+  const datePublished =
+    photo.takenAt && !isNaN(photo.takenAt)
+      ? new Date(photo.takenAt).toISOString()
+      : undefined;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ImageObject",
+    contentUrl: photo.url,
+    url: pageUrl,
+    caption: photo.caption,
+    ...(datePublished && { datePublished }),
+    author: {
+      "@type": "Person",
+      name: "MomentBook User",
+    },
+    isPartOf: {
+      "@type": "Article",
+      name: photo.journey.title,
+      url: new URL(
+        buildOpenGraphUrl(lang, `/journeys/${photo.journey.publicId}`),
+        siteUrl
+      ).toString(),
+    },
+  };
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <Link href={`/${lang}/journeys/${photo.journeySlug}`} className={styles.backLink}>
-          {labels.back}
-        </Link>
-        <h1 className={styles.title}>{title}</h1>
-        {photo.locationName && (
-          <p className={styles.subtitle}>{photo.locationName}</p>
-        )}
-      </header>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-      <div className={styles.imageFrame}>
-        <Image
-          src={photo.url}
-          alt={title}
-          fill
-          sizes="(max-width: 900px) 100vw, 70vw"
-          className={styles.image}
-        />
-      </div>
+      <div className={styles.container}>
+        <nav className={styles.breadcrumb}>
+          <Link
+            href={`/${lang}/journeys/${photo.journey.publicId}`}
+            className={styles.backLink}
+          >
+            ← {labels.backToJourney}
+          </Link>
+        </nav>
 
-      <div className={styles.metaGrid}>
-        {journey && (
-          <div className={styles.metaCard}>
-            <p className={styles.metaLabel}>{labels.journey}</p>
-            {journey.title ? (
-              <Link href={`/${lang}/journeys/${journey.journeyId}`} className={styles.metaValue}>
-                {journey.title}
-              </Link>
-            ) : (
-              <p className={styles.metaValue}>{labels.journey}</p>
+        <div className={styles.photoContainer}>
+          <div className={styles.imageWrapper}>
+            <Image
+              src={photo.url}
+              alt={photo.caption || photo.journey.title}
+              fill
+              priority
+              className={styles.image}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+            />
+          </div>
+        </div>
+
+        <div className={styles.metadata}>
+          {photo.caption && (
+            <div className={styles.captionSection}>
+              <p className={styles.caption}>{photo.caption}</p>
+            </div>
+          )}
+
+          <div className={styles.detailsGrid}>
+            {dateTime && (
+              <div className={styles.detail}>
+                <span className={styles.detailLabel}>{labels.takenAt}</span>
+                <span className={styles.detailValue}>{dateTime}</span>
+              </div>
             )}
+
+            {photo.locationName && (
+              <div className={styles.detail}>
+                <span className={styles.detailLabel}>{labels.location}</span>
+                <span className={styles.detailValue}>{photo.locationName}</span>
+              </div>
+            )}
+
+            <div className={styles.detail}>
+              <span className={styles.detailLabel}>{labels.fromJourney}</span>
+              <Link
+                href={`/${lang}/journeys/${photo.journey.publicId}`}
+                className={styles.journeyLink}
+              >
+                {photo.journey.title}
+              </Link>
+            </div>
           </div>
-        )}
-        {user && (
-          <div className={styles.metaCard}>
-            <p className={styles.metaLabel}>{labels.traveler}</p>
-            <Link href={`/${lang}/users/${user.userId}`} className={styles.metaValue}>
-              {user.displayName}
-            </Link>
-          </div>
-        )}
-        <div className={styles.metaCard}>
-          <p className={styles.metaLabel}>{labels.captured}</p>
-          <p className={styles.metaValue}>
-            {photo.takenAt
-              ? new Date(photo.takenAt).toLocaleString(lang)
-              : "—"}
-          </p>
         </div>
       </div>
     </div>
