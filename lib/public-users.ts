@@ -10,7 +10,7 @@ export type UserJourneyApi = {
     title: string;
     description?: string;
     photoCount: number;
-    images: Array<{ url: string; photoId: string }>;
+    images?: Array<{ url: string; photoId: string }>;
     publishedAt: string;
 };
 

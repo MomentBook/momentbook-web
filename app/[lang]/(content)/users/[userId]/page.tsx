@@ -158,7 +158,7 @@ export default async function UserPage({
               className={styles.journeyCard}
             >
               <div className={styles.coverImageFrame}>
-                {journey.images[0] ? (
+                {journey.images?.[0] ? (
                   <Image
                     src={journey.images[0].url}
                     alt={journey.title}
