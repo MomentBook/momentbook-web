@@ -36,9 +36,30 @@ export type PublishedJourneyApi = {
     createdAt: string;
 };
 
+export type PublishedPhotoApi = {
+    photoId: string;
+    url: string;
+    takenAt: number;
+    locationName?: string;
+    location?: {
+        lat: number;
+        lng: number;
+    };
+    caption?: string;
+    journey: {
+        publicId: string;
+        title: string;
+    };
+};
+
 type PublishedJourneyResponse = {
     status: string;
     data?: PublishedJourneyApi;
+};
+
+type PublishedPhotoResponse = {
+    status: string;
+    data?: PublishedPhotoApi;
 };
 
 function getApiBaseUrl(): string | null {
@@ -79,6 +100,40 @@ export async function fetchPublishedJourney(
     } catch (error) {
         console.warn(
             "[published-journey] Failed to fetch published journey",
+            error,
+        );
+        return null;
+    }
+}
+
+export async function fetchPublishedPhoto(
+    photoId: string,
+): Promise<PublishedPhotoApi | null> {
+    const baseUrl = getApiBaseUrl();
+    if (!baseUrl) {
+        return null;
+    }
+
+    try {
+        const response = await fetch(
+            `${baseUrl}/v2/journeys/public/photos/${encodeURIComponent(photoId)}`,
+            { next: { revalidate: 3600 } },
+        );
+
+        if (!response.ok) {
+            return null;
+        }
+
+        const payload = (await response.json()) as PublishedPhotoResponse;
+
+        if (payload?.status !== "success" || !payload.data) {
+            return null;
+        }
+
+        return payload.data;
+    } catch (error) {
+        console.warn(
+            "[published-journey] Failed to fetch published photo",
             error,
         );
         return null;
