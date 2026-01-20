@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -20,7 +20,6 @@ L.Icon.Default.mergeOptions({
 
 type JourneyMapProps = {
   clusters: PublishedJourneyCluster[];
-  onClusterClick?: (clusterId: string) => void;
 };
 
 function calculateBounds(
@@ -57,32 +56,42 @@ function calculateBounds(
 
 export default function JourneyMap({
   clusters,
-  onClusterClick,
 }: JourneyMapProps) {
+  const [isMounted, setIsMounted] = useState(false);
   const mapRef = useRef<L.Map | null>(null);
-  const bounds = calculateBounds(clusters);
+
+  // Hooks must be called in consistent order - before any early returns
+  const bounds = useMemo(() => calculateBounds(clusters), [clusters]);
+  const center: [number, number] = useMemo(
+    () => [
+      (bounds[0][0] + bounds[1][0]) / 2,
+      (bounds[0][1] + bounds[1][1]) / 2,
+    ],
+    [bounds]
+  );
+  const mapKey = useMemo(
+    () => clusters.map((c) => c.clusterId).join("-"),
+    [clusters]
+  );
 
   useEffect(() => {
-    // Fix for SSR
-    if (typeof window === "undefined") return;
+    setIsMounted(true);
+  }, []);
 
+  useEffect(() => {
     if (mapRef.current && bounds) {
       mapRef.current.fitBounds(bounds);
     }
   }, [bounds]);
 
-  if (clusters.length === 0) {
+  if (!isMounted || clusters.length === 0) {
     return null;
   }
-
-  const center: [number, number] = [
-    (bounds[0][0] + bounds[1][0]) / 2,
-    (bounds[0][1] + bounds[1][1]) / 2,
-  ];
 
   return (
     <div className={styles.mapContainer}>
       <MapContainer
+        key={mapKey}
         center={center}
         zoom={13}
         bounds={bounds}
@@ -98,13 +107,6 @@ export default function JourneyMap({
           <Marker
             key={cluster.clusterId}
             position={[cluster.center.lat, cluster.center.lng]}
-            eventHandlers={{
-              click: () => {
-                if (onClusterClick) {
-                  onClusterClick(cluster.clusterId);
-                }
-              },
-            }}
           >
             <Popup>
               <div className={styles.popup}>

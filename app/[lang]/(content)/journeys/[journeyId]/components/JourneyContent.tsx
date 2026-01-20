@@ -1,21 +1,10 @@
-"use client";
-
-import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import styles from "../journey.module.scss";
 import type {
   PublishedJourneyApi,
-  PublishedJourneyCluster,
 } from "@/lib/published-journey";
-
-const JourneyMap = dynamic(() => import("./JourneyMap"), {
-  ssr: false,
-  loading: () => (
-    <div className={styles.mapPlaceholder}>Loading map...</div>
-  ),
-});
+import MapWrapper from "./MapWrapper";
 
 type JourneyContentProps = {
   journey: PublishedJourneyApi;
@@ -35,21 +24,9 @@ export default function JourneyContent({
   labels,
   locations,
 }: JourneyContentProps) {
-  const clusterRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  const handleClusterClick = (clusterId: string) => {
-    const element = clusterRefs.current[clusterId];
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
   return (
     <>
-      <JourneyMap clusters={journey.clusters} onClusterClick={handleClusterClick} />
+      <MapWrapper clusters={journey.clusters} />
 
       {locations.length > 0 && (
         <section className={styles.section}>
@@ -84,9 +61,6 @@ export default function JourneyContent({
             <div
               key={cluster.clusterId}
               id={cluster.clusterId}
-              ref={(el) => {
-                clusterRefs.current[cluster.clusterId] = el;
-              }}
               className={styles.clusterSection}
             >
               {cluster.locationName && (
