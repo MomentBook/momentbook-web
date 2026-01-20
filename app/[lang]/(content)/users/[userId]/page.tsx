@@ -127,8 +127,8 @@ export default async function UserPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <header className={styles.header}>
-        {user.picture && (
-          <div className={styles.avatarFrame}>
+        <div className={styles.avatarFrame}>
+          {user.picture ? (
             <Image
               src={user.picture}
               alt={user.name}
@@ -136,8 +136,12 @@ export default async function UserPage({
               sizes="120px"
               className={styles.avatar}
             />
-          </div>
-        )}
+          ) : (
+            <div className={styles.avatarFallback}>
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+          )}
+        </div>
         <div>
           <p className={styles.name}>{user.name}</p>
           {user.biography && <p className={styles.bio}>{user.biography}</p>}
@@ -153,8 +157,8 @@ export default async function UserPage({
               href={`/${lang}/journeys/${journey.publicId}`}
               className={styles.journeyCard}
             >
-              {journey.images[0] && (
-                <div className={styles.coverImageFrame}>
+              <div className={styles.coverImageFrame}>
+                {journey.images[0] ? (
                   <Image
                     src={journey.images[0].url}
                     alt={journey.title}
@@ -162,8 +166,10 @@ export default async function UserPage({
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className={styles.coverImage}
                   />
-                </div>
-              )}
+                ) : (
+                  <div className={styles.coverFallback}>MomentBook</div>
+                )}
+              </div>
               <div className={styles.journeyHeader}>
                 <p className={styles.journeyTitle}>{journey.title}</p>
                 <p className={styles.journeyMeta}>

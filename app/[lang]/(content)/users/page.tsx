@@ -126,8 +126,8 @@ export default async function UsersPage({
               href={`/${lang}/users/${user.userId}`}
               className={styles.card}
             >
-              {user.picture && (
-                <div className={styles.avatarFrame}>
+              <div className={styles.avatarFrame}>
+                {user.picture ? (
                   <Image
                     src={user.picture}
                     alt={user.name}
@@ -135,8 +135,12 @@ export default async function UsersPage({
                     sizes="120px"
                     className={styles.avatar}
                   />
-                </div>
-              )}
+                ) : (
+                  <div className={styles.avatarFallback}>
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
               <div className={styles.cardBody}>
                 <p className={styles.name}>{user.name}</p>
                 {user.biography && <p className={styles.bio}>{user.biography}</p>}
