@@ -39,7 +39,7 @@ export type PublishedJourneyApi = {
 export type PublishedPhotoApi = {
     photoId: string;
     url: string;
-    takenAt: number;
+    takenAt?: number;
     locationName?: string;
     location?: {
         lat: number;

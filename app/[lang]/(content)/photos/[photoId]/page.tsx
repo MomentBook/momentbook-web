@@ -47,15 +47,23 @@ const photoLabels: Record<
   },
 };
 
-function formatDateTime(lang: Language, timestamp: number) {
-  const formatter = new Intl.DateTimeFormat(lang, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  return formatter.format(new Date(timestamp));
+function formatDateTime(lang: Language, timestamp?: number): string | null {
+  if (!timestamp || isNaN(timestamp)) {
+    return null;
+  }
+
+  try {
+    const formatter = new Intl.DateTimeFormat(lang, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return formatter.format(new Date(timestamp));
+  } catch {
+    return null;
+  }
 }
 
 export async function generateMetadata({
@@ -82,6 +90,11 @@ export async function generateMetadata({
     photo.caption ||
     `A photo from ${photo.journey.title}${photo.locationName ? ` taken at ${photo.locationName}` : ""}`;
 
+  const publishedTime =
+    photo.takenAt && !isNaN(photo.takenAt)
+      ? new Date(photo.takenAt).toISOString()
+      : undefined;
+
   return {
     title,
     description,
@@ -97,7 +110,7 @@ export async function generateMetadata({
           alt: title,
         },
       ],
-      publishedTime: new Date(photo.takenAt).toISOString(),
+      publishedTime,
     },
     twitter: {
       card: "summary_large_image",
@@ -132,13 +145,18 @@ export default async function PhotoPage({
     siteUrl
   ).toString();
 
+  const datePublished =
+    photo.takenAt && !isNaN(photo.takenAt)
+      ? new Date(photo.takenAt).toISOString()
+      : undefined;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ImageObject",
     contentUrl: photo.url,
     url: pageUrl,
     caption: photo.caption,
-    datePublished: new Date(photo.takenAt).toISOString(),
+    ...(datePublished && { datePublished }),
     author: {
       "@type": "Person",
       name: "MomentBook User",
@@ -191,10 +209,12 @@ export default async function PhotoPage({
           )}
 
           <div className={styles.detailsGrid}>
-            <div className={styles.detail}>
-              <span className={styles.detailLabel}>{labels.takenAt}</span>
-              <span className={styles.detailValue}>{dateTime}</span>
-            </div>
+            {dateTime && (
+              <div className={styles.detail}>
+                <span className={styles.detailLabel}>{labels.takenAt}</span>
+                <span className={styles.detailValue}>{dateTime}</span>
+              </div>
+            )}
 
             {photo.locationName && (
               <div className={styles.detail}>
