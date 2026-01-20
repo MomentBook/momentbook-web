@@ -989,6 +989,64 @@ export interface BlockedUsersResponseDto {
   data: BlockedUsersResponseDataDto;
 }
 
+export interface PublicUsersResponseDto {
+  /** @example "success" */
+  status: string;
+  data: {
+    users?: any[];
+    total?: number;
+    page?: number;
+    pages?: number;
+    limit?: number;
+  };
+}
+
+export interface PublicUserProfileDto {
+  /**
+   * User ID
+   * @example "507f1f77bcf86cd799439011"
+   */
+  userId: string;
+  /**
+   * User display name
+   * @example "John Doe"
+   */
+  name: string;
+  /**
+   * User avatar URL
+   * @example "https://cdn.momentbook.app/avatars/user123.jpg"
+   */
+  picture?: string;
+  /**
+   * User biography
+   * @example "Traveler and photographer"
+   */
+  biography?: string;
+  /**
+   * Number of published journeys
+   * @example 5
+   */
+  publishedJourneyCount: number;
+}
+
+export interface PublicUserProfileResponseDto {
+  /** @example "success" */
+  status: string;
+  data: PublicUserProfileDto;
+}
+
+export interface PublishedJourneysResponseDto {
+  /** @example "success" */
+  status: string;
+  data: {
+    journeys?: any[];
+    total?: number;
+    page?: number;
+    pages?: number;
+    limit?: number;
+  };
+}
+
 export interface ConsentTemplateDto {
   /**
    * 동의 항목 템플릿 ID
@@ -1209,6 +1267,369 @@ export interface ValidateUserConsentsResponseDto {
   status: string;
   /** 동의 검증 데이터 */
   data: ConsentValidationDto;
+}
+
+export interface GpsMetricsDto {
+  sampleCount: number;
+  timeRangeMs: number;
+  coveragePercent: number;
+  avgAccuracyM: number;
+  p50AccuracyM: number;
+  p95AccuracyM: number;
+  avgSamplingIntervalMs: number;
+  maxGapMs: number;
+  samplingConsistency: number;
+  avgSpeedMps: number;
+  maxSpeedMps: number;
+  totalDistanceM: number;
+}
+
+export interface RecapInputSummaryDto {
+  journeyId: string;
+  timeRange: object;
+  gpsMetrics?: GpsMetricsDto;
+  photoCount: number;
+  photoWithGpsCount: number;
+  photoWithoutGpsCount: number;
+  photoGpsRatio: number;
+  photoTimeRange?: object;
+}
+
+export interface RecapAlgorithmConfigDto {
+  clustering: object;
+  photoMapping: object;
+  computedAt: number;
+  processingTimeMs?: number;
+}
+
+export interface RecapComputedDto {
+  route: object;
+  unmapped: object;
+  quality: object;
+}
+
+export interface RecapOperationDto {
+  opId: string;
+  type: string;
+  atMs: number;
+  photoId?: string;
+  photoIds?: string[];
+  fromClusterId?: string;
+  toClusterId?: string;
+  clusterId?: string;
+  photoOrder?: string[];
+}
+
+export interface PhotoAssignmentDto {
+  photoId: string;
+  targetClusterId: string;
+}
+
+export interface ClusterEditDto {
+  clusterId: string;
+  edits: object;
+}
+
+export interface RecapOverridesDto {
+  ops: RecapOperationDto[];
+  hiddenPhotoIds: string[];
+  manualAssignments: PhotoAssignmentDto[];
+  manualClusterEdits: ClusterEditDto[];
+}
+
+export interface RecapDraftDto {
+  /**
+   * Schema version
+   * @example 1
+   */
+  schemaVersion: number;
+  /**
+   * Draft ID (content-based hash)
+   * @example "draft_000d77d4d4"
+   */
+  draftId: string;
+  /** Journey ID (UUIDv4) */
+  journeyId: string;
+  /** Draft creation time (Unix ms) */
+  createdAt: number;
+  /** Draft last update time (Unix ms) */
+  updatedAt: number;
+  /** Input data summary */
+  inputSummary: RecapInputSummaryDto;
+  /** Journey mode classification */
+  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
+  /** Explanation of mode classification */
+  modeReason: string;
+  /** Algorithm configuration */
+  algorithm: RecapAlgorithmConfigDto;
+  /** Computed results (IMMUTABLE) */
+  computed: RecapComputedDto;
+  /** User overrides */
+  overrides: RecapOverridesDto;
+}
+
+export interface JourneyImageLocationDto {
+  /**
+   * Latitude coordinate
+   * @example 37.5665
+   */
+  latitude: number;
+  /**
+   * Longitude coordinate
+   * @example 126.978
+   */
+  longitude: number;
+}
+
+export interface JourneyImageDto {
+  /**
+   * Public URL of the uploaded image
+   * @example "https://cdn.momentbook.app/journeys/user123/1234567890-abc.jpg"
+   */
+  url: string;
+  /** Public photo identifier (URL-safe) */
+  photoId?: string;
+  /**
+   * Image width in pixels
+   * @example 1080
+   */
+  width?: number;
+  /**
+   * Image height in pixels
+   * @example 1920
+   */
+  height?: number;
+  /** Optional caption provided by the user */
+  caption?: string;
+  /** Photo captured time (ms) */
+  takenAt?: number;
+  /** Optional location coordinates */
+  location?: JourneyImageLocationDto;
+  /** Optional human-friendly location label */
+  locationName?: string;
+}
+
+export interface JourneyTitleSummaryDto {
+  /**
+   * 전체 사진 수
+   * @example 86
+   */
+  photoCountTotal: number;
+  /**
+   * 총 소요 시간(분)
+   * @example 360
+   */
+  durationMin?: number;
+  /**
+   * 총 이동 거리(km)
+   * @example 8.4
+   */
+  distanceKm?: number;
+  /**
+   * STOP(스팟) 개수
+   * @example 5
+   */
+  stopCount?: number;
+}
+
+export interface JourneyTopStopDto {
+  /**
+   * 상위 스팟 라벨 (공개면 동/구 정도로만)
+   * @example "성수동"
+   */
+  label: string;
+  /**
+   * 체류 시간(분)
+   * @example 45
+   */
+  dwellMin?: number;
+}
+
+export interface GenerateJourneyTitleRequest {
+  /**
+   * 정리 모드
+   * @example "route_strong"
+   */
+  mode: "route_strong" | "route_weak" | "route_none" | "photo_only";
+  /**
+   * 공개 범위
+   * @example "unlisted"
+   */
+  privacyLevel: "public" | "unlisted" | "private";
+  /**
+   * 여정 날짜 (YYYY-MM-DD)
+   * @example "2026-01-07"
+   */
+  date: string;
+  /** 요약 정보 */
+  summary: JourneyTitleSummaryDto;
+  /**
+   * 제목에 반영할 하이라이트 키워드(3~8개 추천). 장소/행동/분위기 키워드 위주.
+   * @example ["산책","카페","노을","조용한 시간"]
+   */
+  highlights: string[];
+  /** 상위 스팟(있으면 1~3개). public이면 개인 위치 특정 가능한 상세 라벨 금지. */
+  topStops?: JourneyTopStopDto[];
+  /**
+   * ROUTE_WEAK일 때 신뢰도(0~1)
+   * @example 0.62
+   */
+  confidence?: number;
+}
+
+export interface PublishJourneyRequestDto {
+  /**
+   * Journey ID (client-side)
+   * @example "journey_abc123"
+   */
+  journeyId: string;
+  /**
+   * Journey start timestamp (ms)
+   * @example 1704067200000
+   */
+  startedAt: number;
+  /** Journey end timestamp (ms) */
+  endedAt?: number;
+  /** RecapDraft - 핵심 recap 데이터 (computed + overrides) */
+  recapDraft: RecapDraftDto;
+  /**
+   * Recap stage
+   * @example "USER_DONE"
+   */
+  recapStage: "NONE" | "SYSTEM_DONE" | "USER_DONE" | "FINALIZED";
+  /**
+   * Photo ID to S3 URL mapping (local uri → downloadUrl)
+   * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
+   */
+  photoUrlMapping: object;
+  /** Array of uploaded images (max 100) */
+  images: JourneyImageDto[];
+  /** Optional metadata */
+  metadata?: object;
+  /** 제목/설명 자동 생성 요청. 제공 시 AI가 title/description을 생성하여 metadata에 저장. */
+  autoGenerate?: GenerateJourneyTitleRequest;
+}
+
+export interface PublishJourneyResponseDto {
+  /**
+   * Status of the request
+   * @example "success"
+   */
+  status: string;
+  /** Published journey data */
+  data: {
+    /** Unique public identifier for the journey */
+    publicId?: string;
+    /** ISO timestamp of creation */
+    createdAt?: string;
+    /** Publish status */
+    publishStatus?: "PUBLISHING" | "PUBLISHED" | "FAILED";
+  };
+}
+
+export interface PublishStatusResponseDto {
+  /**
+   * Status of the request
+   * @example "success"
+   */
+  status: string;
+  /** Publish status data */
+  data: {
+    publishStatus?: "NOT_PUBLISHED" | "PUBLISHING" | "PUBLISHED" | "FAILED";
+    publicId?: string;
+    publishedUrl?: string;
+  };
+}
+
+export interface PublishJourneyInfoResponseDto {
+  /**
+   * Status of the request
+   * @example "success"
+   */
+  status: string;
+  /** Publish info for the journey */
+  data: {
+    publishStatus?: "NOT_PUBLISHED" | "PUBLISHING" | "PUBLISHED" | "FAILED";
+    publicId?: string;
+    publishedUrl?: string;
+    publishedAt?: string;
+    lastPublishError?: string;
+    createdAt?: string;
+    updatedAt?: string;
+  };
+}
+
+export interface PublishedJourneyDetailDto {
+  /**
+   * Public ID for sharing
+   * @example "abc123xyz789"
+   */
+  publicId: string;
+  /** Author user ID */
+  userId: string;
+  /** Journey start timestamp (ms) */
+  startedAt: number;
+  /** Journey end timestamp (ms) */
+  endedAt?: number;
+  /** Journey title */
+  title?: string;
+  /** Journey description */
+  description?: string;
+  /** Journey mode */
+  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
+  /** Total photo count */
+  photoCount: number;
+  /** Published images with S3 URLs */
+  images: string[];
+  /** Clusters for rendering (stops + orphan clusters) */
+  clusters: string[];
+  /** Published timestamp */
+  publishedAt: string;
+  /** Creation timestamp */
+  createdAt: string;
+}
+
+export interface PublishedJourneyDetailResponseDto {
+  /** @example "success" */
+  status: string;
+  data: PublishedJourneyDetailDto;
+}
+
+export interface UnpublishJourneyResponseDto {
+  /** @example "success" */
+  status: string;
+  /** Unpublish result data */
+  data: {
+    /** The public ID of the unpublished journey */
+    publicId?: string;
+    /** Number of S3 images deleted */
+    deletedImages?: number;
+  };
+}
+
+export interface GeneratedTitleData {
+  /**
+   * 추천 제목
+   * @example "노을빛 성수 산책"
+   */
+  title: string;
+  /**
+   * 대안 제목 리스트(최대 3개)
+   * @example ["카페 들렀던 오후","조용히 걸었던 하루"]
+   */
+  alternatives?: string[];
+}
+
+export interface GenerateJourneyTitleResponseData {
+  suggestion: GeneratedTitleData;
+}
+
+export interface GenerateJourneyTitleResponse {
+  /** @example "success" */
+  status: string;
+  data: GenerateJourneyTitleResponseData;
+  /** @example "제목이 성공적으로 생성되었습니다." */
+  message: string;
 }
 
 export interface CreateReportDto {
@@ -1507,99 +1928,6 @@ export interface DeleteReportResponseDto {
   message: string;
 }
 
-export interface JourneyTitleSummaryDto {
-  /**
-   * 전체 사진 수
-   * @example 86
-   */
-  photoCountTotal: number;
-  /**
-   * 총 소요 시간(분)
-   * @example 360
-   */
-  durationMin?: number;
-  /**
-   * 총 이동 거리(km)
-   * @example 8.4
-   */
-  distanceKm?: number;
-  /**
-   * STOP(스팟) 개수
-   * @example 5
-   */
-  stopCount?: number;
-}
-
-export interface JourneyTopStopDto {
-  /**
-   * 상위 스팟 라벨 (공개면 동/구 정도로만)
-   * @example "성수동"
-   */
-  label: string;
-  /**
-   * 체류 시간(분)
-   * @example 45
-   */
-  dwellMin?: number;
-}
-
-export interface GenerateJourneyTitleRequest {
-  /**
-   * 정리 모드
-   * @example "route_strong"
-   */
-  mode: "route_strong" | "route_weak" | "route_none" | "photo_only";
-  /**
-   * 공개 범위
-   * @example "unlisted"
-   */
-  privacyLevel: "public" | "unlisted" | "private";
-  /**
-   * 여정 날짜 (YYYY-MM-DD)
-   * @example "2026-01-07"
-   */
-  date: string;
-  /** 요약 정보 */
-  summary: JourneyTitleSummaryDto;
-  /**
-   * 제목에 반영할 하이라이트 키워드(3~8개 추천). 장소/행동/분위기 키워드 위주.
-   * @example ["산책","카페","노을","조용한 시간"]
-   */
-  highlights: string[];
-  /** 상위 스팟(있으면 1~3개). public이면 개인 위치 특정 가능한 상세 라벨 금지. */
-  topStops?: JourneyTopStopDto[];
-  /**
-   * ROUTE_WEAK일 때 신뢰도(0~1)
-   * @example 0.62
-   */
-  confidence?: number;
-}
-
-export interface GeneratedTitleData {
-  /**
-   * 추천 제목
-   * @example "노을빛 성수 산책"
-   */
-  title: string;
-  /**
-   * 대안 제목 리스트(최대 3개)
-   * @example ["카페 들렀던 오후","조용히 걸었던 하루"]
-   */
-  alternatives?: string[];
-}
-
-export interface GenerateJourneyTitleResponseData {
-  suggestion: GeneratedTitleData;
-}
-
-export interface GenerateJourneyTitleResponse {
-  /** @example "success" */
-  status: string;
-  data: GenerateJourneyTitleResponseData;
-  /** @example "제목이 성공적으로 생성되었습니다." */
-  message: string;
-}
-
 export interface CreateJourneyAiCommonRequestDto {
   /**
    * 입력 이미지 URL (presigned URL 권장)
@@ -1643,288 +1971,6 @@ export interface JourneyAiJobResponseDto {
   lastPolledAt?: string;
   /** 폴링 횟수 */
   pollCount?: number;
-}
-
-export interface GpsMetricsDto {
-  sampleCount: number;
-  timeRangeMs: number;
-  coveragePercent: number;
-  avgAccuracyM: number;
-  p50AccuracyM: number;
-  p95AccuracyM: number;
-  avgSamplingIntervalMs: number;
-  maxGapMs: number;
-  samplingConsistency: number;
-  avgSpeedMps: number;
-  maxSpeedMps: number;
-  totalDistanceM: number;
-}
-
-export interface RecapInputSummaryDto {
-  journeyId: string;
-  timeRange: object;
-  gpsMetrics?: GpsMetricsDto;
-  photoCount: number;
-  photoWithGpsCount: number;
-  photoWithoutGpsCount: number;
-  photoGpsRatio: number;
-  photoTimeRange?: object;
-}
-
-export interface RecapAlgorithmConfigDto {
-  clustering: object;
-  photoMapping: object;
-  computedAt: number;
-  processingTimeMs?: number;
-}
-
-export interface RecapComputedDto {
-  route: object;
-  unmapped: object;
-  quality: object;
-}
-
-export interface RecapOperationDto {
-  opId: string;
-  type: string;
-  atMs: number;
-  photoId?: string;
-  photoIds?: string[];
-  fromClusterId?: string;
-  toClusterId?: string;
-  clusterId?: string;
-  photoOrder?: string[];
-}
-
-export interface PhotoAssignmentDto {
-  photoId: string;
-  targetClusterId: string;
-}
-
-export interface ClusterEditDto {
-  clusterId: string;
-  edits: object;
-}
-
-export interface RecapOverridesDto {
-  ops: RecapOperationDto[];
-  hiddenPhotoIds: string[];
-  manualAssignments: PhotoAssignmentDto[];
-  manualClusterEdits: ClusterEditDto[];
-}
-
-export interface RecapDraftDto {
-  /**
-   * Schema version
-   * @example 1
-   */
-  schemaVersion: number;
-  /**
-   * Draft ID (content-based hash)
-   * @example "draft_000d77d4d4"
-   */
-  draftId: string;
-  /** Journey ID (UUIDv4) */
-  journeyId: string;
-  /** Draft creation time (Unix ms) */
-  createdAt: number;
-  /** Draft last update time (Unix ms) */
-  updatedAt: number;
-  /** Input data summary */
-  inputSummary: RecapInputSummaryDto;
-  /** Journey mode classification */
-  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
-  /** Explanation of mode classification */
-  modeReason: string;
-  /** Algorithm configuration */
-  algorithm: RecapAlgorithmConfigDto;
-  /** Computed results (IMMUTABLE) */
-  computed: RecapComputedDto;
-  /** User overrides */
-  overrides: RecapOverridesDto;
-}
-
-export interface JourneyImageLocationDto {
-  /**
-   * Latitude coordinate
-   * @example 37.5665
-   */
-  latitude: number;
-  /**
-   * Longitude coordinate
-   * @example 126.978
-   */
-  longitude: number;
-}
-
-export interface JourneyImageDto {
-  /**
-   * Public URL of the uploaded image
-   * @example "https://cdn.momentbook.app/journeys/user123/1234567890-abc.jpg"
-   */
-  url: string;
-  /** Public photo identifier (URL-safe) */
-  photoId?: string;
-  /**
-   * Image width in pixels
-   * @example 1080
-   */
-  width?: number;
-  /**
-   * Image height in pixels
-   * @example 1920
-   */
-  height?: number;
-  /** Optional caption provided by the user */
-  caption?: string;
-  /** Photo captured time (ms) */
-  takenAt?: number;
-  /** Optional location coordinates */
-  location?: JourneyImageLocationDto;
-  /** Optional human-friendly location label */
-  locationName?: string;
-}
-
-export interface PublishJourneyRequestDto {
-  /**
-   * Journey ID (client-side)
-   * @example "journey_abc123"
-   */
-  journeyId: string;
-  /**
-   * Journey start timestamp (ms)
-   * @example 1704067200000
-   */
-  startedAt: number;
-  /** Journey end timestamp (ms) */
-  endedAt?: number;
-  /** RecapDraft - 핵심 recap 데이터 (computed + overrides) */
-  recapDraft: RecapDraftDto;
-  /**
-   * Recap stage
-   * @example "USER_DONE"
-   */
-  recapStage: "NONE" | "SYSTEM_DONE" | "USER_DONE" | "FINALIZED";
-  /**
-   * Photo ID to S3 URL mapping (local uri → downloadUrl)
-   * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
-   */
-  photoUrlMapping: object;
-  /** Array of uploaded images (max 100) */
-  images: JourneyImageDto[];
-  /** Optional metadata */
-  metadata?: object;
-  /** 제목/설명 자동 생성 요청. 제공 시 AI가 title/description을 생성하여 metadata에 저장. */
-  autoGenerate?: GenerateJourneyTitleRequest;
-}
-
-export interface PublishJourneyResponseDto {
-  /**
-   * Status of the request
-   * @example "success"
-   */
-  status: string;
-  /** Published journey data */
-  data: {
-    /** Unique public identifier for the journey */
-    publicId?: string;
-    /** ISO timestamp of creation */
-    createdAt?: string;
-    /** Publish status */
-    publishStatus?: "PUBLISHING" | "PUBLISHED" | "FAILED";
-  };
-}
-
-export interface PublishStatusResponseDto {
-  /**
-   * Status of the request
-   * @example "success"
-   */
-  status: string;
-  /** Publish status data */
-  data: {
-    publishStatus?: "NOT_PUBLISHED" | "PUBLISHING" | "PUBLISHED" | "FAILED";
-    publicId?: string;
-    publishedUrl?: string;
-  };
-}
-
-export interface PublishJourneyInfoResponseDto {
-  /**
-   * Status of the request
-   * @example "success"
-   */
-  status: string;
-  /** Publish info for the journey */
-  data: {
-    publishStatus?: "NOT_PUBLISHED" | "PUBLISHING" | "PUBLISHED" | "FAILED";
-    publicId?: string;
-    publishedUrl?: string;
-    publishedAt?: string;
-    lastPublishError?: string;
-    createdAt?: string;
-    updatedAt?: string;
-  };
-}
-
-export interface PublishedJourneysResponseDto {
-  /** @example "success" */
-  status: string;
-  data: {
-    journeys?: any[];
-    total?: number;
-    page?: number;
-    pages?: number;
-    limit?: number;
-  };
-}
-
-export interface PublishedJourneyDetailDto {
-  /**
-   * Public ID for sharing
-   * @example "abc123xyz789"
-   */
-  publicId: string;
-  /** Author user ID */
-  userId: string;
-  /** Journey start timestamp (ms) */
-  startedAt: number;
-  /** Journey end timestamp (ms) */
-  endedAt?: number;
-  /** Journey title */
-  title?: string;
-  /** Journey description */
-  description?: string;
-  /** Journey mode */
-  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
-  /** Total photo count */
-  photoCount: number;
-  /** Published images with S3 URLs */
-  images: string[];
-  /** Clusters for rendering (stops + orphan clusters) */
-  clusters: string[];
-  /** Published timestamp */
-  publishedAt: string;
-  /** Creation timestamp */
-  createdAt: string;
-}
-
-export interface PublishedJourneyDetailResponseDto {
-  /** @example "success" */
-  status: string;
-  data: PublishedJourneyDetailDto;
-}
-
-export interface UnpublishJourneyResponseDto {
-  /** @example "success" */
-  status: string;
-  /** Unpublish result data */
-  data: {
-    /** The public ID of the unpublished journey */
-    publicId?: string;
-    /** Number of S3 images deleted */
-    deletedImages?: number;
-  };
 }
 
 export interface PresignUploadRequestDto {
@@ -2827,6 +2873,92 @@ export class Api<
       }),
 
     /**
+     * @description Public endpoint to retrieve a paginated list of users who have published journeys
+     *
+     * @tags users
+     * @name PublicUsersControllerGetPublicUsers
+     * @summary Get list of public users
+     * @request GET:/v2/users/public
+     */
+    publicUsersControllerGetPublicUsers: (
+      query?: {
+        /**
+         * Page number (default: 1)
+         * @example 1
+         */
+        page?: number;
+        /**
+         * Number of items per page (default: 20, max: 100)
+         * @example 20
+         */
+        limit?: number;
+        /** Sort order (default: recent) */
+        sort?: "recent" | "oldest" | "mostJourneys";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PublicUsersResponseDto, any>({
+        path: `/v2/users/public`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Public endpoint to retrieve user profile data for users who have published journeys
+     *
+     * @tags users
+     * @name PublicUsersControllerGetPublicUserProfile
+     * @summary Get public user profile
+     * @request GET:/v2/users/public/{userId}
+     */
+    publicUsersControllerGetPublicUserProfile: (
+      userId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublicUserProfileResponseDto, void>({
+        path: `/v2/users/public/${userId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Public endpoint to retrieve a paginated list of published journeys by a specific user
+     *
+     * @tags users
+     * @name PublicUsersControllerGetPublicUserJourneys
+     * @summary Get published journeys for a specific user
+     * @request GET:/v2/users/public/{userId}/journeys
+     */
+    publicUsersControllerGetPublicUserJourneys: (
+      userId: string,
+      query?: {
+        /**
+         * Page number (default: 1)
+         * @example 1
+         */
+        page?: number;
+        /**
+         * Number of items per page (default: 20, max: 100)
+         * @example 20
+         */
+        limit?: number;
+        /** Sort order (default: recent) */
+        sort?: "recent" | "oldest";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishedJourneysResponseDto, void>({
+        path: `/v2/users/public/${userId}/journeys`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description 클라이언트에서 사용할 수 있는 활성화된 동의 항목 템플릿들을 조회합니다
      *
      * @tags consents
@@ -2914,6 +3046,182 @@ export class Api<
         path: `/v2/users/consents/validate`,
         method: "GET",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Store published journey content with images for later SEO page generation. Title/description will be generated in the language specified by Accept-Language header.
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerPublishJourney
+     * @summary Publish a journey
+     * @request POST:/v2/journeys/publish
+     * @secure
+     */
+    publishJourneyControllerPublishJourney: (
+      data: PublishJourneyRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishJourneyResponseDto, void>({
+        path: `/v2/journeys/publish`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns NOT_PUBLISHED, PUBLISHING, PUBLISHED, or FAILED for the given journeyId
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishStatus
+     * @summary Get publish status for a journey
+     * @request GET:/v2/journeys/publish/status/{journeyId}
+     */
+    publishJourneyControllerGetPublishStatus: (
+      journeyId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishStatusResponseDto, any>({
+        path: `/v2/journeys/publish/status/${journeyId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns publish status and server-side publish metadata for the given journeyId
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishInfo
+     * @summary Get publish info for a journey
+     * @request GET:/v2/journeys/publish/info/{journeyId}
+     */
+    publishJourneyControllerGetPublishInfo: (
+      journeyId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishJourneyInfoResponseDto, any>({
+        path: `/v2/journeys/publish/info/${journeyId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Public endpoint to retrieve a paginated list of all published journeys
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishedJourneys
+     * @summary Get list of published journeys (public feed)
+     * @request GET:/v2/journeys/public
+     */
+    publishJourneyControllerGetPublishedJourneys: (
+      query?: {
+        /**
+         * Page number (default: 1)
+         * @example 1
+         */
+        page?: number;
+        /**
+         * Number of items per page (default: 20, max: 100)
+         * @example 20
+         */
+        limit?: number;
+        /** Sort order (default: recent) */
+        sort?: "recent" | "oldest";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishedJourneysResponseDto, any>({
+        path: `/v2/journeys/public`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Public endpoint to retrieve published journey data for rendering. Returns only essential data (clusters, images, metadata).
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishedJourney
+     * @summary Get published journey by public ID
+     * @request GET:/v2/journeys/public/{publicId}
+     */
+    publishJourneyControllerGetPublishedJourney: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishedJourneyDetailResponseDto, void>({
+        path: `/v2/journeys/public/${publicId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Public endpoint to retrieve a published photo with its journey context
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishedPhoto
+     * @summary Get published photo by photo ID (for SEO)
+     * @request GET:/v2/journeys/public/photos/{photoId}
+     */
+    publishJourneyControllerGetPublishedPhoto: (
+      photoId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/v2/journeys/public/photos/${photoId}`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * @description Delete a published journey and its associated S3 images. Only the owner can unpublish.
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerUnpublishJourney
+     * @summary Unpublish a journey
+     * @request DELETE:/v2/journeys/publish/{publicId}
+     * @secure
+     */
+    publishJourneyControllerUnpublishJourney: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<UnpublishJourneyResponseDto, void>({
+        path: `/v2/journeys/publish/${publicId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description 게시 시 사용할 제목을 GPT 모델로 자동 생성합니다. Accept-Language 헤더로 언어를 지정할 수 있습니다.
+     *
+     * @tags journeys
+     * @name JourneyTitleControllerGenerateTitle
+     * @summary 게시 제목 자동 생성
+     * @request POST:/v2/journeys/{journeyId}/title/auto
+     * @secure
+     */
+    journeyTitleControllerGenerateTitle: (
+      journeyId: string,
+      data: GenerateJourneyTitleRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<GenerateJourneyTitleResponse, void>({
+        path: `/v2/journeys/${journeyId}/title/auto`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -3091,30 +3399,6 @@ export class Api<
       }),
 
     /**
-     * @description 게시 시 사용할 제목을 GPT 모델로 자동 생성합니다. Accept-Language 헤더로 언어를 지정할 수 있습니다.
-     *
-     * @tags journeys
-     * @name JourneyTitleControllerGenerateTitle
-     * @summary 게시 제목 자동 생성
-     * @request POST:/v2/journeys/{journeyId}/title/auto
-     * @secure
-     */
-    journeyTitleControllerGenerateTitle: (
-      journeyId: string,
-      data: GenerateJourneyTitleRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<GenerateJourneyTitleResponse, void>({
-        path: `/v2/journeys/${journeyId}/title/auto`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description momentbook-worker로 비동기 작업을 요청하고 jobId를 반환합니다.
      *
      * @tags journeys
@@ -3184,158 +3468,6 @@ export class Api<
         path: `/v2/journeys/${journeyId}/ai/jobs/${jobId}`,
         method: "GET",
         query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Store published journey content with images for later SEO page generation. Title/description will be generated in the language specified by Accept-Language header.
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerPublishJourney
-     * @summary Publish a journey
-     * @request POST:/v2/journeys/publish
-     * @secure
-     */
-    publishJourneyControllerPublishJourney: (
-      data: PublishJourneyRequestDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<PublishJourneyResponseDto, void>({
-        path: `/v2/journeys/publish`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Returns NOT_PUBLISHED, PUBLISHING, PUBLISHED, or FAILED for the given journeyId
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerGetPublishStatus
-     * @summary Get publish status for a journey
-     * @request GET:/v2/journeys/publish/status/{journeyId}
-     */
-    publishJourneyControllerGetPublishStatus: (
-      journeyId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<PublishStatusResponseDto, any>({
-        path: `/v2/journeys/publish/status/${journeyId}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Returns publish status and server-side publish metadata for the given journeyId
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerGetPublishInfo
-     * @summary Get publish info for a journey
-     * @request GET:/v2/journeys/publish/info/{journeyId}
-     */
-    publishJourneyControllerGetPublishInfo: (
-      journeyId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<PublishJourneyInfoResponseDto, any>({
-        path: `/v2/journeys/publish/info/${journeyId}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Public endpoint to retrieve a paginated list of all published journeys
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerGetPublishedJourneys
-     * @summary Get list of published journeys (public feed)
-     * @request GET:/v2/journeys/public
-     */
-    publishJourneyControllerGetPublishedJourneys: (
-      query?: {
-        /**
-         * Page number (default: 1)
-         * @example 1
-         */
-        page?: number;
-        /**
-         * Number of items per page (default: 20, max: 100)
-         * @example 20
-         */
-        limit?: number;
-        /** Sort order (default: recent) */
-        sort?: "recent" | "oldest";
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<PublishedJourneysResponseDto, any>({
-        path: `/v2/journeys/public`,
-        method: "GET",
-        query: query,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Public endpoint to retrieve published journey data for rendering. Returns only essential data (clusters, images, metadata).
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerGetPublishedJourney
-     * @summary Get published journey by public ID
-     * @request GET:/v2/journeys/public/{publicId}
-     */
-    publishJourneyControllerGetPublishedJourney: (
-      publicId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<PublishedJourneyDetailResponseDto, void>({
-        path: `/v2/journeys/public/${publicId}`,
-        method: "GET",
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Public endpoint to retrieve a published photo with its journey context
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerGetPublishedPhoto
-     * @summary Get published photo by photo ID (for SEO)
-     * @request GET:/v2/journeys/public/photos/{photoId}
-     */
-    publishJourneyControllerGetPublishedPhoto: (
-      photoId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<void, void>({
-        path: `/v2/journeys/public/photos/${photoId}`,
-        method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Delete a published journey and its associated S3 images. Only the owner can unpublish.
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerUnpublishJourney
-     * @summary Unpublish a journey
-     * @request DELETE:/v2/journeys/publish/{publicId}
-     * @secure
-     */
-    publishJourneyControllerUnpublishJourney: (
-      publicId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<UnpublishJourneyResponseDto, void>({
-        path: `/v2/journeys/publish/${publicId}`,
-        method: "DELETE",
         secure: true,
         format: "json",
         ...params,
