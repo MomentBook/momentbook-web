@@ -1,10 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../journey.module.scss";
-import type {
-  PublishedJourneyApi,
-} from "@/lib/published-journey";
-import MapWrapper from "./MapWrapper";
+import type { PublishedJourneyApi } from "@/lib/published-journey";
+import ClientMap from "./ClientMap";
 
 type JourneyContentProps = {
   journey: PublishedJourneyApi;
@@ -26,7 +24,7 @@ export default function JourneyContent({
 }: JourneyContentProps) {
   return (
     <>
-      <MapWrapper clusters={journey.clusters} />
+      <ClientMap clusters={journey.clusters} />
 
       {locations.length > 0 && (
         <section className={styles.section}>

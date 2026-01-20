@@ -1,122 +1,98 @@
 "use client";
 
-import { useEffect, useRef, useMemo, useState } from "react";
+import { useEffect, useRef } from "react";
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import styles from "./JourneyMap.module.scss";
 import type { PublishedJourneyCluster } from "@/lib/published-journey";
 
-// Fix default marker icon issue in Next.js
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+// Fix default marker icon
+const iconUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png";
+const iconRetinaUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png";
+const shadowUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png";
+
+const defaultIcon = L.icon({
+  iconUrl,
+  iconRetinaUrl,
+  shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
 });
+
+L.Marker.prototype.options.icon = defaultIcon;
 
 type JourneyMapProps = {
   clusters: PublishedJourneyCluster[];
 };
 
-function calculateBounds(
-  clusters: PublishedJourneyCluster[]
-): [[number, number], [number, number]] {
-  if (clusters.length === 0) {
-    return [
-      [0, 0],
-      [0, 0],
-    ];
-  }
-
-  let minLat = clusters[0].center.lat;
-  let maxLat = clusters[0].center.lat;
-  let minLng = clusters[0].center.lng;
-  let maxLng = clusters[0].center.lng;
-
-  clusters.forEach((cluster) => {
-    minLat = Math.min(minLat, cluster.center.lat);
-    maxLat = Math.max(maxLat, cluster.center.lat);
-    minLng = Math.min(minLng, cluster.center.lng);
-    maxLng = Math.max(maxLng, cluster.center.lng);
-  });
-
-  // Add padding
-  const latPadding = (maxLat - minLat) * 0.1;
-  const lngPadding = (maxLng - minLng) * 0.1;
-
-  return [
-    [minLat - latPadding, minLng - lngPadding],
-    [maxLat + latPadding, maxLng + lngPadding],
-  ];
-}
-
-export default function JourneyMap({
-  clusters,
-}: JourneyMapProps) {
-  const [isMounted, setIsMounted] = useState(false);
-  const mapRef = useRef<L.Map | null>(null);
-
-  // Hooks must be called in consistent order - before any early returns
-  const bounds = useMemo(() => calculateBounds(clusters), [clusters]);
-  const center: [number, number] = useMemo(
-    () => [
-      (bounds[0][0] + bounds[1][0]) / 2,
-      (bounds[0][1] + bounds[1][1]) / 2,
-    ],
-    [bounds]
-  );
-  const mapKey = useMemo(
-    () => clusters.map((c) => c.clusterId).join("-"),
-    [clusters]
-  );
+export default function JourneyMap({ clusters }: JourneyMapProps) {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const leafletMapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    if (!mapRef.current || clusters.length === 0) return;
 
-  useEffect(() => {
-    if (mapRef.current && bounds) {
-      mapRef.current.fitBounds(bounds);
+    // Clean up existing map
+    if (leafletMapRef.current) {
+      leafletMapRef.current.remove();
+      leafletMapRef.current = null;
     }
-  }, [bounds]);
 
-  if (!isMounted || clusters.length === 0) {
+    // Calculate bounds
+    const lats = clusters.map((c) => c.center.lat);
+    const lngs = clusters.map((c) => c.center.lng);
+    const bounds: L.LatLngBoundsExpression = [
+      [Math.min(...lats), Math.min(...lngs)],
+      [Math.max(...lats), Math.max(...lngs)],
+    ];
+
+    // Create map
+    const map = L.map(mapRef.current, {
+      scrollWheelZoom: false,
+    });
+
+    leafletMapRef.current = map;
+
+    // Add tile layer
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    // Add markers
+    clusters.forEach((cluster) => {
+      const marker = L.marker([cluster.center.lat, cluster.center.lng]).addTo(map);
+
+      const popupContent = `
+        <div style="padding: 0.5rem;">
+          <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.95rem;">
+            ${cluster.locationName || "Location"}
+          </strong>
+          <p style="margin: 0; font-size: 0.85rem; color: #666;">
+            ${cluster.photoIds.length} photos
+          </p>
+        </div>
+      `;
+
+      marker.bindPopup(popupContent);
+    });
+
+    // Fit bounds with padding
+    map.fitBounds(bounds, { padding: [50, 50] });
+
+    // Cleanup
+    return () => {
+      if (leafletMapRef.current) {
+        leafletMapRef.current.remove();
+        leafletMapRef.current = null;
+      }
+    };
+  }, [clusters]);
+
+  if (clusters.length === 0) {
     return null;
   }
 
-  return (
-    <div className={styles.mapContainer}>
-      <MapContainer
-        key={mapKey}
-        center={center}
-        zoom={13}
-        bounds={bounds}
-        scrollWheelZoom={false}
-        className={styles.map}
-        ref={mapRef}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {clusters.map((cluster) => (
-          <Marker
-            key={cluster.clusterId}
-            position={[cluster.center.lat, cluster.center.lng]}
-          >
-            <Popup>
-              <div className={styles.popup}>
-                <strong>{cluster.locationName || "Location"}</strong>
-                <p>{cluster.photoIds.length} photos</p>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
-    </div>
-  );
+  return <div ref={mapRef} className={styles.mapContainer} />;
 }
