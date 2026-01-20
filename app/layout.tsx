@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.scss";
+import LanguageSyncProvider from "./components/LanguageSyncProvider";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 
@@ -34,7 +35,10 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body>{children}</body>
+      <body>
+        <LanguageSyncProvider />
+        {children}
+      </body>
     </html>
   );
 }
