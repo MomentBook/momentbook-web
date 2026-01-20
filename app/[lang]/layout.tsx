@@ -6,6 +6,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
 import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
+import { ScrollHeader } from "@/components/ScrollHeader";
 import { languageList, type Language } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -81,7 +82,7 @@ export default async function LangLayout({
   return (
     <div className={`${geistSans.variable} ${geistMono.variable}`}>
         <LanguagePreferenceSync currentLang={lang} />
-        <header className={styles.header}>
+        <ScrollHeader className={styles.header}>
           <nav className={styles.nav}>
             <Link href={`/${lang}`} className={styles.logo}>
               MomentBook
@@ -110,7 +111,7 @@ export default async function LangLayout({
               <MobileMenu lang={lang} dict={dict} />
             </div>
           </nav>
-        </header>
+        </ScrollHeader>
 
         <main className={styles.main}>{children}</main>
 
