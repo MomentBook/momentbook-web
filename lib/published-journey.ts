@@ -1,20 +1,39 @@
-import type { JourneyImage, JourneyInputSummary } from "@/lib/public-content";
+export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
+
+export type PublishedJourneyImage = {
+    url: string;
+    photoId: string;
+};
+
+export type PublishedJourneyCluster = {
+    clusterId: string;
+    type: "STOP" | "ORPHAN";
+    time: {
+        startAt: number;
+        endAt: number;
+        durationMs: number;
+    };
+    center: {
+        lat: number;
+        lng: number;
+    };
+    locationName?: string;
+    photoIds: string[];
+};
 
 export type PublishedJourneyApi = {
     publicId: string;
-    userId?: string;
-    journeyId: string;
+    userId: string;
     startedAt: number;
-    endedAt?: number;
-    recapDraft?: {
-        inputSummary?: JourneyInputSummary;
-        computed?: Record<string, any>;
-    };
-    recapStage?: "NONE" | "SYSTEM_DONE" | "USER_DONE" | "FINALIZED";
-    images?: JourneyImage[];
-    metadata?: Record<string, any>;
-    createdAt?: string;
-    updatedAt?: string;
+    endedAt: number;
+    title: string;
+    description?: string;
+    mode: JourneyMode;
+    photoCount: number;
+    images: PublishedJourneyImage[];
+    clusters: PublishedJourneyCluster[];
+    publishedAt: string;
+    createdAt: string;
 };
 
 type PublishedJourneyResponse = {

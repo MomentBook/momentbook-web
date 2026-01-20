@@ -1,251 +1,108 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
-import { type Language, languageList } from "@/lib/i18n/config";
+import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import {
-  type JourneyImage,
-  type JourneyInputSummary,
-  type PublicJourney,
-  publicJourneys,
-  getPublicJourney,
-  getJourneyPhotos,
-  getPublicUser,
-} from "@/lib/public-content";
 import {
   fetchPublishedJourney,
   type PublishedJourneyApi,
+  type PublishedJourneyCluster,
 } from "@/lib/published-journey";
 
 export const revalidate = 3600;
 
-const journeyLabels: Record<Language, {
-  eyebrow: string;
-  highlights: string;
-  places: string;
-  photosTitle: string;
-  download: string;
-  empty: string;
-  photoCountLabel: string;
-  locationCountLabel: string;
-  hoursLabel: string;
-  openEnded: string;
-}> = {
+const journeyLabels: Record<
+  Language,
+  {
+    eyebrow: string;
+    photoCount: string;
+    locationCount: string;
+    duration: string;
+    places: string;
+    gallery: string;
+    hours: string;
+  }
+> = {
   en: {
     eyebrow: "Journey",
-    highlights: "Highlights",
-    places: "Places visited",
-    photosTitle: "Photos from this journey",
-    download: "Download MomentBook",
-    empty: "No photos shared yet.",
-    photoCountLabel: "photos",
-    locationCountLabel: "locations",
-    hoursLabel: "h",
-    openEnded: "—",
+    photoCount: "photos",
+    locationCount: "places",
+    duration: "duration",
+    places: "Places Visited",
+    gallery: "Photo Gallery",
+    hours: "h",
   },
   ko: {
     eyebrow: "여정",
-    highlights: "하이라이트",
+    photoCount: "장",
+    locationCount: "곳",
+    duration: "소요 시간",
     places: "방문한 장소",
-    photosTitle: "이 여정의 사진",
-    download: "MomentBook 다운로드",
-    empty: "공유된 사진이 아직 없습니다.",
-    photoCountLabel: "장",
-    locationCountLabel: "곳",
-    hoursLabel: "시간",
-    openEnded: "—",
+    gallery: "사진 갤러리",
+    hours: "시간",
   },
   ja: {
     eyebrow: "旅",
-    highlights: "ハイライト",
+    photoCount: "枚",
+    locationCount: "か所",
+    duration: "所要時間",
     places: "訪れた場所",
-    photosTitle: "この旅の写真",
-    download: "MomentBook をダウンロード",
-    empty: "まだ共有された写真がありません。",
-    photoCountLabel: "枚",
-    locationCountLabel: "か所",
-    hoursLabel: "時間",
-    openEnded: "—",
+    gallery: "フォトギャラリー",
+    hours: "時間",
   },
   zh: {
     eyebrow: "行程",
-    highlights: "亮点",
+    photoCount: "张照片",
+    locationCount: "个地点",
+    duration: "持续时间",
     places: "到访地点",
-    photosTitle: "该行程的照片",
-    download: "下载 MomentBook",
-    empty: "还没有共享的照片。",
-    photoCountLabel: "张照片",
-    locationCountLabel: "个地点",
-    hoursLabel: "小时",
-    openEnded: "—",
+    gallery: "照片画廊",
+    hours: "小时",
   },
 };
 
-type JourneyView = {
-  source: "api" | "static";
-  journeyId: string;
-  userId?: string;
-  title: string;
-  description: string;
-  startedAt: number;
-  endedAt?: number;
-  recapStage?: "NONE" | "SYSTEM_DONE" | "USER_DONE" | "FINALIZED" | "DRAFT";
-  recapDraft: {
-    inputSummary: JourneyInputSummary;
-    computed?: Record<string, any>;
-  };
-  highlights: string[];
-  locations: string[];
-  images: JourneyImage[];
-};
-
-type JourneyPhotoCard = {
-  id: string;
-  url: string;
-  caption?: string;
-  locationName?: string;
-  href?: string;
-};
-
-function getMetadataString(
-  metadata: Record<string, any> | undefined,
-  key: string,
-): string | undefined {
-  const value = metadata?.[key];
-  if (typeof value !== "string") {
-    return undefined;
-  }
-  const trimmed = value.trim();
-  return trimmed.length ? trimmed : undefined;
-}
-
-function getMetadataStringArray(
-  metadata: Record<string, any> | undefined,
-  key: string,
-): string[] {
-  const value = metadata?.[key];
-  if (!Array.isArray(value)) {
-    return [];
-  }
-  return value
-    .filter((item): item is string => typeof item === "string")
-    .map((item) => item.trim())
-    .filter((item) => item.length > 0);
-}
-
-function extractLocationNames(recapDraft?: PublishedJourneyApi["recapDraft"]): string[] {
-  const names = new Set<string>();
-
-  const addName = (value: unknown) => {
-    if (typeof value !== "string") {
-      return;
-    }
-    const trimmed = value.trim();
-    if (trimmed.length) {
-      names.add(trimmed);
-    }
-  };
-
-  const routeClusters = recapDraft?.computed?.route?.routeClusters ?? [];
-  for (const cluster of routeClusters) {
-    addName(cluster?.locationName);
-  }
-
-  const orphanClusters = recapDraft?.computed?.unmapped?.orphanClusters ?? [];
-  for (const cluster of orphanClusters) {
-    addName(cluster?.locationName);
-  }
-
-  return Array.from(names);
-}
-
-function buildJourneyFromApi(apiJourney: PublishedJourneyApi): JourneyView {
-  const metadata = apiJourney.metadata ?? {};
-  const images = Array.isArray(apiJourney.images) ? apiJourney.images : [];
-  const locationNames = [
-    ...getMetadataStringArray(metadata, "locations"),
-    ...extractLocationNames(apiJourney.recapDraft),
-  ];
-  const uniqueLocations = Array.from(new Set(locationNames));
-  const metadataHighlights = getMetadataStringArray(metadata, "highlights");
-  const highlights =
-    metadataHighlights.length > 0
-      ? metadataHighlights
-      : uniqueLocations.slice(0, 3);
-
-  const fallbackSummary: JourneyInputSummary = {
-    totalPhotos: images.length,
-    totalLocations: uniqueLocations.length,
-    totalStayPoints: uniqueLocations.length,
-    timeSpanMs: apiJourney.endedAt
-      ? apiJourney.endedAt - apiJourney.startedAt
-      : 0,
-  };
-
-  const recapDraft = apiJourney.recapDraft ?? {};
-  const inputSummary = recapDraft.inputSummary ?? fallbackSummary;
-
-  return {
-    source: "api",
-    journeyId: apiJourney.publicId,
-    userId: apiJourney.userId ?? getMetadataString(metadata, "userId"),
-    title: getMetadataString(metadata, "title") ?? "Untitled journey",
-    description: getMetadataString(metadata, "description") ?? "",
-    startedAt: apiJourney.startedAt,
-    endedAt: apiJourney.endedAt,
-    recapStage: apiJourney.recapStage,
-    recapDraft: {
-      ...recapDraft,
-      inputSummary,
-    },
-    highlights,
-    locations: uniqueLocations,
-    images,
-  };
-}
-
-function buildJourneyFromStatic(journey: PublicJourney): JourneyView {
-  return {
-    ...journey,
-    source: "static",
-  };
-}
-
-function formatDateRange(
-  lang: Language,
-  start: number,
-  end: number | undefined,
-  openEnded: string,
-) {
+function formatDateRange(lang: Language, start: number, end: number) {
   const formatter = new Intl.DateTimeFormat(lang, {
     year: "numeric",
-    month: "short",
+    month: "long",
     day: "numeric",
   });
-  const startLabel = formatter.format(new Date(start));
-  const endLabel = end ? formatter.format(new Date(end)) : openEnded;
+  const startDate = formatter.format(new Date(start));
+  const endDate = formatter.format(new Date(end));
 
-  return `${startLabel} · ${endLabel}`;
-}
-
-function formatDuration(ms: number, hoursLabel: string, openEnded: string) {
-  if (!ms) {
-    return openEnded;
+  if (startDate === endDate) {
+    return startDate;
   }
 
-  const hours = Math.round(ms / 3600000);
+  return `${startDate} – ${endDate}`;
+}
+
+function formatDuration(ms: number, hoursLabel: string) {
+  const hours = Math.round(ms / (1000 * 60 * 60));
+  if (hours < 1) {
+    const minutes = Math.round(ms / (1000 * 60));
+    return `${minutes}m`;
+  }
   return `${hours}${hoursLabel}`;
 }
 
-export async function generateStaticParams() {
-  return languageList.flatMap((lang) =>
-    publicJourneys.map((journey) => ({
-      lang,
-      journeyId: journey.journeyId,
-    }))
-  );
+function getUniqueLocations(clusters: PublishedJourneyCluster[]): string[] {
+  const locationSet = new Set<string>();
+  clusters.forEach((cluster) => {
+    if (cluster.locationName) {
+      locationSet.add(cluster.locationName);
+    }
+  });
+  return Array.from(locationSet);
+}
+
+function buildImageUrlToPhotoIdMap(journey: PublishedJourneyApi): Map<string, string> {
+  const map = new Map<string, string>();
+  journey.images.forEach((img) => {
+    map.set(img.url, img.photoId);
+  });
+  return map;
 }
 
 export async function generateMetadata({
@@ -253,14 +110,11 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: string; journeyId: string }>;
 }): Promise<Metadata> {
-  const { lang, journeyId } = await params as { lang: Language; journeyId: string };
-  const apiJourney = await fetchPublishedJourney(journeyId);
-  const journey = apiJourney
-    ? buildJourneyFromApi(apiJourney)
-    : (() => {
-        const staticJourney = getPublicJourney(journeyId);
-        return staticJourney ? buildJourneyFromStatic(staticJourney) : null;
-      })();
+  const { lang, journeyId } = (await params) as {
+    lang: Language;
+    journeyId: string;
+  };
+  const journey = await fetchPublishedJourney(journeyId);
 
   if (!journey) {
     return {
@@ -268,31 +122,36 @@ export async function generateMetadata({
     };
   }
 
-  const path = `/journeys/${journey.journeyId}`;
+  const path = `/journeys/${journey.publicId}`;
   const url = buildOpenGraphUrl(lang, path);
-  const images = journey.images.map((image) => ({
-    url: image.url,
-    width: image.width,
-    height: image.height,
+  const locations = getUniqueLocations(journey.clusters);
+  const description =
+    journey.description ||
+    `A journey through ${locations.slice(0, 3).join(", ")} with ${journey.photoCount} photos`;
+
+  const images = journey.images.slice(0, 6).map((img) => ({
+    url: img.url,
     alt: journey.title,
   }));
 
   return {
     title: journey.title,
-    description: journey.description,
+    description,
     alternates: buildAlternates(lang, path),
     openGraph: {
       title: journey.title,
-      description: journey.description,
+      description,
       type: "article",
       url,
-      images: images.length ? images : undefined,
+      images,
+      publishedTime: journey.publishedAt,
+      modifiedTime: journey.publishedAt,
     },
     twitter: {
-      card: images.length ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: journey.title,
-      description: journey.description,
-      images: images.length ? images.map((image) => image.url) : undefined,
+      description,
+      images: images.map((img) => img.url),
     },
   };
 }
@@ -302,69 +161,54 @@ export default async function JourneyPage({
 }: {
   params: Promise<{ lang: string; journeyId: string }>;
 }) {
-  const { lang, journeyId } = await params as { lang: Language; journeyId: string };
-  const apiJourney = await fetchPublishedJourney(journeyId);
-  const journey = apiJourney
-    ? buildJourneyFromApi(apiJourney)
-    : (() => {
-        const staticJourney = getPublicJourney(journeyId);
-        return staticJourney ? buildJourneyFromStatic(staticJourney) : null;
-      })();
+  const { lang, journeyId } = (await params) as {
+    lang: Language;
+    journeyId: string;
+  };
+  const journey = await fetchPublishedJourney(journeyId);
 
   if (!journey) {
     notFound();
   }
 
-  const user = journey.userId ? getPublicUser(journey.userId) : undefined;
-  const photos =
-    journey.source === "static" ? getJourneyPhotos(journey.journeyId) : [];
   const labels = journeyLabels[lang] ?? journeyLabels.en;
-  const dateRange = formatDateRange(lang, journey.startedAt, journey.endedAt, labels.openEnded);
-  const stats = journey.recapDraft.inputSummary;
+  const dateRange = formatDateRange(lang, journey.startedAt, journey.endedAt);
+  const locations = getUniqueLocations(journey.clusters);
+  const totalDuration = journey.clusters.reduce(
+    (sum, cluster) => sum + cluster.time.durationMs,
+    0
+  );
+  const imageMap = buildImageUrlToPhotoIdMap(journey);
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
-  const pageUrl = new URL(buildOpenGraphUrl(lang, `/journeys/${journey.journeyId}`), siteUrl).toString();
-  const authorUrl = user
-    ? new URL(buildOpenGraphUrl(lang, `/users/${user.userId}`), siteUrl).toString()
-    : undefined;
+  const pageUrl = new URL(
+    buildOpenGraphUrl(lang, `/journeys/${journey.publicId}`),
+    siteUrl
+  ).toString();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: journey.title,
     description: journey.description,
-    image: journey.images.map((image) => image.url),
-    author: user
-      ? {
-          "@type": "Person",
-          name: user.displayName,
-          url: authorUrl,
-        }
-      : undefined,
+    image: journey.images.map((img) => img.url),
+    datePublished: journey.publishedAt,
+    dateModified: journey.publishedAt,
+    author: {
+      "@type": "Person",
+      name: "MomentBook User",
+    },
     publisher: {
       "@type": "Organization",
       name: "MomentBook",
       url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/logo.png`,
+      },
     },
-    datePublished: new Date(journey.startedAt).toISOString(),
-    dateModified: new Date(journey.endedAt || journey.startedAt).toISOString(),
     mainEntityOfPage: pageUrl,
   };
-
-  const photoCards: JourneyPhotoCard[] =
-    journey.source === "static"
-      ? photos.map((photo) => ({
-          id: photo.photoId,
-          url: photo.url,
-          caption: photo.caption,
-          locationName: photo.locationName,
-          href: `/${lang}/photos/${photo.photoId}`,
-        }))
-      : journey.images.map((image, index) => ({
-          id: image.photoId || image.url || `photo-${index}`,
-          url: image.url,
-          caption: image.caption,
-          locationName: image.locationName,
-          href: image.photoId ? `/${lang}/photos/${image.photoId}` : undefined,
-        }));
 
   return (
     <div className={styles.page}>
@@ -372,47 +216,37 @@ export default async function JourneyPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+
       <header className={styles.hero}>
         <div className={styles.heroTop}>
           <div>
             <p className={styles.eyebrow}>{labels.eyebrow}</p>
             <h1 className={styles.title}>{journey.title}</h1>
-            <p className={styles.subtitle}>{journey.description}</p>
+            {journey.description && (
+              <p className={styles.subtitle}>{journey.description}</p>
+            )}
           </div>
-          {user && (
-            <Link href={`/${lang}/users/${user.userId}`} className={styles.userCard}>
-              <div>
-                <p className={styles.userName}>{user.displayName}</p>
-                <p className={styles.userHandle}>{user.handle}</p>
-              </div>
-            </Link>
-          )}
         </div>
 
         <div className={styles.metaRow}>
           <span>{dateRange}</span>
-          <span>{stats.totalPhotos} {labels.photoCountLabel}</span>
-          <span>{stats.totalStayPoints} {labels.locationCountLabel}</span>
-          <span>{formatDuration(stats.timeSpanMs, labels.hoursLabel, labels.openEnded)}</span>
+          <span>
+            {journey.photoCount} {labels.photoCount}
+          </span>
+          <span>
+            {locations.length} {labels.locationCount}
+          </span>
+          {totalDuration > 0 && (
+            <span>{formatDuration(totalDuration, labels.hours)}</span>
+          )}
         </div>
       </header>
 
-      {journey.highlights.length > 0 && (
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>{labels.highlights}</h2>
-          <ul className={styles.highlightList}>
-            {journey.highlights.map((highlight) => (
-              <li key={highlight}>{highlight}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {journey.locations.length > 0 && (
+      {locations.length > 0 && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>{labels.places}</h2>
           <div className={styles.tagGrid}>
-            {journey.locations.map((location) => (
+            {locations.map((location) => (
               <span key={location} className={styles.tag}>
                 {location}
               </span>
@@ -422,58 +256,45 @@ export default async function JourneyPage({
       )}
 
       <section className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{labels.photosTitle}</h2>
-          <Link href={`/${lang}/download`} className={styles.ctaLink}>
-            {labels.download}
-          </Link>
-        </div>
-        <div className={styles.photoGrid}>
-          {photoCards.map((photo) => {
-            const content = (
-              <>
-                <div className={styles.photoFrame}>
-                  <Image
-                    src={photo.url}
-                    alt={photo.caption ?? journey.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className={styles.photoImage}
-                  />
-                </div>
-                {(photo.caption || photo.locationName) && (
-                  <div className={styles.photoMeta}>
-                    {photo.caption && (
-                      <p className={styles.photoCaption}>{photo.caption}</p>
-                    )}
-                    {photo.locationName && (
-                      <p className={styles.photoLocation}>{photo.locationName}</p>
-                    )}
+        <h2 className={styles.sectionTitle}>{labels.gallery}</h2>
+
+        {journey.clusters.map((cluster) => {
+          const clusterPhotos = cluster.photoIds
+            .map((photoUrl) => {
+              const photoId = imageMap.get(photoUrl);
+              return {
+                url: photoUrl,
+                photoId: photoId || "",
+              };
+            })
+            .filter((photo) => photo.photoId);
+
+          if (clusterPhotos.length === 0) return null;
+
+          return (
+            <div key={cluster.clusterId} className={styles.clusterSection}>
+              {cluster.locationName && (
+                <h3 className={styles.clusterTitle}>{cluster.locationName}</h3>
+              )}
+
+              <div className={styles.photoGrid}>
+                {clusterPhotos.map((photo) => (
+                  <div key={photo.photoId} className={styles.photoCard}>
+                    <div className={styles.photoFrame}>
+                      <Image
+                        src={photo.url}
+                        alt={cluster.locationName || journey.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className={styles.photoImage}
+                      />
+                    </div>
                   </div>
-                )}
-              </>
-            );
-
-            if (photo.href) {
-              return (
-                <Link key={photo.id} href={photo.href} className={styles.photoCard}>
-                  {content}
-                </Link>
-              );
-            }
-
-            return (
-              <div key={photo.id} className={styles.photoCard}>
-                {content}
+                ))}
               </div>
-            );
-          })}
-          {photoCards.length === 0 && (
-            <div className={styles.emptyState}>
-              {labels.empty}
             </div>
-          )}
-        </div>
+          );
+        })}
       </section>
     </div>
   );
