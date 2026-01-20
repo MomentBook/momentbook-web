@@ -33,6 +33,7 @@ export async function GET() {
     { path: "/about", priority: 0.8 },
     { path: "/how-it-works", priority: 0.8 },
     { path: "/journeys", priority: 0.8 },
+    { path: "/users", priority: 0.8 },
     { path: "/download", priority: 0.9 },
     { path: "/faq", priority: 0.7 },
     { path: "/privacy", priority: 0.5 },
