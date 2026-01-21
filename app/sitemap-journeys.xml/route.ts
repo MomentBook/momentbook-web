@@ -1,6 +1,22 @@
 import { languageList } from "@/lib/i18n/config";
 import { fetchPublicUsers, fetchUserJourneys } from "@/lib/public-users";
 
+function safeISOString(date: string | number | undefined): string {
+  if (!date) {
+    return new Date().toISOString();
+  }
+
+  try {
+    const parsed = new Date(date);
+    if (isNaN(parsed.getTime())) {
+      return new Date().toISOString();
+    }
+    return parsed.toISOString();
+  } catch {
+    return new Date().toISOString();
+  }
+}
+
 function generateSitemapXML(urls: {
   loc: string;
   lastmod: string;
@@ -52,7 +68,7 @@ export async function GET() {
     journeys.forEach((journey) => {
       urls.push({
         loc: `${siteUrl}/en/journeys/${journey.publicId}`,
-        lastmod: new Date(journey.publishedAt).toISOString(),
+        lastmod: safeISOString(journey.publishedAt),
         alternates: languageList.map((lang) => ({
           lang,
           href: `${siteUrl}/${lang}/journeys/${journey.publicId}`,

@@ -1,6 +1,22 @@
 import { languageList } from "@/lib/i18n/config";
 import { fetchPublicUsers, fetchUserJourneys } from "@/lib/public-users";
 
+function safeISOString(date: string | number | undefined): string {
+  if (!date) {
+    return new Date().toISOString();
+  }
+
+  try {
+    const parsed = new Date(date);
+    if (isNaN(parsed.getTime())) {
+      return new Date().toISOString();
+    }
+    return parsed.toISOString();
+  } catch {
+    return new Date().toISOString();
+  }
+}
+
 function generateSitemapXML(urls: {
   loc: string;
   lastmod: string;
@@ -53,7 +69,7 @@ export async function GET() {
     // Extract photo IDs from each journey
     journeys.forEach((journey) => {
       const images = journey.images ?? [];
-      const publishedAt = new Date(journey.publishedAt).toISOString();
+      const publishedAt = safeISOString(journey.publishedAt);
 
       images.forEach((image) => {
         // Avoid duplicates
