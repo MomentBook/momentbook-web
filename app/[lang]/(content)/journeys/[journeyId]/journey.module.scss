@@ -105,6 +105,21 @@
   color: var(--color-text-primary);
 }
 
+.sectionLead {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin: -0.25rem 0 var(--spacing-md);
+}
+
+.routeBadge {
+  align-self: flex-start;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
 .highlightList {
   list-style: none;
   display: grid;

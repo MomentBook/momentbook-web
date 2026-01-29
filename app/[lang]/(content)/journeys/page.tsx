@@ -14,46 +14,51 @@ const journeyPageLabels: Record<Language, {
   byLabel: string;
   placesLabel: string;
   photosLabel: string;
+  notice: string;
 }> = {
   en: {
-    title: "Public journeys",
-    subtitle: "Journeys shared from MomentBook.",
+    title: "Shared journeys",
+    subtitle: "Journeys published by link from MomentBook.",
     searchPlaceholder: "Search journeys, places, or people",
     countLabel: "{count} journeys",
     empty: "No journeys match this search.",
-    byLabel: "by",
+    byLabel: "shared by",
     placesLabel: "places",
     photosLabel: "photos",
+    notice: "Each journey is a single shared page. What is not published stays private.",
   },
   ko: {
-    title: "공개 여정",
-    subtitle: "MomentBook에서 공유된 여정입니다.",
+    title: "공유된 여정",
+    subtitle: "MomentBook에서 링크로 공유된 여정입니다.",
     searchPlaceholder: "여정, 장소, 사람을 검색",
     countLabel: "{count}개 여정",
     empty: "검색 결과가 없습니다.",
-    byLabel: "작성자",
+    byLabel: "공유한 사람",
     placesLabel: "곳",
     photosLabel: "장",
+    notice: "여정 하나가 하나의 공유 페이지로 열립니다. 게시하지 않은 기록은 공개되지 않습니다.",
   },
   ja: {
-    title: "公開された旅",
-    subtitle: "MomentBookで共有された旅です。",
+    title: "共有された旅",
+    subtitle: "MomentBookでリンク共有された旅です。",
     searchPlaceholder: "旅、場所、ユーザーを検索",
     countLabel: "{count}件の旅",
     empty: "一致する旅がありません。",
-    byLabel: "投稿者",
+    byLabel: "共有者",
     placesLabel: "か所",
     photosLabel: "枚",
+    notice: "旅ごとに共有ページが作られます。公開していない記録は表示されません。",
   },
   zh: {
-    title: "公开行程",
-    subtitle: "来自 MomentBook 的公开行程。",
+    title: "已分享的行程",
+    subtitle: "来自 MomentBook 的链接分享行程。",
     searchPlaceholder: "搜索行程、地点或用户",
     countLabel: "{count} 条行程",
     empty: "没有符合的行程。",
-    byLabel: "作者",
+    byLabel: "分享者",
     placesLabel: "个地点",
     photosLabel: "张照片",
+    notice: "每段行程对应一个分享页面。未发布的记录不会公开。",
   },
 };
 
@@ -127,6 +132,8 @@ export default async function JourneysPage({
         <h1 className={styles.title}>{labels.title}</h1>
         <p className={styles.subtitle}>{labels.subtitle}</p>
       </header>
+
+      <p className={styles.notice}>{labels.notice}</p>
 
       <JourneyList
         lang={lang}

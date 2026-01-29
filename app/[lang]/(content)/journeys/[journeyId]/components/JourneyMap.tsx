@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import styles from "./JourneyMap.module.scss";
-import type { PublishedJourneyCluster } from "@/lib/published-journey";
+import type { JourneyMode, PublishedJourneyCluster } from "@/lib/published-journey";
 
 // Fix default marker icon
 const iconUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png";
@@ -25,9 +25,17 @@ L.Marker.prototype.options.icon = defaultIcon;
 
 type JourneyMapProps = {
   clusters: PublishedJourneyCluster[];
+  mode: JourneyMode;
+  locationFallback: string;
+  photoLabel: string;
 };
 
-export default function JourneyMap({ clusters }: JourneyMapProps) {
+export default function JourneyMap({
+  clusters,
+  mode,
+  locationFallback,
+  photoLabel,
+}: JourneyMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletMapRef = useRef<L.Map | null>(null);
 
@@ -60,6 +68,24 @@ export default function JourneyMap({ clusters }: JourneyMapProps) {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
+    const cssVars = getComputedStyle(document.documentElement);
+    const routeColor = cssVars.getPropertyValue("--color-accent").trim() || "#2f6bff";
+    const hasRouteLine = mode === "ROUTE_STRONG" || mode === "ROUTE_WEAK";
+
+    if (hasRouteLine && clusters.length > 1) {
+      const points: [number, number][] = clusters.map((cluster) => [
+        cluster.center.lat,
+        cluster.center.lng,
+      ]);
+      const polyline = L.polyline(points, {
+        color: routeColor,
+        weight: mode === "ROUTE_STRONG" ? 3 : 2,
+        opacity: mode === "ROUTE_STRONG" ? 0.85 : 0.5,
+        dashArray: mode === "ROUTE_WEAK" ? "6 8" : undefined,
+      });
+      polyline.addTo(map);
+    }
+
     // Add markers
     clusters.forEach((cluster) => {
       const marker = L.marker([cluster.center.lat, cluster.center.lng]).addTo(map);
@@ -67,10 +93,10 @@ export default function JourneyMap({ clusters }: JourneyMapProps) {
       const popupContent = `
         <div style="padding: 0.5rem;">
           <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.95rem;">
-            ${cluster.locationName || "Location"}
+            ${cluster.locationName || locationFallback}
           </strong>
           <p style="margin: 0; font-size: 0.85rem; color: #666;">
-            ${cluster.photoIds.length} photos
+            ${cluster.photoIds.length} ${photoLabel}
           </p>
         </div>
       `;
@@ -88,7 +114,7 @@ export default function JourneyMap({ clusters }: JourneyMapProps) {
         leafletMapRef.current = null;
       }
     };
-  }, [clusters]);
+  }, [clusters, mode, locationFallback, photoLabel]);
 
   if (clusters.length === 0) {
     return null;

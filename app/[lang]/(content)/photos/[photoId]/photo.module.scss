@@ -75,6 +75,15 @@
   margin: 0;
 }
 
+.contextNote {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-canvas);
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
 .detailsGrid {
   display: grid;
   gap: var(--spacing-sm);
