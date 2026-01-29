@@ -33,39 +33,39 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook이 무엇인가요?",
-          answer: "사진, 짧은 메모, 그리고 장소를 함께 남기는 조용한 기록 앱입니다.",
+          answer: "순간을 여정으로 묶어 보관하는 조용한 기록 앱입니다.",
         },
         {
-          question: "매일 사용해야 하나요?",
-          answer: "아니요. 연속 기록이나 일일 목표는 없고, 필요할 때 이동 감지/여정 마무리 알림이 있습니다.",
+          question: "SNS인가요?",
+          answer: "아니요. 피드, 좋아요, 랭킹이 없으며 비교나 확산을 목적으로 하지 않습니다.",
         },
         {
-          question: "무엇을 기록할 수 있나요?",
-          answer: "사진, 짧은 메모, 그리고 허용한 경우 위치 정보입니다.",
+          question: "여정이란 무엇인가요?",
+          answer: "시작과 끝이 있는 경험을 하나의 이야기로 묶은 기록 단위입니다.",
         },
         {
-          question: "오프라인에서도 사용할 수 있나요?",
-          answer: "네. 기록은 기기에 저장되어 오프라인에서도 볼 수 있습니다.",
+          question: "무엇이 저장되나요?",
+          answer: "사진, 짧은 메모, 기록 시각, 그리고 위치를 허용한 경우 장소와 경로입니다.",
         },
         {
-          question: "비공개인가요?",
-          answer: "기본은 비공개입니다. 게시하면 웹에 공개됩니다.",
+          question: "기본은 비공개인가요?",
+          answer: "네. 기본은 비공개이며, 내가 게시할 때만 공개됩니다.",
+        },
+        {
+          question: "게시(Publish)는 무엇인가요?",
+          answer: "해당 여정만의 고유 URL 웹페이지를 만들어 공유하는 기능입니다.",
+        },
+        {
+          question: "앱 없이도 볼 수 있나요?",
+          answer: "네. 링크를 받은 사람은 웹에서 열람할 수 있으며, 검색 엔진에 수집될 수 있습니다.",
         },
         {
           question: "항상 위치를 추적하나요?",
-          answer: "허용한 경우에만 위치를 사용하며, 순간 정리와 이동 감지/여정 마무리 알림에 사용합니다.",
+          answer: "아니요. 위치는 허용한 경우에만 사용됩니다.",
         },
         {
-          question: "기기 간 동기화가 되나요?",
-          answer: "네. 개인 클라우드를 통해 선택적으로 동기화할 수 있습니다.",
-        },
-        {
-          question: "데이터를 내보낼 수 있나요?",
-          answer: "네. 언제든지 내보낼 수 있습니다.",
-        },
-        {
-          question: "어디에서 다운로드하나요?",
-          answer: "App Store와 Google Play에서 받을 수 있습니다.",
+          question: "AI는 무엇을 하나요?",
+          answer: "제목 추천, 요약, 장소명 정리처럼 정리를 돕는 역할에 한정됩니다.",
         },
       ],
     };
@@ -83,39 +83,39 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook とは何ですか？",
-          answer: "写真や短いメモ、場所を静かに残すアプリです。",
+          answer: "瞬間を旅としてまとめて残す静かな記録アプリです。",
         },
         {
-          question: "毎日使う必要はありますか？",
-          answer: "ありません。連続記録や日々の目標はなく、必要なときに移動検知/旅の終了リマインドがあります。",
+          question: "SNS ですか？",
+          answer: "いいえ。フィードやいいね、ランキングはなく、拡散を目的にしません。",
         },
         {
-          question: "何を記録できますか？",
-          answer: "写真、短いメモ、許可した場合の位置情報です。",
+          question: "旅とは何ですか？",
+          answer: "始まりと終わりのある体験を一つの物語としてまとめた単位です。",
         },
         {
-          question: "オフラインでも使えますか？",
-          answer: "はい。記録は端末に保存され、オフラインでも閲覧できます。",
+          question: "何が保存されますか？",
+          answer: "写真、短いメモ、記録時刻、許可した場合の場所とルートです。",
         },
         {
-          question: "非公開ですか？",
-          answer: "基本は非公開です。投稿するとWebで公開されます。",
+          question: "デフォルトは非公開ですか？",
+          answer: "はい。基本は非公開で、投稿したときだけ公開されます。",
         },
         {
-          question: "位置情報は常に追跡しますか？",
-          answer: "許可した場合のみ使用し、記録の整理や移動検知/旅の終了リマインドに使います。",
+          question: "Publish(投稿)とは？",
+          answer: "その旅だけの固有URLのWebページを作成して共有することです。",
         },
         {
-          question: "端末間の同期はできますか？",
-          answer: "はい。個人のクラウドで任意に同期できます。",
+          question: "アプリがなくても見られますか？",
+          answer: "はい。リンクを受け取った人はWebで閲覧でき、検索エンジンに表示される可能性もあります。",
         },
         {
-          question: "データはエクスポートできますか？",
-          answer: "はい。いつでも可能です。",
+          question: "常に位置情報を追跡しますか？",
+          answer: "いいえ。位置情報は許可した場合のみ使用します。",
         },
         {
-          question: "どこで入手できますか？",
-          answer: "App Store と Google Play で入手できます。",
+          question: "AI は何をしますか？",
+          answer: "タイトル提案や要約、場所名の整理など、整理の補助に限ります。",
         },
       ],
     };
@@ -133,39 +133,39 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook 是什么？",
-          answer: "用于保存照片、短句和地点的安静记录应用。",
+          answer: "把瞬间整理成旅程并安静保存的记录应用。",
         },
         {
-          question: "需要每天使用吗？",
-          answer: "不需要。没有连续记录或每日目标，但需要时会有行程变化与结束提醒。",
+          question: "是社交网络吗？",
+          answer: "不是。没有信息流、点赞或排名，也不以扩散为目标。",
         },
         {
-          question: "可以记录什么？",
-          answer: "照片、短句，以及你允许时的位置信息。",
+          question: "什么是旅程？",
+          answer: "把有开始和结束的经历整理成一个故事的记录单位。",
         },
         {
-          question: "离线可用吗？",
-          answer: "可以。记录保存在设备上，离线也能查看。",
+          question: "会保存哪些内容？",
+          answer: "照片、短句、记录时间，以及在允许位置时的地点与路线。",
         },
         {
-          question: "是私密的吗？",
-          answer: "默认私密，发布后会在网页公开。",
+          question: "默认是私密的吗？",
+          answer: "是的。默认私密，仅在发布时公开。",
+        },
+        {
+          question: "发布(Publish)是什么？",
+          answer: "为该旅程生成一个唯一 URL 的网页并进行分享。",
+        },
+        {
+          question: "没有 App 也能看吗？",
+          answer: "可以。收到链接的人可在网页查看，并可能被搜索引擎收录。",
         },
         {
           question: "会一直追踪位置吗？",
-          answer: "只在你允许时使用，用于整理记录和行程变化与结束提醒。",
+          answer: "不会。只有在你允许时才会使用位置。",
         },
         {
-          question: "可以跨设备同步吗？",
-          answer: "可以。通过个人云存储选择性同步。",
-        },
-        {
-          question: "可以导出数据吗？",
-          answer: "可以，随时导出。",
-        },
-        {
-          question: "在哪里下载？",
-          answer: "可在 App Store 与 Google Play 下载。",
+          question: "AI 会做什么？",
+          answer: "只负责整理辅助，例如标题建议、摘要、地点名称整理。",
         },
       ],
     };
@@ -182,39 +182,39 @@ function getFaqContent(lang: Language): FAQContent {
     items: [
       {
         question: "What is MomentBook?",
-        answer: "A quiet app for saving moments—photos, short notes, and the places they happened.",
+        answer: "A quiet app that keeps moments as journeys.",
       },
       {
-        question: "Do I have to use it every day?",
-        answer: "No. There are no streaks or daily goals. Travel and journey-end reminders appear only when needed.",
+        question: "Is it a social network?",
+        answer: "No. There is no feed, likes, or rankings, and it is not built for broadcast.",
       },
       {
-        question: "What can I capture?",
-        answer: "A photo, a short note, and the location (if you allow it).",
+        question: "What is a journey?",
+        answer: "A journey is a unit that groups a beginning-to-end experience as one story.",
       },
       {
-        question: "Does it work offline?",
-        answer: "Yes. Your moments live on your device.",
+        question: "What gets saved?",
+        answer: "Photos, short notes, time of capture, and places/routes when location is allowed.",
       },
       {
-        question: "Is it private?",
-        answer: "Private by default. If you publish, that journey is public on the web.",
+        question: "Is it private by default?",
+        answer: "Yes. Journeys stay private unless you publish them.",
+      },
+      {
+        question: "What does Publish mean?",
+        answer: "Publishing creates a public web page with a unique URL for that journey.",
+      },
+      {
+        question: "Can people view without the app?",
+        answer: "Yes. Anyone with the link can view it on the web, and it may be indexed.",
       },
       {
         question: "Does it track my location?",
-        answer: "Only if you enable it. Location helps organize moments and send travel and journey-end reminders.",
+        answer: "Only if you allow it. Location is used to place moments into a journey.",
       },
       {
-        question: "Can I sync across devices?",
-        answer: "Yes, optional sync through your own cloud storage.",
-      },
-      {
-        question: "Can I export my data?",
-        answer: "Yes, export anytime.",
-      },
-      {
-        question: "Where can I download it?",
-        answer: "Available on the App Store and Google Play.",
+        question: "What does AI do?",
+        answer: "It helps with titles, summaries, and place names. It does not create for you.",
       },
     ],
   };

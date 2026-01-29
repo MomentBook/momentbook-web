@@ -28,154 +28,210 @@ type HowItWorksContent = {
 const howItWorksContent: Record<Language, HowItWorksContent> = {
   en: {
     metaTitle: "How MomentBook Works",
-    metaDescription: "Capture, organize, and revisit your moments without a routine.",
+    metaDescription: "Keep moments as journeys, quietly and on your terms.",
     title: "How MomentBook works",
-    subtitle: "Clear steps, minimal effort.",
-    intro: "MomentBook is built for real days. It keeps your moments without a daily routine.",
+    subtitle: "A simple flow, minimal effort.",
+    intro: "MomentBook keeps moments as journeys without asking for a routine.",
     steps: [
       {
         title: "Capture",
-        text: "Save a photo or a short note when something feels worth keeping. Add location if you want.",
+        text: "Save a photo or a short note. If you allow location, it adds place and time.",
       },
       {
-        title: "Organize",
-        text: "Moments group by time and place into a simple day view. No folders, no tags.",
+        title: "Gather",
+        text: "Moments gather into a journey with a beginning and an end, showing the flow of time and place.",
       },
       {
         title: "Return",
-        text: "Review your journey path—places visited and photos captured. Publish when you want to share.",
+        text: "Review the journey and publish only if you want to share.",
       },
     ],
     details: [
       {
         title: "What gets saved",
-        items: ["Photos", "Short notes", "Location (if enabled)", "Time of capture"],
+        items: ["Photos", "Short notes", "Time of capture", "Places and route (if location is allowed)"],
+      },
+      {
+        title: "How routes appear",
+        items: [
+          "Strong route when GPS is rich and precise",
+          "Soft route when GPS is intermittent",
+          "No route when location is not allowed",
+        ],
       },
       {
         title: "When it becomes public",
         items: [
           "Only when you tap Publish",
-          "Published journeys appear on the web",
-          "You control what is shared",
+          "Creates a public web page with a unique URL",
+          "Anyone with the link can view, and it may be indexed",
         ],
       },
     ],
     noPressureTitle: "On your terms",
     noPressureItems: [
+      "No feeds, likes, or rankings",
       "No streaks or daily goals",
-      "Travel alerts when location changes",
-      "Journey-end reminders",
-      "Public sharing only when you post",
+      "Private by default",
+      "Share only when you choose",
     ],
   },
   ko: {
     metaTitle: "MomentBook 작동 방식",
-    metaDescription: "기록하고, 모으고, 원할 때 돌아보는 방식입니다.",
+    metaDescription: "순간을 여정으로 남기는 조용한 방식입니다.",
     title: "MomentBook 작동 방식",
     subtitle: "단순한 흐름, 최소한의 노력.",
-    intro: "MomentBook은 현실적인 하루를 위한 앱입니다. 매일 습관을 요구하지 않고 기록만 남깁니다.",
+    intro: "MomentBook은 일상을 방해하지 않고 순간을 여정으로 남깁니다.",
     steps: [
       {
         title: "기록",
-        text: "기억하고 싶은 순간에 사진이나 짧은 메모를 남깁니다. 원하면 위치도 저장합니다.",
+        text: "사진이나 짧은 메모를 남깁니다. 위치를 허용하면 시간과 장소가 함께 기록됩니다.",
       },
       {
         title: "정리",
-        text: "시간과 장소로 순간이 모여 하루가 정리됩니다. 폴더나 태그는 필요 없습니다.",
+        text: "순간이 모여 하나의 여정이 되고, 시간과 장소의 흐름이 보입니다.",
       },
       {
         title: "돌아보기",
-        text: "방문한 장소와 사진이 여정으로 정리되어 다시 볼 수 있습니다. 원할 때 게시해 공유합니다.",
+        text: "여정을 다시 보고, 공유가 필요할 때만 게시합니다.",
       },
     ],
     details: [
       {
         title: "저장되는 것",
-        items: ["사진", "짧은 메모", "위치(허용 시)", "기록 시각"],
+        items: ["사진", "짧은 메모", "기록 시각", "장소와 경로(허용 시)"],
+      },
+      {
+        title: "경로 표현 방식",
+        items: [
+          "GPS가 풍부하면 선명한 경로",
+          "GPS가 간헐이면 느슨한 경로",
+          "권한 미허용 시 경로 없음",
+        ],
       },
       {
         title: "웹에 공개되는 경우",
-        items: ["게시하기를 눌렀을 때만", "게시된 여정은 웹에 공개", "공개 범위는 사용자가 선택"],
+        items: ["게시하기를 눌렀을 때만", "게시된 여정은 웹에 공개", "공개 여부는 사용자가 선택"],
+      },
+      {
+        title: "공개 페이지의 성격",
+        items: [
+          "고유 URL의 웹페이지가 생성됨",
+          "링크를 아는 사람은 열람 가능",
+          "검색 엔진에 수집될 수 있음",
+        ],
       },
     ],
     noPressureTitle: "내 방식대로",
     noPressureItems: [
+      "피드, 좋아요, 랭킹 없음",
       "연속 기록이나 목표 없음",
-      "이동 감지 알림",
-      "여정 마무리 알림",
-      "게시할 때만 공개",
+      "기본은 비공개",
+      "원할 때만 공유",
     ],
   },
   ja: {
     metaTitle: "MomentBook の仕組み",
-    metaDescription: "記録して整理し、必要なときに戻れます。",
+    metaDescription: "瞬間を旅として静かに残します。",
     title: "MomentBook の仕組み",
     subtitle: "シンプルな流れ、最小限の負担。",
-    intro: "MomentBook は現実の一日に寄り添うアプリです。毎日の習慣を求めず、記録だけ残します。",
+    intro: "MomentBook は日常を邪魔せず、瞬間を旅として残します。",
     steps: [
       {
         title: "記録",
-        text: "残したい瞬間に写真や短いメモを保存します。必要なら場所も保存します。",
+        text: "写真や短いメモを保存します。位置情報を許可すると場所と時間も残ります。",
       },
       {
         title: "整理",
-        text: "時間と場所で瞬間がまとまり、一日が見えてきます。フォルダやタグは不要です。",
+        text: "瞬間が一つの旅にまとまり、時間と場所の流れが見えてきます。",
       },
       {
         title: "戻る",
-        text: "訪れた場所と写真が旅として整理され、いつでも見返せます。必要なら投稿して共有できます。",
+        text: "旅を見返し、必要なときだけ投稿して共有します。",
       },
     ],
     details: [
       {
         title: "保存されるもの",
-        items: ["写真", "短いメモ", "位置情報(許可時)", "記録時刻"],
+        items: ["写真", "短いメモ", "記録時刻", "場所とルート(許可時)"],
+      },
+      {
+        title: "ルート表示",
+        items: [
+          "GPSが十分なら明確なルート",
+          "GPSが途切れると緩やかなルート",
+          "許可がない場合はルートなし",
+        ],
       },
       {
         title: "公開される条件",
-        items: ["投稿したときだけ", "公開した旅はWebで表示", "公開範囲は自分で決める"],
+        items: ["投稿したときだけ", "公開した旅はWebで表示", "公開するかどうかは自分で決める"],
+      },
+      {
+        title: "公開ページについて",
+        items: [
+          "固有URLのWebページが作成される",
+          "リンクを知っている人は閲覧可能",
+          "検索エンジンに表示される可能性がある",
+        ],
       },
     ],
     noPressureTitle: "自分のペースで",
     noPressureItems: [
+      "フィード、いいね、ランキングなし",
       "連続記録や目標なし",
-      "移動検知の通知",
-      "旅の終了リマインド",
-      "投稿時のみ公開",
+      "デフォルトは非公開",
+      "必要なときだけ共有",
     ],
   },
   zh: {
     metaTitle: "MomentBook 如何运作",
-    metaDescription: "记录、整理，并在需要时回看。",
+    metaDescription: "把瞬间安静地保存为旅程。",
     title: "MomentBook 如何运作",
     subtitle: "简单流程，最小负担。",
-    intro: "MomentBook 贴合真实生活，不需要每日习惯，只记录。",
+    intro: "MomentBook 不打扰日常，把瞬间整理成旅程。",
     steps: [
       {
         title: "记录",
-        text: "当你想留下时，保存照片或短句。需要的话可以保存地点。",
+        text: "保存照片或短句。允许位置后，会记录地点与时间。",
       },
       {
         title: "整理",
-        text: "瞬间按时间与地点汇总成一天的视图，不需要文件夹或标签。",
+        text: "瞬间汇成一段旅程，时间与地点的脉络会变得清晰。",
       },
       {
         title: "回看",
-        text: "访问过的地点和拍下的照片会整理成行程，随时回看，需要时发布分享。",
+        text: "回看旅程，需要时再发布分享。",
       },
     ],
     details: [
       {
         title: "保存的内容",
-        items: ["照片", "短句", "位置信息(允许时)", "记录时间"],
+        items: ["照片", "短句", "记录时间", "地点与路线(允许时)"],
+      },
+      {
+        title: "路线呈现方式",
+        items: [
+          "GPS 充足时显示清晰路线",
+          "GPS 间歇时显示柔和路线",
+          "未允许时不显示路线",
+        ],
       },
       {
         title: "何时公开",
-        items: ["仅在点击发布时", "发布的旅程会在网页公开", "公开范围由你决定"],
+        items: ["仅在点击发布时", "发布的旅程会在网页公开", "是否公开由你决定"],
+      },
+      {
+        title: "公开页面",
+        items: [
+          "生成唯一 URL 的网页",
+          "知道链接的人可以访问",
+          "可能被搜索引擎收录",
+        ],
       },
     ],
     noPressureTitle: "按你的节奏",
-    noPressureItems: ["没有连续记录或目标", "行程变化提醒", "行程结束提醒", "仅发布时公开"],
+    noPressureItems: ["没有信息流、点赞或排名", "没有连续记录或目标", "默认私密", "仅在需要时分享"],
   },
 };
 
