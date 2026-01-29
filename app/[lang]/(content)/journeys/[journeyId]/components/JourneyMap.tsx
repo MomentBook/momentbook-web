@@ -28,6 +28,8 @@ type JourneyMapProps = {
   mode: JourneyMode;
   locationFallback: string;
   photoLabel: string;
+  lang: string;
+  journeyPublicId: string;
 };
 
 export default function JourneyMap({
@@ -35,6 +37,8 @@ export default function JourneyMap({
   mode,
   locationFallback,
   photoLabel,
+  lang,
+  journeyPublicId,
 }: JourneyMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const leafletMapRef = useRef<L.Map | null>(null);
@@ -86,11 +90,13 @@ export default function JourneyMap({
       polyline.addTo(map);
     }
 
+    const encodedJourneyId = encodeURIComponent(journeyPublicId);
+
     // Add markers
     clusters.forEach((cluster) => {
       const marker = L.marker([cluster.center.lat, cluster.center.lng]).addTo(map);
 
-      const popupContent = `
+      const tooltipContent = `
         <div style="padding: 0.5rem;">
           <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.95rem;">
             ${cluster.locationName || locationFallback}
@@ -101,7 +107,11 @@ export default function JourneyMap({
         </div>
       `;
 
-      marker.bindPopup(popupContent);
+      marker.bindTooltip(tooltipContent, { direction: "top", opacity: 0.9 });
+      marker.on("click", () => {
+        const encodedClusterId = encodeURIComponent(cluster.clusterId);
+        window.location.href = `/${lang}/journeys/${encodedJourneyId}/moments/${encodedClusterId}`;
+      });
     });
 
     // Fit bounds with padding
@@ -114,7 +124,7 @@ export default function JourneyMap({
         leafletMapRef.current = null;
       }
     };
-  }, [clusters, mode, locationFallback, photoLabel]);
+  }, [clusters, mode, locationFallback, photoLabel, lang, journeyPublicId]);
 
   if (clusters.length === 0) {
     return null;

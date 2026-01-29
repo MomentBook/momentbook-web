@@ -45,6 +45,7 @@
   /(content)
     /journeys
     /journeys/[journeyId]
+    /journeys/[journeyId]/moments/[clusterId]
     /users
     /users/[userId]
     /photos/[photoId]
@@ -110,4 +111,3 @@
   - sitemap/metadata에서 절대 URL 생성에 사용
 - `NEXT_PUBLIC_API_BASE_URL`
   - 공개 콘텐츠 API 엔드포인트 베이스 URL
-

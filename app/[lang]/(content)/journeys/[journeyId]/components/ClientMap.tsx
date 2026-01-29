@@ -12,6 +12,8 @@ type ClientMapProps = {
   mode: JourneyMode;
   locationFallback: string;
   photoLabel: string;
+  lang: string;
+  journeyPublicId: string;
 };
 
 export default function ClientMap({
@@ -19,6 +21,8 @@ export default function ClientMap({
   mode,
   locationFallback,
   photoLabel,
+  lang,
+  journeyPublicId,
 }: ClientMapProps) {
   return (
     <JourneyMap
@@ -26,6 +30,8 @@ export default function ClientMap({
       mode={mode}
       locationFallback={locationFallback}
       photoLabel={photoLabel}
+      lang={lang}
+      journeyPublicId={journeyPublicId}
     />
   );
 }

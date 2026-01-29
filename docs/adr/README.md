@@ -49,7 +49,7 @@ Each ADR follows this structure:
 6. [ADR 0006: Segmented Sitemaps (Index + Sub-sitemaps)](./0006-segmented-sitemaps.md)
    - **Date**: 2026-01-29
    - **Status**: Accepted
-   - **Summary**: Sitemap index + resource-specific sitemaps with hreflang alternates and cache headers
+   - **Summary**: Sitemap index + resource-specific sitemaps (users, journeys, journey moments, photos, static) with hreflang alternates and cache headers
 
 ## Creating New ADRs
 

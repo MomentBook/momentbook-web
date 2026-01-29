@@ -62,12 +62,14 @@ export default function JourneyContent({
                 </div>
                 <p className={styles.sectionLead}>{routeLead}</p>
                 {journey.clusters.length > 0 ? (
-                    <ClientMap
-                        clusters={journey.clusters}
-                        mode={journey.mode}
-                        locationFallback={labels.locationFallback}
-                        photoLabel={labels.photoCount}
-                    />
+    <ClientMap
+      clusters={journey.clusters}
+      mode={journey.mode}
+      locationFallback={labels.locationFallback}
+      photoLabel={labels.photoCount}
+      lang={lang}
+      journeyPublicId={journey.publicId}
+    />
                 ) : (
                     <div className={styles.mapPlaceholder}>{labels.mapEmpty}</div>
                 )}

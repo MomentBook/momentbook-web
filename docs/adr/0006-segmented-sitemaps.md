@@ -24,6 +24,7 @@ Implemented as route handlers:
 - `/sitemap-static.xml` — marketing + legal + fixed content routes
 - `/sitemap-users.xml` — public user profile routes
 - `/sitemap-journeys.xml` — public journey detail routes
+- `/sitemap-journey-moments.xml` — public journey moment detail routes
 - `/sitemap-photos.xml` — public photo detail routes
 
 Each sub-sitemap:
@@ -65,6 +66,7 @@ Each sub-sitemap:
 - `/app/sitemap-static.xml/route.ts`
 - `/app/sitemap-users.xml/route.ts`
 - `/app/sitemap-journeys.xml/route.ts`
+- `/app/sitemap-journey-moments.xml/route.ts`
 - `/app/sitemap-photos.xml/route.ts`
 
 ## Related Decisions
