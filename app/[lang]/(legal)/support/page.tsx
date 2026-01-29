@@ -76,7 +76,7 @@ function EnglishSupport() {
       <header className={styles.header}>
         <h1 className={styles.title}>MomentBook Support</h1>
         <p className={styles.subtitle}>
-          Help with MomentBook, whenever you need it.
+          Quiet help, whenever you need it.
         </p>
       </header>
 
@@ -84,7 +84,7 @@ function EnglishSupport() {
         <h2 className={styles.heading2}>Common questions</h2>
 
         <p>
-          You might find answers in our{" "}
+          You might find a quick answer in our{" "}
           <Link href="/en/faq" className={styles.link}>
             FAQ
           </Link>
@@ -115,7 +115,7 @@ function KoreanSupport() {
       <header className={styles.header}>
         <h1 className={styles.title}>MomentBook 지원</h1>
         <p className={styles.subtitle}>
-          MomentBook 도움이 필요할 때 언제든지 찾아주세요.
+          필요한 순간에 조용히 도와드립니다.
         </p>
       </header>
 
@@ -126,7 +126,7 @@ function KoreanSupport() {
           <Link href="/ko/faq" className={styles.link}>
             FAQ
           </Link>
-          에서 답을 찾을 수 있습니다.
+          에서 먼저 확인해 보실 수 있습니다.
         </p>
 
         <h2 className={styles.heading2}>문의</h2>
@@ -153,7 +153,7 @@ function JapaneseSupport() {
       <header className={styles.header}>
         <h1 className={styles.title}>MomentBook サポート</h1>
         <p className={styles.subtitle}>
-          MomentBookでお困りのときはいつでもお手伝いします。
+          必要なときに静かにお手伝いします。
         </p>
       </header>
 
@@ -191,7 +191,7 @@ function ChineseSupport() {
       <header className={styles.header}>
         <h1 className={styles.title}>MomentBook 支持</h1>
         <p className={styles.subtitle}>
-          需要 MomentBook 帮助时，我们随时在这里。
+          需要时，我们在这里安静地提供帮助。
         </p>
       </header>
 
@@ -203,7 +203,7 @@ function ChineseSupport() {
           <Link href="/zh/faq" className={styles.link}>
             FAQ
           </Link>
-          中找到答案。
+          中先查看答案。
         </p>
 
         <h2 className={styles.heading2}>联系</h2>
