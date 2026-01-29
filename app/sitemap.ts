@@ -14,6 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     },
     {
+      url: `${siteUrl}/sitemap-journey-moments.xml`,
+      lastModified: new Date(),
+    },
+    {
       url: `${siteUrl}/sitemap-photos.xml`,
       lastModified: new Date(),
     },

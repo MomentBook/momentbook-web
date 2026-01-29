@@ -5,6 +5,7 @@
 이 프로젝트는 MomentBook 앱을 설명하고, **공개(게시)된 여정/사진/사용자**를 읽기 전용으로 보여주는 **공개 웹(SEO)** 이다.
 
 핵심 원칙:
+
 - 앱 경험을 **설명만** 한다 (재정의 금지)
 - 과장/성과/습관/소셜 프레이밍 금지
 - 정적/캐시 가능한 콘텐츠 우선
@@ -45,6 +46,7 @@
   /(content)
     /journeys
     /journeys/[journeyId]
+    /journeys/[journeyId]/moments/[clusterId]
     /users
     /users/[userId]
     /photos/[photoId]
@@ -67,11 +69,13 @@
 이 프로젝트는 **혼합(hybrid)** 상태다.
 
 ### 1) Public API (Primary when configured)
+
 - `NEXT_PUBLIC_API_BASE_URL`가 설정되면, 공개 사용자/여정/사진 데이터를 API로 가져온다.
 - 페이지/라우트에서 `fetch(..., { next: { revalidate: 3600 } })` 형태로 캐시 가능한 ISR을 사용한다.
 - API 타입은 `src/apis/client` (swagger-typescript-api 생성) 기반으로 재사용한다.
 
 ### 2) Static sample content (Fallback / demo)
+
 - `lib/public-content.ts`에 샘플 데이터가 남아 있으며, 일부 페이지에서 사용 중일 수 있다.
 - 목적: 로컬 데모, API 미연결 환경에서의 기본 화면 유지
 - **장기적으로는 공개 목록(예: /journeys)도 API 기반으로 통일**하는 것을 목표로 한다.
@@ -86,11 +90,12 @@
 - `journeys/[journeyId]`는 JSON-LD 포함
 
 ### Sitemap Strategy
+
 - `app/sitemap.ts`는 **sitemap index** 역할을 하며 하위 sitemap을 가리킨다.
-  - `/sitemap-static.xml`
-  - `/sitemap-journeys.xml`
-  - `/sitemap-photos.xml`
-  - `/sitemap-users.xml`
+    - `/sitemap-static.xml`
+    - `/sitemap-journeys.xml`
+    - `/sitemap-photos.xml`
+    - `/sitemap-users.xml`
 - 각 하위 sitemap은 API 기반으로 URL을 생성하며, `hreflang` alternate를 포함한다.
 
 ---
@@ -107,7 +112,10 @@
 ## Environment Variables
 
 - `NEXT_PUBLIC_SITE_URL`
-  - sitemap/metadata에서 절대 URL 생성에 사용
+    - sitemap/metadata에서 절대 URL 생성에 사용
 - `NEXT_PUBLIC_API_BASE_URL`
-  - 공개 콘텐츠 API 엔드포인트 베이스 URL
+    - 공개 콘텐츠 API 엔드포인트 베이스 URL
+      <<<<<<< HEAD
+      =======
 
+> > > > > > > remotes/origin/main

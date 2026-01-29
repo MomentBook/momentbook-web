@@ -22,6 +22,17 @@ const journeyLabels: Record<
         places: string;
         gallery: string;
         hours: string;
+        routeTitle: string;
+        routeBadgeStrong: string;
+        routeBadgeWeak: string;
+        routeBadgeNone: string;
+        routeBadgePhotoOnly: string;
+        routeLeadStrong: string;
+        routeLeadWeak: string;
+        routeLeadNone: string;
+        routeLeadPhotoOnly: string;
+        mapEmpty: string;
+        locationFallback: string;
     }
 > = {
     en: {
@@ -32,6 +43,17 @@ const journeyLabels: Record<
         places: "Places Visited",
         gallery: "Photo Gallery",
         hours: "h",
+        routeTitle: "Journey map",
+        routeBadgeStrong: "Clear route",
+        routeBadgeWeak: "Soft route",
+        routeBadgeNone: "Places only",
+        routeBadgePhotoOnly: "Photos only",
+        routeLeadStrong: "Precise GPS points allow a clear route to be drawn.",
+        routeLeadWeak: "GPS points are intermittent, so the route shows a softer flow.",
+        routeLeadNone: "Location permission was not available, so only places are shown.",
+        routeLeadPhotoOnly: "This journey is shared as photos without a route.",
+        mapEmpty: "There is no map data for this journey.",
+        locationFallback: "Location",
     },
     ko: {
         eyebrow: "여정",
@@ -41,6 +63,17 @@ const journeyLabels: Record<
         places: "방문한 장소",
         gallery: "사진 갤러리",
         hours: "시간",
+        routeTitle: "여정 지도",
+        routeBadgeStrong: "선명한 경로",
+        routeBadgeWeak: "느슨한 경로",
+        routeBadgeNone: "장소만 표시",
+        routeBadgePhotoOnly: "사진만 공유",
+        routeLeadStrong: "GPS 데이터가 충분해 경로가 선명하게 그려집니다.",
+        routeLeadWeak: "GPS가 간헐적이라 흐름 중심의 경로로 표시됩니다.",
+        routeLeadNone: "위치 권한이 없어 경로 없이 장소만 표시됩니다.",
+        routeLeadPhotoOnly: "경로 없이 사진만 공유된 여정입니다.",
+        mapEmpty: "이 여정에는 지도 정보가 없습니다.",
+        locationFallback: "장소",
     },
     ja: {
         eyebrow: "旅",
@@ -50,6 +83,17 @@ const journeyLabels: Record<
         places: "訪れた場所",
         gallery: "フォトギャラリー",
         hours: "時間",
+        routeTitle: "旅の地図",
+        routeBadgeStrong: "明確なルート",
+        routeBadgeWeak: "緩やかなルート",
+        routeBadgeNone: "場所のみ",
+        routeBadgePhotoOnly: "写真のみ",
+        routeLeadStrong: "GPSが十分にあるため、ルートが明確に表示されます。",
+        routeLeadWeak: "GPSが断続的なため、ゆるやかな流れとして表示されます。",
+        routeLeadNone: "位置情報がないため、ルートなしで場所のみ表示されます。",
+        routeLeadPhotoOnly: "ルートなしの写真共有のみの旅です。",
+        mapEmpty: "この旅には地図情報がありません。",
+        locationFallback: "場所",
     },
     zh: {
         eyebrow: "行程",
@@ -59,6 +103,17 @@ const journeyLabels: Record<
         places: "到访地点",
         gallery: "照片画廊",
         hours: "小时",
+        routeTitle: "行程地图",
+        routeBadgeStrong: "清晰路线",
+        routeBadgeWeak: "柔和路线",
+        routeBadgeNone: "仅地点",
+        routeBadgePhotoOnly: "仅照片",
+        routeLeadStrong: "GPS 数据充足，因此可以绘制清晰路线。",
+        routeLeadWeak: "GPS 数据间歇，路线以更柔和的脉络呈现。",
+        routeLeadNone: "未提供位置权限，因此仅显示地点。",
+        routeLeadPhotoOnly: "该行程仅分享照片，不显示路线。",
+        mapEmpty: "此行程没有地图信息。",
+        locationFallback: "地点",
     },
 };
 

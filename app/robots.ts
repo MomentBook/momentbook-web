@@ -12,6 +12,7 @@ export default function robots(): MetadataRoute.Robots {
       `${siteUrl}/sitemap.xml`,
       `${siteUrl}/sitemap-static.xml`,
       `${siteUrl}/sitemap-journeys.xml`,
+      `${siteUrl}/sitemap-journey-moments.xml`,
       `${siteUrl}/sitemap-photos.xml`,
       `${siteUrl}/sitemap-users.xml`,
     ],
