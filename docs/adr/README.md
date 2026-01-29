@@ -4,27 +4,27 @@ This directory contains Architecture Decision Records for the MomentBook web pro
 
 ## What is an ADR?
 
-An Architecture Decision Record (ADR) is a document that captures an important architectural decision made along with its context and consequences.
+An Architecture Decision Record (ADR) captures an important architectural decision, its context, and its consequences.
 
 ## Format
 
 Each ADR follows this structure:
-- **Title**: Short descriptive title
+- **Title**
 - **Status**: Proposed | Accepted | Deprecated | Superseded
-- **Date**: When the decision was made
-- **Context**: The issue motivating this decision
-- **Decision**: The change being proposed or has been approved
-- **Consequences**: The resulting context, positive/negative/neutral outcomes
-- **Alternatives Considered**: Other options that were evaluated
+- **Date**
+- **Context**
+- **Decision**
+- **Consequences**
+- **Alternatives Considered**
 
 ## Index
 
 ### Current ADRs
 
 1. [ADR 0001: Multilingual Routing Architecture](./0001-multilingual-routing-architecture.md)
-   - **Date**: 2025-01-04
+   - **Date**: 2025-01-04 (updated: 2026-01-29)
    - **Status**: Accepted
-   - **Summary**: Custom multilingual routing using Next.js dynamic segments with language-prefixed URLs
+   - **Summary**: Custom multilingual routing using Next.js App Router + middleware-based language redirect
 
 2. [ADR 0002: Legal Document Internationalization](./0002-legal-document-internationalization.md)
    - **Date**: 2025-01-04
@@ -32,20 +32,28 @@ Each ADR follows this structure:
    - **Summary**: Component-based architecture for multilingual legal documents (Terms, Privacy, Community Guidelines, Marketing Consent)
 
 3. [ADR 0003: Static Site Generation Strategy](./0003-static-site-generation-strategy.md)
-   - **Date**: 2025-01-04
+   - **Date**: 2025-01-04 (updated: 2026-01-29)
    - **Status**: Accepted
-   - **Summary**: SSG + ISR mix for fast static pages and cacheable public content
+   - **Summary**: SSG + ISR-style caching, hybrid public data sources, and segmented sitemaps for scale
 
 4. [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)
    - **Date**: 2025-01-04
    - **Status**: Accepted
    - **Summary**: Multi-column footer with brand CTA + Product/Download/Support/Legal links
 
+5. [ADR 0005: Public API Integration for Published Content](./0005-public-api-integration.md)
+   - **Date**: 2026-01-29
+   - **Status**: Accepted
+   - **Summary**: Use the MomentBook API (when configured) with ISR-style caching; keep sample data as a temporary fallback
+
+6. [ADR 0006: Segmented Sitemaps (Index + Sub-sitemaps)](./0006-segmented-sitemaps.md)
+   - **Date**: 2026-01-29
+   - **Status**: Accepted
+   - **Summary**: Sitemap index + resource-specific sitemaps with hreflang alternates and cache headers
+
 ## Creating New ADRs
 
-When creating a new ADR:
-
-1. **Number**: Use the next sequential number (0005, 0006, etc.)
+1. **Number**: Use the next sequential number (0007, 0008, ...)
 2. **Filename**: `XXXX-descriptive-title.md` (lowercase, hyphenated)
 3. **Template**: Follow the structure of existing ADRs
 4. **Update Index**: Add entry to this README
@@ -62,84 +70,25 @@ When creating a new ADR:
 YYYY-MM-DD
 
 ## Context
-[What is the issue that we're seeing that is motivating this decision or change?]
+[What is the issue motivating this decision?]
 
 ## Decision
-[What is the change that we're proposing and/or doing?]
+[What are we doing?]
 
 ## Consequences
 ### Positive
-- ✅ [Positive outcome]
+- ✅ ...
 
 ### Negative
-- ⚠️ [Negative outcome]
+- ⚠️ ...
 
 ### Neutral
-- 📝 [Neutral outcome]
+- 📝 ...
 
 ## Alternatives Considered
-### 1. [Alternative Name]
-**Rejected**: [Reason]
+### 1. ...
+**Rejected**: ...
 
 ## Related Decisions
-- [ADR YYYY: Related Decision](#YYYY)
-
-## References
-- [External link]
+- [ADR YYYY: ...](./YYYY-...md)
 ```
-
-## Decision Status Definitions
-
-- **Proposed**: Decision is under discussion
-- **Accepted**: Decision has been approved and implemented
-- **Deprecated**: Decision is no longer relevant but kept for historical context
-- **Superseded**: Replaced by a newer decision (link to the new ADR)
-
-## Key Architectural Themes
-
-### 1. Simplicity
-- Minimal dependencies
-- Clear, maintainable code
-- Avoid over-engineering
-
-### 2. Performance
-- Static site generation
-- Optimized bundle sizes
-- Fast page loads
-
-### 3. Internationalization
-- First-class multilingual support
-- SEO-friendly language routing
-- Type-safe translations
-
-### 4. User Experience
-- Fast, responsive pages
-- Clear navigation
-- Professional presentation
-
-### 5. Maintainability
-- Well-documented decisions
-- Clear code structure
-- Easy to onboard new developers
-
-## Related Documentation
-
-- [CLAUDE.md](../../CLAUDE.md) - Project purpose and AI usage guidelines
-- [README.md](../../README.md) - Project overview and setup
-- [Technical Stack](../../docs/technical-stack.md) - Technology choices (if exists)
-
-## Questions?
-
-If you have questions about any architectural decision:
-1. Read the full ADR document
-2. Check related ADRs
-3. Review implementation files referenced
-4. Ask the team for clarification
-
-## Contributing
-
-When making significant architectural changes:
-1. Create a new ADR documenting the decision
-2. Update related ADRs if needed
-3. Mark superseded ADRs appropriately
-4. Keep this index up to date
