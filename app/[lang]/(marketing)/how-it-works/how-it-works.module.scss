@@ -35,11 +35,11 @@
 
 .steps {
   display: grid;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -49,6 +49,15 @@
   background: var(--color-bg-canvas);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
 }
 
 .stepNumber {
@@ -62,19 +71,23 @@
   color: var(--color-text-primary);
   font-weight: 600;
   font-size: 0.95rem;
-  margin-bottom: var(--spacing-xs);
 }
 
 .stepTitle {
   font-size: 1.1rem;
   font-weight: 500;
-  margin-bottom: var(--spacing-xs);
 }
 
 .stepText {
   font-size: 0.98rem;
   line-height: 1.7;
   color: var(--color-text-secondary);
+}
+
+.stepDevice {
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
 }
 
 .detailGrid {

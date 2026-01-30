@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { DeviceMock } from "@/components/DeviceMock";
+import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./how-it-works.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
@@ -6,6 +9,8 @@ import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 type HowItWorksStep = {
   title: string;
   text: string;
+  image: string;
+  alt: string;
 };
 
 type HowItWorksDetail = {
@@ -28,22 +33,34 @@ type HowItWorksContent = {
 const howItWorksContent: Record<Language, HowItWorksContent> = {
   en: {
     metaTitle: "How MomentBook Works",
-    metaDescription: "Keep moments as journeys, quietly and on your terms.",
+    metaDescription: "A calm, screenshot-led flow from starting a journey to sharing it.",
     title: "How MomentBook works",
-    subtitle: "A simple flow, minimal effort.",
+    subtitle: "A calm flow, guided by your journey.",
     intro: "MomentBook keeps moments as journeys without asking for a routine.",
     steps: [
       {
-        title: "Capture",
-        text: "Save a photo or a short note. If you allow location, it adds place and time.",
+        title: "Begin with a gentle prompt",
+        text: "Start today’s journey in a single tap. The app will take it from there.",
+        image: "/screenshots/start-journey.png",
+        alt: "Start today’s journey screen with a single call to action.",
       },
       {
-        title: "Gather",
-        text: "Moments gather into a journey with a beginning and an end, showing the flow of time and place.",
+        title: "Let the day collect itself",
+        text: "Time, photos, and places gather automatically, with a clear summary view.",
+        image: "/screenshots/current-journey.png",
+        alt: "Current journey status with time, photos, places, and map preview.",
       },
       {
-        title: "Return",
-        text: "Review the journey and publish only if you want to share.",
+        title: "Pick and organize",
+        text: "Filter photos and group them into meaningful chapters you can revisit.",
+        image: "/screenshots/organize-photos.png",
+        alt: "Organizing photos screen with a grid and organize button.",
+      },
+      {
+        title: "Publish only when ready",
+        text: "Choose what to share and keep control with simple publish settings.",
+        image: "/screenshots/publish-select.png",
+        alt: "Publish selection view with chosen photos.",
       },
     ],
     details: [
@@ -78,22 +95,34 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
   },
   ko: {
     metaTitle: "MomentBook 작동 방식",
-    metaDescription: "순간을 여정으로 남기는 조용한 방식입니다.",
+    metaDescription: "여정을 시작부터 공유까지 스크린샷으로 보여주는 차분한 흐름입니다.",
     title: "MomentBook 작동 방식",
-    subtitle: "단순한 흐름, 최소한의 노력.",
+    subtitle: "여정에 따라 흐르는 차분한 구성.",
     intro: "MomentBook은 일상을 방해하지 않고 순간을 여정으로 남깁니다.",
     steps: [
       {
-        title: "기록",
-        text: "사진이나 짧은 메모를 남깁니다. 위치를 허용하면 시간과 장소가 함께 기록됩니다.",
+        title: "부드러운 안내로 시작",
+        text: "한 번의 탭으로 오늘의 여정을 시작합니다.",
+        image: "/screenshots/start-journey.png",
+        alt: "오늘의 여정을 시작하는 버튼이 있는 화면.",
       },
       {
-        title: "정리",
-        text: "순간이 모여 하나의 여정이 되고, 시간과 장소의 흐름이 보입니다.",
+        title: "하루가 스스로 모입니다",
+        text: "시간, 사진, 장소가 자동으로 모이고 요약 화면으로 확인합니다.",
+        image: "/screenshots/current-journey.png",
+        alt: "시간, 사진, 장소와 지도 미리보기를 보여주는 현재 여정 화면.",
       },
       {
-        title: "돌아보기",
-        text: "여정을 다시 보고, 공유가 필요할 때만 게시합니다.",
+        title: "사진을 고르고 정리",
+        text: "필터로 사진을 고르고, 의미 있는 챕터로 정리합니다.",
+        image: "/screenshots/organize-photos.png",
+        alt: "사진 그리드와 정리 버튼이 있는 사진 정리 화면.",
+      },
+      {
+        title: "필요할 때만 게시",
+        text: "공개할 내용을 고르고 게시 설정을 관리합니다.",
+        image: "/screenshots/publish-select.png",
+        alt: "선택한 사진이 표시된 게시 선택 화면.",
       },
     ],
     details: [
@@ -132,22 +161,34 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
   },
   ja: {
     metaTitle: "MomentBook の仕組み",
-    metaDescription: "瞬間を旅として静かに残します。",
+    metaDescription: "旅の始まりから共有までをスクリーンショットで辿る流れ。",
     title: "MomentBook の仕組み",
-    subtitle: "シンプルな流れ、最小限の負担。",
+    subtitle: "旅の流れに寄り添うシンプルな体験。",
     intro: "MomentBook は日常を邪魔せず、瞬間を旅として残します。",
     steps: [
       {
-        title: "記録",
-        text: "写真や短いメモを保存します。位置情報を許可すると場所と時間も残ります。",
+        title: "やさしい案内から開始",
+        text: "ワンタップで今日の旅を始めます。",
+        image: "/screenshots/start-journey.png",
+        alt: "旅を始めるボタンがある画面。",
       },
       {
-        title: "整理",
-        text: "瞬間が一つの旅にまとまり、時間と場所の流れが見えてきます。",
+        title: "一日が自然に集まる",
+        text: "時間・写真・場所が自動で集まり、概要で確認できます。",
+        image: "/screenshots/current-journey.png",
+        alt: "時間、写真、場所、地図プレビューが表示された現在の旅画面。",
       },
       {
-        title: "戻る",
-        text: "旅を見返し、必要なときだけ投稿して共有します。",
+        title: "写真を選んで整理",
+        text: "フィルタで選び、意味ある章として整えます。",
+        image: "/screenshots/organize-photos.png",
+        alt: "写真グリッドと整理ボタンがある画面。",
+      },
+      {
+        title: "必要なときだけ公開",
+        text: "公開する内容を選び、設定を管理します。",
+        image: "/screenshots/publish-select.png",
+        alt: "選択した写真が表示された公開選択画面。",
       },
     ],
     details: [
@@ -186,22 +227,34 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
   },
   zh: {
     metaTitle: "MomentBook 如何运作",
-    metaDescription: "把瞬间安静地保存为旅程。",
+    metaDescription: "用截图讲述从开始旅程到分享的安静流程。",
     title: "MomentBook 如何运作",
-    subtitle: "简单流程，最小负担。",
+    subtitle: "跟随旅程节奏的简洁体验。",
     intro: "MomentBook 不打扰日常，把瞬间整理成旅程。",
     steps: [
       {
-        title: "记录",
-        text: "保存照片或短句。允许位置后，会记录地点与时间。",
+        title: "温柔提示开始",
+        text: "轻触一下即可开始今天的旅程。",
+        image: "/screenshots/start-journey.png",
+        alt: "带有开始旅程按钮的界面。",
       },
       {
-        title: "整理",
-        text: "瞬间汇成一段旅程，时间与地点的脉络会变得清晰。",
+        title: "一天自然汇集",
+        text: "时间、照片与地点自动整理，并在摘要中呈现。",
+        image: "/screenshots/current-journey.png",
+        alt: "显示时间、照片、地点和地图预览的当前旅程界面。",
       },
       {
-        title: "回看",
-        text: "回看旅程，需要时再发布分享。",
+        title: "筛选并整理",
+        text: "通过筛选挑选照片，整理成有意义的章节。",
+        image: "/screenshots/organize-photos.png",
+        alt: "带有照片网格和整理按钮的界面。",
+      },
+      {
+        title: "需要时再发布",
+        text: "选择要公开的内容，并管理发布设置。",
+        image: "/screenshots/publish-select.png",
+        alt: "显示已选照片的发布选择界面。",
       },
     ],
     details: [
@@ -285,9 +338,20 @@ export default async function HowItWorksPage({
       <section className={styles.steps}>
         {content.steps.map((step, index) => (
           <div key={`${step.title}-${index}`} className={styles.stepCard}>
-            <span className={styles.stepNumber}>{index + 1}</span>
-            <h2 className={styles.stepTitle}>{step.title}</h2>
+            <div className={styles.stepHeader}>
+              <span className={styles.stepNumber}>{index + 1}</span>
+              <h2 className={styles.stepTitle}>{step.title}</h2>
+            </div>
             <p className={styles.stepText}>{step.text}</p>
+            <DeviceMock className={styles.stepDevice} screenClassName={deviceStyles.screenMedia}>
+              <Image
+                src={step.image}
+                alt={step.alt}
+                fill
+                sizes="(max-width: 768px) 260px, (max-width: 1200px) 300px, 320px"
+                className={deviceStyles.screenImage}
+              />
+            </DeviceMock>
           </div>
         ))}
       </section>
