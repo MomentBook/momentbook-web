@@ -50,7 +50,8 @@ const journeyLabels: Record<
         routeBadgePhotoOnly: "Photos only",
         routeLeadStrong: "GPS points are sufficient to trace a clear route.",
         routeLeadWeak: "GPS points are partial, so the route appears softer.",
-        routeLeadNone: "Location data was not available, so only places are shown.",
+        routeLeadNone:
+            "Location data was not available, so only places are shown.",
         routeLeadPhotoOnly: "This journey is shared as photos without a route.",
         mapEmpty: "There is no map data for this journey.",
         locationFallback: "Location",
