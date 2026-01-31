@@ -28,14 +28,14 @@ type AboutContent = {
 const aboutContent: Record<Language, AboutContent> = {
   en: {
     metaTitle: "About MomentBook",
-    metaDescription: "A quiet archive for journeys and who it is for.",
+    metaDescription: "A quiet archive for journeys and the people it fits.",
     title: "About MomentBook",
-    subtitle: "A calm way to keep journeys.",
+    subtitle: "A quiet way to keep journeys.",
     lead:
-      "MomentBook is a quiet archive for moments grouped as journeys. It keeps time, place, and photos together without turning them into a feed.",
+      "MomentBook gathers moments into journeys. Time, place, and photos stay together without becoming a feed.",
     missionTitle: "Why it exists",
     missionParagraphs: [
-      "Moments scatter across cameras, maps, and posts, and the context disappears.",
+      "Moments scatter across cameras, maps, and messages, and the context fades.",
       "MomentBook keeps the flow of a day in one place so you can return without performing.",
     ],
     principlesTitle: "Principles",
@@ -63,22 +63,22 @@ const aboutContent: Record<Language, AboutContent> = {
     privacyTitle: "Publishing and visibility",
     privacyParagraphs: [
       "Journeys are private by default.",
-      "Publishing creates a public web page with a unique URL that you can share, and it may be indexed by search engines.",
+      "Publishing creates a public web page with a unique URL you can share, and it may be indexed by search engines.",
     ],
     closingTitle: "Quiet by design",
-    closingParagraph: "If you want a calm archive for your journeys, MomentBook is made for that.",
+    closingParagraph: "If you want a calm archive for your journeys, MomentBook was built for that.",
   },
   ko: {
     metaTitle: "MomentBook 소개",
-    metaDescription: "여정을 조용히 남기는 기록 아카이브입니다.",
+    metaDescription: "여정을 조용히 정리해 두는 기록 아카이브입니다.",
     title: "MomentBook 소개",
-    subtitle: "여정을 조용히 남기는 방법.",
+    subtitle: "여정을 가만히 남기는 방법.",
     lead:
-      "MomentBook은 순간을 여정 단위로 묶는 기록 아카이브입니다. 시간과 장소, 사진을 한 흐름으로 남기되 피드로 만들지 않습니다.",
+      "MomentBook은 순간을 여정으로 묶어 정리합니다. 시간, 장소, 사진이 함께 남고 피드가 되지 않습니다.",
     missionTitle: "왜 필요한가요",
     missionParagraphs: [
-      "기록이 여러 곳에 흩어지면 맥락이 사라집니다.",
-      "MomentBook은 하루의 흐름을 한곳에 담아 조용히 돌아볼 수 있게 합니다.",
+      "기록이 흩어지면 맥락이 흐려집니다.",
+      "MomentBook은 하루의 흐름을 한곳에 모아 조용히 돌아볼 수 있게 합니다.",
     ],
     principlesTitle: "원칙",
     principles: [
@@ -91,32 +91,32 @@ const aboutContent: Record<Language, AboutContent> = {
       {
         heading: "누구에게 맞나요",
         paragraphs: [
-          "공개 피드 없이 여행/일상을 기억하고 싶은 분.",
-          "긴 글보다 짧은 메모와 사진을 선호하는 분.",
+          "공개 피드 없이 여행이나 일상을 기억하고 싶은 분.",
+          "긴 글보다 짧은 메모와 사진이 편한 분.",
         ],
       },
       {
         heading: "맞지 않을 수 있는 경우",
         paragraphs: [
-          "소셜 확산, 랭킹, 습관 관리가 필요한 경우에는 맞지 않을 수 있습니다.",
+          "소셜 확산이나 랭킹, 습관 관리가 중심이라면 맞지 않을 수 있습니다.",
         ],
       },
     ],
     privacyTitle: "게시와 공개 범위",
     privacyParagraphs: [
       "기본은 비공개입니다.",
-      "게시하면 고유 URL의 웹페이지가 만들어지며, 링크 공유와 검색 엔진 수집이 가능할 수 있습니다.",
+      "게시하면 고유 URL 페이지가 만들어지며, 링크 공유와 검색 엔진 수집이 가능할 수 있습니다.",
     ],
     closingTitle: "조용한 의도",
-    closingParagraph: "여정을 차분하게 남기고 싶다면 MomentBook이 맞습니다.",
+    closingParagraph: "조용한 기록이 필요하다면 MomentBook이 맞습니다.",
   },
   ja: {
     metaTitle: "MomentBook について",
-    metaDescription: "旅を静かに残す記録アーカイブです。",
+    metaDescription: "旅を静かに残すための記録アーカイブです。",
     title: "MomentBook について",
     subtitle: "旅を静かに残す方法。",
     lead:
-      "MomentBook は瞬間を旅としてまとめる記録アーカイブです。時間・場所・写真を一つの流れとして残し、フィードにはしません。",
+      "MomentBook は瞬間を旅としてまとめて残します。時間・場所・写真が一つの流れとして残り、フィードにはしません。",
     missionTitle: "なぜ必要か",
     missionParagraphs: [
       "記録が散らばると文脈が失われます。",
@@ -158,11 +158,11 @@ const aboutContent: Record<Language, AboutContent> = {
     title: "关于 MomentBook",
     subtitle: "安静保存旅程的方法。",
     lead:
-      "MomentBook 将瞬间整理成旅程，保存时间、地点与照片的脉络，而不是做成信息流。",
+      "MomentBook 将瞬间整理成旅程，保留时间、地点与照片的脉络，而不是做成信息流。",
     missionTitle: "为什么需要它",
     missionParagraphs: [
       "记录分散时，脉络就容易丢失。",
-      "MomentBook 把一天的流れ保留下来，方便安静回看。",
+      "MomentBook 把一天的脉络保留下来，方便安静回看。",
     ],
     principlesTitle: "原则",
     principles: [
@@ -234,9 +234,27 @@ export default async function AboutPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getAboutContent(lang);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, "/about"), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: content.metaTitle,
+    description: content.metaDescription,
+    url: pageUrl,
+    mainEntity: {
+      "@type": "Organization",
+      name: "MomentBook",
+      url: siteUrl,
+    },
+  };
 
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.title}>{content.title}</h1>

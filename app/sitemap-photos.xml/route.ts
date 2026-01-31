@@ -1,5 +1,6 @@
 import { languageList } from "@/lib/i18n/config";
 import { fetchPublicUsers, fetchUserJourneys } from "@/lib/public-users";
+import { fetchPublishedJourney } from "@/lib/published-journey";
 
 function safeISOString(date: string | number | undefined): string {
   if (!date) {
@@ -67,26 +68,32 @@ export async function GET() {
     const journeys = journeysResponse?.data?.journeys ?? [];
 
     // Extract photo IDs from each journey
-    journeys.forEach((journey) => {
-      const images = journey.images ?? [];
-      const publishedAt = safeISOString(journey.publishedAt);
+    for (const journey of journeys) {
+      const publishedJourney = await fetchPublishedJourney(journey.publicId);
+      if (!publishedJourney) {
+        continue;
+      }
+
+      const images = publishedJourney.images ?? [];
+      const publishedAt = safeISOString(publishedJourney.publishedAt);
 
       images.forEach((image) => {
-        // Avoid duplicates
-        if (image.photoId && !seenPhotoIds.has(image.photoId)) {
-          seenPhotoIds.add(image.photoId);
-
-          urls.push({
-            loc: `${siteUrl}/en/photos/${image.photoId}`,
-            lastmod: publishedAt,
-            alternates: languageList.map((lang) => ({
-              lang,
-              href: `${siteUrl}/${lang}/photos/${image.photoId}`,
-            })),
-          });
+        if (!image.photoId || seenPhotoIds.has(image.photoId)) {
+          return;
         }
+
+        seenPhotoIds.add(image.photoId);
+
+        urls.push({
+          loc: `${siteUrl}/en/photos/${image.photoId}`,
+          lastmod: publishedAt,
+          alternates: languageList.map((lang) => ({
+            lang,
+            href: `${siteUrl}/${lang}/photos/${image.photoId}`,
+          })),
+        });
       });
-    });
+    }
   }
 
   const xml = generateSitemapXML(urls);

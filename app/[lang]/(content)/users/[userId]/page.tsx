@@ -32,6 +32,13 @@ const userLabels: Record<Language, { journeys: string; photos: string }> = {
   },
 };
 
+const userDescriptionTemplates: Record<Language, string> = {
+  en: "Journeys shared by {name} on MomentBook.",
+  ko: "{name}님이 MomentBook에서 공유한 여정입니다.",
+  ja: "{name}さんが MomentBook で共有した旅です。",
+  zh: "{name} 在 MomentBook 分享的行程。",
+};
+
 export async function generateStaticParams() {
   const response = await fetchPublicUsers({ limit: 1000, sort: "recent" });
   const users = response?.data?.users ?? [];
@@ -58,16 +65,23 @@ export async function generateMetadata({
     };
   }
 
+  const description =
+    user.biography?.trim() ||
+    (userDescriptionTemplates[lang] ?? userDescriptionTemplates.en).replace(
+      "{name}",
+      user.name,
+    );
+
   const path = `/users/${userId}`;
   const url = buildOpenGraphUrl(lang, path);
 
   return {
     title: `${user.name} · MomentBook`,
-    description: user.biography ?? "",
+    description,
     alternates: buildAlternates(lang, path),
     openGraph: {
       title: `${user.name} · MomentBook`,
-      description: user.biography ?? "",
+      description,
       type: "profile",
       url,
       images: user.picture ? [
@@ -82,7 +96,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary",
       title: `${user.name} · MomentBook`,
-      description: user.biography ?? "",
+      description,
       images: user.picture ? [user.picture] : [],
     },
   };
@@ -105,6 +119,12 @@ export default async function UserPage({
   const labels = userLabels[lang] ?? userLabels.en;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, `/users/${user.userId}`), siteUrl).toString();
+  const description =
+    user.biography?.trim() ||
+    (userDescriptionTemplates[lang] ?? userDescriptionTemplates.en).replace(
+      "{name}",
+      user.name,
+    );
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
@@ -114,7 +134,7 @@ export default async function UserPage({
       "@type": "Person",
       name: user.name,
       identifier: user.userId,
-      description: user.biography ?? "",
+      description,
       image: user.picture ?? "",
       url: pageUrl,
     },

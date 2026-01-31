@@ -18,35 +18,35 @@ const userListLabels: Record<Language, {
   journeysLabel: string;
 }> = {
   en: {
-    title: "Public users",
-    subtitle: "Users who share their journeys on MomentBook.",
+    title: "Published profiles",
+    subtitle: "Profiles that share journeys from MomentBook.",
     searchPlaceholder: "Search by name",
     countLabel: "{count} users",
-    empty: "No users match this search.",
+    empty: "No profiles match this search.",
     journeysLabel: "journeys",
   },
   ko: {
-    title: "공개 사용자",
-    subtitle: "MomentBook에서 여정을 공유하는 사용자입니다.",
+    title: "공개 프로필",
+    subtitle: "MomentBook에서 여정을 공유하는 프로필입니다.",
     searchPlaceholder: "이름으로 검색",
     countLabel: "{count}명",
     empty: "검색 결과가 없습니다.",
     journeysLabel: "개 여정",
   },
   ja: {
-    title: "公開ユーザー",
-    subtitle: "MomentBookで旅を共有しているユーザーです。",
+    title: "公開プロフィール",
+    subtitle: "MomentBookで旅を共有しているプロフィールです。",
     searchPlaceholder: "名前で検索",
     countLabel: "{count}人",
-    empty: "一致するユーザーがいません。",
+    empty: "一致するプロフィールがありません。",
     journeysLabel: "件の旅",
   },
   zh: {
-    title: "公开用户",
-    subtitle: "在 MomentBook 上分享行程的用户。",
+    title: "公开资料",
+    subtitle: "在 MomentBook 分享行程的资料。",
     searchPlaceholder: "按名称搜索",
     countLabel: "{count} 位用户",
-    empty: "没有符合的用户。",
+    empty: "没有符合的资料。",
     journeysLabel: "条行程",
   },
 };
@@ -105,9 +105,34 @@ export default async function UsersPage({
     : allUsers;
 
   const countText = labels.countLabel.replace("{count}", String(filteredUsers.length));
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, "/users"), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: labels.title,
+    description: labels.subtitle,
+    url: pageUrl,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: filteredUsers.map((user, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: new URL(
+          buildOpenGraphUrl(lang, `/users/${user.userId}`),
+          siteUrl,
+        ).toString(),
+        name: user.name,
+      })),
+    },
+  };
 
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={styles.header}>
         <h1 className={styles.title}>{labels.title}</h1>
         <p className={styles.subtitle}>{labels.subtitle}</p>
