@@ -304,9 +304,36 @@ export default async function DownloadPage({
   const { lang } = await params as { lang: Language };
   const content = getDownloadContent(lang);
   const storeLinks = getStoreLinks(lang);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, "/download"), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "MomentBook",
+    description: content.metaDescription,
+    applicationCategory: "LifestyleApplication",
+    operatingSystem: "iOS, Android",
+    url: pageUrl,
+    offers: [
+      {
+        "@type": "Offer",
+        url: storeLinks.ios,
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        url: storeLinks.android,
+        availability: "https://schema.org/InStock",
+      },
+    ],
+  };
 
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <FadeIn>

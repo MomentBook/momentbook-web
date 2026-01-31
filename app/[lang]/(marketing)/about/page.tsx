@@ -234,9 +234,27 @@ export default async function AboutPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getAboutContent(lang);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, "/about"), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: content.metaTitle,
+    description: content.metaDescription,
+    url: pageUrl,
+    mainEntity: {
+      "@type": "Organization",
+      name: "MomentBook",
+      url: siteUrl,
+    },
+  };
 
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.title}>{content.title}</h1>

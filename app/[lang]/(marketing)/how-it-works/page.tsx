@@ -326,9 +326,29 @@ export default async function HowItWorksPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getHowItWorksContent(lang);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, "/how-it-works"), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: content.title,
+    description: content.metaDescription,
+    url: pageUrl,
+    step: content.steps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.title,
+      text: step.text,
+      image: new URL(step.image, siteUrl).toString(),
+    })),
+  };
 
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={styles.header}>
         <h1 className={styles.title}>{content.title}</h1>
         <p className={styles.subtitle}>{content.subtitle}</p>
