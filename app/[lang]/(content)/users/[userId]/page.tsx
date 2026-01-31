@@ -33,10 +33,10 @@ const userLabels: Record<Language, { journeys: string; photos: string }> = {
 };
 
 const userDescriptionTemplates: Record<Language, string> = {
-  en: "Public journeys shared by {name} on MomentBook.",
-  ko: "{name}님이 공유한 MomentBook 공개 여정입니다.",
-  ja: "{name}さんが共有したMomentBookの公開された旅です。",
-  zh: "{name} 在 MomentBook 分享的公开行程。",
+  en: "Journeys shared by {name} on MomentBook.",
+  ko: "{name}님이 MomentBook에서 공유한 여정입니다.",
+  ja: "{name}さんが MomentBook で共有した旅です。",
+  zh: "{name} 在 MomentBook 分享的行程。",
 };
 
 export async function generateStaticParams() {

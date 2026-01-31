@@ -23,37 +23,37 @@ const photoLabels: Record<
     }
 > = {
     en: {
-        backToJourney: "Back to Journey",
-        takenAt: "Taken at",
-        location: "Location",
-        fromJourney: "From Journey",
+        backToJourney: "Back to journey",
+        takenAt: "Captured at",
+        location: "Place",
+        fromJourney: "From this journey",
         contextNote:
-            "This page shows a single photo from a published journey. Other moments stay private unless shared.",
+            "This page shows a single photo from a published journey. Anything else stays private unless shared.",
     },
     ko: {
         backToJourney: "여정으로 돌아가기",
-        takenAt: "촬영 시각",
+        takenAt: "기록 시각",
         location: "장소",
         fromJourney: "이 여정에서",
         contextNote:
-            "이 페이지는 게시된 여정의 사진 한 장만 보여줍니다. 공유되지 않은 기록은 공개되지 않습니다.",
+            "이 페이지는 게시된 여정의 사진 한 장만 보여줍니다. 나머지는 공유하기 전까지 공개되지 않습니다.",
     },
     ja: {
         backToJourney: "旅に戻る",
-        takenAt: "撮影日時",
+        takenAt: "記録時刻",
         location: "場所",
         fromJourney: "この旅から",
         contextNote:
-            "このページは公開された旅の写真1枚だけを表示します。共有していない記録は公開されません。",
+            "このページは公開された旅の写真1枚だけを表示します。その他は共有するまで公開されません。",
     },
     zh: {
         backToJourney: "返回行程",
-        takenAt: "拍摄时间",
+        takenAt: "记录时间",
         location: "地点",
-        fromJourney: "来自行程",
+        fromJourney: "来自该行程",
         contextNote:
-            "此页面仅展示已发布行程中的一张照片。未发布的记录不会公开。",
-  },
+            "此页面仅展示已发布行程中的一张照片。其他内容在分享前不会公开。",
+    },
 };
 
 function buildPhotoTitle(lang: Language, journeyTitle: string) {

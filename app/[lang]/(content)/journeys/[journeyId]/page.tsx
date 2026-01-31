@@ -48,9 +48,9 @@ const journeyLabels: Record<
         routeBadgeWeak: "Soft route",
         routeBadgeNone: "Places only",
         routeBadgePhotoOnly: "Photos only",
-        routeLeadStrong: "Precise GPS points allow a clear route to be drawn.",
-        routeLeadWeak: "GPS points are intermittent, so the route shows a softer flow.",
-        routeLeadNone: "Location permission was not available, so only places are shown.",
+        routeLeadStrong: "GPS points are sufficient to trace a clear route.",
+        routeLeadWeak: "GPS points are partial, so the route appears softer.",
+        routeLeadNone: "Location data was not available, so only places are shown.",
         routeLeadPhotoOnly: "This journey is shared as photos without a route.",
         mapEmpty: "There is no map data for this journey.",
         locationFallback: "Location",
@@ -68,9 +68,9 @@ const journeyLabels: Record<
         routeBadgeWeak: "느슨한 경로",
         routeBadgeNone: "장소만 표시",
         routeBadgePhotoOnly: "사진만 공유",
-        routeLeadStrong: "GPS 데이터가 충분해 경로가 선명하게 그려집니다.",
-        routeLeadWeak: "GPS가 간헐적이라 흐름 중심의 경로로 표시됩니다.",
-        routeLeadNone: "위치 권한이 없어 경로 없이 장소만 표시됩니다.",
+        routeLeadStrong: "GPS 데이터가 충분해 경로가 선명하게 표시됩니다.",
+        routeLeadWeak: "GPS 데이터가 간헐적이라 흐름이 부드럽게 보입니다.",
+        routeLeadNone: "위치 데이터가 없어 장소만 표시됩니다.",
         routeLeadPhotoOnly: "경로 없이 사진만 공유된 여정입니다.",
         mapEmpty: "이 여정에는 지도 정보가 없습니다.",
         locationFallback: "장소",
@@ -88,9 +88,9 @@ const journeyLabels: Record<
         routeBadgeWeak: "緩やかなルート",
         routeBadgeNone: "場所のみ",
         routeBadgePhotoOnly: "写真のみ",
-        routeLeadStrong: "GPSが十分にあるため、ルートが明確に表示されます。",
-        routeLeadWeak: "GPSが断続的なため、ゆるやかな流れとして表示されます。",
-        routeLeadNone: "位置情報がないため、ルートなしで場所のみ表示されます。",
+        routeLeadStrong: "GPSが十分なため、ルートが明確に表示されます。",
+        routeLeadWeak: "GPSが部分的なため、ゆるやかな流れで表示されます。",
+        routeLeadNone: "位置情報がないため、場所のみ表示されます。",
         routeLeadPhotoOnly: "ルートなしの写真共有のみの旅です。",
         mapEmpty: "この旅には地図情報がありません。",
         locationFallback: "場所",
@@ -108,9 +108,9 @@ const journeyLabels: Record<
         routeBadgeWeak: "柔和路线",
         routeBadgeNone: "仅地点",
         routeBadgePhotoOnly: "仅照片",
-        routeLeadStrong: "GPS 数据充足，因此可以绘制清晰路线。",
-        routeLeadWeak: "GPS 数据间歇，路线以更柔和的脉络呈现。",
-        routeLeadNone: "未提供位置权限，因此仅显示地点。",
+        routeLeadStrong: "GPS 数据充足，因此路线清晰可见。",
+        routeLeadWeak: "GPS 数据不完整，路线呈现更柔和的脉络。",
+        routeLeadNone: "位置数据不可用，因此仅显示地点。",
         routeLeadPhotoOnly: "该行程仅分享照片，不显示路线。",
         mapEmpty: "此行程没有地图信息。",
         locationFallback: "地点",
@@ -162,13 +162,13 @@ function buildJourneyDescription(
     if (lang === "ko") {
         return locationText
             ? `${locationText}의 여정, 사진 ${photoCount}장.`
-            : `사진 ${photoCount}장이 있는 공개 여정입니다.`;
+            : `사진 ${photoCount}장이 담긴 공개 여정입니다.`;
     }
 
     if (lang === "ja") {
         return locationText
             ? `${locationText}の旅、写真${photoCount}枚。`
-            : `写真${photoCount}枚の公開された旅です。`;
+            : `写真${photoCount}枚が含まれる公開された旅です。`;
     }
 
     if (lang === "zh") {
@@ -179,7 +179,7 @@ function buildJourneyDescription(
 
     return locationText
         ? `Journey through ${locationText} with ${photoCount} photos.`
-        : `Published journey with ${photoCount} photos.`;
+        : `A published journey with ${photoCount} photos.`;
 }
 
 function buildImageUrlToPhotoIdMap(

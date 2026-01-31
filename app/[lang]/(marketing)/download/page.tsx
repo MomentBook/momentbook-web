@@ -73,12 +73,12 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "ko") {
     return {
       metaTitle: "MomentBook 다운로드",
-      metaDescription: "iOS와 Android에서 MomentBook을 다운로드하세요.",
+      metaDescription: "iOS와 Android에서 MomentBook을 사용할 수 있습니다.",
       title: "MomentBook 다운로드",
-      subtitle: "기억하고 싶은 하루를 조용히 남기는 공간. iPhone과 Android에서 사용 가능합니다.",
+      subtitle: "기억하고 싶은 하루를 조용히 남기는 공간. iPhone과 Android에서 사용할 수 있습니다.",
       deviceImage: "/device-mocks/home-ko.png",
       deviceAlt: "한국어 MomentBook 홈 화면",
-      availability: "App Store와 Google Play에서 바로 설치하세요.",
+      availability: "App Store와 Google Play에서 받을 수 있습니다.",
       storeLabels: {
         iosLabel: "App Store에서",
         iosName: "다운로드",
@@ -87,19 +87,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "다운로드",
         androidAriaLabel: "Google Play에서 다운로드",
       },
-      featuresTitle: "MomentBook에서 만나는 것",
+      featuresTitle: "MomentBook에서 하는 일",
       features: [
         {
-          title: "여정 단위 기록",
-          text: "시작과 끝이 있는 이야기로 순간을 묶습니다.",
+          title: "여정으로 묶기",
+          text: "순간을 시작과 끝이 있는 여정으로 정리합니다.",
         },
         {
           title: "기본은 비공개",
-          text: "게시하기 전까지는 공개되지 않습니다.",
+          text: "원할 때 게시하기 전까지는 공개되지 않습니다.",
         },
         {
-          title: "조용한 공유",
-          text: "게시하면 고유 URL의 웹페이지가 생성되어 링크로 공유할 수 있습니다.",
+          title: "링크로 공유",
+          text: "게시하면 고유 URL 페이지가 생성되어 링크로 공유할 수 있습니다.",
         },
       ],
       requirementsTitle: "시스템 요구 사항",
@@ -113,7 +113,7 @@ function getDownloadContent(lang: Language): DownloadContent {
           details: ["Android 10.0 이상 필요", "대부분의 Android 기기 지원"],
         },
       ],
-      privacyText: "기본은 비공개입니다. 게시하면 고유 URL의 웹페이지가 생성됩니다.",
+      privacyText: "기본은 비공개입니다. 게시하면 고유 URL 페이지가 생성됩니다.",
       supportPrefix: "도움이 필요하신가요? ",
       supportLink: "지원 페이지",
       supportSuffix: "로 이동하세요.",
@@ -123,7 +123,7 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "ja") {
     return {
       metaTitle: "MomentBook をダウンロード",
-      metaDescription: "iOS と Android で MomentBook をダウンロードできます。",
+      metaDescription: "iOS と Android で MomentBook を利用できます。",
       title: "MomentBook をダウンロード",
       subtitle: "覚えておきたい一日を静かに残す場所。iPhone と Android に対応。",
       deviceImage: "/device-mocks/home-ja.png",
@@ -137,19 +137,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "入手",
         androidAriaLabel: "Google Playで入手",
       },
-      featuresTitle: "MomentBook にあること",
+      featuresTitle: "MomentBook でできること",
       features: [
         {
-          title: "旅単位の記録",
-          text: "始まりと終わりのある体験としてまとめます。",
+          title: "旅としてまとめる",
+          text: "瞬間を始まりと終わりのある旅として整えます。",
         },
         {
           title: "デフォルトは非公開",
-          text: "投稿するまで公開されません。",
+          text: "公開は投稿するまで行われません。",
         },
         {
-          title: "静かな共有",
-          text: "投稿すると固有URLのWebページが作成され、リンクで共有できます。",
+          title: "リンクで共有",
+          text: "投稿すると固有URLページが作成され、リンクで共有できます。",
         },
       ],
       requirementsTitle: "システム要件",
@@ -163,7 +163,7 @@ function getDownloadContent(lang: Language): DownloadContent {
           details: ["Android 10.0 以上が必要", "ほとんどの Android 端末に対応"],
         },
       ],
-      privacyText: "基本は非公開です。投稿すると固有URLのWebページが作成されます。",
+      privacyText: "基本は非公開です。投稿すると固有URLページが作成されます。",
       supportPrefix: "お困りの際は",
       supportLink: "サポート",
       supportSuffix: "へ。",
@@ -173,12 +173,12 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "zh") {
     return {
       metaTitle: "下载 MomentBook",
-      metaDescription: "在 iOS 与 Android 下载 MomentBook。",
+      metaDescription: "在 iOS 与 Android 使用 MomentBook。",
       title: "下载 MomentBook",
-      subtitle: "为想记住的日子提供一个安静的记录空间。支持 iPhone 与 Android。",
+      subtitle: "为想记住的日子提供安静的记录空间。支持 iPhone 与 Android。",
       deviceImage: "/device-mocks/home-zh.png",
       deviceAlt: "MomentBook 中文主屏幕",
-      availability: "可在 App Store 与 Google Play 直接安装。",
+      availability: "可在 App Store 与 Google Play 安装。",
       storeLabels: {
         iosLabel: "在 App Store",
         iosName: "获取",
@@ -187,10 +187,10 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "获取",
         androidAriaLabel: "在 Google Play 获取",
       },
-      featuresTitle: "MomentBook 提供什么",
+      featuresTitle: "MomentBook 能做什么",
       features: [
         {
-          title: "以旅程为单位",
+          title: "整理成旅程",
           text: "把瞬间整理成有始有终的旅程。",
         },
         {
@@ -198,8 +198,8 @@ function getDownloadContent(lang: Language): DownloadContent {
           text: "在你发布之前不会公开。",
         },
         {
-          title: "安静分享",
-          text: "发布后会生成唯一 URL 的网页，可通过链接分享。",
+          title: "通过链接分享",
+          text: "发布后会生成唯一 URL 的页面，可通过链接分享。",
         },
       ],
       requirementsTitle: "系统要求",
@@ -213,7 +213,7 @@ function getDownloadContent(lang: Language): DownloadContent {
           details: ["需要 Android 10.0 或以上", "支持大多数 Android 设备"],
         },
       ],
-      privacyText: "默认是私密的。发布后会生成唯一 URL 的网页。",
+      privacyText: "默认是私密的。发布后会生成唯一 URL 的页面。",
       supportPrefix: "需要帮助？",
       supportLink: "前往支持页",
       supportSuffix: "。",
@@ -222,7 +222,7 @@ function getDownloadContent(lang: Language): DownloadContent {
 
   return {
     metaTitle: "Download MomentBook",
-    metaDescription: "Get MomentBook for iOS and Android.",
+    metaDescription: "Get MomentBook on iOS and Android.",
     title: "Download MomentBook",
     subtitle: "A quiet archive for the days you want to remember. Available for iPhone and Android.",
     deviceImage: "/device-mocks/home-en.png",
@@ -236,7 +236,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       androidName: "Google Play",
       androidAriaLabel: "Get it on Google Play",
     },
-    featuresTitle: "What you'll find inside",
+    featuresTitle: "What it does",
     features: [
       {
         title: "Journey-based archive",
@@ -247,7 +247,7 @@ function getDownloadContent(lang: Language): DownloadContent {
         text: "Nothing is public unless you publish.",
       },
       {
-        title: "Quiet sharing",
+        title: "Share by link",
         text: "Publishing creates a single web page you can send.",
       },
     ],

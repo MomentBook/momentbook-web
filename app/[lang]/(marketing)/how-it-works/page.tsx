@@ -33,32 +33,32 @@ type HowItWorksContent = {
 const howItWorksContent: Record<Language, HowItWorksContent> = {
   en: {
     metaTitle: "How MomentBook Works",
-    metaDescription: "A calm, screenshot-led flow from starting a journey to sharing it.",
+    metaDescription: "A calm flow from starting a journey to sharing it.",
     title: "How MomentBook works",
-    subtitle: "A calm flow, guided by your journey.",
+    subtitle: "A gentle flow, guided by your journey.",
     intro: "MomentBook keeps moments as journeys without asking for a routine.",
     steps: [
       {
         title: "Begin with a gentle prompt",
-        text: "Start today’s journey in a single tap. The app will take it from there.",
+        text: "Start today’s journey with a single tap. The rest gathers quietly.",
         image: "/screenshots/start-journey.png",
         alt: "Start today’s journey screen with a single call to action.",
       },
       {
         title: "Let the day collect itself",
-        text: "Time, photos, and places gather automatically, with a clear summary view.",
+        text: "Time, photos, and places gather into a clear summary view.",
         image: "/screenshots/current-journey.png",
         alt: "Current journey status with time, photos, places, and map preview.",
       },
       {
         title: "Pick and organize",
-        text: "Filter photos and group them into meaningful chapters you can revisit.",
+        text: "Filter photos and group them into chapters you want to return to.",
         image: "/screenshots/organize-photos.png",
         alt: "Organizing photos screen with a grid and organize button.",
       },
       {
         title: "Publish only when ready",
-        text: "Choose what to share and keep control with simple publish settings.",
+        text: "Choose what to share and publish when it feels right.",
         image: "/screenshots/publish-select.png",
         alt: "Publish selection view with chosen photos.",
       },
@@ -95,32 +95,32 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
   },
   ko: {
     metaTitle: "MomentBook 작동 방식",
-    metaDescription: "여정을 시작부터 공유까지 스크린샷으로 보여주는 차분한 흐름입니다.",
+    metaDescription: "여정을 시작부터 공유까지 차분하게 따라가는 흐름입니다.",
     title: "MomentBook 작동 방식",
     subtitle: "여정에 따라 흐르는 차분한 구성.",
     intro: "MomentBook은 일상을 방해하지 않고 순간을 여정으로 남깁니다.",
     steps: [
       {
         title: "부드러운 안내로 시작",
-        text: "한 번의 탭으로 오늘의 여정을 시작합니다.",
+        text: "한 번의 탭으로 오늘의 여정을 시작합니다. 나머지는 조용히 모입니다.",
         image: "/screenshots/start-journey.png",
         alt: "오늘의 여정을 시작하는 버튼이 있는 화면.",
       },
       {
         title: "하루가 스스로 모입니다",
-        text: "시간, 사진, 장소가 자동으로 모이고 요약 화면으로 확인합니다.",
+        text: "시간, 사진, 장소가 모여 요약 화면으로 정리됩니다.",
         image: "/screenshots/current-journey.png",
         alt: "시간, 사진, 장소와 지도 미리보기를 보여주는 현재 여정 화면.",
       },
       {
         title: "사진을 고르고 정리",
-        text: "필터로 사진을 고르고, 의미 있는 챕터로 정리합니다.",
+        text: "필터로 사진을 고르고, 기억하고 싶은 장면으로 정리합니다.",
         image: "/screenshots/organize-photos.png",
         alt: "사진 그리드와 정리 버튼이 있는 사진 정리 화면.",
       },
       {
         title: "필요할 때만 게시",
-        text: "공개할 내용을 고르고 게시 설정을 관리합니다.",
+        text: "공개할 내용을 고르고 필요할 때만 게시합니다.",
         image: "/screenshots/publish-select.png",
         alt: "선택한 사진이 표시된 게시 선택 화면.",
       },
@@ -133,9 +133,9 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       {
         title: "경로 표현 방식",
         items: [
-          "GPS가 풍부하면 선명한 경로",
-          "GPS가 간헐이면 느슨한 경로",
-          "권한 미허용 시 경로 없음",
+          "GPS가 충분하면 선명한 경로",
+          "GPS가 간헐이면 부드러운 경로",
+          "위치 정보가 없으면 경로 없음",
         ],
       },
       {
@@ -161,32 +161,32 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
   },
   ja: {
     metaTitle: "MomentBook の仕組み",
-    metaDescription: "旅の始まりから共有までをスクリーンショットで辿る流れ。",
+    metaDescription: "旅の始まりから共有までを静かに辿る流れ。",
     title: "MomentBook の仕組み",
     subtitle: "旅の流れに寄り添うシンプルな体験。",
     intro: "MomentBook は日常を邪魔せず、瞬間を旅として残します。",
     steps: [
       {
         title: "やさしい案内から開始",
-        text: "ワンタップで今日の旅を始めます。",
+        text: "ワンタップで今日の旅を始めます。あとは静かに集まります。",
         image: "/screenshots/start-journey.png",
         alt: "旅を始めるボタンがある画面。",
       },
       {
         title: "一日が自然に集まる",
-        text: "時間・写真・場所が自動で集まり、概要で確認できます。",
+        text: "時間・写真・場所が集まり、概要で確認できます。",
         image: "/screenshots/current-journey.png",
         alt: "時間、写真、場所、地図プレビューが表示された現在の旅画面。",
       },
       {
         title: "写真を選んで整理",
-        text: "フィルタで選び、意味ある章として整えます。",
+        text: "フィルタで選び、戻りたい場面として整えます。",
         image: "/screenshots/organize-photos.png",
         alt: "写真グリッドと整理ボタンがある画面。",
       },
       {
         title: "必要なときだけ公開",
-        text: "公開する内容を選び、設定を管理します。",
+        text: "公開する内容を選び、必要なときだけ公開します。",
         image: "/screenshots/publish-select.png",
         alt: "選択した写真が表示された公開選択画面。",
       },
@@ -201,7 +201,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         items: [
           "GPSが十分なら明確なルート",
           "GPSが途切れると緩やかなルート",
-          "許可がない場合はルートなし",
+          "位置情報がない場合はルートなし",
         ],
       },
       {
@@ -227,32 +227,32 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
   },
   zh: {
     metaTitle: "MomentBook 如何运作",
-    metaDescription: "用截图讲述从开始旅程到分享的安静流程。",
+    metaDescription: "从开始旅程到分享的安静流程。",
     title: "MomentBook 如何运作",
     subtitle: "跟随旅程节奏的简洁体验。",
     intro: "MomentBook 不打扰日常，把瞬间整理成旅程。",
     steps: [
       {
         title: "温柔提示开始",
-        text: "轻触一下即可开始今天的旅程。",
+        text: "轻触一下即可开始今天的旅程，其余会静静汇集。",
         image: "/screenshots/start-journey.png",
         alt: "带有开始旅程按钮的界面。",
       },
       {
         title: "一天自然汇集",
-        text: "时间、照片与地点自动整理，并在摘要中呈现。",
+        text: "时间、照片与地点汇集整理，并在摘要中呈现。",
         image: "/screenshots/current-journey.png",
         alt: "显示时间、照片、地点和地图预览的当前旅程界面。",
       },
       {
         title: "筛选并整理",
-        text: "通过筛选挑选照片，整理成有意义的章节。",
+        text: "通过筛选挑选照片，整理成想要回看的章节。",
         image: "/screenshots/organize-photos.png",
         alt: "带有照片网格和整理按钮的界面。",
       },
       {
         title: "需要时再发布",
-        text: "选择要公开的内容，并管理发布设置。",
+        text: "选择要公开的内容，在需要时再发布。",
         image: "/screenshots/publish-select.png",
         alt: "显示已选照片的发布选择界面。",
       },
@@ -267,7 +267,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         items: [
           "GPS 充足时显示清晰路线",
           "GPS 间歇时显示柔和路线",
-          "未允许时不显示路线",
+          "位置不可用时不显示路线",
         ],
       },
       {

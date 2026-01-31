@@ -23,41 +23,41 @@ type FAQContent = {
 function getFaqContent(lang: Language): FAQContent {
   if (lang === "ko") {
     return {
-      metaTitle: "MomentBook 자주 묻는 질문",
-      metaDescription: "MomentBook에 대한 자주 묻는 질문을 모았습니다.",
-      pageTitle: "MomentBook 자주 묻는 질문",
-      pageSubtitle: "MomentBook을 빠르게 이해하는 답변을 모았습니다.",
-      calloutPrefix: "여기에서 답을 찾지 못하셨나요? ",
+      metaTitle: "MomentBook 질문과 답",
+      metaDescription: "MomentBook을 조용히 이해할 수 있는 질문과 답입니다.",
+      pageTitle: "MomentBook 질문과 답",
+      pageSubtitle: "짧고 차분한 답변을 모았습니다.",
+      calloutPrefix: "더 필요한 내용이 있나요? ",
       calloutLink: "문의하기",
       calloutSuffix: "",
       items: [
         {
           question: "MomentBook이 무엇인가요?",
-          answer: "순간을 여정으로 묶어 보관하는 조용한 기록 앱입니다.",
+          answer: "순간을 여정으로 묶어 두는 기록 아카이브입니다.",
         },
         {
           question: "SNS인가요?",
-          answer: "아니요. 피드, 좋아요, 랭킹이 없으며 비교나 확산을 목적으로 하지 않습니다.",
+          answer: "아니요. 피드, 좋아요, 랭킹이 없고 공유는 선택입니다.",
         },
         {
           question: "여정이란 무엇인가요?",
-          answer: "시작과 끝이 있는 경험을 하나의 이야기로 묶은 기록 단위입니다.",
+          answer: "시작과 끝이 있는 시간을 하나로 묶는 기록 단위입니다.",
         },
         {
           question: "무엇이 저장되나요?",
-          answer: "사진, 짧은 메모, 기록 시각, 그리고 위치를 허용한 경우 장소와 경로입니다.",
+          answer: "사진, 짧은 메모, 기록 시각, 위치를 허용한 경우 장소와 경로입니다.",
         },
         {
           question: "기본은 비공개인가요?",
-          answer: "네. 기본은 비공개이며, 내가 게시할 때만 공개됩니다.",
+          answer: "네. 기본은 비공개이며, 게시할 때만 공개됩니다.",
         },
         {
           question: "게시(Publish)는 무엇인가요?",
-          answer: "해당 여정만의 고유 URL 웹페이지를 만들어 공유하는 기능입니다.",
+          answer: "해당 여정만의 고유 URL 페이지를 만들어 공유하는 기능입니다.",
         },
         {
           question: "앱 없이도 볼 수 있나요?",
-          answer: "네. 링크를 받은 사람은 웹에서 열람할 수 있으며, 검색 엔진에 수집될 수 있습니다.",
+          answer: "네. 링크를 받은 사람은 웹에서 볼 수 있고, 검색 엔진에 수집될 수 있습니다.",
         },
         {
           question: "항상 위치를 추적하나요?",
@@ -65,7 +65,7 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "AI는 무엇을 하나요?",
-          answer: "제목 추천, 요약, 장소명 정리처럼 정리를 돕는 역할에 한정됩니다.",
+          answer: "제목 제안, 요약, 장소명 정리처럼 정리를 돕는 역할에 한정됩니다.",
         },
       ],
     };
@@ -73,25 +73,25 @@ function getFaqContent(lang: Language): FAQContent {
 
   if (lang === "ja") {
     return {
-      metaTitle: "MomentBook よくある質問",
-      metaDescription: "MomentBookに関するよくある質問をまとめています。",
-      pageTitle: "MomentBook よくある質問",
-      pageSubtitle: "MomentBookについての回答をまとめました。",
-      calloutPrefix: "ここで解決しない場合は、",
+      metaTitle: "MomentBook 質問と回答",
+      metaDescription: "MomentBook を静かに理解するための質問と回答です。",
+      pageTitle: "MomentBook 質問と回答",
+      pageSubtitle: "短く穏やかな回答をまとめました。",
+      calloutPrefix: "まだ気になる点があれば、",
       calloutLink: "お問い合わせ",
       calloutSuffix: "ください。",
       items: [
         {
           question: "MomentBook とは何ですか？",
-          answer: "瞬間を旅としてまとめて残す静かな記録アプリです。",
+          answer: "瞬間を旅としてまとめて残す記録アーカイブです。",
         },
         {
           question: "SNS ですか？",
-          answer: "いいえ。フィードやいいね、ランキングはなく、拡散を目的にしません。",
+          answer: "いいえ。フィードやいいね、ランキングはなく、共有は任意です。",
         },
         {
           question: "旅とは何ですか？",
-          answer: "始まりと終わりのある体験を一つの物語としてまとめた単位です。",
+          answer: "始まりと終わりのある時間をひとつにまとめる単位です。",
         },
         {
           question: "何が保存されますか？",
@@ -103,7 +103,7 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "Publish(投稿)とは？",
-          answer: "その旅だけの固有URLのWebページを作成して共有することです。",
+          answer: "その旅だけの固有URLページを作成して共有することです。",
         },
         {
           question: "アプリがなくても見られますか？",
@@ -123,11 +123,11 @@ function getFaqContent(lang: Language): FAQContent {
 
   if (lang === "zh") {
     return {
-      metaTitle: "MomentBook 常见问题",
-      metaDescription: "汇总了关于 MomentBook 的常见问题。",
-      pageTitle: "MomentBook 常见问题",
-      pageSubtitle: "关于 MomentBook 的回答汇总。",
-      calloutPrefix: "还有其他问题？",
+      metaTitle: "MomentBook 问题与回答",
+      metaDescription: "帮助你安静了解 MomentBook 的问题与回答。",
+      pageTitle: "MomentBook 问题与回答",
+      pageSubtitle: "简短而平和的回答汇总。",
+      calloutPrefix: "还有其他疑问？",
       calloutLink: "联系我们",
       calloutSuffix: "",
       items: [
@@ -137,11 +137,11 @@ function getFaqContent(lang: Language): FAQContent {
         },
         {
           question: "是社交网络吗？",
-          answer: "不是。没有信息流、点赞或排名，也不以扩散为目标。",
+          answer: "不是。没有信息流、点赞或排名，分享是可选的。",
         },
         {
           question: "什么是旅程？",
-          answer: "把有开始和结束的经历整理成一个故事的记录单位。",
+          answer: "把有开始和结束的时间整理成一个整体的记录单位。",
         },
         {
           question: "会保存哪些内容？",
@@ -172,25 +172,25 @@ function getFaqContent(lang: Language): FAQContent {
   }
 
   return {
-    metaTitle: "MomentBook FAQ",
-    metaDescription: "Frequently asked questions about MomentBook.",
-    pageTitle: "MomentBook FAQ",
-    pageSubtitle: "Straight answers about MomentBook.",
-    calloutPrefix: "Have a question that's not answered here? ",
+    metaTitle: "MomentBook Questions",
+    metaDescription: "Quiet answers about MomentBook.",
+    pageTitle: "MomentBook questions",
+    pageSubtitle: "Short, calm answers about how it works.",
+    calloutPrefix: "Still wondering about something? ",
     calloutLink: "Get in touch",
     calloutSuffix: "",
     items: [
       {
         question: "What is MomentBook?",
-        answer: "A quiet app that keeps moments as journeys.",
+        answer: "A quiet archive that keeps moments as journeys.",
       },
       {
         question: "Is it a social network?",
-        answer: "No. There is no feed, likes, or rankings, and it is not built for broadcast.",
+        answer: "No. There is no feed, likes, or rankings. Sharing is optional.",
       },
       {
         question: "What is a journey?",
-        answer: "A journey is a unit that groups a beginning-to-end experience as one story.",
+        answer: "A journey is a single stretch of time kept together as one story.",
       },
       {
         question: "What gets saved?",
