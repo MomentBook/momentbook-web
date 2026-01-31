@@ -152,6 +152,36 @@ function getUniqueLocations(clusters: PublishedJourneyCluster[]): string[] {
     return Array.from(locationSet);
 }
 
+function buildJourneyDescription(
+    lang: Language,
+    locations: string[],
+    photoCount: number,
+) {
+    const locationText = locations.slice(0, 3).join(", ");
+
+    if (lang === "ko") {
+        return locationText
+            ? `${locationText}의 여정, 사진 ${photoCount}장.`
+            : `사진 ${photoCount}장이 있는 공개 여정입니다.`;
+    }
+
+    if (lang === "ja") {
+        return locationText
+            ? `${locationText}の旅、写真${photoCount}枚。`
+            : `写真${photoCount}枚の公開された旅です。`;
+    }
+
+    if (lang === "zh") {
+        return locationText
+            ? `${locationText} 的行程，${photoCount} 张照片。`
+            : `包含 ${photoCount} 张照片的公开行程。`;
+    }
+
+    return locationText
+        ? `Journey through ${locationText} with ${photoCount} photos.`
+        : `Published journey with ${photoCount} photos.`;
+}
+
 function buildImageUrlToPhotoIdMap(
     journey: PublishedJourneyApi,
 ): Map<string, string> {
@@ -184,7 +214,7 @@ export async function generateMetadata({
     const locations = getUniqueLocations(journey.clusters);
     const description =
         journey.description ||
-        `A journey through ${locations.slice(0, 3).join(", ")} with ${journey.photoCount} photos`;
+        buildJourneyDescription(lang, locations, journey.photoCount);
 
     const images = journey.images.slice(0, 6).map((img) => ({
         url: img.url,
@@ -242,12 +272,15 @@ export default async function JourneyPage({
         buildOpenGraphUrl(lang, `/journeys/${journey.publicId}`),
         siteUrl,
     ).toString();
+    const description =
+        journey.description ||
+        buildJourneyDescription(lang, locations, journey.photoCount);
 
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Article",
         headline: journey.title,
-        description: journey.description,
+        description,
         image: journey.images.map((img) => img.url),
         datePublished: journey.publishedAt,
         dateModified: journey.publishedAt,

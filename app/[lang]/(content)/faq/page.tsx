@@ -254,9 +254,28 @@ export default async function FAQPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getFaqContent(lang);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, "/faq"), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    url: pageUrl,
+    mainEntity: content.items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
 
   return (
     <div className={faqStyles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={faqStyles.header}>
         <h1 className={faqStyles.title}>{content.pageTitle}</h1>
         <p className={faqStyles.subtitle}>{content.pageSubtitle}</p>

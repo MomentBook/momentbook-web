@@ -53,8 +53,52 @@ const photoLabels: Record<
         fromJourney: "来自行程",
         contextNote:
             "此页面仅展示已发布行程中的一张照片。未发布的记录不会公开。",
-    },
+  },
 };
+
+function buildPhotoTitle(lang: Language, journeyTitle: string) {
+    if (lang === "ko") {
+        return `${journeyTitle}의 사진`;
+    }
+
+    if (lang === "ja") {
+        return `${journeyTitle}の写真`;
+    }
+
+    if (lang === "zh") {
+        return `${journeyTitle} 的照片`;
+    }
+
+    return `Photo from ${journeyTitle}`;
+}
+
+function buildPhotoDescription(
+    lang: Language,
+    journeyTitle: string,
+    locationName?: string,
+) {
+    if (lang === "ko") {
+        return locationName
+            ? `${locationName}에서 촬영된 ${journeyTitle}의 사진입니다.`
+            : `${journeyTitle}에서 공유된 사진입니다.`;
+    }
+
+    if (lang === "ja") {
+        return locationName
+            ? `${locationName}で撮影された${journeyTitle}の写真です。`
+            : `${journeyTitle}で共有された写真です。`;
+    }
+
+    if (lang === "zh") {
+        return locationName
+            ? `在 ${locationName} 拍摄的 ${journeyTitle} 照片。`
+            : `${journeyTitle} 中分享的照片。`;
+    }
+
+    return locationName
+        ? `A photo from ${journeyTitle} taken at ${locationName}`
+        : `A photo from ${journeyTitle}`;
+}
 
 function formatDateTime(lang: Language, timestamp?: number): string | null {
     if (!timestamp || isNaN(timestamp)) {
@@ -94,10 +138,10 @@ export async function generateMetadata({
 
     const path = `/photos/${photo.photoId}`;
     const url = buildOpenGraphUrl(lang, path);
-    const title = photo.caption || `Photo from ${photo.journey.title}`;
+    const title = photo.caption || buildPhotoTitle(lang, photo.journey.title);
     const description =
         photo.caption ||
-        `A photo from ${photo.journey.title}${photo.locationName ? ` taken at ${photo.locationName}` : ""}`;
+        buildPhotoDescription(lang, photo.journey.title, photo.locationName);
 
     const publishedTime =
         photo.takenAt && !isNaN(photo.takenAt)

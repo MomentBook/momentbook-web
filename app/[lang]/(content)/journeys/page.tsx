@@ -126,8 +126,34 @@ export default async function JourneysPage({
     };
   });
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, "/journeys"), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: labels.title,
+    description: labels.subtitle,
+    url: pageUrl,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: cards.map((card, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: new URL(
+          buildOpenGraphUrl(lang, `/journeys/${card.journeyId}`),
+          siteUrl,
+        ).toString(),
+        name: card.title,
+      })),
+    },
+  };
+
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={styles.header}>
         <h1 className={styles.title}>{labels.title}</h1>
         <p className={styles.subtitle}>{labels.subtitle}</p>
