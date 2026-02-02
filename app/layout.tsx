@@ -2,23 +2,25 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.scss";
 import LanguageSyncProvider from "./components/LanguageSyncProvider";
+import InitAnalytics from "./components/InitAnalytics";
+import FirebasePageView from "./components/FirebasePageView";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+    metadataBase: new URL(siteUrl),
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <Script id="theme-script" strategy="beforeInteractive">
-          {`
+    return (
+        <html lang="en" suppressHydrationWarning>
+            <head>
+                <Script id="theme-script" strategy="beforeInteractive">
+                    {`
             (function() {
               const stored = localStorage.getItem('theme');
               let themeValue = stored;
@@ -33,12 +35,18 @@ export default function RootLayout({
               document.documentElement.setAttribute('data-theme', theme);
             })();
           `}
-        </Script>
-      </head>
-      <body>
-        <LanguageSyncProvider />
-        {children}
-      </body>
-    </html>
-  );
+                </Script>
+            </head>
+            <body>
+                <LanguageSyncProvider />
+                {process.env.NODE_ENV === "production" ? (
+                    <>
+                        <InitAnalytics />
+                        <FirebasePageView />
+                    </>
+                ) : null}
+                {children}
+            </body>
+        </html>
+    );
 }
