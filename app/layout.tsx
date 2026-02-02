@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.scss";
 import LanguageSyncProvider from "./components/LanguageSyncProvider";
-import InitAnalytics from "./components/InitAnalytics";
-import FirebasePageView from "./components/FirebasePageView";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { ENV } from "@/src/configs/env.server";
+import GaRouteTracker from "./components/GaRouteTracker";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+const GA_ID = ENV.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
@@ -41,8 +43,8 @@ export default function RootLayout({
                 <LanguageSyncProvider />
                 {process.env.NODE_ENV === "production" ? (
                     <>
-                        <InitAnalytics />
-                        <FirebasePageView />
+                        <GoogleAnalytics gaId={GA_ID} />
+                        <GaRouteTracker />
                     </>
                 ) : null}
                 {children}
