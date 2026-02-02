@@ -1269,6 +1269,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/third-parties@npm:^16.1.6":
+  version: 16.1.6
+  resolution: "@next/third-parties@npm:16.1.6"
+  dependencies:
+    third-party-capital: 1.0.20
+  peerDependencies:
+    next: ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0-beta.0
+    react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
+  checksum: 5d2afcf303f637d7ed4d6cf2f8888694545e2d2a21a7414d5298e40e7047ef14d2843015dad31cf71974fdced7c4f07436d7683a7e314091842683ce27ad17b9
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -4199,6 +4211,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "momentbook-web@workspace:."
   dependencies:
+    "@next/third-parties": ^16.1.6
     "@types/leaflet": ^1.9.21
     "@types/node": ^20
     "@types/react": 18
@@ -5319,6 +5332,13 @@ __metadata:
     minizlib: ^3.1.0
     yallist: ^5.0.0
   checksum: 82fa04804b6cae4c0b46b84e97a08c39e1c17bb959350baa32d139bcf5e1fc7ebc3ceb72465dd3e2e311992386ecc13599a257d5672158490ceb9464146d5573
+  languageName: node
+  linkType: hard
+
+"third-party-capital@npm:1.0.20":
+  version: 1.0.20
+  resolution: "third-party-capital@npm:1.0.20"
+  checksum: ef5eae00bdb82b538b9f628a011fc294cd6f4bafdbb46d88f3d1a72e8c3b9e2cc2a547fdb62bc16bdd847e9da3dac2df676b154c64914f6c90ea15aac6ce0a6a
   languageName: node
   linkType: hard
 
