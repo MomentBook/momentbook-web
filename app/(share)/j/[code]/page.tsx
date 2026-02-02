@@ -1,12 +1,15 @@
 import { redirect, notFound } from "next/navigation";
-import { decodeCodeToJourneyId } from "@/lib/share/signed"; // 네가 선택한 방식(A/B)
+import { decodeCodeToPublicId } from "@/lib/share/signedPublic";
+import { ENV } from "@/src/configs/env.server";
+
+export const runtime = "nodejs";
 
 export default async function Page({ params }: { params: { code: string } }) {
-    const secret = process.env.SHORTLINK_SECRET;
+    const secret = ENV.SHORTLINK_SECRET;
     if (!secret) throw new Error("SHORTLINK_SECRET is missing");
 
-    const journeyId = decodeCodeToJourneyId(params.code, secret);
-    if (!journeyId) notFound();
+    const publicId = decodeCodeToPublicId(params.code, secret);
+    if (!publicId) notFound();
 
-    redirect(`/journeys/${journeyId}`);
+    redirect(`/journeys/${publicId}`);
 }
