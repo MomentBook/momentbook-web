@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { encodeJourneyIdToCode } from "@/lib/share/signed";
-import { ENV } from "@/src/configs/env.server";
 
 export const runtime = "nodejs"; // crypto 사용 위해 권장
 
 export async function POST(req: Request) {
-    const secret = ENV.SHORTLINK_SECRET;
+    const secret = process.env.SHORTLINK_SECRET;
     if (!secret) {
         return NextResponse.json(
             { error: "SHORTLINK_SECRET is missing" },

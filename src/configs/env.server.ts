@@ -17,6 +17,4 @@ export const ENV = {
         .NEXT_PUBLIC_FIREBASE_APP_ID as string,
     NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: process.env
         .NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID as string,
-
-    SHORTLINK_SECRET: process.env.SHORTLINK_SECRET as string,
 } as const;
