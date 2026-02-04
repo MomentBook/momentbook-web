@@ -9,14 +9,23 @@ import styles from "./users.module.scss";
 
 export const revalidate = 3600;
 
-const userListLabels: Record<Language, {
+const userListLabels: Partial<Record<Language, {
   title: string;
   subtitle: string;
   searchPlaceholder: string;
   countLabel: string;
   empty: string;
   journeysLabel: string;
-}> = {
+}>> & {
+  en: {
+    title: string;
+    subtitle: string;
+    searchPlaceholder: string;
+    countLabel: string;
+    empty: string;
+    journeysLabel: string;
+  };
+} = {
   en: {
     title: "Published profiles",
     subtitle: "Profiles that share journeys from MomentBook.",
@@ -48,6 +57,46 @@ const userListLabels: Record<Language, {
     countLabel: "{count} 位用户",
     empty: "没有符合的资料。",
     journeysLabel: "条行程",
+  },
+  es: {
+    title: "Perfiles publicados",
+    subtitle: "Perfiles que comparten viajes desde MomentBook.",
+    searchPlaceholder: "Buscar por nombre",
+    countLabel: "{count} usuarios",
+    empty: "No hay perfiles que coincidan.",
+    journeysLabel: "viajes",
+  },
+  pt: {
+    title: "Perfis publicados",
+    subtitle: "Perfis que compartilham jornadas no MomentBook.",
+    searchPlaceholder: "Buscar por nome",
+    countLabel: "{count} usuarios",
+    empty: "Nenhum perfil corresponde a busca.",
+    journeysLabel: "jornadas",
+  },
+  fr: {
+    title: "Profils publics",
+    subtitle: "Profils partageant des voyages depuis MomentBook.",
+    searchPlaceholder: "Rechercher par nom",
+    countLabel: "{count} utilisateurs",
+    empty: "Aucun profil ne correspond a la recherche.",
+    journeysLabel: "voyages",
+  },
+  th: {
+    title: "โปรไฟล์สาธารณะ",
+    subtitle: "โปรไฟล์ที่แชร์ทริปจาก MomentBook",
+    searchPlaceholder: "ค้นหาด้วยชื่อ",
+    countLabel: "{count} ผู้ใช้",
+    empty: "ไม่พบโปรไฟล์ที่ตรงกัน",
+    journeysLabel: "ทริป",
+  },
+  vi: {
+    title: "Ho so cong khai",
+    subtitle: "Ho so chia se hanh trinh tu MomentBook.",
+    searchPlaceholder: "Tim theo ten",
+    countLabel: "{count} nguoi dung",
+    empty: "Khong co ho so phu hop.",
+    journeysLabel: "hanh trinh",
   },
 };
 

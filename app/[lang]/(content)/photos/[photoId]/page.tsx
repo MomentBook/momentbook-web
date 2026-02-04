@@ -3,30 +3,35 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./photo.module.scss";
+import { LocalizedDateTime } from "./LocalizedDateTime";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
     fetchPublishedPhoto,
-    type PublishedPhotoApi,
 } from "@/lib/published-journey";
 
 export const revalidate = 3600;
 
-const photoLabels: Record<
+const photoLabels: Partial<Record<
     Language,
     {
         backToJourney: string;
         takenAt: string;
         location: string;
-        fromJourney: string;
         contextNote: string;
     }
-> = {
+>> & {
+    en: {
+        backToJourney: string;
+        takenAt: string;
+        location: string;
+        contextNote: string;
+    };
+} = {
     en: {
         backToJourney: "Back to journey",
         takenAt: "Captured at",
         location: "Place",
-        fromJourney: "From this journey",
         contextNote:
             "This page shows a single photo from a published journey. Anything else stays private unless shared.",
     },
@@ -34,7 +39,6 @@ const photoLabels: Record<
         backToJourney: "여정으로 돌아가기",
         takenAt: "기록 시각",
         location: "장소",
-        fromJourney: "이 여정에서",
         contextNote:
             "이 페이지는 게시된 여정의 사진 한 장만 보여줍니다. 나머지는 공유하기 전까지 공개되지 않습니다.",
     },
@@ -42,7 +46,6 @@ const photoLabels: Record<
         backToJourney: "旅に戻る",
         takenAt: "記録時刻",
         location: "場所",
-        fromJourney: "この旅から",
         contextNote:
             "このページは公開された旅の写真1枚だけを表示します。その他は共有するまで公開されません。",
     },
@@ -50,9 +53,43 @@ const photoLabels: Record<
         backToJourney: "返回行程",
         takenAt: "记录时间",
         location: "地点",
-        fromJourney: "来自该行程",
         contextNote:
             "此页面仅展示已发布行程中的一张照片。其他内容在分享前不会公开。",
+    },
+    es: {
+        backToJourney: "Volver al viaje",
+        takenAt: "Capturado en",
+        location: "Lugar",
+        contextNote:
+            "Esta pagina muestra una sola foto de un viaje publicado. Todo lo demas sigue privado salvo que se comparta.",
+    },
+    pt: {
+        backToJourney: "Voltar para jornada",
+        takenAt: "Registrado em",
+        location: "Local",
+        contextNote:
+            "Esta pagina mostra apenas uma foto de uma jornada publicada. O restante permanece privado ate ser compartilhado.",
+    },
+    fr: {
+        backToJourney: "Retour au voyage",
+        takenAt: "Capture le",
+        location: "Lieu",
+        contextNote:
+            "Cette page affiche une seule photo d'un voyage publie. Le reste reste prive sauf partage.",
+    },
+    th: {
+        backToJourney: "กลับไปที่ทริป",
+        takenAt: "บันทึกเวลา",
+        location: "สถานที่",
+        contextNote:
+            "หน้านี้แสดงเฉพาะรูปเดียวจากทริปที่เผยแพร่ เนื้อหาอื่นยังคงเป็นส่วนตัวจนกว่าจะมีการแชร์",
+    },
+    vi: {
+        backToJourney: "Quay lai hanh trinh",
+        takenAt: "Ghi luc",
+        location: "Dia diem",
+        contextNote:
+            "Trang nay chi hien thi mot anh tu hanh trinh da dang. Phan con lai van rieng tu neu chua chia se.",
     },
 };
 
@@ -67,6 +104,26 @@ function buildPhotoTitle(lang: Language, journeyTitle: string) {
 
     if (lang === "zh") {
         return `${journeyTitle} 的照片`;
+    }
+
+    if (lang === "es") {
+        return `Foto de ${journeyTitle}`;
+    }
+
+    if (lang === "pt") {
+        return `Foto de ${journeyTitle}`;
+    }
+
+    if (lang === "fr") {
+        return `Photo de ${journeyTitle}`;
+    }
+
+    if (lang === "th") {
+        return `รูปจาก ${journeyTitle}`;
+    }
+
+    if (lang === "vi") {
+        return `Anh tu ${journeyTitle}`;
     }
 
     return `Photo from ${journeyTitle}`;
@@ -95,28 +152,39 @@ function buildPhotoDescription(
             : `${journeyTitle} 中分享的照片。`;
     }
 
+    if (lang === "es") {
+        return locationName
+            ? `Una foto de ${journeyTitle} tomada en ${locationName}.`
+            : `Una foto compartida de ${journeyTitle}.`;
+    }
+
+    if (lang === "pt") {
+        return locationName
+            ? `Uma foto de ${journeyTitle} tirada em ${locationName}.`
+            : `Uma foto compartilhada de ${journeyTitle}.`;
+    }
+
+    if (lang === "fr") {
+        return locationName
+            ? `Une photo de ${journeyTitle} prise a ${locationName}.`
+            : `Une photo partagee de ${journeyTitle}.`;
+    }
+
+    if (lang === "th") {
+        return locationName
+            ? `รูปจาก ${journeyTitle} ที่ถ่ายที่ ${locationName}`
+            : `รูปที่แชร์จาก ${journeyTitle}`;
+    }
+
+    if (lang === "vi") {
+        return locationName
+            ? `Anh tu ${journeyTitle} chup tai ${locationName}.`
+            : `Anh duoc chia se tu ${journeyTitle}.`;
+    }
+
     return locationName
         ? `A photo from ${journeyTitle} taken at ${locationName}`
         : `A photo from ${journeyTitle}`;
-}
-
-function formatDateTime(lang: Language, timestamp?: number): string | null {
-    if (!timestamp || isNaN(timestamp)) {
-        return null;
-    }
-
-    try {
-        const formatter = new Intl.DateTimeFormat(lang, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-        return formatter.format(new Date(timestamp));
-    } catch {
-        return null;
-    }
 }
 
 export async function generateMetadata({
@@ -190,7 +258,8 @@ export default async function PhotoPage({
     }
 
     const labels = photoLabels[lang] ?? photoLabels.en;
-    const dateTime = formatDateTime(lang, photo.takenAt);
+    const hasTakenAt =
+        typeof photo.takenAt === "number" && !isNaN(photo.takenAt);
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
     const pageUrl = new URL(
@@ -268,14 +337,16 @@ export default async function PhotoPage({
                     </div>
 
                     <div className={styles.detailsGrid}>
-                        {dateTime && (
+                        {hasTakenAt && (
                             <div className={styles.detail}>
                                 <span className={styles.detailLabel}>
                                     {labels.takenAt}
                                 </span>
-                                <span className={styles.detailValue}>
-                                    {dateTime}
-                                </span>
+                                <LocalizedDateTime
+                                    lang={lang}
+                                    timestamp={photo.takenAt}
+                                    className={styles.detailValue}
+                                />
                             </div>
                         )}
 
@@ -290,17 +361,6 @@ export default async function PhotoPage({
                             </div>
                         )}
 
-                        <div className={styles.detail}>
-                            <span className={styles.detailLabel}>
-                                {labels.fromJourney}
-                            </span>
-                            <Link
-                                href={`/${lang}/journeys/${photo.journey.publicId}`}
-                                className={styles.journeyLink}
-                            >
-                                {photo.journey.title}
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@ import { getPublicUser, publicJourneys } from "@/lib/public-content";
 import { JourneyList } from "./JourneyList";
 import styles from "./journeys.module.scss";
 
-const journeyPageLabels: Record<
+const journeyPageLabels: Partial<Record<
     Language,
     {
         title: string;
@@ -18,7 +18,17 @@ const journeyPageLabels: Record<
         photosLabel: string;
         notice: string;
     }
-> = {
+>> & { en: {
+    title: string;
+    subtitle: string;
+    searchPlaceholder: string;
+    countLabel: string;
+    empty: string;
+    byLabel: string;
+    placesLabel: string;
+    photosLabel: string;
+    notice: string;
+} } = {
     en: {
         title: "Published journeys",
         subtitle: "Journeys shared from MomentBook as single pages.",
@@ -62,6 +72,61 @@ const journeyPageLabels: Record<
         placesLabel: "个地点",
         photosLabel: "张照片",
         notice: "每段行程对应一个页面。未发布的记录不会公开。",
+    },
+    es: {
+        title: "Viajes publicados",
+        subtitle: "Viajes compartidos desde MomentBook como páginas individuales.",
+        searchPlaceholder: "Buscar viajes, lugares o personas",
+        countLabel: "{count} viajes",
+        empty: "No hay viajes que coincidan con la búsqueda.",
+        byLabel: "compartido por",
+        placesLabel: "lugares",
+        photosLabel: "fotos",
+        notice: "Cada viaje se abre como su propia página. Lo no publicado sigue siendo privado.",
+    },
+    pt: {
+        title: "Jornadas publicadas",
+        subtitle: "Jornadas compartilhadas do MomentBook em páginas individuais.",
+        searchPlaceholder: "Buscar jornadas, lugares ou pessoas",
+        countLabel: "{count} jornadas",
+        empty: "Nenhuma jornada corresponde à busca.",
+        byLabel: "compartilhado por",
+        placesLabel: "lugares",
+        photosLabel: "fotos",
+        notice: "Cada jornada abre em sua própria página. O que não é publicado permanece privado.",
+    },
+    fr: {
+        title: "Voyages publiés",
+        subtitle: "Voyages partagés depuis MomentBook sous forme de pages individuelles.",
+        searchPlaceholder: "Rechercher des voyages, lieux ou personnes",
+        countLabel: "{count} voyages",
+        empty: "Aucun voyage ne correspond à cette recherche.",
+        byLabel: "partagé par",
+        placesLabel: "lieux",
+        photosLabel: "photos",
+        notice: "Chaque voyage s'ouvre sur sa propre page. Tout ce qui n'est pas publié reste privé.",
+    },
+    th: {
+        title: "ทริปที่เผยแพร่",
+        subtitle: "ทริปที่แชร์จาก MomentBook ในรูปแบบหน้าเดี่ยว",
+        searchPlaceholder: "ค้นหาทริป สถานที่ หรือผู้คน",
+        countLabel: "{count} ทริป",
+        empty: "ไม่พบทริปที่ตรงกับการค้นหา",
+        byLabel: "แชร์โดย",
+        placesLabel: "สถานที่",
+        photosLabel: "รูป",
+        notice: "แต่ละทริปจะเปิดเป็นหน้าของตัวเอง สิ่งที่ยังไม่เผยแพร่จะยังเป็นส่วนตัว",
+    },
+    vi: {
+        title: "Hanh trinh da dang",
+        subtitle: "Cac hanh trinh duoc chia se tu MomentBook duoi dang trang rieng.",
+        searchPlaceholder: "Tim hanh trinh, dia diem hoac nguoi dung",
+        countLabel: "{count} hanh trinh",
+        empty: "Khong co hanh trinh phu hop voi tim kiem.",
+        byLabel: "chia se boi",
+        placesLabel: "dia diem",
+        photosLabel: "anh",
+        notice: "Moi hanh trinh mo thanh mot trang rieng. Noi dung chua dang van giu rieng tu.",
     },
 };
 

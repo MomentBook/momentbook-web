@@ -12,7 +12,7 @@ import JourneyContent from "./components/JourneyContent";
 
 export const revalidate = 3600;
 
-const journeyLabels: Record<
+const journeyLabels: Partial<Record<
     Language,
     {
         eyebrow: string;
@@ -34,7 +34,28 @@ const journeyLabels: Record<
         mapEmpty: string;
         locationFallback: string;
     }
-> = {
+>> & {
+    en: {
+        eyebrow: string;
+        photoCount: string;
+        locationCount: string;
+        duration: string;
+        places: string;
+        gallery: string;
+        hours: string;
+        routeTitle: string;
+        routeBadgeStrong: string;
+        routeBadgeWeak: string;
+        routeBadgeNone: string;
+        routeBadgePhotoOnly: string;
+        routeLeadStrong: string;
+        routeLeadWeak: string;
+        routeLeadNone: string;
+        routeLeadPhotoOnly: string;
+        mapEmpty: string;
+        locationFallback: string;
+    };
+} = {
     en: {
         eyebrow: "Journey",
         photoCount: "photos",
@@ -116,6 +137,106 @@ const journeyLabels: Record<
         mapEmpty: "此行程没有地图信息。",
         locationFallback: "地点",
     },
+    es: {
+        eyebrow: "Viaje",
+        photoCount: "fotos",
+        locationCount: "lugares",
+        duration: "duracion",
+        places: "Lugares visitados",
+        gallery: "Galeria de fotos",
+        hours: "h",
+        routeTitle: "Mapa del viaje",
+        routeBadgeStrong: "Ruta clara",
+        routeBadgeWeak: "Ruta suave",
+        routeBadgeNone: "Solo lugares",
+        routeBadgePhotoOnly: "Solo fotos",
+        routeLeadStrong: "Hay suficientes puntos GPS para trazar una ruta clara.",
+        routeLeadWeak: "Los puntos GPS son parciales, por eso la ruta se ve mas suave.",
+        routeLeadNone: "No habia datos de ubicacion, por eso solo se muestran lugares.",
+        routeLeadPhotoOnly: "Este viaje se comparte solo con fotos y sin ruta.",
+        mapEmpty: "No hay datos de mapa para este viaje.",
+        locationFallback: "Lugar",
+    },
+    pt: {
+        eyebrow: "Jornada",
+        photoCount: "fotos",
+        locationCount: "locais",
+        duration: "duracao",
+        places: "Locais visitados",
+        gallery: "Galeria de fotos",
+        hours: "h",
+        routeTitle: "Mapa da jornada",
+        routeBadgeStrong: "Rota clara",
+        routeBadgeWeak: "Rota suave",
+        routeBadgeNone: "Somente locais",
+        routeBadgePhotoOnly: "Somente fotos",
+        routeLeadStrong: "Os pontos de GPS sao suficientes para mostrar uma rota clara.",
+        routeLeadWeak: "Os pontos de GPS sao parciais, entao a rota aparece mais suave.",
+        routeLeadNone: "Nao havia dados de localizacao, entao so os locais sao mostrados.",
+        routeLeadPhotoOnly: "Esta jornada e compartilhada apenas com fotos, sem rota.",
+        mapEmpty: "Nao ha dados de mapa para esta jornada.",
+        locationFallback: "Local",
+    },
+    fr: {
+        eyebrow: "Voyage",
+        photoCount: "photos",
+        locationCount: "lieux",
+        duration: "duree",
+        places: "Lieux visites",
+        gallery: "Galerie photo",
+        hours: "h",
+        routeTitle: "Carte du voyage",
+        routeBadgeStrong: "Itineraire net",
+        routeBadgeWeak: "Itineraire doux",
+        routeBadgeNone: "Lieux uniquement",
+        routeBadgePhotoOnly: "Photos uniquement",
+        routeLeadStrong: "Les points GPS sont suffisants pour tracer un itineraire net.",
+        routeLeadWeak: "Les points GPS sont partiels, donc l'itineraire est plus doux.",
+        routeLeadNone: "Les donnees de localisation etaient absentes, seuls les lieux sont affiches.",
+        routeLeadPhotoOnly: "Ce voyage est partage uniquement avec des photos, sans itineraire.",
+        mapEmpty: "Aucune donnee de carte pour ce voyage.",
+        locationFallback: "Lieu",
+    },
+    th: {
+        eyebrow: "ทริป",
+        photoCount: "รูป",
+        locationCount: "สถานที่",
+        duration: "ระยะเวลา",
+        places: "สถานที่ที่ไป",
+        gallery: "คลังรูป",
+        hours: "ชม.",
+        routeTitle: "แผนที่ทริป",
+        routeBadgeStrong: "เส้นทางชัดเจน",
+        routeBadgeWeak: "เส้นทางแบบนุ่มนวล",
+        routeBadgeNone: "แสดงเฉพาะสถานที่",
+        routeBadgePhotoOnly: "แสดงเฉพาะรูป",
+        routeLeadStrong: "จุด GPS เพียงพอ จึงแสดงเส้นทางได้ชัดเจน",
+        routeLeadWeak: "จุด GPS มีบางช่วง เส้นทางจึงแสดงแบบนุ่มนวล",
+        routeLeadNone: "ไม่มีข้อมูลตำแหน่ง จึงแสดงเฉพาะสถานที่",
+        routeLeadPhotoOnly: "ทริปนี้แชร์เฉพาะรูป โดยไม่แสดงเส้นทาง",
+        mapEmpty: "ทริปนี้ไม่มีข้อมูลแผนที่",
+        locationFallback: "สถานที่",
+    },
+    vi: {
+        eyebrow: "Hanh trinh",
+        photoCount: "anh",
+        locationCount: "dia diem",
+        duration: "thoi luong",
+        places: "Dia diem da den",
+        gallery: "Bo suu tap anh",
+        hours: "h",
+        routeTitle: "Ban do hanh trinh",
+        routeBadgeStrong: "Tuyen ro rang",
+        routeBadgeWeak: "Tuyen mem",
+        routeBadgeNone: "Chi dia diem",
+        routeBadgePhotoOnly: "Chi anh",
+        routeLeadStrong: "Du diem GPS de ve mot tuyen ro rang.",
+        routeLeadWeak: "Diem GPS chi mot phan nen tuyen hien thi mem hon.",
+        routeLeadNone: "Khong co du lieu vi tri nen chi hien thi dia diem.",
+        routeLeadPhotoOnly: "Hanh trinh nay duoc chia se chi bang anh, khong co tuyen.",
+        mapEmpty: "Khong co du lieu ban do cho hanh trinh nay.",
+        locationFallback: "Dia diem",
+    },
 };
 
 function formatDateRange(lang: Language, start: number, end: number) {
@@ -176,6 +297,36 @@ function buildJourneyDescription(
         return locationText
             ? `${locationText} 的行程，${photoCount} 张照片。`
             : `包含 ${photoCount} 张照片的公开行程。`;
+    }
+
+    if (lang === "es") {
+        return locationText
+            ? `Viaje por ${locationText} con ${photoCount} fotos.`
+            : `Un viaje publicado con ${photoCount} fotos.`;
+    }
+
+    if (lang === "pt") {
+        return locationText
+            ? `Jornada por ${locationText} com ${photoCount} fotos.`
+            : `Uma jornada publicada com ${photoCount} fotos.`;
+    }
+
+    if (lang === "fr") {
+        return locationText
+            ? `Voyage a travers ${locationText} avec ${photoCount} photos.`
+            : `Un voyage publie avec ${photoCount} photos.`;
+    }
+
+    if (lang === "th") {
+        return locationText
+            ? `ทริปผ่าน ${locationText} พร้อมรูป ${photoCount} รูป`
+            : `ทริปสาธารณะที่มีรูป ${photoCount} รูป`;
+    }
+
+    if (lang === "vi") {
+        return locationText
+            ? `Hanh trinh qua ${locationText} voi ${photoCount} anh.`
+            : `Mot hanh trinh da dang voi ${photoCount} anh.`;
     }
 
     return locationText

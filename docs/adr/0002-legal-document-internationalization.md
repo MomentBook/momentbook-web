@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04
+2025-01-04 (updated: 2026-02-04)
 
 ## Context
 MomentBook requires four legal documents to be published on the web:
@@ -14,7 +14,7 @@ MomentBook requires four legal documents to be published on the web:
 4. Marketing Consent
 
 These documents must:
-- Be available in all supported languages (en, ko, ja, zh)
+- Be available in all supported route languages
 - Maintain legal accuracy across translations
 - Be easily readable and professionally formatted
 - Be accessible via footer links on all pages
@@ -41,6 +41,11 @@ export default async function LegalPage({ params }) {
   );
 }
 ```
+
+### 1.1 Language Coverage Policy (updated)
+- Authored legal text is maintained for core locales: `en`, `ko`, `ja`, `zh`.
+- Extended locales (`es`, `pt`, `fr`, `th`, `vi`) render English legal text until legal translations are reviewed and approved.
+- Routes and SEO alternates are still published for all supported locales.
 
 ### 2. Content Organization
 - **Inline JSX**: Legal content embedded directly in component functions
@@ -93,6 +98,7 @@ Legal documents accessible via:
 - 📝 Legal review must be done for each language separately
 - 📝 Content updates require code deployment
 - 📝 Version history tracked via git commits
+- 📝 Extended locales may temporarily show English legal copy
 
 ## Translation Guidelines
 

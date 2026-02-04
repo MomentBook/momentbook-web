@@ -23,19 +23,19 @@ Each ADR follows this structure:
 ### Current ADRs
 
 1. [ADR 0001: Multilingual Routing Architecture](./0001-multilingual-routing-architecture.md)
-    - **Date**: 2025-01-04 (updated: 2026-01-29)
+    - **Date**: 2025-01-04 (updated: 2026-02-04)
     - **Status**: Accepted
-    - **Summary**: Custom multilingual routing using Next.js App Router + middleware-based language redirect
+    - **Summary**: Custom multilingual routing with 9 locales, middleware redirect, and locale-aware hreflang/metadata mapping
 
 2. [ADR 0002: Legal Document Internationalization](./0002-legal-document-internationalization.md)
-    - **Date**: 2025-01-04
+    - **Date**: 2025-01-04 (updated: 2026-02-04)
     - **Status**: Accepted
-    - **Summary**: Component-based architecture for multilingual legal documents (Terms, Privacy, Community Guidelines, Marketing Consent)
+    - **Summary**: Component-based legal document architecture with authored core translations and English fallback for extended locales
 
 3. [ADR 0003: Static Site Generation Strategy](./0003-static-site-generation-strategy.md)
-    - **Date**: 2025-01-04 (updated: 2026-01-29)
+    - **Date**: 2025-01-04 (updated: 2026-02-04)
     - **Status**: Accepted
-    - **Summary**: SSG + ISR-style caching, hybrid public data sources, and segmented sitemaps for scale
+    - **Summary**: SSG + ISR-style caching, hybrid public data sources, segmented sitemaps, and viewer-localized timestamp rendering
 
 4. [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)
     - **Date**: 2025-01-04

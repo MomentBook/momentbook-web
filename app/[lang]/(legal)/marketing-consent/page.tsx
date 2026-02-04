@@ -27,6 +27,31 @@ export async function generateMetadata({
     description = "MomentBook 的营销信息同意政策。";
   }
 
+  if (lang === "es") {
+    title = "Consentimiento de informacion de marketing de MomentBook";
+    description = "Politica de consentimiento para comunicaciones promocionales de MomentBook.";
+  }
+
+  if (lang === "pt") {
+    title = "Consentimento de informacoes de marketing do MomentBook";
+    description = "Politica de consentimento para comunicacoes promocionais do MomentBook.";
+  }
+
+  if (lang === "fr") {
+    title = "Consentement marketing de MomentBook";
+    description = "Politique de consentement pour les communications promotionnelles de MomentBook.";
+  }
+
+  if (lang === "th") {
+    title = "ความยินยอมรับข้อมูลการตลาดของ MomentBook";
+    description = "นโยบายการยินยอมรับข้อมูลการตลาดและการสื่อสารโปรโมชันของ MomentBook";
+  }
+
+  if (lang === "vi") {
+    title = "Dong y nhan thong tin tiep thi MomentBook";
+    description = "Chinh sach dong y cho thong tin tiep thi va truyen thong khuyen mai cua MomentBook.";
+  }
+
   const path = "/marketing-consent";
   const url = buildOpenGraphUrl(lang, path);
 
@@ -53,15 +78,15 @@ export default async function MarketingConsentPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
+  const content =
+    lang === "ko" ? <KoreanConsent /> :
+    lang === "ja" ? <JapaneseConsent /> :
+    lang === "zh" ? <ChineseConsent /> :
+    <EnglishConsent />;
 
   return (
     <div className={styles.container}>
-      <article className={styles.content}>
-        {lang === "en" && <EnglishConsent />}
-        {lang === "ko" && <KoreanConsent />}
-        {lang === "ja" && <JapaneseConsent />}
-        {lang === "zh" && <ChineseConsent />}
-      </article>
+      <article className={styles.content}>{content}</article>
     </div>
   );
 }

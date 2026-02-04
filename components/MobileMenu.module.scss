@@ -1,11 +1,10 @@
 /* Mobile Menu Component */
 
 .hamburger {
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: 0.35rem;
   width: 2.25rem;
   height: 2.25rem;
   background: transparent;
@@ -21,17 +20,33 @@
 }
 
 .line {
+  position: absolute;
+  left: 50%;
   display: block;
-  width: 100%;
+  width: 1.15rem;
   height: 2px;
   background: var(--color-text-primary);
   border-radius: 2px;
-  transition: transform 0.25s ease, opacity 0.2s ease;
+  transition: top 0.25s ease, transform 0.25s ease, opacity 0.2s ease;
   transform-origin: center;
+  transform: translateX(-50%);
+
+  &:nth-child(1) {
+    top: 0.62rem;
+  }
+
+  &:nth-child(2) {
+    top: 1.06rem;
+  }
+
+  &:nth-child(3) {
+    top: 1.5rem;
+  }
 
   &.open {
     &:nth-child(1) {
-      transform: translateY(0.4rem) rotate(45deg);
+      top: 1.06rem;
+      transform: translateX(-50%) rotate(45deg);
     }
 
     &:nth-child(2) {
@@ -39,7 +54,8 @@
     }
 
     &:nth-child(3) {
-      transform: translateY(-0.4rem) rotate(-45deg);
+      top: 1.06rem;
+      transform: translateX(-50%) rotate(-45deg);
     }
   }
 }

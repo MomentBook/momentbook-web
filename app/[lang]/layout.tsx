@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Link from "next/link";
 import styles from "./layout.module.scss";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -7,32 +7,36 @@ import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
 import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
 import { ScrollHeader } from "@/components/ScrollHeader";
-import { languageList, type Language } from "@/lib/i18n/config";
+import {
+  getStoreRegion,
+  languageList,
+  toOpenGraphLocale,
+  type Language,
+} from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const suit = localFont({
+  variable: "--font-suit",
+  display: "swap",
+  src: [
+    { path: "../../public/fonts/suit/SUIT-Thin.woff2", weight: "100", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-ExtraLight.woff2", weight: "200", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Light.woff2", weight: "300", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-ExtraBold.woff2", weight: "800", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Heavy.woff2", weight: "900", style: "normal" },
+  ],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const iosPath = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
 
-const storeRegionMap: Record<Language, { ios: string; hl: string; gl: string }> = {
-  en: { ios: "us", hl: "en", gl: "US" },
-  ko: { ios: "kr", hl: "ko", gl: "KR" },
-  ja: { ios: "jp", hl: "ja", gl: "JP" },
-  zh: { ios: "cn", hl: "zh", gl: "CN" },
-};
-
 function getStoreLinks(lang: Language) {
-  const region = storeRegionMap[lang] ?? storeRegionMap.en;
+  const region = getStoreRegion(lang);
 
   return {
     ios: `https://apps.apple.com/${region.ios}/${iosPath}`,
@@ -62,7 +66,7 @@ export async function generateMetadata({
     description: "An app that quietly remembers your day.",
     openGraph: {
       type: "website",
-      locale: lang === "en" ? "en_US" : lang === "ko" ? "ko_KR" : lang === "zh" ? "zh_CN" : "ja_JP",
+      locale: toOpenGraphLocale(lang),
       siteName: "MomentBook",
     },
   };
@@ -80,7 +84,7 @@ export default async function LangLayout({
   const storeLinks = getStoreLinks(lang);
 
   return (
-    <div className={`${geistSans.variable} ${geistMono.variable}`}>
+    <div className={suit.variable}>
         <LanguagePreferenceSync currentLang={lang} />
         <ScrollHeader className={styles.header}>
           <nav className={styles.nav}>

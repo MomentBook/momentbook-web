@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-
-const supportedLanguages = ["en", "ko", "ja", "zh"];
-const defaultLanguage = "en";
+import {
+  defaultLanguage,
+  detectLanguageFromAcceptLanguage,
+  isValidLanguage,
+  languageList,
+} from "@/lib/i18n/config";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -17,8 +20,8 @@ export function middleware(request: NextRequest) {
   }
 
   // Check if pathname already has a language prefix
-  const hasLanguagePrefix = supportedLanguages.some((lang) =>
-    pathname.startsWith(`/${lang}`)
+  const hasLanguagePrefix = languageList.some(
+    (lang) => pathname === `/${lang}` || pathname.startsWith(`/${lang}/`),
   );
 
   if (hasLanguagePrefix) {
@@ -30,20 +33,13 @@ export function middleware(request: NextRequest) {
 
   // 1. Check cookie first
   const cookieLang = request.cookies.get("preferredLanguage")?.value;
-  if (cookieLang && supportedLanguages.includes(cookieLang)) {
+  if (cookieLang && isValidLanguage(cookieLang)) {
     preferredLanguage = cookieLang;
   } else {
     // 2. Fallback to Accept-Language header
-    const acceptLanguage = request.headers.get("accept-language");
-    if (acceptLanguage) {
-      const browserLang = acceptLanguage
-        .split(",")[0]
-        .split("-")[0]
-        .toLowerCase();
-      if (supportedLanguages.includes(browserLang)) {
-        preferredLanguage = browserLang;
-      }
-    }
+    preferredLanguage = detectLanguageFromAcceptLanguage(
+      request.headers.get("accept-language"),
+    );
   }
 
   // Redirect to the language-prefixed URL

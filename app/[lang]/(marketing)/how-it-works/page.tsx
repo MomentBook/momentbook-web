@@ -30,7 +30,7 @@ type HowItWorksContent = {
     noPressureItems: string[];
 };
 
-const howItWorksContent: Record<Language, HowItWorksContent> = {
+const howItWorksContent: Partial<Record<Language, HowItWorksContent>> & { en: HowItWorksContent } = {
     en: {
         metaTitle: "How MomentBook Works",
         metaDescription: "A calm flow from starting a journey to sharing it.",
@@ -317,6 +317,336 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
 };
 
 function getHowItWorksContent(lang: Language): HowItWorksContent {
+    if (lang === "es") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "Como funciona MomentBook",
+            metaDescription: "Un flujo tranquilo desde empezar un viaje hasta compartirlo.",
+            title: "Como funciona MomentBook",
+            subtitle: "Un flujo suave guiado por tu viaje.",
+            intro: "MomentBook guarda momentos como viajes sin imponer una rutina.",
+            steps: [
+                {
+                    title: "Empieza con una invitacion suave",
+                    text: "Empieza el viaje de hoy con un toque. Lo demas se reune en silencio.",
+                    image: "/screenshots/start-journey.png",
+                    alt: "Pantalla para empezar el viaje de hoy con una accion principal.",
+                },
+                {
+                    title: "Deja que el dia se ordene",
+                    text: "Tiempo, fotos y lugares se reunen en un resumen claro.",
+                    image: "/screenshots/current-journey.png",
+                    alt: "Estado del viaje con tiempo, fotos, lugares y vista previa del mapa.",
+                },
+                {
+                    title: "Elige y organiza",
+                    text: "Filtra fotos y agrupalas en capitulos a los que quieras volver.",
+                    image: "/screenshots/organize-photos.png",
+                    alt: "Pantalla para organizar fotos con cuadricula y boton de organizar.",
+                },
+                {
+                    title: "Publica solo cuando quieras",
+                    text: "Elige que compartir y publica cuando te parezca bien.",
+                    image: "/screenshots/publish-select.png",
+                    alt: "Pantalla de seleccion de publicacion con fotos elegidas.",
+                },
+            ],
+            details: [
+                {
+                    title: "Que se guarda",
+                    items: ["Fotos", "Notas cortas", "Hora de captura", "Lugares y ruta (si permites ubicacion)"],
+                },
+                {
+                    title: "Como aparece la ruta",
+                    items: [
+                        "Ruta clara cuando el GPS es preciso y abundante",
+                        "Ruta suave cuando el GPS es intermitente",
+                        "Sin ruta cuando no se permite ubicacion",
+                    ],
+                },
+                {
+                    title: "Cuando se vuelve publico",
+                    items: [
+                        "Solo cuando tocas Publicar",
+                        "Se crea una pagina web publica con URL unica",
+                        "Cualquiera con el enlace puede verla y puede indexarse",
+                    ],
+                },
+            ],
+            noPressureTitle: "A tu ritmo",
+            noPressureItems: [
+                "Sin feed, likes ni rankings",
+                "Sin rachas ni metas diarias",
+                "Privado por defecto",
+                "Comparte solo cuando quieras",
+            ],
+        };
+    }
+
+    if (lang === "pt") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "Como o MomentBook funciona",
+            metaDescription: "Um fluxo tranquilo do inicio da jornada ate o compartilhamento.",
+            title: "Como o MomentBook funciona",
+            subtitle: "Um fluxo suave guiado pela sua jornada.",
+            intro: "MomentBook guarda momentos como jornadas sem exigir rotina.",
+            steps: [
+                {
+                    title: "Comece com um convite suave",
+                    text: "Inicie a jornada de hoje com um toque. O resto se organiza em silencio.",
+                    image: "/screenshots/start-journey.png",
+                    alt: "Tela para iniciar a jornada de hoje com uma acao principal.",
+                },
+                {
+                    title: "Deixe o dia se reunir",
+                    text: "Tempo, fotos e lugares se juntam em um resumo claro.",
+                    image: "/screenshots/current-journey.png",
+                    alt: "Status da jornada com tempo, fotos, lugares e mapa.",
+                },
+                {
+                    title: "Escolha e organize",
+                    text: "Filtre fotos e agrupe em capitulos para revisitar depois.",
+                    image: "/screenshots/organize-photos.png",
+                    alt: "Tela de organizacao de fotos com grade e botao de organizar.",
+                },
+                {
+                    title: "Publique quando estiver pronto",
+                    text: "Escolha o que compartilhar e publique quando fizer sentido.",
+                    image: "/screenshots/publish-select.png",
+                    alt: "Tela de selecao de publicacao com fotos escolhidas.",
+                },
+            ],
+            details: [
+                {
+                    title: "O que fica salvo",
+                    items: ["Fotos", "Notas curtas", "Horario da captura", "Lugares e rota (se localizacao for permitida)"],
+                },
+                {
+                    title: "Como a rota aparece",
+                    items: [
+                        "Rota clara quando o GPS e abundante e preciso",
+                        "Rota suave quando o GPS e intermitente",
+                        "Sem rota quando a localizacao nao e permitida",
+                    ],
+                },
+                {
+                    title: "Quando vira publico",
+                    items: [
+                        "Somente ao tocar em Publicar",
+                        "Cria uma pagina web publica com URL unica",
+                        "Quem tiver o link pode ver, e pode ser indexado",
+                    ],
+                },
+            ],
+            noPressureTitle: "Do seu jeito",
+            noPressureItems: [
+                "Sem feed, curtidas ou ranking",
+                "Sem sequencias ou metas diarias",
+                "Privado por padrao",
+                "Compartilhe so quando quiser",
+            ],
+        };
+    }
+
+    if (lang === "fr") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "Comment fonctionne MomentBook",
+            metaDescription: "Un flux calme du debut du voyage jusqu'au partage.",
+            title: "Comment fonctionne MomentBook",
+            subtitle: "Un flux doux guide par votre voyage.",
+            intro: "MomentBook garde les moments comme des voyages sans imposer de routine.",
+            steps: [
+                {
+                    title: "Commencez avec une invitation douce",
+                    text: "Demarrez le voyage du jour en un geste. Le reste se rassemble en silence.",
+                    image: "/screenshots/start-journey.png",
+                    alt: "Ecran pour demarrer le voyage du jour avec une action principale.",
+                },
+                {
+                    title: "Laissez la journee se structurer",
+                    text: "Temps, photos et lieux se rassemblent dans un resume clair.",
+                    image: "/screenshots/current-journey.png",
+                    alt: "Etat du voyage avec temps, photos, lieux et apercu carte.",
+                },
+                {
+                    title: "Choisir et organiser",
+                    text: "Filtrez les photos et regroupez-les en chapitres a revisiter.",
+                    image: "/screenshots/organize-photos.png",
+                    alt: "Ecran d'organisation de photos avec grille et bouton.",
+                },
+                {
+                    title: "Publiez seulement quand vous voulez",
+                    text: "Choisissez ce que vous partagez et publiez au bon moment.",
+                    image: "/screenshots/publish-select.png",
+                    alt: "Ecran de selection de publication avec photos choisies.",
+                },
+            ],
+            details: [
+                {
+                    title: "Ce qui est enregistre",
+                    items: ["Photos", "Notes courtes", "Heure de capture", "Lieux et itineraire (si localisation autorisee)"],
+                },
+                {
+                    title: "Affichage de l'itineraire",
+                    items: [
+                        "Itineraire net quand le GPS est riche et precis",
+                        "Itineraire doux quand le GPS est intermittent",
+                        "Aucun itineraire sans autorisation de localisation",
+                    ],
+                },
+                {
+                    title: "Quand cela devient public",
+                    items: [
+                        "Seulement quand vous appuyez sur Publier",
+                        "Cree une page web publique avec URL unique",
+                        "Toute personne avec le lien peut voir, et cela peut etre indexe",
+                    ],
+                },
+            ],
+            noPressureTitle: "A votre rythme",
+            noPressureItems: [
+                "Pas de feed, de likes ni de classement",
+                "Pas de serie ni d'objectif quotidien",
+                "Prive par defaut",
+                "Partagez seulement quand vous le choisissez",
+            ],
+        };
+    }
+
+    if (lang === "th") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "MomentBook ทํางานอย่างไร",
+            metaDescription: "ขั้นตอนแบบสงบ ตั้งแต่เริ่มทริปจนถึงการแชร์",
+            title: "MomentBook ทํางานอย่างไร",
+            subtitle: "ลำดับที่นุ่มนวลตามจังหวะของทริป",
+            intro: "MomentBook เก็บช่วงเวลาเป็นทริป โดยไม่บังคับให้ทำตามรูทีน",
+            steps: [
+                {
+                    title: "เริ่มด้วยคําเชิญที่อ่อนโยน",
+                    text: "แตะครั้งเดียวเพื่อเริ่มทริปวันนี้ ที่เหลือจะค่อยๆ รวมกันเอง",
+                    image: "/screenshots/start-journey.png",
+                    alt: "หน้าจอเริ่มทริปวันนี้ด้วยปุ่มหลักหนึ่งปุ่ม",
+                },
+                {
+                    title: "ปล่อยให้วันค่อยๆ รวมตัว",
+                    text: "เวลา รูป และสถานที่จะถูกรวมเป็นภาพรวมที่ชัดเจน",
+                    image: "/screenshots/current-journey.png",
+                    alt: "สถานะทริปพร้อมเวลา รูป สถานที่ และแผนที่",
+                },
+                {
+                    title: "เลือกและจัดระเบียบ",
+                    text: "กรองรูปและจัดเป็นบทเล็กๆ ที่อยากย้อนกลับมาดู",
+                    image: "/screenshots/organize-photos.png",
+                    alt: "หน้าจอจัดรูปพร้อมกริดและปุ่มจัดระเบียบ",
+                },
+                {
+                    title: "เผยแพร่เมื่อพร้อมเท่านั้น",
+                    text: "เลือกสิ่งที่จะแชร์ แล้วเผยแพร่เมื่อรู้สึกว่าใช่",
+                    image: "/screenshots/publish-select.png",
+                    alt: "หน้าจอเลือกเผยแพร่พร้อมรูปที่เลือก",
+                },
+            ],
+            details: [
+                {
+                    title: "ข้อมูลที่ถูกบันทึก",
+                    items: ["รูป", "โน้ตสั้น", "เวลาที่บันทึก", "สถานที่และเส้นทาง (เมื่ออนุญาตตำแหน่ง)"],
+                },
+                {
+                    title: "การแสดงเส้นทาง",
+                    items: [
+                        "เส้นทางชัดเจนเมื่อ GPS เพียงพอและแม่นยํา",
+                        "เส้นทางแบบนุ่มนวลเมื่อ GPS ขาดช่วง",
+                        "ไม่มีเส้นทางเมื่อไม่อนุญาตตำแหน่ง",
+                    ],
+                },
+                {
+                    title: "เมื่อใดจึงเป็นสาธารณะ",
+                    items: [
+                        "เมื่อคุณแตะเผยแพร่เท่านั้น",
+                        "จะสร้างหน้าเว็บสาธารณะพร้อม URL เฉพาะ",
+                        "ผู้ที่มีลิงก์สามารถดูได้ และอาจถูกจัดทำดัชนี",
+                    ],
+                },
+            ],
+            noPressureTitle: "ในแบบของคุณ",
+            noPressureItems: [
+                "ไม่มีฟีด ไลก์ หรืออันดับ",
+                "ไม่มีสตรีกหรือเป้าหมายรายวัน",
+                "เป็นส่วนตัวโดยค่าเริ่มต้น",
+                "แชร์เมื่อคุณเลือกเท่านั้น",
+            ],
+        };
+    }
+
+    if (lang === "vi") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "MomentBook hoat dong nhu the nao",
+            metaDescription: "Mot luong nhe nhang tu bat dau hanh trinh den luc chia se.",
+            title: "MomentBook hoat dong nhu the nao",
+            subtitle: "Mot luong nhe nhang duoc dan dat boi hanh trinh cua ban.",
+            intro: "MomentBook giu cac khoanh khac thanh hanh trinh ma khong ep buoc thanh thoi quen.",
+            steps: [
+                {
+                    title: "Bat dau bang loi moi nhe nhang",
+                    text: "Bat dau hanh trinh hom nay bang mot lan cham. Phan con lai se tu lang le tap hop.",
+                    image: "/screenshots/start-journey.png",
+                    alt: "Man hinh bat dau hanh trinh hom nay voi mot hanh dong chinh.",
+                },
+                {
+                    title: "De ngay tu ket noi",
+                    text: "Thoi gian, anh va dia diem duoc tong hop thanh mot ban tom tat ro rang.",
+                    image: "/screenshots/current-journey.png",
+                    alt: "Trang thai hanh trinh voi thoi gian, anh, dia diem va ban do.",
+                },
+                {
+                    title: "Chon va sap xep",
+                    text: "Loc anh va nhom thanh cac chuong nho de quay lai sau.",
+                    image: "/screenshots/organize-photos.png",
+                    alt: "Man hinh sap xep anh voi luoi va nut sap xep.",
+                },
+                {
+                    title: "Chi dang khi san sang",
+                    text: "Chon noi dung can chia se va dang khi ban thay phu hop.",
+                    image: "/screenshots/publish-select.png",
+                    alt: "Man hinh chon dang voi cac anh da chon.",
+                },
+            ],
+            details: [
+                {
+                    title: "Nhung gi duoc luu",
+                    items: ["Anh", "Ghi chu ngan", "Thoi gian chup", "Dia diem va tuyen duong (neu cho phep vi tri)"],
+                },
+                {
+                    title: "Cach hien thi tuyen duong",
+                    items: [
+                        "Tuyen ro rang khi GPS day du va chinh xac",
+                        "Tuyen mem khi GPS bi gian doan",
+                        "Khong co tuyen khi khong cho phep vi tri",
+                    ],
+                },
+                {
+                    title: "Khi nao tro thanh cong khai",
+                    items: [
+                        "Chi khi ban bam Dang",
+                        "Tao mot trang web cong khai co URL rieng",
+                        "Bat ky ai co lien ket deu xem duoc va co the duoc lap chi muc",
+                    ],
+                },
+            ],
+            noPressureTitle: "Theo nhip cua ban",
+            noPressureItems: [
+                "Khong feed, like hay xep hang",
+                "Khong chuoi ngay hay muc tieu hang ngay",
+                "Rieng tu mac dinh",
+                "Chi chia se khi ban chon",
+            ],
+        };
+    }
+
     return howItWorksContent[lang] ?? howItWorksContent.en;
 }
 

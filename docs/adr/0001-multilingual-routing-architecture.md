@@ -4,10 +4,23 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-01-29)
+2025-01-04 (updated: 2026-02-04)
 
 ## Context
-MomentBook web project needs to support multiple languages (English, Korean, Japanese, Chinese) to reach a global audience. The solution must:
+MomentBook web project needs to support multiple languages to reach a global audience.
+
+Current supported route languages:
+- `en` (en-US)
+- `ko` (ko-KR)
+- `ja` (ja-JP)
+- `zh` (zh-CN)
+- `es` (es-ES)
+- `pt` (pt-BR)
+- `fr` (fr-FR)
+- `th` (th-TH)
+- `vi` (vi-VN)
+
+The solution must:
 - Support SEO-friendly URLs with language prefixes (e.g., `/en/about`, `/ko/about`)
 - Generate static pages for all language variants
 - Be maintainable and easy to extend with new languages
@@ -35,13 +48,15 @@ We implemented a custom multilingual routing solution using Next.js dynamic segm
 #### Language Configuration (`/lib/i18n/config.ts`)
 - Centralized language definitions
 - Type-safe language codes using TypeScript
-- Utility functions for language validation
+- Utility functions for language validation, path prefix stripping, locale/hreflang mapping
+- Per-language locale metadata (`locale`, `openGraphLocale`) and store region mapping
 
 #### Dictionary System (`/lib/i18n/dictionaries/`)
 - Separate dictionary file for each language
 - Async loading via `getDictionary(lang)` function
 - TypeScript interface for type safety across all translations
 - Flexible type system allowing localized content while maintaining structure
+- English fallback for locales without dedicated copy yet
 
 #### Route Structure
 - Dynamic segment: `app/[lang]/...`
