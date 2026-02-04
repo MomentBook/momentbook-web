@@ -7,7 +7,6 @@ import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
     fetchPublishedPhoto,
-    type PublishedPhotoApi,
 } from "@/lib/published-journey";
 
 export const revalidate = 3600;
@@ -18,7 +17,6 @@ const photoLabels: Record<
         backToJourney: string;
         takenAt: string;
         location: string;
-        fromJourney: string;
         contextNote: string;
     }
 > = {
@@ -26,7 +24,6 @@ const photoLabels: Record<
         backToJourney: "Back to journey",
         takenAt: "Captured at",
         location: "Place",
-        fromJourney: "From this journey",
         contextNote:
             "This page shows a single photo from a published journey. Anything else stays private unless shared.",
     },
@@ -34,7 +31,6 @@ const photoLabels: Record<
         backToJourney: "여정으로 돌아가기",
         takenAt: "기록 시각",
         location: "장소",
-        fromJourney: "이 여정에서",
         contextNote:
             "이 페이지는 게시된 여정의 사진 한 장만 보여줍니다. 나머지는 공유하기 전까지 공개되지 않습니다.",
     },
@@ -42,7 +38,6 @@ const photoLabels: Record<
         backToJourney: "旅に戻る",
         takenAt: "記録時刻",
         location: "場所",
-        fromJourney: "この旅から",
         contextNote:
             "このページは公開された旅の写真1枚だけを表示します。その他は共有するまで公開されません。",
     },
@@ -50,7 +45,6 @@ const photoLabels: Record<
         backToJourney: "返回行程",
         takenAt: "记录时间",
         location: "地点",
-        fromJourney: "来自该行程",
         contextNote:
             "此页面仅展示已发布行程中的一张照片。其他内容在分享前不会公开。",
     },
@@ -290,17 +284,6 @@ export default async function PhotoPage({
                             </div>
                         )}
 
-                        <div className={styles.detail}>
-                            <span className={styles.detailLabel}>
-                                {labels.fromJourney}
-                            </span>
-                            <Link
-                                href={`/${lang}/journeys/${photo.journey.publicId}`}
-                                className={styles.journeyLink}
-                            >
-                                {photo.journey.title}
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </div>
