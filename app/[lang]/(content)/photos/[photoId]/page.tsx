@@ -56,6 +56,41 @@ const photoLabels: Partial<Record<
         contextNote:
             "此页面仅展示已发布行程中的一张照片。其他内容在分享前不会公开。",
     },
+    es: {
+        backToJourney: "Volver al viaje",
+        takenAt: "Capturado en",
+        location: "Lugar",
+        contextNote:
+            "Esta pagina muestra una sola foto de un viaje publicado. Todo lo demas sigue privado salvo que se comparta.",
+    },
+    pt: {
+        backToJourney: "Voltar para jornada",
+        takenAt: "Registrado em",
+        location: "Local",
+        contextNote:
+            "Esta pagina mostra apenas uma foto de uma jornada publicada. O restante permanece privado ate ser compartilhado.",
+    },
+    fr: {
+        backToJourney: "Retour au voyage",
+        takenAt: "Capture le",
+        location: "Lieu",
+        contextNote:
+            "Cette page affiche une seule photo d'un voyage publie. Le reste reste prive sauf partage.",
+    },
+    th: {
+        backToJourney: "กลับไปที่ทริป",
+        takenAt: "บันทึกเวลา",
+        location: "สถานที่",
+        contextNote:
+            "หน้านี้แสดงเฉพาะรูปเดียวจากทริปที่เผยแพร่ เนื้อหาอื่นยังคงเป็นส่วนตัวจนกว่าจะมีการแชร์",
+    },
+    vi: {
+        backToJourney: "Quay lai hanh trinh",
+        takenAt: "Ghi luc",
+        location: "Dia diem",
+        contextNote:
+            "Trang nay chi hien thi mot anh tu hanh trinh da dang. Phan con lai van rieng tu neu chua chia se.",
+    },
 };
 
 function buildPhotoTitle(lang: Language, journeyTitle: string) {
@@ -69,6 +104,26 @@ function buildPhotoTitle(lang: Language, journeyTitle: string) {
 
     if (lang === "zh") {
         return `${journeyTitle} 的照片`;
+    }
+
+    if (lang === "es") {
+        return `Foto de ${journeyTitle}`;
+    }
+
+    if (lang === "pt") {
+        return `Foto de ${journeyTitle}`;
+    }
+
+    if (lang === "fr") {
+        return `Photo de ${journeyTitle}`;
+    }
+
+    if (lang === "th") {
+        return `รูปจาก ${journeyTitle}`;
+    }
+
+    if (lang === "vi") {
+        return `Anh tu ${journeyTitle}`;
     }
 
     return `Photo from ${journeyTitle}`;
@@ -95,6 +150,36 @@ function buildPhotoDescription(
         return locationName
             ? `在 ${locationName} 拍摄的 ${journeyTitle} 照片。`
             : `${journeyTitle} 中分享的照片。`;
+    }
+
+    if (lang === "es") {
+        return locationName
+            ? `Una foto de ${journeyTitle} tomada en ${locationName}.`
+            : `Una foto compartida de ${journeyTitle}.`;
+    }
+
+    if (lang === "pt") {
+        return locationName
+            ? `Uma foto de ${journeyTitle} tirada em ${locationName}.`
+            : `Uma foto compartilhada de ${journeyTitle}.`;
+    }
+
+    if (lang === "fr") {
+        return locationName
+            ? `Une photo de ${journeyTitle} prise a ${locationName}.`
+            : `Une photo partagee de ${journeyTitle}.`;
+    }
+
+    if (lang === "th") {
+        return locationName
+            ? `รูปจาก ${journeyTitle} ที่ถ่ายที่ ${locationName}`
+            : `รูปที่แชร์จาก ${journeyTitle}`;
+    }
+
+    if (lang === "vi") {
+        return locationName
+            ? `Anh tu ${journeyTitle} chup tai ${locationName}.`
+            : `Anh duoc chia se tu ${journeyTitle}.`;
     }
 
     return locationName

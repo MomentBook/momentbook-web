@@ -606,6 +606,121 @@ const homeContent: Partial<Record<Language, HomeContent>> & { en: HomeContent } 
 };
 
 function getHomeContent(lang: Language): HomeContent {
+  if (lang === "es") {
+    return {
+      ...homeContent.en,
+      metaTitle: "MomentBook — Un diario tranquilo de viajes",
+      metaDescription: "Guarda momentos diarios como viaje con tiempo, lugar y fotos. Comparte solo cuando quieras.",
+      title: "Un diario tranquilo para viajes reales",
+      lead: "Empieza un viaje y deja que el tiempo y el lugar formen la historia.",
+      note: "Privado por defecto. Publicar crea una pagina compartible que controlas.",
+      primaryCta: "Descargar MomentBook",
+      secondaryCta: "Ver como funciona",
+      howTitle: "Como funciona",
+      howLead: "Un flujo tranquilo desde el primer paso hasta un viaje terminado.",
+      featureTitle: "Hecho para registrar en calma",
+      featureLead: "Conserva el ritmo del dia sin convertirlo en rendimiento.",
+      galleryTitle: "Una historia guiada por capturas",
+      galleryLead: "Sigue un viaje desde el primer paso hasta la pagina compartible.",
+      finalTitle: "Empieza tu viaje hoy",
+      finalLead: "MomentBook esta disponible en iOS y Android.",
+      finalCta: "Ir a descarga",
+      finalNote: "La configuracion toma cerca de un minuto.",
+    };
+  }
+
+  if (lang === "pt") {
+    return {
+      ...homeContent.en,
+      metaTitle: "MomentBook — Um diario tranquilo de jornadas",
+      metaDescription: "Guarde momentos do dia como jornada com tempo, lugar e fotos. Compartilhe so quando quiser.",
+      title: "Um diario tranquilo para jornadas reais",
+      lead: "Inicie uma jornada e deixe tempo e lugar reunirem a historia.",
+      note: "Privado por padrao. Publicar cria uma pagina compartilhavel sob seu controle.",
+      primaryCta: "Baixar MomentBook",
+      secondaryCta: "Ver como funciona",
+      howTitle: "Como funciona",
+      howLead: "Um fluxo calmo do primeiro passo ate a jornada pronta.",
+      featureTitle: "Feito para um registro tranquilo",
+      featureLead: "Mantenha o ritmo do dia sem transformar em performance.",
+      galleryTitle: "Uma historia guiada por capturas",
+      galleryLead: "Acompanhe uma jornada do primeiro passo ate a pagina compartilhavel.",
+      finalTitle: "Comece sua jornada hoje",
+      finalLead: "MomentBook esta disponivel em iOS e Android.",
+      finalCta: "Ir para download",
+      finalNote: "A configuracao leva cerca de um minuto.",
+    };
+  }
+
+  if (lang === "fr") {
+    return {
+      ...homeContent.en,
+      metaTitle: "MomentBook — Un journal de voyage calme",
+      metaDescription: "Gardez vos moments quotidiens comme un voyage avec temps, lieux et photos. Partagez seulement si vous le souhaitez.",
+      title: "Un journal calme pour de vrais voyages",
+      lead: "Demarrez un voyage et laissez le temps et le lieu assembler l'histoire.",
+      note: "Prive par defaut. Publier cree une page partageable que vous controlez.",
+      primaryCta: "Telecharger MomentBook",
+      secondaryCta: "Voir le fonctionnement",
+      howTitle: "Comment ca marche",
+      howLead: "Un flux calme du premier ecran au voyage finalise.",
+      featureTitle: "Concu pour un journal calme",
+      featureLead: "Gardez le rythme du jour sans en faire une performance.",
+      galleryTitle: "Une histoire guidee par captures",
+      galleryLead: "Suivez un voyage du premier pas a la page partageable.",
+      finalTitle: "Demarrez votre voyage aujourd'hui",
+      finalLead: "MomentBook est disponible sur iOS et Android.",
+      finalCta: "Aller au telechargement",
+      finalNote: "La configuration prend environ une minute.",
+    };
+  }
+
+  if (lang === "th") {
+    return {
+      ...homeContent.en,
+      metaTitle: "MomentBook — ไดอารี่ทริปแบบสงบ",
+      metaDescription: "เก็บช่วงเวลาในแต่ละวันเป็นทริปด้วยเวลา สถานที่ และรูป แชร์เมื่อคุณพร้อมเท่านั้น",
+      title: "ไดอารี่เงียบๆ สำหรับทริปจริง",
+      lead: "เริ่มทริป แล้วปล่อยให้เวลาและสถานที่ช่วยร้อยเรื่องราว",
+      note: "เป็นส่วนตัวโดยค่าเริ่มต้น การเผยแพร่จะสร้างหน้าที่แชร์ได้และคุณควบคุมได้",
+      primaryCta: "ดาวน์โหลด MomentBook",
+      secondaryCta: "ดูวิธีการทำงาน",
+      howTitle: "วิธีการทำงาน",
+      howLead: "ลำดับการใช้งานที่สงบ ตั้งแต่เริ่มจนจบทริป",
+      featureTitle: "ออกแบบเพื่อการบันทึกอย่างสงบ",
+      featureLead: "เก็บจังหวะของวัน โดยไม่ต้องทำให้เป็นการแข่งขัน",
+      galleryTitle: "เรื่องราวผ่านภาพหน้าจอ",
+      galleryLead: "ตามดูทริปตั้งแต่เริ่มจนถึงหน้าที่แชร์ได้",
+      finalTitle: "เริ่มทริปของคุณวันนี้",
+      finalLead: "MomentBook ใช้งานได้ทั้ง iOS และ Android",
+      finalCta: "ไปหน้าดาวน์โหลด",
+      finalNote: "ตั้งค่าใช้เวลาเพียงประมาณหนึ่งนาที",
+    };
+  }
+
+  if (lang === "vi") {
+    return {
+      ...homeContent.en,
+      metaTitle: "MomentBook — Nhat ky hanh trinh yen tinh",
+      metaDescription: "Luu khoanh khac moi ngay thanh hanh trinh voi thoi gian, dia diem va anh. Chi chia se khi ban muon.",
+      title: "Nhat ky nhe nhang cho hanh trinh that",
+      lead: "Bat dau hanh trinh va de thoi gian, dia diem ket noi cau chuyen.",
+      note: "Rieng tu mac dinh. Dang bai tao trang co the chia se ma ban kiem soat.",
+      primaryCta: "Tai MomentBook",
+      secondaryCta: "Xem cach hoat dong",
+      howTitle: "Cach hoat dong",
+      howLead: "Mot luong nhe nhang tu buoc dau den hanh trinh hoan chinh.",
+      featureTitle: "Thiet ke cho viec ghi lai nhe nhang",
+      featureLead: "Giu nhip mot ngay ma khong bien no thanh ap luc.",
+      galleryTitle: "Cau chuyen qua anh chup man hinh",
+      galleryLead: "Theo doi mot hanh trinh tu buoc dau den trang co the chia se.",
+      finalTitle: "Bat dau hanh trinh hom nay",
+      finalLead: "MomentBook co tren iOS va Android.",
+      finalCta: "Den trang tai xuong",
+      finalNote: "Thiet lap mat khoang mot phut.",
+    };
+  }
+
   return homeContent[lang] ?? homeContent.en;
 }
 

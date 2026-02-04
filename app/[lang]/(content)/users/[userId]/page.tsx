@@ -32,6 +32,26 @@ const userLabels: Partial<Record<Language, { journeys: string; photos: string }>
     journeys: "行程",
     photos: "张照片",
   },
+  es: {
+    journeys: "Viajes",
+    photos: "fotos",
+  },
+  pt: {
+    journeys: "Jornadas",
+    photos: "fotos",
+  },
+  fr: {
+    journeys: "Voyages",
+    photos: "photos",
+  },
+  th: {
+    journeys: "ทริป",
+    photos: "รูป",
+  },
+  vi: {
+    journeys: "Hanh trinh",
+    photos: "anh",
+  },
 };
 
 const userDescriptionTemplates: Partial<Record<Language, string>> & { en: string } = {
@@ -39,6 +59,11 @@ const userDescriptionTemplates: Partial<Record<Language, string>> & { en: string
   ko: "{name}님이 MomentBook에서 공유한 여정입니다.",
   ja: "{name}さんが MomentBook で共有した旅です。",
   zh: "{name} 在 MomentBook 分享的行程。",
+  es: "Viajes compartidos por {name} en MomentBook.",
+  pt: "Jornadas compartilhadas por {name} no MomentBook.",
+  fr: "Voyages partages par {name} sur MomentBook.",
+  th: "ทริปที่ {name} แชร์บน MomentBook",
+  vi: "Cac hanh trinh duoc {name} chia se tren MomentBook.",
 };
 
 export async function generateStaticParams() {

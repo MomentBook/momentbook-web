@@ -27,6 +27,31 @@ export async function generateMetadata({
     description = "了解 MomentBook 的服务条款。";
   }
 
+  if (lang === "es") {
+    title = "Terminos de servicio de MomentBook";
+    description = "Consulta los terminos de uso de MomentBook.";
+  }
+
+  if (lang === "pt") {
+    title = "Termos de uso do MomentBook";
+    description = "Consulte os termos de uso do MomentBook.";
+  }
+
+  if (lang === "fr") {
+    title = "Conditions d'utilisation de MomentBook";
+    description = "Consultez les conditions d'utilisation de MomentBook.";
+  }
+
+  if (lang === "th") {
+    title = "ข้อกำหนดการใช้งาน MomentBook";
+    description = "ดูข้อกำหนดการใช้งานของ MomentBook";
+  }
+
+  if (lang === "vi") {
+    title = "Dieu khoan su dung MomentBook";
+    description = "Xem dieu khoan su dung cua MomentBook.";
+  }
+
   const path = "/terms";
   const url = buildOpenGraphUrl(lang, path);
 

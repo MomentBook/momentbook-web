@@ -63,6 +63,256 @@ function getStoreLinks(lang: Language): StoreLinks {
 }
 
 function getDownloadContent(lang: Language): DownloadContent {
+  if (lang === "es") {
+    return {
+      metaTitle: "Descargar MomentBook",
+      metaDescription: "Usa MomentBook en iOS y Android.",
+      title: "Descargar MomentBook",
+      subtitle: "Un lugar tranquilo para guardar dias que quieres recordar. Disponible para iPhone y Android.",
+      deviceImage: "/device-mocks/home-en.png",
+      deviceAlt: "Pantalla principal de MomentBook en espanol",
+      availability: "Disponible en App Store y Google Play.",
+      storeLabels: {
+        iosLabel: "Descargar en",
+        iosName: "App Store",
+        iosAriaLabel: "Descargar en App Store",
+        androidLabel: "Disponible en",
+        androidName: "Google Play",
+        androidAriaLabel: "Descargar en Google Play",
+      },
+      featuresTitle: "Que ofrece",
+      features: [
+        {
+          title: "Archivo por viajes",
+          text: "Los momentos se agrupan en viajes con inicio y fin.",
+        },
+        {
+          title: "Privado por defecto",
+          text: "Nada es publico hasta que publiques.",
+        },
+        {
+          title: "Compartir por enlace",
+          text: "Publicar crea una pagina web unica para compartir.",
+        },
+      ],
+      requirementsTitle: "Requisitos del sistema",
+      requirements: [
+        {
+          platform: "iOS",
+          details: ["Requiere iOS 16.0 o superior", "Compatible con iPhone y iPad"],
+        },
+        {
+          platform: "Android",
+          details: ["Requiere Android 10.0 o superior", "Compatible con la mayoria de dispositivos Android"],
+        },
+      ],
+      privacyText: "Los viajes son privados por defecto. Publicar crea una pagina publica con URL unica.",
+      supportPrefix: "Necesitas ayuda? ",
+      supportLink: "Ir a soporte",
+      supportSuffix: ".",
+    };
+  }
+
+  if (lang === "pt") {
+    return {
+      metaTitle: "Baixar MomentBook",
+      metaDescription: "Use o MomentBook no iOS e Android.",
+      title: "Baixar MomentBook",
+      subtitle: "Um espaco tranquilo para guardar os dias que voce quer lembrar. Disponivel para iPhone e Android.",
+      deviceImage: "/device-mocks/home-en.png",
+      deviceAlt: "Tela inicial do MomentBook em portugues",
+      availability: "Disponivel na App Store e no Google Play.",
+      storeLabels: {
+        iosLabel: "Baixar na",
+        iosName: "App Store",
+        iosAriaLabel: "Baixar na App Store",
+        androidLabel: "Disponivel no",
+        androidName: "Google Play",
+        androidAriaLabel: "Baixar no Google Play",
+      },
+      featuresTitle: "O que faz",
+      features: [
+        {
+          title: "Arquivo por jornadas",
+          text: "Os momentos se agrupam em jornadas com comeco e fim.",
+        },
+        {
+          title: "Privado por padrao",
+          text: "Nada fica publico ate voce publicar.",
+        },
+        {
+          title: "Compartilhar por link",
+          text: "Publicar cria uma pagina web unica para compartilhar.",
+        },
+      ],
+      requirementsTitle: "Requisitos do sistema",
+      requirements: [
+        {
+          platform: "iOS",
+          details: ["Requer iOS 16.0 ou superior", "Compativel com iPhone e iPad"],
+        },
+        {
+          platform: "Android",
+          details: ["Requer Android 10.0 ou superior", "Compativel com a maioria dos dispositivos Android"],
+        },
+      ],
+      privacyText: "As jornadas sao privadas por padrao. Publicar cria uma pagina publica com URL unica.",
+      supportPrefix: "Precisa de ajuda? ",
+      supportLink: "Ir para suporte",
+      supportSuffix: ".",
+    };
+  }
+
+  if (lang === "fr") {
+    return {
+      metaTitle: "Telecharger MomentBook",
+      metaDescription: "Utilisez MomentBook sur iOS et Android.",
+      title: "Telecharger MomentBook",
+      subtitle: "Un espace calme pour garder les jours dont vous voulez vous souvenir. Disponible sur iPhone et Android.",
+      deviceImage: "/device-mocks/home-en.png",
+      deviceAlt: "Ecran d'accueil MomentBook en francais",
+      availability: "Disponible sur App Store et Google Play.",
+      storeLabels: {
+        iosLabel: "Telecharger sur",
+        iosName: "App Store",
+        iosAriaLabel: "Telecharger sur App Store",
+        androidLabel: "Disponible sur",
+        androidName: "Google Play",
+        androidAriaLabel: "Telecharger sur Google Play",
+      },
+      featuresTitle: "Ce que fait l'app",
+      features: [
+        {
+          title: "Archive par voyage",
+          text: "Les moments se regroupent en voyages avec un debut et une fin.",
+        },
+        {
+          title: "Prive par defaut",
+          text: "Rien n'est public tant que vous ne publiez pas.",
+        },
+        {
+          title: "Partage par lien",
+          text: "Publier cree une page web unique a partager.",
+        },
+      ],
+      requirementsTitle: "Configuration requise",
+      requirements: [
+        {
+          platform: "iOS",
+          details: ["Necessite iOS 16.0 ou plus", "Compatible iPhone et iPad"],
+        },
+        {
+          platform: "Android",
+          details: ["Necessite Android 10.0 ou plus", "Compatible avec la plupart des appareils Android"],
+        },
+      ],
+      privacyText: "Les voyages sont prives par defaut. Publier cree une page publique avec une URL unique.",
+      supportPrefix: "Besoin d'aide ? ",
+      supportLink: "Aller au support",
+      supportSuffix: ".",
+    };
+  }
+
+  if (lang === "th") {
+    return {
+      metaTitle: "ดาวน์โหลด MomentBook",
+      metaDescription: "ใช้ MomentBook ได้บน iOS และ Android",
+      title: "ดาวน์โหลด MomentBook",
+      subtitle: "พื้นที่เงียบๆ สำหรับเก็บวันที่คุณอยากจดจำ ใช้ได้บน iPhone และ Android",
+      deviceImage: "/device-mocks/home-en.png",
+      deviceAlt: "หน้าหลัก MomentBook ภาษาไทย",
+      availability: "ดาวน์โหลดได้จาก App Store และ Google Play",
+      storeLabels: {
+        iosLabel: "ดาวน์โหลดบน",
+        iosName: "App Store",
+        iosAriaLabel: "ดาวน์โหลดจาก App Store",
+        androidLabel: "ดาวน์โหลดบน",
+        androidName: "Google Play",
+        androidAriaLabel: "ดาวน์โหลดจาก Google Play",
+      },
+      featuresTitle: "สิ่งที่แอปทำได้",
+      features: [
+        {
+          title: "เก็บเป็นทริป",
+          text: "ช่วงเวลาจะถูกรวมเป็นทริปที่มีจุดเริ่มและจุดจบ",
+        },
+        {
+          title: "เป็นส่วนตัวโดยค่าเริ่มต้น",
+          text: "จะไม่เปิดเผยจนกว่าคุณจะกดเผยแพร่",
+        },
+        {
+          title: "แชร์ด้วยลิงก์",
+          text: "เมื่อเผยแพร่ จะสร้างหน้าเว็บเฉพาะสำหรับแชร์",
+        },
+      ],
+      requirementsTitle: "ความต้องการของระบบ",
+      requirements: [
+        {
+          platform: "iOS",
+          details: ["ต้องใช้ iOS 16.0 ขึ้นไป", "รองรับ iPhone และ iPad"],
+        },
+        {
+          platform: "Android",
+          details: ["ต้องใช้ Android 10.0 ขึ้นไป", "รองรับอุปกรณ์ Android ส่วนใหญ่"],
+        },
+      ],
+      privacyText: "ทริปเป็นส่วนตัวโดยค่าเริ่มต้น การเผยแพร่จะสร้างหน้าสาธารณะที่มี URL เฉพาะ",
+      supportPrefix: "ต้องการความช่วยเหลือ? ",
+      supportLink: "ไปที่หน้าซัพพอร์ต",
+      supportSuffix: "",
+    };
+  }
+
+  if (lang === "vi") {
+    return {
+      metaTitle: "Tai MomentBook",
+      metaDescription: "Su dung MomentBook tren iOS va Android.",
+      title: "Tai MomentBook",
+      subtitle: "Khong gian nhe nhang de luu lai nhung ngay ban muon ghi nho. Ho tro iPhone va Android.",
+      deviceImage: "/device-mocks/home-en.png",
+      deviceAlt: "Man hinh chinh MomentBook tieng Viet",
+      availability: "Co tren App Store va Google Play.",
+      storeLabels: {
+        iosLabel: "Tai tren",
+        iosName: "App Store",
+        iosAriaLabel: "Tai tren App Store",
+        androidLabel: "Co tren",
+        androidName: "Google Play",
+        androidAriaLabel: "Tai tren Google Play",
+      },
+      featuresTitle: "Nhung gi ung dung lam duoc",
+      features: [
+        {
+          title: "Luu theo hanh trinh",
+          text: "Khoanh khac duoc nhom thanh hanh trinh co diem bat dau va ket thuc.",
+        },
+        {
+          title: "Rieng tu mac dinh",
+          text: "Khong co gi cong khai neu ban chua dang.",
+        },
+        {
+          title: "Chia se bang lien ket",
+          text: "Dang se tao mot trang web rieng de ban chia se.",
+        },
+      ],
+      requirementsTitle: "Yeu cau he thong",
+      requirements: [
+        {
+          platform: "iOS",
+          details: ["Yeu cau iOS 16.0 tro len", "Tuong thich voi iPhone va iPad"],
+        },
+        {
+          platform: "Android",
+          details: ["Yeu cau Android 10.0 tro len", "Tuong thich voi da so thiet bi Android"],
+        },
+      ],
+      privacyText: "Hanh trinh la rieng tu theo mac dinh. Dang bai se tao trang cong khai voi URL rieng.",
+      supportPrefix: "Can ho tro? ",
+      supportLink: "Den trang ho tro",
+      supportSuffix: ".",
+    };
+  }
+
   if (lang === "ko") {
     return {
       metaTitle: "MomentBook 다운로드",

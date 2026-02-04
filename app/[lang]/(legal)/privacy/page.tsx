@@ -27,6 +27,31 @@ export async function generateMetadata({
     description = "了解 MomentBook 的隐私政策。";
   }
 
+  if (lang === "es") {
+    title = "Politica de privacidad de MomentBook";
+    description = "Como maneja MomentBook tus datos.";
+  }
+
+  if (lang === "pt") {
+    title = "Politica de privacidade do MomentBook";
+    description = "Como o MomentBook trata seus dados.";
+  }
+
+  if (lang === "fr") {
+    title = "Politique de confidentialite de MomentBook";
+    description = "Comment MomentBook gere vos donnees.";
+  }
+
+  if (lang === "th") {
+    title = "นโยบายความเป็นส่วนตัวของ MomentBook";
+    description = "MomentBook จัดการข้อมูลของคุณอย่างไร";
+  }
+
+  if (lang === "vi") {
+    title = "Chinh sach quyen rieng tu cua MomentBook";
+    description = "MomentBook xu ly du lieu cua ban nhu the nao.";
+  }
+
   const path = "/privacy";
   const url = buildOpenGraphUrl(lang, path);
 

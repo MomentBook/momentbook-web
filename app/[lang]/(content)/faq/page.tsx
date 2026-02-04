@@ -21,6 +21,121 @@ type FAQContent = {
 };
 
 function getFaqContent(lang: Language): FAQContent {
+  if (lang === "es") {
+    return {
+      metaTitle: "Preguntas sobre MomentBook",
+      metaDescription: "Respuestas tranquilas para entender MomentBook.",
+      pageTitle: "Preguntas sobre MomentBook",
+      pageSubtitle: "Respuestas breves y calmadas sobre como funciona.",
+      calloutPrefix: "Tienes otra pregunta? ",
+      calloutLink: "Contactanos",
+      calloutSuffix: "",
+      items: [
+        { question: "Que es MomentBook?", answer: "Un archivo tranquilo que guarda momentos como viajes." },
+        { question: "Es una red social?", answer: "No. No hay feed, likes ni rankings. Compartir es opcional." },
+        { question: "Que es un viaje?", answer: "Un tramo de tiempo guardado como una sola historia." },
+        { question: "Que se guarda?", answer: "Fotos, notas cortas, hora de captura y lugares/rutas si permites ubicacion." },
+        { question: "Es privado por defecto?", answer: "Si. Los viajes siguen privados hasta que los publiques." },
+        { question: "Que significa Publish?", answer: "Publicar crea una pagina web publica con URL unica para ese viaje." },
+        { question: "Se puede ver sin la app?", answer: "Si. Cualquiera con el enlace puede verlo en la web, y puede indexarse." },
+        { question: "Rastrea mi ubicacion?", answer: "Solo si lo permites. Se usa para ubicar momentos dentro del viaje." },
+        { question: "Que hace la IA?", answer: "Ayuda con titulos, resumenes y nombres de lugares. No crea por ti." },
+      ],
+    };
+  }
+
+  if (lang === "pt") {
+    return {
+      metaTitle: "Perguntas sobre o MomentBook",
+      metaDescription: "Respostas calmas sobre o MomentBook.",
+      pageTitle: "Perguntas sobre o MomentBook",
+      pageSubtitle: "Respostas curtas e tranquilas sobre como funciona.",
+      calloutPrefix: "Ainda com duvidas? ",
+      calloutLink: "Fale conosco",
+      calloutSuffix: "",
+      items: [
+        { question: "O que e o MomentBook?", answer: "Um arquivo tranquilo que guarda momentos como jornadas." },
+        { question: "E uma rede social?", answer: "Nao. Nao ha feed, curtidas ou ranking. Compartilhar e opcional." },
+        { question: "O que e uma jornada?", answer: "Um periodo unico de tempo guardado como uma historia." },
+        { question: "O que e salvo?", answer: "Fotos, notas curtas, horario da captura e lugares/rotas quando a localizacao e permitida." },
+        { question: "E privado por padrao?", answer: "Sim. As jornadas ficam privadas ate voce publicar." },
+        { question: "O que significa Publish?", answer: "Publicar cria uma pagina web publica com URL unica para a jornada." },
+        { question: "Da para ver sem o app?", answer: "Sim. Qualquer pessoa com o link pode ver na web, e pode ser indexado." },
+        { question: "Ele rastreia minha localizacao?", answer: "Somente se voce permitir. A localizacao organiza os momentos da jornada." },
+        { question: "O que a IA faz?", answer: "Ajuda com titulos, resumos e nomes de lugares. Nao cria no seu lugar." },
+      ],
+    };
+  }
+
+  if (lang === "fr") {
+    return {
+      metaTitle: "Questions sur MomentBook",
+      metaDescription: "Des reponses calmes pour comprendre MomentBook.",
+      pageTitle: "Questions sur MomentBook",
+      pageSubtitle: "Des reponses courtes et calmes sur son fonctionnement.",
+      calloutPrefix: "Une autre question ? ",
+      calloutLink: "Nous contacter",
+      calloutSuffix: "",
+      items: [
+        { question: "Qu'est-ce que MomentBook ?", answer: "Une archive calme qui conserve les moments sous forme de voyages." },
+        { question: "Est-ce un reseau social ?", answer: "Non. Pas de fil, de likes ni de classement. Le partage est optionnel." },
+        { question: "Qu'est-ce qu'un voyage ?", answer: "Une periode de temps conservee comme une seule histoire." },
+        { question: "Que sauvegarde l'app ?", answer: "Photos, notes courtes, heure de prise et lieux/itineraires si la localisation est autorisee." },
+        { question: "Est-ce prive par defaut ?", answer: "Oui. Les voyages restent prives tant que vous ne publiez pas." },
+        { question: "Que signifie Publish ?", answer: "Publier cree une page web publique avec une URL unique pour ce voyage." },
+        { question: "Peut-on voir sans l'app ?", answer: "Oui. Toute personne ayant le lien peut voir la page web, qui peut etre indexee." },
+        { question: "L'app suit-elle ma position ?", answer: "Seulement si vous l'autorisez. Elle sert a organiser les moments du voyage." },
+        { question: "Que fait l'IA ?", answer: "Elle aide pour les titres, resumes et noms de lieux. Elle ne cree pas a votre place." },
+      ],
+    };
+  }
+
+  if (lang === "th") {
+    return {
+      metaTitle: "คําถามเกี่ยวกับ MomentBook",
+      metaDescription: "คําตอบแบบเรียบง่ายเพื่อเข้าใจ MomentBook",
+      pageTitle: "คําถามเกี่ยวกับ MomentBook",
+      pageSubtitle: "คําตอบสั้นๆ อย่างสงบว่าแอปทํางานอย่างไร",
+      calloutPrefix: "ยังมีคําถามอยู่ไหม? ",
+      calloutLink: "ติดต่อเรา",
+      calloutSuffix: "",
+      items: [
+        { question: "MomentBook คืออะไร?", answer: "คลังบันทึกแบบเงียบๆ ที่เก็บช่วงเวลาเป็นทริป" },
+        { question: "เป็นโซเชียลเน็ตเวิร์กไหม?", answer: "ไม่ใช่ ไม่มีฟีด ไลก์ หรืออันดับ การแชร์เป็นทางเลือก" },
+        { question: "ทริปคืออะไร?", answer: "ช่วงเวลาหนึ่งที่ถูกรวบรวมเป็นเรื่องเดียว" },
+        { question: "บันทึกอะไรบ้าง?", answer: "รูป เมโมสั้น เวลา และสถานที่/เส้นทางเมื่อคุณอนุญาตตำแหน่ง" },
+        { question: "เป็นส่วนตัวโดยค่าเริ่มต้นไหม?", answer: "ใช่ ทริปจะเป็นส่วนตัวจนกว่าคุณจะเผยแพร่" },
+        { question: "Publish คืออะไร?", answer: "การเผยแพร่จะสร้างหน้าเว็บสาธารณะที่มี URL เฉพาะของทริปนั้น" },
+        { question: "ดูได้โดยไม่ต้องมีแอปไหม?", answer: "ได้ คนที่มีลิงก์ดูผ่านเว็บได้ และอาจถูกจัดทำดัชนีโดยเสิร์ชเอนจิน" },
+        { question: "ติดตามตำแหน่งตลอดไหม?", answer: "เฉพาะเมื่อคุณอนุญาต ใช้เพื่อจัดช่วงเวลาให้อยู่ในทริป" },
+        { question: "AI ทําอะไร?", answer: "ช่วยเรื่องชื่อเรื่อง สรุป และชื่อสถานที่ ไม่ได้สร้างแทนคุณ" },
+      ],
+    };
+  }
+
+  if (lang === "vi") {
+    return {
+      metaTitle: "Cau hoi ve MomentBook",
+      metaDescription: "Cau tra loi nhe nhang de hieu MomentBook.",
+      pageTitle: "Cau hoi ve MomentBook",
+      pageSubtitle: "Cau tra loi ngan gon va binh tinh ve cach ung dung hoat dong.",
+      calloutPrefix: "Ban van con thac mac? ",
+      calloutLink: "Lien he",
+      calloutSuffix: "",
+      items: [
+        { question: "MomentBook la gi?", answer: "Mot kho luu tru nhe nhang giu lai khoanh khac theo hanh trinh." },
+        { question: "Day co phai mang xa hoi?", answer: "Khong. Khong co feed, like hay xep hang. Chia se la tuy chon." },
+        { question: "Hanh trinh la gi?", answer: "Mot khoang thoi gian duoc giu lai thanh mot cau chuyen." },
+        { question: "Ung dung luu gi?", answer: "Anh, ghi chu ngan, thoi gian chup va dia diem/tuyen duong neu ban cho phep vi tri." },
+        { question: "Mac dinh co rieng tu khong?", answer: "Co. Hanh trinh van rieng tu tru khi ban dang." },
+        { question: "Publish co nghia la gi?", answer: "Dang se tao mot trang web cong khai co URL rieng cho hanh trinh do." },
+        { question: "Nguoi khac co xem duoc neu khong co app?", answer: "Co. Bat ky ai co lien ket deu xem duoc tren web, va co the duoc lap chi muc." },
+        { question: "Ung dung co theo doi vi tri lien tuc?", answer: "Chi khi ban cho phep. Vi tri duoc dung de xep khoanh khac vao hanh trinh." },
+        { question: "AI lam gi?", answer: "AI ho tro tieu de, tom tat va ten dia diem. AI khong tao thay ban." },
+      ],
+    };
+  }
+
   if (lang === "ko") {
     return {
       metaTitle: "MomentBook 질문과 답",

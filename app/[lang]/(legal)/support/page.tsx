@@ -31,6 +31,31 @@ export async function generateMetadata({
     description = "了解 MomentBook 的帮助与联系方法。";
   }
 
+  if (lang === "es") {
+    title = "Soporte de MomentBook";
+    description = "Ayuda y contacto para MomentBook.";
+  }
+
+  if (lang === "pt") {
+    title = "Suporte do MomentBook";
+    description = "Ajuda e contato do MomentBook.";
+  }
+
+  if (lang === "fr") {
+    title = "Support MomentBook";
+    description = "Aide et contact pour MomentBook.";
+  }
+
+  if (lang === "th") {
+    title = "ศูนย์ช่วยเหลือ MomentBook";
+    description = "ความช่วยเหลือและช่องทางติดต่อของ MomentBook";
+  }
+
+  if (lang === "vi") {
+    title = "Ho tro MomentBook";
+    description = "Tro giup va lien he cho MomentBook.";
+  }
+
   const path = "/support";
   const url = buildOpenGraphUrl(lang, path);
 
@@ -61,6 +86,11 @@ export default async function SupportPage({
     lang === "ko" ? <KoreanSupport /> :
     lang === "ja" ? <JapaneseSupport /> :
     lang === "zh" ? <ChineseSupport /> :
+    lang === "es" ? <SpanishSupport /> :
+    lang === "pt" ? <PortugueseSupport /> :
+    lang === "fr" ? <FrenchSupport /> :
+    lang === "th" ? <ThaiSupport /> :
+    lang === "vi" ? <VietnameseSupport /> :
     <EnglishSupport />;
 
   return (
@@ -219,6 +249,126 @@ function ChineseSupport() {
         <p className={styles.note}>
           我们通常会在 1-2 个工作日内回复。
         </p>
+      </div>
+    </>
+  );
+}
+
+function SpanishSupport() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Soporte de MomentBook</h1>
+        <p className={styles.subtitle}>Ayuda tranquila cuando la necesites.</p>
+      </header>
+      <div className={styles.textContent}>
+        <h2 className={styles.heading2}>Preguntas frecuentes</h2>
+        <p>
+          Puedes encontrar respuestas rapidas en{" "}
+          <Link href="/es/faq" className={styles.link}>FAQ</Link>.
+        </p>
+        <h2 className={styles.heading2}>Contacto</h2>
+        <p>
+          Para otras dudas o problemas, escribe a{" "}
+          <a href={supportHref} className={styles.link}>{supportEmail}</a>.
+        </p>
+        <p className={styles.note}>Normalmente respondemos en 1-2 dias habiles.</p>
+      </div>
+    </>
+  );
+}
+
+function PortugueseSupport() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Suporte do MomentBook</h1>
+        <p className={styles.subtitle}>Ajuda tranquila quando voce precisar.</p>
+      </header>
+      <div className={styles.textContent}>
+        <h2 className={styles.heading2}>Perguntas frequentes</h2>
+        <p>
+          Voce pode encontrar respostas rapidas no{" "}
+          <Link href="/pt/faq" className={styles.link}>FAQ</Link>.
+        </p>
+        <h2 className={styles.heading2}>Contato</h2>
+        <p>
+          Para outras duvidas ou problemas, fale com{" "}
+          <a href={supportHref} className={styles.link}>{supportEmail}</a>.
+        </p>
+        <p className={styles.note}>Normalmente respondemos em 1-2 dias uteis.</p>
+      </div>
+    </>
+  );
+}
+
+function FrenchSupport() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Support MomentBook</h1>
+        <p className={styles.subtitle}>Une aide calme, quand vous en avez besoin.</p>
+      </header>
+      <div className={styles.textContent}>
+        <h2 className={styles.heading2}>Questions frequentes</h2>
+        <p>
+          Vous pouvez trouver une reponse rapide dans la{" "}
+          <Link href="/fr/faq" className={styles.link}>FAQ</Link>.
+        </p>
+        <h2 className={styles.heading2}>Contact</h2>
+        <p>
+          Pour toute autre question, contactez{" "}
+          <a href={supportHref} className={styles.link}>{supportEmail}</a>.
+        </p>
+        <p className={styles.note}>Nous repondons en general sous 1 a 2 jours ouvres.</p>
+      </div>
+    </>
+  );
+}
+
+function ThaiSupport() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>ศูนย์ช่วยเหลือ MomentBook</h1>
+        <p className={styles.subtitle}>ช่วยเหลืออย่างเรียบง่ายเมื่อคุณต้องการ</p>
+      </header>
+      <div className={styles.textContent}>
+        <h2 className={styles.heading2}>คําถามที่พบบ่อย</h2>
+        <p>
+          คุณอาจพบคําตอบได้จาก{" "}
+          <Link href="/th/faq" className={styles.link}>FAQ</Link>
+        </p>
+        <h2 className={styles.heading2}>ติดต่อ</h2>
+        <p>
+          หากมีปัญหาหรือคําถามเพิ่มเติม ติดต่อ{" "}
+          <a href={supportHref} className={styles.link}>{supportEmail}</a>
+        </p>
+        <p className={styles.note}>โดยปกติเราจะตอบกลับภายใน 1-2 วันทําการ</p>
+      </div>
+    </>
+  );
+}
+
+function VietnameseSupport() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Ho tro MomentBook</h1>
+        <p className={styles.subtitle}>Tro giup nhe nhang bat cu khi nao ban can.</p>
+      </header>
+      <div className={styles.textContent}>
+        <h2 className={styles.heading2}>Cau hoi thuong gap</h2>
+        <p>
+          Ban co the tim thay cau tra loi nhanh trong{" "}
+          <Link href="/vi/faq" className={styles.link}>FAQ</Link>.
+        </p>
+        <h2 className={styles.heading2}>Lien he</h2>
+        <p>
+          Voi cac cau hoi hoac su co khac, vui long lien he{" "}
+          <a href={supportHref} className={styles.link}>{supportEmail}</a>.
+        </p>
+        <p className={styles.note}>Thong thuong chung toi phan hoi trong 1-2 ngay lam viec.</p>
       </div>
     </>
   );

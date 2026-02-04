@@ -317,6 +317,61 @@ const howItWorksContent: Partial<Record<Language, HowItWorksContent>> & { en: Ho
 };
 
 function getHowItWorksContent(lang: Language): HowItWorksContent {
+    if (lang === "es") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "Como funciona MomentBook",
+            metaDescription: "Un flujo tranquilo desde empezar un viaje hasta compartirlo.",
+            title: "Como funciona MomentBook",
+            subtitle: "Un flujo suave guiado por tu viaje.",
+            intro: "MomentBook guarda momentos como viajes sin imponer una rutina.",
+        };
+    }
+
+    if (lang === "pt") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "Como o MomentBook funciona",
+            metaDescription: "Um fluxo tranquilo do inicio da jornada ate o compartilhamento.",
+            title: "Como o MomentBook funciona",
+            subtitle: "Um fluxo suave guiado pela sua jornada.",
+            intro: "MomentBook guarda momentos como jornadas sem exigir rotina.",
+        };
+    }
+
+    if (lang === "fr") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "Comment fonctionne MomentBook",
+            metaDescription: "Un flux calme du debut du voyage jusqu'au partage.",
+            title: "Comment fonctionne MomentBook",
+            subtitle: "Un flux doux guide par votre voyage.",
+            intro: "MomentBook garde les moments comme des voyages sans imposer de routine.",
+        };
+    }
+
+    if (lang === "th") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "MomentBook ทํางานอย่างไร",
+            metaDescription: "ขั้นตอนแบบสงบ ตั้งแต่เริ่มทริปจนถึงการแชร์",
+            title: "MomentBook ทํางานอย่างไร",
+            subtitle: "ลำดับที่นุ่มนวลตามจังหวะของทริป",
+            intro: "MomentBook เก็บช่วงเวลาเป็นทริป โดยไม่บังคับให้ทำตามรูทีน",
+        };
+    }
+
+    if (lang === "vi") {
+        return {
+            ...howItWorksContent.en,
+            metaTitle: "MomentBook hoat dong nhu the nao",
+            metaDescription: "Mot luong nhe nhang tu bat dau hanh trinh den luc chia se.",
+            title: "MomentBook hoat dong nhu the nao",
+            subtitle: "Mot luong nhe nhang duoc dan dat boi hanh trinh cua ban.",
+            intro: "MomentBook giu cac khoanh khac thanh hanh trinh ma khong ep buoc thanh thoi quen.",
+        };
+    }
+
     return howItWorksContent[lang] ?? howItWorksContent.en;
 }
 

@@ -27,6 +27,31 @@ export async function generateMetadata({
     description = "MomentBook 的社区指南与内容政策。";
   }
 
+  if (lang === "es") {
+    title = "Normas de la comunidad de MomentBook";
+    description = "Normas de comunidad y politica de contenido de MomentBook.";
+  }
+
+  if (lang === "pt") {
+    title = "Diretrizes da comunidade do MomentBook";
+    description = "Diretrizes da comunidade e politica de conteudo do MomentBook.";
+  }
+
+  if (lang === "fr") {
+    title = "Regles de la communaute MomentBook";
+    description = "Regles de communaute et politique de contenu de MomentBook.";
+  }
+
+  if (lang === "th") {
+    title = "แนวทางชุมชนของ MomentBook";
+    description = "แนวทางชุมชนและนโยบายเนื้อหาของ MomentBook";
+  }
+
+  if (lang === "vi") {
+    title = "Huong dan cong dong MomentBook";
+    description = "Huong dan cong dong va chinh sach noi dung cua MomentBook.";
+  }
+
   const path = "/community-guidelines";
   const url = buildOpenGraphUrl(lang, path);
 

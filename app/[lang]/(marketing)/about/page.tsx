@@ -197,6 +197,61 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
 };
 
 function getAboutContent(lang: Language): AboutContent {
+  if (lang === "es") {
+    return {
+      ...aboutContent.en,
+      metaTitle: "Acerca de MomentBook",
+      metaDescription: "Un archivo tranquilo para viajes y personas a quienes les encaja.",
+      title: "Acerca de MomentBook",
+      subtitle: "Una forma tranquila de guardar viajes.",
+      lead: "MomentBook reune momentos en viajes. Tiempo, lugar y fotos permanecen juntos sin convertirse en feed.",
+    };
+  }
+
+  if (lang === "pt") {
+    return {
+      ...aboutContent.en,
+      metaTitle: "Sobre o MomentBook",
+      metaDescription: "Um arquivo tranquilo para jornadas e pessoas que combinam com essa ideia.",
+      title: "Sobre o MomentBook",
+      subtitle: "Uma forma tranquila de guardar jornadas.",
+      lead: "MomentBook reune momentos em jornadas. Tempo, lugar e fotos ficam juntos sem virar um feed.",
+    };
+  }
+
+  if (lang === "fr") {
+    return {
+      ...aboutContent.en,
+      metaTitle: "A propos de MomentBook",
+      metaDescription: "Une archive calme pour les voyages et les personnes a qui cela correspond.",
+      title: "A propos de MomentBook",
+      subtitle: "Une facon calme de conserver ses voyages.",
+      lead: "MomentBook rassemble les moments en voyages. Temps, lieux et photos restent ensemble sans devenir un feed.",
+    };
+  }
+
+  if (lang === "th") {
+    return {
+      ...aboutContent.en,
+      metaTitle: "เกี่ยวกับ MomentBook",
+      metaDescription: "พื้นที่เก็บบันทึกแบบสงบสำหรับทริปและผู้ที่เหมาะกับแนวทางนี้",
+      title: "เกี่ยวกับ MomentBook",
+      subtitle: "วิธีเก็บทริปอย่างเงียบสงบ",
+      lead: "MomentBook รวมช่วงเวลาเป็นทริป เวลา สถานที่ และรูปจะอยู่ด้วยกันโดยไม่กลายเป็นฟีด",
+    };
+  }
+
+  if (lang === "vi") {
+    return {
+      ...aboutContent.en,
+      metaTitle: "Ve MomentBook",
+      metaDescription: "Kho luu tru nhe nhang cho hanh trinh va nhung nguoi phu hop voi no.",
+      title: "Ve MomentBook",
+      subtitle: "Mot cach nhe nhang de giu lai hanh trinh.",
+      lead: "MomentBook gom cac khoanh khac thanh hanh trinh. Thoi gian, dia diem va anh di cung nhau ma khong tro thanh feed.",
+    };
+  }
+
   return aboutContent[lang] ?? aboutContent.en;
 }
 
