@@ -205,6 +205,40 @@ function getAboutContent(lang: Language): AboutContent {
       title: "Acerca de MomentBook",
       subtitle: "Una forma tranquila de guardar viajes.",
       lead: "MomentBook reune momentos en viajes. Tiempo, lugar y fotos permanecen juntos sin convertirse en feed.",
+      missionTitle: "Por que existe",
+      missionParagraphs: [
+        "Los momentos se dispersan entre camara, mapas y mensajes, y el contexto se pierde.",
+        "MomentBook guarda el flujo de un dia en un solo lugar para volver sin rendir para otros.",
+      ],
+      principlesTitle: "Principios",
+      principles: [
+        "Estructura centrada en viajes",
+        "Privado por defecto",
+        "Compartir en calma por enlace",
+        "IA como ayuda, no como autora",
+      ],
+      sections: [
+        {
+          heading: "Para quien es",
+          paragraphs: [
+            "Para quienes quieren recordar viajes o dias sin un feed publico.",
+            "Para quien prefiere fotos y notas cortas a escribir largo.",
+          ],
+        },
+        {
+          heading: "Para quien no es",
+          paragraphs: [
+            "Si buscas descubrimiento social, rankings o seguimiento de habitos, puede no encajar.",
+          ],
+        },
+      ],
+      privacyTitle: "Publicacion y visibilidad",
+      privacyParagraphs: [
+        "Los viajes son privados por defecto.",
+        "Publicar crea una pagina web publica con URL unica y puede indexarse en buscadores.",
+      ],
+      closingTitle: "Calma por diseno",
+      closingParagraph: "Si buscas un archivo tranquilo para tus viajes, MomentBook fue hecho para eso.",
     };
   }
 
@@ -216,6 +250,40 @@ function getAboutContent(lang: Language): AboutContent {
       title: "Sobre o MomentBook",
       subtitle: "Uma forma tranquila de guardar jornadas.",
       lead: "MomentBook reune momentos em jornadas. Tempo, lugar e fotos ficam juntos sem virar um feed.",
+      missionTitle: "Por que existe",
+      missionParagraphs: [
+        "Momentos se espalham entre camera, mapas e mensagens, e o contexto desaparece.",
+        "MomentBook guarda o fluxo de um dia em um so lugar para voce voltar sem performar.",
+      ],
+      principlesTitle: "Principios",
+      principles: [
+        "Estrutura centrada em jornadas",
+        "Privado por padrao",
+        "Compartilhamento discreto por link",
+        "IA como apoio, nao como autora",
+      ],
+      sections: [
+        {
+          heading: "Para quem e",
+          paragraphs: [
+            "Para quem quer lembrar viagens ou dias sem feed publico.",
+            "Para quem prefere notas curtas e fotos em vez de textos longos.",
+          ],
+        },
+        {
+          heading: "Para quem nao e",
+          paragraphs: [
+            "Se voce busca descoberta social, ranking ou rastreio de habitos, talvez nao seja o ideal.",
+          ],
+        },
+      ],
+      privacyTitle: "Publicacao e visibilidade",
+      privacyParagraphs: [
+        "As jornadas sao privadas por padrao.",
+        "Publicar cria uma pagina publica com URL unica, que pode ser indexada por buscadores.",
+      ],
+      closingTitle: "Calmo por design",
+      closingParagraph: "Se voce quer um arquivo calmo para suas jornadas, o MomentBook foi feito para isso.",
     };
   }
 
@@ -227,6 +295,40 @@ function getAboutContent(lang: Language): AboutContent {
       title: "A propos de MomentBook",
       subtitle: "Une facon calme de conserver ses voyages.",
       lead: "MomentBook rassemble les moments en voyages. Temps, lieux et photos restent ensemble sans devenir un feed.",
+      missionTitle: "Pourquoi il existe",
+      missionParagraphs: [
+        "Les moments se dispersent entre appareil photo, cartes et messages, et le contexte s'efface.",
+        "MomentBook garde le fil d'une journee en un seul endroit pour y revenir sans se mettre en scene.",
+      ],
+      principlesTitle: "Principes",
+      principles: [
+        "Structure centree sur le voyage",
+        "Prive par defaut",
+        "Partage discret par lien",
+        "IA comme aide, pas comme autrice",
+      ],
+      sections: [
+        {
+          heading: "Pour qui c'est fait",
+          paragraphs: [
+            "Pour celles et ceux qui veulent se souvenir de voyages ou de jours sans feed public.",
+            "Pour celles et ceux qui preferent photos et notes courtes aux longs textes.",
+          ],
+        },
+        {
+          heading: "Pour qui ce n'est pas fait",
+          paragraphs: [
+            "Si vous cherchez decouverte sociale, classement ou suivi d'habitudes, ce n'est peut-etre pas adapte.",
+          ],
+        },
+      ],
+      privacyTitle: "Publication et visibilite",
+      privacyParagraphs: [
+        "Les voyages sont prives par defaut.",
+        "Publier cree une page web publique avec URL unique, potentiellement indexee.",
+      ],
+      closingTitle: "Calme par conception",
+      closingParagraph: "Si vous cherchez une archive calme pour vos voyages, MomentBook est fait pour cela.",
     };
   }
 
@@ -238,6 +340,40 @@ function getAboutContent(lang: Language): AboutContent {
       title: "เกี่ยวกับ MomentBook",
       subtitle: "วิธีเก็บทริปอย่างเงียบสงบ",
       lead: "MomentBook รวมช่วงเวลาเป็นทริป เวลา สถานที่ และรูปจะอยู่ด้วยกันโดยไม่กลายเป็นฟีด",
+      missionTitle: "ทําไมแอปนี้จึงมีอยู่",
+      missionParagraphs: [
+        "ช่วงเวลามักกระจัดกระจายอยู่ตามกล้อง แผนที่ และข้อความ จนบริบทหายไป",
+        "MomentBook เก็บลําดับของวันไว้ในที่เดียว เพื่อให้คุณกลับมาดูได้โดยไม่ต้องแสดงตัว",
+      ],
+      principlesTitle: "หลักการ",
+      principles: [
+        "โครงสร้างแบบทริปเป็นหลัก",
+        "เป็นส่วนตัวโดยค่าเริ่มต้น",
+        "แชร์อย่างเงียบด้วยลิงก์",
+        "AI เป็นผู้ช่วย ไม่ใช่ผู้เขียนแทน",
+      ],
+      sections: [
+        {
+          heading: "เหมาะกับใคร",
+          paragraphs: [
+            "คนที่อยากจดจําทริปหรือวันธรรมดาโดยไม่ต้องมีฟีดสาธารณะ",
+            "คนที่ชอบโน้ตสั้นๆ และรูปมากกว่าการเขียนยาว",
+          ],
+        },
+        {
+          heading: "อาจไม่เหมาะกับใคร",
+          paragraphs: [
+            "หากต้องการการค้นพบแบบโซเชียล การจัดอันดับ หรือการติดตามนิสัย แอปนี้อาจไม่ตอบโจทย์",
+          ],
+        },
+      ],
+      privacyTitle: "การเผยแพร่และการมองเห็น",
+      privacyParagraphs: [
+        "ทริปเป็นส่วนตัวโดยค่าเริ่มต้น",
+        "เมื่อเผยแพร่จะสร้างหน้าเว็บสาธารณะพร้อม URL เฉพาะ และอาจถูกจัดทำดัชนีโดยเสิร์ชเอนจิน",
+      ],
+      closingTitle: "สงบโดยตั้งใจ",
+      closingParagraph: "ถ้าคุณต้องการคลังบันทึกที่สงบสําหรับทริป MomentBook ถูกสร้างมาเพื่อสิ่งนั้น",
     };
   }
 
@@ -249,6 +385,40 @@ function getAboutContent(lang: Language): AboutContent {
       title: "Ve MomentBook",
       subtitle: "Mot cach nhe nhang de giu lai hanh trinh.",
       lead: "MomentBook gom cac khoanh khac thanh hanh trinh. Thoi gian, dia diem va anh di cung nhau ma khong tro thanh feed.",
+      missionTitle: "Vi sao no ton tai",
+      missionParagraphs: [
+        "Khoanh khac thuong tan man giua may anh, ban do va tin nhan, roi mat di boi canh.",
+        "MomentBook giu nhiep chay cua mot ngay trong cung mot noi de ban quay lai ma khong can the hien.",
+      ],
+      principlesTitle: "Nguyen tac",
+      principles: [
+        "Cau truc theo hanh trinh",
+        "Rieng tu mac dinh",
+        "Chia se nhe nhang bang lien ket",
+        "AI la tro ly, khong phai tac gia",
+      ],
+      sections: [
+        {
+          heading: "Danh cho ai",
+          paragraphs: [
+            "Nguoi muon nho lai chuyen di hoac nhung ngay thuong ma khong can feed cong khai.",
+            "Nguoi thich ghi chu ngan va anh hon viet dai.",
+          ],
+        },
+        {
+          heading: "Khong danh cho ai",
+          paragraphs: [
+            "Neu ban can kham pha xa hoi, bang xep hang hoac theo doi thoi quen, co the no khong phu hop.",
+          ],
+        },
+      ],
+      privacyTitle: "Dang bai va kha nang hien thi",
+      privacyParagraphs: [
+        "Hanh trinh la rieng tu theo mac dinh.",
+        "Dang bai tao trang web cong khai voi URL rieng va co the duoc cong cu tim kiem lap chi muc.",
+      ],
+      closingTitle: "Tinh lang theo chu dich",
+      closingParagraph: "Neu ban can mot kho luu tru nhe nhang cho hanh trinh, MomentBook duoc tao ra cho dieu do.",
     };
   }
 

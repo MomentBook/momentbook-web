@@ -607,6 +607,32 @@ const homeContent: Partial<Record<Language, HomeContent>> & { en: HomeContent } 
 
 function getHomeContent(lang: Language): HomeContent {
   if (lang === "es") {
+    const howSteps = [
+      { title: "Empieza el viaje", text: "Una invitacion simple para comenzar el dia, sin preparacion." },
+      { title: "Registro automatico", text: "MomentBook registra tiempo, fotos y lugares mientras te mueves." },
+      { title: "Reune tus fotos", text: "Filtra por dia u hora y elige los momentos que quieres guardar." },
+      { title: "Organiza en capitulos", text: "Agrupa fotos en capitulos significativos y ajustalos si hace falta." },
+      { title: "Revisa la linea de tiempo", text: "Mira secciones por lugar con mapas y fotos en orden." },
+      { title: "Publica cuando quieras", text: "Elige que compartir y conserva la opcion de despublicar." },
+    ];
+    const features = [
+      { title: "Inicia un viaje", text: "Empieza con una invitacion tranquila para el ritmo del dia." },
+      { title: "Contexto automatico", text: "Tiempo y lugar se registran en segundo plano si permites ubicacion." },
+      { title: "Seleccion de fotos", text: "Elige las fotos adecuadas con filtros sencillos." },
+      { title: "Grupos con sentido", text: "Organiza fotos en pequenos capitulos para volver luego." },
+      { title: "Vista de linea de tiempo", text: "Revisa el flujo del viaje con mapas y fotos en orden." },
+      { title: "Publicar en tus terminos", text: "Comparte solo cuando quieras y despublica en cualquier momento." },
+    ];
+    const galleryItems = [
+      { title: "Listo para empezar", text: "Una invitacion suave para comenzar el viaje de hoy." },
+      { title: "Viaje actual", text: "Estado en vivo con tiempo, fotos, lugares y mapa." },
+      { title: "Selector de fotos", text: "Explora por dia u hora y elige que guardar." },
+      { title: "Organizar el conjunto", text: "Reune muchas fotos y organiza para dar forma a la historia." },
+      { title: "Organizacion del usuario", text: "Los grupos muestran marcas de tiempo y coordenadas." },
+      { title: "Linea de tiempo", text: "Lugar, mapa y fotos se unen en un solo flujo." },
+      { title: "Elegir que publicar", text: "Selecciona las fotos que aparecerán en la pagina publica." },
+      { title: "Resumen publicado", text: "Un resumen claro con opciones de compartir o despublicar." },
+    ];
     return {
       ...homeContent.en,
       metaTitle: "MomentBook — Un diario tranquilo de viajes",
@@ -618,10 +644,22 @@ function getHomeContent(lang: Language): HomeContent {
       secondaryCta: "Ver como funciona",
       howTitle: "Como funciona",
       howLead: "Un flujo tranquilo desde el primer paso hasta un viaje terminado.",
+      howSteps: homeContent.en.howSteps.map((step, i) => ({
+        ...step,
+        ...howSteps[i],
+      })),
       featureTitle: "Hecho para registrar en calma",
       featureLead: "Conserva el ritmo del dia sin convertirlo en rendimiento.",
+      features: homeContent.en.features.map((feature, i) => ({
+        ...feature,
+        ...features[i],
+      })),
       galleryTitle: "Una historia guiada por capturas",
       galleryLead: "Sigue un viaje desde el primer paso hasta la pagina compartible.",
+      galleryItems: homeContent.en.galleryItems.map((item, i) => ({
+        ...item,
+        ...galleryItems[i],
+      })),
       finalTitle: "Empieza tu viaje hoy",
       finalLead: "MomentBook esta disponible en iOS y Android.",
       finalCta: "Ir a descarga",
@@ -630,6 +668,32 @@ function getHomeContent(lang: Language): HomeContent {
   }
 
   if (lang === "pt") {
+    const howSteps = [
+      { title: "Comece a jornada", text: "Um convite simples para iniciar o dia, sem preparacao." },
+      { title: "Registro automatico", text: "MomentBook registra tempo, fotos e lugares enquanto voce se move." },
+      { title: "Reuna suas fotos", text: "Filtre por dia ou hora e escolha os momentos que quer guardar." },
+      { title: "Organize em capitulos", text: "Agrupe fotos em capitulos com significado e ajuste quando quiser." },
+      { title: "Revise a linha do tempo", text: "Veja lugares com mapas e fotos em ordem." },
+      { title: "Publique quando quiser", text: "Escolha o que compartilhar e mantenha a opcao de despublicar." },
+    ];
+    const features = [
+      { title: "Inicie uma jornada", text: "Comece com um convite calmo para o ritmo do dia." },
+      { title: "Contexto automatico", text: "Tempo e lugar se registram em segundo plano se localizacao for permitida." },
+      { title: "Selecao de fotos", text: "Escolha as fotos certas com filtros simples." },
+      { title: "Grupos com sentido", text: "Organize fotos em pequenos capitulos para revisitar depois." },
+      { title: "Linha do tempo", text: "Veja o fluxo da jornada com mapas e fotos em ordem." },
+      { title: "Publicar no seu ritmo", text: "Compartilhe so quando quiser e despublique a qualquer momento." },
+    ];
+    const galleryItems = [
+      { title: "Pronto para comecar", text: "Um convite suave para iniciar a jornada de hoje." },
+      { title: "Jornada atual", text: "Status ao vivo com tempo, fotos, lugares e mapa." },
+      { title: "Seletor de fotos", text: "Navegue por dia ou hora para escolher o que guardar." },
+      { title: "Organizar conjunto", text: "Reuna muitas fotos e organize para formar a historia." },
+      { title: "Organizacao do usuario", text: "Grupos de fotos com horario e coordenadas." },
+      { title: "Linha da jornada", text: "Lugar, mapa e fotos em um unico fluxo." },
+      { title: "Escolher o que publicar", text: "Selecione as fotos que aparecerao na pagina publica." },
+      { title: "Resumo publicado", text: "Resumo claro com controles de compartilhar e despublicar." },
+    ];
     return {
       ...homeContent.en,
       metaTitle: "MomentBook — Um diario tranquilo de jornadas",
@@ -641,10 +705,22 @@ function getHomeContent(lang: Language): HomeContent {
       secondaryCta: "Ver como funciona",
       howTitle: "Como funciona",
       howLead: "Um fluxo calmo do primeiro passo ate a jornada pronta.",
+      howSteps: homeContent.en.howSteps.map((step, i) => ({
+        ...step,
+        ...howSteps[i],
+      })),
       featureTitle: "Feito para um registro tranquilo",
       featureLead: "Mantenha o ritmo do dia sem transformar em performance.",
+      features: homeContent.en.features.map((feature, i) => ({
+        ...feature,
+        ...features[i],
+      })),
       galleryTitle: "Uma historia guiada por capturas",
       galleryLead: "Acompanhe uma jornada do primeiro passo ate a pagina compartilhavel.",
+      galleryItems: homeContent.en.galleryItems.map((item, i) => ({
+        ...item,
+        ...galleryItems[i],
+      })),
       finalTitle: "Comece sua jornada hoje",
       finalLead: "MomentBook esta disponivel em iOS e Android.",
       finalCta: "Ir para download",
@@ -653,6 +729,32 @@ function getHomeContent(lang: Language): HomeContent {
   }
 
   if (lang === "fr") {
+    const howSteps = [
+      { title: "Demarrer le voyage", text: "Une invitation simple pour commencer la journee, sans preparation." },
+      { title: "Enregistrement automatique", text: "MomentBook enregistre temps, photos et lieux pendant vos deplacements." },
+      { title: "Rassembler vos photos", text: "Filtrez par jour ou heure et choisissez les moments a garder." },
+      { title: "Organiser en chapitres", text: "Regroupez les photos en chapitres significatifs puis ajustez." },
+      { title: "Verifier la timeline", text: "Consultez les sections par lieu avec cartes et photos dans l'ordre." },
+      { title: "Publier seulement quand voulu", text: "Choisissez quoi partager et gardez l'option de depublier." },
+    ];
+    const features = [
+      { title: "Demarrer un voyage", text: "Commencez avec une invitation calme qui donne le ton du jour." },
+      { title: "Contexte automatique", text: "Temps et lieux se collectent en arriere-plan si la localisation est autorisee." },
+      { title: "Selection de photos", text: "Choisissez les bonnes photos avec des filtres simples." },
+      { title: "Groupes utiles", text: "Organisez les photos en petits chapitres faciles a revisiter." },
+      { title: "Vue timeline", text: "Suivez le flux du voyage avec cartes et photos en ordre." },
+      { title: "Publication a votre rythme", text: "Partagez seulement quand vous le voulez et depubliez quand necessaire." },
+    ];
+    const galleryItems = [
+      { title: "Pret a commencer", text: "Une invitation douce pour commencer le voyage d'aujourd'hui." },
+      { title: "Voyage en cours", text: "Etat en direct avec temps, photos, lieux et apercu carte." },
+      { title: "Selection des photos", text: "Parcourez par jour ou heure pour choisir ce que vous gardez." },
+      { title: "Organiser l'ensemble", text: "Rassemblez de nombreuses photos puis structurez l'histoire." },
+      { title: "Organisation utilisateur", text: "Les groupes affichent horodatage et coordonnees." },
+      { title: "Timeline du voyage", text: "Lieux, cartes et photos se lisent dans un meme flux." },
+      { title: "Choisir quoi publier", text: "Selectionnez les photos qui apparaitront sur la page publique." },
+      { title: "Resume publie", text: "Un resume clair avec partage et option de depubliage." },
+    ];
     return {
       ...homeContent.en,
       metaTitle: "MomentBook — Un journal de voyage calme",
@@ -664,10 +766,22 @@ function getHomeContent(lang: Language): HomeContent {
       secondaryCta: "Voir le fonctionnement",
       howTitle: "Comment ca marche",
       howLead: "Un flux calme du premier ecran au voyage finalise.",
+      howSteps: homeContent.en.howSteps.map((step, i) => ({
+        ...step,
+        ...howSteps[i],
+      })),
       featureTitle: "Concu pour un journal calme",
       featureLead: "Gardez le rythme du jour sans en faire une performance.",
+      features: homeContent.en.features.map((feature, i) => ({
+        ...feature,
+        ...features[i],
+      })),
       galleryTitle: "Une histoire guidee par captures",
       galleryLead: "Suivez un voyage du premier pas a la page partageable.",
+      galleryItems: homeContent.en.galleryItems.map((item, i) => ({
+        ...item,
+        ...galleryItems[i],
+      })),
       finalTitle: "Demarrez votre voyage aujourd'hui",
       finalLead: "MomentBook est disponible sur iOS et Android.",
       finalCta: "Aller au telechargement",
@@ -676,6 +790,32 @@ function getHomeContent(lang: Language): HomeContent {
   }
 
   if (lang === "th") {
+    const howSteps = [
+      { title: "เริ่มทริป", text: "เริ่มวันด้วยคําเชิญที่เรียบง่าย โดยไม่ต้องตั้งค่าให้ยุ่งยาก" },
+      { title: "บันทึกอัตโนมัติ", text: "MomentBook บันทึกเวลา รูป และสถานที่ขณะคุณเคลื่อนที่" },
+      { title: "รวบรวมรูป", text: "กรองตามวันหรือเวลา แล้วเลือกรูปที่อยากเก็บไว้" },
+      { title: "จัดเป็นบท", text: "จัดกลุ่มรูปเป็นบทเล็กๆ ที่มีความหมาย และปรับได้ภายหลัง" },
+      { title: "ดูไทม์ไลน์", text: "ดูสถานที่ แผนที่ และรูปที่เรียงเป็นลําดับ" },
+      { title: "เผยแพร่เมื่อพร้อม", text: "เลือกสิ่งที่จะแชร์ และยกเลิกเผยแพร่ได้ทุกเมื่อ" },
+    ];
+    const features = [
+      { title: "เริ่มทริป", text: "เริ่มด้วยคําเชิญที่สงบและเป็นธรรมชาติ" },
+      { title: "บริบทที่บันทึกอัตโนมัติ", text: "เวลาและสถานที่จะถูกเก็บอย่างเงียบๆ เมื่ออนุญาตตำแหน่ง" },
+      { title: "เลือกภาพ", text: "เลือกรูปที่ใช่ด้วยตัวกรองที่เข้าใจง่าย" },
+      { title: "จัดกลุ่มที่มีความหมาย", text: "แยกรูปเป็นบทเล็กๆ เพื่อย้อนดูได้ง่าย" },
+      { title: "มุมมองไทม์ไลน์", text: "เห็นลําดับของทริปผ่านแผนที่และรูป" },
+      { title: "แชร์ในจังหวะของคุณ", text: "แชร์เมื่อพร้อม และยกเลิกเผยแพร่ได้เสมอ" },
+    ];
+    const galleryItems = [
+      { title: "พร้อมเริ่ม", text: "คําเชิญนุ่มนวลเพื่อเริ่มทริปของวันนี้" },
+      { title: "ทริปปัจจุบัน", text: "สถานะแบบสดพร้อมเวลา รูป สถานที่ และแผนที่" },
+      { title: "เลือกภาพ", text: "ไล่ดูตามวันหรือเวลา แล้วเลือกรูปที่ต้องการ" },
+      { title: "จัดชุดภาพ", text: "รวมรูปจํานวนมากแล้วเริ่มจัดโครงเรื่อง" },
+      { title: "การจัดกลุ่มของผู้ใช้", text: "กลุ่มรูปแสดงเวลาและพิกัดของแต่ละช่วง" },
+      { title: "ไทม์ไลน์ทริป", text: "สถานที่ แผนที่ และรูปถูกร้อยเป็นเรื่องเดียวกัน" },
+      { title: "เลือกรูปที่จะเผยแพร่", text: "เลือกรูปที่จะปรากฏบนหน้าสาธารณะ" },
+      { title: "สรุปหลังเผยแพร่", text: "ดูสรุปชัดเจนพร้อมการแชร์และยกเลิกเผยแพร่" },
+    ];
     return {
       ...homeContent.en,
       metaTitle: "MomentBook — ไดอารี่ทริปแบบสงบ",
@@ -687,10 +827,22 @@ function getHomeContent(lang: Language): HomeContent {
       secondaryCta: "ดูวิธีการทำงาน",
       howTitle: "วิธีการทำงาน",
       howLead: "ลำดับการใช้งานที่สงบ ตั้งแต่เริ่มจนจบทริป",
+      howSteps: homeContent.en.howSteps.map((step, i) => ({
+        ...step,
+        ...howSteps[i],
+      })),
       featureTitle: "ออกแบบเพื่อการบันทึกอย่างสงบ",
       featureLead: "เก็บจังหวะของวัน โดยไม่ต้องทำให้เป็นการแข่งขัน",
+      features: homeContent.en.features.map((feature, i) => ({
+        ...feature,
+        ...features[i],
+      })),
       galleryTitle: "เรื่องราวผ่านภาพหน้าจอ",
       galleryLead: "ตามดูทริปตั้งแต่เริ่มจนถึงหน้าที่แชร์ได้",
+      galleryItems: homeContent.en.galleryItems.map((item, i) => ({
+        ...item,
+        ...galleryItems[i],
+      })),
       finalTitle: "เริ่มทริปของคุณวันนี้",
       finalLead: "MomentBook ใช้งานได้ทั้ง iOS และ Android",
       finalCta: "ไปหน้าดาวน์โหลด",
@@ -699,6 +851,32 @@ function getHomeContent(lang: Language): HomeContent {
   }
 
   if (lang === "vi") {
+    const howSteps = [
+      { title: "Bat dau hanh trinh", text: "Mot loi moi nhe nhang de bat dau ngay moi, khong can chuan bi phuc tap." },
+      { title: "Ghi lai tu dong", text: "MomentBook ghi lai thoi gian, anh va dia diem khi ban di chuyen." },
+      { title: "Tap hop anh", text: "Loc theo ngay hoac gio de chon nhung khoanh khac muon giu." },
+      { title: "Sap xep thanh chuong", text: "Nhom anh thanh cac chuong nho co y nghia, roi tinh chinh khi can." },
+      { title: "Xem dong thoi gian", text: "Xem dia diem, ban do va anh theo dung thu tu." },
+      { title: "Dang khi san sang", text: "Chon noi dung can chia se va huy dang khi ban muon." },
+    ];
+    const features = [
+      { title: "Bat dau hanh trinh", text: "Bat dau bang mot loi moi nhe nhang cho nhip ngay." },
+      { title: "Boi canh tu dong", text: "Thoi gian va dia diem duoc ghi nhe nhang trong nen khi cho phep vi tri." },
+      { title: "Chon anh", text: "Chon anh phu hop voi bo loc de theo tac de dang." },
+      { title: "Nhom co y nghia", text: "Sap xep anh thanh cac chuong nho de de quay lai." },
+      { title: "Xem timeline", text: "Theo doi dong chay hanh trinh voi ban do va anh theo thu tu." },
+      { title: "Dang theo cach cua ban", text: "Chi chia se khi ban muon va co the huy dang bat cu luc nao." },
+    ];
+    const galleryItems = [
+      { title: "San sang bat dau", text: "Loi moi nhe nhang de bat dau hanh trinh hom nay." },
+      { title: "Hanh trinh hien tai", text: "Trang thai truc tiep voi thoi gian, anh, dia diem va ban do." },
+      { title: "Bo chon anh", text: "Duyet theo ngay hoac gio de chon anh can giu." },
+      { title: "Sap xep bo anh", text: "Tap hop nhieu anh va sap xep de tao thanh cau chuyen." },
+      { title: "Nguoi dung sap xep", text: "Nhom anh hien thi moc thoi gian va toa do." },
+      { title: "Timeline hanh trinh", text: "Dia diem, ban do va anh ket noi thanh mot dong chay." },
+      { title: "Chon noi dung dang", text: "Chon anh se xuat hien tren trang cong khai." },
+      { title: "Tom tat da dang", text: "Tom tat ro rang voi dieu khien chia se va huy dang." },
+    ];
     return {
       ...homeContent.en,
       metaTitle: "MomentBook — Nhat ky hanh trinh yen tinh",
@@ -710,10 +888,22 @@ function getHomeContent(lang: Language): HomeContent {
       secondaryCta: "Xem cach hoat dong",
       howTitle: "Cach hoat dong",
       howLead: "Mot luong nhe nhang tu buoc dau den hanh trinh hoan chinh.",
+      howSteps: homeContent.en.howSteps.map((step, i) => ({
+        ...step,
+        ...howSteps[i],
+      })),
       featureTitle: "Thiet ke cho viec ghi lai nhe nhang",
       featureLead: "Giu nhip mot ngay ma khong bien no thanh ap luc.",
+      features: homeContent.en.features.map((feature, i) => ({
+        ...feature,
+        ...features[i],
+      })),
       galleryTitle: "Cau chuyen qua anh chup man hinh",
       galleryLead: "Theo doi mot hanh trinh tu buoc dau den trang co the chia se.",
+      galleryItems: homeContent.en.galleryItems.map((item, i) => ({
+        ...item,
+        ...galleryItems[i],
+      })),
       finalTitle: "Bat dau hanh trinh hom nay",
       finalLead: "MomentBook co tren iOS va Android.",
       finalCta: "Den trang tai xuong",
