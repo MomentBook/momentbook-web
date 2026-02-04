@@ -2,8 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-
-const supportedLanguages = ["en", "ko", "ja", "zh"];
+import { isValidLanguage } from "@/lib/i18n/config";
 
 export default function LanguageSyncProvider() {
   const pathname = usePathname();
@@ -13,7 +12,7 @@ export default function LanguageSyncProvider() {
     const pathSegments = pathname.split("/").filter(Boolean);
     const currentLang = pathSegments[0];
 
-    if (supportedLanguages.includes(currentLang)) {
+    if (currentLang && isValidLanguage(currentLang)) {
       // Sync to localStorage
       const storedLang = localStorage.getItem("preferredLanguage");
       if (storedLang !== currentLang) {

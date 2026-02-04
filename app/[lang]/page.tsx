@@ -54,7 +54,7 @@ type HomeContent = {
   finalNote: string;
 };
 
-const homeContent: Record<Language, HomeContent> = {
+const homeContent: Partial<Record<Language, HomeContent>> & { en: HomeContent } = {
   en: {
     metaTitle: "MomentBook — A quiet journey journal",
     metaDescription: "Keep daily moments as a journey with time, place, and photos. Share only when you choose.",

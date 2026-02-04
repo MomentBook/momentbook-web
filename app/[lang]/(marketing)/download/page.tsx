@@ -5,7 +5,7 @@ import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./download.module.scss";
-import { type Language } from "@/lib/i18n/config";
+import { getStoreRegion, type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 type StoreLinks = {
@@ -54,14 +54,7 @@ type DownloadContent = {
 const iosPath = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
 
 function getStoreLinks(lang: Language): StoreLinks {
-  const regionMap: Record<Language, { ios: string; hl: string; gl: string }> = {
-    en: { ios: "us", hl: "en", gl: "US" },
-    ko: { ios: "kr", hl: "ko", gl: "KR" },
-    ja: { ios: "jp", hl: "ja", gl: "JP" },
-    zh: { ios: "cn", hl: "zh", gl: "CN" },
-  };
-
-  const region = regionMap[lang] ?? regionMap.en;
+  const region = getStoreRegion(lang);
 
   return {
     ios: `https://apps.apple.com/${region.ios}/${iosPath}`,

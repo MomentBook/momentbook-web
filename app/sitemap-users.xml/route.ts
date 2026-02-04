@@ -1,4 +1,4 @@
-import { languageList } from "@/lib/i18n/config";
+import { buildSitemapAlternates } from "@/lib/i18n/config";
 import { fetchPublicUsers } from "@/lib/public-users";
 
 function generateSitemapXML(urls: {
@@ -38,10 +38,7 @@ export async function GET() {
   const urls = users.map((user) => ({
     loc: `${siteUrl}/en/users/${user.userId}`,
     lastmod: new Date().toISOString(),
-    alternates: languageList.map((lang) => ({
-      lang,
-      href: `${siteUrl}/${lang}/users/${user.userId}`,
-    })),
+    alternates: buildSitemapAlternates(siteUrl, `/users/${user.userId}`),
   }));
 
   const xml = generateSitemapXML(urls);

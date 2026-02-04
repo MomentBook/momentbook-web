@@ -25,7 +25,7 @@ type MomentLabels = {
   locationFallback: string;
 };
 
-const momentLabels: Record<Language, MomentLabels> = {
+const momentLabels: Partial<Record<Language, MomentLabels>> & { en: MomentLabels } = {
   en: {
     eyebrow: "Moment",
     backToJourney: "Back to Journey",

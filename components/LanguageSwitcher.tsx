@@ -2,14 +2,18 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { languages, type Language } from "@/lib/i18n/config";
+import {
+  languages,
+  stripLanguagePrefix,
+  type Language,
+} from "@/lib/i18n/config";
 import styles from "./LanguageSwitcher.module.scss";
 
 export function LanguageSwitcher({ currentLang }: { currentLang: Language }) {
   const pathname = usePathname();
 
   // Extract the path without the language prefix
-  const pathWithoutLang = pathname.replace(/^\/(en|ko|zh|ja)/, "");
+  const pathWithoutLang = stripLanguagePrefix(pathname);
 
   return (
     <div className={styles.switcher}>

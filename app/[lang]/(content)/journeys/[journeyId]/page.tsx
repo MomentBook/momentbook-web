@@ -12,7 +12,7 @@ import JourneyContent from "./components/JourneyContent";
 
 export const revalidate = 3600;
 
-const journeyLabels: Record<
+const journeyLabels: Partial<Record<
     Language,
     {
         eyebrow: string;
@@ -34,7 +34,28 @@ const journeyLabels: Record<
         mapEmpty: string;
         locationFallback: string;
     }
-> = {
+>> & {
+    en: {
+        eyebrow: string;
+        photoCount: string;
+        locationCount: string;
+        duration: string;
+        places: string;
+        gallery: string;
+        hours: string;
+        routeTitle: string;
+        routeBadgeStrong: string;
+        routeBadgeWeak: string;
+        routeBadgeNone: string;
+        routeBadgePhotoOnly: string;
+        routeLeadStrong: string;
+        routeLeadWeak: string;
+        routeLeadNone: string;
+        routeLeadPhotoOnly: string;
+        mapEmpty: string;
+        locationFallback: string;
+    };
+} = {
     en: {
         eyebrow: "Journey",
         photoCount: "photos",

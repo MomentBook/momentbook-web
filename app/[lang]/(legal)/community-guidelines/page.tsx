@@ -53,15 +53,15 @@ export default async function CommunityGuidelinesPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
+  const content =
+    lang === "ko" ? <KoreanGuidelines /> :
+    lang === "ja" ? <JapaneseGuidelines /> :
+    lang === "zh" ? <ChineseGuidelines /> :
+    <EnglishGuidelines />;
 
   return (
     <div className={styles.container}>
-      <article className={styles.content}>
-        {lang === "en" && <EnglishGuidelines />}
-        {lang === "ko" && <KoreanGuidelines />}
-        {lang === "ja" && <JapaneseGuidelines />}
-        {lang === "zh" && <ChineseGuidelines />}
-      </article>
+      <article className={styles.content}>{content}</article>
     </div>
   );
 }

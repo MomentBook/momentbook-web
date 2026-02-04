@@ -1,4 +1,4 @@
-import { languageList } from "@/lib/i18n/config";
+import { buildSitemapAlternates } from "@/lib/i18n/config";
 import { fetchPublicUsers, fetchUserJourneys } from "@/lib/public-users";
 import { fetchPublishedJourney } from "@/lib/published-journey";
 
@@ -87,10 +87,10 @@ export async function GET() {
         urls.push({
           loc: `${siteUrl}/en/photos/${image.photoId}`,
           lastmod: publishedAt,
-          alternates: languageList.map((lang) => ({
-            lang,
-            href: `${siteUrl}/${lang}/photos/${image.photoId}`,
-          })),
+          alternates: buildSitemapAlternates(
+            siteUrl,
+            `/photos/${image.photoId}`,
+          ),
         });
       });
     }

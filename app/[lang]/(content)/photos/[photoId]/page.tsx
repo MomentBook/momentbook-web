@@ -12,7 +12,7 @@ import {
 
 export const revalidate = 3600;
 
-const photoLabels: Record<
+const photoLabels: Partial<Record<
     Language,
     {
         backToJourney: string;
@@ -20,7 +20,14 @@ const photoLabels: Record<
         location: string;
         contextNote: string;
     }
-> = {
+>> & {
+    en: {
+        backToJourney: string;
+        takenAt: string;
+        location: string;
+        contextNote: string;
+    };
+} = {
     en: {
         backToJourney: "Back to journey",
         takenAt: "Captured at",

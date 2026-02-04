@@ -1,4 +1,4 @@
-import { languageList } from "@/lib/i18n/config";
+import { buildSitemapAlternates } from "@/lib/i18n/config";
 import { fetchPublicUsers, fetchUserJourneys } from "@/lib/public-users";
 
 function safeISOString(date: string | number | undefined): string {
@@ -69,10 +69,10 @@ export async function GET() {
       urls.push({
         loc: `${siteUrl}/en/journeys/${journey.publicId}`,
         lastmod: safeISOString(journey.publishedAt),
-        alternates: languageList.map((lang) => ({
-          lang,
-          href: `${siteUrl}/${lang}/journeys/${journey.publicId}`,
-        })),
+        alternates: buildSitemapAlternates(
+          siteUrl,
+          `/journeys/${journey.publicId}`,
+        ),
       });
     });
   }

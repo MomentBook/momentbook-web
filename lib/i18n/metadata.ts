@@ -1,4 +1,9 @@
-import { languageList, type Language } from "@/lib/i18n/config";
+import {
+  defaultLanguage,
+  languageList,
+  toHreflang,
+  type Language,
+} from "@/lib/i18n/config";
 
 function normalizePath(path: string) {
   if (!path || path === "/") {
@@ -10,9 +15,13 @@ function normalizePath(path: string) {
 
 export function buildAlternates(lang: Language, path: string) {
   const normalizedPath = normalizePath(path);
-  const languages = Object.fromEntries(
-    languageList.map((code) => [code, `/${code}${normalizedPath}`])
-  );
+  const languages = Object.fromEntries([
+    ...languageList.map((code) => [
+      toHreflang(code),
+      `/${code}${normalizedPath}`,
+    ]),
+    ["x-default", `/${defaultLanguage}${normalizedPath}`],
+  ]) as Record<string, string>;
 
   return {
     canonical: `/${lang}${normalizedPath}`,

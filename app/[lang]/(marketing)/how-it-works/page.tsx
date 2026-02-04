@@ -30,7 +30,7 @@ type HowItWorksContent = {
     noPressureItems: string[];
 };
 
-const howItWorksContent: Record<Language, HowItWorksContent> = {
+const howItWorksContent: Partial<Record<Language, HowItWorksContent>> & { en: HowItWorksContent } = {
     en: {
         metaTitle: "How MomentBook Works",
         metaDescription: "A calm flow from starting a journey to sharing it.",

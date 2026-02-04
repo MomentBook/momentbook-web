@@ -25,7 +25,7 @@ type AboutContent = {
   closingParagraph: string;
 };
 
-const aboutContent: Record<Language, AboutContent> = {
+const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent } = {
   en: {
     metaTitle: "About MomentBook",
     metaDescription: "A quiet archive for journeys and the people it fits.",

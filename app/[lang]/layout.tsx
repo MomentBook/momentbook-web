@@ -7,7 +7,12 @@ import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
 import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
 import { ScrollHeader } from "@/components/ScrollHeader";
-import { languageList, type Language } from "@/lib/i18n/config";
+import {
+  getStoreRegion,
+  languageList,
+  toOpenGraphLocale,
+  type Language,
+} from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
 const geistSans = Geist({
@@ -24,15 +29,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const iosPath = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
 
-const storeRegionMap: Record<Language, { ios: string; hl: string; gl: string }> = {
-  en: { ios: "us", hl: "en", gl: "US" },
-  ko: { ios: "kr", hl: "ko", gl: "KR" },
-  ja: { ios: "jp", hl: "ja", gl: "JP" },
-  zh: { ios: "cn", hl: "zh", gl: "CN" },
-};
-
 function getStoreLinks(lang: Language) {
-  const region = storeRegionMap[lang] ?? storeRegionMap.en;
+  const region = getStoreRegion(lang);
 
   return {
     ios: `https://apps.apple.com/${region.ios}/${iosPath}`,
@@ -62,7 +60,7 @@ export async function generateMetadata({
     description: "An app that quietly remembers your day.",
     openGraph: {
       type: "website",
-      locale: lang === "en" ? "en_US" : lang === "ko" ? "ko_KR" : lang === "zh" ? "zh_CN" : "ja_JP",
+      locale: toOpenGraphLocale(lang),
       siteName: "MomentBook",
     },
   };

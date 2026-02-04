@@ -1,4 +1,4 @@
-import { languageList } from "@/lib/i18n/config";
+import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
 
 function generateSitemapXML(urls: {
   loc: string;
@@ -65,10 +65,7 @@ export async function GET() {
       lastmod,
       changefreq: "monthly",
       priority: 1.0,
-      alternates: languageList.map((l) => ({
-        lang: l,
-        href: `${siteUrl}/${l}`,
-      })),
+      alternates: buildSitemapAlternates(siteUrl, ""),
     });
   });
 
@@ -80,10 +77,7 @@ export async function GET() {
         lastmod,
         changefreq: "monthly",
         priority: 0.8,
-        alternates: languageList.map((l) => ({
-          lang: l,
-          href: `${siteUrl}/${l}/${page}`,
-        })),
+        alternates: buildSitemapAlternates(siteUrl, page),
       });
     });
   });

@@ -110,7 +110,7 @@ SEO pages must reflect reality, not aspiration.
 - Middleware redirects `/` (and non-prefixed paths) to a language prefix
   - Cookie `preferredLanguage` is honored
   - Fallback: `Accept-Language` header
-- Supported languages: `en`, `ko`, `ja`, `zh`
+- Supported languages: `en`, `ko`, `ja`, `zh`, `es`, `pt`, `fr`, `th`, `vi`
 
 ### Content sources
 This repo supports **two** sources:

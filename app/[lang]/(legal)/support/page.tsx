@@ -57,15 +57,15 @@ export default async function SupportPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
+  const content =
+    lang === "ko" ? <KoreanSupport /> :
+    lang === "ja" ? <JapaneseSupport /> :
+    lang === "zh" ? <ChineseSupport /> :
+    <EnglishSupport />;
 
   return (
     <div className={styles.container}>
-      <article className={styles.content}>
-        {lang === "en" && <EnglishSupport />}
-        {lang === "ko" && <KoreanSupport />}
-        {lang === "ja" && <JapaneseSupport />}
-        {lang === "zh" && <ChineseSupport />}
-      </article>
+      <article className={styles.content}>{content}</article>
     </div>
   );
 }

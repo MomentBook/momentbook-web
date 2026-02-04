@@ -53,15 +53,15 @@ export default async function MarketingConsentPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
+  const content =
+    lang === "ko" ? <KoreanConsent /> :
+    lang === "ja" ? <JapaneseConsent /> :
+    lang === "zh" ? <ChineseConsent /> :
+    <EnglishConsent />;
 
   return (
     <div className={styles.container}>
-      <article className={styles.content}>
-        {lang === "en" && <EnglishConsent />}
-        {lang === "ko" && <KoreanConsent />}
-        {lang === "ja" && <JapaneseConsent />}
-        {lang === "zh" && <ChineseConsent />}
-      </article>
+      <article className={styles.content}>{content}</article>
     </div>
   );
 }

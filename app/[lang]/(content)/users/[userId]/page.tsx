@@ -13,7 +13,9 @@ import {
 
 export const revalidate = 3600;
 
-const userLabels: Record<Language, { journeys: string; photos: string }> = {
+const userLabels: Partial<Record<Language, { journeys: string; photos: string }>> & {
+  en: { journeys: string; photos: string };
+} = {
   en: {
     journeys: "Journeys",
     photos: "photos",
@@ -32,7 +34,7 @@ const userLabels: Record<Language, { journeys: string; photos: string }> = {
   },
 };
 
-const userDescriptionTemplates: Record<Language, string> = {
+const userDescriptionTemplates: Partial<Record<Language, string>> & { en: string } = {
   en: "Journeys shared by {name} on MomentBook.",
   ko: "{name}님이 MomentBook에서 공유한 여정입니다.",
   ja: "{name}さんが MomentBook で共有した旅です。",

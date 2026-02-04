@@ -5,7 +5,7 @@ import { getPublicUser, publicJourneys } from "@/lib/public-content";
 import { JourneyList } from "./JourneyList";
 import styles from "./journeys.module.scss";
 
-const journeyPageLabels: Record<
+const journeyPageLabels: Partial<Record<
     Language,
     {
         title: string;
@@ -18,7 +18,17 @@ const journeyPageLabels: Record<
         photosLabel: string;
         notice: string;
     }
-> = {
+>> & { en: {
+    title: string;
+    subtitle: string;
+    searchPlaceholder: string;
+    countLabel: string;
+    empty: string;
+    byLabel: string;
+    placesLabel: string;
+    photosLabel: string;
+    notice: string;
+} } = {
     en: {
         title: "Published journeys",
         subtitle: "Journeys shared from MomentBook as single pages.",

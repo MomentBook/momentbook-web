@@ -53,15 +53,15 @@ export default async function TermsPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
+  const content =
+    lang === "ko" ? <KoreanTerms /> :
+    lang === "ja" ? <JapaneseTerms /> :
+    lang === "zh" ? <ChineseTerms /> :
+    <EnglishTerms />;
 
   return (
     <div className={styles.container}>
-      <article className={styles.content}>
-        {lang === "en" && <EnglishTerms />}
-        {lang === "ko" && <KoreanTerms />}
-        {lang === "ja" && <JapaneseTerms />}
-        {lang === "zh" && <ChineseTerms />}
-      </article>
+      <article className={styles.content}>{content}</article>
     </div>
   );
 }

@@ -11,8 +11,13 @@ const dictionaries = {
   ko,
   zh,
   ja,
+  es: en,
+  pt: en,
+  fr: en,
+  th: en,
+  vi: en,
 };
 
 export async function getDictionary(lang: Language) {
-  return dictionaries[lang];
+  return dictionaries[lang] ?? en;
 }

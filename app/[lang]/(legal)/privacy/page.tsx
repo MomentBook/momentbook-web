@@ -53,15 +53,15 @@ export default async function PrivacyPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
+  const content =
+    lang === "ko" ? <KoreanPrivacy /> :
+    lang === "ja" ? <JapanesePrivacy /> :
+    lang === "zh" ? <ChinesePrivacy /> :
+    <EnglishPrivacy />;
 
   return (
     <div className={styles.container}>
-      <article className={styles.content}>
-        {lang === "en" && <EnglishPrivacy />}
-        {lang === "ko" && <KoreanPrivacy />}
-        {lang === "ja" && <JapanesePrivacy />}
-        {lang === "zh" && <ChinesePrivacy />}
-      </article>
+      <article className={styles.content}>{content}</article>
     </div>
   );
 }
