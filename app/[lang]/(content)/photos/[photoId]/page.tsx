@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./photo.module.scss";
+import { LocalizedDateTime } from "./LocalizedDateTime";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
@@ -94,25 +95,6 @@ function buildPhotoDescription(
         : `A photo from ${journeyTitle}`;
 }
 
-function formatDateTime(lang: Language, timestamp?: number): string | null {
-    if (!timestamp || isNaN(timestamp)) {
-        return null;
-    }
-
-    try {
-        const formatter = new Intl.DateTimeFormat(lang, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-        return formatter.format(new Date(timestamp));
-    } catch {
-        return null;
-    }
-}
-
 export async function generateMetadata({
     params,
 }: {
@@ -184,7 +166,8 @@ export default async function PhotoPage({
     }
 
     const labels = photoLabels[lang] ?? photoLabels.en;
-    const dateTime = formatDateTime(lang, photo.takenAt);
+    const hasTakenAt =
+        typeof photo.takenAt === "number" && !isNaN(photo.takenAt);
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
     const pageUrl = new URL(
@@ -262,14 +245,16 @@ export default async function PhotoPage({
                     </div>
 
                     <div className={styles.detailsGrid}>
-                        {dateTime && (
+                        {hasTakenAt && (
                             <div className={styles.detail}>
                                 <span className={styles.detailLabel}>
                                     {labels.takenAt}
                                 </span>
-                                <span className={styles.detailValue}>
-                                    {dateTime}
-                                </span>
+                                <LocalizedDateTime
+                                    lang={lang}
+                                    timestamp={photo.takenAt}
+                                    className={styles.detailValue}
+                                />
                             </div>
                         )}
 

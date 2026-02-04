@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-01-29)
+2025-01-04 (updated: 2026-02-04)
 
 ## Context
 MomentBook web은 속도/SEO/안정성을 최우선으로 한다.
@@ -39,6 +39,11 @@ MomentBook web은 속도/SEO/안정성을 최우선으로 한다.
   - `/sitemap-photos.xml`
   - `/sitemap-users.xml`
 
+### 5) 공개 콘텐츠의 시간 표시는 뷰어 로컬 시간대 기준
+- 공개 페이지의 시간 텍스트(예: 사진의 기록 시각)는 **페이지를 보는 사용자의 브라우저 locale/timezone** 기준으로 표시한다.
+- ISR/SSG 캐시 안정성을 유지하기 위해, 시간 포맷팅은 서버 고정값으로 렌더링하지 않고 클라이언트에서 처리한다.
+- ISO 원본 timestamp는 API 응답 값을 그대로 사용한다(데이터 변환 없음).
+
 ## Consequences
 
 ### Positive
@@ -46,6 +51,7 @@ MomentBook web은 속도/SEO/안정성을 최우선으로 한다.
 - ✅ CDN/캐시 친화적 (ISR)
 - ✅ 목록/상세/사이트맵이 데이터 증가에도 확장 가능
 - ✅ API 장애 시에도 페이지가 크래시하지 않도록 방어 가능
+- ✅ 서버 시간대(예: UTC)와 사용자 현지 시간대 불일치로 인한 혼란 감소
 
 ### Negative
 - ⚠️ 공개 콘텐츠는 API/데이터 상태에 따라 표시가 달라질 수 있음
@@ -54,11 +60,13 @@ MomentBook web은 속도/SEO/안정성을 최우선으로 한다.
 ### Neutral
 - 📝 공개 콘텐츠 페이지는 운영 환경에서 API Base URL 설정이 필요
 - 📝 재검증 주기(3600s)는 SEO/부하/신선도 trade-off
+- 📝 시간 텍스트는 클라이언트 hydration 후 로컬 기준으로 확정됨
 
 ## Implementation Notes
 - ISR: `revalidate = 3600` 또는 `fetch(..., { next: { revalidate: 3600 } })`
 - Public API base URL: `NEXT_PUBLIC_API_BASE_URL`
 - Sitemap index: `app/sitemap.ts`
+- Photo timestamp localization: `app/[lang]/(content)/photos/[photoId]/LocalizedDateTime.tsx`
 
 ## Related Decisions
 - [ADR 0001: Multilingual Routing Architecture](./0001-multilingual-routing-architecture.md)

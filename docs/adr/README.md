@@ -33,9 +33,9 @@ Each ADR follows this structure:
     - **Summary**: Component-based architecture for multilingual legal documents (Terms, Privacy, Community Guidelines, Marketing Consent)
 
 3. [ADR 0003: Static Site Generation Strategy](./0003-static-site-generation-strategy.md)
-    - **Date**: 2025-01-04 (updated: 2026-01-29)
+    - **Date**: 2025-01-04 (updated: 2026-02-04)
     - **Status**: Accepted
-    - **Summary**: SSG + ISR-style caching, hybrid public data sources, and segmented sitemaps for scale
+    - **Summary**: SSG + ISR-style caching, hybrid public data sources, segmented sitemaps, and viewer-localized timestamp rendering
 
 4. [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)
     - **Date**: 2025-01-04
