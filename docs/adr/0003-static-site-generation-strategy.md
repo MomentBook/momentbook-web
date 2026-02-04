@@ -67,6 +67,7 @@ MomentBook web은 속도/SEO/안정성을 최우선으로 한다.
 - Public API base URL: `NEXT_PUBLIC_API_BASE_URL`
 - Sitemap index: `app/sitemap.ts`
 - Photo timestamp localization: `app/[lang]/(content)/photos/[photoId]/LocalizedDateTime.tsx`
+- Global web typography: self-hosted `SUIT` (`public/fonts/suit/*.woff2`, loaded via `next/font/local`)
 
 ## Related Decisions
 - [ADR 0001: Multilingual Routing Architecture](./0001-multilingual-routing-architecture.md)

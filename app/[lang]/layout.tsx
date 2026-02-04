@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import Link from "next/link";
 import styles from "./layout.module.scss";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -15,14 +15,20 @@ import {
 } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const suit = localFont({
+  variable: "--font-suit",
+  display: "swap",
+  src: [
+    { path: "../../public/fonts/suit/SUIT-Thin.woff2", weight: "100", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-ExtraLight.woff2", weight: "200", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Light.woff2", weight: "300", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-ExtraBold.woff2", weight: "800", style: "normal" },
+    { path: "../../public/fonts/suit/SUIT-Heavy.woff2", weight: "900", style: "normal" },
+  ],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
@@ -78,7 +84,7 @@ export default async function LangLayout({
   const storeLinks = getStoreLinks(lang);
 
   return (
-    <div className={`${geistSans.variable} ${geistMono.variable}`}>
+    <div className={suit.variable}>
         <LanguagePreferenceSync currentLang={lang} />
         <ScrollHeader className={styles.header}>
           <nav className={styles.nav}>
