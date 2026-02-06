@@ -22,7 +22,6 @@ type JourneyContentProps = {
         locationFallback: string;
         photoCount: string;
     };
-    locations: string[];
 };
 
 const routeBadgeByMode: Record<JourneyMode, keyof JourneyContentProps["labels"]> = {
@@ -42,12 +41,24 @@ export default function JourneyContent({
     imageMap,
     lang,
     labels,
-    locations,
 }: JourneyContentProps) {
     const badgeKey = routeBadgeByMode[journey.mode] ?? "routeBadgeNone";
     const leadKey = routeLeadByMode[journey.mode] ?? "routeLeadNone";
     const routeBadge = labels[badgeKey];
     const routeLead = labels[leadKey];
+    const seenLocations = new Set<string>();
+    const locationChips = [...journey.clusters]
+        .sort((a, b) => a.time.startAt - b.time.startAt)
+        .flatMap((cluster) => {
+            const locationName = cluster.locationName?.trim();
+            if (!locationName || seenLocations.has(locationName)) {
+                return [];
+            }
+
+            seenLocations.add(locationName);
+            return [{ locationName, clusterId: cluster.clusterId }];
+        });
+    const encodedJourneyId = encodeURIComponent(journey.publicId);
 
     return (
         <>
@@ -71,14 +82,18 @@ export default function JourneyContent({
                 )}
             </section>
 
-            {locations.length > 0 && (
+            {locationChips.length > 0 && (
                 <section className={styles.section}>
                     <h2 className={styles.sectionTitle}>{labels.places}</h2>
                     <div className={styles.tagGrid}>
-                        {locations.map((location) => (
-                            <span key={location} className={styles.tag}>
-                                {location}
-                            </span>
+                        {locationChips.map((location) => (
+                            <Link
+                                key={location.locationName}
+                                href={`/${lang}/journeys/${encodedJourneyId}/moments/${encodeURIComponent(location.clusterId)}`}
+                                className={`${styles.tag} ${styles.tagLink}`}
+                            >
+                                {location.locationName}
+                            </Link>
                         ))}
                     </div>
                 </section>

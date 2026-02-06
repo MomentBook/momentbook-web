@@ -524,7 +524,6 @@ export default async function JourneyPage({
                 imageMap={imageMap}
                 lang={lang}
                 labels={labels}
-                locations={locations}
             />
         </div>
     );
