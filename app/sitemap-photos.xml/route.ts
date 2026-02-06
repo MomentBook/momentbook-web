@@ -1,4 +1,4 @@
-import { buildSitemapAlternates } from "@/lib/i18n/config";
+import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
 import { fetchPublicUsers, fetchUserJourneys } from "@/lib/public-users";
 import { fetchPublishedJourney } from "@/lib/published-journey";
 
@@ -84,13 +84,15 @@ export async function GET() {
 
         seenPhotoIds.add(image.photoId);
 
-        urls.push({
-          loc: `${siteUrl}/en/photos/${image.photoId}`,
-          lastmod: publishedAt,
-          alternates: buildSitemapAlternates(
-            siteUrl,
-            `/photos/${image.photoId}`,
-          ),
+        languageList.forEach((lang) => {
+          urls.push({
+            loc: `${siteUrl}/${lang}/photos/${image.photoId}`,
+            lastmod: publishedAt,
+            alternates: buildSitemapAlternates(
+              siteUrl,
+              `/photos/${image.photoId}`,
+            ),
+          });
         });
       });
     }
