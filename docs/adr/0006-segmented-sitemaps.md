@@ -6,7 +6,7 @@ Accepted
 
 ## Date
 
-2026-01-29
+2026-01-29 (updated: 2026-02-06)
 
 ## Context
 
@@ -38,6 +38,7 @@ Each sub-sitemap:
 
 - Builds absolute URLs using `NEXT_PUBLIC_SITE_URL`
 - Uses API fetch helpers (see ADR 0005) to discover IDs
+- Includes one `<url>` entry per supported language for each content item
 - Includes `xhtml:link rel="alternate" hreflang="..."` entries for each supported language
 - Sets caching headers to keep crawler load stable:
     - `Cache-Control: public, max-age=3600, s-maxage=3600`

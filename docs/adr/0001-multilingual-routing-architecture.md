@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-02-04)
+2025-01-04 (updated: 2026-02-06)
 
 ## Context
 MomentBook web project needs to support multiple languages to reach a global audience.
@@ -41,7 +41,9 @@ We implemented a custom multilingual routing solution using Next.js dynamic segm
   2) `Accept-Language` header (best-effort)
   3) Default language (`en`)
 
-> Note: This header detection is used only for **redirect selection**. Pages remain statically generated per language; we do not rely on runtime language negotiation for rendering.
+Client-side preference is stored in localStorage (key: `language`) and synced to the `preferredLanguage` cookie on language-prefixed routes. If no stored preference exists on the client (and no prefix is present), the device language is used as a best-effort seed.
+
+> Note: Header/device detection is used only for **redirect selection/initial seeding**. Pages remain statically generated per language; we do not rely on runtime language negotiation for rendering.
 
 ### 3. Implementation Components
 
@@ -63,6 +65,10 @@ We implemented a custom multilingual routing solution using Next.js dynamic segm
 - Static generation via `generateStaticParams()` (where applicable)
 - Language-aware metadata generation
 - Sitemap generation for all language variants
+
+#### Preference Sync
+- `LanguageSyncProvider` syncs localStorage preference to the `preferredLanguage` cookie and seeds from device language when needed
+- `LanguagePreferenceSync` keeps the current route language aligned with local preference
 
 ### 4. Type Safety Pattern
 Used type assertion pattern to satisfy Next.js types while maintaining type safety:

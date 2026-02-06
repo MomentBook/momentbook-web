@@ -1,4 +1,4 @@
-import { buildSitemapAlternates } from "@/lib/i18n/config";
+import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
 import { fetchPublicUsers, fetchUserJourneys } from "@/lib/public-users";
 import { fetchPublishedJourney } from "@/lib/published-journey";
 
@@ -73,13 +73,15 @@ export async function GET() {
 
       publishedJourney.clusters.forEach((cluster) => {
         const encodedClusterId = encodeURIComponent(cluster.clusterId);
-        urls.push({
-          loc: `${siteUrl}/en/journeys/${publishedJourney.publicId}/moments/${encodedClusterId}`,
-          lastmod,
-          alternates: buildSitemapAlternates(
-            siteUrl,
-            `/journeys/${publishedJourney.publicId}/moments/${encodedClusterId}`,
-          ),
+        languageList.forEach((lang) => {
+          urls.push({
+            loc: `${siteUrl}/${lang}/journeys/${publishedJourney.publicId}/moments/${encodedClusterId}`,
+            lastmod,
+            alternates: buildSitemapAlternates(
+              siteUrl,
+              `/journeys/${publishedJourney.publicId}/moments/${encodedClusterId}`,
+            ),
+          });
         });
       });
     }

@@ -1,4 +1,4 @@
-import { buildSitemapAlternates } from "@/lib/i18n/config";
+import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
 import { fetchPublicUsers, fetchUserJourneys } from "@/lib/public-users";
 
 function safeISOString(date: string | number | undefined): string {
@@ -66,13 +66,15 @@ export async function GET() {
 
     // Generate entries for each journey
     journeys.forEach((journey) => {
-      urls.push({
-        loc: `${siteUrl}/en/journeys/${journey.publicId}`,
-        lastmod: safeISOString(journey.publishedAt),
-        alternates: buildSitemapAlternates(
-          siteUrl,
-          `/journeys/${journey.publicId}`,
-        ),
+      languageList.forEach((lang) => {
+        urls.push({
+          loc: `${siteUrl}/${lang}/journeys/${journey.publicId}`,
+          lastmod: safeISOString(journey.publishedAt),
+          alternates: buildSitemapAlternates(
+            siteUrl,
+            `/journeys/${journey.publicId}`,
+          ),
+        });
       });
     });
   }

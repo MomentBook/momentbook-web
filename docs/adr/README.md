@@ -23,9 +23,9 @@ Each ADR follows this structure:
 ### Current ADRs
 
 1. [ADR 0001: Multilingual Routing Architecture](./0001-multilingual-routing-architecture.md)
-    - **Date**: 2025-01-04 (updated: 2026-02-04)
+    - **Date**: 2025-01-04 (updated: 2026-02-06)
     - **Status**: Accepted
-    - **Summary**: Custom multilingual routing with 9 locales, middleware redirect, and locale-aware hreflang/metadata mapping
+    - **Summary**: Custom multilingual routing with 9 locales, middleware redirect, and client preference sync to cookie with locale-aware hreflang/metadata mapping
 
 2. [ADR 0002: Legal Document Internationalization](./0002-legal-document-internationalization.md)
     - **Date**: 2025-01-04 (updated: 2026-02-04)
@@ -43,14 +43,14 @@ Each ADR follows this structure:
     - **Summary**: Multi-column footer with brand CTA + Product/Download/Support/Legal links
 
 5. [ADR 0005: Public API Integration for Published Content](./0005-public-api-integration.md)
-    - **Date**: 2026-01-29
+    - **Date**: 2026-01-29 (updated: 2026-02-06)
     - **Status**: Accepted
     - **Summary**: Use the MomentBook API (when configured) with ISR-style caching; keep sample data as a temporary fallback
 
 6. [ADR 0006: Segmented Sitemaps (Index + Sub-sitemaps)](./0006-segmented-sitemaps.md)
     - **Date**: 2026-01-29
     - **Status**: Accepted
-    - **Summary**: Sitemap index + resource-specific sitemaps (users, journeys, journey moments, photos, static) with hreflang alternates and cache headers
+    - **Summary**: Sitemap index + resource-specific sitemaps (users, journeys, journey moments, photos, static) with per-language URL entries, hreflang alternates, and cache headers
 
 ## Creating New ADRs
 
