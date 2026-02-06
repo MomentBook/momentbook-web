@@ -54,7 +54,7 @@ export const ko: Dictionary = {
 
   // Footer
   footer: {
-    summary: '사진, 메모, 장소를 저장해 나중에 하루를 쉽게 찾을 수 있습니다.',
+    summary: '사진으로 시작해 하루를 차분히 모아둘 수 있습니다.',
     ctaPrimary: '다운로드',
     ctaSecondary: '지원',
     sections: {

@@ -54,7 +54,7 @@ export const zh: Dictionary = {
 
   // Footer
   footer: {
-    summary: '保存照片、笔记和地点，之后能轻松找回某一天。',
+    summary: '从照片开始，把一天安静地整理在一起。',
     ctaPrimary: '下载',
     ctaSecondary: '支持',
     sections: {

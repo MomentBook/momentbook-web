@@ -45,7 +45,7 @@ export const vi: Dictionary = {
     learnMore: "Xem cach hoat dong",
   },
   footer: {
-    summary: "Luu anh, ghi chu va dia diem de tim lai mot ngay ve sau.",
+    summary: "Bat dau tu anh va giu lai mot ngay trong yen tinh.",
     ctaPrimary: "Tai xuong",
     ctaSecondary: "Ho tro",
     sections: {

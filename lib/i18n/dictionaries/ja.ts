@@ -54,7 +54,7 @@ export const ja: Dictionary = {
 
   // Footer
   footer: {
-    summary: '写真、メモ、場所を保存して、後から一日をすぐに見つけられます。',
+    summary: '写真から始めて一日を静かにまとめておけます。',
     ctaPrimary: 'ダウンロード',
     ctaSecondary: 'サポート',
     sections: {

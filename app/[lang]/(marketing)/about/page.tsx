@@ -28,19 +28,19 @@ type AboutContent = {
 const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent } = {
   en: {
     metaTitle: "About MomentBook",
-    metaDescription: "A quiet archive for journeys and the people it fits.",
+    metaDescription: "A quiet archive that starts with photos.",
     title: "About MomentBook",
-    subtitle: "A quiet way to keep journeys.",
+    subtitle: "A quiet way to keep photos as journeys.",
     lead:
-      "MomentBook gathers moments into journeys. Time, place, and photos stay together without becoming a feed.",
+      "MomentBook starts with photos and gathers time and place into a calm journey without becoming a feed.",
     missionTitle: "Why it exists",
     missionParagraphs: [
-      "Moments scatter across cameras, maps, and messages, and the context fades.",
+      "Photos scatter across cameras, maps, and messages, and the context fades.",
       "MomentBook keeps the flow of a day in one place so you can return without performing.",
     ],
     principlesTitle: "Principles",
     principles: [
-      "Journey-first structure",
+      "Photo-first start",
       "Private by default",
       "Quiet sharing by link",
       "AI as a helper, not an author",
@@ -49,7 +49,7 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
       {
         heading: "Who it is for",
         paragraphs: [
-          "People who want to remember travel or daily moments without a public feed.",
+          "People who want to organize travel or daily photos without a public feed.",
           "Anyone who prefers short notes and photos over long journaling.",
         ],
       },
@@ -66,23 +66,23 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
       "Publishing creates a public web page with a unique URL you can share, and it may be indexed by search engines.",
     ],
     closingTitle: "Quiet by design",
-    closingParagraph: "If you want a calm archive for your journeys, MomentBook was built for that.",
+    closingParagraph: "If you want a calm, photo-first archive for your journeys, MomentBook was built for that.",
   },
   ko: {
     metaTitle: "MomentBook 소개",
-    metaDescription: "여정을 조용히 정리해 두는 기록 아카이브입니다.",
+    metaDescription: "사진으로 시작하는 조용한 기록 아카이브입니다.",
     title: "MomentBook 소개",
-    subtitle: "여정을 가만히 남기는 방법.",
+    subtitle: "사진에서 여정으로 이어지는 조용한 방법.",
     lead:
-      "MomentBook은 순간을 여정으로 묶어 정리합니다. 시간, 장소, 사진이 함께 남고 피드가 되지 않습니다.",
+      "MomentBook은 사진부터 시작해 시간과 장소를 한 흐름으로 남깁니다. 피드가 되지 않습니다.",
     missionTitle: "왜 필요한가요",
     missionParagraphs: [
-      "기록이 흩어지면 맥락이 흐려집니다.",
+      "사진과 기록이 흩어지면 맥락이 흐려집니다.",
       "MomentBook은 하루의 흐름을 한곳에 모아 조용히 돌아볼 수 있게 합니다.",
     ],
     principlesTitle: "원칙",
     principles: [
-      "여정 중심 구조",
+      "사진 중심 시작",
       "기본은 비공개",
       "링크로 조용한 공유",
       "AI는 조력자",
@@ -91,7 +91,7 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
       {
         heading: "누구에게 맞나요",
         paragraphs: [
-          "공개 피드 없이 여행이나 일상을 기억하고 싶은 분.",
+          "공개 피드 없이 여행이나 일상 사진을 정리하고 싶은 분.",
           "긴 글보다 짧은 메모와 사진이 편한 분.",
         ],
       },
@@ -108,23 +108,23 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
       "게시하면 고유 URL 페이지가 만들어지며, 링크 공유와 검색 엔진 수집이 가능할 수 있습니다.",
     ],
     closingTitle: "조용한 의도",
-    closingParagraph: "조용한 기록이 필요하다면 MomentBook이 맞습니다.",
+    closingParagraph: "사진으로 시작하는 조용한 기록이 필요하다면 MomentBook이 맞습니다.",
   },
   ja: {
     metaTitle: "MomentBook について",
-    metaDescription: "旅を静かに残すための記録アーカイブです。",
+    metaDescription: "写真から始まる静かな記録アーカイブです。",
     title: "MomentBook について",
-    subtitle: "旅を静かに残す方法。",
+    subtitle: "写真から旅へつながる静かな方法。",
     lead:
-      "MomentBook は瞬間を旅としてまとめて残します。時間・場所・写真が一つの流れとして残り、フィードにはしません。",
+      "MomentBook は写真から始め、時間と場所を一つの流れとして残します。フィードにはしません。",
     missionTitle: "なぜ必要か",
     missionParagraphs: [
-      "記録が散らばると文脈が失われます。",
+      "写真や記録が散らばると文脈が失われます。",
       "MomentBook は一日の流れを一つにまとめ、静かに振り返れるようにします。",
     ],
     principlesTitle: "原則",
     principles: [
-      "旅中心の構造",
+      "写真から始める",
       "デフォルトは非公開",
       "リンクで静かな共有",
       "AIは補助者",
@@ -133,7 +133,7 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
       {
         heading: "合う人",
         paragraphs: [
-          "公開フィードなしで旅や日常を覚えておきたい人。",
+          "公開フィードなしで旅や日常の写真を整理したい人。",
           "長文よりも短いメモと写真が合う人。",
         ],
       },
@@ -150,23 +150,23 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
       "投稿すると固有URLのWebページが作成され、共有や検索エンジンに表示される可能性があります。",
     ],
     closingTitle: "静かな意図",
-    closingParagraph: "旅を静かに残したいなら MomentBook が合います。",
+    closingParagraph: "写真から静かに残したいなら MomentBook が合います。",
   },
   zh: {
     metaTitle: "关于 MomentBook",
-    metaDescription: "一个安静记录旅程的档案空间。",
+    metaDescription: "从照片开始的安静记录档案。",
     title: "关于 MomentBook",
-    subtitle: "安静保存旅程的方法。",
+    subtitle: "从照片到旅程的安静方法。",
     lead:
-      "MomentBook 将瞬间整理成旅程，保留时间、地点与照片的脉络，而不是做成信息流。",
+      "MomentBook 从照片开始，把时间与地点整理成一段安静的旅程，而不是信息流。",
     missionTitle: "为什么需要它",
     missionParagraphs: [
-      "记录分散时，脉络就容易丢失。",
+      "照片与记录分散时，脉络就容易丢失。",
       "MomentBook 把一天的脉络保留下来，方便安静回看。",
     ],
     principlesTitle: "原则",
     principles: [
-      "以旅程为单位",
+      "照片优先开始",
       "默认私密",
       "通过链接安静分享",
       "AI 只是助手",
@@ -175,7 +175,7 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
       {
         heading: "适合谁",
         paragraphs: [
-          "想在没有公开信息流的情况下记录旅程的人。",
+          "想在没有公开信息流的情况下整理旅程或日常照片的人。",
           "更喜欢短句和照片的人。",
         ],
       },
@@ -192,7 +192,7 @@ const aboutContent: Partial<Record<Language, AboutContent>> & { en: AboutContent
       "发布后会生成一个公开网页链接，可被分享，也可能被搜索引擎收录。",
     ],
     closingTitle: "安静的意图",
-    closingParagraph: "如果你想安静地保存旅程，MomentBook 就是为此而做。",
+    closingParagraph: "如果你想从照片开始安静地保存旅程，MomentBook 就是为此而做。",
   },
 };
 
@@ -201,18 +201,18 @@ function getAboutContent(lang: Language): AboutContent {
     return {
       ...aboutContent.en,
       metaTitle: "Acerca de MomentBook",
-      metaDescription: "Un archivo tranquilo para viajes y personas a quienes les encaja.",
+      metaDescription: "Un archivo tranquilo que empieza con fotos.",
       title: "Acerca de MomentBook",
-      subtitle: "Una forma tranquila de guardar viajes.",
-      lead: "MomentBook reune momentos en viajes. Tiempo, lugar y fotos permanecen juntos sin convertirse en feed.",
+      subtitle: "Una forma tranquila de guardar fotos como viajes.",
+      lead: "MomentBook empieza con fotos y reune tiempo y lugar en un viaje tranquilo, sin convertirse en feed.",
       missionTitle: "Por que existe",
       missionParagraphs: [
-        "Los momentos se dispersan entre camara, mapas y mensajes, y el contexto se pierde.",
+        "Las fotos se dispersan entre camara, mapas y mensajes, y el contexto se pierde.",
         "MomentBook guarda el flujo de un dia en un solo lugar para volver sin rendir para otros.",
       ],
       principlesTitle: "Principios",
       principles: [
-        "Estructura centrada en viajes",
+        "Inicio con fotos",
         "Privado por defecto",
         "Compartir en calma por enlace",
         "IA como ayuda, no como autora",
@@ -221,7 +221,7 @@ function getAboutContent(lang: Language): AboutContent {
         {
           heading: "Para quien es",
           paragraphs: [
-            "Para quienes quieren recordar viajes o dias sin un feed publico.",
+            "Para quienes quieren organizar fotos de viajes o dias sin un feed publico.",
             "Para quien prefiere fotos y notas cortas a escribir largo.",
           ],
         },
@@ -238,7 +238,7 @@ function getAboutContent(lang: Language): AboutContent {
         "Publicar crea una pagina web publica con URL unica y puede indexarse en buscadores.",
       ],
       closingTitle: "Calma por diseno",
-      closingParagraph: "Si buscas un archivo tranquilo para tus viajes, MomentBook fue hecho para eso.",
+      closingParagraph: "Si buscas un archivo tranquilo y centrado en fotos para tus viajes, MomentBook fue hecho para eso.",
     };
   }
 
@@ -246,18 +246,18 @@ function getAboutContent(lang: Language): AboutContent {
     return {
       ...aboutContent.en,
       metaTitle: "Sobre o MomentBook",
-      metaDescription: "Um arquivo tranquilo para jornadas e pessoas que combinam com essa ideia.",
+      metaDescription: "Um arquivo tranquilo que comeca com fotos.",
       title: "Sobre o MomentBook",
-      subtitle: "Uma forma tranquila de guardar jornadas.",
-      lead: "MomentBook reune momentos em jornadas. Tempo, lugar e fotos ficam juntos sem virar um feed.",
+      subtitle: "Uma forma tranquila de guardar fotos como jornadas.",
+      lead: "MomentBook comeca com fotos e reune tempo e lugar em uma jornada calma, sem virar feed.",
       missionTitle: "Por que existe",
       missionParagraphs: [
-        "Momentos se espalham entre camera, mapas e mensagens, e o contexto desaparece.",
+        "Fotos se espalham entre camera, mapas e mensagens, e o contexto desaparece.",
         "MomentBook guarda o fluxo de um dia em um so lugar para voce voltar sem performar.",
       ],
       principlesTitle: "Principios",
       principles: [
-        "Estrutura centrada em jornadas",
+        "Inicio com fotos",
         "Privado por padrao",
         "Compartilhamento discreto por link",
         "IA como apoio, nao como autora",
@@ -266,7 +266,7 @@ function getAboutContent(lang: Language): AboutContent {
         {
           heading: "Para quem e",
           paragraphs: [
-            "Para quem quer lembrar viagens ou dias sem feed publico.",
+            "Para quem quer organizar fotos de viagens ou dias sem feed publico.",
             "Para quem prefere notas curtas e fotos em vez de textos longos.",
           ],
         },
@@ -283,7 +283,7 @@ function getAboutContent(lang: Language): AboutContent {
         "Publicar cria uma pagina publica com URL unica, que pode ser indexada por buscadores.",
       ],
       closingTitle: "Calmo por design",
-      closingParagraph: "Se voce quer um arquivo calmo para suas jornadas, o MomentBook foi feito para isso.",
+      closingParagraph: "Se voce quer um arquivo calmo e centrado em fotos para suas jornadas, o MomentBook foi feito para isso.",
     };
   }
 
@@ -291,18 +291,18 @@ function getAboutContent(lang: Language): AboutContent {
     return {
       ...aboutContent.en,
       metaTitle: "A propos de MomentBook",
-      metaDescription: "Une archive calme pour les voyages et les personnes a qui cela correspond.",
+      metaDescription: "Une archive calme qui commence par les photos.",
       title: "A propos de MomentBook",
-      subtitle: "Une facon calme de conserver ses voyages.",
-      lead: "MomentBook rassemble les moments en voyages. Temps, lieux et photos restent ensemble sans devenir un feed.",
+      subtitle: "Une facon calme de garder les photos comme des voyages.",
+      lead: "MomentBook commence par les photos et rassemble temps et lieux dans un voyage calme, sans devenir un feed.",
       missionTitle: "Pourquoi il existe",
       missionParagraphs: [
-        "Les moments se dispersent entre appareil photo, cartes et messages, et le contexte s'efface.",
+        "Les photos se dispersent entre appareil photo, cartes et messages, et le contexte s'efface.",
         "MomentBook garde le fil d'une journee en un seul endroit pour y revenir sans se mettre en scene.",
       ],
       principlesTitle: "Principes",
       principles: [
-        "Structure centree sur le voyage",
+        "Debut par les photos",
         "Prive par defaut",
         "Partage discret par lien",
         "IA comme aide, pas comme autrice",
@@ -311,7 +311,7 @@ function getAboutContent(lang: Language): AboutContent {
         {
           heading: "Pour qui c'est fait",
           paragraphs: [
-            "Pour celles et ceux qui veulent se souvenir de voyages ou de jours sans feed public.",
+            "Pour celles et ceux qui veulent organiser des photos de voyages ou de jours sans feed public.",
             "Pour celles et ceux qui preferent photos et notes courtes aux longs textes.",
           ],
         },
@@ -328,7 +328,7 @@ function getAboutContent(lang: Language): AboutContent {
         "Publier cree une page web publique avec URL unique, potentiellement indexee.",
       ],
       closingTitle: "Calme par conception",
-      closingParagraph: "Si vous cherchez une archive calme pour vos voyages, MomentBook est fait pour cela.",
+      closingParagraph: "Si vous cherchez une archive calme, centree sur les photos, pour vos voyages, MomentBook est fait pour cela.",
     };
   }
 
@@ -336,18 +336,18 @@ function getAboutContent(lang: Language): AboutContent {
     return {
       ...aboutContent.en,
       metaTitle: "เกี่ยวกับ MomentBook",
-      metaDescription: "พื้นที่เก็บบันทึกแบบสงบสำหรับทริปและผู้ที่เหมาะกับแนวทางนี้",
+      metaDescription: "คลังบันทึกแบบสงบที่เริ่มจากรูปภาพ",
       title: "เกี่ยวกับ MomentBook",
-      subtitle: "วิธีเก็บทริปอย่างเงียบสงบ",
-      lead: "MomentBook รวมช่วงเวลาเป็นทริป เวลา สถานที่ และรูปจะอยู่ด้วยกันโดยไม่กลายเป็นฟีด",
+      subtitle: "วิธีเก็บรูปให้เป็นทริปอย่างสงบ",
+      lead: "MomentBook เริ่มจากรูป แล้วรวมเวลาและสถานที่เป็นทริป โดยไม่ทําให้เป็นฟีด",
       missionTitle: "ทําไมแอปนี้จึงมีอยู่",
       missionParagraphs: [
-        "ช่วงเวลามักกระจัดกระจายอยู่ตามกล้อง แผนที่ และข้อความ จนบริบทหายไป",
+        "รูปและช่วงเวลามักกระจัดกระจายอยู่ตามกล้อง แผนที่ และข้อความ จนบริบทหายไป",
         "MomentBook เก็บลําดับของวันไว้ในที่เดียว เพื่อให้คุณกลับมาดูได้โดยไม่ต้องแสดงตัว",
       ],
       principlesTitle: "หลักการ",
       principles: [
-        "โครงสร้างแบบทริปเป็นหลัก",
+        "เริ่มจากรูปเป็นหลัก",
         "เป็นส่วนตัวโดยค่าเริ่มต้น",
         "แชร์อย่างเงียบด้วยลิงก์",
         "AI เป็นผู้ช่วย ไม่ใช่ผู้เขียนแทน",
@@ -356,7 +356,7 @@ function getAboutContent(lang: Language): AboutContent {
         {
           heading: "เหมาะกับใคร",
           paragraphs: [
-            "คนที่อยากจดจําทริปหรือวันธรรมดาโดยไม่ต้องมีฟีดสาธารณะ",
+            "คนที่อยากจัดรูปทริปหรือวันธรรมดาโดยไม่ต้องมีฟีดสาธารณะ",
             "คนที่ชอบโน้ตสั้นๆ และรูปมากกว่าการเขียนยาว",
           ],
         },
@@ -373,7 +373,7 @@ function getAboutContent(lang: Language): AboutContent {
         "เมื่อเผยแพร่จะสร้างหน้าเว็บสาธารณะพร้อม URL เฉพาะ และอาจถูกจัดทำดัชนีโดยเสิร์ชเอนจิน",
       ],
       closingTitle: "สงบโดยตั้งใจ",
-      closingParagraph: "ถ้าคุณต้องการคลังบันทึกที่สงบสําหรับทริป MomentBook ถูกสร้างมาเพื่อสิ่งนั้น",
+      closingParagraph: "ถ้าคุณต้องการคลังบันทึกที่สงบและเริ่มจากรูป MomentBook ถูกสร้างมาเพื่อสิ่งนั้น",
     };
   }
 
@@ -381,18 +381,18 @@ function getAboutContent(lang: Language): AboutContent {
     return {
       ...aboutContent.en,
       metaTitle: "Ve MomentBook",
-      metaDescription: "Kho luu tru nhe nhang cho hanh trinh va nhung nguoi phu hop voi no.",
+      metaDescription: "Kho luu tru nhe nhang bat dau tu anh.",
       title: "Ve MomentBook",
-      subtitle: "Mot cach nhe nhang de giu lai hanh trinh.",
-      lead: "MomentBook gom cac khoanh khac thanh hanh trinh. Thoi gian, dia diem va anh di cung nhau ma khong tro thanh feed.",
+      subtitle: "Mot cach nhe nhang de giu anh thanh hanh trinh.",
+      lead: "MomentBook bat dau tu anh va gom thoi gian, dia diem thanh hanh trinh nhe nhang, khong tro thanh feed.",
       missionTitle: "Vi sao no ton tai",
       missionParagraphs: [
-        "Khoanh khac thuong tan man giua may anh, ban do va tin nhan, roi mat di boi canh.",
+        "Anh va khoanh khac thuong tan man giua may anh, ban do va tin nhan, roi mat di boi canh.",
         "MomentBook giu nhiep chay cua mot ngay trong cung mot noi de ban quay lai ma khong can the hien.",
       ],
       principlesTitle: "Nguyen tac",
       principles: [
-        "Cau truc theo hanh trinh",
+        "Bat dau tu anh",
         "Rieng tu mac dinh",
         "Chia se nhe nhang bang lien ket",
         "AI la tro ly, khong phai tac gia",
@@ -401,7 +401,7 @@ function getAboutContent(lang: Language): AboutContent {
         {
           heading: "Danh cho ai",
           paragraphs: [
-            "Nguoi muon nho lai chuyen di hoac nhung ngay thuong ma khong can feed cong khai.",
+            "Nguoi muon sap xep anh chuyen di hoac nhung ngay thuong ma khong can feed cong khai.",
             "Nguoi thich ghi chu ngan va anh hon viet dai.",
           ],
         },
@@ -418,7 +418,7 @@ function getAboutContent(lang: Language): AboutContent {
         "Dang bai tao trang web cong khai voi URL rieng va co the duoc cong cu tim kiem lap chi muc.",
       ],
       closingTitle: "Tinh lang theo chu dich",
-      closingParagraph: "Neu ban can mot kho luu tru nhe nhang cho hanh trinh, MomentBook duoc tao ra cho dieu do.",
+      closingParagraph: "Neu ban can kho luu tru nhe nhang bat dau tu anh cho hanh trinh, MomentBook duoc tao ra cho dieu do.",
     };
   }
 

@@ -45,7 +45,7 @@ export const fr: Dictionary = {
     learnMore: "Voir comment ca marche",
   },
   footer: {
-    summary: "Conservez photos, notes et lieux pour retrouver une journee plus tard.",
+    summary: "Commencez par les photos et gardez une journee en calme.",
     ctaPrimary: "Telecharger",
     ctaSecondary: "Support",
     sections: {

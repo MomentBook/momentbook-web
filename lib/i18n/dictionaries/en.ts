@@ -52,7 +52,7 @@ export const en = {
 
   // Footer
   footer: {
-    summary: 'Save photos, notes, and places so you can find a day later.',
+    summary: 'Start with photos and keep a day together when you want to return.',
     ctaPrimary: 'Download',
     ctaSecondary: 'Support',
     sections: {

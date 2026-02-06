@@ -45,7 +45,7 @@ export const th: Dictionary = {
     learnMore: "ดูวิธีการทำงาน",
   },
   footer: {
-    summary: "บันทึกรูป โน้ต และสถานที่ เพื่อกลับมาหาวันนั้นได้ในภายหลัง",
+    summary: "เริ่มจากรูป แล้วเก็บวันหนึ่งไว้อย่างสงบ",
     ctaPrimary: "ดาวน์โหลด",
     ctaSecondary: "ซัพพอร์ต",
     sections: {

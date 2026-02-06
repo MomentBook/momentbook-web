@@ -33,63 +33,63 @@ const photoLabels: Partial<Record<
         takenAt: "Captured at",
         location: "Place",
         contextNote:
-            "This page shows a single photo from a published journey. Anything else stays private unless shared.",
+            "This page shows a single photo from a published journey. Some journeys are shared as photos only; anything else stays private unless shared.",
     },
     ko: {
         backToJourney: "여정으로 돌아가기",
         takenAt: "기록 시각",
         location: "장소",
         contextNote:
-            "이 페이지는 게시된 여정의 사진 한 장만 보여줍니다. 나머지는 공유하기 전까지 공개되지 않습니다.",
+            "이 페이지는 게시된 여정의 사진 한 장만 보여줍니다. 사진만 공유된 여정도 있으며, 나머지는 공유하기 전까지 공개되지 않습니다.",
     },
     ja: {
         backToJourney: "旅に戻る",
         takenAt: "記録時刻",
         location: "場所",
         contextNote:
-            "このページは公開された旅の写真1枚だけを表示します。その他は共有するまで公開されません。",
+            "このページは公開された旅の写真1枚だけを表示します。写真のみで共有される旅もあり、その他は共有するまで公開されません。",
     },
     zh: {
         backToJourney: "返回行程",
         takenAt: "记录时间",
         location: "地点",
         contextNote:
-            "此页面仅展示已发布行程中的一张照片。其他内容在分享前不会公开。",
+            "此页面仅展示已发布行程中的一张照片。部分行程仅分享照片，其他内容在分享前不会公开。",
     },
     es: {
         backToJourney: "Volver al viaje",
         takenAt: "Capturado en",
         location: "Lugar",
         contextNote:
-            "Esta pagina muestra una sola foto de un viaje publicado. Todo lo demas sigue privado salvo que se comparta.",
+            "Esta pagina muestra una sola foto de un viaje publicado. Algunos viajes se comparten solo con fotos; lo demas sigue privado salvo que se comparta.",
     },
     pt: {
         backToJourney: "Voltar para jornada",
         takenAt: "Registrado em",
         location: "Local",
         contextNote:
-            "Esta pagina mostra apenas uma foto de uma jornada publicada. O restante permanece privado ate ser compartilhado.",
+            "Esta pagina mostra apenas uma foto de uma jornada publicada. Algumas jornadas sao compartilhadas apenas com fotos; o restante permanece privado ate ser compartilhado.",
     },
     fr: {
         backToJourney: "Retour au voyage",
         takenAt: "Capture le",
         location: "Lieu",
         contextNote:
-            "Cette page affiche une seule photo d'un voyage publie. Le reste reste prive sauf partage.",
+            "Cette page affiche une seule photo d'un voyage publie. Certains voyages sont partages uniquement avec des photos; le reste reste prive sauf partage.",
     },
     th: {
         backToJourney: "กลับไปที่ทริป",
         takenAt: "บันทึกเวลา",
         location: "สถานที่",
         contextNote:
-            "หน้านี้แสดงเฉพาะรูปเดียวจากทริปที่เผยแพร่ เนื้อหาอื่นยังคงเป็นส่วนตัวจนกว่าจะมีการแชร์",
+            "หน้านี้แสดงเฉพาะรูปเดียวจากทริปที่เผยแพร่ บางทริปแชร์เฉพาะรูป ส่วนที่เหลือยังเป็นส่วนตัวจนกว่าจะมีการแชร์",
     },
     vi: {
         backToJourney: "Quay lai hanh trinh",
         takenAt: "Ghi luc",
         location: "Dia diem",
         contextNote:
-            "Trang nay chi hien thi mot anh tu hanh trinh da dang. Phan con lai van rieng tu neu chua chia se.",
+            "Trang nay chi hien thi mot anh tu hanh trinh da dang. Mot so hanh trinh chi chia se bang anh; phan con lai van rieng tu neu chua chia se.",
     },
 };
 

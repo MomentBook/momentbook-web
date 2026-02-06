@@ -45,7 +45,7 @@ export const es: Dictionary = {
     learnMore: "Ver como funciona",
   },
   footer: {
-    summary: "Guarda fotos, notas y lugares para volver a encontrar un dia despues.",
+    summary: "Empieza con fotos y guarda un dia en calma.",
     ctaPrimary: "Descargar",
     ctaSecondary: "Soporte",
     sections: {
