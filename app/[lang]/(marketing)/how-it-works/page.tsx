@@ -1,573 +1,750 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { DeviceMock } from "@/components/DeviceMock";
-import deviceStyles from "@/components/DeviceMock.module.scss";
+import Link from "next/link";
 import styles from "./how-it-works.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-
-type HowItWorksStep = {
-  title: string;
-  text: string;
-  image: string;
-  alt: string;
-};
 
 type HowItWorksFlow = {
   id: string;
   title: string;
   summary: string;
-  steps: HowItWorksStep[];
+  steps: string[];
+};
+
+type SupportingFeature = {
+  title: string;
+  text: string;
+};
+
+type FaqItem = {
+  question: string;
+  answer: string;
+  linkLabel?: string;
+  linkHref?: string;
 };
 
 type HowItWorksContent = {
   metaTitle: string;
   metaDescription: string;
-  title: string;
-  subtitle: string;
-  actionJourney: string;
-  actionPhoto: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  heroTrackingCta: string;
+  heroPhotoCta: string;
+  flowTitle: string;
+  flowLead: string;
   flows: HowItWorksFlow[];
+  outcomeTitle: string;
+  outcomeLead: string;
+  outcomeHighlights: string[];
+  outcomePrimaryCta: string;
+  outcomeSecondaryCta: string;
+  featuresTitle: string;
+  featuresLead: string;
+  features: SupportingFeature[];
+  faqTitle: string;
+  faqs: FaqItem[];
 };
 
 const howItWorksContent: Record<Language, HowItWorksContent> = {
   en: {
-    metaTitle: "How MomentBook Works",
-    metaDescription: "Two simple flows: start a journey or start with photos.",
-    title: "How MomentBook works",
-    subtitle: "Two simple ways to begin. Choose the one that fits today.",
-    actionJourney: "Journey flow",
-    actionPhoto: "Photo flow",
+    metaTitle: "Two ways to begin — MomentBook",
+    metaDescription: "Track a journey or organize with photos only. Both become a calm, organized journey you can return to.",
+    heroTitle: "Two ways to record a journey",
+    heroSubtitle: "Track as you move, or start with photos only. Both lead to an organized journey you can return to.",
+    heroTrackingCta: "Record with tracking",
+    heroPhotoCta: "Organize with photos",
+    flowTitle: "Two paths, one destination",
+    flowLead: "Choose the start that fits today. The destination is an organized journey.",
     flows: [
       {
-        id: "journey",
-        title: "Start a journey",
-        summary: "Let time and place collect while you move.",
+        id: "tracking",
+        title: "Tracking-based journey",
+        summary: "For days when you want time and place to gather as you move.",
         steps: [
-          {
-            title: "Start from the home screen",
-            text: "Begin a journey when the day starts.",
-            image: "/screenshots/start-journey.png",
-            alt: "Start journey screen with a single call to action.",
-          },
-          {
-            title: "Let moments collect",
-            text: "As you move, time and place gather quietly.",
-            image: "/screenshots/current-journey.png",
-            alt: "Current journey status with time, photos, places, and map preview.",
-          },
-          {
-            title: "Finish and review",
-            text: "End when you are ready and view the timeline.",
-            image: "/screenshots/journey-timeline.png",
-            alt: "Journey timeline showing a place card, map, and photos.",
-          },
+          "Start tracking from the home screen.",
+          "Move naturally while moments collect.",
+          "Finish the journey when you are ready.",
+          "Add photos or notes during the organization step.",
+          "Review the organized journey.",
         ],
       },
       {
         id: "photo",
-        title: "Organize with photos",
-        summary: "Begin with the photos you already have.",
+        title: "Photo-only organization",
+        summary: "If tracking feels heavy, photos alone are enough.",
         steps: [
-          {
-            title: "Choose photos",
-            text: "Pick the photos you want to keep.",
-            image: "/screenshots/photos-picker.png",
-            alt: "Photo picker grid with day and time filters.",
-          },
-          {
-            title: "Organize into moments",
-            text: "One tap groups photos into small clusters.",
-            image: "/screenshots/organize-photos.png",
-            alt: "Organizing photos screen with a grid and organize button.",
-          },
-          {
-            title: "Refine the moments",
-            text: "Adjust the set when it needs it.",
-            image: "/screenshots/user-organizing.png",
-            alt: "User organizing screen with photo clusters and timestamps.",
-          },
+          "Select the photos you want to organize.",
+          "Time and location are read from the photos.",
+          "Photos group into moments automatically.",
+          "Adjust the moments when needed.",
+          "Review the organized journey.",
         ],
+      },
+    ],
+    outcomeTitle: "Where both paths meet",
+    outcomeLead: "However you begin, the result points to the same place.",
+    outcomeHighlights: [
+      "Memories shaped as journeys, not a feed.",
+      "Organized moments at a glance.",
+      "Sharing is optional; keeping it personal is the default.",
+    ],
+    outcomePrimaryCta: "Download the app",
+    outcomeSecondaryCta: "See supporting features",
+    featuresTitle: "Supporting features",
+    featuresLead: "Details that help the flow without taking it over.",
+    features: [
+      {
+        title: "Add photos after tracking",
+        text: "In the tracking flow, you can upload photos after finishing.",
+      },
+      {
+        title: "Lightweight adjustments",
+        text: "Tweak groupings and order only when you need to.",
+      },
+      {
+        title: "Optional publishing",
+        text: "Publishing creates a shareable web page. It is not required.",
+      },
+    ],
+    faqTitle: "FAQ",
+    faqs: [
+      {
+        question: "Do I have to track?",
+        answer: "No. You can organize with photos only.",
+      },
+      {
+        question: "When can I add photos?",
+        answer: "In the tracking flow, you add after finishing. In photo-only, you start by selecting photos.",
+      },
+      {
+        question: "If I publish, can anyone see it?",
+        answer: "Publishing is optional. A public page can be shared by link and may appear in search results.",
+        linkLabel: "Read the community guidelines.",
+        linkHref: "/community-guidelines",
       },
     ],
   },
   ko: {
-    metaTitle: "MomentBook 작동 방식",
-    metaDescription: "여정으로 시작하거나 사진으로 시작하는 두 가지 흐름.",
-    title: "MomentBook 작동 방식",
-    subtitle: "두 가지 간단한 시작. 오늘에 맞는 방식을 고르세요.",
-    actionJourney: "여정 흐름",
-    actionPhoto: "사진 흐름",
+    metaTitle: "MomentBook — 여정을 기록하는 두 가지 방법",
+    metaDescription: "트래킹으로 기록하거나 사진만으로 정리합니다. 두 방식 모두 정리된 여정으로 이어집니다.",
+    heroTitle: "여정을 기록하는 두 가지 방법",
+    heroSubtitle: "트래킹으로 기록하거나 사진만으로 정리합니다. 두 방식 모두 정리된 여정으로 이어집니다.",
+    heroTrackingCta: "트래킹으로 기록하기",
+    heroPhotoCta: "사진만으로 정리하기",
+    flowTitle: "두 가지 시작, 같은 목적지",
+    flowLead: "오늘의 시작을 고르세요. 목적지는 정리된 여정입니다.",
     flows: [
       {
-        id: "journey",
-        title: "여정으로 시작",
-        summary: "움직이는 동안 시간과 장소가 모입니다.",
+        id: "tracking",
+        title: "트래킹 기반 여정",
+        summary: "이동하면서 시간과 장소를 모으고 싶을 때.",
         steps: [
-          {
-            title: "홈에서 여정 시작",
-            text: "하루를 시작할 때 여정을 엽니다.",
-            image: "/screenshots/start-journey.png",
-            alt: "여정을 시작하는 버튼이 있는 화면.",
-          },
-          {
-            title: "이동하며 모이기",
-            text: "움직이는 동안 시간과 장소가 조용히 모입니다.",
-            image: "/screenshots/current-journey.png",
-            alt: "시간, 사진, 장소, 지도 미리보기가 있는 현재 여정 화면.",
-          },
-          {
-            title: "마무리하고 보기",
-            text: "마친 뒤 타임라인을 확인합니다.",
-            image: "/screenshots/journey-timeline.png",
-            alt: "장소 카드, 지도, 사진이 이어진 여정 타임라인 화면.",
-          },
+          "홈에서 트래킹으로 시작합니다.",
+          "이동하며 순간이 조용히 모입니다.",
+          "원할 때 여정을 마무리합니다.",
+          "정리 과정에서 사진과 메모를 더합니다.",
+          "정리된 여정을 확인합니다.",
         ],
       },
       {
         id: "photo",
-        title: "사진으로 정리",
-        summary: "이미 있는 사진에서 시작합니다.",
+        title: "사진만으로 정리",
+        summary: "트래킹이 부담스럽다면 사진만으로도 가능합니다.",
         steps: [
-          {
-            title: "사진 고르기",
-            text: "남길 사진을 선택합니다.",
-            image: "/screenshots/photos-picker.png",
-            alt: "날짜와 시간 필터가 있는 사진 선택 화면.",
-          },
-          {
-            title: "순간으로 정리",
-            text: "한 번의 정리로 작은 묶음이 만들어집니다.",
-            image: "/screenshots/organize-photos.png",
-            alt: "사진 그리드와 정리 버튼이 있는 화면.",
-          },
-          {
-            title: "묶음 다듬기",
-            text: "필요한 만큼만 조정합니다.",
-            image: "/screenshots/user-organizing.png",
-            alt: "사진 묶음과 타임스탬프가 표시된 화면.",
-          },
+          "정리하고 싶은 사진을 고릅니다.",
+          "시간과 위치 정보가 읽힙니다.",
+          "사진이 순간으로 자동 묶입니다.",
+          "필요한 만큼만 보정합니다.",
+          "정리된 여정을 확인합니다.",
         ],
+      },
+    ],
+    outcomeTitle: "두 흐름이 만나는 지점",
+    outcomeLead: "어떤 시작이든 결과는 같은 방향입니다.",
+    outcomeHighlights: [
+      "기억을 ‘피드’가 아니라 ‘여정’으로",
+      "정리된 순간들을 한눈에",
+      "공유는 선택, 기본은 개인 기록",
+    ],
+    outcomePrimaryCta: "앱 다운로드",
+    outcomeSecondaryCta: "기능 더 보기",
+    featuresTitle: "흐름을 돕는 요소",
+    featuresLead: "작은 기능이 흐름을 방해하지 않도록 배치됩니다.",
+    features: [
+      {
+        title: "마무리 후 사진 추가",
+        text: "트래킹 흐름에서는 마무리 이후에 사진을 더할 수 있습니다.",
+      },
+      {
+        title: "가벼운 보정",
+        text: "묶음과 순서를 필요할 때만 조정합니다.",
+      },
+      {
+        title: "선택적 게시",
+        text: "게시하면 공유 가능한 공개 페이지가 만들어집니다. 필수는 아닙니다.",
+      },
+    ],
+    faqTitle: "자주 묻는 질문",
+    faqs: [
+      {
+        question: "트래킹은 필수인가요?",
+        answer: "아니요. 사진만으로도 정리할 수 있습니다.",
+      },
+      {
+        question: "사진은 언제 추가하나요?",
+        answer: "트래킹 흐름에서는 마무리 후 추가할 수 있고, 사진만 흐름에서는 시작부터 사진을 선택합니다.",
+      },
+      {
+        question: "공개하면 누구나 보나요?",
+        answer: "게시 여부는 선택입니다. 공개 페이지는 링크로 공유할 수 있고 검색에 노출될 수 있습니다.",
+        linkLabel: "커뮤니티 가이드라인 보기.",
+        linkHref: "/community-guidelines",
       },
     ],
   },
   ja: {
-    metaTitle: "MomentBook の使い方",
-    metaDescription: "旅から始めるか、写真から始めるか。二つのシンプルな流れ。",
-    title: "MomentBook の使い方",
-    subtitle: "二つのシンプルな始め方。今日に合う方を選びます。",
-    actionJourney: "旅の流れ",
-    actionPhoto: "写真の流れ",
+    metaTitle: "MomentBook — 旅を記録する二つの方法",
+    metaDescription: "トラッキングで記録するか、写真だけで整理するか。どちらも整理された旅につながります。",
+    heroTitle: "旅を記録する二つの方法",
+    heroSubtitle: "トラッキングでも写真だけでも。どちらも整理された旅につながります。",
+    heroTrackingCta: "トラッキングで記録する",
+    heroPhotoCta: "写真だけで整理する",
+    flowTitle: "二つの始まり、同じ行き先",
+    flowLead: "今日の始め方を選びます。行き先は整理された旅です。",
     flows: [
       {
-        id: "journey",
-        title: "旅から始める",
-        summary: "動きながら時間と場所が集まります。",
+        id: "tracking",
+        title: "トラッキング起点の旅",
+        summary: "移動しながら時間と場所を集めたい日。",
         steps: [
-          {
-            title: "ホームから旅を開始",
-            text: "一日の始まりに旅を開きます。",
-            image: "/screenshots/start-journey.png",
-            alt: "旅を開始するボタンがある画面。",
-          },
-          {
-            title: "動きながら集まる",
-            text: "移動の中で時間と場所が静かに集まります。",
-            image: "/screenshots/current-journey.png",
-            alt: "時間、写真、場所、地図のプレビューがある現在の旅画面。",
-          },
-          {
-            title: "終えて見返す",
-            text: "終えたらタイムラインを確認します。",
-            image: "/screenshots/journey-timeline.png",
-            alt: "場所カード、地図、写真が並ぶ旅のタイムライン画面。",
-          },
+          "ホームからトラッキングを開始します。",
+          "移動の中で瞬間が静かに集まります。",
+          "好きなタイミングで旅を終えます。",
+          "整理の中で写真やメモを追加します。",
+          "整理された旅を確認します。",
         ],
       },
       {
         id: "photo",
-        title: "写真から整理",
-        summary: "すでにある写真から始めます。",
+        title: "写真だけで整理",
+        summary: "トラッキングが負担なら写真だけでも。",
         steps: [
-          {
-            title: "写真を選ぶ",
-            text: "残したい写真を選びます。",
-            image: "/screenshots/photos-picker.png",
-            alt: "日付と時間のフィルターがある写真選択画面。",
-          },
-          {
-            title: "瞬間として整理",
-            text: "一度の整理で小さなまとまりができます。",
-            image: "/screenshots/organize-photos.png",
-            alt: "写真グリッドと整理ボタンがある画面。",
-          },
-          {
-            title: "まとまりを整える",
-            text: "必要な分だけ調整します。",
-            image: "/screenshots/user-organizing.png",
-            alt: "写真のまとまりとタイムスタンプがある整理画面。",
-          },
+          "整理したい写真を選びます。",
+          "時間と場所の情報を読み取ります。",
+          "写真が自動で瞬間にまとまります。",
+          "必要な分だけ調整します。",
+          "整理された旅を確認します。",
         ],
+      },
+    ],
+    outcomeTitle: "二つの流れが合流するところ",
+    outcomeLead: "どの始め方でも結果は同じ方向です。",
+    outcomeHighlights: [
+      "記憶をフィードではなく旅として",
+      "整理された瞬間をひと目で",
+      "共有は任意、基本は個人の記録",
+    ],
+    outcomePrimaryCta: "アプリをダウンロード",
+    outcomeSecondaryCta: "機能を見る",
+    featuresTitle: "流れを支える要素",
+    featuresLead: "細かな機能は流れを支えるためにあります。",
+    features: [
+      {
+        title: "トラッキング後の写真追加",
+        text: "トラッキングの流れでは終えた後に写真を追加できます。",
+      },
+      {
+        title: "軽い調整",
+        text: "まとまりや順序を必要な分だけ整えます。",
+      },
+      {
+        title: "任意の公開",
+        text: "公開すると共有できるWebページが作られます。必須ではありません。",
+      },
+    ],
+    faqTitle: "よくある質問",
+    faqs: [
+      {
+        question: "トラッキングは必須ですか？",
+        answer: "いいえ。写真だけでも整理できます。",
+      },
+      {
+        question: "写真はいつ追加しますか？",
+        answer: "トラッキングの流れでは終了後に追加でき、写真だけの流れでは最初から写真を選びます。",
+      },
+      {
+        question: "公開すると誰でも見られますか？",
+        answer: "公開は任意です。公開ページはリンクで共有でき、検索に表示される可能性があります。",
+        linkLabel: "コミュニティガイドラインを見る。",
+        linkHref: "/community-guidelines",
       },
     ],
   },
   zh: {
-    metaTitle: "MomentBook 如何运作",
-    metaDescription: "两种简单流程：从旅程开始，或从照片开始。",
-    title: "MomentBook 如何运作",
-    subtitle: "两种简单的开始方式。选择今天适合的那一种。",
-    actionJourney: "旅程流程",
-    actionPhoto: "照片流程",
+    metaTitle: "MomentBook — 记录旅程的两种方式",
+    metaDescription: "可以用追踪记录，也可以只用照片整理。两种方式都通向整理后的旅程。",
+    heroTitle: "记录旅程的两种方式",
+    heroSubtitle: "可以用追踪记录，也可以只用照片整理。两种方式都通向整理后的旅程。",
+    heroTrackingCta: "用追踪记录",
+    heroPhotoCta: "只用照片整理",
+    flowTitle: "两种起点，同一终点",
+    flowLead: "选择今天的开始方式，终点是整理后的旅程。",
     flows: [
       {
-        id: "journey",
-        title: "从旅程开始",
-        summary: "在移动中让时间与地点自然累积。",
+        id: "tracking",
+        title: "追踪式旅程",
+        summary: "想在移动中收集时间与地点时。",
         steps: [
-          {
-            title: "从主屏幕开始",
-            text: "在一天开始时开启旅程。",
-            image: "/screenshots/start-journey.png",
-            alt: "带有开始旅程按钮的界面。",
-          },
-          {
-            title: "移动中累积",
-            text: "移动时，时间与地点会安静地累积。",
-            image: "/screenshots/current-journey.png",
-            alt: "包含时间、照片、地点和地图预览的当前旅程界面。",
-          },
-          {
-            title: "完成并查看",
-            text: "结束后查看时间线。",
-            image: "/screenshots/journey-timeline.png",
-            alt: "包含地点卡片、地图和照片的旅程时间线界面。",
-          },
+          "在主屏幕开始追踪。",
+          "移动中，瞬间会安静地累积。",
+          "准备好时结束旅程。",
+          "整理过程中可添加照片或备注。",
+          "查看整理后的旅程。",
         ],
       },
       {
         id: "photo",
-        title: "用照片整理",
-        summary: "从已有的照片开始。",
+        title: "照片整理",
+        summary: "如果追踪有负担，只用照片也可以。",
         steps: [
-          {
-            title: "选择照片",
-            text: "挑选想保留的照片。",
-            image: "/screenshots/photos-picker.png",
-            alt: "带有日期和时间筛选的照片选择界面。",
-          },
-          {
-            title: "整理成片段",
-            text: "一次整理生成小片段。",
-            image: "/screenshots/organize-photos.png",
-            alt: "带有照片网格和整理按钮的界面。",
-          },
-          {
-            title: "微调片段",
-            text: "按需要进行调整。",
-            image: "/screenshots/user-organizing.png",
-            alt: "显示照片分组与时间戳的整理界面。",
-          },
+          "选择要整理的照片。",
+          "读取时间与位置信息。",
+          "照片会自动分组成瞬间。",
+          "按需要进行调整。",
+          "查看整理后的旅程。",
         ],
+      },
+    ],
+    outcomeTitle: "两条路径的汇合点",
+    outcomeLead: "无论从哪开始，结果都指向同一处。",
+    outcomeHighlights: [
+      "记忆不是信息流，而是旅程",
+      "整理后的瞬间一目了然",
+      "分享可选，默认是个人记录",
+    ],
+    outcomePrimaryCta: "下载应用",
+    outcomeSecondaryCta: "查看功能",
+    featuresTitle: "支持流程的细节",
+    featuresLead: "这些功能只为帮助流程，不喧宾夺主。",
+    features: [
+      {
+        title: "追踪后添加照片",
+        text: "在追踪流程中可以在结束后补充照片。",
+      },
+      {
+        title: "轻量调整",
+        text: "只在需要时调整分组和顺序。",
+      },
+      {
+        title: "可选发布",
+        text: "发布会生成可分享的网页。并非必需。",
+      },
+    ],
+    faqTitle: "常见问题",
+    faqs: [
+      {
+        question: "必须追踪吗？",
+        answer: "不必。只用照片也能整理。",
+      },
+      {
+        question: "照片什么时候添加？",
+        answer: "追踪流程在结束后可添加；照片流程从一开始就选择照片。",
+      },
+      {
+        question: "发布后所有人都能看到吗？",
+        answer: "发布是可选的。公开页面可以通过链接分享，并可能被搜索引擎收录。",
+        linkLabel: "查看社区准则。",
+        linkHref: "/community-guidelines",
       },
     ],
   },
   es: {
-    metaTitle: "Como funciona MomentBook",
-    metaDescription: "Dos flujos simples: iniciar un viaje o empezar con fotos.",
-    title: "Como funciona MomentBook",
-    subtitle: "Dos formas simples de empezar. Elige la que encaje hoy.",
-    actionJourney: "Flujo del viaje",
-    actionPhoto: "Flujo de fotos",
+    metaTitle: "MomentBook — Dos formas de empezar un viaje",
+    metaDescription: "Puedes registrar con tracking o ordenar solo con fotos. Ambas llevan a un viaje organizado.",
+    heroTitle: "Dos formas de empezar un viaje",
+    heroSubtitle: "Puedes registrar con tracking o ordenar solo con fotos. Ambas llevan a un viaje organizado.",
+    heroTrackingCta: "Registrar con tracking",
+    heroPhotoCta: "Ordenar solo con fotos",
+    flowTitle: "Dos inicios, un destino",
+    flowLead: "Elige el inicio de hoy. El destino es un viaje organizado.",
     flows: [
       {
-        id: "journey",
-        title: "Iniciar un viaje",
-        summary: "Deja que el tiempo y el lugar se reunan mientras te mueves.",
+        id: "tracking",
+        title: "Viaje con tracking",
+        summary: "Para dias en los que quieres reunir tiempo y lugar mientras te mueves.",
         steps: [
-          {
-            title: "Empieza en la pantalla de inicio",
-            text: "Inicia un viaje cuando comienza el dia.",
-            image: "/screenshots/start-journey.png",
-            alt: "Pantalla con el boton para iniciar un viaje.",
-          },
-          {
-            title: "Deja que los momentos se junten",
-            text: "Al moverte, el tiempo y el lugar se juntan en silencio.",
-            image: "/screenshots/current-journey.png",
-            alt: "Estado de la jornada con hora, fotos, lugares y vista de mapa.",
-          },
-          {
-            title: "Termina y revisa",
-            text: "Finaliza cuando quieras y revisa la linea de tiempo.",
-            image: "/screenshots/journey-timeline.png",
-            alt: "Linea del viaje con tarjeta de lugar, mapa y fotos.",
-          },
+          "Desde la pantalla inicial, inicia el tracking.",
+          "Al moverte, los momentos se juntan en silencio.",
+          "Termina el viaje cuando quieras.",
+          "Durante el ordenado puedes agregar fotos o notas.",
+          "Revisa el viaje organizado.",
         ],
       },
       {
         id: "photo",
-        title: "Ordenar con fotos",
-        summary: "Empieza con las fotos que ya tienes.",
+        title: "Ordenar solo con fotos",
+        summary: "Si el tracking se siente pesado, solo con fotos tambien funciona.",
         steps: [
-          {
-            title: "Elige fotos",
-            text: "Selecciona las fotos que quieres guardar.",
-            image: "/screenshots/photos-picker.png",
-            alt: "Selector de fotos con filtros por dia y hora.",
-          },
-          {
-            title: "Organiza en momentos",
-            text: "Un toque agrupa fotos en pequenos momentos.",
-            image: "/screenshots/organize-photos.png",
-            alt: "Pantalla de organizacion de fotos con cuadricula y boton de organizar.",
-          },
-          {
-            title: "Ajusta los momentos",
-            text: "Ajusta el conjunto cuando lo necesite.",
-            image: "/screenshots/user-organizing.png",
-            alt: "Pantalla de organizacion con grupos de fotos y marcas de tiempo.",
-          },
+          "Elige las fotos que quieres ordenar.",
+          "Se leen tiempo y lugar.",
+          "Las fotos se agrupan en momentos automaticamente.",
+          "Ajusta lo necesario.",
+          "Revisa el viaje organizado.",
         ],
+      },
+    ],
+    outcomeTitle: "Donde se unen los dos caminos",
+    outcomeLead: "Empieces como empieces, el resultado es el mismo.",
+    outcomeHighlights: [
+      "Recuerdos como viajes, no como feed.",
+      "Momentos ordenados de un vistazo.",
+      "Compartir es opcional; lo personal es el punto de partida.",
+    ],
+    outcomePrimaryCta: "Descargar la app",
+    outcomeSecondaryCta: "Ver funciones",
+    featuresTitle: "Funciones de apoyo",
+    featuresLead: "Solo acompanan el flujo.",
+    features: [
+      {
+        title: "Agregar fotos al final",
+        text: "En el flujo de tracking puedes agregar fotos despues de terminar.",
+      },
+      {
+        title: "Ajustes ligeros",
+        text: "Ajusta grupos y orden solo cuando lo necesites.",
+      },
+      {
+        title: "Publicacion opcional",
+        text: "Publicar crea una pagina web para compartir. No es obligatorio.",
+      },
+    ],
+    faqTitle: "Preguntas frecuentes",
+    faqs: [
+      {
+        question: "El tracking es obligatorio?",
+        answer: "No. Puedes ordenar solo con fotos.",
+      },
+      {
+        question: "Cuando agrego fotos?",
+        answer: "En tracking, despues de terminar. En fotos, empiezas seleccionando fotos.",
+      },
+      {
+        question: "Si publico, cualquiera puede verlo?",
+        answer: "Publicar es opcional. La pagina publica se puede compartir por link y puede aparecer en buscadores.",
+        linkLabel: "Leer las reglas de la comunidad.",
+        linkHref: "/community-guidelines",
       },
     ],
   },
   pt: {
-    metaTitle: "Como o MomentBook funciona",
-    metaDescription: "Dois fluxos simples: iniciar uma jornada ou comecar com fotos.",
-    title: "Como o MomentBook funciona",
-    subtitle: "Duas formas simples de comecar. Escolha a que faz sentido hoje.",
-    actionJourney: "Fluxo da jornada",
-    actionPhoto: "Fluxo de fotos",
+    metaTitle: "MomentBook — Duas formas de iniciar uma jornada",
+    metaDescription: "Voce pode registrar com tracking ou organizar so com fotos. Ambos levam a uma jornada organizada.",
+    heroTitle: "Duas formas de iniciar uma jornada",
+    heroSubtitle: "Voce pode registrar com tracking ou organizar so com fotos. Ambos levam a uma jornada organizada.",
+    heroTrackingCta: "Registrar com tracking",
+    heroPhotoCta: "Organizar so com fotos",
+    flowTitle: "Dois inicios, um destino",
+    flowLead: "Escolha o inicio de hoje. O destino e uma jornada organizada.",
     flows: [
       {
-        id: "journey",
-        title: "Iniciar uma jornada",
-        summary: "Deixe tempo e lugar se reunirem enquanto voce se move.",
+        id: "tracking",
+        title: "Jornada com tracking",
+        summary: "Para dias em que voce quer reunir tempo e lugar enquanto se move.",
         steps: [
-          {
-            title: "Comece na tela inicial",
-            text: "Inicie uma jornada quando o dia comeca.",
-            image: "/screenshots/start-journey.png",
-            alt: "Tela com o botao para iniciar uma jornada.",
-          },
-          {
-            title: "Deixe os momentos se juntarem",
-            text: "Ao se mover, tempo e lugar se juntam em silencio.",
-            image: "/screenshots/current-journey.png",
-            alt: "Status da jornada com tempo, fotos, locais e mapa.",
-          },
-          {
-            title: "Finalize e reveja",
-            text: "Finalize quando quiser e veja a linha do tempo.",
-            image: "/screenshots/journey-timeline.png",
-            alt: "Linha da jornada com cartao de local, mapa e fotos.",
-          },
+          "Na tela inicial, inicie o tracking.",
+          "Ao se mover, os momentos se juntam em silencio.",
+          "Finalize a jornada quando quiser.",
+          "Durante a organizacao, adicione fotos ou notas.",
+          "Revise a jornada organizada.",
         ],
       },
       {
         id: "photo",
-        title: "Organizar com fotos",
-        summary: "Comece com as fotos que voce ja tem.",
+        title: "Organizar so com fotos",
+        summary: "Se o tracking parecer pesado, so com fotos tambem funciona.",
         steps: [
-          {
-            title: "Escolha fotos",
-            text: "Selecione as fotos que quer guardar.",
-            image: "/screenshots/photos-picker.png",
-            alt: "Seletor de fotos com filtros por dia e hora.",
-          },
-          {
-            title: "Organize em momentos",
-            text: "Um toque agrupa as fotos em pequenos momentos.",
-            image: "/screenshots/organize-photos.png",
-            alt: "Tela de organizacao de fotos com grade e botao de organizar.",
-          },
-          {
-            title: "Ajuste os momentos",
-            text: "Ajuste o conjunto quando precisar.",
-            image: "/screenshots/user-organizing.png",
-            alt: "Tela de organizacao com grupos de fotos e horarios.",
-          },
+          "Escolha as fotos que quer organizar.",
+          "Tempo e lugar sao lidos.",
+          "As fotos se agrupam em momentos automaticamente.",
+          "Ajuste o necessario.",
+          "Revise a jornada organizada.",
         ],
+      },
+    ],
+    outcomeTitle: "Onde os dois caminhos se encontram",
+    outcomeLead: "Comece por onde fizer sentido; o resultado e o mesmo.",
+    outcomeHighlights: [
+      "Memorias como jornadas, nao como feed.",
+      "Momentos organizados em um olhar.",
+      "Compartilhar e opcional; o pessoal e o padrao.",
+    ],
+    outcomePrimaryCta: "Baixar o app",
+    outcomeSecondaryCta: "Ver recursos",
+    featuresTitle: "Recursos de apoio",
+    featuresLead: "Apenas ajudam o fluxo.",
+    features: [
+      {
+        title: "Adicionar fotos depois",
+        text: "No fluxo de tracking, voce pode adicionar fotos apos finalizar.",
+      },
+      {
+        title: "Ajustes leves",
+        text: "Ajuste grupos e ordem so quando precisar.",
+      },
+      {
+        title: "Publicacao opcional",
+        text: "Publicar cria uma pagina web para compartilhar. Nao e obrigatorio.",
+      },
+    ],
+    faqTitle: "Perguntas frequentes",
+    faqs: [
+      {
+        question: "Tracking e obrigatorio?",
+        answer: "Nao. Voce pode organizar so com fotos.",
+      },
+      {
+        question: "Quando adiciono fotos?",
+        answer: "No tracking, apos finalizar. No fluxo de fotos, voce comeca escolhendo fotos.",
+      },
+      {
+        question: "Se publicar, qualquer pessoa ve?",
+        answer: "Publicar e opcional. A pagina publica pode ser compartilhada por link e pode aparecer em buscadores.",
+        linkLabel: "Leia as regras da comunidade.",
+        linkHref: "/community-guidelines",
       },
     ],
   },
   fr: {
-    metaTitle: "Comment fonctionne MomentBook",
-    metaDescription: "Deux flux simples : demarrer un voyage ou commencer avec des photos.",
-    title: "Comment fonctionne MomentBook",
-    subtitle: "Deux facons simples de commencer. Choisissez celle qui convient aujourd'hui.",
-    actionJourney: "Flux du voyage",
-    actionPhoto: "Flux photo",
+    metaTitle: "MomentBook — Deux facons de commencer un voyage",
+    metaDescription: "Vous pouvez enregistrer avec tracking ou organiser uniquement avec des photos. Les deux menent a un voyage organise.",
+    heroTitle: "Deux facons de commencer un voyage",
+    heroSubtitle: "Enregistrer avec tracking ou organiser uniquement avec des photos. Les deux menent a un voyage organise.",
+    heroTrackingCta: "Enregistrer avec tracking",
+    heroPhotoCta: "Organiser avec photos",
+    flowTitle: "Deux departs, une destination",
+    flowLead: "Choisissez le depart du jour. La destination est un voyage organise.",
     flows: [
       {
-        id: "journey",
-        title: "Commencer un voyage",
-        summary: "Laissez le temps et les lieux se rassembler pendant vos deplacements.",
+        id: "tracking",
+        title: "Voyage avec tracking",
+        summary: "Pour les jours ou vous voulez reunir temps et lieux en mouvement.",
         steps: [
-          {
-            title: "Commencez depuis l'ecran d'accueil",
-            text: "Demarrez un voyage quand la journee commence.",
-            image: "/screenshots/start-journey.png",
-            alt: "Ecran avec le bouton pour demarrer un voyage.",
-          },
-          {
-            title: "Laissez les moments se rassembler",
-            text: "En vous deplacant, le temps et les lieux se reunissent doucement.",
-            image: "/screenshots/current-journey.png",
-            alt: "Etat du voyage avec temps, photos, lieux et carte.",
-          },
-          {
-            title: "Terminez et revoyez",
-            text: "Terminez quand vous voulez et consultez la timeline.",
-            image: "/screenshots/journey-timeline.png",
-            alt: "Timeline du voyage avec carte de lieu, carte et photos.",
-          },
+          "Depuis l'ecran d'accueil, lancez le tracking.",
+          "En bougeant, les moments se rassemblent doucement.",
+          "Terminez le voyage quand vous voulez.",
+          "Pendant l'organisation, ajoutez photos ou notes.",
+          "Revoyez le voyage organise.",
         ],
       },
       {
         id: "photo",
-        title: "Organiser avec des photos",
-        summary: "Commencez avec les photos que vous avez deja.",
+        title: "Organiser avec photos",
+        summary: "Si le tracking semble lourd, les photos seules suffisent.",
         steps: [
-          {
-            title: "Choisir des photos",
-            text: "Selectionnez les photos que vous voulez garder.",
-            image: "/screenshots/photos-picker.png",
-            alt: "Selection de photos avec filtres par jour et heure.",
-          },
-          {
-            title: "Organiser en moments",
-            text: "Un geste regroupe les photos en petits moments.",
-            image: "/screenshots/organize-photos.png",
-            alt: "Ecran d'organisation des photos avec grille et bouton organiser.",
-          },
-          {
-            title: "Ajuster les moments",
-            text: "Ajustez le tout quand c'est necessaire.",
-            image: "/screenshots/user-organizing.png",
-            alt: "Ecran d'organisation avec groupes de photos et horodatages.",
-          },
+          "Choisissez les photos a organiser.",
+          "Le temps et le lieu sont lus.",
+          "Les photos se groupent en moments automatiquement.",
+          "Ajustez seulement ce qui est necessaire.",
+          "Revoyez le voyage organise.",
         ],
+      },
+    ],
+    outcomeTitle: "Le point de rencontre des deux chemins",
+    outcomeLead: "Quel que soit le debut, le resultat est le meme.",
+    outcomeHighlights: [
+      "Des souvenirs en voyages, pas en feed.",
+      "Des moments organises d'un seul regard.",
+      "Partager est optionnel; le personnel est la base.",
+    ],
+    outcomePrimaryCta: "Telecharger l'app",
+    outcomeSecondaryCta: "Voir les fonctions",
+    featuresTitle: "Fonctions de soutien",
+    featuresLead: "Elles accompagnent le flux sans le remplacer.",
+    features: [
+      {
+        title: "Ajouter des photos apres",
+        text: "Dans le flux tracking, vous pouvez ajouter des photos apres avoir termine.",
+      },
+      {
+        title: "Ajustements legers",
+        text: "Ajustez groupes et ordre seulement si besoin.",
+      },
+      {
+        title: "Publication optionnelle",
+        text: "Publier cree une page web partageable. Ce n'est pas obligatoire.",
+      },
+    ],
+    faqTitle: "Questions frequentes",
+    faqs: [
+      {
+        question: "Le tracking est-il obligatoire?",
+        answer: "Non. Vous pouvez organiser seulement avec des photos.",
+      },
+      {
+        question: "Quand ajouter des photos?",
+        answer: "Dans le flux tracking, apres la fin. Dans le flux photo, vous commencez par choisir des photos.",
+      },
+      {
+        question: "Si je publie, tout le monde peut voir?",
+        answer: "La publication est optionnelle. La page publique peut etre partagee par lien et peut apparaitre dans les moteurs de recherche.",
+        linkLabel: "Lire les regles de la communaute.",
+        linkHref: "/community-guidelines",
       },
     ],
   },
   th: {
-    metaTitle: "วิธีการทำงานของ MomentBook",
-    metaDescription: "สองโฟลว์เรียบง่าย: เริ่มการเดินทางหรือเริ่มด้วยรูป.",
-    title: "วิธีการทำงานของ MomentBook",
-    subtitle: "สองวิธีเริ่มต้นแบบเรียบง่าย เลือกแบบที่เหมาะกับวันนี้.",
-    actionJourney: "โฟลว์การเดินทาง",
-    actionPhoto: "โฟลว์รูป",
+    metaTitle: "MomentBook — สองวิธีเริ่มบันทึกการเดินทาง",
+    metaDescription: "บันทึกด้วยการติดตามหรือจัดด้วยรูปเท่านั้นก็ได้ ทั้งสองแบบจบที่การเดินทางที่จัดระเบียบแล้ว.",
+    heroTitle: "สองวิธีเริ่มบันทึกการเดินทาง",
+    heroSubtitle: "บันทึกด้วยการติดตาม หรือเริ่มจากรูปเท่านั้นก็ได้ ทั้งสองแบบจบที่การเดินทางที่จัดระเบียบแล้ว.",
+    heroTrackingCta: "บันทึกด้วยการติดตาม",
+    heroPhotoCta: "จัดด้วยรูปเท่านั้น",
+    flowTitle: "สองจุดเริ่ม ตรงสู่ปลายทางเดียวกัน",
+    flowLead: "เลือกจุดเริ่มของวันนี้ ปลายทางคือการเดินทางที่จัดระเบียบแล้ว.",
     flows: [
       {
-        id: "journey",
-        title: "เริ่มการเดินทาง",
-        summary: "ให้เวลาและสถานที่ค่อยๆ รวมกันระหว่างเคลื่อนไหว.",
+        id: "tracking",
+        title: "การเดินทางแบบติดตาม",
+        summary: "เหมาะกับวันที่อยากให้เวลาและสถานที่ถูกรวบรวมระหว่างการเคลื่อนไหว.",
         steps: [
-          {
-            title: "เริ่มจากหน้าจอหลัก",
-            text: "เริ่มการเดินทางเมื่อวันเริ่มต้น.",
-            image: "/screenshots/start-journey.png",
-            alt: "หน้าจอที่มีปุ่มเริ่มการเดินทาง.",
-          },
-          {
-            title: "ปล่อยให้ช่วงเวลารวมตัว",
-            text: "ขณะเคลื่อนไหว เวลาและสถานที่จะค่อยๆ รวมกัน.",
-            image: "/screenshots/current-journey.png",
-            alt: "สถานะการเดินทางพร้อมเวลา รูป สถานที่ และแผนที่.",
-          },
-          {
-            title: "จบและดูย้อนหลัง",
-            text: "จบเมื่อพร้อมและดูไทม์ไลน์.",
-            image: "/screenshots/journey-timeline.png",
-            alt: "ไทม์ไลน์การเดินทางที่มีการ์ดสถานที่ แผนที่ และรูป.",
-          },
+          "เริ่มติดตามจากหน้าจอหลัก.",
+          "ขยับไปตามปกติ แล้วช่วงเวลาจะค่อยๆ รวบรวม.",
+          "จบการเดินทางเมื่อพร้อม.",
+          "ระหว่างการจัด สามารถเพิ่มรูปหรือบันทึกได้.",
+          "ดูการเดินทางที่จัดระเบียบแล้ว.",
         ],
       },
       {
         id: "photo",
-        title: "จัดด้วยรูป",
-        summary: "เริ่มจากรูปที่มีอยู่แล้ว.",
+        title: "จัดด้วยรูปเท่านั้น",
+        summary: "ถ้าการติดตามดูยุ่งยาก รูปอย่างเดียวก็ได้.",
         steps: [
-          {
-            title: "เลือกรูป",
-            text: "เลือกรูปที่อยากเก็บไว้.",
-            image: "/screenshots/photos-picker.png",
-            alt: "ตัวเลือกภาพพร้อมตัวกรองวันและเวลา.",
-          },
-          {
-            title: "จัดเป็นช่วงเวลา",
-            text: "แตะครั้งเดียวเพื่อจัดกลุ่มเป็นช่วงเวลาเล็กๆ.",
-            image: "/screenshots/organize-photos.png",
-            alt: "หน้าจอจัดรูปด้วยกริดและปุ่มจัด.",
-          },
-          {
-            title: "ปรับช่วงเวลา",
-            text: "ปรับกลุ่มเท่าที่จำเป็น.",
-            image: "/screenshots/user-organizing.png",
-            alt: "หน้าจอจัดกลุ่มรูปพร้อมเวลา.",
-          },
+          "เลือกรูปที่อยากจัด.",
+          "ระบบอ่านเวลาและตำแหน่งจากรูป.",
+          "รูปจะถูกรวมเป็นช่วงเวลาโดยอัตโนมัติ.",
+          "ปรับเฉพาะส่วนที่จำเป็น.",
+          "ดูการเดินทางที่จัดระเบียบแล้ว.",
         ],
+      },
+    ],
+    outcomeTitle: "จุดที่สองเส้นทางมาบรรจบ",
+    outcomeLead: "เริ่มทางไหน ผลลัพธ์ก็ไปทางเดียวกัน.",
+    outcomeHighlights: [
+      "ความทรงจำในรูปของการเดินทาง ไม่ใช่ฟีด",
+      "ช่วงเวลาที่จัดไว้ในมุมมองเดียว",
+      "การแชร์เป็นตัวเลือก ค่าเริ่มต้นคือบันทึกส่วนตัว",
+    ],
+    outcomePrimaryCta: "ดาวน์โหลดแอป",
+    outcomeSecondaryCta: "ดูฟีเจอร์",
+    featuresTitle: "องค์ประกอบที่ช่วยให้ลื่นไหล",
+    featuresLead: "รายละเอียดเล็กๆ เพื่อช่วยกระบวนการ.",
+    features: [
+      {
+        title: "เพิ่มรูปหลังจบ",
+        text: "ในโฟลว์ติดตาม คุณเพิ่มรูปหลังจากจบได้.",
+      },
+      {
+        title: "ปรับอย่างเบา",
+        text: "ปรับกลุ่มและลำดับเท่าที่จำเป็น.",
+      },
+      {
+        title: "เผยแพร่แบบเลือกได้",
+        text: "การเผยแพร่จะสร้างหน้าเว็บสำหรับแชร์ ไม่ใช่สิ่งจำเป็น.",
+      },
+    ],
+    faqTitle: "คำถามที่พบบ่อย",
+    faqs: [
+      {
+        question: "ต้องติดตามไหม?",
+        answer: "ไม่จำเป็น รูปอย่างเดียวก็จัดได้.",
+      },
+      {
+        question: "เพิ่มรูปเมื่อไร?",
+        answer: "โฟลว์ติดตามเพิ่มหลังจบ ส่วนโฟลว์รูปเริ่มจากการเลือกรูป.",
+      },
+      {
+        question: "ถ้าเผยแพร่ ทุกคนเห็นไหม?",
+        answer: "การเผยแพร่เป็นตัวเลือก หน้าเว็บสาธารณะสามารถแชร์ด้วยลิงก์และอาจถูกค้นหาได้.",
+        linkLabel: "อ่านคู่มือชุมชน.",
+        linkHref: "/community-guidelines",
       },
     ],
   },
   vi: {
-    metaTitle: "MomentBook hoat dong nhu the nao",
-    metaDescription: "Hai luong don gian: bat dau hanh trinh hoac bat dau voi anh.",
-    title: "MomentBook hoat dong nhu the nao",
-    subtitle: "Hai cach bat dau don gian. Chon cach hop voi hom nay.",
-    actionJourney: "Luong hanh trinh",
-    actionPhoto: "Luong anh",
+    metaTitle: "MomentBook — Hai cach bat dau hanh trinh",
+    metaDescription: "Ban co the ghi lai bang tracking hoac sap xep chi voi anh. Ca hai deu dan toi hanh trinh da duoc sap xep.",
+    heroTitle: "Hai cach bat dau hanh trinh",
+    heroSubtitle: "Ghi lai bang tracking hoac chi voi anh. Ca hai deu dan toi hanh trinh da duoc sap xep.",
+    heroTrackingCta: "Ghi lai bang tracking",
+    heroPhotoCta: "Sap xep chi voi anh",
+    flowTitle: "Hai diem bat dau, mot dich den",
+    flowLead: "Chon cach bat dau hom nay. Dich den la hanh trinh da duoc sap xep.",
     flows: [
       {
-        id: "journey",
-        title: "Bat dau hanh trinh",
-        summary: "De thoi gian va dia diem tu tu duoc gom lai khi ban di chuyen.",
+        id: "tracking",
+        title: "Hanh trinh bang tracking",
+        summary: "Cho nhung ngay ban muon gom thoi gian va dia diem khi di chuyen.",
         steps: [
-          {
-            title: "Bat dau tu man hinh chinh",
-            text: "Mo hanh trinh khi ngay bat dau.",
-            image: "/screenshots/start-journey.png",
-            alt: "Man hinh co nut bat dau hanh trinh.",
-          },
-          {
-            title: "De khoanh khac tu gom lai",
-            text: "Khi di chuyen, thoi gian va dia diem duoc gom lai mot cach nhe nhang.",
-            image: "/screenshots/current-journey.png",
-            alt: "Trang thai hanh trinh voi thoi gian, anh, dia diem va ban do.",
-          },
-          {
-            title: "Ket thuc va xem lai",
-            text: "Ket thuc khi san sang va xem dong thoi gian.",
-            image: "/screenshots/journey-timeline.png",
-            alt: "Dong thoi gian hanh trinh co the dia diem, ban do va anh.",
-          },
+          "Tu man hinh chinh, bat dau tracking.",
+          "Khi di chuyen, cac khoanh khac tu nho lai.",
+          "Ket thuc hanh trinh khi san sang.",
+          "Trong qua trinh sap xep, them anh hoac ghi chu.",
+          "Xem hanh trinh da duoc sap xep.",
         ],
       },
       {
         id: "photo",
-        title: "Sap xep bang anh",
-        summary: "Bat dau tu nhung buc anh ban da co.",
+        title: "Sap xep chi voi anh",
+        summary: "Neu tracking la ganh nang, chi voi anh cung du.",
         steps: [
-          {
-            title: "Chon anh",
-            text: "Chon anh ban muon giu.",
-            image: "/screenshots/photos-picker.png",
-            alt: "Bo chon anh voi bo loc ngay va gio.",
-          },
-          {
-            title: "Sap xep thanh khoanh khac",
-            text: "Mot cham gom anh thanh cac khoanh khac nho.",
-            image: "/screenshots/organize-photos.png",
-            alt: "Man hinh sap xep anh voi luoi va nut sap xep.",
-          },
-          {
-            title: "Dieu chinh khoanh khac",
-            text: "Dieu chinh bo anh khi can.",
-            image: "/screenshots/user-organizing.png",
-            alt: "Man hinh sap xep voi nhom anh va moc thoi gian.",
-          },
+          "Chon anh can sap xep.",
+          "Doc thong tin thoi gian va dia diem.",
+          "Anh tu dong gom thanh cac khoanh khac.",
+          "Dieu chinh khi can.",
+          "Xem hanh trinh da duoc sap xep.",
         ],
+      },
+    ],
+    outcomeTitle: "Noi hai luong gap nhau",
+    outcomeLead: "Bat dau tu dau thi ket qua cung di ve mot huong.",
+    outcomeHighlights: [
+      "Ky niem thanh hanh trinh, khong phai feed.",
+      "Khoanh khac da duoc sap xep trong mot cai nhin.",
+      "Chia se la tuy chon, mac dinh la ghi nho ca nhan.",
+    ],
+    outcomePrimaryCta: "Tai ung dung",
+    outcomeSecondaryCta: "Xem tinh nang",
+    featuresTitle: "Tinh nang ho tro",
+    featuresLead: "Chi de ho tro dong chay.",
+    features: [
+      {
+        title: "Them anh sau khi ket thuc",
+        text: "Trong luong tracking, ban co the them anh sau khi ket thuc.",
+      },
+      {
+        title: "Dieu chinh nhe",
+        text: "Dieu chinh nhom va thu tu khi can.",
+      },
+      {
+        title: "Cong khai tuy chon",
+        text: "Cong khai tao mot trang web de chia se. Khong bat buoc.",
+      },
+    ],
+    faqTitle: "Cau hoi thuong gap",
+    faqs: [
+      {
+        question: "Tracking co bat buoc khong?",
+        answer: "Khong. Ban co the sap xep chi voi anh.",
+      },
+      {
+        question: "Khi nao them anh?",
+        answer: "Trong tracking, them sau khi ket thuc. Trong luong anh, bat dau bang viec chon anh.",
+      },
+      {
+        question: "Neu cong khai thi ai cung xem duoc?",
+        answer: "Cong khai la tuy chon. Trang cong khai co the chia se bang lien ket va co the duoc tim thay.",
+        linkLabel: "Doc huong dan cong dong.",
+        linkHref: "/community-guidelines",
       },
     ],
   },
@@ -609,50 +786,103 @@ export default async function HowItWorksPage({
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>{content.title}</h1>
-        <p className={styles.subtitle}>{content.subtitle}</p>
-        <div className={styles.actions}>
-          <a className={styles.actionButton} href="#journey">
-            {content.actionJourney}
-          </a>
-          <a className={styles.actionButton} href="#photo">
-            {content.actionPhoto}
-          </a>
+      <header className={styles.hero}>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
+          <p className={styles.heroSubtitle}>{content.heroSubtitle}</p>
+          <div className={styles.heroActions}>
+            <a className={styles.actionButtonPrimary} href="#tracking">
+              {content.heroTrackingCta}
+            </a>
+            <a className={styles.actionButtonGhost} href="#photo">
+              {content.heroPhotoCta}
+            </a>
+          </div>
         </div>
       </header>
 
-      {content.flows.map((flow) => (
-        <section key={flow.id} id={flow.id} className={styles.flow}>
-          <header className={styles.flowHeader}>
-            <h2 className={styles.flowTitle}>{flow.title}</h2>
-            <p className={styles.flowSummary}>{flow.summary}</p>
+      <section className={styles.section}>
+        <header className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>{content.flowTitle}</h2>
+          <p className={styles.sectionLead}>{content.flowLead}</p>
+        </header>
+        <div className={styles.flowGrid}>
+          {content.flows.map((flow) => (
+            <article key={flow.id} id={flow.id} className={styles.flowCard}>
+              <header className={styles.flowHeader}>
+                <h3 className={styles.flowTitle}>{flow.title}</h3>
+                <p className={styles.flowSummary}>{flow.summary}</p>
+              </header>
+              <ol className={styles.stepList}>
+                {flow.steps.map((step, index) => (
+                  <li key={`${flow.id}-${index}`} className={styles.stepItem}>
+                    <span className={styles.stepBadge}>{index + 1}</span>
+                    <span className={styles.stepText}>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <div className={styles.outcomeCard}>
+          <header className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>{content.outcomeTitle}</h2>
+            <p className={styles.sectionLead}>{content.outcomeLead}</p>
           </header>
-          <div className={styles.flowSteps}>
-            {flow.steps.map((step, index) => (
-              <div key={`${flow.id}-${index}`} className={styles.stepCard}>
-                <div className={styles.stepHeader}>
-                  <span className={styles.stepNumber}>{index + 1}</span>
-                  <h3 className={styles.stepTitle}>{step.title}</h3>
-                </div>
-                <p className={styles.stepText}>{step.text}</p>
-                <DeviceMock
-                  className={styles.stepDevice}
-                  screenClassName={deviceStyles.screenMedia}
-                >
-                  <Image
-                    src={step.image}
-                    alt={step.alt}
-                    fill
-                    sizes="(max-width: 768px) 240px, (max-width: 1200px) 260px, 280px"
-                    className={deviceStyles.screenImage}
-                  />
-                </DeviceMock>
-              </div>
+          <ul className={styles.outcomeList}>
+            {content.outcomeHighlights.map((item, index) => (
+              <li key={`outcome-${index}`} className={styles.outcomeItem}>
+                {item}
+              </li>
             ))}
+          </ul>
+          <div className={styles.sectionActions}>
+            <Link className={styles.actionButtonPrimary} href={`/${lang}/download`}>
+              {content.outcomePrimaryCta}
+            </Link>
+            <a className={styles.actionButtonGhost} href="#features">
+              {content.outcomeSecondaryCta}
+            </a>
           </div>
-        </section>
-      ))}
+        </div>
+      </section>
+
+      <section id="features" className={styles.section}>
+        <header className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>{content.featuresTitle}</h2>
+          <p className={styles.sectionLead}>{content.featuresLead}</p>
+        </header>
+        <div className={styles.featuresGrid}>
+          {content.features.map((feature, index) => (
+            <div key={`feature-${index}`} className={styles.featureCard}>
+              <h3 className={styles.featureTitle}>{feature.title}</h3>
+              <p className={styles.featureText}>{feature.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="faq" className={styles.section}>
+        <header className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>{content.faqTitle}</h2>
+        </header>
+        <div className={styles.faqList}>
+          {content.faqs.map((item, index) => (
+            <div key={`faq-${index}`} className={styles.faqItem}>
+              <h3 className={styles.faqQuestion}>{item.question}</h3>
+              <p className={styles.faqAnswer}>{item.answer}</p>
+              {item.linkLabel && item.linkHref ? (
+                <Link className={styles.faqLink} href={`/${lang}${item.linkHref}`}>
+                  {item.linkLabel}
+                </Link>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }

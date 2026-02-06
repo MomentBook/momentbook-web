@@ -1,51 +1,72 @@
 .page {
-  max-width: 78rem;
+  max-width: 82rem;
   margin: 0 auto;
   padding: calc(var(--spacing-xl) * 0.9) var(--spacing-md) var(--spacing-xl);
 }
 
-.header {
-  max-width: 52rem;
+.hero {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-md);
   margin-bottom: var(--spacing-xl);
 }
 
-.title {
-  font-size: 2.1rem;
-  line-height: 1.25;
+.heroContent {
+  max-width: 56rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.heroTitle {
+  font-size: 2.2rem;
+  line-height: 1.2;
   font-weight: 500;
 
   @media (min-width: 768px) {
-    font-size: 2.6rem;
+    font-size: 2.8rem;
   }
 }
 
-.subtitle {
+.heroSubtitle {
   font-size: 1.05rem;
   color: var(--color-text-secondary);
 }
 
-.actions {
+.heroActions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
   margin-top: var(--spacing-xs);
 }
 
-.actionButton {
+.actionButtonPrimary,
+.actionButtonGhost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.6rem 1.4rem;
   border-radius: 999px;
-  border: 1px solid var(--color-border);
-  color: var(--color-text-primary);
   font-weight: 500;
   font-size: 0.95rem;
   text-decoration: none;
   transition: all 0.25s ease;
+}
+
+.actionButtonPrimary {
+  background: var(--color-text-primary);
+  color: var(--color-bg-canvas);
+  border: 1px solid var(--color-text-primary);
+
+  &:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+}
+
+.actionButtonGhost {
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
 
   &:hover {
     border-color: var(--color-accent);
@@ -53,41 +74,40 @@
   }
 }
 
-.flow {
+.section {
   padding: var(--spacing-lg) 0;
   border-top: 1px solid var(--color-border);
-  scroll-margin-top: 96px;
 }
 
-.flowHeader {
+.sectionHeader {
+  max-width: 50rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--spacing-xs);
   margin-bottom: var(--spacing-lg);
 }
 
-.flowTitle {
-  font-size: 1.5rem;
+.sectionTitle {
+  font-size: 1.6rem;
   font-weight: 500;
 }
 
-.flowSummary {
+.sectionLead {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--color-text-secondary);
-  max-width: 38rem;
 }
 
-.flowSteps {
+.flowGrid {
   display: grid;
   gap: var(--spacing-lg);
 
-  @media (min-width: 900px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  @media (min-width: 960px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.stepCard {
+.flowCard {
   padding: var(--spacing-md);
   border-radius: var(--radius-lg);
   background: var(--color-bg-canvas);
@@ -96,46 +116,159 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  scroll-margin-top: 96px;
 }
 
-.stepHeader {
+.flowHeader {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.flowTitle {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.flowSummary {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.stepList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
   gap: var(--spacing-xs);
 }
 
-.stepNumber {
+.stepItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+}
+
+.stepBadge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 1.6rem;
+  height: 1.6rem;
   border-radius: 999px;
   background: var(--color-accent-soft);
   color: var(--color-text-primary);
   font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.stepTitle {
-  font-size: 1.05rem;
-  font-weight: 500;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
 }
 
 .stepText {
   font-size: 0.98rem;
-  line-height: 1.7;
+  line-height: 1.6;
   color: var(--color-text-secondary);
 }
 
-.stepDevice {
-  width: 100%;
-  max-width: 240px;
-  margin: 0 auto;
+.outcomeCard {
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-canvas);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 
-@media (min-width: 768px) {
-  .stepDevice {
-    max-width: 260px;
+.outcomeList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--spacing-sm);
+}
+
+.outcomeItem {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.sectionActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.featuresGrid {
+  display: grid;
+  gap: var(--spacing-md);
+
+  @media (min-width: 960px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.featureCard {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-canvas);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.featureTitle {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.featureText {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.faqList {
+  display: grid;
+  gap: var(--spacing-md);
+}
+
+.faqItem {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-canvas);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.faqQuestion {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.faqAnswer {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.faqLink {
+  font-size: 0.95rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  width: fit-content;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
