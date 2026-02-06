@@ -469,7 +469,7 @@ export default async function JourneyPage({
 
             <header className={styles.hero}>
                 <div className={styles.heroTop}>
-                    <div>
+                    <div className={styles.heroMain}>
                         <p className={styles.eyebrow}>{labels.eyebrow}</p>
                         <h1 className={styles.title}>{journey.title}</h1>
                         {journey.description && (
@@ -478,26 +478,29 @@ export default async function JourneyPage({
                             </p>
                         )}
                     </div>
-                    <div className={styles.heroActions}>
+                    <aside className={styles.heroAside}>
+                        <Link
+                            href={`/${lang}/users/${journey.userId}`}
+                            className={styles.userCard}
+                        >
+                            {user?.name && (
+                                <span className={styles.userHandle}>
+                                    {labels.profileLinkLabel}
+                                </span>
+                            )}
+                            <span className={styles.userName}>
+                                {user?.name ?? labels.profileLinkLabel}
+                            </span>
+                        </Link>
                         <ReportJourneyButton
                             publicId={journey.publicId}
                             lang={lang}
                             variant="detail"
+                            wrapperClassName={styles.reportActionWrap}
+                            triggerClassName={styles.reportActionTrigger}
+                            feedbackClassName={styles.reportActionFeedback}
                         />
-                    </div>
-                    <Link
-                        href={`/${lang}/users/${journey.userId}`}
-                        className={styles.userCard}
-                    >
-                        <span className={styles.userName}>
-                            {user?.name ?? labels.profileLinkLabel}
-                        </span>
-                        {user?.name && (
-                            <span className={styles.userHandle}>
-                                {labels.profileLinkLabel}
-                            </span>
-                        )}
-                    </Link>
+                    </aside>
                 </div>
 
                 <div className={styles.metaRow}>

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Suspense,
   useCallback,
   useEffect,
   useMemo,
@@ -22,6 +23,9 @@ type ReportJourneyButtonProps = {
   publicId: string;
   lang: Language;
   variant?: "detail" | "card";
+  wrapperClassName?: string;
+  triggerClassName?: string;
+  feedbackClassName?: string;
 };
 
 type ReportLabels = {
@@ -143,10 +147,13 @@ function getFocusableElements(root: HTMLElement): HTMLElement[] {
   ).filter((element) => !element.hasAttribute("disabled"));
 }
 
-export default function ReportJourneyButton({
+function ReportJourneyButtonInner({
   publicId,
   lang,
   variant = "detail",
+  wrapperClassName,
+  triggerClassName,
+  feedbackClassName,
 }: ReportJourneyButtonProps) {
   const labels = useMemo(() => reportLabels[lang] ?? reportLabels.en, [lang]);
   const router = useRouter();
@@ -378,13 +385,17 @@ export default function ReportJourneyButton({
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={[styles.wrapper, wrapperClassName].filter(Boolean).join(" ")}>
       <button
         type="button"
         onClick={verifyAndOpen}
-        className={`${styles.trigger} ${
-          variant === "card" ? styles.triggerCard : styles.triggerDetail
-        }`}
+        className={[
+          styles.trigger,
+          variant === "card" ? styles.triggerCard : styles.triggerDetail,
+          triggerClassName,
+        ]
+          .filter(Boolean)
+          .join(" ")}
         disabled={isBusy}
         aria-label={labels.reportButton}
       >
@@ -392,20 +403,29 @@ export default function ReportJourneyButton({
       </button>
 
       {isCheckingAuth && (
-        <p className={`${styles.feedback} ${styles.feedbackInfo}`} role="status">
+        <p
+          className={[styles.feedback, styles.feedbackInfo, feedbackClassName]
+            .filter(Boolean)
+            .join(" ")}
+          role="status"
+        >
           {labels.loadingAuth}
         </p>
       )}
 
       {feedback && (
         <p
-          className={`${styles.feedback} ${
+          className={[
+            styles.feedback,
+            feedbackClassName,
             feedback.type === "success"
               ? styles.feedbackSuccess
               : feedback.type === "info"
                 ? styles.feedbackInfo
-                : styles.feedbackError
-          }`}
+                : styles.feedbackError,
+          ]
+            .filter(Boolean)
+            .join(" ")}
           role={feedback.type === "error" ? "alert" : "status"}
         >
           {feedback.message}
@@ -495,5 +515,38 @@ export default function ReportJourneyButton({
         </div>
       )}
     </div>
+  );
+}
+
+export default function ReportJourneyButton(props: ReportJourneyButtonProps) {
+  const labels = reportLabels[props.lang] ?? reportLabels.en;
+
+  return (
+    <Suspense
+      fallback={(
+        <div
+          className={[styles.wrapper, props.wrapperClassName]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          <button
+            type="button"
+            className={[
+              styles.trigger,
+              props.variant === "card" ? styles.triggerCard : styles.triggerDetail,
+              props.triggerClassName,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            disabled
+            aria-label={labels.reportButton}
+          >
+            {labels.reportButton}
+          </button>
+        </div>
+      )}
+    >
+      <ReportJourneyButtonInner {...props} />
+    </Suspense>
   );
 }

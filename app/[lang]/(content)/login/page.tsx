@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { Suspense, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import styles from "./login.module.scss";
@@ -68,7 +68,7 @@ function getApiErrorMessage(payload: unknown): string | null {
   return typeof maybeMessage === "string" ? maybeMessage : null;
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
   const params = useParams<{ lang: string }>();
   const searchParams = useSearchParams();
@@ -191,5 +191,13 @@ export default function LoginPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className={styles.page} />}>
+      <LoginContent />
+    </Suspense>
   );
 }

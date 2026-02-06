@@ -17,15 +17,26 @@
   gap: var(--spacing-sm);
 
   @media (min-width: 900px) {
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 18rem);
     align-items: flex-start;
+    gap: var(--spacing-md);
   }
 }
 
-.heroActions {
+.heroMain {
+  min-width: 0;
+}
+
+.heroAside {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+
+  @media (min-width: 900px) {
+    align-self: start;
+  }
 }
 
 .eyebrow {
@@ -54,29 +65,54 @@
 }
 
 .userCard {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.75rem 0.95rem;
   border-radius: var(--radius-lg);
   background: var(--color-bg-canvas);
   border: 1px solid var(--color-border);
   color: var(--color-text-primary);
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-sm);
 
   &:hover {
     border-color: var(--color-accent);
-    color: var(--color-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
   }
 }
 
 .userName {
+  font-size: 1rem;
   font-weight: 600;
+  color: var(--color-text-primary);
 }
 
 .userHandle {
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   color: var(--color-text-tertiary);
+}
+
+.reportActionWrap {
+  width: 100%;
+  align-items: stretch;
+}
+
+.reportActionTrigger {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-lg);
+  padding: 0.65rem 0.95rem;
+  font-size: 0.9rem;
+}
+
+.reportActionFeedback {
+  max-width: 100%;
+  text-align: left;
+  align-self: flex-start;
 }
 
 .metaRow {
