@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
 import { type Language } from "@/lib/i18n/config";
@@ -8,6 +9,7 @@ import {
     type PublishedJourneyApi,
     type PublishedJourneyCluster,
 } from "@/lib/published-journey";
+import { fetchPublicUser } from "@/lib/public-users";
 import JourneyContent from "./components/JourneyContent";
 
 export const revalidate = 3600;
@@ -33,6 +35,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: string;
         mapEmpty: string;
         locationFallback: string;
+        profileLinkLabel: string;
     }
 >> & {
     en: {
@@ -54,6 +57,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: string;
         mapEmpty: string;
         locationFallback: string;
+        profileLinkLabel: string;
     };
 } = {
     en: {
@@ -76,6 +80,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "This journey is shared as photos only, without a route.",
         mapEmpty: "There is no map data for this journey.",
         locationFallback: "Location",
+        profileLinkLabel: "Published profile",
     },
     ko: {
         eyebrow: "여정",
@@ -96,6 +101,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "경로 없이 사진만 공유된 여정입니다.",
         mapEmpty: "이 여정에는 지도 정보가 없습니다.",
         locationFallback: "장소",
+        profileLinkLabel: "공개 프로필",
     },
     ja: {
         eyebrow: "旅",
@@ -116,6 +122,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "ルートなしで写真のみ共有された旅です。",
         mapEmpty: "この旅には地図情報がありません。",
         locationFallback: "場所",
+        profileLinkLabel: "公開プロフィール",
     },
     zh: {
         eyebrow: "行程",
@@ -136,6 +143,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "该行程仅分享照片，不显示路线。",
         mapEmpty: "此行程没有地图信息。",
         locationFallback: "地点",
+        profileLinkLabel: "公开资料",
     },
     es: {
         eyebrow: "Viaje",
@@ -156,6 +164,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "Este viaje se comparte solo con fotos, sin ruta.",
         mapEmpty: "No hay datos de mapa para este viaje.",
         locationFallback: "Lugar",
+        profileLinkLabel: "Perfil publicado",
     },
     pt: {
         eyebrow: "Jornada",
@@ -176,6 +185,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "Esta jornada e compartilhada apenas com fotos, sem rota.",
         mapEmpty: "Nao ha dados de mapa para esta jornada.",
         locationFallback: "Local",
+        profileLinkLabel: "Perfil publicado",
     },
     fr: {
         eyebrow: "Voyage",
@@ -196,6 +206,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "Ce voyage est partage uniquement avec des photos, sans itineraire.",
         mapEmpty: "Aucune donnee de carte pour ce voyage.",
         locationFallback: "Lieu",
+        profileLinkLabel: "Profil public",
     },
     th: {
         eyebrow: "ทริป",
@@ -216,6 +227,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "ทริปนี้แชร์เฉพาะรูป โดยไม่แสดงเส้นทาง",
         mapEmpty: "ทริปนี้ไม่มีข้อมูลแผนที่",
         locationFallback: "สถานที่",
+        profileLinkLabel: "โปรไฟล์สาธารณะ",
     },
     vi: {
         eyebrow: "Hanh trinh",
@@ -236,6 +248,7 @@ const journeyLabels: Partial<Record<
         routeLeadPhotoOnly: "Hanh trinh nay chi chia se bang anh, khong co tuyen.",
         mapEmpty: "Khong co du lieu ban do cho hanh trinh nay.",
         locationFallback: "Dia diem",
+        profileLinkLabel: "Ho so cong khai",
     },
 };
 
@@ -411,6 +424,7 @@ export default async function JourneyPage({
     }
 
     const labels = journeyLabels[lang] ?? journeyLabels.en;
+    const user = await fetchPublicUser(journey.userId);
     const dateRange = formatDateRange(lang, journey.startedAt, journey.endedAt);
     const locations = getUniqueLocations(journey.clusters);
     const totalDuration = journey.clusters.reduce(
@@ -438,7 +452,11 @@ export default async function JourneyPage({
         dateModified: journey.publishedAt,
         author: {
             "@type": "Person",
-            name: "MomentBook User",
+            name: user?.name || "MomentBook User",
+            url: new URL(
+                buildOpenGraphUrl(lang, `/users/${journey.userId}`),
+                siteUrl,
+            ).toString(),
         },
         publisher: {
             "@type": "Organization",
@@ -470,6 +488,19 @@ export default async function JourneyPage({
                             </p>
                         )}
                     </div>
+                    <Link
+                        href={`/${lang}/users/${journey.userId}`}
+                        className={styles.userCard}
+                    >
+                        <span className={styles.userName}>
+                            {user?.name ?? labels.profileLinkLabel}
+                        </span>
+                        {user?.name && (
+                            <span className={styles.userHandle}>
+                                {labels.profileLinkLabel}
+                            </span>
+                        )}
+                    </Link>
                 </div>
 
                 <div className={styles.metaRow}>
