@@ -9,7 +9,15 @@ const nextConfig: NextConfig = {
             },
             {
                 protocol: "https",
+                hostname: "yourthink.s3.amazonaws.com",
+            },
+            {
+                protocol: "https",
                 hostname: "yourthink.s3.ap-northeast-2.amazonaws.com",
+            },
+            {
+                protocol: "https",
+                hostname: "yourthink-dev.s3.amazonaws.com",
             },
             {
                 protocol: "https",

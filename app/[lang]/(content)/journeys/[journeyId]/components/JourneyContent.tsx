@@ -15,11 +15,9 @@ type JourneyContentProps = {
         routeBadgeStrong: string;
         routeBadgeWeak: string;
         routeBadgeNone: string;
-        routeBadgePhotoOnly: string;
         routeLeadStrong: string;
         routeLeadWeak: string;
         routeLeadNone: string;
-        routeLeadPhotoOnly: string;
         mapEmpty: string;
         locationFallback: string;
         photoCount: string;
@@ -31,14 +29,12 @@ const routeBadgeByMode: Record<JourneyMode, keyof JourneyContentProps["labels"]>
     ROUTE_STRONG: "routeBadgeStrong",
     ROUTE_WEAK: "routeBadgeWeak",
     ROUTE_NONE: "routeBadgeNone",
-    PHOTO_ONLY: "routeBadgePhotoOnly",
 };
 
 const routeLeadByMode: Record<JourneyMode, keyof JourneyContentProps["labels"]> = {
     ROUTE_STRONG: "routeLeadStrong",
     ROUTE_WEAK: "routeLeadWeak",
     ROUTE_NONE: "routeLeadNone",
-    PHOTO_ONLY: "routeLeadPhotoOnly",
 };
 
 export default function JourneyContent({
