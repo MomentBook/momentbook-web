@@ -66,9 +66,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "es") {
     return {
       metaTitle: "Descargar MomentBook",
-      metaDescription: "Organiza fotos en un viaje tranquilo en iOS y Android.",
+      metaDescription: "Registra con tracking o ordena solo con fotos en iOS y Android.",
       title: "Descargar MomentBook",
-      subtitle: "Un lugar tranquilo para organizar fotos como viajes. Disponible para iPhone y Android.",
+      subtitle: "Dos formas tranquilas de empezar. Disponible para iPhone y Android.",
       deviceImage: "/screenshots/organize-photos.png",
       deviceAlt: "Pantalla de organizacion de fotos",
       availability: "Disponible en App Store y Google Play.",
@@ -80,19 +80,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "Descargar en Google Play",
       },
-      featuresTitle: "Funciones centradas en fotos",
+      featuresTitle: "Pensado para dos inicios",
       features: [
         {
-          title: "Organizacion por fotos",
-          text: "Empieza eligiendo fotos y agrupandolas en momentos.",
+          title: "Tracking o fotos",
+          text: "Registra mientras te mueves o empieza seleccionando fotos.",
         },
         {
-          title: "Contexto de viaje opcional",
-          text: "Al iniciar un viaje se agregan tiempo y lugares (con ubicacion).",
+          title: "Terminar y revisar",
+          text: "Cierra el viaje y revisa los momentos organizados.",
         },
         {
-          title: "Compartir en calma",
-          text: "Publica solo cuando quieras y despublica cuando lo necesites.",
+          title: "Publicacion opcional",
+          text: "Publica solo cuando quieras; lo privado es el punto de partida.",
         },
       ],
       requirementsTitle: "Requisitos del sistema",
@@ -116,9 +116,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "pt") {
     return {
       metaTitle: "Baixar MomentBook",
-      metaDescription: "Organize fotos em uma jornada tranquila no iOS e Android.",
+      metaDescription: "Registre com tracking ou organize so com fotos no iOS e Android.",
       title: "Baixar MomentBook",
-      subtitle: "Um lugar tranquilo para organizar fotos como jornadas. Disponivel para iPhone e Android.",
+      subtitle: "Duas formas tranquilas de comecar. Disponivel para iPhone e Android.",
       deviceImage: "/screenshots/organize-photos.png",
       deviceAlt: "Tela de organizacao de fotos",
       availability: "Disponivel na App Store e no Google Play.",
@@ -130,19 +130,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "Baixar no Google Play",
       },
-      featuresTitle: "Recursos com fotos primeiro",
+      featuresTitle: "Feito para dois inicios",
       features: [
         {
-          title: "Organizacao por fotos",
-          text: "Comece escolhendo fotos e agrupando em momentos.",
+          title: "Tracking ou fotos",
+          text: "Registre enquanto se move ou comece escolhendo fotos.",
         },
         {
-          title: "Contexto de jornada opcional",
-          text: "Ao iniciar uma jornada, tempo e locais se adicionam (com localizacao).",
+          title: "Finalizar e revisar",
+          text: "Finalize a jornada e veja os momentos organizados.",
         },
         {
-          title: "Compartilhar em calma",
-          text: "Publique quando quiser e despublique quando precisar.",
+          title: "Publicacao opcional",
+          text: "Publique so quando quiser; o padrao e o privado.",
         },
       ],
       requirementsTitle: "Requisitos do sistema",
@@ -166,9 +166,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "fr") {
     return {
       metaTitle: "Telecharger MomentBook",
-      metaDescription: "Organisez des photos en voyage calme sur iOS et Android.",
+      metaDescription: "Enregistrez avec tracking ou organisez seulement avec des photos sur iOS et Android.",
       title: "Telecharger MomentBook",
-      subtitle: "Un lieu calme pour organiser des photos en voyages. Disponible sur iPhone et Android.",
+      subtitle: "Deux facons calmes de commencer. Disponible sur iPhone et Android.",
       deviceImage: "/screenshots/organize-photos.png",
       deviceAlt: "Ecran d'organisation de photos",
       availability: "Disponible sur App Store et Google Play.",
@@ -180,19 +180,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "Telecharger sur Google Play",
       },
-      featuresTitle: "Fonctions photo d'abord",
+      featuresTitle: "Pense pour deux debuts",
       features: [
         {
-          title: "Organisation par photos",
-          text: "Commencez en choisissant des photos et en les groupant en moments.",
+          title: "Tracking ou photos",
+          text: "Enregistrez en mouvement ou commencez en choisissant des photos.",
         },
         {
-          title: "Contexte de voyage optionnel",
-          text: "En demarrant un voyage, temps et lieux s'ajoutent (avec localisation).",
+          title: "Terminer et revoir",
+          text: "Terminez le voyage et revoyez les moments organises.",
         },
         {
-          title: "Partage calme",
-          text: "Publiez quand vous voulez et depubliez quand besoin.",
+          title: "Publication optionnelle",
+          text: "Publiez seulement si vous le souhaitez; le prive reste la base.",
         },
       ],
       requirementsTitle: "Configuration requise",
@@ -216,9 +216,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "th") {
     return {
       metaTitle: "ดาวน์โหลด MomentBook",
-      metaDescription: "จัดรูปเป็นทริปอย่างสงบบน iOS และ Android",
+      metaDescription: "บันทึกด้วยการติดตามหรือจัดด้วยรูปเท่านั้นบน iOS และ Android",
       title: "ดาวน์โหลด MomentBook",
-      subtitle: "พื้นที่สงบสำหรับจัดรูปให้เป็นทริป ใช้ได้บน iPhone และ Android",
+      subtitle: "สองวิธีเริ่มต้นอย่างสงบ ใช้ได้บน iPhone และ Android",
       deviceImage: "/screenshots/organize-photos.png",
       deviceAlt: "หน้าจอจัดรูป",
       availability: "ดาวน์โหลดได้จาก App Store และ Google Play",
@@ -230,19 +230,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "ดาวน์โหลดจาก Google Play",
       },
-      featuresTitle: "ฟีเจอร์แบบรูปก่อน",
+      featuresTitle: "ออกแบบมาสำหรับสองวิธีเริ่มต้น",
       features: [
         {
-          title: "จัดด้วยรูปก่อน",
-          text: "เริ่มจากเลือกรูปและจัดเป็นช่วงเวลา",
+          title: "ติดตามหรือรูป",
+          text: "บันทึกขณะเคลื่อนไหว หรือเริ่มจากการเลือกรูป",
         },
         {
-          title: "บริบททริปแบบเลือกได้",
-          text: "เริ่มทริปเพื่อเพิ่มเวลาและสถานที่ (เมื่ออนุญาตตำแหน่ง)",
+          title: "จบและทบทวน",
+          text: "จบทริปและดูช่วงเวลาที่จัดเรียงแล้ว",
         },
         {
-          title: "แชร์อย่างสงบ",
-          text: "เผยแพร่เมื่อคุณเลือก และยกเลิกได้เสมอ",
+          title: "เผยแพร่แบบเลือกได้",
+          text: "เผยแพร่เมื่อคุณเลือก โดยพื้นฐานเป็นส่วนตัว",
         },
       ],
       requirementsTitle: "ความต้องการของระบบ",
@@ -266,9 +266,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "vi") {
     return {
       metaTitle: "Tai MomentBook",
-      metaDescription: "Sap xep anh thanh hanh trinh yen tinh tren iOS va Android.",
+      metaDescription: "Ghi lai bang tracking hoac sap xep chi voi anh tren iOS va Android.",
       title: "Tai MomentBook",
-      subtitle: "Noi nhe nhang de sap xep anh thanh hanh trinh. Co tren iPhone va Android.",
+      subtitle: "Hai cach bat dau nhe nhang. Co tren iPhone va Android.",
       deviceImage: "/screenshots/organize-photos.png",
       deviceAlt: "Man hinh sap xep anh",
       availability: "Co tren App Store va Google Play.",
@@ -280,19 +280,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "Tai tren Google Play",
       },
-      featuresTitle: "Tinh nang uu tien anh",
+      featuresTitle: "Danh cho hai cach bat dau",
       features: [
         {
-          title: "To chuc tu anh",
-          text: "Bat dau bang viec chon anh va nhom thanh khoanh khac.",
+          title: "Tracking hoac anh",
+          text: "Ghi lai khi di chuyen, hoac bat dau bang viec chon anh.",
         },
         {
-          title: "Boi canh hanh trinh tuy chon",
-          text: "Bat dau hanh trinh de them thoi gian va dia diem (neu cho phep vi tri).",
+          title: "Ket thuc va xem lai",
+          text: "Ket thuc hanh trinh va xem cac khoanh khac da sap xep.",
         },
         {
-          title: "Chia se nhe nhang",
-          text: "Dang khi ban chon va co the huy dang bat cu luc nao.",
+          title: "Dang tuy chon",
+          text: "Chi dang khi ban muon; mac dinh la rieng tu.",
         },
       ],
       requirementsTitle: "Yeu cau he thong",
@@ -316,9 +316,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "ko") {
     return {
       metaTitle: "MomentBook 다운로드",
-      metaDescription: "iOS와 Android에서 사진을 여정으로 정리하세요.",
+      metaDescription: "iOS와 Android에서 트래킹으로 기록하거나 사진만으로 정리하세요.",
       title: "MomentBook 다운로드",
-      subtitle: "사진을 여정으로 정리하는 조용한 공간. iPhone과 Android에서 사용할 수 있습니다.",
+      subtitle: "두 가지 시작으로 여정을 남기는 조용한 공간. iPhone과 Android에서 사용할 수 있습니다.",
       deviceImage: "/screenshots/organize-photos.png",
       deviceAlt: "사진을 정리하는 화면",
       availability: "App Store와 Google Play에서 받을 수 있습니다.",
@@ -330,19 +330,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "다운로드",
         androidAriaLabel: "Google Play에서 다운로드",
       },
-      featuresTitle: "사진 중심 기능",
+      featuresTitle: "두 가지 시작을 위한 기능",
       features: [
         {
-          title: "사진 중심 정리",
-          text: "사진을 고르고 순간으로 묶어 정리합니다.",
+          title: "트래킹 또는 사진",
+          text: "이동을 기록하거나 사진을 고르는 것으로 시작합니다.",
         },
         {
-          title: "선택적 여정 맥락",
-          text: "여정을 시작하면 시간과 장소가 더해집니다(위치 허용 시).",
+          title: "마무리와 확인",
+          text: "여정을 마무리하고 정리된 순간을 확인합니다.",
         },
         {
-          title: "조용한 공유",
-          text: "원할 때만 게시하고 언제든 되돌릴 수 있습니다.",
+          title: "선택적 게시",
+          text: "원할 때만 게시하고 기본은 비공개입니다.",
         },
       ],
       requirementsTitle: "시스템 요구 사항",
@@ -366,9 +366,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "ja") {
     return {
       metaTitle: "MomentBook をダウンロード",
-      metaDescription: "iOS と Android で写真を旅として整理できます。",
+      metaDescription: "iOS と Android でトラッキング記録または写真だけで整理できます。",
       title: "MomentBook をダウンロード",
-      subtitle: "写真を旅として整理する静かな場所。iPhone と Android に対応。",
+      subtitle: "二つの始め方で旅を残す静かな場所。iPhone と Android に対応。",
       deviceImage: "/screenshots/organize-photos.png",
       deviceAlt: "写真を整理する画面",
       availability: "App Store と Google Play で入手できます。",
@@ -380,19 +380,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "入手",
         androidAriaLabel: "Google Playで入手",
       },
-      featuresTitle: "写真中心の機能",
+      featuresTitle: "二つの始め方のための機能",
       features: [
         {
-          title: "写真から整理",
-          text: "写真を選び、瞬間としてまとめます。",
+          title: "トラッキングでも写真でも",
+          text: "移動を記録するか、写真を選んで始めます。",
         },
         {
-          title: "任意の旅コンテキスト",
-          text: "旅を開始すると時間と場所が加わります（位置情報許可時）。",
+          title: "終えて見返す",
+          text: "旅を終えて、整理された瞬間を確認します。",
         },
         {
-          title: "静かな共有",
-          text: "必要なときだけ公開し、いつでも戻せます。",
+          title: "任意の公開",
+          text: "必要なときだけ公開し、基本は非公開です。",
         },
       ],
       requirementsTitle: "システム要件",
@@ -416,9 +416,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "zh") {
     return {
       metaTitle: "下载 MomentBook",
-      metaDescription: "在 iOS 与 Android 上把照片整理成旅程。",
+      metaDescription: "在 iOS 与 Android 上可用追踪记录或只用照片整理。",
       title: "下载 MomentBook",
-      subtitle: "把照片整理成旅程的安静空间。支持 iPhone 与 Android。",
+      subtitle: "两种开始方式的安静空间。支持 iPhone 与 Android。",
       deviceImage: "/screenshots/organize-photos.png",
       deviceAlt: "整理照片的界面",
       availability: "可在 App Store 与 Google Play 安装。",
@@ -430,19 +430,19 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "获取",
         androidAriaLabel: "在 Google Play 获取",
       },
-      featuresTitle: "照片优先功能",
+      featuresTitle: "支持两种开始方式",
       features: [
         {
-          title: "照片优先整理",
-          text: "先选照片，再整理成片段。",
+          title: "追踪或照片",
+          text: "可以记录移动，也可以从选择照片开始。",
         },
         {
-          title: "可选旅程脉络",
-          text: "开启旅程后加入时间与地点（需允许定位）。",
+          title: "结束并查看",
+          text: "结束行程，查看整理后的瞬间。",
         },
         {
-          title: "安静分享",
-          text: "只在你选择时发布，可随时取消。",
+          title: "可选发布",
+          text: "仅在需要时发布，默认私密。",
         },
       ],
       requirementsTitle: "系统要求",
@@ -465,9 +465,9 @@ function getDownloadContent(lang: Language): DownloadContent {
 
   return {
     metaTitle: "Download MomentBook",
-    metaDescription: "Organize photos into a calm journey on iOS and Android.",
+    metaDescription: "Track a journey or organize with photos only on iOS and Android.",
     title: "Download MomentBook",
-    subtitle: "A quiet place to organize photos into journeys. Available for iPhone and Android.",
+    subtitle: "Two calm ways to begin. Available for iPhone and Android.",
     deviceImage: "/screenshots/organize-photos.png",
     deviceAlt: "Organizing photos screen on MomentBook",
     availability: "Available on the App Store and Google Play.",
@@ -479,19 +479,19 @@ function getDownloadContent(lang: Language): DownloadContent {
       androidName: "Google Play",
       androidAriaLabel: "Get it on Google Play",
     },
-    featuresTitle: "Photo-first features",
+    featuresTitle: "Built for two ways to begin",
     features: [
       {
-        title: "Photo-first organization",
-        text: "Start by selecting photos and grouping them into moments.",
+        title: "Tracking or photos",
+        text: "Track as you move, or start by selecting photos.",
       },
       {
-        title: "Optional journey context",
-        text: "Begin a journey to add time and places (with location permission).",
+        title: "Finish and review",
+        text: "End a journey and review the organized moments.",
       },
       {
-        title: "Quiet sharing",
-        text: "Publish only when you choose, and unpublish anytime.",
+        title: "Optional publishing",
+        text: "Publish only when you choose, and keep it private by default.",
       },
     ],
     requirementsTitle: "System requirements",

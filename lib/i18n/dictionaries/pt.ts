@@ -4,7 +4,7 @@ export const pt: Dictionary = {
   nav: {
     home: "Inicio",
     about: "Sobre",
-    howItWorks: "Como funciona",
+    howItWorks: "Duas formas",
     download: "Baixar",
     faq: "FAQ",
     support: "Suporte",
@@ -42,10 +42,10 @@ export const pt: Dictionary = {
   },
   common: {
     comingSoon: "Em breve",
-    learnMore: "Ver como funciona",
+    learnMore: "Ver duas formas",
   },
   footer: {
-    summary: "Comece com fotos e guarde um dia com calma.",
+    summary: "Comece com tracking ou fotos e volte a uma jornada calma quando quiser.",
     ctaPrimary: "Baixar",
     ctaSecondary: "Suporte",
     sections: {

@@ -31,9 +31,9 @@ function getFaqContent(lang: Language): FAQContent {
       calloutLink: "Contactanos",
       calloutSuffix: "",
       items: [
-        { question: "Que es MomentBook?", answer: "Un archivo tranquilo que empieza con fotos y puede convertirse en un viaje." },
+        { question: "Que es MomentBook?", answer: "Un archivo tranquilo que puede empezar con tracking o con fotos y convertirse en un viaje." },
         { question: "Es una red social?", answer: "No. No hay feed, likes ni rankings. Compartir es opcional." },
-        { question: "Puedo empezar solo con fotos?", answer: "Si. Puedes organizar fotos sin iniciar un viaje. Si inicias un viaje, se agregan tiempo y lugares." },
+        { question: "El tracking es obligatorio?", answer: "No. Puedes registrar con tracking o ordenar solo con fotos." },
         { question: "Que se guarda?", answer: "Fotos, notas cortas, hora de captura y lugares/rutas si permites ubicacion." },
         { question: "Es privado por defecto?", answer: "Si. Los viajes siguen privados hasta que los publiques." },
         { question: "Que significa Publish?", answer: "Publicar crea una pagina web publica con URL unica para ese viaje." },
@@ -54,9 +54,9 @@ function getFaqContent(lang: Language): FAQContent {
       calloutLink: "Fale conosco",
       calloutSuffix: "",
       items: [
-        { question: "O que e o MomentBook?", answer: "Um arquivo tranquilo que comeca com fotos e pode virar uma jornada." },
+        { question: "O que e o MomentBook?", answer: "Um arquivo tranquilo que pode comecar com tracking ou fotos e virar uma jornada." },
         { question: "E uma rede social?", answer: "Nao. Nao ha feed, curtidas ou ranking. Compartilhar e opcional." },
-        { question: "Posso comecar so com fotos?", answer: "Sim. Voce pode organizar fotos sem iniciar uma jornada. Se iniciar uma jornada, tempo e lugares sao adicionados." },
+        { question: "O tracking e obrigatorio?", answer: "Nao. Voce pode registrar com tracking ou organizar so com fotos." },
         { question: "O que e salvo?", answer: "Fotos, notas curtas, horario da captura e lugares/rotas quando a localizacao e permitida." },
         { question: "E privado por padrao?", answer: "Sim. As jornadas ficam privadas ate voce publicar." },
         { question: "O que significa Publish?", answer: "Publicar cria uma pagina web publica com URL unica para a jornada." },
@@ -77,9 +77,9 @@ function getFaqContent(lang: Language): FAQContent {
       calloutLink: "Nous contacter",
       calloutSuffix: "",
       items: [
-        { question: "Qu'est-ce que MomentBook ?", answer: "Une archive calme qui commence par les photos et peut devenir un voyage." },
+        { question: "Qu'est-ce que MomentBook ?", answer: "Une archive calme qui peut commencer par le tracking ou par des photos et devenir un voyage." },
         { question: "Est-ce un reseau social ?", answer: "Non. Pas de fil, de likes ni de classement. Le partage est optionnel." },
-        { question: "Peut-on commencer seulement avec des photos ?", answer: "Oui. Vous pouvez organiser les photos sans demarrer un voyage. En demarrant un voyage, temps et lieux s'ajoutent." },
+        { question: "Le tracking est-il obligatoire ?", answer: "Non. Vous pouvez enregistrer avec tracking ou organiser seulement avec des photos." },
         { question: "Que sauvegarde l'app ?", answer: "Photos, notes courtes, heure de prise et lieux/itineraires si la localisation est autorisee." },
         { question: "Est-ce prive par defaut ?", answer: "Oui. Les voyages restent prives tant que vous ne publiez pas." },
         { question: "Que signifie Publish ?", answer: "Publier cree une page web publique avec une URL unique pour ce voyage." },
@@ -100,9 +100,9 @@ function getFaqContent(lang: Language): FAQContent {
       calloutLink: "ติดต่อเรา",
       calloutSuffix: "",
       items: [
-        { question: "MomentBook คืออะไร?", answer: "คลังบันทึกแบบเงียบๆ ที่เริ่มจากรูปและต่อยอดเป็นทริปได้" },
+        { question: "MomentBook คืออะไร?", answer: "คลังบันทึกแบบเงียบๆ ที่เริ่มได้ทั้งการติดตามหรือรูป และต่อยอดเป็นทริปได้" },
         { question: "เป็นโซเชียลเน็ตเวิร์กไหม?", answer: "ไม่ใช่ ไม่มีฟีด ไลก์ หรืออันดับ การแชร์เป็นทางเลือก" },
-        { question: "เริ่มจากรูปอย่างเดียวได้ไหม?", answer: "ได้ คุณจัดรูปได้โดยไม่ต้องเริ่มทริป หากเริ่มทริป เวลาและสถานที่จะถูกเพิ่มเข้ามา" },
+        { question: "ต้องติดตามไหม?", answer: "ไม่จำเป็น คุณบันทึกด้วยการติดตามหรือจัดด้วยรูปเท่านั้นก็ได้" },
         { question: "บันทึกอะไรบ้าง?", answer: "รูป เมโมสั้น เวลา และสถานที่/เส้นทางเมื่อคุณอนุญาตตำแหน่ง" },
         { question: "เป็นส่วนตัวโดยค่าเริ่มต้นไหม?", answer: "ใช่ ทริปจะเป็นส่วนตัวจนกว่าคุณจะเผยแพร่" },
         { question: "Publish คืออะไร?", answer: "การเผยแพร่จะสร้างหน้าเว็บสาธารณะที่มี URL เฉพาะของทริปนั้น" },
@@ -123,9 +123,9 @@ function getFaqContent(lang: Language): FAQContent {
       calloutLink: "Lien he",
       calloutSuffix: "",
       items: [
-        { question: "MomentBook la gi?", answer: "Mot kho luu tru nhe nhang bat dau tu anh va co the thanh hanh trinh." },
+        { question: "MomentBook la gi?", answer: "Mot kho luu tru nhe nhang co the bat dau bang tracking hoac anh va tro thanh hanh trinh." },
         { question: "Day co phai mang xa hoi?", answer: "Khong. Khong co feed, like hay xep hang. Chia se la tuy chon." },
-        { question: "Toi co the bat dau chi voi anh khong?", answer: "Co. Ban co the sap xep anh ma khong can bat dau hanh trinh. Neu bat dau hanh trinh, thoi gian va dia diem se duoc them." },
+        { question: "Tracking co bat buoc khong?", answer: "Khong. Ban co the ghi lai bang tracking hoac sap xep chi voi anh." },
         { question: "Ung dung luu gi?", answer: "Anh, ghi chu ngan, thoi gian chup va dia diem/tuyen duong neu ban cho phep vi tri." },
         { question: "Mac dinh co rieng tu khong?", answer: "Co. Hanh trinh van rieng tu tru khi ban dang." },
         { question: "Publish co nghia la gi?", answer: "Dang se tao mot trang web cong khai co URL rieng cho hanh trinh do." },
@@ -148,15 +148,15 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook이 무엇인가요?",
-          answer: "사진으로 시작해 여정으로 이어질 수 있는 조용한 기록 아카이브입니다.",
+          answer: "트래킹이나 사진으로 시작해 여정으로 이어질 수 있는 조용한 기록 아카이브입니다.",
         },
         {
           question: "SNS인가요?",
           answer: "아니요. 피드, 좋아요, 랭킹이 없고 공유는 선택입니다.",
         },
         {
-          question: "사진만으로 시작할 수 있나요?",
-          answer: "네. 여정을 시작하지 않아도 사진만으로 정리할 수 있습니다. 여정을 시작하면 시간과 장소가 더해집니다.",
+          question: "트래킹은 필수인가요?",
+          answer: "아니요. 트래킹으로 기록하거나 사진만으로 정리할 수 있습니다.",
         },
         {
           question: "무엇이 저장되나요?",
@@ -198,15 +198,15 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook とは何ですか？",
-          answer: "写真から始まり、旅としても残せる静かな記録アーカイブです。",
+          answer: "トラッキングでも写真でも始められる、静かな記録アーカイブです。",
         },
         {
           question: "SNS ですか？",
           answer: "いいえ。フィードやいいね、ランキングはなく、共有は任意です。",
         },
         {
-          question: "写真だけで始められますか？",
-          answer: "はい。旅を開始しなくても写真だけで整理できます。旅を開始すると時間と場所が加わります。",
+          question: "トラッキングは必須ですか？",
+          answer: "いいえ。トラッキングでも写真だけでも始められます。",
         },
         {
           question: "何が保存されますか？",
@@ -248,15 +248,15 @@ function getFaqContent(lang: Language): FAQContent {
       items: [
         {
           question: "MomentBook 是什么？",
-          answer: "从照片开始，可整理成旅程的安静记录档案。",
+          answer: "可从追踪或照片开始，整理成旅程的安静记录档案。",
         },
         {
           question: "是社交网络吗？",
           answer: "不是。没有信息流、点赞或排名，分享是可选的。",
         },
         {
-          question: "可以只用照片开始吗？",
-          answer: "可以。不用开启旅程也能整理照片。开启旅程后会加入时间与地点。",
+          question: "必须追踪吗？",
+          answer: "不必。可以追踪记录，也可以只用照片整理。",
         },
         {
           question: "会保存哪些内容？",
@@ -297,15 +297,15 @@ function getFaqContent(lang: Language): FAQContent {
     items: [
       {
         question: "What is MomentBook?",
-        answer: "A quiet archive that starts with photos and can become a journey.",
+        answer: "A quiet archive that can begin with tracking or photos, and become a journey.",
       },
       {
         question: "Is it a social network?",
         answer: "No. There is no feed, likes, or rankings. Sharing is optional.",
       },
       {
-        question: "Can I start with photos only?",
-        answer: "Yes. You can organize photos without starting a journey. Starting a journey adds time and place if you want.",
+        question: "Do I have to track?",
+        answer: "No. You can track a journey or organize with photos only.",
       },
       {
         question: "What gets saved?",

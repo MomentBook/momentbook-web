@@ -7,7 +7,7 @@ export const ja: Dictionary = {
   nav: {
     home: 'ホーム',
     about: '概要',
-    howItWorks: '使い方',
+    howItWorks: '二つの始め方',
     download: 'ダウンロード',
     faq: 'よくある質問',
     support: 'サポート',
@@ -49,12 +49,12 @@ export const ja: Dictionary = {
   // Common
   common: {
     comingSoon: '近日公開',
-    learnMore: '仕組みを見る',
+    learnMore: '二つの始め方を見る',
   },
 
   // Footer
   footer: {
-    summary: '写真から始めて一日を静かにまとめておけます。',
+    summary: 'トラッキングでも写真でも始められ、戻りたいときに静かな旅に戻れます。',
     ctaPrimary: 'ダウンロード',
     ctaSecondary: 'サポート',
     sections: {

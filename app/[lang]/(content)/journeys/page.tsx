@@ -31,7 +31,7 @@ const journeyPageLabels: Partial<Record<
 } } = {
     en: {
         title: "Published journeys",
-        subtitle: "Photo-first journeys shared from MomentBook as single pages.",
+        subtitle: "Published journeys shared from MomentBook as single pages.",
         searchPlaceholder: "Search journeys, places, or people",
         countLabel: "{count} journeys",
         empty: "No journeys match this search.",
@@ -42,7 +42,7 @@ const journeyPageLabels: Partial<Record<
     },
     ko: {
         title: "게시된 여정",
-        subtitle: "MomentBook에서 사진 중심으로 공유된 여정 페이지입니다.",
+        subtitle: "MomentBook에서 공유된 여정 페이지입니다.",
         searchPlaceholder: "여정, 장소, 사람을 검색",
         countLabel: "{count}개 여정",
         empty: "검색 결과가 없습니다.",
@@ -53,7 +53,7 @@ const journeyPageLabels: Partial<Record<
     },
     ja: {
         title: "公開された旅",
-        subtitle: "MomentBook から写真中心で共有された旅ページです。",
+        subtitle: "MomentBook から共有された旅ページです。",
         searchPlaceholder: "旅、場所、ユーザーを検索",
         countLabel: "{count}件の旅",
         empty: "一致する旅がありません。",
@@ -64,7 +64,7 @@ const journeyPageLabels: Partial<Record<
     },
     zh: {
         title: "已发布的行程",
-        subtitle: "从 MomentBook 以照片为主分享的行程页面。",
+        subtitle: "从 MomentBook 分享的行程页面。",
         searchPlaceholder: "搜索行程、地点或用户",
         countLabel: "{count} 条行程",
         empty: "没有符合的行程。",
@@ -75,7 +75,7 @@ const journeyPageLabels: Partial<Record<
     },
     es: {
         title: "Viajes publicados",
-        subtitle: "Viajes publicados desde MomentBook con enfoque en fotos.",
+        subtitle: "Viajes publicados desde MomentBook.",
         searchPlaceholder: "Buscar viajes, lugares o personas",
         countLabel: "{count} viajes",
         empty: "No hay viajes que coincidan con la búsqueda.",
@@ -86,7 +86,7 @@ const journeyPageLabels: Partial<Record<
     },
     pt: {
         title: "Jornadas publicadas",
-        subtitle: "Jornadas publicadas do MomentBook com foco em fotos.",
+        subtitle: "Jornadas publicadas do MomentBook.",
         searchPlaceholder: "Buscar jornadas, lugares ou pessoas",
         countLabel: "{count} jornadas",
         empty: "Nenhuma jornada corresponde à busca.",
@@ -97,7 +97,7 @@ const journeyPageLabels: Partial<Record<
     },
     fr: {
         title: "Voyages publiés",
-        subtitle: "Voyages publies depuis MomentBook avec un focus photo.",
+        subtitle: "Voyages publies depuis MomentBook.",
         searchPlaceholder: "Rechercher des voyages, lieux ou personnes",
         countLabel: "{count} voyages",
         empty: "Aucun voyage ne correspond à cette recherche.",
@@ -108,7 +108,7 @@ const journeyPageLabels: Partial<Record<
     },
     th: {
         title: "ทริปที่เผยแพร่",
-        subtitle: "ทริปที่แชร์จาก MomentBook โดยเน้นรูปภาพ",
+        subtitle: "ทริปที่แชร์จาก MomentBook",
         searchPlaceholder: "ค้นหาทริป สถานที่ หรือผู้คน",
         countLabel: "{count} ทริป",
         empty: "ไม่พบทริปที่ตรงกับการค้นหา",
@@ -119,7 +119,7 @@ const journeyPageLabels: Partial<Record<
     },
     vi: {
         title: "Hanh trinh da dang",
-        subtitle: "Cac hanh trinh duoc chia se tu MomentBook theo huong anh.",
+        subtitle: "Cac hanh trinh duoc chia se tu MomentBook.",
         searchPlaceholder: "Tim hanh trinh, dia diem hoac nguoi dung",
         countLabel: "{count} hanh trinh",
         empty: "Khong co hanh trinh phu hop voi tim kiem.",
