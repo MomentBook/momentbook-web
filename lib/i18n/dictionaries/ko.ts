@@ -7,7 +7,7 @@ export const ko: Dictionary = {
   nav: {
     home: '홈',
     about: '소개',
-    howItWorks: '두 가지 시작',
+    howItWorks: '작동 원리?',
     download: '다운로드',
     faq: '자주 묻는 질문',
     support: '고객 지원',
@@ -49,7 +49,7 @@ export const ko: Dictionary = {
   // Common
   common: {
     comingSoon: '곧 출시',
-    learnMore: '두 가지 시작 보기',
+    learnMore: '작동 원리 보기',
   },
 
   // Footer

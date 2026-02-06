@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./how-it-works.module.scss";
 import { type Language } from "@/lib/i18n/config";
@@ -33,6 +34,8 @@ type HowItWorksContent = {
   flowTitle: string;
   flowLead: string;
   flows: HowItWorksFlow[];
+  screenshotTitle: string;
+  screenshotLead: string;
   outcomeTitle: string;
   outcomeLead: string;
   outcomeHighlights: string[];
@@ -81,6 +84,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "App screens",
+    screenshotLead: "A quick look at how a journey moves from capture to sharing.",
     outcomeTitle: "Where both paths meet",
     outcomeLead: "However you begin, the result points to the same place.",
     outcomeHighlights: [
@@ -159,6 +164,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "앱 화면 미리보기",
+    screenshotLead: "기록에서 공유까지 이어지는 화면을 한눈에 확인하세요.",
     outcomeTitle: "두 흐름이 만나는 지점",
     outcomeLead: "어떤 시작이든 결과는 같은 방향입니다.",
     outcomeHighlights: [
@@ -237,6 +244,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "アプリ画面の流れ",
+    screenshotLead: "記録から共有までの流れをスクリーンショットで確認できます。",
     outcomeTitle: "二つの流れが合流するところ",
     outcomeLead: "どの始め方でも結果は同じ方向です。",
     outcomeHighlights: [
@@ -315,6 +324,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "应用界面一览",
+    screenshotLead: "从记录到分享的流程，一眼就能了解。",
     outcomeTitle: "两条路径的汇合点",
     outcomeLead: "无论从哪开始，结果都指向同一处。",
     outcomeHighlights: [
@@ -393,6 +404,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "Pantallas de la app",
+    screenshotLead: "Un vistazo rápido desde el registro hasta la publicación.",
     outcomeTitle: "Donde se unen los dos caminos",
     outcomeLead: "Empieces como empieces, el resultado es el mismo.",
     outcomeHighlights: [
@@ -471,6 +484,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "Telas do app",
+    screenshotLead: "Veja rapidamente a jornada do registro ao compartilhamento.",
     outcomeTitle: "Onde os dois caminhos se encontram",
     outcomeLead: "Comece por onde fizer sentido; o resultado e o mesmo.",
     outcomeHighlights: [
@@ -549,6 +564,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "Ecrans de l'app",
+    screenshotLead: "Un apercu rapide du parcours, de la capture au partage.",
     outcomeTitle: "Le point de rencontre des deux chemins",
     outcomeLead: "Quel que soit le debut, le resultat est le meme.",
     outcomeHighlights: [
@@ -627,6 +644,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "ภาพหน้าจอในแอป",
+    screenshotLead: "ดูภาพรวมตั้งแต่บันทึกจนถึงการแชร์ได้อย่างรวดเร็ว.",
     outcomeTitle: "จุดที่สองเส้นทางมาบรรจบ",
     outcomeLead: "เริ่มทางไหน ผลลัพธ์ก็ไปทางเดียวกัน.",
     outcomeHighlights: [
@@ -705,6 +724,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         ],
       },
     ],
+    screenshotTitle: "Man hinh ung dung",
+    screenshotLead: "Xem nhanh hanh trinh tu ghi lai den chia se.",
     outcomeTitle: "Noi hai luong gap nhau",
     outcomeLead: "Bat dau tu dau thi ket qua cung di ve mot huong.",
     outcomeHighlights: [
@@ -749,6 +770,41 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     ],
   },
 };
+
+const screenshots = [
+  {
+    src: "/images/how-it-works/home.png",
+    alt: "MomentBook home screen",
+  },
+  {
+    src: "/images/how-it-works/current-journey.png",
+    alt: "MomentBook current journey tracking screen",
+  },
+  {
+    src: "/images/how-it-works/photos-grid.png",
+    alt: "MomentBook photo selection grid",
+  },
+  {
+    src: "/images/how-it-works/organize-photos.png",
+    alt: "MomentBook organizing photos screen",
+  },
+  {
+    src: "/images/how-it-works/user-organizing.png",
+    alt: "MomentBook user organizing journey screen",
+  },
+  {
+    src: "/images/how-it-works/journey-timeline.png",
+    alt: "MomentBook journey timeline screen",
+  },
+  {
+    src: "/images/how-it-works/publish-select.png",
+    alt: "MomentBook publish selection screen",
+  },
+  {
+    src: "/images/how-it-works/publish-summary.png",
+    alt: "MomentBook published journey summary screen",
+  },
+];
 
 function getHowItWorksContent(lang: Language): HowItWorksContent {
   return howItWorksContent[lang] ?? howItWorksContent.en;
@@ -822,6 +878,28 @@ export default async function HowItWorksPage({
                 ))}
               </ol>
             </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.section}>
+        <header className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>{content.screenshotTitle}</h2>
+          <p className={styles.sectionLead}>{content.screenshotLead}</p>
+        </header>
+        <div className={styles.screenshotGrid}>
+          {screenshots.map((screenshot) => (
+            <div key={screenshot.src} className={styles.screenshotCard}>
+              <div className={styles.screenshotFrame}>
+                <Image
+                  src={screenshot.src}
+                  alt={screenshot.alt}
+                  fill
+                  sizes="(max-width: 600px) 45vw, (max-width: 900px) 30vw, 220px"
+                  className={styles.screenshotImage}
+                />
+              </div>
+            </div>
           ))}
         </div>
       </section>
