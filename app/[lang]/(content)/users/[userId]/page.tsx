@@ -399,7 +399,15 @@ export default async function UserPage({
                         className={styles.coverImage}
                       />
                     ) : (
-                      <div className={styles.coverFallback}>MomentBook</div>
+                      <div className={styles.coverFallback}>
+                        <Image
+                          src="/images/placeholders/journey-cover-fallback.svg"
+                          alt=""
+                          fill
+                          sizes="(max-width: 768px) 100vw, 280px"
+                          className={styles.coverFallbackImage}
+                        />
+                      </div>
                     )}
                   </div>
 
