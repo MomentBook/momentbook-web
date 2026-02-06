@@ -767,32 +767,37 @@ export interface UserProfileSuccessResponseDto {
   consents: ConsentStatusDataDto;
 }
 
+export interface PictureUpdateDto {
+  /**
+   * 이미지 업데이트 액션
+   * @example "upload"
+   */
+  action: "upload" | "remove" | "set_url";
+  /**
+   * 이미지 데이터. action이 "upload"이면 Base64 인코딩된 이미지, "set_url"이면 URL, "remove"이면 불필요
+   * @example "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
+   */
+  value?: string;
+}
+
 export interface UpdateUserProfileDto {
   /**
    * 사용자 이름
    * @example "홍길동"
    */
-  name?: string | null;
+  name?: string;
   /**
    * 사용자 이메일
    * @example "user@example.com"
    */
-  email?: string | null;
+  email?: string;
   /**
    * 사용자 자기소개
    * @example "안녕하세요"
    */
-  biography?: string | null;
-  /**
-   * 프로필 사진 URL
-   * @example "https://example.com/profile.jpg"
-   */
-  picture?: string | null;
-  /**
-   * Base64 인코딩된 프로필 사진 (업로드용)
-   * @example "data:image/jpeg;base64,/9j/4AAQSkZJRg..."
-   */
-  pictureBase64?: string | null;
+  biography?: string;
+  /** 프로필 이미지 업데이트. 필드를 생략하면 기존 이미지가 유지됩니다. */
+  picture?: PictureUpdateDto;
 }
 
 export interface UserProfileUpdateSuccessResponseDto {
@@ -801,6 +806,11 @@ export interface UserProfileUpdateSuccessResponseDto {
    * @example "success"
    */
   status: string;
+  /**
+   * 응답 메시지
+   * @example "User profile updated successfully"
+   */
+  message: string;
   /** 업데이트된 사용자 프로필 데이터 */
   data: UserProfileDataDto;
 }
@@ -989,16 +999,46 @@ export interface BlockedUsersResponseDto {
   data: BlockedUsersResponseDataDto;
 }
 
+export interface PublicUserItemDto {
+  /**
+   * User ID
+   * @example "507f1f77bcf86cd799439011"
+   */
+  userId: string;
+  /**
+   * User display name
+   * @example "John Doe"
+   */
+  name: string;
+  /**
+   * User avatar URL
+   * @example "https://cdn.momentbook.app/avatars/user123.jpg"
+   */
+  picture?: string;
+  /**
+   * Number of published journeys
+   * @example 5
+   */
+  publishedJourneyCount: number;
+}
+
+export interface PublicUsersDataDto {
+  /** List of public users */
+  users: PublicUserItemDto[];
+  /** Total number of users */
+  total: number;
+  /** Current page number */
+  page: number;
+  /** Total number of pages */
+  pages: number;
+  /** Items per page limit */
+  limit: number;
+}
+
 export interface PublicUsersResponseDto {
   /** @example "success" */
   status: string;
-  data: {
-    users?: any[];
-    total?: number;
-    page?: number;
-    pages?: number;
-    limit?: number;
-  };
+  data: PublicUsersDataDto;
 }
 
 export interface PublicUserProfileDto {
@@ -1035,181 +1075,114 @@ export interface PublicUserProfileResponseDto {
   data: PublicUserProfileDto;
 }
 
+export interface PublishedJourneyItemDto {
+  /**
+   * Public ID
+   * @example "abc123xyz789"
+   */
+  publicId: string;
+  /**
+   * Journey ID
+   * @example "journey_123"
+   */
+  journeyId: string;
+  /** Author user ID */
+  userId: string;
+  /** Journey start timestamp (ms) */
+  startedAt: number;
+  /** Journey end timestamp (ms) */
+  endedAt?: number;
+  /** Recap stage */
+  recapStage: string;
+  /** Number of images */
+  imageCount: number;
+  /** First image URL for preview */
+  thumbnailUrl?: string;
+  /** Journey metadata */
+  metadata?: object;
+  /** Published timestamp */
+  publishedAt: string;
+  /** Creation timestamp */
+  createdAt: string;
+}
+
+export interface PublishedJourneysDataDto {
+  /** List of published journeys */
+  journeys: PublishedJourneyItemDto[];
+  /** Total number of published journeys */
+  total: number;
+  /** Current page number */
+  page: number;
+  /** Total number of pages */
+  pages: number;
+  /** Items per page limit */
+  limit: number;
+}
+
 export interface PublishedJourneysResponseDto {
   /** @example "success" */
   status: string;
-  data: {
-    journeys?: any[];
-    total?: number;
-    page?: number;
-    pages?: number;
-    limit?: number;
-  };
+  data: PublishedJourneysDataDto;
 }
 
-export interface ConsentTemplateDto {
-  /**
-   * 동의 항목 템플릿 ID
-   * @example "507f1f77bcf86cd799439011"
-   */
-  _id: string;
+export interface SignupConsentItemDto {
   /**
    * 동의 항목의 고유 키
-   * @example "eula"
+   * @example "terms"
    */
   key: string;
   /**
-   * 클라이언트에 표시될 라벨
-   * @example "EULA 동의"
+   * 동의 항목 제목
+   * @example "Terms of Service"
    */
   label: string;
   /**
-   * 동의 항목의 상세 내용
-   * @example "최종 사용자 라이선스 계약(EULA)에 동의합니다."
+   * 웹 페이지 경로 (앱에서 호스트와 결합)
+   * @example "/terms"
    */
-  content: string;
+  path: string;
   /**
    * 필수 동의 여부
    * @example true
    */
   required: boolean;
   /**
-   * 활성화 상태
-   * @example true
-   */
-  isActive: boolean;
-  /**
    * 표시 순서
    * @example 1
    */
   order: number;
-  /**
-   * 템플릿 버전
-   * @example "1.0.0"
-   */
-  version: string;
-  /**
-   * 동의 항목에 대한 추가 설명
-   * @example "최종 사용자 라이선스 계약 동의"
-   */
-  description?: string;
-  /**
-   * 동의 항목의 카테고리
-   * @example "essential"
-   */
-  category?: "essential" | "optional";
-  /**
-   * 동의 항목의 상세 내용이 있는 노션 페이지 URI
-   * @example "https://reflectalab.notion.site/EULA-240b7b7c3626805299e8e57b6d842123"
-   */
-  contentUri?: string;
-  /**
-   * 생성일시
-   * @example "2023-12-01T12:00:00.000Z"
-   */
-  createdAt: string;
-  /**
-   * 수정일시
-   * @example "2023-12-01T12:00:00.000Z"
-   */
-  updatedAt: string;
 }
 
-export interface ConsentTemplatesDataDto {
-  /** 동의 항목 템플릿 목록 */
-  templates: ConsentTemplateDto[];
+export interface SignupConsentsDataDto {
+  /** 동의 항목 목록 */
+  consents: SignupConsentItemDto[];
   /**
-   * 최신 버전
+   * 동의 템플릿 버전
    * @example "1.0.0"
    */
   version: string;
 }
 
-export interface ConsentTemplatesResponseDto {
+export interface SignupConsentsResponseDto {
   /** @example "success" */
   status: string;
-  data: ConsentTemplatesDataDto;
-}
-
-export interface UserConsentItemDto {
-  /**
-   * 동의 항목 ID
-   * @example "consentId123"
-   */
-  _id: string;
-  /**
-   * 사용자 ID
-   * @example "userId456"
-   */
-  userId: string;
-  /**
-   * 동의 여부
-   * @example true
-   */
-  agreement: boolean;
-  /**
-   * 동의 내용
-   * @example "이용 약관 내용"
-   */
-  content: string;
-  /**
-   * 필수 동의 항목 여부
-   * @example true
-   */
-  isRequired: boolean;
-  /**
-   * 동의 항목 유형
-   * @example "terms_of_service"
-   */
-  consentType: string;
-  /**
-   * 생성일시
-   * @example "2023-10-01T12:00:00Z"
-   */
-  createdAt: string;
-  /**
-   * 수정일시
-   * @example "2023-10-01T12:00:00Z"
-   */
-  updatedAt: string;
-  /**
-   * MongoDB 버전
-   * @example 0
-   */
-  __v: number;
-}
-
-export interface UserConsentsDataDto {
-  /** 동의 목록 */
-  consents: UserConsentItemDto[];
-}
-
-export interface UserConsentsResponseDto {
-  /**
-   * 응답 상태
-   * @example "success"
-   */
-  status: string;
-  /** 동의 목록 데이터 */
-  data: UserConsentsDataDto;
-  /** 페이지네이션 정보 */
-  paginationData: PaginationDataDto;
+  data: SignupConsentsDataDto;
 }
 
 export interface UserConsentItemUpdateDto {
   /**
-   * 동의 항목 ID (선택)
-   * @example "consentId123"
-   */
-  _id?: string;
-  /**
    * 동의 여부
    * @example true
    */
   agreement: boolean;
   /**
+   * 동의 항목 키 (예: terms, privacy, community-guidelines, marketing-consent)
+   * @example "terms"
+   */
+  consentType: string;
+  /**
    * 동의 내용 (선택)
-   * @example "이용 약관 내용 수정"
+   * @example "MomentBook 서비스 이용약관에 동의합니다."
    */
   content?: string;
   /**
@@ -1217,33 +1190,19 @@ export interface UserConsentItemUpdateDto {
    * @example true
    */
   isRequired?: boolean;
-  /**
-   * 동의 항목 유형
-   * @example "terms_of_service"
-   */
-  consentType: string;
 }
 
 export interface UpdateUserConsentsDto {
-  /** 동의 항목 목록 */
+  /**
+   * 동의 항목 목록
+   * @example [{"consentType":"terms","agreement":true,"content":"MomentBook 서비스 이용약관에 동의합니다.","isRequired":true},{"consentType":"privacy","agreement":true,"content":"MomentBook 개인정보 처리방침에 동의합니다.","isRequired":true}]
+   */
   consents: UserConsentItemUpdateDto[];
   /**
-   * 버전 정보
-   * @example "1.0.1"
+   * 동의 템플릿 버전
+   * @example "1.0.0"
    */
   version: string;
-}
-
-export interface UpdateUserConsentsResponseDto {
-  /**
-   * 응답 상태
-   * @example "success"
-   */
-  status: string;
-  /** 동의 목록 및 검증 결과 */
-  data: object;
-  /** 페이지네이션 정보 */
-  paginationData: PaginationDataDto;
 }
 
 export interface ConsentValidationDto {
@@ -1253,10 +1212,25 @@ export interface ConsentValidationDto {
    */
   isAllRequiredConsented: boolean;
   /**
-   * 동의하지 않은 필수 항목 목록
+   * 동의하지 않은 필수 항목 키 목록
    * @example []
    */
   missingRequiredConsents: string[];
+}
+
+export interface UpdateUserConsentsDataDto {
+  /** 동의 검증 결과 */
+  validation: ConsentValidationDto;
+}
+
+export interface UpdateUserConsentsResponseDto {
+  /**
+   * 응답 상태
+   * @example "success"
+   */
+  status: string;
+  /** 동의 검증 결과 */
+  data: UpdateUserConsentsDataDto;
 }
 
 export interface ValidateUserConsentsResponseDto {
@@ -1356,8 +1330,8 @@ export interface RecapDraftDto {
   updatedAt: number;
   /** Input data summary */
   inputSummary: RecapInputSummaryDto;
-  /** Journey mode classification */
-  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
+  /** Journey mode classification (PHOTO_ONLY deprecated, use ROUTE_NONE) */
+  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
   /** Explanation of mode classification */
   modeReason: string;
   /** Algorithm configuration */
@@ -1409,72 +1383,22 @@ export interface JourneyImageDto {
   locationName?: string;
 }
 
-export interface JourneyTitleSummaryDto {
+export interface JourneyMetadataDto {
   /**
-   * 전체 사진 수
-   * @example 86
+   * User-defined journey title
+   * @example "Trip to Seoul"
    */
-  photoCountTotal: number;
+  title?: string;
   /**
-   * 총 소요 시간(분)
-   * @example 360
+   * User reflection or notes about the journey
+   * @example "A wonderful journey exploring the city"
    */
-  durationMin?: number;
+  description?: string;
   /**
-   * 총 이동 거리(km)
-   * @example 8.4
+   * Selected thumbnail photo URI (from images array)
+   * @example "https://cdn.momentbook.app/journeys/user123/thumbnail.jpg"
    */
-  distanceKm?: number;
-  /**
-   * STOP(스팟) 개수
-   * @example 5
-   */
-  stopCount?: number;
-}
-
-export interface JourneyTopStopDto {
-  /**
-   * 상위 스팟 라벨 (공개면 동/구 정도로만)
-   * @example "성수동"
-   */
-  label: string;
-  /**
-   * 체류 시간(분)
-   * @example 45
-   */
-  dwellMin?: number;
-}
-
-export interface GenerateJourneyTitleRequest {
-  /**
-   * 정리 모드
-   * @example "route_strong"
-   */
-  mode: "route_strong" | "route_weak" | "route_none" | "photo_only";
-  /**
-   * 공개 범위
-   * @example "unlisted"
-   */
-  privacyLevel: "public" | "unlisted" | "private";
-  /**
-   * 여정 날짜 (YYYY-MM-DD)
-   * @example "2026-01-07"
-   */
-  date: string;
-  /** 요약 정보 */
-  summary: JourneyTitleSummaryDto;
-  /**
-   * 제목에 반영할 하이라이트 키워드(3~8개 추천). 장소/행동/분위기 키워드 위주.
-   * @example ["산책","카페","노을","조용한 시간"]
-   */
-  highlights: string[];
-  /** 상위 스팟(있으면 1~3개). public이면 개인 위치 특정 가능한 상세 라벨 금지. */
-  topStops?: JourneyTopStopDto[];
-  /**
-   * ROUTE_WEAK일 때 신뢰도(0~1)
-   * @example 0.62
-   */
-  confidence?: number;
+  thumbnailUri?: string;
 }
 
 export interface PublishJourneyRequestDto {
@@ -1502,12 +1426,10 @@ export interface PublishJourneyRequestDto {
    * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
    */
   photoUrlMapping: object;
-  /** Array of uploaded images (max 100) */
+  /** Array of selected images to publish (max 30). Client should only upload and send photos that user wants to publish, not all journey photos. */
   images: JourneyImageDto[];
-  /** Optional metadata */
-  metadata?: object;
-  /** 제목/설명 자동 생성 요청. 제공 시 AI가 title/description을 생성하여 metadata에 저장. */
-  autoGenerate?: GenerateJourneyTitleRequest;
+  /** Journey metadata (title, description, thumbnailUri, etc.) */
+  metadata?: JourneyMetadataDto;
 }
 
 export interface PublishJourneyResponseDto {
@@ -1556,6 +1478,8 @@ export interface PublishJourneyInfoResponseDto {
     lastPublishError?: string;
     createdAt?: string;
     updatedAt?: string;
+    /** Whether locations have been enriched with POI data */
+    isLocationEnriched?: boolean;
   };
 }
 
@@ -1575,8 +1499,8 @@ export interface PublishedJourneyDetailDto {
   title?: string;
   /** Journey description */
   description?: string;
-  /** Journey mode */
-  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
+  /** Journey mode (PHOTO_ONLY deprecated) */
+  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
   /** Total photo count */
   photoCount: number;
   /** Published images with S3 URLs */
@@ -1607,6 +1531,79 @@ export interface UnpublishJourneyResponseDto {
   };
 }
 
+export interface JourneyTitleSummaryDto {
+  /**
+   * 전체 사진 수
+   * @example 86
+   */
+  photoCountTotal: number;
+  /**
+   * 총 소요 시간(분)
+   * @example 360
+   */
+  durationMin?: number;
+  /**
+   * 총 이동 거리(km)
+   * @example 8.4
+   */
+  distanceKm?: number;
+  /**
+   * STOP(스팟) 개수
+   * @example 5
+   */
+  stopCount?: number;
+}
+
+export interface JourneyTopStopDto {
+  /**
+   * 상위 스팟 라벨 (공개면 동/구 정도로만)
+   * @example "성수동"
+   */
+  label: string;
+  /**
+   * 체류 시간(분)
+   * @example 45
+   */
+  dwellMin?: number;
+}
+
+export interface GenerateJourneyTitleRequest {
+  /**
+   * 정리 모드
+   * @example "route_strong"
+   */
+  mode: "route_strong" | "route_weak" | "route_none";
+  /**
+   * 공개 범위
+   * @example "unlisted"
+   */
+  privacyLevel: "public" | "unlisted" | "private";
+  /**
+   * 여정 날짜 (YYYY-MM-DD)
+   * @example "2026-01-07"
+   */
+  date: string;
+  /** 요약 정보 */
+  summary: JourneyTitleSummaryDto;
+  /**
+   * 제목에 반영할 하이라이트 키워드(3~8개 추천). 장소/행동/분위기 키워드 위주.
+   * @example ["산책","카페","노을","조용한 시간"]
+   */
+  highlights: string[];
+  /** 상위 스팟(있으면 1~3개). public이면 개인 위치 특정 가능한 상세 라벨 금지. */
+  topStops?: JourneyTopStopDto[];
+  /**
+   * ROUTE_WEAK일 때 신뢰도(0~1)
+   * @example 0.62
+   */
+  confidence?: number;
+  /**
+   * 사진 캡션 배열 (있을 경우 AI가 이를 참고하여 더 상세한 제목/설명 생성). 최대 20개까지만 전달 권장.
+   * @example ["카페에서 아메리카노","석양을 바라보며","친구와 함께"]
+   */
+  photoCaptions?: string[];
+}
+
 export interface GeneratedTitleData {
   /**
    * 추천 제목
@@ -1614,8 +1611,9 @@ export interface GeneratedTitleData {
    */
   title: string;
   /**
-   * 대안 제목 리스트(최대 3개)
-   * @example ["카페 들렀던 오후","조용히 걸었던 하루"]
+   * 대안 제목 리스트 (더 이상 생성되지 않음, 레거시 호환용)
+   * @deprecated
+   * @example []
    */
   alternatives?: string[];
 }
@@ -1632,12 +1630,104 @@ export interface GenerateJourneyTitleResponse {
   message: string;
 }
 
+export interface LocationItemDto {
+  /**
+   * Latitude coordinate
+   * @min -90
+   * @max 90
+   * @example 37.5665
+   */
+  lat: number;
+  /**
+   * Longitude coordinate
+   * @min -180
+   * @max 180
+   * @example 126.978
+   */
+  lng: number;
+  /**
+   * Optional client-provided reverse geocoded location name for better translation context
+   * @example "Seoul, South Korea"
+   */
+  reverseGeocodedName?: string;
+}
+
+export interface EnrichLocationsRequestDto {
+  /**
+   * Array of locations to enrich with POI data
+   * @example [{"lat":37.5665,"lng":126.978,"reverseGeocodedName":"Seoul, South Korea"},{"lat":41.4036,"lng":2.1744,"reverseGeocodedName":"Barcelona, Spain"}]
+   */
+  locations: LocationItemDto[];
+  /**
+   * Search radius in meters for nearby POIs (default: 150m)
+   * @min 10
+   * @max 500
+   * @example 150
+   */
+  radiusMeters?: number;
+  /**
+   * Language code for multilingual place names (e.g., "ko", "es", "ja", "zh"). If provided, returns both English and translated place names using OpenAI.
+   * @example "ko"
+   */
+  language?: string;
+  /**
+   * Journey ID to track enrichment status and prevent duplicate enrichment. If provided, the server will mark this journey as enriched and skip re-enrichment on subsequent calls.
+   * @example "550e8400-e29b-41d4-a716-446655440000"
+   */
+  journeyId?: string;
+}
+
+export interface RegisterFcmTokenDto {
+  /**
+   * FCM device token
+   * @example "dXNlckBleGFtcGxlLmNvbQ:APA91bH..."
+   */
+  fcmToken: string;
+}
+
+export interface UpdateNotificationSettingsDto {
+  /**
+   * Enable or disable push notifications
+   * @example true
+   */
+  notificationEnabled: boolean;
+}
+
+export interface HidePublishResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "Published journey has been hidden" */
+  message: string;
+}
+
+export interface UnhidePublishResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "Published journey has been unhidden" */
+  message: string;
+}
+
+export interface BanUserDto {
+  /**
+   * Reason for banning the user
+   * @example "Violation of community guidelines"
+   */
+  reason?: string;
+}
+
+export interface BanUserResponseDto {
+  /** @example "success" */
+  status: string;
+  /** @example "User has been banned" */
+  message: string;
+}
+
 export interface CreateReportDto {
   /**
    * 신고 대상 타입
    * @example "thought"
    */
-  targetType: "thought" | "comment" | "user";
+  targetType: "thought" | "comment" | "user" | "published_journey";
   /**
    * 신고 대상 ID
    * @example "680657032be53a7892fe5abc"
@@ -1665,7 +1755,7 @@ export interface ReportDataDto {
    * 신고 대상 타입
    * @example "thought"
    */
-  targetType: "thought" | "comment" | "user";
+  targetType: "thought" | "comment" | "user" | "published_journey";
   /**
    * 신고 대상 ID
    * @example "680657032be53a7892fe5def"
@@ -1703,6 +1793,34 @@ export interface CreateReportResponseDto {
   data: ReportDataDto;
 }
 
+export interface TargetReportCountDataDto {
+  /**
+   * 신고 대상 타입
+   * @example "thought"
+   */
+  targetType: "thought" | "comment" | "user" | "published_journey";
+  /**
+   * 신고 대상 ID
+   * @example "680657032be53a7892fe5abc"
+   */
+  targetId: string;
+  /**
+   * 신고 개수
+   * @example 5
+   */
+  reportCount: number;
+}
+
+export interface GetTargetReportCountResponseDto {
+  /**
+   * 상태
+   * @example "success"
+   */
+  status: string;
+  /** 대상별 신고 개수 데이터 */
+  data: TargetReportCountDataDto;
+}
+
 export interface ReportDetailDataDto {
   /**
    * 신고 ID
@@ -1718,7 +1836,7 @@ export interface ReportDetailDataDto {
    * 신고 대상 타입
    * @example "thought"
    */
-  targetType: "thought" | "comment" | "user";
+  targetType: "thought" | "comment" | "user" | "published_journey";
   /**
    * 신고 대상 ID
    * @example "680657032be53a7892fe5def"
@@ -1814,34 +1932,6 @@ export interface GetReportStatsResponseDto {
   status: string;
   /** 신고 통계 데이터 */
   data: ReportStatsDataDto;
-}
-
-export interface TargetReportCountDataDto {
-  /**
-   * 신고 대상 타입
-   * @example "thought"
-   */
-  targetType: "thought" | "comment" | "user";
-  /**
-   * 신고 대상 ID
-   * @example "680657032be53a7892fe5abc"
-   */
-  targetId: string;
-  /**
-   * 신고 개수
-   * @example 5
-   */
-  reportCount: number;
-}
-
-export interface GetTargetReportCountResponseDto {
-  /**
-   * 상태
-   * @example "success"
-   */
-  status: string;
-  /** 대상별 신고 개수 데이터 */
-  data: TargetReportCountDataDto;
 }
 
 export interface GetReportResponseDto {
@@ -1971,6 +2061,99 @@ export interface JourneyAiJobResponseDto {
   lastPolledAt?: string;
   /** 폴링 횟수 */
   pollCount?: number;
+}
+
+export interface JourneyLocationSampleDto {
+  /**
+   * @min -90
+   * @max 90
+   * @example 37.5665
+   */
+  latitude: number;
+  /**
+   * @min -180
+   * @max 180
+   * @example 126.978
+   */
+  longitude: number;
+  /**
+   * Unix ms timestamp
+   * @example 1704067200000
+   */
+  timestamp: number;
+  /**
+   * GPS accuracy in meters
+   * @example 14.5
+   */
+  accuracy?: number;
+  /**
+   * Speed in m/s
+   * @example 3.2
+   */
+  speed?: number;
+}
+
+export interface JourneyRecapInputDto {
+  /** @example "journey_abc123" */
+  id: string;
+  /**
+   * Unix ms timestamp
+   * @example 1704067200000
+   */
+  startedAt: number;
+  /**
+   * Unix ms timestamp
+   * @example 1704070800000
+   */
+  endedAt?: number;
+  locations: JourneyLocationSampleDto[];
+}
+
+export interface PhotoMetaInputDto {
+  /**
+   * Client-side photo identifier
+   * @example "file:///photos/IMG_0001.jpg"
+   */
+  uri: string;
+  /**
+   * Unix ms timestamp
+   * @example 1704067210000
+   */
+  takenAt: number;
+  /**
+   * @min -90
+   * @max 90
+   * @example 37.5665
+   */
+  lat?: number;
+  /**
+   * @min -180
+   * @max 180
+   * @example 126.978
+   */
+  lng?: number;
+  /** @example true */
+  hasGps: boolean;
+  /** @example 4032 */
+  width?: number;
+  /** @example 3024 */
+  height?: number;
+}
+
+export interface CreateJourneyRecapDraftRequestDto {
+  journey: JourneyRecapInputDto;
+  photos: PhotoMetaInputDto[];
+}
+
+export interface JourneyRecapDraftResponseDataDto {
+  /** RecapDraft payload (contract-compatible object) */
+  recapDraft: object;
+}
+
+export interface JourneyRecapDraftResponseDto {
+  /** @example "success" */
+  status: string;
+  data: JourneyRecapDraftResponseDataDto;
 }
 
 export interface PresignUploadRequestDto {
@@ -2296,7 +2479,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.0.0
+ * @version 2.0.3
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -2959,58 +3142,23 @@ export class Api<
       }),
 
     /**
-     * @description 클라이언트에서 사용할 수 있는 활성화된 동의 항목 템플릿들을 조회합니다
+     * @description 회원가입 시 필요한 동의 항목 목록을 조회합니다. 앱은 path를 웹 호스트와 결합하여 사용합니다.
      *
      * @tags consents
-     * @name ConsentTemplatesControllerGetConsentTemplates
-     * @summary 동의 항목 템플릿 목록 조회
-     * @request GET:/v2/consent-templates
+     * @name ConsentTemplatesControllerGetSignupConsents
+     * @summary 회원가입용 동의 항목 목록 조회
+     * @request GET:/v2/consent-templates/signup
      */
-    consentTemplatesControllerGetConsentTemplates: (
-      params: RequestParams = {},
-    ) =>
-      this.request<ConsentTemplatesResponseDto, void>({
-        path: `/v2/consent-templates`,
+    consentTemplatesControllerGetSignupConsents: (params: RequestParams = {}) =>
+      this.request<SignupConsentsResponseDto, void>({
+        path: `/v2/consent-templates/signup`,
         method: "GET",
         format: "json",
         ...params,
       }),
 
     /**
-     * @description 인증된 사용자가 동의한 이용 약관 목록을 조회합니다
-     *
-     * @tags consents
-     * @name UserConsentsControllerGetUserConsents
-     * @summary 사용자 동의 목록 조회
-     * @request GET:/v2/users/consents
-     * @secure
-     */
-    userConsentsControllerGetUserConsents: (
-      query?: {
-        /**
-         * 페이지 번호
-         * @example 1
-         */
-        page?: number;
-        /**
-         * 페이지당 항목 수
-         * @example 10
-         */
-        limit?: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<UserConsentsResponseDto, void>({
-        path: `/v2/users/consents`,
-        method: "GET",
-        query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description 인증된 사용자의 이용 약관 동의 정보를 업데이트합니다
+     * @description 회원가입 시 사용자가 동의한 항목들을 저장합니다. 필수 항목에 모두 동의하면 사용자가 활성화됩니다.
      *
      * @tags consents
      * @name UserConsentsControllerUpdateUserConsents
@@ -3033,7 +3181,7 @@ export class Api<
       }),
 
     /**
-     * @description 사용자가 필수 동의 항목에 모두 동의했는지 검증합니다
+     * @description 사용자가 필수 동의 항목에 모두 동의했는지 검증합니다. 앱 실행 시 필수 동의 여부를 확인할 때 사용합니다.
      *
      * @tags consents
      * @name UserConsentsControllerValidateUserConsents
@@ -3051,7 +3199,7 @@ export class Api<
       }),
 
     /**
-     * @description Store published journey content with images for later SEO page generation. Title/description will be generated in the language specified by Accept-Language header.
+     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. **Photo Upload:** - Maximum 30 photos allowed per published journey - Client should only upload and send photos that user selected to publish - Do not upload all journey photos - only upload selected photos to save storage
      *
      * @tags journeys
      * @name PublishJourneyControllerPublishJourney
@@ -3112,7 +3260,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve a paginated list of all published journeys
+     * @description Public endpoint to retrieve a paginated list of all published journeys. Optionally filter by userId to get a specific user's published journeys.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourneys
@@ -3133,6 +3281,11 @@ export class Api<
         limit?: number;
         /** Sort order (default: recent) */
         sort?: "recent" | "oldest";
+        /**
+         * Filter by user ID (optional)
+         * @example "507f1f77bcf86cd799439011"
+         */
+        userId?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -3227,6 +3380,231 @@ export class Api<
       }),
 
     /**
+     * @description Client-side feature to load location names for photos before publishing. **Use case:** - User taps "Load Location Names" button in the app - App sends array of coordinates (lat, lng) from photos, optionally with reverse geocoded names - Optional: Specify journeyId to prevent duplicate enrichment (recommended) - Server calls Google Places Nearby API for each coordinate - AI (GPT-4o-mini) selects the most likely place the user photographed - Returns detailed POI data for each location **AI-Powered Place Selection:** - Google Places API returns nearby places sorted by distance - GPT-4o-mini intelligently selects the most likely photo subject considering: - Distance (closer is usually better) - Place type (landmarks/attractions > infrastructure like parking) - Context (museum 30m away > parking lot 5m away) - Fail-open: If GPT fails, falls back to simple distance-based selection - Complies with ADR 0011 (Fail-open policy for non-critical services) **Duplicate Enrichment Prevention:** - Provide journeyId parameter to track enrichment status - Once a journey is enriched, subsequent requests with the same journeyId will be skipped - Saves API costs and prevents unnecessary duplicate enrichment - Journey locations are final after system processing, so enrichment only needs to happen once - Check `GET /v2/journeys/publish/info/:journeyId` to see if locations are already enriched **Response includes:** - POI name, types, formatted address - Distance from query point (to the POI's actual location) - Rating and user ratings count - Confidence score - Display name (formatted as "POI name, address context") **Cache:** - POI results are cached for 30 days based on rounded coordinates (11m accuracy) - Multiple requests for the same location will use cached data **Rate limit (public):** - Per IP: 30 requests / minute, 300 requests / hour **Example:** User photographed at Sagrada Familia: - Response: "Sagrada Familia, Carrer de Mallorca, Barcelona" - Distance: 5.2m, Confidence: 0.95
+     *
+     * @tags journeys
+     * @name LocationEnrichmentControllerEnrichLocations
+     * @summary Enrich locations with POI data using AI-powered place selection
+     * @request POST:/v2/journeys/locations/enrich
+     */
+    locationEnrichmentControllerEnrichLocations: (
+      data: EnrichLocationsRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** @example "success" */
+          status?: string;
+          data?: {
+            locations?: {
+              query?: {
+                /** @example 37.5665 */
+                lat?: number;
+                /** @example 126.978 */
+                lng?: number;
+              };
+              poi?: {
+                /** @example "Gyeongbokgung Palace" */
+                name?: string;
+                /** @example ["tourist_attraction","point_of_interest"] */
+                types?: string[];
+                /** @example "Jongno-gu, Seoul, South Korea" */
+                formattedAddress?: string;
+                location?: {
+                  lat?: number;
+                  lng?: number;
+                };
+                /** @example 45.2 */
+                distance?: number;
+                /** @example 4.6 */
+                rating?: number;
+                /** @example 12345 */
+                userRatingsTotal?: number;
+                /** @example "Gyeongbokgung Palace, Jongno-gu, Seoul" */
+                displayName?: string;
+                /** @example 0.95 */
+                confidence?: number;
+              } | null;
+              /** @example "poi" */
+              source?: "poi" | "reverse_geocoding" | "none";
+              /** @example true */
+              hasSignificantPoi?: boolean;
+            }[];
+            /** @example 10 */
+            totalQueried?: number;
+            /** @example 8 */
+            poisFound?: number;
+          };
+        },
+        void
+      >({
+        path: `/v2/journeys/locations/enrich`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieve persisted location names from a previous enrichment call. **Use case:** - User enriches locations but closes the app before the process completes - Client can call this endpoint to retrieve previously enriched location names - Returns coordinate → enriched location data mapping (same structure as POST response) **Response:** - isEnriched: boolean indicating if the journey has been enriched - locationNames: object mapping "lat,lng" → enriched location data
+     *
+     * @tags journeys
+     * @name LocationEnrichmentControllerGetLocationNames
+     * @summary Get enriched location names for a journey
+     * @request GET:/v2/journeys/locations/{journeyId}/location-names
+     */
+    locationEnrichmentControllerGetLocationNames: (
+      journeyId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** @example "success" */
+          status?: string;
+          data?: {
+            /** @example true */
+            isEnriched?: boolean;
+            /** @example {"41.4036,2.1744":{"name":"Sagrada Familia","displayName":"Sagrada Familia, Barcelona, Spain","types":["tourist_attraction","church","place_of_worship"],"formattedAddress":"Carrer de Mallorca, 401, Barcelona, Spain","distance":5.2,"rating":4.7,"userRatingsTotal":285432,"confidence":0.95}} */
+            locationNames?: object;
+          };
+        },
+        any
+      >({
+        path: `/v2/journeys/locations/${journeyId}/location-names`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Register or update FCM device token for push notifications. Call this after user login.
+     *
+     * @tags notifications
+     * @name NotificationsControllerRegisterFcmToken
+     * @summary Register FCM token
+     * @request POST:/v2/notifications/fcm-token
+     * @secure
+     */
+    notificationsControllerRegisterFcmToken: (
+      data: RegisterFcmTokenDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/v2/notifications/fcm-token`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Delete FCM device token. Call this when user logs out or switches account.
+     *
+     * @tags notifications
+     * @name NotificationsControllerDeleteFcmToken
+     * @summary Delete FCM token
+     * @request DELETE:/v2/notifications/fcm-token
+     * @secure
+     */
+    notificationsControllerDeleteFcmToken: (params: RequestParams = {}) =>
+      this.request<void, void>({
+        path: `/v2/notifications/fcm-token`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Enable or disable push notifications
+     *
+     * @tags notifications
+     * @name NotificationsControllerUpdateNotificationSettings
+     * @summary Update notification settings
+     * @request PATCH:/v2/notifications/settings
+     * @secure
+     */
+    notificationsControllerUpdateNotificationSettings: (
+      data: UpdateNotificationSettingsDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/v2/notifications/settings`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * @description Sets the visibility of a published journey to hidden, removing it from public view and SEO
+     *
+     * @tags moderation
+     * @name ModerationControllerHidePublish
+     * @summary Hide a published journey (Admin)
+     * @request POST:/v2/admin/moderation/publishes/{publicId}/hide
+     * @secure
+     */
+    moderationControllerHidePublish: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<HidePublishResponseDto, void>({
+        path: `/v2/admin/moderation/publishes/${publicId}/hide`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Sets the visibility of a published journey to public, making it visible and SEO-indexed
+     *
+     * @tags moderation
+     * @name ModerationControllerUnhidePublish
+     * @summary Unhide a published journey (Admin)
+     * @request POST:/v2/admin/moderation/publishes/{publicId}/unhide
+     * @secure
+     */
+    moderationControllerUnhidePublish: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<UnhidePublishResponseDto, void>({
+        path: `/v2/admin/moderation/publishes/${publicId}/unhide`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Bans a user and immediately invalidates all their tokens, preventing further access
+     *
+     * @tags moderation
+     * @name ModerationControllerBanUser
+     * @summary Ban a user (Admin)
+     * @request POST:/v2/admin/moderation/users/{userId}/ban
+     * @secure
+     */
+    moderationControllerBanUser: (
+      userId: string,
+      data: BanUserDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<BanUserResponseDto, void>({
+        path: `/v2/admin/moderation/users/${userId}/ban`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description 콘텐츠 또는 사용자를 신고합니다
      *
      * @tags reports
@@ -3250,15 +3628,35 @@ export class Api<
       }),
 
     /**
+     * @description 특정 대상에 대한 신고 개수를 조회합니다
+     *
+     * @tags reports
+     * @name ReportsControllerGetTargetReportCount
+     * @summary 특정 대상의 신고 개수 조회
+     * @request GET:/v2/reports/target/{targetType}/{targetId}/count
+     */
+    reportsControllerGetTargetReportCount: (
+      targetType: "thought" | "comment" | "user" | "published_journey",
+      targetId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<GetTargetReportCountResponseDto, void>({
+        path: `/v2/reports/target/${targetType}/${targetId}/count`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description 모든 신고 목록을 조회합니다
      *
      * @tags reports
-     * @name ReportsControllerGetReports
+     * @name AdminReportsControllerGetReports
      * @summary 신고 목록 조회 (관리자용)
-     * @request GET:/v2/reports
+     * @request GET:/v2/admin/reports
      * @secure
      */
-    reportsControllerGetReports: (
+    adminReportsControllerGetReports: (
       query?: {
         /**
          * 페이지 번호
@@ -3273,7 +3671,7 @@ export class Api<
         /** 신고 상태 필터 */
         status?: "pending" | "reviewed" | "resolved" | "rejected";
         /** 신고 대상 타입 필터 */
-        targetType?: "thought" | "comment" | "user";
+        targetType?: "thought" | "comment" | "user" | "published_journey";
         /** 신고 사유 필터 */
         reason?:
           | "spam"
@@ -3286,7 +3684,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<GetReportsResponseDto, void>({
-        path: `/v2/reports`,
+        path: `/v2/admin/reports`,
         method: "GET",
         query: query,
         secure: true,
@@ -3298,36 +3696,16 @@ export class Api<
      * @description 신고 통계 정보를 조회합니다
      *
      * @tags reports
-     * @name ReportsControllerGetReportStats
+     * @name AdminReportsControllerGetReportStats
      * @summary 신고 통계 조회 (관리자용)
-     * @request GET:/v2/reports/stats
+     * @request GET:/v2/admin/reports/stats
      * @secure
      */
-    reportsControllerGetReportStats: (params: RequestParams = {}) =>
+    adminReportsControllerGetReportStats: (params: RequestParams = {}) =>
       this.request<GetReportStatsResponseDto, void>({
-        path: `/v2/reports/stats`,
+        path: `/v2/admin/reports/stats`,
         method: "GET",
         secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description 특정 대상에 대한 신고 개수를 조회합니다
-     *
-     * @tags reports
-     * @name ReportsControllerGetTargetReportCount
-     * @summary 특정 대상의 신고 개수 조회
-     * @request GET:/v2/reports/target/{targetType}/{targetId}/count
-     */
-    reportsControllerGetTargetReportCount: (
-      targetType: "thought" | "comment" | "user",
-      targetId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<GetTargetReportCountResponseDto, void>({
-        path: `/v2/reports/target/${targetType}/${targetId}/count`,
-        method: "GET",
         format: "json",
         ...params,
       }),
@@ -3336,17 +3714,17 @@ export class Api<
      * @description 특정 신고의 상세 정보를 조회합니다
      *
      * @tags reports
-     * @name ReportsControllerGetReport
+     * @name AdminReportsControllerGetReport
      * @summary 특정 신고 조회 (관리자용)
-     * @request GET:/v2/reports/{reportId}
+     * @request GET:/v2/admin/reports/{reportId}
      * @secure
      */
-    reportsControllerGetReport: (
+    adminReportsControllerGetReport: (
       reportId: string,
       params: RequestParams = {},
     ) =>
       this.request<GetReportResponseDto, void>({
-        path: `/v2/reports/${reportId}`,
+        path: `/v2/admin/reports/${reportId}`,
         method: "GET",
         secure: true,
         format: "json",
@@ -3357,18 +3735,18 @@ export class Api<
      * @description 신고의 상태나 관리자 메모를 업데이트합니다
      *
      * @tags reports
-     * @name ReportsControllerUpdateReport
+     * @name AdminReportsControllerUpdateReport
      * @summary 신고 업데이트 (관리자용)
-     * @request PUT:/v2/reports/{reportId}
+     * @request PUT:/v2/admin/reports/{reportId}
      * @secure
      */
-    reportsControllerUpdateReport: (
+    adminReportsControllerUpdateReport: (
       reportId: string,
       data: UpdateReportDto,
       params: RequestParams = {},
     ) =>
       this.request<UpdateReportResponseDto, void>({
-        path: `/v2/reports/${reportId}`,
+        path: `/v2/admin/reports/${reportId}`,
         method: "PUT",
         body: data,
         secure: true,
@@ -3381,17 +3759,17 @@ export class Api<
      * @description 신고를 삭제합니다
      *
      * @tags reports
-     * @name ReportsControllerDeleteReport
+     * @name AdminReportsControllerDeleteReport
      * @summary 신고 삭제 (관리자용)
-     * @request DELETE:/v2/reports/{reportId}
+     * @request DELETE:/v2/admin/reports/{reportId}
      * @secure
      */
-    reportsControllerDeleteReport: (
+    adminReportsControllerDeleteReport: (
       reportId: string,
       params: RequestParams = {},
     ) =>
       this.request<DeleteReportResponseDto, void>({
-        path: `/v2/reports/${reportId}`,
+        path: `/v2/admin/reports/${reportId}`,
         method: "DELETE",
         secure: true,
         format: "json",
@@ -3469,6 +3847,27 @@ export class Api<
         method: "GET",
         query: query,
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Generate recap draft from journey GPS samples and photo metadata. Stateless endpoint - does not persist the result.
+     *
+     * @tags journeys
+     * @name JourneyRecapControllerCreateDraft
+     * @summary Generate recap draft
+     * @request POST:/v2/journeys/recap/draft
+     */
+    journeyRecapControllerCreateDraft: (
+      data: CreateJourneyRecapDraftRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<JourneyRecapDraftResponseDto, any>({
+        path: `/v2/journeys/recap/draft`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
