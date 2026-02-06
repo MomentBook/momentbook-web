@@ -6,22 +6,15 @@ import "leaflet/dist/leaflet.css";
 import styles from "./JourneyMap.module.scss";
 import type { JourneyMode, PublishedJourneyCluster } from "@/lib/published-journey";
 
-// Fix default marker icon
-const iconUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png";
-const iconRetinaUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png";
-const shadowUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png";
-
-const defaultIcon = L.icon({
-  iconUrl,
-  iconRetinaUrl,
-  shadowUrl,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-L.Marker.prototype.options.icon = defaultIcon;
+function createSequenceIcon(sequence: number) {
+  return L.divIcon({
+    className: styles.sequenceMarkerIcon,
+    html: `<span class="${styles.sequenceMarkerLabel}">${sequence}</span>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+    tooltipAnchor: [0, -16],
+  });
+}
 
 type JourneyMapProps = {
   clusters: PublishedJourneyCluster[];
@@ -46,6 +39,14 @@ export default function JourneyMap({
   useEffect(() => {
     if (!mapRef.current || clusters.length === 0) return;
 
+    const orderedClusters = [...clusters].sort((a, b) => {
+      const startTimeDiff = a.time.startAt - b.time.startAt;
+      if (startTimeDiff !== 0) {
+        return startTimeDiff;
+      }
+      return a.clusterId.localeCompare(b.clusterId);
+    });
+
     // Clean up existing map
     if (leafletMapRef.current) {
       leafletMapRef.current.remove();
@@ -53,8 +54,8 @@ export default function JourneyMap({
     }
 
     // Calculate bounds
-    const lats = clusters.map((c) => c.center.lat);
-    const lngs = clusters.map((c) => c.center.lng);
+    const lats = orderedClusters.map((c) => c.center.lat);
+    const lngs = orderedClusters.map((c) => c.center.lng);
     const bounds: L.LatLngBoundsExpression = [
       [Math.min(...lats), Math.min(...lngs)],
       [Math.max(...lats), Math.max(...lngs)],
@@ -76,8 +77,8 @@ export default function JourneyMap({
     const routeColor = cssVars.getPropertyValue("--color-accent").trim() || "#2f6bff";
     const hasRouteLine = mode === "ROUTE_STRONG" || mode === "ROUTE_WEAK";
 
-    if (hasRouteLine && clusters.length > 1) {
-      const points: [number, number][] = clusters.map((cluster) => [
+    if (hasRouteLine && orderedClusters.length > 1) {
+      const points: [number, number][] = orderedClusters.map((cluster) => [
         cluster.center.lat,
         cluster.center.lng,
       ]);
@@ -93,11 +94,17 @@ export default function JourneyMap({
     const encodedJourneyId = encodeURIComponent(journeyPublicId);
 
     // Add markers
-    clusters.forEach((cluster) => {
-      const marker = L.marker([cluster.center.lat, cluster.center.lng]).addTo(map);
+    orderedClusters.forEach((cluster, index) => {
+      const sequence = index + 1;
+      const marker = L.marker([cluster.center.lat, cluster.center.lng], {
+        icon: createSequenceIcon(sequence),
+      }).addTo(map);
 
       const tooltipContent = `
         <div style="padding: 0.5rem;">
+          <p style="margin: 0 0 0.2rem; font-size: 0.75rem; color: #64748b;">
+            #${sequence}
+          </p>
           <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.95rem;">
             ${cluster.locationName || locationFallback}
           </strong>

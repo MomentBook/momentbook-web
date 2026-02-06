@@ -1,4 +1,4 @@
-export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE" | "PHOTO_ONLY";
+export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
 
 export type PublishedJourneyImage = {
     url: string;
