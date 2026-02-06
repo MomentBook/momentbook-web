@@ -181,7 +181,7 @@ export default async function JourneysPage({
             .join(" ");
 
         return {
-            journeyId: journey.journeyId,
+            publicId: journey.journeyId,
             title: journey.title,
             description: journey.description,
             coverUrl: cover?.url ?? "",
@@ -211,7 +211,7 @@ export default async function JourneysPage({
                 "@type": "ListItem",
                 position: index + 1,
                 url: new URL(
-                    buildOpenGraphUrl(lang, `/journeys/${card.journeyId}`),
+                    buildOpenGraphUrl(lang, `/journeys/${card.publicId}`),
                     siteUrl,
                 ).toString(),
                 name: card.title,

@@ -5,9 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./journeys.module.scss";
 import { type Language } from "@/lib/i18n/config";
+import ReportJourneyButton from "./components/ReportJourneyButton";
 
 type JourneyCard = {
-  journeyId: string;
+  publicId: string;
   title: string;
   description: string;
   coverUrl: string;
@@ -64,46 +65,47 @@ export function JourneyList({
 
       <div className={styles.grid}>
         {filteredCards.map((card) => (
-          <Link
-            key={card.journeyId}
-            href={`/${lang}/journeys/${card.journeyId}`}
-            className={styles.card}
-          >
-            <div className={styles.cover}>
-              {card.coverUrl ? (
-                <Image
-                  src={card.coverUrl}
-                  alt={card.coverAlt}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className={styles.coverImage}
-                />
-              ) : (
-                <div className={styles.coverFallback}>MomentBook</div>
-              )}
-            </div>
-            <div className={styles.cardBody}>
-              <p className={styles.cardTitle}>{card.title}</p>
-              <p className={styles.cardDescription}>{card.description}</p>
-              <div className={styles.cardMeta}>
-                <span>{card.meta}</span>
-                {card.userName && (
-                  <span>
-                    {labels.byLabel} {card.userName}
-                  </span>
+          <article key={card.publicId} className={styles.card}>
+            <Link href={`/${lang}/journeys/${card.publicId}`} className={styles.cardLink}>
+              <div className={styles.cover}>
+                {card.coverUrl ? (
+                  <Image
+                    src={card.coverUrl}
+                    alt={card.coverAlt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className={styles.coverImage}
+                  />
+                ) : (
+                  <div className={styles.coverFallback}>MomentBook</div>
                 )}
               </div>
-              {card.highlights.length > 0 && (
-                <div className={styles.highlightRow}>
-                  {card.highlights.slice(0, 3).map((highlight) => (
-                    <span key={highlight} className={styles.highlightTag}>
-                      {highlight}
+              <div className={styles.cardBody}>
+                <p className={styles.cardTitle}>{card.title}</p>
+                <p className={styles.cardDescription}>{card.description}</p>
+                <div className={styles.cardMeta}>
+                  <span>{card.meta}</span>
+                  {card.userName && (
+                    <span>
+                      {labels.byLabel} {card.userName}
                     </span>
-                  ))}
+                  )}
                 </div>
-              )}
+                {card.highlights.length > 0 && (
+                  <div className={styles.highlightRow}>
+                    {card.highlights.slice(0, 3).map((highlight) => (
+                      <span key={highlight} className={styles.highlightTag}>
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Link>
+            <div className={styles.cardActions}>
+              <ReportJourneyButton publicId={card.publicId} lang={lang} variant="card" />
             </div>
-          </Link>
+          </article>
         ))}
       </div>
 

@@ -9,6 +9,7 @@ import {
     type PublishedJourneyCluster,
 } from "@/lib/published-journey";
 import JourneyContent from "./components/JourneyContent";
+import ReportJourneyButton from "../components/ReportJourneyButton";
 
 export const revalidate = 3600;
 
@@ -469,6 +470,13 @@ export default async function JourneyPage({
                                 {journey.description}
                             </p>
                         )}
+                    </div>
+                    <div className={styles.heroActions}>
+                        <ReportJourneyButton
+                            publicId={journey.publicId}
+                            lang={lang}
+                            variant="detail"
+                        />
                     </div>
                 </div>
 
