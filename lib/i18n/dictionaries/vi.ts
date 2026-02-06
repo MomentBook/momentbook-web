@@ -4,7 +4,7 @@ export const vi: Dictionary = {
   nav: {
     home: "Trang chu",
     about: "Gioi thieu",
-    howItWorks: "Cach hoat dong",
+    howItWorks: "Hai cach bat dau",
     download: "Tai xuong",
     faq: "FAQ",
     support: "Ho tro",
@@ -42,10 +42,10 @@ export const vi: Dictionary = {
   },
   common: {
     comingSoon: "Sap ra mat",
-    learnMore: "Xem cach hoat dong",
+    learnMore: "Xem hai cach bat dau",
   },
   footer: {
-    summary: "Luu anh, ghi chu va dia diem de tim lai mot ngay ve sau.",
+    summary: "Bat dau bang tracking hoac anh, roi quay lai hanh trinh yen tinh khi ban muon.",
     ctaPrimary: "Tai xuong",
     ctaSecondary: "Ho tro",
     sections: {

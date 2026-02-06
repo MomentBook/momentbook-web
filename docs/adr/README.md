@@ -15,7 +15,8 @@ Each ADR follows this structure:
 - **Date**
 - **Context**
 - **Decision**
-- **Consequences**
+- **Rationale**
+- **Consequences** (+) / (-)
 - **Alternatives Considered**
 
 ## Index
@@ -52,9 +53,23 @@ Each ADR follows this structure:
     - **Status**: Accepted
     - **Summary**: Sitemap index + resource-specific sitemaps (users, journeys, journey moments, photos, static) with per-language URL entries, hreflang alternates, and cache headers
 
+7. [ADR 0007: Firebase Analytics Integration](./0007-firebase-analytics-integration.md)
+    - **Date**: 2026-02-06
+    - **Status**: Accepted
+    - **Summary**: Firebase Analytics (GA4) with lazy-loading singleton, client-only initialization, and graceful degradation for unsupported browsers
+
+## Status Definitions
+
+| Status | Meaning |
+|--------|---------|
+| **Proposed** | Under discussion, not yet accepted |
+| **Accepted** | Approved and in effect |
+| **Deprecated** | No longer recommended, but still present in codebase |
+| **Superseded** | Replaced by a newer ADR (link to successor) |
+
 ## Creating New ADRs
 
-1. **Number**: Use the next sequential number (0007, 0008, ...)
+1. **Number**: Use the next sequential number (0008, 0009, ...)
 2. **Filename**: `XXXX-descriptive-title.md` (lowercase, hyphenated)
 3. **Template**: Follow the structure of existing ADRs
 4. **Update Index**: Add entry to this README
@@ -79,6 +94,10 @@ YYYY-MM-DD
 ## Decision
 
 [What are we doing?]
+
+## Rationale
+
+[Why is this the right approach?]
 
 ## Consequences
 

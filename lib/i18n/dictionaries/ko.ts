@@ -7,7 +7,7 @@ export const ko: Dictionary = {
   nav: {
     home: '홈',
     about: '소개',
-    howItWorks: '작동 방식',
+    howItWorks: '작동 원리',
     download: '다운로드',
     faq: '자주 묻는 질문',
     support: '고객 지원',
@@ -49,12 +49,12 @@ export const ko: Dictionary = {
   // Common
   common: {
     comingSoon: '곧 출시',
-    learnMore: '작동 방식 보기',
+    learnMore: '작동 원리 보기',
   },
 
   // Footer
   footer: {
-    summary: '사진, 메모, 장소를 저장해 나중에 하루를 쉽게 찾을 수 있습니다.',
+    summary: '트래킹이나 사진으로 시작해, 원할 때 조용한 여정으로 돌아옵니다.',
     ctaPrimary: '다운로드',
     ctaSecondary: '지원',
     sections: {

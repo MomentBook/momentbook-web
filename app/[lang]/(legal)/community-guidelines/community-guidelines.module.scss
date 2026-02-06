@@ -22,6 +22,17 @@
   gap: var(--spacing-xl);
 }
 
+.notice {
+  margin: 0 0 var(--spacing-lg);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-canvas);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
 /* Header Section */
 .header {
   display: flex;

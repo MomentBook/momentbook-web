@@ -28,7 +28,7 @@ const userListLabels: Partial<Record<Language, {
 } = {
   en: {
     title: "Published profiles",
-    subtitle: "Profiles that share journeys from MomentBook.",
+    subtitle: "Profiles that share published journeys from MomentBook.",
     searchPlaceholder: "Search by name",
     countLabel: "{count} users",
     empty: "No profiles match this search.",
@@ -36,7 +36,7 @@ const userListLabels: Partial<Record<Language, {
   },
   ko: {
     title: "공개 프로필",
-    subtitle: "MomentBook에서 여정을 공유하는 프로필입니다.",
+    subtitle: "MomentBook에서 공개 여정을 공유하는 프로필입니다.",
     searchPlaceholder: "이름으로 검색",
     countLabel: "{count}명",
     empty: "검색 결과가 없습니다.",
@@ -44,7 +44,7 @@ const userListLabels: Partial<Record<Language, {
   },
   ja: {
     title: "公開プロフィール",
-    subtitle: "MomentBookで旅を共有しているプロフィールです。",
+    subtitle: "MomentBookで公開された旅を共有しているプロフィールです。",
     searchPlaceholder: "名前で検索",
     countLabel: "{count}人",
     empty: "一致するプロフィールがありません。",
@@ -52,7 +52,7 @@ const userListLabels: Partial<Record<Language, {
   },
   zh: {
     title: "公开资料",
-    subtitle: "在 MomentBook 分享行程的资料。",
+    subtitle: "在 MomentBook 分享公开行程的资料。",
     searchPlaceholder: "按名称搜索",
     countLabel: "{count} 位用户",
     empty: "没有符合的资料。",
@@ -60,7 +60,7 @@ const userListLabels: Partial<Record<Language, {
   },
   es: {
     title: "Perfiles publicados",
-    subtitle: "Perfiles que comparten viajes desde MomentBook.",
+    subtitle: "Perfiles que comparten viajes publicados desde MomentBook.",
     searchPlaceholder: "Buscar por nombre",
     countLabel: "{count} usuarios",
     empty: "No hay perfiles que coincidan.",
@@ -68,7 +68,7 @@ const userListLabels: Partial<Record<Language, {
   },
   pt: {
     title: "Perfis publicados",
-    subtitle: "Perfis que compartilham jornadas no MomentBook.",
+    subtitle: "Perfis que compartilham jornadas publicadas no MomentBook.",
     searchPlaceholder: "Buscar por nome",
     countLabel: "{count} usuarios",
     empty: "Nenhum perfil corresponde a busca.",
@@ -76,7 +76,7 @@ const userListLabels: Partial<Record<Language, {
   },
   fr: {
     title: "Profils publics",
-    subtitle: "Profils partageant des voyages depuis MomentBook.",
+    subtitle: "Profils partageant des voyages publies depuis MomentBook.",
     searchPlaceholder: "Rechercher par nom",
     countLabel: "{count} utilisateurs",
     empty: "Aucun profil ne correspond a la recherche.",

@@ -4,7 +4,7 @@ export const es: Dictionary = {
   nav: {
     home: "Inicio",
     about: "Acerca de",
-    howItWorks: "Como funciona",
+    howItWorks: "Dos formas",
     download: "Descargar",
     faq: "FAQ",
     support: "Soporte",
@@ -42,10 +42,10 @@ export const es: Dictionary = {
   },
   common: {
     comingSoon: "Proximamente",
-    learnMore: "Ver como funciona",
+    learnMore: "Ver dos formas",
   },
   footer: {
-    summary: "Guarda fotos, notas y lugares para volver a encontrar un dia despues.",
+    summary: "Empieza con tracking o con fotos y vuelve a un viaje tranquilo cuando quieras.",
     ctaPrimary: "Descargar",
     ctaSecondary: "Soporte",
     sections: {
