@@ -1,7 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./ReportJourneyButton.module.scss";
 import { api } from "@/src/apis/instance.client";
 import type { CreateReportDto } from "@/src/apis/client";
@@ -27,8 +34,7 @@ type ReportLabels = {
   submitButton: string;
   submittingButton: string;
   closeButton: string;
-  loginRequired: string;
-  guestRestricted: string;
+  loadingAuth: string;
   otherDescriptionRequired: string;
   success: string;
   duplicate: string;
@@ -36,8 +42,6 @@ type ReportLabels = {
   badRequest: string;
   notFound: string;
   unknownError: string;
-  loginGuide: string;
-  loginCta: string;
   reasonLabels: Record<ReportReason, string>;
 };
 
@@ -55,17 +59,15 @@ const reportLabels: Partial<Record<Language, ReportLabels>> & {
     submitButton: "Submit report",
     submittingButton: "Submitting...",
     closeButton: "Close",
-    loginRequired: "Only logged-in users can report posts.",
-    guestRestricted: "Guest accounts cannot report posts. Please log in.",
+    loadingAuth: "Checking account...",
     otherDescriptionRequired: "Please provide details for 'Other'.",
     success: "Report submitted successfully.",
     duplicate: "You have already reported this post.",
-    forbidden: "Guest account or daily report limit exceeded.",
+    forbidden:
+      "You do not have permission to report or exceeded daily report limit.",
     badRequest: "Invalid input. Please review the report reason.",
     notFound: "Post not found.",
     unknownError: "Failed to submit report. Please try again.",
-    loginGuide: "Sign in from the app to report this post.",
-    loginCta: "Go to app download",
     reasonLabels: {
       spam: "Spam",
       abuse: "Abuse",
@@ -85,17 +87,15 @@ const reportLabels: Partial<Record<Language, ReportLabels>> & {
     submitButton: "신고 접수",
     submittingButton: "접수 중...",
     closeButton: "닫기",
-    loginRequired: "로그인 사용자만 신고할 수 있습니다.",
-    guestRestricted: "게스트 계정은 신고할 수 없습니다. 로그인해 주세요.",
-    otherDescriptionRequired: "기타 사유를 선택한 경우 상세 설명을 입력해 주세요.",
+    loadingAuth: "로그인 상태 확인 중...",
+    otherDescriptionRequired:
+      "기타 사유를 선택한 경우 상세 설명을 입력해 주세요.",
     success: "신고가 접수되었습니다",
     duplicate: "이미 신고한 게시글입니다",
-    forbidden: "게스트 계정이거나 일일 신고 횟수를 초과했습니다",
+    forbidden: "신고 권한이 없거나 일일 신고 횟수를 초과했습니다",
     badRequest: "입력값이 올바르지 않습니다. 다시 확인해 주세요.",
     notFound: "게시글을 찾을 수 없습니다",
     unknownError: "신고 접수에 실패했습니다. 잠시 후 다시 시도해 주세요.",
-    loginGuide: "게시글 신고는 앱 로그인 후 이용할 수 있습니다.",
-    loginCta: "앱 다운로드/로그인",
     reasonLabels: {
       spam: "스팸",
       abuse: "욕설/괴롭힘",
@@ -116,6 +116,9 @@ const reasonOrder: ReportReason[] = [
   "other",
 ];
 
+const reportIntentFlag = "report";
+const reportIntentTarget = "reportTarget";
+
 function getStatusCode(error: unknown): number | null {
   if (!error || typeof error !== "object") {
     return null;
@@ -125,98 +128,211 @@ function getStatusCode(error: unknown): number | null {
   return typeof maybeStatus === "number" ? maybeStatus : null;
 }
 
+function getFocusableElements(root: HTMLElement): HTMLElement[] {
+  const selectors = [
+    "button:not([disabled])",
+    "[href]",
+    "input:not([disabled])",
+    "select:not([disabled])",
+    "textarea:not([disabled])",
+    '[tabindex]:not([tabindex="-1"])',
+  ];
+
+  return Array.from(
+    root.querySelectorAll<HTMLElement>(selectors.join(",")),
+  ).filter((element) => !element.hasAttribute("disabled"));
+}
+
 export default function ReportJourneyButton({
   publicId,
   lang,
   variant = "detail",
 }: ReportJourneyButtonProps) {
-  const labels = useMemo(
-    () => reportLabels[lang] ?? reportLabels.en,
-    [lang],
-  );
+  const labels = useMemo(() => reportLabels[lang] ?? reportLabels.en, [lang]);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const intentHandledRef = useRef(false);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+
   const [isOpen, setIsOpen] = useState(false);
   const [reason, setReason] = useState<ReportReason>("spam");
   const [description, setDescription] = useState("");
+  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authStatus, setAuthStatus] = useState<AuthStatus>("unknown");
-  const [showLoginGuide, setShowLoginGuide] = useState(false);
   const [feedback, setFeedback] = useState<{
     type: FeedbackType;
     message: string;
   } | null>(null);
 
-  const resetForm = () => {
-    setReason("spam");
-    setDescription("");
-  };
+  const isBusy = isCheckingAuth || isSubmitting;
 
-  const closeModal = () => {
+  const buildReturnUrl = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(reportIntentFlag, "1");
+    params.set(reportIntentTarget, publicId);
+    const query = params.toString();
+    return `${pathname}${query ? `?${query}` : ""}`;
+  }, [pathname, publicId, searchParams]);
+
+  const clearIntentQuery = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete(reportIntentFlag);
+    params.delete(reportIntentTarget);
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  }, [pathname, router, searchParams]);
+
+  const goToLogin = useCallback(() => {
+    const returnUrl = buildReturnUrl();
+    router.push(`/${lang}/login?returnUrl=${encodeURIComponent(returnUrl)}`);
+  }, [buildReturnUrl, lang, router]);
+
+  const closeModal = useCallback(() => {
     if (isSubmitting) {
       return;
     }
     setIsOpen(false);
-  };
+  }, [isSubmitting]);
 
-  const openModal = () => {
-    if (isSubmitting) {
-      return;
-    }
-    setShowLoginGuide(false);
-    setFeedback(null);
-    setIsOpen(true);
-  };
-
-  const ensureMember = async () => {
-    if (authStatus === "member") {
-      return true;
-    }
-
-    if (authStatus === "guest") {
-      setFeedback({ type: "info", message: labels.guestRestricted });
-      setShowLoginGuide(true);
-      return false;
-    }
-
-    if (authStatus === "unauthenticated") {
-      setFeedback({ type: "info", message: labels.loginRequired });
-      setShowLoginGuide(true);
-      return false;
+  const resolveAuthStatus = useCallback(async (): Promise<AuthStatus> => {
+    if (authStatus !== "unknown") {
+      return authStatus;
     }
 
     try {
-      const profile = await api.v2.usersControllerGetMyProfile();
-      const isGuest =
-        profile.data?.data?.isGuest === true ||
-        profile.data?.data?.provider === "anonymous";
-
-      if (isGuest) {
-        setAuthStatus("guest");
-        setFeedback({ type: "info", message: labels.guestRestricted });
-        setShowLoginGuide(true);
-        return false;
-      }
-
-      setAuthStatus("member");
-      return true;
+      const profileResponse = await api.v2.usersControllerGetMyProfile();
+      const user = profileResponse.data?.data;
+      const isGuest = user?.isGuest === true || user?.provider === "anonymous";
+      const resolved = isGuest ? "guest" : "member";
+      setAuthStatus(resolved);
+      return resolved;
     } catch (error) {
       const statusCode = getStatusCode(error);
-
       if (statusCode === 401 || statusCode === 403) {
         setAuthStatus("unauthenticated");
-        setFeedback({ type: "info", message: labels.loginRequired });
-        setShowLoginGuide(true);
-        return false;
+        return "unauthenticated";
       }
 
-      setFeedback({ type: "error", message: labels.unknownError });
-      return false;
+      throw error;
     }
-  };
+  }, [authStatus]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const verifyAndOpen = useCallback(async () => {
+    if (isBusy) {
+      return;
+    }
+
+    setFeedback(null);
+    setIsCheckingAuth(true);
+    try {
+      const status = await resolveAuthStatus();
+      if (status === "member") {
+        setIsOpen(true);
+        return;
+      }
+      goToLogin();
+    } catch {
+      setFeedback({ type: "error", message: labels.unknownError });
+    } finally {
+      setIsCheckingAuth(false);
+    }
+  }, [goToLogin, isBusy, labels.unknownError, resolveAuthStatus]);
+
+  useEffect(() => {
+    const shouldOpenFromIntent =
+      searchParams.get(reportIntentFlag) === "1" &&
+      searchParams.get(reportIntentTarget) === publicId;
+
+    if (!shouldOpenFromIntent || intentHandledRef.current) {
+      return;
+    }
+
+    intentHandledRef.current = true;
+
+    const openFromIntent = async () => {
+      setIsCheckingAuth(true);
+      try {
+        const status = await resolveAuthStatus();
+        if (status === "member") {
+          setIsOpen(true);
+          clearIntentQuery();
+        }
+      } catch {
+        setFeedback({ type: "error", message: labels.unknownError });
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+
+    void openFromIntent();
+  }, [
+    clearIntentQuery,
+    labels.unknownError,
+    publicId,
+    resolveAuthStatus,
+    searchParams,
+  ]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    previousFocusRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const dialog = dialogRef.current;
+    if (!dialog) {
+      return;
+    }
+
+    const focusables = getFocusableElements(dialog);
+    (focusables[0] ?? dialog).focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const currentFocusables = getFocusableElements(dialog);
+      if (currentFocusables.length === 0) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+
+      const first = currentFocusables[0];
+      const last = currentFocusables[currentFocusables.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [closeModal, isOpen]);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (isSubmitting) {
+    if (isBusy) {
       return;
     }
 
@@ -226,14 +342,7 @@ export default function ReportJourneyButton({
     }
 
     setIsSubmitting(true);
-    setShowLoginGuide(false);
     setFeedback(null);
-
-    const canReport = await ensureMember();
-    if (!canReport) {
-      setIsSubmitting(false);
-      return;
-    }
 
     try {
       await api.v2.reportsControllerCreateReport({
@@ -244,12 +353,15 @@ export default function ReportJourneyButton({
       });
 
       setFeedback({ type: "success", message: labels.success });
-      resetForm();
       setIsOpen(false);
+      setReason("spam");
+      setDescription("");
     } catch (error) {
       const statusCode = getStatusCode(error);
-
-      if (statusCode === 409) {
+      if (statusCode === 401) {
+        setAuthStatus("unauthenticated");
+        goToLogin();
+      } else if (statusCode === 409) {
         setFeedback({ type: "error", message: labels.duplicate });
       } else if (statusCode === 403) {
         setFeedback({ type: "error", message: labels.forbidden });
@@ -269,12 +381,21 @@ export default function ReportJourneyButton({
     <div className={styles.wrapper}>
       <button
         type="button"
-        onClick={openModal}
-        className={`${styles.trigger} ${variant === "card" ? styles.triggerCard : styles.triggerDetail}`}
-        disabled={isSubmitting}
+        onClick={verifyAndOpen}
+        className={`${styles.trigger} ${
+          variant === "card" ? styles.triggerCard : styles.triggerDetail
+        }`}
+        disabled={isBusy}
+        aria-label={labels.reportButton}
       >
         {labels.reportButton}
       </button>
+
+      {isCheckingAuth && (
+        <p className={`${styles.feedback} ${styles.feedbackInfo}`} role="status">
+          {labels.loadingAuth}
+        </p>
+      )}
 
       {feedback && (
         <p
@@ -285,7 +406,7 @@ export default function ReportJourneyButton({
                 ? styles.feedbackInfo
                 : styles.feedbackError
           }`}
-          role="status"
+          role={feedback.type === "error" ? "alert" : "status"}
         >
           {feedback.message}
         </p>
@@ -294,11 +415,13 @@ export default function ReportJourneyButton({
       {isOpen && (
         <div className={styles.backdrop} onClick={closeModal}>
           <div
+            ref={dialogRef}
             className={styles.dialog}
             role="dialog"
             aria-modal="true"
             aria-labelledby={`report-dialog-title-${publicId}`}
             onClick={(event) => event.stopPropagation()}
+            tabIndex={-1}
           >
             <div className={styles.dialogHeader}>
               <h3 id={`report-dialog-title-${publicId}`} className={styles.dialogTitle}>
@@ -307,7 +430,7 @@ export default function ReportJourneyButton({
               <button
                 type="button"
                 onClick={closeModal}
-                disabled={isSubmitting}
+                disabled={isBusy}
                 className={styles.closeButton}
                 aria-label={labels.closeButton}
               >
@@ -316,7 +439,7 @@ export default function ReportJourneyButton({
             </div>
 
             <form onSubmit={handleSubmit} className={styles.form}>
-              <fieldset className={styles.reasonFieldset} disabled={isSubmitting}>
+              <fieldset className={styles.reasonFieldset} disabled={isBusy}>
                 <legend className={styles.fieldLabel}>{labels.reasonLabel}</legend>
                 {reasonOrder.map((currentReason) => (
                   <label key={currentReason} className={styles.reasonOption}>
@@ -334,7 +457,10 @@ export default function ReportJourneyButton({
 
               {reason === "other" && (
                 <div className={styles.descriptionBlock}>
-                  <label htmlFor={`report-description-${publicId}`} className={styles.fieldLabel}>
+                  <label
+                    htmlFor={`report-description-${publicId}`}
+                    className={styles.fieldLabel}
+                  >
                     {labels.descriptionLabel}
                   </label>
                   <textarea
@@ -346,30 +472,21 @@ export default function ReportJourneyButton({
                     rows={4}
                     maxLength={300}
                     required
-                    disabled={isSubmitting}
+                    disabled={isBusy}
                   />
                 </div>
-              )}
-
-              {showLoginGuide && (
-                <p className={styles.loginGuide}>
-                  {labels.loginGuide}{" "}
-                  <Link href={`/${lang}/download`} className={styles.loginCta}>
-                    {labels.loginCta}
-                  </Link>
-                </p>
               )}
 
               <div className={styles.actionRow}>
                 <button
                   type="button"
                   onClick={closeModal}
-                  disabled={isSubmitting}
+                  disabled={isBusy}
                   className={styles.cancelButton}
                 >
                   {labels.cancelButton}
                 </button>
-                <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
+                <button type="submit" disabled={isBusy} className={styles.submitButton}>
                   {isSubmitting ? labels.submittingButton : labels.submitButton}
                 </button>
               </div>
