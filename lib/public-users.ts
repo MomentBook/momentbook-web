@@ -7,11 +7,23 @@ export type PublicUserApi = PublicUserProfileDto;
 
 export type UserJourneyApi = {
     publicId: string;
-    title: string;
+    title?: string;
     description?: string;
-    photoCount: number;
-    images?: Array<{ url: string; photoId: string }>;
-    publishedAt: string;
+    photoCount?: number;
+    images?: Array<
+        | {
+            url?: string;
+            imageUrl?: string;
+            src?: string;
+            photoId?: string;
+        }
+        | string
+    >;
+    coverUrl?: string;
+    thumbnailUrl?: string;
+    startedAt?: number;
+    endedAt?: number;
+    publishedAt?: string;
 };
 
 type PublicUsersResponse = {
