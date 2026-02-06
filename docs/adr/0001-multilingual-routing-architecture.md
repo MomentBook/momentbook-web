@@ -70,6 +70,13 @@ Client-side preference is stored in localStorage (key: `language`) and synced to
 - `LanguageSyncProvider` syncs localStorage preference to the `preferredLanguage` cookie and seeds from device language when needed
 - `LanguagePreferenceSync` keeps the current route language aligned with local preference
 
+#### SEO Metadata Strategy
+- `buildAlternates()` generates hreflang links for all 9 languages + x-default
+- x-default points to English (`en`) as the primary/fallback language
+- Canonical URL points to the current language variant
+- `metadataBase` set in layout converts relative URLs to absolute
+- All pages with `generateMetadata` must call `buildAlternates(lang, path)`
+
 ### 4. Type Safety Pattern
 Used type assertion pattern to satisfy Next.js types while maintaining type safety:
 ```typescript

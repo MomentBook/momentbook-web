@@ -42,6 +42,13 @@ Each sub-sitemap:
 - Includes `xhtml:link rel="alternate" hreflang="..."` entries for each supported language
 - Sets caching headers to keep crawler load stable:
     - `Cache-Control: public, max-age=3600, s-maxage=3600`
+- Uses consistent priority levels:
+    - Static pages (homepage): 1.0
+    - Static pages (marketing/legal): 0.8
+    - Journeys: 0.9
+    - Journey moments: 0.7
+    - Users: 0.7
+    - Photos: 0.6
 
 ### 3) Safety and correctness
 

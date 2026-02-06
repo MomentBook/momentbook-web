@@ -123,6 +123,18 @@ export function generateAlternateLinks(pathname: string) {
   }));
 }
 
+/**
+ * Builds sitemap hreflang alternates for all supported languages.
+ *
+ * SEO Best Practices:
+ * - Includes all 9 language variants with proper hreflang codes
+ * - Adds x-default pointing to English as the primary/fallback language
+ * - Returns absolute URLs required by sitemap.xml format
+ *
+ * @param siteUrl - Full site URL (e.g., "https://momentbook.app")
+ * @param path - Page path without language prefix (e.g., "/about" or "")
+ * @returns Array of hreflang alternate objects for sitemap.xml
+ */
 export function buildSitemapAlternates(siteUrl: string, path: string) {
   const normalizedPath = path ? (path.startsWith("/") ? path : `/${path}`) : "";
   return [
@@ -130,6 +142,8 @@ export function buildSitemapAlternates(siteUrl: string, path: string) {
       lang: toHreflang(lang),
       href: `${siteUrl}/${lang}${normalizedPath}`,
     })),
+    // x-default: Primary language shown when user's language preference
+    // doesn't match any of our supported languages
     {
       lang: "x-default",
       href: `${siteUrl}/${defaultLanguage}${normalizedPath}`,
