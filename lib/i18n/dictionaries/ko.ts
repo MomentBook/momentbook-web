@@ -7,7 +7,7 @@ export const ko: Dictionary = {
   nav: {
     home: '홈',
     about: '소개',
-    howItWorks: '작동 원리?',
+    howItWorks: '작동 원리',
     download: '다운로드',
     faq: '자주 묻는 질문',
     support: '고객 지원',

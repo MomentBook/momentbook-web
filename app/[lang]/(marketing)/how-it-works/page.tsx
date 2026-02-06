@@ -57,7 +57,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroTrackingCta: "Record with tracking",
     heroPhotoCta: "Organize with photos",
     flowTitle: "Two paths, one destination",
-    flowLead: "Choose the start that fits today. The destination is an organized journey.",
+    flowLead: "Different starts, same journey.",
     flows: [
       {
         id: "tracking",
@@ -65,10 +65,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "For days when you want time and place to gather as you move.",
         steps: [
           "Start tracking from the home screen.",
-          "Move naturally while moments collect.",
-          "Finish the journey when you are ready.",
-          "Add photos or notes during the organization step.",
-          "Review the organized journey.",
+          "Moments gather as you move.",
+          "Finish and review the journey.",
         ],
       },
       {
@@ -76,18 +74,16 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         title: "Photo-only organization",
         summary: "If tracking feels heavy, photos alone are enough.",
         steps: [
-          "Select the photos you want to organize.",
-          "Time and location are read from the photos.",
-          "Photos group into moments automatically.",
-          "Adjust the moments when needed.",
-          "Review the organized journey.",
+          "Select photos to organize.",
+          "Photos group into moments.",
+          "Adjust and review.",
         ],
       },
     ],
     screenshotTitle: "App screens",
-    screenshotLead: "A quick look at how a journey moves from capture to sharing.",
+    screenshotLead: "A quick look at the flow.",
     outcomeTitle: "Where both paths meet",
-    outcomeLead: "However you begin, the result points to the same place.",
+    outcomeLead: "Different starts, same destination.",
     outcomeHighlights: [
       "Memories shaped as journeys, not a feed.",
       "Organized moments at a glance.",
@@ -96,19 +92,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     outcomePrimaryCta: "Download the app",
     outcomeSecondaryCta: "See supporting features",
     featuresTitle: "Supporting features",
-    featuresLead: "Details that help the flow without taking it over.",
+    featuresLead: "Details that support the flow.",
     features: [
       {
         title: "Add photos after tracking",
-        text: "In the tracking flow, you can upload photos after finishing.",
-      },
-      {
-        title: "Lightweight adjustments",
-        text: "Tweak groupings and order only when you need to.",
+        text: "Upload photos after finishing.",
       },
       {
         title: "Optional publishing",
-        text: "Publishing creates a shareable web page. It is not required.",
+        text: "Publishing is optional.",
       },
     ],
     faqTitle: "FAQ",
@@ -119,7 +111,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         question: "When can I add photos?",
-        answer: "In the tracking flow, you add after finishing. In photo-only, you start by selecting photos.",
+        answer: "After finishing in tracking; in photo-only you start with photos.",
       },
       {
         question: "If I publish, can anyone see it?",
@@ -133,11 +125,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "MomentBook — 여정을 기록하는 두 가지 방법",
     metaDescription: "트래킹으로 기록하거나 사진만으로 정리합니다. 두 방식 모두 정리된 여정으로 이어집니다.",
     heroTitle: "여정을 기록하는 두 가지 방법",
-    heroSubtitle: "트래킹으로 기록하거나 사진만으로 정리합니다. 두 방식 모두 정리된 여정으로 이어집니다.",
+    heroSubtitle: "트래킹 또는 사진만으로 시작해, 정리된 여정으로 남깁니다.",
     heroTrackingCta: "트래킹으로 기록하기",
     heroPhotoCta: "사진만으로 정리하기",
     flowTitle: "두 가지 시작, 같은 목적지",
-    flowLead: "오늘의 시작을 고르세요. 목적지는 정리된 여정입니다.",
+    flowLead: "시작은 달라도 결과는 같습니다.",
     flows: [
       {
         id: "tracking",
@@ -145,10 +137,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "이동하면서 시간과 장소를 모으고 싶을 때.",
         steps: [
           "홈에서 트래킹으로 시작합니다.",
-          "이동하며 순간이 조용히 모입니다.",
-          "원할 때 여정을 마무리합니다.",
-          "정리 과정에서 사진과 메모를 더합니다.",
-          "정리된 여정을 확인합니다.",
+          "이동하며 순간이 모입니다.",
+          "마무리하고 여정을 확인합니다.",
         ],
       },
       {
@@ -156,18 +146,16 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         title: "사진만으로 정리",
         summary: "트래킹이 부담스럽다면 사진만으로도 가능합니다.",
         steps: [
-          "정리하고 싶은 사진을 고릅니다.",
-          "시간과 위치 정보가 읽힙니다.",
-          "사진이 순간으로 자동 묶입니다.",
-          "필요한 만큼만 보정합니다.",
-          "정리된 여정을 확인합니다.",
+          "정리할 사진을 고릅니다.",
+          "시간·위치로 순간이 묶입니다.",
+          "보정하고 여정을 확인합니다.",
         ],
       },
     ],
     screenshotTitle: "앱 화면 미리보기",
-    screenshotLead: "기록에서 공유까지 이어지는 화면을 한눈에 확인하세요.",
+    screenshotLead: "기록 흐름을 간단히 확인하세요.",
     outcomeTitle: "두 흐름이 만나는 지점",
-    outcomeLead: "어떤 시작이든 결과는 같은 방향입니다.",
+    outcomeLead: "어떤 시작이든 여정으로 모입니다.",
     outcomeHighlights: [
       "기억을 ‘피드’가 아니라 ‘여정’으로",
       "정리된 순간들을 한눈에",
@@ -176,30 +164,26 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     outcomePrimaryCta: "앱 다운로드",
     outcomeSecondaryCta: "기능 더 보기",
     featuresTitle: "흐름을 돕는 요소",
-    featuresLead: "작은 기능이 흐름을 방해하지 않도록 배치됩니다.",
+    featuresLead: "작은 기능은 흐름을 돕기만 합니다.",
     features: [
       {
         title: "마무리 후 사진 추가",
-        text: "트래킹 흐름에서는 마무리 이후에 사진을 더할 수 있습니다.",
-      },
-      {
-        title: "가벼운 보정",
-        text: "묶음과 순서를 필요할 때만 조정합니다.",
+        text: "마무리 이후에 사진을 더할 수 있습니다.",
       },
       {
         title: "선택적 게시",
-        text: "게시하면 공유 가능한 공개 페이지가 만들어집니다. 필수는 아닙니다.",
+        text: "게시 여부는 선택입니다.",
       },
     ],
     faqTitle: "자주 묻는 질문",
     faqs: [
       {
         question: "트래킹은 필수인가요?",
-        answer: "아니요. 사진만으로도 정리할 수 있습니다.",
+        answer: "아니요. 트래킹이 없어도 정리할 수 있습니다.",
       },
       {
         question: "사진은 언제 추가하나요?",
-        answer: "트래킹 흐름에서는 마무리 후 추가할 수 있고, 사진만 흐름에서는 시작부터 사진을 선택합니다.",
+        answer: "트래킹은 마무리 후 추가, 사진만 흐름은 시작부터 선택합니다.",
       },
       {
         question: "공개하면 누구나 보나요?",
@@ -213,11 +197,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "MomentBook — 旅を記録する二つの方法",
     metaDescription: "トラッキングで記録するか、写真だけで整理するか。どちらも整理された旅につながります。",
     heroTitle: "旅を記録する二つの方法",
-    heroSubtitle: "トラッキングでも写真だけでも。どちらも整理された旅につながります。",
+    heroSubtitle: "トラッキングでも写真だけでも。整理された旅になります。",
     heroTrackingCta: "トラッキングで記録する",
     heroPhotoCta: "写真だけで整理する",
     flowTitle: "二つの始まり、同じ行き先",
-    flowLead: "今日の始め方を選びます。行き先は整理された旅です。",
+    flowLead: "始まりは違っても、行き先は同じです。",
     flows: [
       {
         id: "tracking",
@@ -225,10 +209,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "移動しながら時間と場所を集めたい日。",
         steps: [
           "ホームからトラッキングを開始します。",
-          "移動の中で瞬間が静かに集まります。",
-          "好きなタイミングで旅を終えます。",
-          "整理の中で写真やメモを追加します。",
-          "整理された旅を確認します。",
+          "移動の中で瞬間が集まります。",
+          "終えて旅を確認します。",
         ],
       },
       {
@@ -237,17 +219,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "トラッキングが負担なら写真だけでも。",
         steps: [
           "整理したい写真を選びます。",
-          "時間と場所の情報を読み取ります。",
-          "写真が自動で瞬間にまとまります。",
-          "必要な分だけ調整します。",
-          "整理された旅を確認します。",
+          "写真が瞬間にまとまります。",
+          "調整して旅を確認します。",
         ],
       },
     ],
     screenshotTitle: "アプリ画面の流れ",
-    screenshotLead: "記録から共有までの流れをスクリーンショットで確認できます。",
+    screenshotLead: "流れを短く確認できます。",
     outcomeTitle: "二つの流れが合流するところ",
-    outcomeLead: "どの始め方でも結果は同じ方向です。",
+    outcomeLead: "どの始め方でも同じ場所へ。",
     outcomeHighlights: [
       "記憶をフィードではなく旅として",
       "整理された瞬間をひと目で",
@@ -260,15 +240,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     features: [
       {
         title: "トラッキング後の写真追加",
-        text: "トラッキングの流れでは終えた後に写真を追加できます。",
-      },
-      {
-        title: "軽い調整",
-        text: "まとまりや順序を必要な分だけ整えます。",
+        text: "終えた後に写真を追加できます。",
       },
       {
         title: "任意の公開",
-        text: "公開すると共有できるWebページが作られます。必須ではありません。",
+        text: "公開は任意です。",
       },
     ],
     faqTitle: "よくある質問",
@@ -279,7 +255,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         question: "写真はいつ追加しますか？",
-        answer: "トラッキングの流れでは終了後に追加でき、写真だけの流れでは最初から写真を選びます。",
+        answer: "トラッキングは終了後、写真だけの流れは最初から選びます。",
       },
       {
         question: "公開すると誰でも見られますか？",
@@ -293,11 +269,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "MomentBook — 记录旅程的两种方式",
     metaDescription: "可以用追踪记录，也可以只用照片整理。两种方式都通向整理后的旅程。",
     heroTitle: "记录旅程的两种方式",
-    heroSubtitle: "可以用追踪记录，也可以只用照片整理。两种方式都通向整理后的旅程。",
+    heroSubtitle: "可用追踪记录，也可只用照片整理。都能得到整理后的旅程。",
     heroTrackingCta: "用追踪记录",
     heroPhotoCta: "只用照片整理",
     flowTitle: "两种起点，同一终点",
-    flowLead: "选择今天的开始方式，终点是整理后的旅程。",
+    flowLead: "起点不同，终点相同。",
     flows: [
       {
         id: "tracking",
@@ -305,10 +281,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "想在移动中收集时间与地点时。",
         steps: [
           "在主屏幕开始追踪。",
-          "移动中，瞬间会安静地累积。",
-          "准备好时结束旅程。",
-          "整理过程中可添加照片或备注。",
-          "查看整理后的旅程。",
+          "移动中，瞬间会累积。",
+          "结束并查看旅程。",
         ],
       },
       {
@@ -317,17 +291,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "如果追踪有负担，只用照片也可以。",
         steps: [
           "选择要整理的照片。",
-          "读取时间与位置信息。",
-          "照片会自动分组成瞬间。",
-          "按需要进行调整。",
-          "查看整理后的旅程。",
+          "照片会分组成瞬间。",
+          "调整并查看旅程。",
         ],
       },
     ],
     screenshotTitle: "应用界面一览",
-    screenshotLead: "从记录到分享的流程，一眼就能了解。",
+    screenshotLead: "快速了解流程。",
     outcomeTitle: "两条路径的汇合点",
-    outcomeLead: "无论从哪开始，结果都指向同一处。",
+    outcomeLead: "无论从哪开始，都会汇合。",
     outcomeHighlights: [
       "记忆不是信息流，而是旅程",
       "整理后的瞬间一目了然",
@@ -336,19 +308,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     outcomePrimaryCta: "下载应用",
     outcomeSecondaryCta: "查看功能",
     featuresTitle: "支持流程的细节",
-    featuresLead: "这些功能只为帮助流程，不喧宾夺主。",
+    featuresLead: "这些功能只为帮助流程。",
     features: [
       {
         title: "追踪后添加照片",
-        text: "在追踪流程中可以在结束后补充照片。",
-      },
-      {
-        title: "轻量调整",
-        text: "只在需要时调整分组和顺序。",
+        text: "结束后可以补充照片。",
       },
       {
         title: "可选发布",
-        text: "发布会生成可分享的网页。并非必需。",
+        text: "发布是可选的。",
       },
     ],
     faqTitle: "常见问题",
@@ -359,7 +327,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         question: "照片什么时候添加？",
-        answer: "追踪流程在结束后可添加；照片流程从一开始就选择照片。",
+        answer: "追踪在结束后添加；照片流程从一开始就选。",
       },
       {
         question: "发布后所有人都能看到吗？",
@@ -373,11 +341,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "MomentBook — Dos formas de empezar un viaje",
     metaDescription: "Puedes registrar con tracking o ordenar solo con fotos. Ambas llevan a un viaje organizado.",
     heroTitle: "Dos formas de empezar un viaje",
-    heroSubtitle: "Puedes registrar con tracking o ordenar solo con fotos. Ambas llevan a un viaje organizado.",
+    heroSubtitle: "Puedes registrar con tracking o ordenar solo con fotos. El resultado es un viaje organizado.",
     heroTrackingCta: "Registrar con tracking",
     heroPhotoCta: "Ordenar solo con fotos",
     flowTitle: "Dos inicios, un destino",
-    flowLead: "Elige el inicio de hoy. El destino es un viaje organizado.",
+    flowLead: "El inicio cambia, el destino es el mismo.",
     flows: [
       {
         id: "tracking",
@@ -385,10 +353,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "Para dias en los que quieres reunir tiempo y lugar mientras te mueves.",
         steps: [
           "Desde la pantalla inicial, inicia el tracking.",
-          "Al moverte, los momentos se juntan en silencio.",
-          "Termina el viaje cuando quieras.",
-          "Durante el ordenado puedes agregar fotos o notas.",
-          "Revisa el viaje organizado.",
+          "Al moverte, los momentos se juntan.",
+          "Termina y revisa el viaje.",
         ],
       },
       {
@@ -397,17 +363,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "Si el tracking se siente pesado, solo con fotos tambien funciona.",
         steps: [
           "Elige las fotos que quieres ordenar.",
-          "Se leen tiempo y lugar.",
-          "Las fotos se agrupan en momentos automaticamente.",
-          "Ajusta lo necesario.",
-          "Revisa el viaje organizado.",
+          "Las fotos se agrupan en momentos.",
+          "Ajusta y revisa el viaje.",
         ],
       },
     ],
     screenshotTitle: "Pantallas de la app",
-    screenshotLead: "Un vistazo rápido desde el registro hasta la publicación.",
+    screenshotLead: "Un vistazo rápido al flujo.",
     outcomeTitle: "Donde se unen los dos caminos",
-    outcomeLead: "Empieces como empieces, el resultado es el mismo.",
+    outcomeLead: "Empieces como empieces, el destino es el mismo.",
     outcomeHighlights: [
       "Recuerdos como viajes, no como feed.",
       "Momentos ordenados de un vistazo.",
@@ -416,19 +380,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     outcomePrimaryCta: "Descargar la app",
     outcomeSecondaryCta: "Ver funciones",
     featuresTitle: "Funciones de apoyo",
-    featuresLead: "Solo acompanan el flujo.",
+    featuresLead: "Solo apoyan el flujo.",
     features: [
       {
         title: "Agregar fotos al final",
-        text: "En el flujo de tracking puedes agregar fotos despues de terminar.",
-      },
-      {
-        title: "Ajustes ligeros",
-        text: "Ajusta grupos y orden solo cuando lo necesites.",
+        text: "En tracking, agrega fotos despues de terminar.",
       },
       {
         title: "Publicacion opcional",
-        text: "Publicar crea una pagina web para compartir. No es obligatorio.",
+        text: "Publicar es opcional.",
       },
     ],
     faqTitle: "Preguntas frecuentes",
@@ -439,7 +399,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         question: "Cuando agrego fotos?",
-        answer: "En tracking, despues de terminar. En fotos, empiezas seleccionando fotos.",
+        answer: "En tracking, despues de terminar. En fotos, empiezas seleccionando.",
       },
       {
         question: "Si publico, cualquiera puede verlo?",
@@ -453,11 +413,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "MomentBook — Duas formas de iniciar uma jornada",
     metaDescription: "Voce pode registrar com tracking ou organizar so com fotos. Ambos levam a uma jornada organizada.",
     heroTitle: "Duas formas de iniciar uma jornada",
-    heroSubtitle: "Voce pode registrar com tracking ou organizar so com fotos. Ambos levam a uma jornada organizada.",
+    heroSubtitle: "Voce pode registrar com tracking ou organizar so com fotos. O resultado e uma jornada organizada.",
     heroTrackingCta: "Registrar com tracking",
     heroPhotoCta: "Organizar so com fotos",
     flowTitle: "Dois inicios, um destino",
-    flowLead: "Escolha o inicio de hoje. O destino e uma jornada organizada.",
+    flowLead: "O inicio muda, o destino e o mesmo.",
     flows: [
       {
         id: "tracking",
@@ -465,10 +425,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "Para dias em que voce quer reunir tempo e lugar enquanto se move.",
         steps: [
           "Na tela inicial, inicie o tracking.",
-          "Ao se mover, os momentos se juntam em silencio.",
-          "Finalize a jornada quando quiser.",
-          "Durante a organizacao, adicione fotos ou notas.",
-          "Revise a jornada organizada.",
+          "Ao se mover, os momentos se juntam.",
+          "Finalize e revise a jornada.",
         ],
       },
       {
@@ -477,17 +435,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "Se o tracking parecer pesado, so com fotos tambem funciona.",
         steps: [
           "Escolha as fotos que quer organizar.",
-          "Tempo e lugar sao lidos.",
-          "As fotos se agrupam em momentos automaticamente.",
-          "Ajuste o necessario.",
-          "Revise a jornada organizada.",
+          "As fotos se agrupam em momentos.",
+          "Ajuste e revise a jornada.",
         ],
       },
     ],
     screenshotTitle: "Telas do app",
-    screenshotLead: "Veja rapidamente a jornada do registro ao compartilhamento.",
+    screenshotLead: "Veja rapidamente o fluxo.",
     outcomeTitle: "Onde os dois caminhos se encontram",
-    outcomeLead: "Comece por onde fizer sentido; o resultado e o mesmo.",
+    outcomeLead: "Comece por onde fizer sentido; o destino e o mesmo.",
     outcomeHighlights: [
       "Memorias como jornadas, nao como feed.",
       "Momentos organizados em um olhar.",
@@ -500,15 +456,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     features: [
       {
         title: "Adicionar fotos depois",
-        text: "No fluxo de tracking, voce pode adicionar fotos apos finalizar.",
-      },
-      {
-        title: "Ajustes leves",
-        text: "Ajuste grupos e ordem so quando precisar.",
+        text: "No tracking, adicione fotos apos finalizar.",
       },
       {
         title: "Publicacao opcional",
-        text: "Publicar cria uma pagina web para compartilhar. Nao e obrigatorio.",
+        text: "Publicar e opcional.",
       },
     ],
     faqTitle: "Perguntas frequentes",
@@ -519,7 +471,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         question: "Quando adiciono fotos?",
-        answer: "No tracking, apos finalizar. No fluxo de fotos, voce comeca escolhendo fotos.",
+        answer: "No tracking, apos finalizar. No fluxo de fotos, voce comeca escolhendo.",
       },
       {
         question: "Se publicar, qualquer pessoa ve?",
@@ -533,11 +485,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "MomentBook — Deux facons de commencer un voyage",
     metaDescription: "Vous pouvez enregistrer avec tracking ou organiser uniquement avec des photos. Les deux menent a un voyage organise.",
     heroTitle: "Deux facons de commencer un voyage",
-    heroSubtitle: "Enregistrer avec tracking ou organiser uniquement avec des photos. Les deux menent a un voyage organise.",
+    heroSubtitle: "Enregistrer avec tracking ou organiser avec des photos. Le resultat est un voyage organise.",
     heroTrackingCta: "Enregistrer avec tracking",
     heroPhotoCta: "Organiser avec photos",
     flowTitle: "Deux departs, une destination",
-    flowLead: "Choisissez le depart du jour. La destination est un voyage organise.",
+    flowLead: "Le depart change, la destination reste la meme.",
     flows: [
       {
         id: "tracking",
@@ -545,10 +497,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "Pour les jours ou vous voulez reunir temps et lieux en mouvement.",
         steps: [
           "Depuis l'ecran d'accueil, lancez le tracking.",
-          "En bougeant, les moments se rassemblent doucement.",
-          "Terminez le voyage quand vous voulez.",
-          "Pendant l'organisation, ajoutez photos ou notes.",
-          "Revoyez le voyage organise.",
+          "En bougeant, les moments se rassemblent.",
+          "Terminez et revoyez le voyage.",
         ],
       },
       {
@@ -557,17 +507,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "Si le tracking semble lourd, les photos seules suffisent.",
         steps: [
           "Choisissez les photos a organiser.",
-          "Le temps et le lieu sont lus.",
-          "Les photos se groupent en moments automatiquement.",
-          "Ajustez seulement ce qui est necessaire.",
-          "Revoyez le voyage organise.",
+          "Les photos se groupent en moments.",
+          "Ajustez et revoyez le voyage.",
         ],
       },
     ],
     screenshotTitle: "Ecrans de l'app",
-    screenshotLead: "Un apercu rapide du parcours, de la capture au partage.",
+    screenshotLead: "Un apercu rapide du flux.",
     outcomeTitle: "Le point de rencontre des deux chemins",
-    outcomeLead: "Quel que soit le debut, le resultat est le meme.",
+    outcomeLead: "Quel que soit le debut, la destination est la meme.",
     outcomeHighlights: [
       "Des souvenirs en voyages, pas en feed.",
       "Des moments organises d'un seul regard.",
@@ -576,19 +524,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     outcomePrimaryCta: "Telecharger l'app",
     outcomeSecondaryCta: "Voir les fonctions",
     featuresTitle: "Fonctions de soutien",
-    featuresLead: "Elles accompagnent le flux sans le remplacer.",
+    featuresLead: "Elles accompagnent le flux.",
     features: [
       {
         title: "Ajouter des photos apres",
-        text: "Dans le flux tracking, vous pouvez ajouter des photos apres avoir termine.",
-      },
-      {
-        title: "Ajustements legers",
-        text: "Ajustez groupes et ordre seulement si besoin.",
+        text: "Dans le tracking, ajoutez des photos apres la fin.",
       },
       {
         title: "Publication optionnelle",
-        text: "Publier cree une page web partageable. Ce n'est pas obligatoire.",
+        text: "Publier est optionnel.",
       },
     ],
     faqTitle: "Questions frequentes",
@@ -599,7 +543,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         question: "Quand ajouter des photos?",
-        answer: "Dans le flux tracking, apres la fin. Dans le flux photo, vous commencez par choisir des photos.",
+        answer: "Dans le tracking, apres la fin. Dans le flux photo, vous commencez par choisir.",
       },
       {
         question: "Si je publie, tout le monde peut voir?",
@@ -613,11 +557,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "MomentBook — สองวิธีเริ่มบันทึกการเดินทาง",
     metaDescription: "บันทึกด้วยการติดตามหรือจัดด้วยรูปเท่านั้นก็ได้ ทั้งสองแบบจบที่การเดินทางที่จัดระเบียบแล้ว.",
     heroTitle: "สองวิธีเริ่มบันทึกการเดินทาง",
-    heroSubtitle: "บันทึกด้วยการติดตาม หรือเริ่มจากรูปเท่านั้นก็ได้ ทั้งสองแบบจบที่การเดินทางที่จัดระเบียบแล้ว.",
+    heroSubtitle: "บันทึกด้วยการติดตาม หรือเริ่มจากรูปเท่านั้นก็ได้ ผลลัพธ์คือทริปที่จัดระเบียบแล้ว.",
     heroTrackingCta: "บันทึกด้วยการติดตาม",
     heroPhotoCta: "จัดด้วยรูปเท่านั้น",
     flowTitle: "สองจุดเริ่ม ตรงสู่ปลายทางเดียวกัน",
-    flowLead: "เลือกจุดเริ่มของวันนี้ ปลายทางคือการเดินทางที่จัดระเบียบแล้ว.",
+    flowLead: "เริ่มต่างกัน แต่ไปจุดเดียวกัน.",
     flows: [
       {
         id: "tracking",
@@ -626,9 +570,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         steps: [
           "เริ่มติดตามจากหน้าจอหลัก.",
           "ขยับไปตามปกติ แล้วช่วงเวลาจะค่อยๆ รวบรวม.",
-          "จบการเดินทางเมื่อพร้อม.",
-          "ระหว่างการจัด สามารถเพิ่มรูปหรือบันทึกได้.",
-          "ดูการเดินทางที่จัดระเบียบแล้ว.",
+          "จบและดูทริป.",
         ],
       },
       {
@@ -637,17 +579,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "ถ้าการติดตามดูยุ่งยาก รูปอย่างเดียวก็ได้.",
         steps: [
           "เลือกรูปที่อยากจัด.",
-          "ระบบอ่านเวลาและตำแหน่งจากรูป.",
-          "รูปจะถูกรวมเป็นช่วงเวลาโดยอัตโนมัติ.",
-          "ปรับเฉพาะส่วนที่จำเป็น.",
-          "ดูการเดินทางที่จัดระเบียบแล้ว.",
+          "รูปถูกรวมเป็นช่วงเวลา.",
+          "ปรับและดูทริป.",
         ],
       },
     ],
     screenshotTitle: "ภาพหน้าจอในแอป",
-    screenshotLead: "ดูภาพรวมตั้งแต่บันทึกจนถึงการแชร์ได้อย่างรวดเร็ว.",
+    screenshotLead: "ดูภาพรวมได้อย่างรวดเร็ว.",
     outcomeTitle: "จุดที่สองเส้นทางมาบรรจบ",
-    outcomeLead: "เริ่มทางไหน ผลลัพธ์ก็ไปทางเดียวกัน.",
+    outcomeLead: "เริ่มทางไหนก็ไปทางเดียวกัน.",
     outcomeHighlights: [
       "ความทรงจำในรูปของการเดินทาง ไม่ใช่ฟีด",
       "ช่วงเวลาที่จัดไว้ในมุมมองเดียว",
@@ -663,12 +603,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         text: "ในโฟลว์ติดตาม คุณเพิ่มรูปหลังจากจบได้.",
       },
       {
-        title: "ปรับอย่างเบา",
-        text: "ปรับกลุ่มและลำดับเท่าที่จำเป็น.",
-      },
-      {
         title: "เผยแพร่แบบเลือกได้",
-        text: "การเผยแพร่จะสร้างหน้าเว็บสำหรับแชร์ ไม่ใช่สิ่งจำเป็น.",
+        text: "การเผยแพร่เป็นตัวเลือก.",
       },
     ],
     faqTitle: "คำถามที่พบบ่อย",
@@ -679,7 +615,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         question: "เพิ่มรูปเมื่อไร?",
-        answer: "โฟลว์ติดตามเพิ่มหลังจบ ส่วนโฟลว์รูปเริ่มจากการเลือกรูป.",
+        answer: "โฟลว์ติดตามเพิ่มหลังจบ ส่วนโฟลว์รูปเริ่มจากการเลือก.",
       },
       {
         question: "ถ้าเผยแพร่ ทุกคนเห็นไหม?",
@@ -693,11 +629,11 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     metaTitle: "MomentBook — Hai cach bat dau hanh trinh",
     metaDescription: "Ban co the ghi lai bang tracking hoac sap xep chi voi anh. Ca hai deu dan toi hanh trinh da duoc sap xep.",
     heroTitle: "Hai cach bat dau hanh trinh",
-    heroSubtitle: "Ghi lai bang tracking hoac chi voi anh. Ca hai deu dan toi hanh trinh da duoc sap xep.",
+    heroSubtitle: "Ghi lai bang tracking hoac chi voi anh. Ket qua la hanh trinh da sap xep.",
     heroTrackingCta: "Ghi lai bang tracking",
     heroPhotoCta: "Sap xep chi voi anh",
     flowTitle: "Hai diem bat dau, mot dich den",
-    flowLead: "Chon cach bat dau hom nay. Dich den la hanh trinh da duoc sap xep.",
+    flowLead: "Bat dau khac nhau, ket qua giong nhau.",
     flows: [
       {
         id: "tracking",
@@ -706,9 +642,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         steps: [
           "Tu man hinh chinh, bat dau tracking.",
           "Khi di chuyen, cac khoanh khac tu nho lai.",
-          "Ket thuc hanh trinh khi san sang.",
-          "Trong qua trinh sap xep, them anh hoac ghi chu.",
-          "Xem hanh trinh da duoc sap xep.",
+          "Ket thuc va xem hanh trinh.",
         ],
       },
       {
@@ -717,17 +651,15 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         summary: "Neu tracking la ganh nang, chi voi anh cung du.",
         steps: [
           "Chon anh can sap xep.",
-          "Doc thong tin thoi gian va dia diem.",
-          "Anh tu dong gom thanh cac khoanh khac.",
-          "Dieu chinh khi can.",
-          "Xem hanh trinh da duoc sap xep.",
+          "Anh gom thanh cac khoanh khac.",
+          "Dieu chinh va xem hanh trinh.",
         ],
       },
     ],
     screenshotTitle: "Man hinh ung dung",
-    screenshotLead: "Xem nhanh hanh trinh tu ghi lai den chia se.",
+    screenshotLead: "Xem nhanh dong chay.",
     outcomeTitle: "Noi hai luong gap nhau",
-    outcomeLead: "Bat dau tu dau thi ket qua cung di ve mot huong.",
+    outcomeLead: "Bat dau tu dau thi ket qua cung mot huong.",
     outcomeHighlights: [
       "Ky niem thanh hanh trinh, khong phai feed.",
       "Khoanh khac da duoc sap xep trong mot cai nhin.",
@@ -743,12 +675,8 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
         text: "Trong luong tracking, ban co the them anh sau khi ket thuc.",
       },
       {
-        title: "Dieu chinh nhe",
-        text: "Dieu chinh nhom va thu tu khi can.",
-      },
-      {
         title: "Cong khai tuy chon",
-        text: "Cong khai tao mot trang web de chia se. Khong bat buoc.",
+        text: "Cong khai la tuy chon.",
       },
     ],
     faqTitle: "Cau hoi thuong gap",
@@ -759,7 +687,7 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
       },
       {
         question: "Khi nao them anh?",
-        answer: "Trong tracking, them sau khi ket thuc. Trong luong anh, bat dau bang viec chon anh.",
+        answer: "Trong tracking, them sau khi ket thuc. Trong luong anh, bat dau bang viec chon.",
       },
       {
         question: "Neu cong khai thi ai cung xem duoc?",
@@ -921,44 +849,7 @@ export default async function HowItWorksPage({
             <Link className={styles.actionButtonPrimary} href={`/${lang}/download`}>
               {content.outcomePrimaryCta}
             </Link>
-            <a className={styles.actionButtonGhost} href="#features">
-              {content.outcomeSecondaryCta}
-            </a>
           </div>
-        </div>
-      </section>
-
-      <section id="features" className={styles.section}>
-        <header className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{content.featuresTitle}</h2>
-          <p className={styles.sectionLead}>{content.featuresLead}</p>
-        </header>
-        <div className={styles.featuresGrid}>
-          {content.features.map((feature, index) => (
-            <div key={`feature-${index}`} className={styles.featureCard}>
-              <h3 className={styles.featureTitle}>{feature.title}</h3>
-              <p className={styles.featureText}>{feature.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="faq" className={styles.section}>
-        <header className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{content.faqTitle}</h2>
-        </header>
-        <div className={styles.faqList}>
-          {content.faqs.map((item, index) => (
-            <div key={`faq-${index}`} className={styles.faqItem}>
-              <h3 className={styles.faqQuestion}>{item.question}</h3>
-              <p className={styles.faqAnswer}>{item.answer}</p>
-              {item.linkLabel && item.linkHref ? (
-                <Link className={styles.faqLink} href={`/${lang}${item.linkHref}`}>
-                  {item.linkLabel}
-                </Link>
-              ) : null}
-            </div>
-          ))}
         </div>
       </section>
     </main>
