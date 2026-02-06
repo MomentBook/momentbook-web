@@ -55,6 +55,10 @@ Each sub-sitemap:
 - If API data cannot be fetched, the sitemap still returns valid XML (possibly empty) instead of erroring.
 - `lastmod` values are sanitized (fallback to `new Date().toISOString()` when missing/invalid).
 
+## Rationale
+
+단일 sitemap은 콘텐츠 증가 시 Google의 50,000 URL/파일 제한에 도달하기 쉽고 생성 시간도 길어진다. 리소스별 분리는 각 sitemap을 독립적으로 캐싱하고 재생성할 수 있게 하여, 정적 페이지와 동적 콘텐츠의 갱신 주기를 분리할 수 있다.
+
 ## Consequences
 
 ### Positive

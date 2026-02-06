@@ -78,6 +78,10 @@ Legal documents accessible via:
   - `/{lang}/marketing-consent`
 - Sitemap inclusion for SEO
 
+## Rationale
+
+법적 문서는 정확성이 중요하며 자동 번역에 의존할 수 없다. 컴포넌트 기반 접근은 각 언어별 법적 검토를 독립적으로 수행할 수 있게 하고, 외부 CMS 없이 git 기반 버전 관리가 가능하다. 확장 로캘은 법적 검토 완료 전까지 영어 fallback으로 안전하게 제공한다.
+
 ## Consequences
 
 ### Positive
@@ -154,5 +158,5 @@ Legal documents accessible via:
 **Rejected**: Would create a massive single file, harder to navigate and maintain
 
 ## Related Decisions
-- [ADR 0001: Multilingual Routing Architecture](#0001)
-- [ADR 0004: Footer Navigation Structure](#0004)
+- [ADR 0001: Multilingual Routing Architecture](./0001-multilingual-routing-architecture.md)
+- [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)

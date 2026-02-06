@@ -42,6 +42,10 @@ At the same time, local development and early marketing work benefit from a ligh
 - It may still be used by some pages during the migration period.
 - The long-term goal is to unify public listings (e.g. `/journeys`) under API.
 
+## Rationale
+
+하드코딩된 샘플 데이터는 실제 공개 콘텐츠를 반영하지 못하고 확장이 불가능하다. API 기반으로 전환하면 실제 게시된 콘텐츠를 제공하면서도, ISR 캐싱으로 서버 부하를 최소화할 수 있다. 생성된 DTO 타입을 공유하면 API 계약 변경 시 컴파일 타임에 불일치를 감지할 수 있다.
+
 ## Consequences
 
 ### Positive

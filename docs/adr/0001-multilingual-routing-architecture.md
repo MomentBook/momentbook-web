@@ -83,6 +83,10 @@ Used type assertion pattern to satisfy Next.js types while maintaining type safe
 const { lang } = await params as { lang: Language };
 ```
 
+## Rationale
+
+경량 i18n 라이브러리 없이도 Next.js App Router의 동적 세그먼트(`[lang]`)만으로 다국어 라우팅이 가능하며, 번들 사이즈와 빌드 복잡성을 최소화할 수 있다. 언어 프리픽스 URL은 SEO-friendly하고 정적 생성과 자연스럽게 호환된다.
+
 ## Consequences
 
 ### Positive
