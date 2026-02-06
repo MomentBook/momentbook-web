@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
 import { type Language } from "@/lib/i18n/config";
@@ -8,6 +9,7 @@ import {
     type PublishedJourneyApi,
     type PublishedJourneyCluster,
 } from "@/lib/published-journey";
+import { fetchPublicUser } from "@/lib/public-users";
 import JourneyContent from "./components/JourneyContent";
 
 export const revalidate = 3600;
@@ -26,13 +28,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: string;
         routeBadgeWeak: string;
         routeBadgeNone: string;
-        routeBadgePhotoOnly: string;
         routeLeadStrong: string;
         routeLeadWeak: string;
         routeLeadNone: string;
-        routeLeadPhotoOnly: string;
         mapEmpty: string;
         locationFallback: string;
+        profileLinkLabel: string;
     }
 >> & {
     en: {
@@ -47,13 +48,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: string;
         routeBadgeWeak: string;
         routeBadgeNone: string;
-        routeBadgePhotoOnly: string;
         routeLeadStrong: string;
         routeLeadWeak: string;
         routeLeadNone: string;
-        routeLeadPhotoOnly: string;
         mapEmpty: string;
         locationFallback: string;
+        profileLinkLabel: string;
     };
 } = {
     en: {
@@ -68,14 +68,13 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "Clear route",
         routeBadgeWeak: "Soft route",
         routeBadgeNone: "Places only",
-        routeBadgePhotoOnly: "Photos-only share",
         routeLeadStrong: "GPS points are sufficient to trace a clear route.",
         routeLeadWeak: "GPS points are partial, so the route appears softer.",
         routeLeadNone:
             "Location data was not available, so only places are shown.",
-        routeLeadPhotoOnly: "This journey is shared as photos only, without a route.",
         mapEmpty: "There is no map data for this journey.",
         locationFallback: "Location",
+        profileLinkLabel: "Published profile",
     },
     ko: {
         eyebrow: "여정",
@@ -89,13 +88,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "선명한 경로",
         routeBadgeWeak: "느슨한 경로",
         routeBadgeNone: "장소만 표시",
-        routeBadgePhotoOnly: "사진만 공유",
         routeLeadStrong: "GPS 데이터가 충분해 경로가 선명하게 표시됩니다.",
         routeLeadWeak: "GPS 데이터가 간헐적이라 흐름이 부드럽게 보입니다.",
         routeLeadNone: "위치 데이터가 없어 장소만 표시됩니다.",
-        routeLeadPhotoOnly: "경로 없이 사진만 공유된 여정입니다.",
         mapEmpty: "이 여정에는 지도 정보가 없습니다.",
         locationFallback: "장소",
+        profileLinkLabel: "공개 프로필",
     },
     ja: {
         eyebrow: "旅",
@@ -109,13 +107,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "明確なルート",
         routeBadgeWeak: "緩やかなルート",
         routeBadgeNone: "場所のみ",
-        routeBadgePhotoOnly: "写真のみ共有",
         routeLeadStrong: "GPSが十分なため、ルートが明確に表示されます。",
         routeLeadWeak: "GPSが部分的なため、ゆるやかな流れで表示されます。",
         routeLeadNone: "位置情報がないため、場所のみ表示されます。",
-        routeLeadPhotoOnly: "ルートなしで写真のみ共有された旅です。",
         mapEmpty: "この旅には地図情報がありません。",
         locationFallback: "場所",
+        profileLinkLabel: "公開プロフィール",
     },
     zh: {
         eyebrow: "行程",
@@ -129,13 +126,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "清晰路线",
         routeBadgeWeak: "柔和路线",
         routeBadgeNone: "仅地点",
-        routeBadgePhotoOnly: "仅照片分享",
         routeLeadStrong: "GPS 数据充足，因此路线清晰可见。",
         routeLeadWeak: "GPS 数据不完整，路线呈现更柔和的脉络。",
         routeLeadNone: "位置数据不可用，因此仅显示地点。",
-        routeLeadPhotoOnly: "该行程仅分享照片，不显示路线。",
         mapEmpty: "此行程没有地图信息。",
         locationFallback: "地点",
+        profileLinkLabel: "公开资料",
     },
     es: {
         eyebrow: "Viaje",
@@ -149,13 +145,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "Ruta clara",
         routeBadgeWeak: "Ruta suave",
         routeBadgeNone: "Solo lugares",
-        routeBadgePhotoOnly: "Solo fotos",
         routeLeadStrong: "Hay suficientes puntos GPS para trazar una ruta clara.",
         routeLeadWeak: "Los puntos GPS son parciales, por eso la ruta se ve mas suave.",
         routeLeadNone: "No habia datos de ubicacion, por eso solo se muestran lugares.",
-        routeLeadPhotoOnly: "Este viaje se comparte solo con fotos, sin ruta.",
         mapEmpty: "No hay datos de mapa para este viaje.",
         locationFallback: "Lugar",
+        profileLinkLabel: "Perfil publicado",
     },
     pt: {
         eyebrow: "Jornada",
@@ -169,13 +164,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "Rota clara",
         routeBadgeWeak: "Rota suave",
         routeBadgeNone: "Somente locais",
-        routeBadgePhotoOnly: "So fotos",
         routeLeadStrong: "Os pontos de GPS sao suficientes para mostrar uma rota clara.",
         routeLeadWeak: "Os pontos de GPS sao parciais, entao a rota aparece mais suave.",
         routeLeadNone: "Nao havia dados de localizacao, entao so os locais sao mostrados.",
-        routeLeadPhotoOnly: "Esta jornada e compartilhada apenas com fotos, sem rota.",
         mapEmpty: "Nao ha dados de mapa para esta jornada.",
         locationFallback: "Local",
+        profileLinkLabel: "Perfil publicado",
     },
     fr: {
         eyebrow: "Voyage",
@@ -189,13 +183,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "Itineraire net",
         routeBadgeWeak: "Itineraire doux",
         routeBadgeNone: "Lieux uniquement",
-        routeBadgePhotoOnly: "Photos seulement",
         routeLeadStrong: "Les points GPS sont suffisants pour tracer un itineraire net.",
         routeLeadWeak: "Les points GPS sont partiels, donc l'itineraire est plus doux.",
         routeLeadNone: "Les donnees de localisation etaient absentes, seuls les lieux sont affiches.",
-        routeLeadPhotoOnly: "Ce voyage est partage uniquement avec des photos, sans itineraire.",
         mapEmpty: "Aucune donnee de carte pour ce voyage.",
         locationFallback: "Lieu",
+        profileLinkLabel: "Profil public",
     },
     th: {
         eyebrow: "ทริป",
@@ -209,13 +202,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "เส้นทางชัดเจน",
         routeBadgeWeak: "เส้นทางแบบนุ่มนวล",
         routeBadgeNone: "แสดงเฉพาะสถานที่",
-        routeBadgePhotoOnly: "แชร์เฉพาะรูป",
         routeLeadStrong: "จุด GPS เพียงพอ จึงแสดงเส้นทางได้ชัดเจน",
         routeLeadWeak: "จุด GPS มีบางช่วง เส้นทางจึงแสดงแบบนุ่มนวล",
         routeLeadNone: "ไม่มีข้อมูลตำแหน่ง จึงแสดงเฉพาะสถานที่",
-        routeLeadPhotoOnly: "ทริปนี้แชร์เฉพาะรูป โดยไม่แสดงเส้นทาง",
         mapEmpty: "ทริปนี้ไม่มีข้อมูลแผนที่",
         locationFallback: "สถานที่",
+        profileLinkLabel: "โปรไฟล์สาธารณะ",
     },
     vi: {
         eyebrow: "Hanh trinh",
@@ -229,13 +221,12 @@ const journeyLabels: Partial<Record<
         routeBadgeStrong: "Tuyen ro rang",
         routeBadgeWeak: "Tuyen mem",
         routeBadgeNone: "Chi dia diem",
-        routeBadgePhotoOnly: "Chi anh",
         routeLeadStrong: "Du diem GPS de ve mot tuyen ro rang.",
         routeLeadWeak: "Diem GPS chi mot phan nen tuyen hien thi mem hon.",
         routeLeadNone: "Khong co du lieu vi tri nen chi hien thi dia diem.",
-        routeLeadPhotoOnly: "Hanh trinh nay chi chia se bang anh, khong co tuyen.",
         mapEmpty: "Khong co du lieu ban do cho hanh trinh nay.",
         locationFallback: "Dia diem",
+        profileLinkLabel: "Ho so cong khai",
     },
 };
 
@@ -411,6 +402,7 @@ export default async function JourneyPage({
     }
 
     const labels = journeyLabels[lang] ?? journeyLabels.en;
+    const user = await fetchPublicUser(journey.userId);
     const dateRange = formatDateRange(lang, journey.startedAt, journey.endedAt);
     const locations = getUniqueLocations(journey.clusters);
     const totalDuration = journey.clusters.reduce(
@@ -438,7 +430,11 @@ export default async function JourneyPage({
         dateModified: journey.publishedAt,
         author: {
             "@type": "Person",
-            name: "MomentBook User",
+            name: user?.name || "MomentBook User",
+            url: new URL(
+                buildOpenGraphUrl(lang, `/users/${journey.userId}`),
+                siteUrl,
+            ).toString(),
         },
         publisher: {
             "@type": "Organization",
@@ -470,6 +466,19 @@ export default async function JourneyPage({
                             </p>
                         )}
                     </div>
+                    <Link
+                        href={`/${lang}/users/${journey.userId}`}
+                        className={styles.userCard}
+                    >
+                        <span className={styles.userName}>
+                            {user?.name ?? labels.profileLinkLabel}
+                        </span>
+                        {user?.name && (
+                            <span className={styles.userHandle}>
+                                {labels.profileLinkLabel}
+                            </span>
+                        )}
+                    </Link>
                 </div>
 
                 <div className={styles.metaRow}>
