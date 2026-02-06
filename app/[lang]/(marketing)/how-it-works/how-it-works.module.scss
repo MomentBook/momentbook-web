@@ -1,15 +1,15 @@
 .page {
-  max-width: 76rem;
+  max-width: 78rem;
   margin: 0 auto;
   padding: calc(var(--spacing-xl) * 0.9) var(--spacing-md) var(--spacing-xl);
 }
 
 .header {
-  max-width: 48rem;
+  max-width: 52rem;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
 }
 
 .title {
@@ -27,19 +27,63 @@
   color: var(--color-text-secondary);
 }
 
-.intro {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--color-text-secondary);
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
 }
 
-.steps {
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+}
+
+.flow {
+  padding: var(--spacing-lg) 0;
+  border-top: 1px solid var(--color-border);
+  scroll-margin-top: 96px;
+}
+
+.flowHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.flowTitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.flowSummary {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 38rem;
+}
+
+.flowSteps {
   display: grid;
   gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
 
   @media (min-width: 900px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -74,7 +118,7 @@
 }
 
 .stepTitle {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 500;
 }
 
@@ -86,66 +130,12 @@
 
 .stepDevice {
   width: 100%;
-  max-width: 260px;
+  max-width: 240px;
   margin: 0 auto;
 }
 
-.detailGrid {
-  display: grid;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-xl);
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+@media (min-width: 768px) {
+  .stepDevice {
+    max-width: 260px;
   }
-}
-
-.detailCard {
-  padding: var(--spacing-md);
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-canvas);
-  border: 1px solid var(--color-border);
-}
-
-.detailTitle {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: var(--spacing-xs);
-}
-
-.detailList {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 0.95rem;
-  color: var(--color-text-secondary);
-}
-
-.noPressure {
-  padding: var(--spacing-lg);
-  border-radius: var(--radius-lg);
-  background: var(--color-accent-soft);
-}
-
-.noPressureTitle {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: var(--spacing-xs);
-}
-
-.noPressureList {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.noPressureItem {
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  background: var(--color-bg-canvas);
-  border: 1px solid var(--color-border);
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
 }

@@ -95,11 +95,6 @@
   }
 }
 
-.heroNote {
-  font-size: 0.92rem;
-  color: var(--color-text-tertiary);
-}
-
 .heroVisual {
   display: flex;
   flex-direction: column;
@@ -133,16 +128,6 @@
   padding: calc(var(--spacing-xl) * 0.85) var(--spacing-md);
 }
 
-.sectionAlt {
-  padding: calc(var(--spacing-xl) * 0.85) var(--spacing-md);
-  background: var(--color-bg-canvas);
-}
-
-.sectionInner {
-  max-width: 72rem;
-  margin: 0 auto;
-}
-
 .sectionInnerWide {
   max-width: 78rem;
   margin: 0 auto;
@@ -169,20 +154,16 @@
   max-width: 38rem;
 }
 
-.stepGrid {
+.pathsGrid {
   display: grid;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
 
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (min-width: 1200px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-.stepCard {
+.pathCard {
   padding: var(--spacing-md);
   border-radius: var(--radius-lg);
   background: var(--color-bg-canvas);
@@ -190,118 +171,43 @@
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.stepHeader {
-  display: flex;
-  align-items: center;
   gap: var(--spacing-xs);
 }
 
-.stepNumber {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 999px;
-  background: var(--color-accent-soft);
-  color: var(--color-text-primary);
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.stepTitle {
-  font-size: 1.05rem;
+.pathTitle {
+  font-size: 1.15rem;
   font-weight: 500;
 }
 
-.stepText {
+.pathSummary {
   font-size: 0.98rem;
   line-height: 1.6;
   color: var(--color-text-secondary);
 }
 
-.stepDevice {
-  width: 100%;
-  max-width: 240px;
-  margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-  .stepDevice {
-    max-width: 260px;
-  }
-}
-
-.featureGrid {
-  display: grid;
-  gap: var(--spacing-md);
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.featureCard {
-  padding: var(--spacing-md);
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-canvas);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-}
-
-.cardTitle {
-  font-size: 1.05rem;
-  font-weight: 500;
-  margin-bottom: 0.35rem;
-}
-
-.cardText {
-  font-size: 0.97rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-}
-
-.galleryGrid {
-  display: grid;
-  gap: var(--spacing-md);
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.galleryCard {
-  padding: var(--spacing-md);
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-canvas);
-  border: 1px solid var(--color-border);
-  display: grid;
-  gap: var(--spacing-sm);
-  align-items: start;
-
-  @media (min-width: 768px) {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: center;
-  }
-}
-
-.galleryDevice {
-  width: 100%;
-  max-width: 220px;
-  margin: 0 auto;
-}
-
-.galleryCopy {
+.pathSteps {
+  margin: 0;
+  padding-left: 1.25rem;
   display: flex;
   flex-direction: column;
+  gap: 0.4rem;
+  color: var(--color-text-secondary);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.pathLink {
+  display: inline-flex;
+  align-items: center;
   gap: 0.35rem;
+  margin-top: var(--spacing-xs);
+  color: var(--color-text-primary);
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-accent);
+  }
 }
 
 .final {
@@ -327,9 +233,4 @@
   font-size: 1rem;
   color: var(--color-text-secondary);
   max-width: 30rem;
-}
-
-.finalNote {
-  font-size: 0.9rem;
-  color: var(--color-text-tertiary);
 }
