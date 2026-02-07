@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./user.module.scss";
 import { LocalizedJourneyPeriod } from "./LocalizedJourneyPeriod";
+import { UserAvatar } from "./UserAvatar";
 import { type Language, languageList } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
@@ -427,6 +428,7 @@ export default async function UserPage({
     String(user.publishedJourneyCount),
   );
   const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages);
+  const profileImageUrl = readText(user.picture);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(
@@ -462,21 +464,7 @@ export default async function UserPage({
       />
 
       <header className={styles.header}>
-        <div className={styles.avatarFrame}>
-          {user.picture ? (
-            <Image
-              src={user.picture}
-              alt={user.name}
-              fill
-              sizes="120px"
-              className={styles.avatar}
-            />
-          ) : (
-            <div className={styles.avatarFallback}>
-              {user.name.charAt(0).toUpperCase()}
-            </div>
-          )}
-        </div>
+        <UserAvatar name={user.name} picture={profileImageUrl} />
 
         <div className={styles.profileBody}>
           <p className={styles.eyebrow}>{labels.profileEyebrow}</p>

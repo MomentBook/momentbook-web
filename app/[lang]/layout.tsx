@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Link from "next/link";
 import styles from "./layout.module.scss";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { HeaderProfileMenu } from "@/components/HeaderProfileMenu";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
 import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
@@ -112,6 +113,7 @@ export default async function LangLayout({
             <div className={styles.controls}>
               <LanguageDropdown currentLang={lang} />
               <ThemeToggle />
+              <HeaderProfileMenu lang={lang} />
               <MobileMenu lang={lang} dict={dict} />
             </div>
           </nav>

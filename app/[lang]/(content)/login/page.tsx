@@ -1,92 +1,112 @@
 "use client";
 
-import { Suspense, useState, type FormEvent } from "react";
+import { Suspense, useEffect, useMemo, useState, type FormEvent } from "react";
 import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import styles from "./login.module.scss";
-import { tokenStore } from "@/src/apis/instance.client";
+import styles from "./auth.module.scss";
+import { normalizeEmailInput, sanitizeReturnUrl } from "./auth-utils";
 import type { Language } from "@/lib/i18n/config";
 
 type LoginLabels = {
   title: string;
   subtitle: string;
+  reportSubtitle: string;
   emailLabel: string;
   passwordLabel: string;
-  submitButton: string;
-  submittingButton: string;
-  backButton: string;
+  submit: string;
+  submitting: string;
+  withGoogle: string;
+  withApple: string;
+  divider: string;
+  forgotPassword: string;
+  signupHint: string;
+  signupLink: string;
   invalidInput: string;
   loginFailed: string;
 };
 
-const loginLabels: Partial<Record<Language, LoginLabels>> & {
+const labelsMap: Partial<Record<Language, LoginLabels>> & {
   en: LoginLabels;
   ko: LoginLabels;
 } = {
   en: {
     title: "Sign in",
-    subtitle: "Sign in to continue reporting this post.",
+    subtitle: "Access your account with email or a social provider.",
+    reportSubtitle: "Sign in to continue and submit your report.",
     emailLabel: "Email",
     passwordLabel: "Password",
-    submitButton: "Sign in",
-    submittingButton: "Signing in...",
-    backButton: "Back",
-    invalidInput: "Please enter a valid email and password.",
-    loginFailed: "Sign-in failed. Please check your credentials.",
+    submit: "Sign in",
+    submitting: "Signing in...",
+    withGoogle: "Continue with Google",
+    withApple: "Continue with Apple",
+    divider: "or",
+    forgotPassword: "Forgot password?",
+    signupHint: "Don't have an account?",
+    signupLink: "Create one",
+    invalidInput: "Please enter email and password.",
+    loginFailed: "Sign-in failed. Please check your account details.",
   },
   ko: {
     title: "로그인",
-    subtitle: "게시글 신고를 계속하려면 로그인해 주세요.",
+    subtitle: "이메일 또는 소셜 계정으로 로그인할 수 있습니다.",
+    reportSubtitle: "로그인 후 신고를 계속 제출할 수 있습니다.",
     emailLabel: "이메일",
     passwordLabel: "비밀번호",
-    submitButton: "로그인",
-    submittingButton: "로그인 중...",
-    backButton: "뒤로",
-    invalidInput: "이메일과 비밀번호를 확인해 주세요.",
-    loginFailed: "로그인에 실패했습니다. 계정을 다시 확인해 주세요.",
+    submit: "로그인",
+    submitting: "로그인 중...",
+    withGoogle: "구글로 계속하기",
+    withApple: "애플로 계속하기",
+    divider: "또는",
+    forgotPassword: "비밀번호를 잊으셨나요?",
+    signupHint: "아직 계정이 없나요?",
+    signupLink: "회원가입",
+    invalidInput: "이메일과 비밀번호를 입력해 주세요.",
+    loginFailed: "로그인에 실패했습니다. 계정 정보를 확인해 주세요.",
   },
 };
-
-function sanitizeReturnUrl(rawValue: string | null, fallback: string): string {
-  if (!rawValue) {
-    return fallback;
-  }
-
-  if (rawValue.startsWith("/") && !rawValue.startsWith("//")) {
-    return rawValue;
-  }
-
-  return fallback;
-}
-
-function getApiErrorMessage(payload: unknown): string | null {
-  if (!payload || typeof payload !== "object") {
-    return null;
-  }
-
-  const maybeMessage = (payload as { message?: unknown }).message;
-  return typeof maybeMessage === "string" ? maybeMessage : null;
-}
 
 function LoginContent() {
   const router = useRouter();
   const params = useParams<{ lang: string }>();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { status } = useSession();
 
   const resolvedLang = (params?.lang as Language) ?? "en";
-  const labels = loginLabels[resolvedLang] ?? loginLabels.en;
+  const labels = labelsMap[resolvedLang] ?? labelsMap.en;
+
   const fallbackReturnUrl = `/${resolvedLang}/journeys`;
   const returnUrl = sanitizeReturnUrl(
     searchParams.get("returnUrl"),
     fallbackReturnUrl,
   );
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const isReportFlow = useMemo(
+    () => returnUrl.includes("report-intent=1"),
+    [returnUrl],
+  );
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace(returnUrl);
+    }
+  }, [returnUrl, router, status]);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(
+    searchParams.get("error"),
+  );
+
+  const handleProviderSignIn = async (provider: "google" | "apple") => {
+    setErrorMessage(null);
+    await signIn(provider, { callbackUrl: returnUrl });
+  };
+
+  const handleEmailSignIn = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (isSubmitting) {
       return;
     }
@@ -96,36 +116,23 @@ function LoginContent() {
       return;
     }
 
+    const normalizedEmail = normalizeEmailInput(email);
+
     setIsSubmitting(true);
     setErrorMessage(null);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email.trim(),
-          password,
-        }),
+      const result = await signIn("credentials", {
+        email: normalizedEmail,
+        password,
+        callbackUrl: returnUrl,
+        redirect: false,
       });
 
-      const payload = await response.json().catch(() => null);
-      if (!response.ok) {
-        setErrorMessage(getApiErrorMessage(payload) ?? labels.loginFailed);
+      if (!result || result.error) {
+        setErrorMessage(labels.loginFailed);
         return;
       }
-
-      const accessToken =
-        payload?.data?.accessToken ??
-        payload?.data?.token ??
-        payload?.accessToken ??
-        null;
-      tokenStore.setAccessToken(
-        typeof accessToken === "string" ? accessToken : null,
-      );
 
       router.replace(returnUrl);
     } catch {
@@ -135,61 +142,96 @@ function LoginContent() {
     }
   };
 
+  const signupHref = `/${resolvedLang}/login/signup?returnUrl=${encodeURIComponent(returnUrl)}`;
+  const forgotHref = `/${resolvedLang}/login/forgot-password?returnUrl=${encodeURIComponent(returnUrl)}`;
+
   return (
     <div className={styles.page}>
-      <div className={styles.card}>
-        <h1 className={styles.title}>{labels.title}</h1>
-        <p className={styles.subtitle}>{labels.subtitle}</p>
+      <section className={styles.card}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>{labels.title}</h1>
+          <p className={styles.subtitle}>
+            {isReportFlow ? labels.reportSubtitle : labels.subtitle}
+          </p>
+        </header>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <label className={styles.label} htmlFor="login-email">
+        <div className={styles.socialRow}>
+          <button
+            type="button"
+            className={styles.socialButton}
+            onClick={() => handleProviderSignIn("google")}
+          >
+            {labels.withGoogle}
+          </button>
+          <button
+            type="button"
+            className={styles.socialButton}
+            onClick={() => handleProviderSignIn("apple")}
+          >
+            {labels.withApple}
+          </button>
+        </div>
+
+        <div className={styles.divider}>
+          <span>{labels.divider}</span>
+        </div>
+
+        <form onSubmit={handleEmailSignIn} className={styles.form}>
+          <label htmlFor="login-email" className={styles.label}>
             {labels.emailLabel}
           </label>
           <input
             id="login-email"
             type="email"
-            autoComplete="email"
             className={styles.input}
+            autoComplete="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            disabled={isSubmitting}
             required
+            disabled={isSubmitting}
           />
 
-          <label className={styles.label} htmlFor="login-password">
+          <label htmlFor="login-password" className={styles.label}>
             {labels.passwordLabel}
           </label>
           <input
             id="login-password"
             type="password"
-            autoComplete="current-password"
             className={styles.input}
+            autoComplete="current-password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            disabled={isSubmitting}
             required
+            disabled={isSubmitting}
           />
 
-          {errorMessage && (
-            <p className={styles.errorMessage} role="alert">
+          {errorMessage ? (
+            <p role="alert" className={styles.errorMessage}>
               {errorMessage}
             </p>
-          )}
+          ) : null}
 
-          <div className={styles.actionRow}>
-            <Link href={returnUrl} className={styles.backLink}>
-              {labels.backButton}
+          <div className={styles.actions}>
+            <Link href={forgotHref} className={styles.link}>
+              {labels.forgotPassword}
             </Link>
             <button
               type="submit"
-              disabled={isSubmitting}
               className={styles.submitButton}
+              disabled={isSubmitting}
             >
-              {isSubmitting ? labels.submittingButton : labels.submitButton}
+              {isSubmitting ? labels.submitting : labels.submit}
             </button>
           </div>
         </form>
-      </div>
+
+        <p className={styles.footnote}>
+          {labels.signupHint}{" "}
+          <Link href={signupHref} className={styles.linkStrong}>
+            {labels.signupLink}
+          </Link>
+        </p>
+      </section>
     </div>
   );
 }
