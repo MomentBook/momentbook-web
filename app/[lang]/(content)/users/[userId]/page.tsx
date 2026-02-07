@@ -4,9 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./user.module.scss";
 import { LocalizedJourneyPeriod } from "./LocalizedJourneyPeriod";
-import { UserAvatar } from "./UserAvatar";
 import { type Language, languageList } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { ProfileAvatar } from "@/components/ProfileAvatar";
 import {
   fetchPublicUsers,
   fetchPublicUser,
@@ -30,7 +30,7 @@ type UserPageLabels = {
   emptyJourneys: string;
 };
 
-const JOURNEYS_PER_PAGE = 10;
+const JOURNEYS_PER_PAGE = 12;
 
 const userLabels: Partial<Record<Language, UserPageLabels>> & {
   en: UserPageLabels;
@@ -464,7 +464,9 @@ export default async function UserPage({
       />
 
       <header className={styles.header}>
-        <UserAvatar name={user.name} picture={profileImageUrl} />
+        <div className={styles.avatarFrame}>
+          <ProfileAvatar name={user.name} picture={profileImageUrl} size="profile" />
+        </div>
 
         <div className={styles.profileBody}>
           <p className={styles.eyebrow}>{labels.profileEyebrow}</p>

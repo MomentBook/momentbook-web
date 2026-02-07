@@ -7,6 +7,7 @@ import styles from "./MobileMenu.module.scss";
 
 interface MobileMenuProps {
   lang: Language;
+  journeysLabel: string;
   dict: {
     nav: {
       about: string;
@@ -17,13 +18,8 @@ interface MobileMenuProps {
   };
 }
 
-export function MobileMenu({ lang, dict }: MobileMenuProps) {
+export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-
-  // Close menu on route change
-  useEffect(() => {
-    setIsOpen(false);
-  }, [lang]);
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -73,6 +69,13 @@ export function MobileMenu({ lang, dict }: MobileMenuProps) {
               onClick={() => setIsOpen(false)}
             >
               {dict.nav.faq}
+            </Link>
+            <Link
+              href={`/${lang}/journeys`}
+              className={styles.menuLink}
+              onClick={() => setIsOpen(false)}
+            >
+              {journeysLabel}
             </Link>
             <Link
               href={`/${lang}/download`}

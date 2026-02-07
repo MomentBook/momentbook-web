@@ -31,27 +31,6 @@
   }
 }
 
-.avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.625rem;
-  height: 1.625rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--color-text-primary) 90%, transparent);
-  color: var(--color-bg-canvas);
-  font-size: 0.75rem;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.01em;
-
-  @media (min-width: 768px) {
-    width: 1.75rem;
-    height: 1.75rem;
-    font-size: 0.8125rem;
-  }
-}
-
 .icon {
   display: inline-flex;
   align-items: center;

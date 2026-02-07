@@ -35,6 +35,17 @@ const suit = localFont({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const iosPath = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
+const journeysNavLabelMap: Record<Language, string> = {
+  en: "Journeys",
+  ko: "여정",
+  ja: "旅",
+  zh: "行程",
+  es: "Viajes",
+  pt: "Jornadas",
+  fr: "Voyages",
+  th: "ทริป",
+  vi: "Hanh trinh",
+};
 
 function getStoreLinks(lang: Language) {
   const region = getStoreRegion(lang);
@@ -83,6 +94,7 @@ export default async function LangLayout({
   const { lang } = await params as { lang: Language };
   const dict = await getDictionary(lang);
   const storeLinks = getStoreLinks(lang);
+  const journeysNavLabel = journeysNavLabelMap[lang] ?? journeysNavLabelMap.en;
 
   return (
     <div className={suit.variable}>
@@ -104,6 +116,9 @@ export default async function LangLayout({
               <Link href={`/${lang}/faq`} className={styles.navLink}>
                 {dict.nav.faq}
               </Link>
+              <Link href={`/${lang}/journeys`} className={styles.navLink}>
+                {journeysNavLabel}
+              </Link>
               <Link href={`/${lang}/download`} className={styles.navLink}>
                 {dict.nav.download}
               </Link>
@@ -114,7 +129,7 @@ export default async function LangLayout({
               <LanguageDropdown currentLang={lang} />
               <ThemeToggle />
               <HeaderProfileMenu lang={lang} />
-              <MobileMenu lang={lang} dict={dict} />
+              <MobileMenu lang={lang} dict={dict} journeysLabel={journeysNavLabel} />
             </div>
           </nav>
         </ScrollHeader>

@@ -5,10 +5,10 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import type { Language } from "@/lib/i18n/config";
+import { ProfileAvatar } from "@/components/ProfileAvatar";
 import styles from "./HeaderProfileMenu.module.scss";
 
 type MenuLabels = {
-  profile: string;
   journeys: string;
   login: string;
   signup: string;
@@ -18,7 +18,6 @@ type MenuLabels = {
 
 const labelsByLanguage: Record<string, MenuLabels> = {
   ko: {
-    profile: "회원정보",
     journeys: "여정 보기",
     login: "로그인",
     signup: "회원가입",
@@ -26,64 +25,56 @@ const labelsByLanguage: Record<string, MenuLabels> = {
     unknownUser: "사용자",
   },
   en: {
-    profile: "Profile",
-    journeys: "Journeys",
+    journeys: "My journeys",
     login: "Sign in",
     signup: "Create account",
     logout: "Sign out",
     unknownUser: "User",
   },
   ja: {
-    profile: "プロフィール",
-    journeys: "旅を見る",
+    journeys: "自分の旅",
     login: "ログイン",
     signup: "新規登録",
     logout: "ログアウト",
     unknownUser: "ユーザー",
   },
   zh: {
-    profile: "个人资料",
-    journeys: "查看行程",
+    journeys: "我的行程",
     login: "登录",
     signup: "注册",
     logout: "退出登录",
     unknownUser: "用户",
   },
   es: {
-    profile: "Perfil",
-    journeys: "Ver viajes",
+    journeys: "Mis viajes",
     login: "Iniciar sesion",
     signup: "Crear cuenta",
     logout: "Cerrar sesion",
     unknownUser: "Usuario",
   },
   pt: {
-    profile: "Perfil",
-    journeys: "Ver jornadas",
+    journeys: "Minhas jornadas",
     login: "Entrar",
     signup: "Criar conta",
     logout: "Sair",
     unknownUser: "Usuario",
   },
   fr: {
-    profile: "Profil",
-    journeys: "Voir les voyages",
+    journeys: "Mes voyages",
     login: "Se connecter",
     signup: "Creer un compte",
     logout: "Se deconnecter",
     unknownUser: "Utilisateur",
   },
   th: {
-    profile: "ข้อมูลโปรไฟล์",
-    journeys: "ดูทริป",
+    journeys: "ทริปของฉัน",
     login: "เข้าสู่ระบบ",
     signup: "สมัครสมาชิก",
     logout: "ออกจากระบบ",
     unknownUser: "ผู้ใช้",
   },
   vi: {
-    profile: "Ho so",
-    journeys: "Xem hanh trinh",
+    journeys: "Hanh trinh cua toi",
     login: "Dang nhap",
     signup: "Tao tai khoan",
     logout: "Dang xuat",
@@ -91,12 +82,13 @@ const labelsByLanguage: Record<string, MenuLabels> = {
   },
 };
 
-function getInitial(name?: string | null, email?: string | null) {
-  const seed = (name ?? email ?? "").trim();
-  if (!seed) {
-    return "?";
+function readText(value: unknown): string | null {
+  if (typeof value !== "string") {
+    return null;
   }
-  return seed.charAt(0).toUpperCase();
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
 }
 
 export function HeaderProfileMenu({ lang }: { lang: Language }) {
@@ -105,6 +97,7 @@ export function HeaderProfileMenu({ lang }: { lang: Language }) {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [publicPicture, setPublicPicture] = useState<string | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const labels = labelsByLanguage[lang] ?? labelsByLanguage.en;
@@ -112,7 +105,8 @@ export function HeaderProfileMenu({ lang }: { lang: Language }) {
   const userName = session?.user?.name?.trim() || labels.unknownUser;
   const userEmail = session?.user?.email?.trim() || "";
   const userId = session?.user?.id ?? null;
-  const avatarInitial = getInitial(session?.user?.name, session?.user?.email);
+  const sessionPicture = readText(session?.user?.image);
+  const resolvedPicture = sessionPicture ?? publicPicture;
 
   const returnUrl = useMemo(() => {
     if (pathname && pathname.startsWith("/")) {
@@ -124,8 +118,48 @@ export function HeaderProfileMenu({ lang }: { lang: Language }) {
 
   const loginHref = `/${lang}/login?returnUrl=${encodeURIComponent(returnUrl)}`;
   const signupHref = `/${lang}/login/signup?returnUrl=${encodeURIComponent(returnUrl)}`;
-  const profileHref = userId ? `/${lang}/users/${encodeURIComponent(userId)}` : null;
-  const journeysHref = `/${lang}/journeys`;
+  const journeysHref = userId ? `/${lang}/users/${encodeURIComponent(userId)}` : null;
+
+  useEffect(() => {
+    if (!isAuthenticated || !userId) {
+      return;
+    }
+
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/+$/, "");
+    if (!baseUrl) {
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const fetchPicture = async () => {
+      try {
+        const response = await fetch(
+          `${baseUrl}/v2/users/public/${encodeURIComponent(userId)}`,
+          { signal: controller.signal },
+        );
+
+        if (!response.ok) {
+          return;
+        }
+
+        const payload = (await response.json().catch(() => null)) as
+          | { data?: { picture?: string } }
+          | null;
+        const picture = readText(payload?.data?.picture);
+
+        setPublicPicture(picture);
+      } catch {
+        // noop
+      }
+    };
+
+    void fetchPicture();
+
+    return () => {
+      controller.abort();
+    };
+  }, [isAuthenticated, userId]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -178,10 +212,14 @@ export function HeaderProfileMenu({ lang }: { lang: Language }) {
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="menu"
         aria-expanded={isOpen}
-        aria-label={isAuthenticated ? labels.profile : labels.login}
+        aria-label={isAuthenticated ? labels.journeys : labels.login}
       >
         {isAuthenticated ? (
-          <span className={styles.avatar}>{avatarInitial}</span>
+          <ProfileAvatar
+            name={userName}
+            picture={resolvedPicture}
+            size="header"
+          />
         ) : (
           <span className={styles.icon} aria-hidden="true">
             <svg
@@ -212,29 +250,20 @@ export function HeaderProfileMenu({ lang }: { lang: Language }) {
 
               <div className={styles.divider} />
 
-              {profileHref ? (
+              {journeysHref ? (
                 <Link
-                  href={profileHref}
+                  href={journeysHref}
                   className={styles.item}
                   role="menuitem"
                   onClick={() => setIsOpen(false)}
                 >
-                  {labels.profile}
+                  {labels.journeys}
                 </Link>
               ) : (
                 <span className={`${styles.item} ${styles.disabled}`} aria-disabled="true">
-                  {labels.profile}
+                  {labels.journeys}
                 </span>
               )}
-
-              <Link
-                href={journeysHref}
-                className={styles.item}
-                role="menuitem"
-                onClick={() => setIsOpen(false)}
-              >
-                {labels.journeys}
-              </Link>
 
               <button
                 type="button"
