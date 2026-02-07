@@ -143,6 +143,7 @@ export async function fetchUserJourneys(
     options?: {
         page?: number;
         limit?: number;
+        sort?: "recent" | "oldest";
     },
 ): Promise<PublishedJourneysResponse | null> {
     const baseUrl = getApiBaseUrl();
@@ -150,12 +151,13 @@ export async function fetchUserJourneys(
         return null;
     }
 
-    const { page = 1, limit = 100 } = options ?? {};
+    const { page = 1, limit = 100, sort = "recent" } = options ?? {};
 
     try {
         const params = new URLSearchParams({
             page: page.toString(),
             limit: limit.toString(),
+            sort,
         });
 
         const response = await fetch(
