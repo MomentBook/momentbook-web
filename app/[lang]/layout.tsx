@@ -110,14 +110,8 @@ export default async function LangLayout({
               <Link href={`/${lang}/about`} className={styles.navLink}>
                 {dict.nav.about}
               </Link>
-              <Link href={`/${lang}/how-it-works`} className={styles.navLink}>
-                {dict.nav.howItWorks}
-              </Link>
               <Link href={`/${lang}/faq`} className={styles.navLink}>
                 {dict.nav.faq}
-              </Link>
-              <Link href={`/${lang}/journeys`} className={styles.navLink}>
-                {journeysNavLabel}
               </Link>
               <Link href={`/${lang}/download`} className={styles.navLink}>
                 {dict.nav.download}
@@ -126,6 +120,9 @@ export default async function LangLayout({
 
             {/* Controls (Language + Theme) */}
             <div className={styles.controls}>
+              <Link href={`/${lang}/journeys`} className={styles.journeysLink}>
+                {journeysNavLabel}
+              </Link>
               <LanguageDropdown currentLang={lang} />
               <ThemeToggle />
               <HeaderProfileMenu lang={lang} />
@@ -161,11 +158,6 @@ export default async function LangLayout({
                     <li>
                       <Link href={`/${lang}/about`} className={styles.footerLink}>
                         {dict.nav.about}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href={`/${lang}/how-it-works`} className={styles.footerLink}>
-                        {dict.nav.howItWorks}
                       </Link>
                     </li>
                     <li>

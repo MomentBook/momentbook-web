@@ -39,7 +39,7 @@ export function ProfileAvatar({
           src={normalizedPicture as string}
           alt={name?.trim() || "Profile avatar"}
           fill
-          sizes={size === "header" ? "28px" : "120px"}
+          sizes={size === "header" ? "36px" : "120px"}
           className={styles.image}
           onError={() => setFailedPicture(normalizedPicture)}
         />
@@ -49,7 +49,7 @@ export function ProfileAvatar({
           alt=""
           aria-hidden="true"
           fill
-          sizes={size === "header" ? "28px" : "120px"}
+          sizes={size === "header" ? "36px" : "120px"}
           className={styles.image}
         />
       )}

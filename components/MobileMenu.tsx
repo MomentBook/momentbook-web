@@ -11,7 +11,6 @@ interface MobileMenuProps {
   dict: {
     nav: {
       about: string;
-      howItWorks: string;
       faq: string;
       download: string;
     };
@@ -55,13 +54,6 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
               onClick={() => setIsOpen(false)}
             >
               {dict.nav.about}
-            </Link>
-            <Link
-              href={`/${lang}/how-it-works`}
-              className={styles.menuLink}
-              onClick={() => setIsOpen(false)}
-            >
-              {dict.nav.howItWorks}
             </Link>
             <Link
               href={`/${lang}/faq`}
