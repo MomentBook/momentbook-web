@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import type { Language } from "@/lib/i18n/config";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
@@ -93,7 +93,6 @@ function readText(value: unknown): string | null {
 
 export function HeaderProfileMenu({ lang }: { lang: Language }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -108,13 +107,10 @@ export function HeaderProfileMenu({ lang }: { lang: Language }) {
   const sessionPicture = readText(session?.user?.image);
   const resolvedPicture = sessionPicture ?? publicPicture;
 
-  const returnUrl = useMemo(() => {
-    if (pathname && pathname.startsWith("/")) {
-      const query = searchParams.toString();
-      return query ? `${pathname}?${query}` : pathname;
-    }
-    return `/${lang}/journeys`;
-  }, [lang, pathname, searchParams]);
+  const returnUrl =
+    pathname && pathname.startsWith("/")
+      ? pathname
+      : `/${lang}/journeys`;
 
   const loginHref = `/${lang}/login?returnUrl=${encodeURIComponent(returnUrl)}`;
   const signupHref = `/${lang}/login/signup?returnUrl=${encodeURIComponent(returnUrl)}`;
