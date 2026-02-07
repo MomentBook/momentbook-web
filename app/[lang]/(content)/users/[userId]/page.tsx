@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./user.module.scss";
-import { LocalizedJourneyPeriod } from "./LocalizedJourneyPeriod";
 import { type Language, languageList } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
+import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
 import {
   fetchPublicUsers,
   fetchPublicUser,
   fetchUserJourneys,
   type UserJourneyApi,
 } from "@/lib/public-users";
+import { formatJourneyPeriodRange, readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 
 export const revalidate = 3600;
 
@@ -21,11 +21,13 @@ type UserPageLabels = {
   journeys: string;
   photos: string;
   period: string;
+  byLabel: string;
+  publishedLabel: string;
+  unknownDateLabel: string;
   previousPage: string;
   nextPage: string;
   sharedCount: string;
   untitledJourney: string;
-  journeyDescriptionFallback: string;
   periodUnknown: string;
   emptyJourneys: string;
 };
@@ -40,50 +42,58 @@ const userLabels: Partial<Record<Language, UserPageLabels>> & {
     journeys: "Journeys",
     photos: "photos",
     period: "Period",
+    byLabel: "by",
+    publishedLabel: "Published",
+    unknownDateLabel: "Date unavailable",
     previousPage: "Previous",
     nextPage: "Next",
     sharedCount: "{count} journeys shared",
     untitledJourney: "Untitled journey",
-    journeyDescriptionFallback: "A published journey page from MomentBook.",
     periodUnknown: "Time not available",
     emptyJourneys: "No published journeys yet.",
   },
   ko: {
     profileEyebrow: "공개 프로필",
     journeys: "여정",
-    photos: "장",
+    photos: "사진",
     period: "기간",
+    byLabel: "작성자",
+    publishedLabel: "게시일",
+    unknownDateLabel: "날짜 정보 없음",
     previousPage: "이전",
     nextPage: "다음",
     sharedCount: "{count}개 여정 공유됨",
     untitledJourney: "제목 없는 여정",
-    journeyDescriptionFallback: "MomentBook에 공개된 여정 페이지입니다.",
     periodUnknown: "시간 정보 없음",
     emptyJourneys: "아직 공개된 여정이 없습니다.",
   },
   ja: {
     profileEyebrow: "公開プロフィール",
     journeys: "旅",
-    photos: "枚",
+    photos: "写真",
     period: "期間",
+    byLabel: "投稿者",
+    publishedLabel: "公開日",
+    unknownDateLabel: "日付情報なし",
     previousPage: "前へ",
     nextPage: "次へ",
     sharedCount: "{count}件の旅を共有",
     untitledJourney: "タイトル未設定の旅",
-    journeyDescriptionFallback: "MomentBookで公開された旅ページです。",
     periodUnknown: "時間情報なし",
     emptyJourneys: "公開された旅はまだありません。",
   },
   zh: {
     profileEyebrow: "公开资料",
     journeys: "行程",
-    photos: "张照片",
+    photos: "照片",
     period: "时间",
+    byLabel: "作者",
+    publishedLabel: "发布日期",
+    unknownDateLabel: "暂无日期信息",
     previousPage: "上一页",
     nextPage: "下一页",
     sharedCount: "已分享 {count} 条行程",
     untitledJourney: "未命名行程",
-    journeyDescriptionFallback: "这是来自 MomentBook 的公开行程页面。",
     periodUnknown: "暂无时间信息",
     emptyJourneys: "暂时没有公开行程。",
   },
@@ -92,11 +102,13 @@ const userLabels: Partial<Record<Language, UserPageLabels>> & {
     journeys: "Viajes",
     photos: "fotos",
     period: "Periodo",
+    byLabel: "por",
+    publishedLabel: "Publicado",
+    unknownDateLabel: "Fecha no disponible",
     previousPage: "Anterior",
     nextPage: "Siguiente",
     sharedCount: "{count} viajes compartidos",
     untitledJourney: "Viaje sin titulo",
-    journeyDescriptionFallback: "Una pagina de viaje publicada desde MomentBook.",
     periodUnknown: "Horario no disponible",
     emptyJourneys: "Aun no hay viajes publicados.",
   },
@@ -105,11 +117,13 @@ const userLabels: Partial<Record<Language, UserPageLabels>> & {
     journeys: "Jornadas",
     photos: "fotos",
     period: "Periodo",
+    byLabel: "por",
+    publishedLabel: "Publicado em",
+    unknownDateLabel: "Data indisponivel",
     previousPage: "Anterior",
     nextPage: "Proxima",
     sharedCount: "{count} jornadas compartilhadas",
     untitledJourney: "Jornada sem titulo",
-    journeyDescriptionFallback: "Uma pagina de jornada publicada no MomentBook.",
     periodUnknown: "Horario indisponivel",
     emptyJourneys: "Ainda nao ha jornadas publicadas.",
   },
@@ -118,11 +132,13 @@ const userLabels: Partial<Record<Language, UserPageLabels>> & {
     journeys: "Voyages",
     photos: "photos",
     period: "Periode",
+    byLabel: "par",
+    publishedLabel: "Publie",
+    unknownDateLabel: "Date indisponible",
     previousPage: "Precedent",
     nextPage: "Suivant",
     sharedCount: "{count} voyages partages",
     untitledJourney: "Voyage sans titre",
-    journeyDescriptionFallback: "Une page de voyage publiee depuis MomentBook.",
     periodUnknown: "Horaire indisponible",
     emptyJourneys: "Aucun voyage publie pour le moment.",
   },
@@ -131,11 +147,13 @@ const userLabels: Partial<Record<Language, UserPageLabels>> & {
     journeys: "ทริป",
     photos: "รูป",
     period: "ช่วงเวลา",
+    byLabel: "โดย",
+    publishedLabel: "วันที่เผยแพร่",
+    unknownDateLabel: "ไม่มีข้อมูลวันที่",
     previousPage: "ก่อนหน้า",
     nextPage: "ถัดไป",
     sharedCount: "แชร์แล้ว {count} ทริป",
     untitledJourney: "ทริปไม่มีชื่อ",
-    journeyDescriptionFallback: "หน้าทริปที่เผยแพร่จาก MomentBook",
     periodUnknown: "ไม่มีข้อมูลเวลา",
     emptyJourneys: "ยังไม่มีทริปที่เผยแพร่",
   },
@@ -144,11 +162,13 @@ const userLabels: Partial<Record<Language, UserPageLabels>> & {
     journeys: "Hanh trinh",
     photos: "anh",
     period: "Thoi gian",
+    byLabel: "boi",
+    publishedLabel: "Da dang",
+    unknownDateLabel: "Khong co ngay",
     previousPage: "Truoc",
     nextPage: "Sau",
     sharedCount: "Da chia se {count} hanh trinh",
     untitledJourney: "Hanh trinh chua dat ten",
-    journeyDescriptionFallback: "Trang hanh trinh da dang tu MomentBook.",
     periodUnknown: "Khong co thong tin thoi gian",
     emptyJourneys: "Chua co hanh trinh da dang.",
   },
@@ -177,24 +197,23 @@ function readText(value: unknown): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
-function readTimestamp(value: unknown): number | null {
-  if (typeof value === "number" && Number.isFinite(value)) {
-    return value;
-  }
-
-  if (typeof value === "string") {
-    const parsed = Number(value);
-    if (Number.isFinite(parsed)) {
-      return parsed;
-    }
-  }
-
-  return null;
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === "object" ? (value as Record<string, unknown>) : null;
 }
 
-function getJourneyCoverUrl(journey: UserJourneyApi): string | null {
+function resolveJourneyMetadata(journey: UserJourneyApi) {
+  const metadata = asRecord(journey.metadata);
+
+  return {
+    title: readText(metadata?.title),
+    description: readText(metadata?.description),
+    thumbnailUri: readText(metadata?.thumbnailUri),
+  };
+}
+
+function getJourneyCoverUrl(journey: UserJourneyApi, thumbnailUri: string | null): string | null {
   const coverCandidate =
-    readText(journey.coverUrl) ?? readText(journey.thumbnailUrl);
+    readText(journey.coverUrl) ?? readText(journey.thumbnailUrl) ?? thumbnailUri;
 
   if (coverCandidate) {
     return coverCandidate;
@@ -228,12 +247,13 @@ function getJourneyCoverUrl(journey: UserJourneyApi): string | null {
   return null;
 }
 
-function getJourneyStartedAt(journey: UserJourneyApi): number | undefined {
-  return readTimestamp(journey.startedAt) ?? undefined;
-}
-
-function getJourneyEndedAt(journey: UserJourneyApi): number | undefined {
-  return readTimestamp(journey.endedAt) ?? undefined;
+function getJourneyPeriodText(journey: UserJourneyApi, lang: Language, unknownLabel: string): string {
+  const range = resolveJourneyPeriodRange({
+    startedAt: journey.startedAt,
+    endedAt: journey.endedAt,
+    photoSources: [journey.images],
+  });
+  return formatJourneyPeriodRange(lang, range, unknownLabel);
 }
 
 function getJourneyPhotoCount(journey: UserJourneyApi): number {
@@ -486,63 +506,38 @@ export default async function UserPage({
           <div className={styles.emptyState}>{labels.emptyJourneys}</div>
         ) : (
           <>
-            <div className={styles.journeyList}>
+            <div className={styles.journeyGrid}>
               {journeys.map((journey) => {
-                const journeyTitle = readText(journey.title) ?? labels.untitledJourney;
-                const journeyDescription =
-                  readText(journey.description) ?? labels.journeyDescriptionFallback;
-                const coverUrl = getJourneyCoverUrl(journey);
-                const startedAt = getJourneyStartedAt(journey);
-                const endedAt = getJourneyEndedAt(journey);
+                const meta = resolveJourneyMetadata(journey);
+                const journeyTitle = meta.title ?? readText(journey.title) ?? labels.untitledJourney;
+                const journeyDescription = meta.description ?? readText(journey.description);
+                const coverUrl = getJourneyCoverUrl(journey, meta.thumbnailUri);
                 const photoCount = getJourneyPhotoCount(journey);
+                const periodText = getJourneyPeriodText(journey, lang, labels.periodUnknown);
+                const publishedAt = readTimestamp(journey.publishedAt);
+                const publishedDateText = publishedAt
+                  ? new Intl.DateTimeFormat(lang, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    }).format(publishedAt)
+                  : labels.unknownDateLabel;
 
                 return (
-                  <Link
+                  <JourneyPreviewCard
                     key={journey.publicId}
                     href={`/${lang}/journeys/${journey.publicId}`}
-                    className={styles.journeyCard}
-                  >
-                    <div className={styles.coverImageFrame}>
-                      {coverUrl ? (
-                        <Image
-                          src={coverUrl}
-                          alt={journeyTitle}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 280px"
-                          className={styles.coverImage}
-                        />
-                      ) : (
-                        <div className={styles.coverFallback}>
-                          <Image
-                            src="/images/placeholders/journey-cover-fallback.svg"
-                            alt=""
-                            fill
-                            sizes="(max-width: 768px) 100vw, 280px"
-                            className={styles.coverFallbackImage}
-                          />
-                        </div>
-                      )}
-                    </div>
-
-                    <article className={styles.journeyBody}>
-                      <h3 className={styles.journeyTitle}>{journeyTitle}</h3>
-                      <p className={styles.journeyDescription}>{journeyDescription}</p>
-                      <p className={styles.metaLine}>
-                        <span className={styles.metaLabel}>{labels.period}</span>
-                        <LocalizedJourneyPeriod
-                          lang={lang}
-                          startedAt={startedAt}
-                          endedAt={endedAt}
-                          unknownLabel={labels.periodUnknown}
-                          className={styles.metaValue}
-                        />
-                      </p>
-                      <p className={styles.metaLine}>
-                        <span className={styles.metaLabel}>{labels.photos}</span>
-                        <span className={styles.metaValue}>{photoCount}</span>
-                      </p>
-                    </article>
-                  </Link>
+                    title={journeyTitle}
+                    description={journeyDescription}
+                    coverUrl={coverUrl}
+                    topMeta={`${labels.publishedLabel} · ${publishedDateText}`}
+                    metaItems={[
+                      { label: labels.photos, value: photoCount },
+                      { label: labels.period, value: periodText },
+                    ]}
+                    authorHref={`/${lang}/users/${user.userId}`}
+                    authorText={`${labels.byLabel} ${user.name}`}
+                  />
                 );
               })}
             </div>

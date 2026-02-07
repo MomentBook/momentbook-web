@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import styles from "./journeys.module.scss";
@@ -7,15 +6,17 @@ import {
     defaultLanguage,
     languageList,
     toHreflang,
-    toLocaleTag,
     type Language,
 } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
+    fetchPublishedJourney,
     fetchPublishedJourneys,
     type PublishedJourneyListItemApi,
 } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
+import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
+import { formatJourneyPeriodRange, readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 
 export const revalidate = 3600;
 
@@ -24,7 +25,6 @@ const JOURNEYS_PER_PAGE = 12;
 type JourneyPageLabels = {
     title: string;
     subtitle: string;
-    sortNotice: string;
     countLabel: string;
     empty: string;
     byLabel: string;
@@ -33,7 +33,6 @@ type JourneyPageLabels = {
     previousPage: string;
     nextPage: string;
     untitledJourney: string;
-    descriptionFallback: string;
     publishedLabel: string;
     pageLabel: string;
     unknownDateLabel: string;
@@ -46,7 +45,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     en: {
         title: "Published journeys",
         subtitle: "A calm stream of journeys shared from MomentBook.",
-        sortNotice: "Latest first, updated with server pagination for better discovery.",
         countLabel: "{count} journeys",
         empty: "No published journeys yet.",
         byLabel: "by",
@@ -55,7 +53,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "Previous",
         nextPage: "Next",
         untitledJourney: "Untitled journey",
-        descriptionFallback: "A published journey from MomentBook.",
         publishedLabel: "Published",
         pageLabel: "Page {page}",
         unknownDateLabel: "Date unavailable",
@@ -64,7 +61,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     ko: {
         title: "게시된 여정",
         subtitle: "MomentBook에서 공유된 여정을 차분하게 살펴보세요.",
-        sortNotice: "최신순으로 정렬되며, 서버 페이지네이션으로 안정적으로 탐색할 수 있습니다.",
         countLabel: "{count}개 여정",
         empty: "아직 게시된 여정이 없습니다.",
         byLabel: "작성자",
@@ -73,7 +69,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "이전",
         nextPage: "다음",
         untitledJourney: "제목 없는 여정",
-        descriptionFallback: "MomentBook에 게시된 여정입니다.",
         publishedLabel: "게시일",
         pageLabel: "{page}페이지",
         unknownDateLabel: "날짜 정보 없음",
@@ -82,7 +77,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     ja: {
         title: "公開された旅",
         subtitle: "MomentBookで共有された旅をゆっくり閲覧できます。",
-        sortNotice: "最新順で表示され、サーバーページネーションで安定して探せます。",
         countLabel: "{count}件の旅",
         empty: "公開された旅はまだありません。",
         byLabel: "投稿者",
@@ -91,7 +85,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "前へ",
         nextPage: "次へ",
         untitledJourney: "タイトル未設定の旅",
-        descriptionFallback: "MomentBookで公開された旅です。",
         publishedLabel: "公開日",
         pageLabel: "{page}ページ",
         unknownDateLabel: "日付情報なし",
@@ -100,7 +93,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     zh: {
         title: "已发布的行程",
         subtitle: "在这里安静地浏览来自 MomentBook 的公开行程。",
-        sortNotice: "按最新发布时间排序，并使用服务端分页提升可发现性。",
         countLabel: "{count} 条行程",
         empty: "暂无已发布行程。",
         byLabel: "作者",
@@ -109,7 +101,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "上一页",
         nextPage: "下一页",
         untitledJourney: "未命名行程",
-        descriptionFallback: "来自 MomentBook 的公开行程。",
         publishedLabel: "发布日期",
         pageLabel: "第 {page} 页",
         unknownDateLabel: "暂无日期信息",
@@ -118,7 +109,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     es: {
         title: "Viajes publicados",
         subtitle: "Explora con calma los viajes compartidos en MomentBook.",
-        sortNotice: "Ordenado por fecha reciente con paginacion del servidor para mejor SEO.",
         countLabel: "{count} viajes",
         empty: "Aun no hay viajes publicados.",
         byLabel: "por",
@@ -127,7 +117,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "Anterior",
         nextPage: "Siguiente",
         untitledJourney: "Viaje sin titulo",
-        descriptionFallback: "Un viaje publicado desde MomentBook.",
         publishedLabel: "Publicado",
         pageLabel: "Pagina {page}",
         unknownDateLabel: "Fecha no disponible",
@@ -136,7 +125,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     pt: {
         title: "Jornadas publicadas",
         subtitle: "Veja com calma as jornadas compartilhadas no MomentBook.",
-        sortNotice: "Ordenado por mais recentes com paginacao no servidor para melhor SEO.",
         countLabel: "{count} jornadas",
         empty: "Ainda nao ha jornadas publicadas.",
         byLabel: "por",
@@ -145,7 +133,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "Anterior",
         nextPage: "Proxima",
         untitledJourney: "Jornada sem titulo",
-        descriptionFallback: "Uma jornada publicada no MomentBook.",
         publishedLabel: "Publicado em",
         pageLabel: "Pagina {page}",
         unknownDateLabel: "Data indisponivel",
@@ -154,7 +141,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     fr: {
         title: "Voyages publies",
         subtitle: "Parcourez tranquillement les voyages partages sur MomentBook.",
-        sortNotice: "Trie du plus recent au plus ancien avec pagination serveur.",
         countLabel: "{count} voyages",
         empty: "Aucun voyage publie pour le moment.",
         byLabel: "par",
@@ -163,7 +149,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "Precedent",
         nextPage: "Suivant",
         untitledJourney: "Voyage sans titre",
-        descriptionFallback: "Un voyage publie depuis MomentBook.",
         publishedLabel: "Publie",
         pageLabel: "Page {page}",
         unknownDateLabel: "Date indisponible",
@@ -172,7 +157,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     th: {
         title: "ทริปที่เผยแพร่",
         subtitle: "สำรวจทริปที่แชร์จาก MomentBook อย่างสบายตา",
-        sortNotice: "เรียงจากใหม่ไปเก่า พร้อมแบ่งหน้าฝั่งเซิร์ฟเวอร์เพื่อ SEO ที่ดีขึ้น",
         countLabel: "{count} ทริป",
         empty: "ยังไม่มีทริปที่เผยแพร่",
         byLabel: "โดย",
@@ -181,7 +165,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "ก่อนหน้า",
         nextPage: "ถัดไป",
         untitledJourney: "ทริปไม่มีชื่อ",
-        descriptionFallback: "ทริปที่เผยแพร่จาก MomentBook",
         publishedLabel: "วันที่เผยแพร่",
         pageLabel: "หน้า {page}",
         unknownDateLabel: "ไม่มีข้อมูลวันที่",
@@ -190,7 +173,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     vi: {
         title: "Hanh trinh da dang",
         subtitle: "Xem nhe nhang cac hanh trinh duoc chia se tren MomentBook.",
-        sortNotice: "Sap xep moi nhat voi phan trang phia may chu de toi uu SEO.",
         countLabel: "{count} hanh trinh",
         empty: "Chua co hanh trinh da dang.",
         byLabel: "boi",
@@ -199,7 +181,6 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         previousPage: "Truoc",
         nextPage: "Sau",
         untitledJourney: "Hanh trinh chua dat ten",
-        descriptionFallback: "Hanh trinh da dang tu MomentBook.",
         publishedLabel: "Da dang",
         pageLabel: "Trang {page}",
         unknownDateLabel: "Khong co ngay",
@@ -230,17 +211,32 @@ function readText(value: unknown): string | null {
     return trimmed.length > 0 ? trimmed : null;
 }
 
-function readTimestamp(value: unknown): number | null {
-    if (typeof value === "number" && Number.isFinite(value)) {
-        return value;
+function readCount(value: unknown): number | null {
+    if (typeof value === "number" && Number.isFinite(value) && value >= 0) {
+        return Math.floor(value);
     }
 
     if (typeof value === "string") {
-        const parsed = Date.parse(value);
-        return Number.isFinite(parsed) ? parsed : null;
+        const parsed = Number(value);
+        if (Number.isFinite(parsed) && parsed >= 0) {
+            return Math.floor(parsed);
+        }
     }
 
     return null;
+}
+
+function resolvePhotoCount(...values: unknown[]): number {
+    let maxCount = 0;
+
+    for (const value of values) {
+        const count = readCount(value);
+        if (count !== null && count > maxCount) {
+            maxCount = count;
+        }
+    }
+
+    return maxCount;
 }
 
 function parsePageParam(value: string | string[] | undefined): number {
@@ -311,38 +307,16 @@ function buildPaginationEntries(currentPage: number, totalPages: number): Pagina
     return entries;
 }
 
-function formatDate(value: number | null, lang: Language, fallback: string): string {
+function formatPublishedDate(value: number | null, lang: Language, fallback: string): string {
     if (!value) {
         return fallback;
     }
 
-    return new Intl.DateTimeFormat(toLocaleTag(lang), {
+    return new Intl.DateTimeFormat(lang, {
         year: "numeric",
         month: "short",
         day: "numeric",
     }).format(value);
-}
-
-function formatPeriod(
-    startedAt: number | undefined,
-    endedAt: number | undefined,
-    lang: Language,
-    fallback: string,
-): string {
-    const start = typeof startedAt === "number" ? startedAt : null;
-    const end = typeof endedAt === "number" ? endedAt : null;
-
-    if (!start && !end) {
-        return fallback;
-    }
-
-    if (start && end) {
-        const startLabel = formatDate(start, lang, fallback);
-        const endLabel = formatDate(end, lang, fallback);
-        return startLabel === endLabel ? startLabel : `${startLabel} - ${endLabel}`;
-    }
-
-    return formatDate(start ?? end, lang, fallback);
 }
 
 function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
@@ -443,6 +417,10 @@ export default async function JourneysPage({
         uniqueUserIds.map(async (userId) => [userId, await fetchPublicUser(userId)] as const),
     );
     const userMap = new Map(users);
+    const journeyDetails = await Promise.all(
+        journeys.map(async (journey) => [journey.publicId, await fetchPublishedJourney(journey.publicId)] as const),
+    );
+    const detailMap = new Map(journeyDetails);
 
     const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages);
     const hasPreviousPage = safeCurrentPage > 1;
@@ -451,22 +429,31 @@ export default async function JourneysPage({
     const cards = journeys.map((journey) => {
         const meta = resolveJourneyMetadata(journey);
         const author = userMap.get(journey.userId);
+        const detail = detailMap.get(journey.publicId);
         const publishedAt = readTimestamp(journey.publishedAt) ?? readTimestamp(journey.createdAt);
         const coverUrl = readText(journey.thumbnailUrl) ?? meta.thumbnailUri;
+        const periodRange = resolveJourneyPeriodRange({
+            startedAt: detail?.startedAt ?? journey.startedAt,
+            endedAt: detail?.endedAt ?? journey.endedAt,
+            photoSources: [detail?.images, detail?.clusters, journey.metadata],
+        });
 
         return {
             publicId: journey.publicId,
             userId: journey.userId,
             title: meta.title ?? labels.untitledJourney,
-            description: meta.description ?? labels.descriptionFallback,
-            imageCount: journey.imageCount,
+            description: meta.description ?? null,
+            imageCount: resolvePhotoCount(
+                detail?.photoCount,
+                Array.isArray(detail?.images) ? detail.images.length : null,
+                journey.imageCount,
+            ),
             coverUrl,
             authorName: readText(author?.name) ?? labels.unknownUserLabel,
-            publishedAtLabel: formatDate(publishedAt, lang, labels.unknownDateLabel),
-            periodLabel: formatPeriod(
-                journey.startedAt,
-                journey.endedAt,
+            publishedAtLabel: formatPublishedDate(publishedAt, lang, labels.unknownDateLabel),
+            periodLabel: formatJourneyPeriodRange(
                 lang,
+                periodRange,
                 labels.unknownDateLabel,
             ),
         };
@@ -523,63 +510,26 @@ export default async function JourneysPage({
                 <p className={styles.subtitle}>{labels.subtitle}</p>
             </header>
 
-            <p className={styles.notice}>{labels.sortNotice}</p>
-
             {cards.length === 0 ? (
                 <div className={styles.emptyState}>{labels.empty}</div>
             ) : (
                 <>
                     <div className={styles.grid}>
                         {cards.map((card) => (
-                            <article key={card.publicId} className={styles.card}>
-                                <Link href={`/${lang}/journeys/${card.publicId}`} className={styles.coverLink}>
-                                    <div className={styles.cover}>
-                                        {card.coverUrl ? (
-                                            <Image
-                                                src={card.coverUrl}
-                                                alt={card.title}
-                                                fill
-                                                sizes="(max-width: 768px) 100vw, 50vw"
-                                                className={styles.coverImage}
-                                            />
-                                        ) : (
-                                            <div className={styles.coverFallback}>
-                                                <Image
-                                                    src="/images/placeholders/journey-cover-fallback.svg"
-                                                    alt=""
-                                                    fill
-                                                    sizes="(max-width: 768px) 100vw, 50vw"
-                                                    className={styles.coverFallbackImage}
-                                                />
-                                            </div>
-                                        )}
-                                    </div>
-                                </Link>
-
-                                <div className={styles.cardBody}>
-                                    <p className={styles.topMeta}>
-                                        {labels.publishedLabel} · {card.publishedAtLabel}
-                                    </p>
-
-                                    <Link href={`/${lang}/journeys/${card.publicId}`} className={styles.titleLink}>
-                                        <h2 className={styles.cardTitle}>{card.title}</h2>
-                                    </Link>
-                                    <p className={styles.cardDescription}>{card.description}</p>
-
-                                    <div className={styles.cardMeta}>
-                                        <span>
-                                            {labels.photosLabel} · {card.imageCount}
-                                        </span>
-                                        <span>
-                                            {labels.periodLabel} · {card.periodLabel}
-                                        </span>
-                                    </div>
-
-                                    <Link href={`/${lang}/users/${card.userId}`} className={styles.authorLink}>
-                                        {labels.byLabel} {card.authorName}
-                                    </Link>
-                                </div>
-                            </article>
+                            <JourneyPreviewCard
+                                key={card.publicId}
+                                href={`/${lang}/journeys/${card.publicId}`}
+                                title={card.title}
+                                description={card.description}
+                                coverUrl={card.coverUrl}
+                                topMeta={`${labels.publishedLabel} · ${card.publishedAtLabel}`}
+                                metaItems={[
+                                    { label: labels.photosLabel, value: card.imageCount },
+                                    { label: labels.periodLabel, value: card.periodLabel },
+                                ]}
+                                authorHref={`/${lang}/users/${card.userId}`}
+                                authorText={`${labels.byLabel} ${card.authorName}`}
+                            />
                         ))}
                     </div>
 

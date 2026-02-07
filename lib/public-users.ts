@@ -9,6 +9,7 @@ export type UserJourneyApi = {
     publicId: string;
     title?: string;
     description?: string;
+    metadata?: Record<string, unknown>;
     photoCount?: number;
     images?: Array<
         | {
