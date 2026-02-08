@@ -135,6 +135,16 @@ function isHiddenJourneyMessage(message: string | null): boolean {
     );
 }
 
+function isPublishedJourneyResponse(
+    payload: unknown,
+): payload is PublishedJourneyResponse {
+    return Boolean(
+        payload &&
+        typeof payload === "object" &&
+        "status" in payload,
+    );
+}
+
 export async function fetchPublishedJourneyResult(
     publicId: string,
 ): Promise<FetchPublishedJourneyResult> {
@@ -156,7 +166,11 @@ export async function fetchPublishedJourneyResult(
         const message = readMessage(payload?.message);
 
         if (response.ok) {
-            if (payload?.status !== "success" || !payload.data) {
+            if (!isPublishedJourneyResponse(payload)) {
+                return { status: "error", data: null, message };
+            }
+
+            if (payload.status !== "success" || !payload.data) {
                 return { status: "error", data: null, message };
             }
 
