@@ -155,17 +155,16 @@ export default async function JourneyPage({
                     <aside className={styles.heroAside}>
                         <Link
                             href={`/${lang}/users/${journey.userId}`}
-                            className={styles.userCard}
+                            className={styles.authorLink}
                         >
-                            {user?.name && (
-                                <span className={styles.userHandle}>
-                                    {labels.profileLinkLabel}
-                                </span>
-                            )}
-                            <span className={styles.userName}>
-                                {user?.name ?? labels.profileLinkLabel}
-                            </span>
+                            {user?.name ?? labels.profileLinkLabel}
                         </Link>
+                        <ReportJourneyButton
+                            publicId={journey.publicId}
+                            lang={lang}
+                            ownerUserId={journey.userId}
+                            variant="quiet"
+                        />
                     </aside>
                 </div>
 
@@ -191,15 +190,6 @@ export default async function JourneyPage({
                 lang={lang}
                 labels={labels}
             />
-
-            <footer className={styles.pageFooter}>
-                <ReportJourneyButton
-                    publicId={journey.publicId}
-                    lang={lang}
-                    ownerUserId={journey.userId}
-                    variant="quiet"
-                />
-            </footer>
         </div>
     );
 }
