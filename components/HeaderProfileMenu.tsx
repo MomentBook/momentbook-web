@@ -190,13 +190,12 @@ export function HeaderProfileMenu({ lang }: { lang: Language }) {
     setIsSigningOut(true);
     try {
       setIsOpen(false);
-      const result = await signOut({
+      await signOut({
         redirect: false,
-        callbackUrl: `/${lang}`,
+        callbackUrl: pathname || `/${lang}`,
       });
 
-      // Hard redirect avoids App Router transition stalls on dynamic pages.
-      window.location.replace(result.url || `/${lang}`);
+      window.location.reload();
     } catch {
       setIsSigningOut(false);
       return;

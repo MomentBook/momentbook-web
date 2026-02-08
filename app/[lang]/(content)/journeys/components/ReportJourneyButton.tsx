@@ -443,6 +443,11 @@ function ReportJourneyButtonInner({
         description: reason === "other" ? description.trim() : undefined,
       });
 
+      if (typeof window !== "undefined") {
+        window.location.reload();
+        return;
+      }
+
       setFeedback({ type: "success", message: labels.success });
       setIsOpen(false);
       setReason("spam");
