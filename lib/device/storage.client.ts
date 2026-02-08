@@ -15,7 +15,7 @@ export const setItem = (key: StorageKey, value: unknown) => {
     window.localStorage.setItem(key, JSON.stringify(value));
 };
 
-export const getItem = <T = any>(key: StorageKey): T | null => {
+export const getItem = <T = unknown>(key: StorageKey): T | null => {
     ensureBrowser();
     const value = window.localStorage.getItem(key);
     return value ? (JSON.parse(value) as T) : null;

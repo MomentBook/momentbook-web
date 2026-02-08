@@ -24,26 +24,22 @@ export const tokenStore = {
 };
 
 /**
- * Next.js Route Handler를 통해 refresh 수행
- * - refreshToken은 httpOnly cookie로만 존재한다고 가정
- * - 이 함수는 accessToken만 받아서 메모리에 저장
- *
- * Route: POST /api/auth/refresh
- * Response example: { status: "success", data: { accessToken: "..." } }
+ * NextAuth 세션에서 최신 accessToken을 조회해 메모리에 반영한다.
+ * - NextAuth JWT callback 내부에서 refresh token 교환이 수행된다.
+ * - 클라이언트는 세션 엔드포인트만 호출한다.
  */
 async function refreshAccessToken(): Promise<string | null> {
     try {
-        const res = await fetch("/api/auth/refresh", {
-            method: "POST",
+        const res = await fetch("/api/auth/session", {
+            method: "GET",
             credentials: "include",
-            headers: { "Content-Type": "application/json" },
         });
 
         if (!res.ok) return null;
 
         const json = await res.json();
         const newAccessToken: string | null =
-            json?.data?.accessToken ?? json?.accessToken ?? null;
+            json?.accessToken ?? null;
 
         if (newAccessToken) {
             tokenStore.setAccessToken(newAccessToken);
@@ -62,7 +58,7 @@ async function refreshAccessToken(): Promise<string | null> {
 export const api = new Api({
     baseUrl: ENV.API_BASE_URL,
     baseApiParams: {
-        // refresh는 /api/auth/refresh에서 쿠키를 쓰므로 include 유지
+        // 세션 조회 및 서버 API 호출에서 쿠키 유지
         credentials: "include",
         headers: {
             "App-Env": String(ENV.APP_ENV ?? ""),
@@ -80,12 +76,15 @@ export const api = new Api({
     },
 
     customFetch: async (input, init) => {
+        type RetryableRequestInit = RequestInit & { _retry?: boolean };
+
         // 무한 재시도 방지
-        const alreadyRetried = (init as any)?._retry === true;
+        const retryableInit = (init ?? {}) as RetryableRequestInit;
+        const alreadyRetried = retryableInit._retry === true;
 
         // 쿠키 포함 (same-origin refresh & 기타 케이스 대비)
         const mergedInit: RequestInit = {
-            ...init,
+            ...retryableInit,
             credentials: "include",
         };
 
@@ -102,8 +101,11 @@ export const api = new Api({
                         Authorization: `Bearer ${newToken}`,
                     },
                 };
-                (retryInit as any)._retry = true;
-                response = await fetch(input, retryInit);
+                const typedRetryInit: RetryableRequestInit = {
+                    ...retryInit,
+                    _retry: true,
+                };
+                response = await fetch(input, typedRetryInit);
             } else {
                 // refresh 실패 시 토큰 메모리 제거
                 tokenStore.clear();

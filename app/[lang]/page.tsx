@@ -457,10 +457,10 @@ export default async function Home({
             </FadeIn>
             <FadeIn delay={160}>
               <div className={styles.heroActions}>
-                <Link href={`/${lang}/how-it-works#tracking`} className={styles.primaryButton}>
+                <Link href={`/${lang}/about#tracking`} className={styles.primaryButton}>
                   {content.primaryCta}
                 </Link>
-                <Link href={`/${lang}/how-it-works#photo`} className={styles.secondaryButton}>
+                <Link href={`/${lang}/about#photo`} className={styles.secondaryButton}>
                   {content.secondaryCta}
                 </Link>
               </div>
@@ -505,7 +505,7 @@ export default async function Home({
                   ))}
                 </ol>
                 <Link
-                  href={`/${lang}/how-it-works${path.ctaAnchor}`}
+                  href={`/${lang}/about${path.ctaAnchor}`}
                   className={styles.pathLink}
                 >
                   {path.ctaLabel}

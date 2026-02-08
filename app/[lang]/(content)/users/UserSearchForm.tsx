@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTransition, useEffect, useState } from "react";
+import { useRef, useTransition } from "react";
 import styles from "./users.module.scss";
 
 export function UserSearchForm({
@@ -14,16 +14,12 @@ export function UserSearchForm({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [query, setQuery] = useState(searchParams.get("q") || "");
-
-  useEffect(() => {
-    setQuery(searchParams.get("q") || "");
-  }, [searchParams]);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const defaultQuery = searchParams.get("q") || "";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const q = formData.get("q") as string;
+    const q = inputRef.current?.value ?? "";
 
     startTransition(() => {
       if (q.trim()) {
@@ -36,7 +32,6 @@ export function UserSearchForm({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setQuery(value);
 
     // Debounced auto-search (optional)
     if (value.trim() === "") {
@@ -49,13 +44,16 @@ export function UserSearchForm({
   return (
     <form onSubmit={handleSubmit} className={styles.searchForm}>
       <input
+        key={defaultQuery}
+        ref={inputRef}
         type="search"
         name="q"
-        value={query}
+        defaultValue={defaultQuery}
         onChange={handleChange}
         placeholder={placeholder}
         aria-label={placeholder}
         className={styles.searchInput}
+        disabled={isPending}
       />
     </form>
   );

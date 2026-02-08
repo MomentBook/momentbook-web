@@ -1,157 +1,374 @@
 import type { Metadata } from "next";
-import { type Language } from "@/lib/i18n/config";
-import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import { getPublicUser, publicJourneys } from "@/lib/public-content";
-import { JourneyList } from "./JourneyList";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import styles from "./journeys.module.scss";
+import {
+    defaultLanguage,
+    languageList,
+    toHreflang,
+    type Language,
+} from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import {
+    fetchPublishedJourney,
+    fetchPublishedJourneys,
+    type PublishedJourneyListItemApi,
+} from "@/lib/published-journey";
+import { fetchPublicUser } from "@/lib/public-users";
+import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
+import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
+import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 
-const journeyPageLabels: Partial<Record<
-    Language,
-    {
-        title: string;
-        subtitle: string;
-        searchPlaceholder: string;
-        countLabel: string;
-        empty: string;
-        byLabel: string;
-        placesLabel: string;
-        photosLabel: string;
-        notice: string;
-    }
->> & { en: {
+export const revalidate = 60;
+
+const JOURNEYS_PER_PAGE = 16;
+
+type JourneyPageLabels = {
     title: string;
     subtitle: string;
-    searchPlaceholder: string;
     countLabel: string;
     empty: string;
     byLabel: string;
-    placesLabel: string;
     photosLabel: string;
-    notice: string;
-} } = {
+    periodLabel: string;
+    previousPage: string;
+    nextPage: string;
+    untitledJourney: string;
+    publishedLabel: string;
+    pageLabel: string;
+    unknownDateLabel: string;
+    unknownUserLabel: string;
+};
+
+const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
+    en: JourneyPageLabels;
+} = {
     en: {
         title: "Published journeys",
-        subtitle: "Published journeys shared from MomentBook as single pages.",
-        searchPlaceholder: "Search journeys, places, or people",
+        subtitle: "A calm stream of journeys shared from MomentBook.",
         countLabel: "{count} journeys",
-        empty: "No journeys match this search.",
-        byLabel: "shared by",
-        placesLabel: "places",
+        empty: "No published journeys yet.",
+        byLabel: "by",
         photosLabel: "photos",
-        notice: "Each journey opens as its own page. Some are shared as photos only. Anything not published remains private.",
+        periodLabel: "period",
+        previousPage: "Previous",
+        nextPage: "Next",
+        untitledJourney: "Untitled journey",
+        publishedLabel: "Published",
+        pageLabel: "Page {page}",
+        unknownDateLabel: "Date unavailable",
+        unknownUserLabel: "Unknown user",
     },
     ko: {
         title: "게시된 여정",
-        subtitle: "MomentBook에서 공유된 여정 페이지입니다.",
-        searchPlaceholder: "여정, 장소, 사람을 검색",
+        subtitle: "MomentBook에서 공유된 여정을 차분하게 살펴보세요.",
         countLabel: "{count}개 여정",
-        empty: "검색 결과가 없습니다.",
-        byLabel: "공유한 사람",
-        placesLabel: "곳",
-        photosLabel: "장",
-        notice: "여정 하나가 하나의 페이지로 열립니다. 사진만 공유된 여정도 있으며, 게시하지 않은 기록은 공개되지 않습니다.",
+        empty: "아직 게시된 여정이 없습니다.",
+        byLabel: "작성자",
+        photosLabel: "사진",
+        periodLabel: "기간",
+        previousPage: "이전",
+        nextPage: "다음",
+        untitledJourney: "제목 없는 여정",
+        publishedLabel: "게시일",
+        pageLabel: "{page}페이지",
+        unknownDateLabel: "날짜 정보 없음",
+        unknownUserLabel: "알 수 없는 사용자",
     },
     ja: {
         title: "公開された旅",
-        subtitle: "MomentBook から共有された旅ページです。",
-        searchPlaceholder: "旅、場所、ユーザーを検索",
+        subtitle: "MomentBookで共有された旅をゆっくり閲覧できます。",
         countLabel: "{count}件の旅",
-        empty: "一致する旅がありません。",
-        byLabel: "共有者",
-        placesLabel: "か所",
-        photosLabel: "枚",
-        notice: "旅ごとにページが作られます。写真のみの共有もあり、公開していない記録は表示されません。",
+        empty: "公開された旅はまだありません。",
+        byLabel: "投稿者",
+        photosLabel: "写真",
+        periodLabel: "期間",
+        previousPage: "前へ",
+        nextPage: "次へ",
+        untitledJourney: "タイトル未設定の旅",
+        publishedLabel: "公開日",
+        pageLabel: "{page}ページ",
+        unknownDateLabel: "日付情報なし",
+        unknownUserLabel: "不明なユーザー",
     },
     zh: {
         title: "已发布的行程",
-        subtitle: "从 MomentBook 分享的行程页面。",
-        searchPlaceholder: "搜索行程、地点或用户",
+        subtitle: "在这里安静地浏览来自 MomentBook 的公开行程。",
         countLabel: "{count} 条行程",
-        empty: "没有符合的行程。",
-        byLabel: "分享者",
-        placesLabel: "个地点",
-        photosLabel: "张照片",
-        notice: "每段行程对应一个页面，也可能仅分享照片。未发布的记录不会公开。",
+        empty: "暂无已发布行程。",
+        byLabel: "作者",
+        photosLabel: "照片",
+        periodLabel: "时间",
+        previousPage: "上一页",
+        nextPage: "下一页",
+        untitledJourney: "未命名行程",
+        publishedLabel: "发布日期",
+        pageLabel: "第 {page} 页",
+        unknownDateLabel: "暂无日期信息",
+        unknownUserLabel: "未知用户",
     },
     es: {
         title: "Viajes publicados",
-        subtitle: "Viajes publicados desde MomentBook.",
-        searchPlaceholder: "Buscar viajes, lugares o personas",
+        subtitle: "Explora con calma los viajes compartidos en MomentBook.",
         countLabel: "{count} viajes",
-        empty: "No hay viajes que coincidan con la búsqueda.",
-        byLabel: "compartido por",
-        placesLabel: "lugares",
+        empty: "Aun no hay viajes publicados.",
+        byLabel: "por",
         photosLabel: "fotos",
-        notice: "Cada viaje se abre como su propia pagina. Algunos se comparten solo con fotos. Lo no publicado sigue privado.",
+        periodLabel: "periodo",
+        previousPage: "Anterior",
+        nextPage: "Siguiente",
+        untitledJourney: "Viaje sin titulo",
+        publishedLabel: "Publicado",
+        pageLabel: "Pagina {page}",
+        unknownDateLabel: "Fecha no disponible",
+        unknownUserLabel: "Usuario desconocido",
     },
     pt: {
         title: "Jornadas publicadas",
-        subtitle: "Jornadas publicadas do MomentBook.",
-        searchPlaceholder: "Buscar jornadas, lugares ou pessoas",
+        subtitle: "Veja com calma as jornadas compartilhadas no MomentBook.",
         countLabel: "{count} jornadas",
-        empty: "Nenhuma jornada corresponde à busca.",
-        byLabel: "compartilhado por",
-        placesLabel: "lugares",
+        empty: "Ainda nao ha jornadas publicadas.",
+        byLabel: "por",
         photosLabel: "fotos",
-        notice: "Cada jornada abre em sua propria pagina. Algumas sao compartilhadas apenas com fotos. O que nao e publicado permanece privado.",
+        periodLabel: "periodo",
+        previousPage: "Anterior",
+        nextPage: "Proxima",
+        untitledJourney: "Jornada sem titulo",
+        publishedLabel: "Publicado em",
+        pageLabel: "Pagina {page}",
+        unknownDateLabel: "Data indisponivel",
+        unknownUserLabel: "Usuario desconhecido",
     },
     fr: {
-        title: "Voyages publiés",
-        subtitle: "Voyages publies depuis MomentBook.",
-        searchPlaceholder: "Rechercher des voyages, lieux ou personnes",
+        title: "Voyages publies",
+        subtitle: "Parcourez tranquillement les voyages partages sur MomentBook.",
         countLabel: "{count} voyages",
-        empty: "Aucun voyage ne correspond à cette recherche.",
-        byLabel: "partagé par",
-        placesLabel: "lieux",
+        empty: "Aucun voyage publie pour le moment.",
+        byLabel: "par",
         photosLabel: "photos",
-        notice: "Chaque voyage ouvre sa propre page. Certains sont partages uniquement avec des photos. Tout ce qui n'est pas publie reste prive.",
+        periodLabel: "periode",
+        previousPage: "Precedent",
+        nextPage: "Suivant",
+        untitledJourney: "Voyage sans titre",
+        publishedLabel: "Publie",
+        pageLabel: "Page {page}",
+        unknownDateLabel: "Date indisponible",
+        unknownUserLabel: "Utilisateur inconnu",
     },
     th: {
         title: "ทริปที่เผยแพร่",
-        subtitle: "ทริปที่แชร์จาก MomentBook",
-        searchPlaceholder: "ค้นหาทริป สถานที่ หรือผู้คน",
+        subtitle: "สำรวจทริปที่แชร์จาก MomentBook อย่างสบายตา",
         countLabel: "{count} ทริป",
-        empty: "ไม่พบทริปที่ตรงกับการค้นหา",
-        byLabel: "แชร์โดย",
-        placesLabel: "สถานที่",
+        empty: "ยังไม่มีทริปที่เผยแพร่",
+        byLabel: "โดย",
         photosLabel: "รูป",
-        notice: "แต่ละทริปจะเปิดเป็นหน้าของตัวเอง บางทริปแชร์เฉพาะรูป สิ่งที่ยังไม่เผยแพร่จะยังเป็นส่วนตัว",
+        periodLabel: "ช่วงเวลา",
+        previousPage: "ก่อนหน้า",
+        nextPage: "ถัดไป",
+        untitledJourney: "ทริปไม่มีชื่อ",
+        publishedLabel: "วันที่เผยแพร่",
+        pageLabel: "หน้า {page}",
+        unknownDateLabel: "ไม่มีข้อมูลวันที่",
+        unknownUserLabel: "ผู้ใช้ไม่ทราบชื่อ",
     },
     vi: {
         title: "Hanh trinh da dang",
-        subtitle: "Cac hanh trinh duoc chia se tu MomentBook.",
-        searchPlaceholder: "Tim hanh trinh, dia diem hoac nguoi dung",
+        subtitle: "Xem nhe nhang cac hanh trinh duoc chia se tren MomentBook.",
         countLabel: "{count} hanh trinh",
-        empty: "Khong co hanh trinh phu hop voi tim kiem.",
-        byLabel: "chia se boi",
-        placesLabel: "dia diem",
+        empty: "Chua co hanh trinh da dang.",
+        byLabel: "boi",
         photosLabel: "anh",
-        notice: "Moi hanh trinh mo thanh trang rieng. Mot so chi chia se bang anh. Noi dung chua dang van giu rieng tu.",
+        periodLabel: "thoi gian",
+        previousPage: "Truoc",
+        nextPage: "Sau",
+        untitledJourney: "Hanh trinh chua dat ten",
+        publishedLabel: "Da dang",
+        pageLabel: "Trang {page}",
+        unknownDateLabel: "Khong co ngay",
+        unknownUserLabel: "Nguoi dung khong ro",
     },
 };
 
-export async function generateMetadata({
-    params,
-}: {
-    params: Promise<{ lang: string }>;
-}): Promise<Metadata> {
-    const { lang } = (await params) as { lang: Language };
-    const labels = journeyPageLabels[lang] ?? journeyPageLabels.en;
-    const path = "/journeys";
-    const url = buildOpenGraphUrl(lang, path);
+type PaginationEntry =
+    | {
+        type: "page";
+        page: number;
+    }
+    | {
+        type: "ellipsis";
+        key: string;
+    };
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+    return value && typeof value === "object" ? (value as Record<string, unknown>) : null;
+}
+
+function readText(value: unknown): string | null {
+    if (typeof value !== "string") {
+        return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+}
+
+function readCount(value: unknown): number | null {
+    if (typeof value === "number" && Number.isFinite(value) && value >= 0) {
+        return Math.floor(value);
+    }
+
+    if (typeof value === "string") {
+        const parsed = Number(value);
+        if (Number.isFinite(parsed) && parsed >= 0) {
+            return Math.floor(parsed);
+        }
+    }
+
+    return null;
+}
+
+function resolvePhotoCount(...values: unknown[]): number {
+    let maxCount = 0;
+
+    for (const value of values) {
+        const count = readCount(value);
+        if (count !== null && count > maxCount) {
+            maxCount = count;
+        }
+    }
+
+    return maxCount;
+}
+
+function parsePageParam(value: string | string[] | undefined): number {
+    const raw = Array.isArray(value) ? value[0] : value;
+    const parsed = Number(raw);
+
+    if (!Number.isInteger(parsed) || parsed < 1) {
+        return 1;
+    }
+
+    return parsed;
+}
+
+function buildPageHref(lang: Language, page: number): string {
+    if (page <= 1) {
+        return `/${lang}/journeys`;
+    }
+
+    return `/${lang}/journeys?page=${page}`;
+}
+
+function buildPaginationEntries(currentPage: number, totalPages: number): PaginationEntry[] {
+    if (totalPages <= 1) {
+        return [{ type: "page", page: 1 }];
+    }
+
+    const pages = new Set<number>([1, totalPages]);
+    const siblingCount = 1;
+    const edgeWindow = 4;
+
+    for (let page = currentPage - siblingCount; page <= currentPage + siblingCount; page += 1) {
+        if (page > 1 && page < totalPages) {
+            pages.add(page);
+        }
+    }
+
+    if (currentPage <= edgeWindow) {
+        for (let page = 2; page <= Math.min(totalPages - 1, edgeWindow + 1); page += 1) {
+            pages.add(page);
+        }
+    }
+
+    if (currentPage >= totalPages - edgeWindow + 1) {
+        for (let page = Math.max(2, totalPages - edgeWindow); page <= totalPages - 1; page += 1) {
+            pages.add(page);
+        }
+    }
+
+    const sortedPages = [...pages].sort((a, b) => a - b);
+    const entries: PaginationEntry[] = [];
+
+    sortedPages.forEach((page, index) => {
+        const previousPage = sortedPages[index - 1];
+
+        if (index > 0 && previousPage && page - previousPage > 1) {
+            entries.push({
+                type: "ellipsis",
+                key: `${previousPage}-${page}`,
+            });
+        }
+
+        entries.push({
+            type: "page",
+            page,
+        });
+    });
+
+    return entries;
+}
+
+function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
+    const metadata = asRecord(journey.metadata);
 
     return {
-        title: labels.title,
+        title: readText(metadata?.title),
+        description: readText(metadata?.description),
+        thumbnailUri: readText(metadata?.thumbnailUri),
+    };
+}
+
+function buildJourneysAlternates(lang: Language, page: number) {
+    if (page <= 1) {
+        return buildAlternates(lang, "/journeys");
+    }
+
+    const languages = Object.fromEntries([
+        ...languageList.map((code) => [
+            toHreflang(code),
+            `/${code}/journeys?page=${page}`,
+        ]),
+        ["x-default", `/${defaultLanguage}/journeys?page=${page}`],
+    ]) as Record<string, string>;
+
+    return {
+        canonical: `/${lang}/journeys?page=${page}`,
+        languages,
+    };
+}
+
+export async function generateMetadata({
+    params,
+    searchParams,
+}: {
+    params: Promise<{ lang: string }>;
+    searchParams: Promise<{ page?: string | string[] }>;
+}): Promise<Metadata> {
+    const { lang } = (await params) as { lang: Language };
+    const { page } = (await searchParams) as { page?: string | string[] };
+    const labels = journeyPageLabels[lang] ?? journeyPageLabels.en;
+    const currentPage = parsePageParam(page);
+    const pageTitleSuffix =
+        currentPage > 1
+            ? ` · ${labels.pageLabel.replace("{page}", String(currentPage))}`
+            : "";
+
+    const path = "/journeys";
+    const urlBase = buildOpenGraphUrl(lang, path);
+    const url = currentPage > 1 ? `${urlBase}?page=${currentPage}` : urlBase;
+
+    return {
+        title: `${labels.title}${pageTitleSuffix}`,
         description: labels.subtitle,
-        alternates: buildAlternates(lang, path),
+        alternates: buildJourneysAlternates(lang, currentPage),
         openGraph: {
-            title: labels.title,
+            title: `${labels.title}${pageTitleSuffix}`,
             description: labels.subtitle,
             url,
         },
         twitter: {
             card: "summary",
-            title: labels.title,
+            title: `${labels.title}${pageTitleSuffix}`,
             description: labels.subtitle,
         },
     };
@@ -159,46 +376,84 @@ export async function generateMetadata({
 
 export default async function JourneysPage({
     params,
+    searchParams,
 }: {
     params: Promise<{ lang: string }>;
+    searchParams: Promise<{ page?: string | string[] }>;
 }) {
     const { lang } = (await params) as { lang: Language };
+    const { page } = (await searchParams) as { page?: string | string[] };
     const labels = journeyPageLabels[lang] ?? journeyPageLabels.en;
 
-    const cards = publicJourneys.map((journey) => {
-        const user = getPublicUser(journey.userId);
-        const cover = journey.images[0];
-        const meta = `${journey.recapDraft.inputSummary.totalStayPoints} ${labels.placesLabel} · ${journey.recapDraft.inputSummary.totalPhotos} ${labels.photosLabel}`;
-        const searchText = [
-            journey.title,
-            journey.description,
-            ...journey.highlights,
-            ...journey.locations,
-            user?.displayName,
-            user?.handle,
-        ]
-            .filter(Boolean)
-            .join(" ");
+    const requestedPage = parsePageParam(page);
+    const journeysData = await fetchPublishedJourneys({
+        page: requestedPage,
+        limit: JOURNEYS_PER_PAGE,
+        sort: "recent",
+    });
+
+    const journeys = journeysData?.journeys ?? [];
+    const totalJourneys = journeysData?.total ?? 0;
+    const totalPages = Math.max(1, journeysData?.pages ?? 1);
+    const safeCurrentPage = Math.min(requestedPage, totalPages);
+
+    if (requestedPage !== safeCurrentPage) {
+        redirect(buildPageHref(lang, safeCurrentPage));
+    }
+
+    const uniqueUserIds = [...new Set(journeys.map((journey) => journey.userId).filter(Boolean))];
+    const users = await Promise.all(
+        uniqueUserIds.map(async (userId) => [userId, await fetchPublicUser(userId)] as const),
+    );
+    const userMap = new Map(users);
+    const journeyDetails = await Promise.all(
+        journeys.map(async (journey) => [journey.publicId, await fetchPublishedJourney(journey.publicId)] as const),
+    );
+    const detailMap = new Map(journeyDetails);
+
+    const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages);
+    const hasPreviousPage = safeCurrentPage > 1;
+    const hasNextPage = safeCurrentPage < totalPages;
+
+    const cards = journeys.map((journey) => {
+        const meta = resolveJourneyMetadata(journey);
+        const author = userMap.get(journey.userId);
+        const detail = detailMap.get(journey.publicId);
+        const publishedAt = readTimestamp(journey.publishedAt) ?? readTimestamp(journey.createdAt);
+        const coverUrl = readText(journey.thumbnailUrl) ?? meta.thumbnailUri;
+        const periodRange = resolveJourneyPeriodRange({
+            startedAt: detail?.startedAt ?? journey.startedAt,
+            endedAt: detail?.endedAt ?? journey.endedAt,
+            photoSources: [detail?.images, detail?.clusters, journey.metadata],
+        });
 
         return {
-            journeyId: journey.journeyId,
-            title: journey.title,
-            description: journey.description,
-            coverUrl: cover?.url ?? "",
-            coverAlt: cover?.caption ?? journey.title,
-            highlights: journey.highlights,
-            userName: user?.displayName ?? "",
-            userHandle: user?.handle ?? "",
-            meta,
-            searchText,
+            publicId: journey.publicId,
+            userId: journey.userId,
+            title: meta.title ?? labels.untitledJourney,
+            description: meta.description ?? null,
+            imageCount: resolvePhotoCount(
+                detail?.photoCount,
+                Array.isArray(detail?.images) ? detail.images.length : null,
+                journey.imageCount,
+            ),
+            coverUrl,
+            authorName: readText(author?.name) ?? labels.unknownUserLabel,
+            publishedAt,
+            periodRange,
         };
     });
 
+    const countText = labels.countLabel.replace("{count}", String(totalJourneys));
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+    const pagePath = buildOpenGraphUrl(lang, "/journeys");
+    const pagePathWithQuery =
+        safeCurrentPage > 1 ? `${pagePath}?page=${safeCurrentPage}` : pagePath;
     const pageUrl = new URL(
-        buildOpenGraphUrl(lang, "/journeys"),
+        pagePathWithQuery,
         siteUrl,
     ).toString();
+    const offset = (safeCurrentPage - 1) * JOURNEYS_PER_PAGE;
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
@@ -207,11 +462,12 @@ export default async function JourneysPage({
         url: pageUrl,
         mainEntity: {
             "@type": "ItemList",
+            numberOfItems: totalJourneys,
             itemListElement: cards.map((card, index) => ({
                 "@type": "ListItem",
-                position: index + 1,
+                position: offset + index + 1,
                 url: new URL(
-                    buildOpenGraphUrl(lang, `/journeys/${card.journeyId}`),
+                    buildOpenGraphUrl(lang, `/journeys/${card.publicId}`),
                     siteUrl,
                 ).toString(),
                 name: card.title,
@@ -225,14 +481,124 @@ export default async function JourneysPage({
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <header className={styles.header}>
-                <h1 className={styles.title}>{labels.title}</h1>
+
+            <header className={styles.hero}>
+                <p className={styles.kicker}>{countText}</p>
+                <h1 className={styles.title}>
+                    {labels.title}
+                    {safeCurrentPage > 1 ? (
+                        <span className={styles.pageBadge}>
+                            {labels.pageLabel.replace("{page}", String(safeCurrentPage))}
+                        </span>
+                    ) : null}
+                </h1>
                 <p className={styles.subtitle}>{labels.subtitle}</p>
             </header>
 
-            <p className={styles.notice}>{labels.notice}</p>
+            {cards.length === 0 ? (
+                <div className={styles.emptyState}>{labels.empty}</div>
+            ) : (
+                <>
+                    <div className={styles.grid}>
+                        {cards.map((card) => (
+                            <JourneyPreviewCard
+                                key={card.publicId}
+                                href={`/${lang}/journeys/${card.publicId}`}
+                                title={card.title}
+                                description={card.description}
+                                coverUrl={card.coverUrl}
+                                topMeta={(
+                                    <>
+                                        {labels.publishedLabel} ·{" "}
+                                        <LocalizedDate
+                                            lang={lang}
+                                            timestamp={card.publishedAt}
+                                            fallback={labels.unknownDateLabel}
+                                        />
+                                    </>
+                                )}
+                                metaItems={[
+                                    { label: labels.photosLabel, value: card.imageCount },
+                                    {
+                                        label: labels.periodLabel,
+                                        value: (
+                                            <LocalizedDateTimeRange
+                                                lang={lang}
+                                                start={card.periodRange.start}
+                                                end={card.periodRange.end}
+                                                fallback={labels.unknownDateLabel}
+                                            />
+                                        ),
+                                    },
+                                ]}
+                                authorText={`${labels.byLabel} ${card.authorName}`}
+                            />
+                        ))}
+                    </div>
 
-            <JourneyList lang={lang} cards={cards} labels={labels} />
+                    <nav className={styles.pagination} aria-label="Journey list pagination">
+                        {hasPreviousPage ? (
+                            <Link
+                                className={styles.pageButton}
+                                href={buildPageHref(lang, safeCurrentPage - 1)}
+                            >
+                                {labels.previousPage}
+                            </Link>
+                        ) : (
+                            <span className={styles.pageButtonDisabled}>{labels.previousPage}</span>
+                        )}
+
+                        <div className={styles.pageNumbers}>
+                            {paginationEntries.map((entry) => {
+                                if (entry.type === "ellipsis") {
+                                    return (
+                                        <span
+                                            key={entry.key}
+                                            className={styles.pageEllipsis}
+                                            aria-hidden="true"
+                                        >
+                                            ...
+                                        </span>
+                                    );
+                                }
+
+                                if (entry.page === safeCurrentPage) {
+                                    return (
+                                        <span
+                                            key={`page-${entry.page}`}
+                                            className={styles.pageNumberCurrent}
+                                            aria-current="page"
+                                        >
+                                            {entry.page}
+                                        </span>
+                                    );
+                                }
+
+                                return (
+                                    <Link
+                                        key={`page-${entry.page}`}
+                                        className={styles.pageNumber}
+                                        href={buildPageHref(lang, entry.page)}
+                                    >
+                                        {entry.page}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+
+                        {hasNextPage ? (
+                            <Link
+                                className={styles.pageButton}
+                                href={buildPageHref(lang, safeCurrentPage + 1)}
+                            >
+                                {labels.nextPage}
+                            </Link>
+                        ) : (
+                            <span className={styles.pageButtonDisabled}>{labels.nextPage}</span>
+                        )}
+                    </nav>
+                </>
+            )}
         </div>
     );
 }
