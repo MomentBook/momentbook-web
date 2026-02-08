@@ -7,8 +7,8 @@ import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
   fetchPublishedJourney,
-  type PublishedJourneyCluster,
 } from "@/lib/published-journey";
+import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import ClientMap from "../../components/ClientMap";
 
 export const revalidate = 60;
@@ -127,31 +127,6 @@ const momentLabels: Partial<Record<Language, MomentLabels>> & { en: MomentLabels
   },
 };
 
-function formatClusterRange(lang: Language, cluster: PublishedJourneyCluster) {
-  const start = new Date(cluster.time.startAt);
-  const end = new Date(cluster.time.endAt);
-  const dateFormatter = new Intl.DateTimeFormat(lang, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  const timeFormatter = new Intl.DateTimeFormat(lang, {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
-  const startDate = dateFormatter.format(start);
-  const endDate = dateFormatter.format(end);
-  const startTime = timeFormatter.format(start);
-  const endTime = timeFormatter.format(end);
-
-  if (startDate === endDate) {
-    return `${startDate} · ${startTime}–${endTime}`;
-  }
-
-  return `${startDate} ${startTime} – ${endDate} ${endTime}`;
-}
-
 function buildImageUrlToPhotoIdMap(
   journeyImages: Array<{ url: string; photoId: string }>,
 ) {
@@ -252,7 +227,6 @@ export default async function JourneyMomentPage({
 
   const labels = momentLabels[lang] ?? momentLabels.en;
   const locationName = cluster.locationName || labels.locationFallback;
-  const timeRange = formatClusterRange(lang, cluster);
   const imageMap = buildImageUrlToPhotoIdMap(journey.images);
   const clusterPhotos = cluster.photoIds
     .map((photoId) => ({
@@ -305,7 +279,13 @@ export default async function JourneyMomentPage({
           {labels.journeyLabel}: {journey.title}
         </p>
         <div className={styles.metaRow}>
-          <span>{timeRange}</span>
+          <span>
+            <LocalizedDateTimeRange
+              lang={lang}
+              start={cluster.time.startAt}
+              end={cluster.time.endAt}
+            />
+          </span>
           <span>
             {clusterPhotos.length} {labels.photosLabel}
           </span>

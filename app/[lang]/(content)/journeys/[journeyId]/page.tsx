@@ -6,6 +6,7 @@ import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourneyResult } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
+import { LocalizedDateRange } from "@/components/LocalizedTime";
 import JourneyContent from "./components/JourneyContent";
 import ReportJourneyButton from "../components/ReportJourneyButton";
 import {
@@ -13,7 +14,6 @@ import {
     buildJourneyDescription,
 } from "./labels";
 import {
-    formatDateRange,
     formatDuration,
     getUniqueLocations,
     buildImageUrlToPhotoIdMap,
@@ -83,6 +83,10 @@ export async function generateMetadata({
             title: hiddenNotice.title,
             description: hiddenMessage,
             alternates: buildAlternates(lang, `/journeys/${journeyId}`),
+            robots: {
+                index: false,
+                follow: false,
+            },
         };
     }
 
@@ -162,7 +166,6 @@ export default async function JourneyPage({
 
     const labels = journeyLabels[lang] ?? journeyLabels.en;
     const user = await fetchPublicUser(journey.userId);
-    const dateRange = formatDateRange(lang, journey.startedAt, journey.endedAt);
     const locations = getUniqueLocations(journey.clusters);
     const totalDuration = journey.clusters.reduce(
         (sum, cluster) => sum + cluster.time.durationMs,
@@ -245,7 +248,13 @@ export default async function JourneyPage({
                     >
                         {user?.name ?? labels.profileLinkLabel}
                     </Link>
-                    <span>{dateRange}</span>
+                    <span>
+                        <LocalizedDateRange
+                            lang={lang}
+                            start={journey.startedAt}
+                            end={journey.endedAt}
+                        />
+                    </span>
                     <span>
                         {journey.photoCount} {labels.photoCount}
                     </span>

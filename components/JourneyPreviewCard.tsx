@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import styles from "./JourneyPreviewCard.module.scss";
 
 type JourneyMetaItem = {
   label: string;
-  value: string | number;
+  value: ReactNode;
 };
 
 type JourneyPreviewCardProps = {
@@ -12,7 +13,7 @@ type JourneyPreviewCardProps = {
   title: string;
   description?: string | null;
   coverUrl?: string | null;
-  topMeta?: string | null;
+  topMeta?: ReactNode;
   metaItems: JourneyMetaItem[];
   authorText?: string;
 };
@@ -39,7 +40,6 @@ export function JourneyPreviewCard({
 }: JourneyPreviewCardProps) {
   const safeDescription = readText(description);
   const safeCover = readText(coverUrl);
-  const safeTopMeta = readText(topMeta);
   const safeAuthor = readText(authorText);
 
   return (
@@ -59,7 +59,9 @@ export function JourneyPreviewCard({
 
       <div className={styles.body}>
         <div className={styles.mainSection}>
-          {safeTopMeta ? <p className={styles.topMeta}>{safeTopMeta}</p> : null}
+          {topMeta !== null && topMeta !== undefined && topMeta !== "" ? (
+            <p className={styles.topMeta}>{topMeta}</p>
+          ) : null}
 
           <h3 className={styles.title}>{title}</h3>
 
@@ -68,8 +70,8 @@ export function JourneyPreviewCard({
 
         <div className={styles.metaSection}>
           <div className={styles.metaRow}>
-            {metaItems.map((item) => (
-              <span key={`${item.label}-${item.value}`} className={styles.metaItem}>
+            {metaItems.map((item, index) => (
+              <span key={`${item.label}-${index}`} className={styles.metaItem}>
                 {item.label} · {item.value}
               </span>
             ))}

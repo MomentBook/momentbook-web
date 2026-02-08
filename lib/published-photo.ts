@@ -18,7 +18,7 @@ export type PublishedPhotoApi = {
         journeyId: string;
         startedAt: number;
         endedAt?: number;
-        metadata?: Record<string, any>;
+        metadata?: Record<string, unknown>;
     };
 };
 

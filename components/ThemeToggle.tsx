@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { useAtom } from "jotai";
 import { themeAtom } from "@/lib/state/preferences";
 import styles from "./ThemeToggle.module.scss";
 
+const noopSubscribe = () => () => {};
+
 export function ThemeToggle() {
   const [theme, setTheme] = useAtom(themeAtom);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
   useEffect(() => {
     if (!mounted) {

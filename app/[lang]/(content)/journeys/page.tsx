@@ -16,7 +16,8 @@ import {
 } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
 import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
-import { formatJourneyPeriodRange, readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
+import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
+import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 
 export const revalidate = 60;
 
@@ -307,18 +308,6 @@ function buildPaginationEntries(currentPage: number, totalPages: number): Pagina
     return entries;
 }
 
-function formatPublishedDate(value: number | null, lang: Language, fallback: string): string {
-    if (!value) {
-        return fallback;
-    }
-
-    return new Intl.DateTimeFormat(lang, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-    }).format(value);
-}
-
 function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
     const metadata = asRecord(journey.metadata);
 
@@ -450,12 +439,8 @@ export default async function JourneysPage({
             ),
             coverUrl,
             authorName: readText(author?.name) ?? labels.unknownUserLabel,
-            publishedAtLabel: formatPublishedDate(publishedAt, lang, labels.unknownDateLabel),
-            periodLabel: formatJourneyPeriodRange(
-                lang,
-                periodRange,
-                labels.unknownDateLabel,
-            ),
+            publishedAt,
+            periodRange,
         };
     });
 
@@ -522,10 +507,29 @@ export default async function JourneysPage({
                                 title={card.title}
                                 description={card.description}
                                 coverUrl={card.coverUrl}
-                                topMeta={`${labels.publishedLabel} · ${card.publishedAtLabel}`}
+                                topMeta={(
+                                    <>
+                                        {labels.publishedLabel} ·{" "}
+                                        <LocalizedDate
+                                            lang={lang}
+                                            timestamp={card.publishedAt}
+                                            fallback={labels.unknownDateLabel}
+                                        />
+                                    </>
+                                )}
                                 metaItems={[
                                     { label: labels.photosLabel, value: card.imageCount },
-                                    { label: labels.periodLabel, value: card.periodLabel },
+                                    {
+                                        label: labels.periodLabel,
+                                        value: (
+                                            <LocalizedDateTimeRange
+                                                lang={lang}
+                                                start={card.periodRange.start}
+                                                end={card.periodRange.end}
+                                                fallback={labels.unknownDateLabel}
+                                            />
+                                        ),
+                                    },
                                 ]}
                                 authorText={`${labels.byLabel} ${card.authorName}`}
                             />

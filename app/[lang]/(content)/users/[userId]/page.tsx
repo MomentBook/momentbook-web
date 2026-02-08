@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import styles from "./user.module.scss";
-import { type Language, languageList } from "@/lib/i18n/config";
+import {
+  defaultLanguage,
+  languageList,
+  toHreflang,
+  type Language,
+} from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
+import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import {
   fetchPublicUsers,
   fetchPublicUser,
   fetchUserJourneys,
   type UserJourneyApi,
 } from "@/lib/public-users";
-import { formatJourneyPeriodRange, readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
+import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 
 export const revalidate = 3600;
 
@@ -247,13 +253,12 @@ function getJourneyCoverUrl(journey: UserJourneyApi, thumbnailUri: string | null
   return null;
 }
 
-function getJourneyPeriodText(journey: UserJourneyApi, lang: Language, unknownLabel: string): string {
-  const range = resolveJourneyPeriodRange({
+function getJourneyPeriodRange(journey: UserJourneyApi) {
+  return resolveJourneyPeriodRange({
     startedAt: journey.startedAt,
     endedAt: journey.endedAt,
     photoSources: [journey.images],
   });
-  return formatJourneyPeriodRange(lang, range, unknownLabel);
 }
 
 function getJourneyPhotoCount(journey: UserJourneyApi): number {
@@ -281,6 +286,25 @@ function buildPageHref(lang: Language, userId: string, page: number): string {
   }
 
   return `/${lang}/users/${userId}?page=${page}`;
+}
+
+function buildUserAlternates(lang: Language, userId: string, page: number) {
+  if (page <= 1) {
+    return buildAlternates(lang, `/users/${userId}`);
+  }
+
+  const languages = Object.fromEntries([
+    ...languageList.map((code) => [
+      toHreflang(code),
+      `/${code}/users/${userId}?page=${page}`,
+    ]),
+    ["x-default", `/${defaultLanguage}/users/${userId}?page=${page}`],
+  ]) as Record<string, string>;
+
+  return {
+    canonical: `/${lang}/users/${userId}?page=${page}`,
+    languages,
+  };
 }
 
 type PaginationEntry =
@@ -359,10 +383,14 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ lang: string; userId: string }>;
+  searchParams: Promise<{ page?: string | string[] }>;
 }): Promise<Metadata> {
   const { lang, userId } = (await params) as { lang: Language; userId: string };
+  const { page } = (await searchParams) as { page?: string | string[] };
+  const currentPage = parsePageParam(page);
   const user = await fetchPublicUser(userId);
 
   if (!user) {
@@ -379,12 +407,13 @@ export async function generateMetadata({
     );
 
   const path = `/users/${userId}`;
-  const url = buildOpenGraphUrl(lang, path);
+  const urlBase = buildOpenGraphUrl(lang, path);
+  const url = currentPage > 1 ? `${urlBase}?page=${currentPage}` : urlBase;
 
   return {
     title: `${user.name} · MomentBook`,
     description,
-    alternates: buildAlternates(lang, path),
+    alternates: buildUserAlternates(lang, userId, currentPage),
     openGraph: {
       title: `${user.name} · MomentBook`,
       description,
@@ -440,6 +469,11 @@ export default async function UserPage({
       ? totalPagesFromApi
       : Math.max(1, Math.ceil(totalJourneys / JOURNEYS_PER_PAGE));
   const safeCurrentPage = Math.min(currentPage, totalPages);
+
+  if (currentPage !== safeCurrentPage) {
+    redirect(buildPageHref(lang, userId, safeCurrentPage));
+  }
+
   const hasPreviousPage = safeCurrentPage > 1;
   const hasNextPage = safeCurrentPage < totalPages;
   const labels = userLabels[lang] ?? userLabels.en;
@@ -451,8 +485,12 @@ export default async function UserPage({
   const profileImageUrl = readText(user.picture);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const profilePath = buildOpenGraphUrl(lang, `/users/${user.userId}`);
+  const pagePath = safeCurrentPage > 1
+    ? `${profilePath}?page=${safeCurrentPage}`
+    : profilePath;
   const pageUrl = new URL(
-    buildOpenGraphUrl(lang, `/users/${user.userId}`),
+    pagePath,
     siteUrl,
   ).toString();
   const description =
@@ -513,15 +551,8 @@ export default async function UserPage({
                 const journeyDescription = meta.description ?? readText(journey.description);
                 const coverUrl = getJourneyCoverUrl(journey, meta.thumbnailUri);
                 const photoCount = getJourneyPhotoCount(journey);
-                const periodText = getJourneyPeriodText(journey, lang, labels.periodUnknown);
+                const periodRange = getJourneyPeriodRange(journey);
                 const publishedAt = readTimestamp(journey.publishedAt);
-                const publishedDateText = publishedAt
-                  ? new Intl.DateTimeFormat(lang, {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    }).format(publishedAt)
-                  : labels.unknownDateLabel;
 
                 return (
                   <JourneyPreviewCard
@@ -530,10 +561,29 @@ export default async function UserPage({
                     title={journeyTitle}
                     description={journeyDescription}
                     coverUrl={coverUrl}
-                    topMeta={`${labels.publishedLabel} · ${publishedDateText}`}
+                    topMeta={(
+                      <>
+                        {labels.publishedLabel} ·{" "}
+                        <LocalizedDate
+                          lang={lang}
+                          timestamp={publishedAt}
+                          fallback={labels.unknownDateLabel}
+                        />
+                      </>
+                    )}
                     metaItems={[
                       { label: labels.photos, value: photoCount },
-                      { label: labels.period, value: periodText },
+                      {
+                        label: labels.period,
+                        value: (
+                          <LocalizedDateTimeRange
+                            lang={lang}
+                            start={periodRange.start}
+                            end={periodRange.end}
+                            fallback={labels.periodUnknown}
+                          />
+                        ),
+                      },
                     ]}
                     authorText={`${labels.byLabel} ${user.name}`}
                   />
