@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { type Language } from "@/lib/i18n/config";
+import { LanguageDropdown } from "@/components/LanguageDropdown";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import styles from "./MobileMenu.module.scss";
 
 interface MobileMenuProps {
@@ -70,6 +72,11 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
               >
                 {dict.nav.download}
               </Link>
+
+              <div className={styles.menuPrefs}>
+                <LanguageDropdown currentLang={lang} variant="drawer" />
+                <ThemeToggle variant="drawer" />
+              </div>
             </div>
             <Link
               href={`/${lang}/journeys`}

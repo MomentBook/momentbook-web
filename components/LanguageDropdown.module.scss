@@ -4,6 +4,15 @@
   position: relative;
 }
 
+.compact {
+  .trigger {
+    border-radius: 999px;
+    min-height: 2.25rem;
+    padding: 0.36rem 0.56rem;
+    gap: 0.28rem;
+  }
+}
+
 .trigger {
   display: flex;
   align-items: center;
@@ -38,9 +47,32 @@
   }
 }
 
+.compactTrigger {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.drawerTrigger {
+  width: 100%;
+  justify-content: space-between;
+  padding: 0.62rem 0.78rem;
+  border-radius: var(--radius-md);
+}
+
+.drawer .currentLang {
+  display: inline;
+}
+
 .currentLang {
   @media (max-width: 767px) {
     display: none;
+  }
+}
+
+.compactLang {
+  @media (max-width: 767px) {
+    display: inline;
   }
 }
 
@@ -76,6 +108,14 @@
       transform: translateY(0);
     }
   }
+}
+
+.drawerMenu {
+  position: static;
+  margin-top: 0.45rem;
+  width: 100%;
+  min-width: 0;
+  box-shadow: none;
 }
 
 .menuItem {

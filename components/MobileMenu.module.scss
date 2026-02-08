@@ -117,6 +117,14 @@
   gap: var(--spacing-sm);
 }
 
+.menuPrefs {
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 86%, transparent);
+  display: grid;
+  gap: 0.55rem;
+}
+
 .menuLink {
   font-size: 1.125rem;
   font-weight: 500;
