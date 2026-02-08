@@ -44,8 +44,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
     en: JourneyPageLabels;
 } = {
     en: {
-        title: "Published journeys",
-        subtitle: "A calm stream of journeys shared from MomentBook.",
+        title: "Journeys",
+        subtitle: "Shared journeys on MomentBook.",
         countLabel: "{count} journeys",
         empty: "No published journeys yet.",
         byLabel: "by",
@@ -60,8 +60,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         unknownUserLabel: "Unknown user",
     },
     ko: {
-        title: "게시된 여정",
-        subtitle: "MomentBook에서 공유된 여정을 차분하게 살펴보세요.",
+        title: "여정",
+        subtitle: "MomentBook에서 공유된 여정입니다.",
         countLabel: "{count}개 여정",
         empty: "아직 게시된 여정이 없습니다.",
         byLabel: "작성자",
@@ -76,8 +76,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         unknownUserLabel: "알 수 없는 사용자",
     },
     ja: {
-        title: "公開された旅",
-        subtitle: "MomentBookで共有された旅をゆっくり閲覧できます。",
+        title: "旅",
+        subtitle: "MomentBookで共有された旅です。",
         countLabel: "{count}件の旅",
         empty: "公開された旅はまだありません。",
         byLabel: "投稿者",
@@ -92,8 +92,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         unknownUserLabel: "不明なユーザー",
     },
     zh: {
-        title: "已发布的行程",
-        subtitle: "在这里安静地浏览来自 MomentBook 的公开行程。",
+        title: "行程",
+        subtitle: "在 MomentBook 上分享的公开行程。",
         countLabel: "{count} 条行程",
         empty: "暂无已发布行程。",
         byLabel: "作者",
@@ -108,8 +108,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         unknownUserLabel: "未知用户",
     },
     es: {
-        title: "Viajes publicados",
-        subtitle: "Explora con calma los viajes compartidos en MomentBook.",
+        title: "Viajes",
+        subtitle: "Viajes compartidos en MomentBook.",
         countLabel: "{count} viajes",
         empty: "Aun no hay viajes publicados.",
         byLabel: "por",
@@ -124,8 +124,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         unknownUserLabel: "Usuario desconocido",
     },
     pt: {
-        title: "Jornadas publicadas",
-        subtitle: "Veja com calma as jornadas compartilhadas no MomentBook.",
+        title: "Jornadas",
+        subtitle: "Jornadas compartilhadas no MomentBook.",
         countLabel: "{count} jornadas",
         empty: "Ainda nao ha jornadas publicadas.",
         byLabel: "por",
@@ -140,8 +140,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         unknownUserLabel: "Usuario desconhecido",
     },
     fr: {
-        title: "Voyages publies",
-        subtitle: "Parcourez tranquillement les voyages partages sur MomentBook.",
+        title: "Voyages",
+        subtitle: "Voyages partages sur MomentBook.",
         countLabel: "{count} voyages",
         empty: "Aucun voyage publie pour le moment.",
         byLabel: "par",
@@ -156,8 +156,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         unknownUserLabel: "Utilisateur inconnu",
     },
     th: {
-        title: "ทริปที่เผยแพร่",
-        subtitle: "สำรวจทริปที่แชร์จาก MomentBook อย่างสบายตา",
+        title: "ทริป",
+        subtitle: "ทริปที่แชร์บน MomentBook",
         countLabel: "{count} ทริป",
         empty: "ยังไม่มีทริปที่เผยแพร่",
         byLabel: "โดย",
@@ -172,8 +172,8 @@ const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
         unknownUserLabel: "ผู้ใช้ไม่ทราบชื่อ",
     },
     vi: {
-        title: "Hanh trinh da dang",
-        subtitle: "Xem nhe nhang cac hanh trinh duoc chia se tren MomentBook.",
+        title: "Hanh trinh",
+        subtitle: "Cac hanh trinh duoc chia se tren MomentBook.",
         countLabel: "{count} hanh trinh",
         empty: "Chua co hanh trinh da dang.",
         byLabel: "boi",

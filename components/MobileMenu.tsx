@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { type Language } from "@/lib/i18n/config";
+import { LanguageDropdown } from "@/components/LanguageDropdown";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import styles from "./MobileMenu.module.scss";
 
 interface MobileMenuProps {
@@ -48,33 +50,40 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
       {isOpen && (
         <div className={styles.overlay} onClick={() => setIsOpen(false)}>
           <nav className={styles.menu} onClick={(e) => e.stopPropagation()}>
-            <Link
-              href={`/${lang}/about`}
-              className={styles.menuLink}
-              onClick={() => setIsOpen(false)}
-            >
-              {dict.nav.about}
-            </Link>
-            <Link
-              href={`/${lang}/faq`}
-              className={styles.menuLink}
-              onClick={() => setIsOpen(false)}
-            >
-              {dict.nav.faq}
-            </Link>
+            <div className={styles.menuMain}>
+              <Link
+                href={`/${lang}/about`}
+                className={styles.menuLink}
+                onClick={() => setIsOpen(false)}
+              >
+                {dict.nav.about}
+              </Link>
+              <Link
+                href={`/${lang}/faq`}
+                className={styles.menuLink}
+                onClick={() => setIsOpen(false)}
+              >
+                {dict.nav.faq}
+              </Link>
+              <Link
+                href={`/${lang}/download`}
+                className={styles.menuLink}
+                onClick={() => setIsOpen(false)}
+              >
+                {dict.nav.download}
+              </Link>
+
+              <div className={styles.menuPrefs}>
+                <LanguageDropdown currentLang={lang} variant="drawer" />
+                <ThemeToggle variant="drawer" />
+              </div>
+            </div>
             <Link
               href={`/${lang}/journeys`}
-              className={styles.menuLink}
+              className={styles.journeysButton}
               onClick={() => setIsOpen(false)}
             >
               {journeysLabel}
-            </Link>
-            <Link
-              href={`/${lang}/download`}
-              className={styles.menuLink}
-              onClick={() => setIsOpen(false)}
-            >
-              {dict.nav.download}
             </Link>
           </nav>
         </div>

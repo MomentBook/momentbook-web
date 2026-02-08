@@ -12,7 +12,15 @@ import {
 import { languageAtom } from "@/lib/state/preferences";
 import styles from "./LanguageDropdown.module.scss";
 
-export function LanguageDropdown({ currentLang }: { currentLang: Language }) {
+type LanguageDropdownProps = {
+  currentLang: Language;
+  variant?: "default" | "compact" | "drawer";
+};
+
+export function LanguageDropdown({
+  currentLang,
+  variant = "default",
+}: LanguageDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -20,6 +28,9 @@ export function LanguageDropdown({ currentLang }: { currentLang: Language }) {
 
   const pathWithoutLang = stripLanguagePrefix(pathname);
   const currentLanguage = languages[currentLang];
+  const isCompact = variant === "compact";
+  const isDrawer = variant === "drawer";
+  const currentLabel = isCompact ? currentLang.toUpperCase() : currentLanguage.nativeName;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -56,9 +67,12 @@ export function LanguageDropdown({ currentLang }: { currentLang: Language }) {
   }, [isOpen]);
 
   return (
-    <div className={styles.dropdown} ref={dropdownRef}>
+    <div
+      className={`${styles.dropdown} ${isCompact ? styles.compact : ""} ${isDrawer ? styles.drawer : ""}`}
+      ref={dropdownRef}
+    >
       <button
-        className={styles.trigger}
+        className={`${styles.trigger} ${isCompact ? styles.compactTrigger : ""} ${isDrawer ? styles.drawerTrigger : ""}`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Select language"
         aria-expanded={isOpen}
@@ -77,7 +91,9 @@ export function LanguageDropdown({ currentLang }: { currentLang: Language }) {
           <circle cx="12" cy="12" r="10" />
           <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
         </svg>
-        <span className={styles.currentLang}>{currentLanguage.nativeName}</span>
+        <span className={`${styles.currentLang} ${isCompact ? styles.compactLang : ""}`}>
+          {currentLabel}
+        </span>
         <svg
           className={`${styles.chevron} ${isOpen ? styles.open : ""}`}
           width="12"
@@ -94,7 +110,7 @@ export function LanguageDropdown({ currentLang }: { currentLang: Language }) {
       </button>
 
       {isOpen && (
-        <div className={styles.menu}>
+        <div className={`${styles.menu} ${isDrawer ? styles.drawerMenu : ""}`}>
           {Object.entries(languages).map(([lang, { nativeName, name }]) => {
             const isActive = lang === currentLang;
             const href = `/${lang}${pathWithoutLang}`;

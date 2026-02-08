@@ -5,6 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import styles from "./JourneyMap.module.scss";
 import type { JourneyMode, PublishedJourneyCluster } from "@/lib/published-journey";
+import { sortJourneyClustersByTimeline } from "../utils";
 
 function createSequenceIcon(sequence: number) {
   return L.divIcon({
@@ -39,13 +40,7 @@ export default function JourneyMap({
   useEffect(() => {
     if (!mapRef.current || clusters.length === 0) return;
 
-    const orderedClusters = [...clusters].sort((a, b) => {
-      const startTimeDiff = a.time.startAt - b.time.startAt;
-      if (startTimeDiff !== 0) {
-        return startTimeDiff;
-      }
-      return a.clusterId.localeCompare(b.clusterId);
-    });
+    const orderedClusters = sortJourneyClustersByTimeline(clusters);
 
     // Clean up existing map
     if (leafletMapRef.current) {

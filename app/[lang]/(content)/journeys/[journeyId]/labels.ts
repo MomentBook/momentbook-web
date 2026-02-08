@@ -9,12 +9,6 @@ export type JourneyLabels = {
     gallery: string;
     hours: string;
     routeTitle: string;
-    routeBadgeStrong: string;
-    routeBadgeWeak: string;
-    routeBadgeNone: string;
-    routeLeadStrong: string;
-    routeLeadWeak: string;
-    routeLeadNone: string;
     mapEmpty: string;
     locationFallback: string;
     profileLinkLabel: string;
@@ -32,13 +26,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "Photo Gallery",
         hours: "h",
         routeTitle: "Journey map",
-        routeBadgeStrong: "Clear route",
-        routeBadgeWeak: "Soft route",
-        routeBadgeNone: "Places only",
-        routeLeadStrong: "GPS points are sufficient to trace a clear route.",
-        routeLeadWeak: "GPS points are partial, so the route appears softer.",
-        routeLeadNone:
-            "Location data was not available, so only places are shown.",
         mapEmpty: "There is no map data for this journey.",
         locationFallback: "Location",
         profileLinkLabel: "Published profile",
@@ -52,12 +39,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "사진 갤러리",
         hours: "시간",
         routeTitle: "여정 지도",
-        routeBadgeStrong: "선명한 경로",
-        routeBadgeWeak: "느슨한 경로",
-        routeBadgeNone: "장소만 표시",
-        routeLeadStrong: "GPS 데이터가 충분해 경로가 선명하게 표시됩니다.",
-        routeLeadWeak: "GPS 데이터가 간헐적이라 흐름이 부드럽게 보입니다.",
-        routeLeadNone: "위치 데이터가 없어 장소만 표시됩니다.",
         mapEmpty: "이 여정에는 지도 정보가 없습니다.",
         locationFallback: "장소",
         profileLinkLabel: "공개 프로필",
@@ -71,12 +52,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "フォトギャラリー",
         hours: "時間",
         routeTitle: "旅の地図",
-        routeBadgeStrong: "明確なルート",
-        routeBadgeWeak: "緩やかなルート",
-        routeBadgeNone: "場所のみ",
-        routeLeadStrong: "GPSが十分なため、ルートが明確に表示されます。",
-        routeLeadWeak: "GPSが部分的なため、ゆるやかな流れで表示されます。",
-        routeLeadNone: "位置情報がないため、場所のみ表示されます。",
         mapEmpty: "この旅には地図情報がありません。",
         locationFallback: "場所",
         profileLinkLabel: "公開プロフィール",
@@ -90,12 +65,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "照片画廊",
         hours: "小时",
         routeTitle: "行程地图",
-        routeBadgeStrong: "清晰路线",
-        routeBadgeWeak: "柔和路线",
-        routeBadgeNone: "仅地点",
-        routeLeadStrong: "GPS 数据充足，因此路线清晰可见。",
-        routeLeadWeak: "GPS 数据不完整，路线呈现更柔和的脉络。",
-        routeLeadNone: "位置数据不可用，因此仅显示地点。",
         mapEmpty: "此行程没有地图信息。",
         locationFallback: "地点",
         profileLinkLabel: "公开资料",
@@ -109,15 +78,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "Galeria de fotos",
         hours: "h",
         routeTitle: "Mapa del viaje",
-        routeBadgeStrong: "Ruta clara",
-        routeBadgeWeak: "Ruta suave",
-        routeBadgeNone: "Solo lugares",
-        routeLeadStrong:
-            "Hay suficientes puntos GPS para trazar una ruta clara.",
-        routeLeadWeak:
-            "Los puntos GPS son parciales, por eso la ruta se ve mas suave.",
-        routeLeadNone:
-            "No habia datos de ubicacion, por eso solo se muestran lugares.",
         mapEmpty: "No hay datos de mapa para este viaje.",
         locationFallback: "Lugar",
         profileLinkLabel: "Perfil publicado",
@@ -131,15 +91,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "Galeria de fotos",
         hours: "h",
         routeTitle: "Mapa da jornada",
-        routeBadgeStrong: "Rota clara",
-        routeBadgeWeak: "Rota suave",
-        routeBadgeNone: "Somente locais",
-        routeLeadStrong:
-            "Os pontos de GPS sao suficientes para mostrar uma rota clara.",
-        routeLeadWeak:
-            "Os pontos de GPS sao parciais, entao a rota aparece mais suave.",
-        routeLeadNone:
-            "Nao havia dados de localizacao, entao so os locais sao mostrados.",
         mapEmpty: "Nao ha dados de mapa para esta jornada.",
         locationFallback: "Local",
         profileLinkLabel: "Perfil publicado",
@@ -153,15 +104,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "Galerie photo",
         hours: "h",
         routeTitle: "Carte du voyage",
-        routeBadgeStrong: "Itineraire net",
-        routeBadgeWeak: "Itineraire doux",
-        routeBadgeNone: "Lieux uniquement",
-        routeLeadStrong:
-            "Les points GPS sont suffisants pour tracer un itineraire net.",
-        routeLeadWeak:
-            "Les points GPS sont partiels, donc l'itineraire est plus doux.",
-        routeLeadNone:
-            "Les donnees de localisation etaient absentes, seuls les lieux sont affiches.",
         mapEmpty: "Aucune donnee de carte pour ce voyage.",
         locationFallback: "Lieu",
         profileLinkLabel: "Profil public",
@@ -175,12 +117,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "คลังรูป",
         hours: "ชม.",
         routeTitle: "แผนที่ทริป",
-        routeBadgeStrong: "เส้นทางชัดเจน",
-        routeBadgeWeak: "เส้นทางแบบนุ่มนวล",
-        routeBadgeNone: "แสดงเฉพาะสถานที่",
-        routeLeadStrong: "จุด GPS เพียงพอ จึงแสดงเส้นทางได้ชัดเจน",
-        routeLeadWeak: "จุด GPS มีบางช่วง เส้นทางจึงแสดงแบบนุ่มนวล",
-        routeLeadNone: "ไม่มีข้อมูลตำแหน่ง จึงแสดงเฉพาะสถานที่",
         mapEmpty: "ทริปนี้ไม่มีข้อมูลแผนที่",
         locationFallback: "สถานที่",
         profileLinkLabel: "โปรไฟล์สาธารณะ",
@@ -194,12 +130,6 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         gallery: "Bo suu tap anh",
         hours: "h",
         routeTitle: "Ban do hanh trinh",
-        routeBadgeStrong: "Tuyen ro rang",
-        routeBadgeWeak: "Tuyen mem",
-        routeBadgeNone: "Chi dia diem",
-        routeLeadStrong: "Du diem GPS de ve mot tuyen ro rang.",
-        routeLeadWeak: "Diem GPS chi mot phan nen tuyen hien thi mem hon.",
-        routeLeadNone: "Khong co du lieu vi tri nen chi hien thi dia diem.",
         mapEmpty: "Khong co du lieu ban do cho hanh trinh nay.",
         locationFallback: "Dia diem",
         profileLinkLabel: "Ho so cong khai",

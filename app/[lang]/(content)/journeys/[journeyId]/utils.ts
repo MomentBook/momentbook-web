@@ -41,6 +41,18 @@ export function getUniqueLocations(
     return Array.from(locationSet);
 }
 
+export function sortJourneyClustersByTimeline(
+    clusters: PublishedJourneyCluster[],
+): PublishedJourneyCluster[] {
+    return [...clusters].sort((a, b) => {
+        const startTimeDiff = a.time.startAt - b.time.startAt;
+        if (startTimeDiff !== 0) {
+            return startTimeDiff;
+        }
+        return a.clusterId.localeCompare(b.clusterId);
+    });
+}
+
 export function buildImageUrlToPhotoIdMap(
     journey: PublishedJourneyApi,
 ): Map<string, string> {

@@ -12,12 +12,7 @@
   grid-template-columns: auto 1fr;
   gap: var(--spacing-md);
   align-items: center;
-  padding: var(--spacing-md);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background:
-    radial-gradient(circle at 0% 0%, var(--color-accent-soft), transparent 55%),
-    var(--color-bg-canvas);
+  margin-bottom: 0.2rem;
 
   @media (max-width: 767px) {
     grid-template-columns: 1fr;
@@ -26,11 +21,10 @@
 }
 
 .avatarFrame {
-  width: 108px;
-  height: 108px;
-  border: 1px solid var(--color-border);
+  width: 100px;
+  height: 100px;
   border-radius: 999px;
-  background: var(--color-bg-canvas);
+  background: color-mix(in srgb, var(--color-bg-canvas) 94%, transparent);
 }
 
 .profileBody {
@@ -38,11 +32,11 @@
 }
 
 .eyebrow {
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-text-tertiary);
-  margin-bottom: 0.3rem;
+  margin-bottom: var(--spacing-xs);
 }
 
 .name {
@@ -55,7 +49,7 @@
 
 .sharedCount {
   margin-top: 0.4rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text-tertiary);
   font-size: 0.95rem;
 }
 
@@ -81,7 +75,7 @@
 
 .sectionTitle {
   font-size: 1.3rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text-primary);
 }
 

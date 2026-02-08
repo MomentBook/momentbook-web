@@ -43,8 +43,34 @@
   }
 }
 
+.iconOnly {
+  gap: 0;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  justify-content: center;
+  padding: 0.36rem;
+  border-radius: 999px;
+}
+
+.drawer {
+  width: 100%;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  padding: 0.62rem 0.78rem;
+}
+
 .label {
   @media (max-width: 767px) {
     display: none;
+  }
+}
+
+.iconOnly .label {
+  display: none;
+}
+
+.drawerLabel {
+  @media (max-width: 767px) {
+    display: inline;
   }
 }

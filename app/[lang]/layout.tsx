@@ -123,8 +123,10 @@ export default async function LangLayout({
               <Link href={`/${lang}/journeys`} className={styles.journeysLink}>
                 {journeysNavLabel}
               </Link>
-              <LanguageDropdown currentLang={lang} />
-              <ThemeToggle />
+              <div className={styles.desktopPrefs}>
+                <LanguageDropdown currentLang={lang} variant="compact" />
+                <ThemeToggle variant="icon" />
+              </div>
               <HeaderProfileMenu lang={lang} />
               <MobileMenu lang={lang} dict={dict} journeysLabel={journeysNavLabel} />
             </div>

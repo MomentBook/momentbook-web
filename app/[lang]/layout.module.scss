@@ -95,6 +95,16 @@
   }
 }
 
+.desktopPrefs {
+  display: none;
+
+  @media (min-width: 768px) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.34rem;
+  }
+}
+
 .journeysLink {
   display: none;
 
