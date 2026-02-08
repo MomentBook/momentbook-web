@@ -207,14 +207,14 @@
 .screenshotFrame {
   position: relative;
   width: 100%;
-  aspect-ratio: 9 / 16;
+  aspect-ratio: 9 / 19.5;
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--color-bg-light);
 }
 
 .screenshotImage {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .outcomeItem {
