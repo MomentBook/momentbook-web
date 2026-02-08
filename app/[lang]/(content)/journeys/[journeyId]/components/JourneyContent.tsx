@@ -3,13 +3,13 @@ import Link from "next/link";
 import styles from "../journey.module.scss";
 import type { JourneyMode, PublishedJourneyApi } from "@/lib/published-journey";
 import ClientMap from "./ClientMap";
+import { sortJourneyClustersByTimeline } from "../utils";
 
 type JourneyContentProps = {
     journey: PublishedJourneyApi;
     imageMap: Map<string, string>;
     lang: string;
     labels: {
-        places: string;
         gallery: string;
         routeTitle: string;
         routeBadgeStrong: string;
@@ -46,18 +46,7 @@ export default function JourneyContent({
     const leadKey = routeLeadByMode[journey.mode] ?? "routeLeadNone";
     const routeBadge = labels[badgeKey];
     const routeLead = labels[leadKey];
-    const seenLocations = new Set<string>();
-    const locationChips = [...journey.clusters]
-        .sort((a, b) => a.time.startAt - b.time.startAt)
-        .flatMap((cluster) => {
-            const locationName = cluster.locationName?.trim();
-            if (!locationName || seenLocations.has(locationName)) {
-                return [];
-            }
-
-            seenLocations.add(locationName);
-            return [{ locationName, clusterId: cluster.clusterId }];
-        });
+    const orderedClusters = sortJourneyClustersByTimeline(journey.clusters);
     const encodedJourneyId = encodeURIComponent(journey.publicId);
 
     return (
@@ -68,9 +57,9 @@ export default function JourneyContent({
                     <span className={styles.routeBadge}>{routeBadge}</span>
                 </div>
                 <p className={styles.sectionLead}>{routeLead}</p>
-                {journey.clusters.length > 0 ? (
+                {orderedClusters.length > 0 ? (
     <ClientMap
-      clusters={journey.clusters}
+      clusters={orderedClusters}
       mode={journey.mode}
       locationFallback={labels.locationFallback}
       photoLabel={labels.photoCount}
@@ -82,27 +71,11 @@ export default function JourneyContent({
                 )}
             </section>
 
-            {locationChips.length > 0 && (
-                <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>{labels.places}</h2>
-                    <div className={styles.tagGrid}>
-                        {locationChips.map((location) => (
-                            <Link
-                                key={location.locationName}
-                                href={`/${lang}/journeys/${encodedJourneyId}/moments/${encodeURIComponent(location.clusterId)}`}
-                                className={`${styles.tag} ${styles.tagLink}`}
-                            >
-                                {location.locationName}
-                            </Link>
-                        ))}
-                    </div>
-                </section>
-            )}
-
             <section className={styles.section}>
                 <h2 className={styles.sectionTitle}>{labels.gallery}</h2>
 
-                {journey.clusters.map((cluster) => {
+                {orderedClusters.map((cluster, index) => {
+                    const encodedClusterId = encodeURIComponent(cluster.clusterId);
                     const clusterPhotos = cluster.photoIds
                         .map((photoId) => {
                             return {
@@ -120,11 +93,19 @@ export default function JourneyContent({
                             id={cluster.clusterId}
                             className={styles.clusterSection}
                         >
-                            {cluster.locationName && (
+                            <div className={styles.clusterHeader}>
+                                <span className={styles.clusterIndex}>
+                                    {index + 1}
+                                </span>
                                 <h3 className={styles.clusterTitle}>
-                                    {cluster.locationName}
+                                    <Link
+                                        href={`/${lang}/journeys/${encodedJourneyId}/moments/${encodedClusterId}`}
+                                        className={styles.clusterTitleLink}
+                                    >
+                                        {cluster.locationName || labels.locationFallback}
+                                    </Link>
                                 </h3>
-                            )}
+                            </div>
 
                             <div className={styles.photoGrid}>
                                 {clusterPhotos.map((photo) => (
