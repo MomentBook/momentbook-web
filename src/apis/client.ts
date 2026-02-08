@@ -1094,7 +1094,12 @@ export interface PublishedJourneyItemDto {
   endedAt?: number;
   /** Recap stage */
   recapStage: string;
-  /** Number of images */
+  /** Number of published photos */
+  photoCount: number;
+  /**
+   * Number of images (deprecated, use photoCount)
+   * @deprecated
+   */
   imageCount: number;
   /** First image URL for preview */
   thumbnailUrl?: string;
@@ -1693,41 +1698,12 @@ export interface UpdateNotificationSettingsDto {
   notificationEnabled: boolean;
 }
 
-export interface HidePublishResponseDto {
-  /** @example "success" */
-  status: string;
-  /** @example "Published journey has been hidden" */
-  message: string;
-}
-
-export interface UnhidePublishResponseDto {
-  /** @example "success" */
-  status: string;
-  /** @example "Published journey has been unhidden" */
-  message: string;
-}
-
-export interface BanUserDto {
-  /**
-   * Reason for banning the user
-   * @example "Violation of community guidelines"
-   */
-  reason?: string;
-}
-
-export interface BanUserResponseDto {
-  /** @example "success" */
-  status: string;
-  /** @example "User has been banned" */
-  message: string;
-}
-
 export interface CreateReportDto {
   /**
    * 신고 대상 타입
-   * @example "thought"
+   * @example "published_journey"
    */
-  targetType: "thought" | "comment" | "user" | "published_journey";
+  targetType: "user" | "published_journey";
   /**
    * 신고 대상 ID
    * @example "680657032be53a7892fe5abc"
@@ -1753,9 +1729,9 @@ export interface ReportDataDto {
   _id: string;
   /**
    * 신고 대상 타입
-   * @example "thought"
+   * @example "published_journey"
    */
-  targetType: "thought" | "comment" | "user" | "published_journey";
+  targetType: "user" | "published_journey";
   /**
    * 신고 대상 ID
    * @example "680657032be53a7892fe5def"
@@ -1796,9 +1772,9 @@ export interface CreateReportResponseDto {
 export interface TargetReportCountDataDto {
   /**
    * 신고 대상 타입
-   * @example "thought"
+   * @example "published_journey"
    */
-  targetType: "thought" | "comment" | "user" | "published_journey";
+  targetType: "user" | "published_journey";
   /**
    * 신고 대상 ID
    * @example "680657032be53a7892fe5abc"
@@ -1834,9 +1810,9 @@ export interface ReportDetailDataDto {
   reporterId: string;
   /**
    * 신고 대상 타입
-   * @example "thought"
+   * @example "published_journey"
    */
-  targetType: "thought" | "comment" | "user" | "published_journey";
+  targetType: "user" | "published_journey";
   /**
    * 신고 대상 ID
    * @example "680657032be53a7892fe5def"
@@ -2157,6 +2133,11 @@ export interface JourneyRecapDraftResponseDto {
 }
 
 export interface PresignUploadRequestDto {
+  /**
+   * Journey ID to associate the upload with (client-generated UUID)
+   * @example "36a2d200-74d1-43ed-9265-8626b0eb2881"
+   */
+  journeyId: string;
   /**
    * Content type of the file
    * @example "image/jpeg"
@@ -2479,7 +2460,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.0.3
+ * @version 2.0.4
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3539,72 +3520,6 @@ export class Api<
       }),
 
     /**
-     * @description Sets the visibility of a published journey to hidden, removing it from public view and SEO
-     *
-     * @tags moderation
-     * @name ModerationControllerHidePublish
-     * @summary Hide a published journey (Admin)
-     * @request POST:/v2/admin/moderation/publishes/{publicId}/hide
-     * @secure
-     */
-    moderationControllerHidePublish: (
-      publicId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<HidePublishResponseDto, void>({
-        path: `/v2/admin/moderation/publishes/${publicId}/hide`,
-        method: "POST",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Sets the visibility of a published journey to public, making it visible and SEO-indexed
-     *
-     * @tags moderation
-     * @name ModerationControllerUnhidePublish
-     * @summary Unhide a published journey (Admin)
-     * @request POST:/v2/admin/moderation/publishes/{publicId}/unhide
-     * @secure
-     */
-    moderationControllerUnhidePublish: (
-      publicId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<UnhidePublishResponseDto, void>({
-        path: `/v2/admin/moderation/publishes/${publicId}/unhide`,
-        method: "POST",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Bans a user and immediately invalidates all their tokens, preventing further access
-     *
-     * @tags moderation
-     * @name ModerationControllerBanUser
-     * @summary Ban a user (Admin)
-     * @request POST:/v2/admin/moderation/users/{userId}/ban
-     * @secure
-     */
-    moderationControllerBanUser: (
-      userId: string,
-      data: BanUserDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<BanUserResponseDto, void>({
-        path: `/v2/admin/moderation/users/${userId}/ban`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description 콘텐츠 또는 사용자를 신고합니다
      *
      * @tags reports
@@ -3628,27 +3543,29 @@ export class Api<
       }),
 
     /**
-     * @description 특정 대상에 대한 신고 개수를 조회합니다
+     * @description 특정 대상에 대한 신고 개수를 조회합니다 (인증 필요)
      *
      * @tags reports
      * @name ReportsControllerGetTargetReportCount
      * @summary 특정 대상의 신고 개수 조회
      * @request GET:/v2/reports/target/{targetType}/{targetId}/count
+     * @secure
      */
     reportsControllerGetTargetReportCount: (
-      targetType: "thought" | "comment" | "user" | "published_journey",
+      targetType: "user" | "published_journey",
       targetId: string,
       params: RequestParams = {},
     ) =>
       this.request<GetTargetReportCountResponseDto, void>({
         path: `/v2/reports/target/${targetType}/${targetId}/count`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
 
     /**
-     * @description 모든 신고 목록을 조회합니다
+     * No description
      *
      * @tags reports
      * @name AdminReportsControllerGetReports
@@ -3668,10 +3585,10 @@ export class Api<
          * @example 20
          */
         limit?: number;
-        /** 신고 상태 필터 */
+        /** 신고 처리 상태 필터 */
         status?: "pending" | "reviewed" | "resolved" | "rejected";
         /** 신고 대상 타입 필터 */
-        targetType?: "thought" | "comment" | "user" | "published_journey";
+        targetType?: "user" | "published_journey";
         /** 신고 사유 필터 */
         reason?:
           | "spam"
@@ -3683,7 +3600,7 @@ export class Api<
       },
       params: RequestParams = {},
     ) =>
-      this.request<GetReportsResponseDto, void>({
+      this.request<GetReportsResponseDto, any>({
         path: `/v2/admin/reports`,
         method: "GET",
         query: query,
@@ -3693,7 +3610,7 @@ export class Api<
       }),
 
     /**
-     * @description 신고 통계 정보를 조회합니다
+     * No description
      *
      * @tags reports
      * @name AdminReportsControllerGetReportStats
@@ -3702,7 +3619,7 @@ export class Api<
      * @secure
      */
     adminReportsControllerGetReportStats: (params: RequestParams = {}) =>
-      this.request<GetReportStatsResponseDto, void>({
+      this.request<GetReportStatsResponseDto, any>({
         path: `/v2/admin/reports/stats`,
         method: "GET",
         secure: true,
@@ -3711,7 +3628,7 @@ export class Api<
       }),
 
     /**
-     * @description 특정 신고의 상세 정보를 조회합니다
+     * No description
      *
      * @tags reports
      * @name AdminReportsControllerGetReport
@@ -3732,7 +3649,7 @@ export class Api<
       }),
 
     /**
-     * @description 신고의 상태나 관리자 메모를 업데이트합니다
+     * No description
      *
      * @tags reports
      * @name AdminReportsControllerUpdateReport
@@ -3756,7 +3673,7 @@ export class Api<
       }),
 
     /**
-     * @description 신고를 삭제합니다
+     * No description
      *
      * @tags reports
      * @name AdminReportsControllerDeleteReport
