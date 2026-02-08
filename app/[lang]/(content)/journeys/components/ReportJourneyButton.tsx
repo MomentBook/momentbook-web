@@ -24,7 +24,7 @@ type ReportJourneyButtonProps = {
   publicId: string;
   lang: Language;
   ownerUserId?: string | null;
-  variant?: "detail" | "card";
+  variant?: "detail" | "card" | "quiet";
   wrapperClassName?: string;
   triggerClassName?: string;
   feedbackClassName?: string;
@@ -481,7 +481,11 @@ function ReportJourneyButtonInner({
           onClick={verifyAndOpen}
           className={[
             styles.trigger,
-            variant === "card" ? styles.triggerCard : styles.triggerDetail,
+            variant === "card"
+              ? styles.triggerCard
+              : variant === "quiet"
+                ? styles.triggerQuiet
+                : styles.triggerDetail,
             triggerClassName,
           ]
             .filter(Boolean)
@@ -624,7 +628,11 @@ export default function ReportJourneyButton(props: ReportJourneyButtonProps) {
             type="button"
             className={[
               styles.trigger,
-              props.variant === "card" ? styles.triggerCard : styles.triggerDetail,
+              props.variant === "card"
+                ? styles.triggerCard
+                : props.variant === "quiet"
+                  ? styles.triggerQuiet
+                  : styles.triggerDetail,
               props.triggerClassName,
             ]
               .filter(Boolean)

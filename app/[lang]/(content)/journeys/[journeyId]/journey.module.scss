@@ -29,16 +29,6 @@
 }
 
 .heroAside {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-canvas);
-
   @media (min-width: 900px) {
     align-self: start;
   }
@@ -99,31 +89,12 @@
   color: var(--color-text-tertiary);
 }
 
-.reportActionWrap {
-  width: auto;
-  align-items: flex-end;
+.pageFooter {
+  display: flex;
   justify-content: center;
-  gap: 0.3rem;
-}
-
-.reportActionTrigger {
-  width: auto;
-  justify-content: center;
-  border-radius: var(--radius-md);
-  padding: 0.56rem 0.78rem;
-  font-size: 0.86rem;
-  background: var(--color-bg-light);
-  color: var(--color-text-secondary);
-  border-color: var(--color-border);
-  white-space: nowrap;
-}
-
-.reportActionFeedback {
-  max-width: 100%;
-  text-align: right;
-  align-self: flex-start;
-  font-size: 0.77rem;
-  line-height: 1.35;
+  padding: var(--spacing-lg) 0 var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--spacing-xl);
 }
 
 .metaRow {
