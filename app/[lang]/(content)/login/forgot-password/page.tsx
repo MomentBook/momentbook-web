@@ -2,7 +2,7 @@
 
 import { Suspense, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import styles from "../auth.module.scss";
 import {
   getApiErrorMessage,
@@ -210,6 +210,7 @@ const labelsMap: Partial<Record<Language, ResetLabels>> & {
 
 function ForgotPasswordContent() {
   const params = useParams<{ lang: string }>();
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   const resolvedLang = (params?.lang as Language) ?? "en";
@@ -305,10 +306,7 @@ function ForgotPasswordContent() {
         return;
       }
 
-      setNoticeMessage(labels.resetSuccessNotice);
-      setCode("");
-      setNewPassword("");
-      setConfirmPassword("");
+      router.replace(loginHref);
     } catch {
       setErrorMessage(labels.resetFailed);
     } finally {
