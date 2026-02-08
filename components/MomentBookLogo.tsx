@@ -13,7 +13,7 @@ export function MomentBookLogo({
     <span className={className}>
       <img
         className={iconClassName}
-        src="/logo.svg"
+        src="/images/logos/momentbook-logo-only-transparent.png"
         alt=""
         aria-hidden="true"
       />
