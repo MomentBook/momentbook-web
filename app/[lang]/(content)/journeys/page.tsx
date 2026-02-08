@@ -527,7 +527,6 @@ export default async function JourneysPage({
                                     { label: labels.photosLabel, value: card.imageCount },
                                     { label: labels.periodLabel, value: card.periodLabel },
                                 ]}
-                                authorHref={`/${lang}/users/${card.userId}`}
                                 authorText={`${labels.byLabel} ${card.authorName}`}
                             />
                         ))}

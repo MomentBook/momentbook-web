@@ -535,7 +535,6 @@ export default async function UserPage({
                       { label: labels.photos, value: photoCount },
                       { label: labels.period, value: periodText },
                     ]}
-                    authorHref={`/${lang}/users/${user.userId}`}
                     authorText={`${labels.byLabel} ${user.name}`}
                   />
                 );

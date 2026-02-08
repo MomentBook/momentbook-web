@@ -14,7 +14,6 @@ type JourneyPreviewCardProps = {
   coverUrl?: string | null;
   topMeta?: string | null;
   metaItems: JourneyMetaItem[];
-  authorHref?: string;
   authorText?: string;
 };
 
@@ -36,7 +35,6 @@ export function JourneyPreviewCard({
   coverUrl,
   topMeta,
   metaItems,
-  authorHref,
   authorText,
 }: JourneyPreviewCardProps) {
   const safeDescription = readText(description);
@@ -46,26 +44,24 @@ export function JourneyPreviewCard({
 
   return (
     <article className={styles.card}>
-      <Link href={href} className={styles.coverLink}>
-        <div className={styles.cover}>
-          <Image
-            src={safeCover ?? fallbackCover}
-            alt={safeCover ? title : ""}
-            aria-hidden={safeCover ? undefined : true}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className={styles.coverImage}
-          />
-        </div>
-      </Link>
+      <Link href={href} className={styles.cardLink} aria-label={title} />
+
+      <div className={styles.cover}>
+        <Image
+          src={safeCover ?? fallbackCover}
+          alt={safeCover ? title : ""}
+          aria-hidden={safeCover ? undefined : true}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className={styles.coverImage}
+        />
+      </div>
 
       <div className={styles.body}>
         <div className={styles.mainSection}>
           {safeTopMeta ? <p className={styles.topMeta}>{safeTopMeta}</p> : null}
 
-          <Link href={href} className={styles.titleLink}>
-            <h3 className={styles.title}>{title}</h3>
-          </Link>
+          <h3 className={styles.title}>{title}</h3>
 
           {safeDescription ? <p className={styles.description}>{safeDescription}</p> : null}
         </div>
@@ -79,10 +75,10 @@ export function JourneyPreviewCard({
             ))}
           </div>
 
-          {authorHref && safeAuthor ? (
-            <Link href={authorHref} className={styles.authorLink}>
+          {safeAuthor ? (
+            <span className={styles.authorLink}>
               {safeAuthor}
-            </Link>
+            </span>
           ) : null}
         </div>
       </div>
