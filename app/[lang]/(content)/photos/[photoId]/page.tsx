@@ -249,8 +249,9 @@ export async function generateMetadata({
     const { title, description } = buildSeoText(copy, photo);
     const path = `/photos/${photo.photoId}`;
     const url = buildOpenGraphUrl(lang, path);
-    const publishedTime = hasValidTimestamp(photo.takenAt)
-            ? new Date(photo.takenAt).toISOString()
+    const takenAt = hasValidTimestamp(photo.takenAt) ? photo.takenAt : null;
+    const publishedTime = takenAt !== null
+            ? new Date(takenAt).toISOString()
             : undefined;
 
     return {
@@ -295,8 +296,10 @@ export default async function PhotoPage({
     }
 
     const copy = photoCopy[lang] ?? photoCopy.en;
-    const hasTakenAt = hasValidTimestamp(photo.takenAt);
-    const hasCoordinates = hasValidCoordinates(photo.location);
+    const takenAt = hasValidTimestamp(photo.takenAt) ? photo.takenAt : null;
+    const hasTakenAt = takenAt !== null;
+    const location = hasValidCoordinates(photo.location) ? photo.location : null;
+    const hasCoordinates = location !== null;
     const journeyTitle =
         readText(photo.journey.title) ?? copy.journeyFallback;
     const caption = readText(photo.caption);
@@ -312,7 +315,7 @@ export default async function PhotoPage({
     ).toString();
 
     const datePublished = hasTakenAt
-            ? new Date(photo.takenAt).toISOString()
+            ? new Date(takenAt).toISOString()
             : undefined;
 
     const jsonLd = {
@@ -424,7 +427,7 @@ export default async function PhotoPage({
                         <div className={styles.detailItem}>
                             <dt className={styles.detailLabel}>{copy.coordinates}</dt>
                             <dd className={styles.detailValue}>
-                                {formatCoordinates(photo.location.lat, photo.location.lng)}
+                                {formatCoordinates(location.lat, location.lng)}
                             </dd>
                         </div>
                     )}
