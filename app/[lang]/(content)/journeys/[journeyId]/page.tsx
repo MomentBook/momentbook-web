@@ -75,9 +75,13 @@ export async function generateMetadata({
 
     if (result.status === "hidden") {
         const hiddenNotice = hiddenNoticeByLanguage[lang] ?? hiddenNoticeByLanguage.en;
+        const hiddenMessage =
+            result.data?.notice?.trim() ||
+            result.message ||
+            hiddenNotice.message;
         return {
             title: hiddenNotice.title,
-            description: hiddenNotice.message,
+            description: hiddenMessage,
             alternates: buildAlternates(lang, `/journeys/${journeyId}`),
         };
     }
@@ -136,11 +140,16 @@ export default async function JourneyPage({
     const hiddenNotice = hiddenNoticeByLanguage[lang] ?? hiddenNoticeByLanguage.en;
 
     if (result.status === "hidden") {
+        const hiddenMessage =
+            result.data?.notice?.trim() ||
+            result.message ||
+            hiddenNotice.message;
+
         return (
             <div className={styles.page}>
                 <section className={styles.hiddenNotice}>
                     <h1 className={styles.hiddenNoticeTitle}>{hiddenNotice.title}</h1>
-                    <p className={styles.hiddenNoticeMessage}>{hiddenNotice.message}</p>
+                    <p className={styles.hiddenNoticeMessage}>{hiddenMessage}</p>
                 </section>
             </div>
         );

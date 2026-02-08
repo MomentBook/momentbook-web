@@ -1,4 +1,5 @@
 export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
+export type PublishedJourneyContentStatus = "available" | "reported_hidden";
 
 export type PublishedJourneyImage = {
     url: string;
@@ -34,6 +35,8 @@ export type PublishedJourneyApi = {
     clusters: PublishedJourneyCluster[];
     publishedAt: string;
     createdAt: string;
+    contentStatus?: PublishedJourneyContentStatus;
+    notice?: string;
 };
 
 export type PublishedJourneyListItemApi = {
@@ -135,6 +138,16 @@ function isHiddenJourneyMessage(message: string | null | undefined): boolean {
     );
 }
 
+function normalizeContentStatus(
+    value: unknown,
+): PublishedJourneyContentStatus | undefined {
+    if (value === "available" || value === "reported_hidden") {
+        return value;
+    }
+
+    return undefined;
+}
+
 function isPublishedJourneyResponse(
     payload: unknown,
 ): payload is PublishedJourneyResponse {
@@ -172,6 +185,22 @@ export async function fetchPublishedJourneyResult(
 
             if (payload.status !== "success" || !payload.data) {
                 return { status: "error", data: null, message };
+            }
+
+            const data = payload.data;
+            const contentStatus = normalizeContentStatus(data.contentStatus);
+            const notice = readMessage(data.notice) ?? message;
+
+            if (contentStatus === "reported_hidden") {
+                return {
+                    status: "hidden",
+                    data: {
+                        ...data,
+                        contentStatus,
+                        notice: notice ?? data.notice,
+                    },
+                    message: notice,
+                };
             }
 
             return { status: "success", data: payload.data, message };
