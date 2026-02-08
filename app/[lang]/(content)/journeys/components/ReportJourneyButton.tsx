@@ -10,6 +10,7 @@ import {
   type FormEvent,
 } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import styles from "./ReportJourneyButton.module.scss";
 import { api } from "@/src/apis/instance.client";
 import type { CreateReportDto } from "@/src/apis/client";
@@ -22,6 +23,7 @@ type AuthStatus = "unknown" | "member" | "guest" | "unauthenticated";
 type ReportJourneyButtonProps = {
   publicId: string;
   lang: Language;
+  ownerUserId?: string | null;
   variant?: "detail" | "card";
   wrapperClassName?: string;
   triggerClassName?: string;
@@ -43,6 +45,7 @@ type ReportLabels = {
   success: string;
   duplicate: string;
   forbidden: string;
+  ownPost: string;
   badRequest: string;
   notFound: string;
   unknownError: string;
@@ -69,6 +72,7 @@ const reportLabels: Partial<Record<Language, ReportLabels>> & {
     duplicate: "You have already reported this post.",
     forbidden:
       "You do not have permission to report or exceeded daily report limit.",
+    ownPost: "You cannot report your own post.",
     badRequest: "Invalid input. Please review the report reason.",
     notFound: "Post not found.",
     unknownError: "Failed to submit report. Please try again.",
@@ -97,6 +101,7 @@ const reportLabels: Partial<Record<Language, ReportLabels>> & {
     success: "신고가 접수되었습니다",
     duplicate: "이미 신고한 게시글입니다",
     forbidden: "신고 권한이 없거나 일일 신고 횟수를 초과했습니다",
+    ownPost: "자신의 게시글은 신고할 수 없습니다",
     badRequest: "입력값이 올바르지 않습니다. 다시 확인해 주세요.",
     notFound: "게시글을 찾을 수 없습니다",
     unknownError: "신고 접수에 실패했습니다. 잠시 후 다시 시도해 주세요.",
@@ -132,6 +137,42 @@ function getStatusCode(error: unknown): number | null {
   return typeof maybeStatus === "number" ? maybeStatus : null;
 }
 
+function getErrorMessage(error: unknown): string | null {
+  if (!error || typeof error !== "object") {
+    return null;
+  }
+
+  const messageFromRoot = (error as { message?: unknown }).message;
+  if (typeof messageFromRoot === "string") {
+    return messageFromRoot;
+  }
+
+  const messageFromError = (
+    error as { error?: { message?: unknown } }
+  ).error?.message;
+  if (typeof messageFromError === "string") {
+    return messageFromError;
+  }
+  if (Array.isArray(messageFromError) && typeof messageFromError[0] === "string") {
+    return messageFromError[0];
+  }
+
+  return null;
+}
+
+function isOwnPostError(message: string | null): boolean {
+  if (!message) {
+    return false;
+  }
+
+  const normalized = message.toLowerCase();
+  return (
+    message.includes("자신의 게시글") ||
+    normalized.includes("cannot report your own") ||
+    normalized.includes("own post")
+  );
+}
+
 function getFocusableElements(root: HTMLElement): HTMLElement[] {
   const selectors = [
     "button:not([disabled])",
@@ -150,11 +191,13 @@ function getFocusableElements(root: HTMLElement): HTMLElement[] {
 function ReportJourneyButtonInner({
   publicId,
   lang,
+  ownerUserId,
   variant = "detail",
   wrapperClassName,
   triggerClassName,
   feedbackClassName,
 }: ReportJourneyButtonProps) {
+  const { data: session } = useSession();
   const labels = useMemo(() => reportLabels[lang] ?? reportLabels.en, [lang]);
   const router = useRouter();
   const pathname = usePathname();
@@ -169,12 +212,26 @@ function ReportJourneyButtonInner({
   const [isCheckingAuth, setIsCheckingAuth] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authStatus, setAuthStatus] = useState<AuthStatus>("unknown");
+  const [viewerUserId, setViewerUserId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{
     type: FeedbackType;
     message: string;
   } | null>(null);
 
   const isBusy = isCheckingAuth || isSubmitting;
+  const sessionUserId = session?.user?.id ?? null;
+
+  const isOwnPostById = useCallback(
+    (candidateUserId?: string | null) => {
+      if (!ownerUserId || !candidateUserId) {
+        return false;
+      }
+      return ownerUserId === candidateUserId;
+    },
+    [ownerUserId],
+  );
+
+  const hideTrigger = isOwnPostById(sessionUserId) || isOwnPostById(viewerUserId);
 
   const buildReturnUrl = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -204,28 +261,34 @@ function ReportJourneyButtonInner({
     setIsOpen(false);
   }, [isSubmitting]);
 
-  const resolveAuthStatus = useCallback(async (): Promise<AuthStatus> => {
+  const resolveAuthStatus = useCallback(
+    async (): Promise<{ status: AuthStatus; userId: string | null }> => {
     if (authStatus !== "unknown") {
-      return authStatus;
+      return { status: authStatus, userId: viewerUserId };
     }
 
     try {
       const profileResponse = await api.v2.usersControllerGetMyProfile();
       const user = profileResponse.data?.data;
+      const userId = typeof user?._id === "string" ? user._id : null;
       const isGuest = user?.isGuest === true || user?.provider === "anonymous";
       const resolved = isGuest ? "guest" : "member";
+      setViewerUserId(userId);
       setAuthStatus(resolved);
-      return resolved;
+      return { status: resolved, userId };
     } catch (error) {
       const statusCode = getStatusCode(error);
       if (statusCode === 401 || statusCode === 403) {
+        setViewerUserId(null);
         setAuthStatus("unauthenticated");
-        return "unauthenticated";
+        return { status: "unauthenticated", userId: null };
       }
 
       throw error;
     }
-  }, [authStatus]);
+    },
+    [authStatus, viewerUserId],
+  );
 
   const verifyAndOpen = useCallback(async () => {
     if (isBusy) {
@@ -235,7 +298,12 @@ function ReportJourneyButtonInner({
     setFeedback(null);
     setIsCheckingAuth(true);
     try {
-      const status = await resolveAuthStatus();
+      const { status, userId } = await resolveAuthStatus();
+      const resolvedViewerId = userId ?? sessionUserId;
+      if (status === "member" && isOwnPostById(resolvedViewerId)) {
+        setFeedback({ type: "error", message: labels.ownPost });
+        return;
+      }
       if (status === "member") {
         setIsOpen(true);
         return;
@@ -246,7 +314,15 @@ function ReportJourneyButtonInner({
     } finally {
       setIsCheckingAuth(false);
     }
-  }, [goToLogin, isBusy, labels.unknownError, resolveAuthStatus]);
+  }, [
+    goToLogin,
+    isBusy,
+    isOwnPostById,
+    labels.ownPost,
+    labels.unknownError,
+    resolveAuthStatus,
+    sessionUserId,
+  ]);
 
   useEffect(() => {
     const shouldOpenFromIntent =
@@ -262,8 +338,13 @@ function ReportJourneyButtonInner({
     const openFromIntent = async () => {
       setIsCheckingAuth(true);
       try {
-        const status = await resolveAuthStatus();
+        const { status, userId } = await resolveAuthStatus();
         if (status === "member") {
+          if (isOwnPostById(userId ?? sessionUserId)) {
+            setFeedback({ type: "error", message: labels.ownPost });
+            clearIntentQuery();
+            return;
+          }
           setIsOpen(true);
           clearIntentQuery();
         }
@@ -277,10 +358,13 @@ function ReportJourneyButtonInner({
     void openFromIntent();
   }, [
     clearIntentQuery,
+    isOwnPostById,
     labels.unknownError,
+    labels.ownPost,
     publicId,
     resolveAuthStatus,
     searchParams,
+    sessionUserId,
   ]);
 
   useEffect(() => {
@@ -373,7 +457,12 @@ function ReportJourneyButtonInner({
       } else if (statusCode === 403) {
         setFeedback({ type: "error", message: labels.forbidden });
       } else if (statusCode === 400) {
-        setFeedback({ type: "error", message: labels.badRequest });
+        const errorMessage = getErrorMessage(error);
+        if (isOwnPostError(errorMessage)) {
+          setFeedback({ type: "error", message: labels.ownPost });
+        } else {
+          setFeedback({ type: "error", message: labels.badRequest });
+        }
       } else if (statusCode === 404) {
         setFeedback({ type: "error", message: labels.notFound });
       } else {
@@ -386,21 +475,23 @@ function ReportJourneyButtonInner({
 
   return (
     <div className={[styles.wrapper, wrapperClassName].filter(Boolean).join(" ")}>
-      <button
-        type="button"
-        onClick={verifyAndOpen}
-        className={[
-          styles.trigger,
-          variant === "card" ? styles.triggerCard : styles.triggerDetail,
-          triggerClassName,
-        ]
-          .filter(Boolean)
-          .join(" ")}
-        disabled={isBusy}
-        aria-label={labels.reportButton}
-      >
-        {labels.reportButton}
-      </button>
+      {!hideTrigger && (
+        <button
+          type="button"
+          onClick={verifyAndOpen}
+          className={[
+            styles.trigger,
+            variant === "card" ? styles.triggerCard : styles.triggerDetail,
+            triggerClassName,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          disabled={isBusy}
+          aria-label={labels.reportButton}
+        >
+          {labels.reportButton}
+        </button>
+      )}
 
       {isCheckingAuth && (
         <p

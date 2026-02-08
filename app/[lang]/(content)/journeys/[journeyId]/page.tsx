@@ -495,6 +495,7 @@ export default async function JourneyPage({
                         <ReportJourneyButton
                             publicId={journey.publicId}
                             lang={lang}
+                            ownerUserId={journey.userId}
                             variant="detail"
                             wrapperClassName={styles.reportActionWrap}
                             triggerClassName={styles.reportActionTrigger}
