@@ -20,7 +20,7 @@ import { formatJourneyPeriodRange, readTimestamp, resolveJourneyPeriodRange } fr
 
 export const revalidate = 60;
 
-const JOURNEYS_PER_PAGE = 12;
+const JOURNEYS_PER_PAGE = 16;
 
 type JourneyPageLabels = {
     title: string;

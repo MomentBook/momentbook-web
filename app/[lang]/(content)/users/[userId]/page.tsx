@@ -32,7 +32,7 @@ type UserPageLabels = {
   emptyJourneys: string;
 };
 
-const JOURNEYS_PER_PAGE = 12;
+const JOURNEYS_PER_PAGE = 16;
 
 const userLabels: Partial<Record<Language, UserPageLabels>> & {
   en: UserPageLabels;
