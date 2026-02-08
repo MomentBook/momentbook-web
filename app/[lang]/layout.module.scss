@@ -82,7 +82,7 @@
   height: 1.85rem;
   width: auto;
   display: block;
-  transform: translateY(1px);
+  align-self: center;
 
   @media (min-width: 768px) {
     height: 2.2rem;

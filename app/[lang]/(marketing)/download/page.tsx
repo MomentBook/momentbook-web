@@ -69,7 +69,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "Registra con tracking o ordena solo con fotos en iOS y Android.",
       title: "Descargar MomentBook",
       subtitle: "Dos formas tranquilas de empezar. Disponible para iPhone y Android.",
-      deviceImage: "/screenshots/organize-photos.png",
+      deviceImage: "/screenshots/journey-timeline.png",
       deviceAlt: "Pantalla de organizacion de fotos",
       availability: "Disponible en App Store y Google Play.",
       storeLabels: {
@@ -119,7 +119,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "Registre com tracking ou organize so com fotos no iOS e Android.",
       title: "Baixar MomentBook",
       subtitle: "Duas formas tranquilas de comecar. Disponivel para iPhone e Android.",
-      deviceImage: "/screenshots/organize-photos.png",
+      deviceImage: "/screenshots/journey-timeline.png",
       deviceAlt: "Tela de organizacao de fotos",
       availability: "Disponivel na App Store e no Google Play.",
       storeLabels: {
@@ -169,7 +169,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "Enregistrez avec tracking ou organisez seulement avec des photos sur iOS et Android.",
       title: "Telecharger MomentBook",
       subtitle: "Deux facons calmes de commencer. Disponible sur iPhone et Android.",
-      deviceImage: "/screenshots/organize-photos.png",
+      deviceImage: "/screenshots/journey-timeline.png",
       deviceAlt: "Ecran d'organisation de photos",
       availability: "Disponible sur App Store et Google Play.",
       storeLabels: {
@@ -219,7 +219,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "บันทึกด้วยการติดตามหรือจัดด้วยรูปเท่านั้นบน iOS และ Android",
       title: "ดาวน์โหลด MomentBook",
       subtitle: "สองวิธีเริ่มต้นอย่างสงบ ใช้ได้บน iPhone และ Android",
-      deviceImage: "/screenshots/organize-photos.png",
+      deviceImage: "/screenshots/journey-timeline.png",
       deviceAlt: "หน้าจอจัดรูป",
       availability: "ดาวน์โหลดได้จาก App Store และ Google Play",
       storeLabels: {
@@ -269,7 +269,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "Ghi lai bang tracking hoac sap xep chi voi anh tren iOS va Android.",
       title: "Tai MomentBook",
       subtitle: "Hai cach bat dau nhe nhang. Co tren iPhone va Android.",
-      deviceImage: "/screenshots/organize-photos.png",
+      deviceImage: "/screenshots/journey-timeline.png",
       deviceAlt: "Man hinh sap xep anh",
       availability: "Co tren App Store va Google Play.",
       storeLabels: {
@@ -319,7 +319,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "iOS와 Android에서 트래킹으로 기록하거나 사진만으로 정리하세요.",
       title: "MomentBook 다운로드",
       subtitle: "두 가지 시작으로 여정을 남기는 조용한 공간. iPhone과 Android에서 사용할 수 있습니다.",
-      deviceImage: "/screenshots/organize-photos.png",
+      deviceImage: "/screenshots/journey-timeline.png",
       deviceAlt: "사진을 정리하는 화면",
       availability: "App Store와 Google Play에서 받을 수 있습니다.",
       storeLabels: {
@@ -369,7 +369,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "iOS と Android でトラッキング記録または写真だけで整理できます。",
       title: "MomentBook をダウンロード",
       subtitle: "二つの始め方で旅を残す静かな場所。iPhone と Android に対応。",
-      deviceImage: "/screenshots/organize-photos.png",
+      deviceImage: "/screenshots/journey-timeline.png",
       deviceAlt: "写真を整理する画面",
       availability: "App Store と Google Play で入手できます。",
       storeLabels: {
@@ -419,7 +419,7 @@ function getDownloadContent(lang: Language): DownloadContent {
       metaDescription: "在 iOS 与 Android 上可用追踪记录或只用照片整理。",
       title: "下载 MomentBook",
       subtitle: "两种开始方式的安静空间。支持 iPhone 与 Android。",
-      deviceImage: "/screenshots/organize-photos.png",
+      deviceImage: "/screenshots/journey-timeline.png",
       deviceAlt: "整理照片的界面",
       availability: "可在 App Store 与 Google Play 安装。",
       storeLabels: {
@@ -468,7 +468,7 @@ function getDownloadContent(lang: Language): DownloadContent {
     metaDescription: "Track a journey or organize with photos only on iOS and Android.",
     title: "Download MomentBook",
     subtitle: "Two calm ways to begin. Available for iPhone and Android.",
-    deviceImage: "/screenshots/organize-photos.png",
+    deviceImage: "/screenshots/journey-timeline.png",
     deviceAlt: "Organizing photos screen on MomentBook",
     availability: "Available on the App Store and Google Play.",
     storeLabels: {
