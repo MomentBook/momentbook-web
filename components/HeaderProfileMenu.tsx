@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import type { Language } from "@/lib/i18n/config";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
@@ -93,6 +93,7 @@ function readText(value: unknown): string | null {
 
 export function HeaderProfileMenu({ lang }: { lang: Language }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -190,10 +191,20 @@ export function HeaderProfileMenu({ lang }: { lang: Language }) {
     setIsSigningOut(true);
     try {
       setIsOpen(false);
-      await signOut({ callbackUrl: `/${lang}` });
+      const result = await signOut({
+        redirect: false,
+        callbackUrl: pathname || `/${lang}`,
+      });
+
+      // Ensure server-rendered sections reflect the logged-out state immediately.
+      router.refresh();
+      router.push(result.url || `/${lang}`);
     } catch {
       setIsSigningOut(false);
+      return;
     }
+
+    setIsSigningOut(false);
   };
 
   if (status === "loading") {
