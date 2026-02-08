@@ -153,22 +153,25 @@ export default async function JourneyPage({
                         )}
                     </div>
                     <aside className={styles.heroAside}>
-                        <Link
-                            href={`/${lang}/users/${journey.userId}`}
-                            className={styles.authorLink}
-                        >
-                            {user?.name ?? labels.profileLinkLabel}
-                        </Link>
                         <ReportJourneyButton
                             publicId={journey.publicId}
                             lang={lang}
                             ownerUserId={journey.userId}
-                            variant="quiet"
+                            variant="detail"
+                            wrapperClassName={styles.reportActionWrap}
+                            triggerClassName={styles.reportActionTrigger}
+                            feedbackClassName={styles.reportActionFeedback}
                         />
                     </aside>
                 </div>
 
                 <div className={styles.metaRow}>
+                    <Link
+                        href={`/${lang}/users/${journey.userId}`}
+                        className={styles.metaAuthor}
+                    >
+                        {user?.name ?? labels.profileLinkLabel}
+                    </Link>
                     <span>{dateRange}</span>
                     <span>
                         {journey.photoCount} {labels.photoCount}

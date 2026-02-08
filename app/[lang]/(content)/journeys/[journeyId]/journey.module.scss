@@ -30,13 +30,11 @@
 
 .heroAside {
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-end;
 
   @media (min-width: 900px) {
     align-self: start;
-    justify-content: flex-end;
   }
 }
 
@@ -65,9 +63,18 @@
   max-width: 40rem;
 }
 
-.authorLink {
-  font-size: 0.88rem;
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  color: var(--color-text-tertiary);
+}
+
+.metaAuthor {
   color: var(--color-text-secondary);
+  font-weight: 600;
+  text-decoration: none;
   transition: color 0.2s ease;
 
   &:hover {
@@ -75,12 +82,28 @@
   }
 }
 
-.metaRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.5rem;
-  font-size: 0.95rem;
-  color: var(--color-text-tertiary);
+.reportActionWrap {
+  align-items: flex-end;
+}
+
+.reportActionTrigger {
+  padding: 0.5rem 1rem;
+  border-color: rgb(244 63 94 / 38%);
+  background: rgb(255 241 242 / 92%);
+  color: #be123c;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 6px 18px rgb(244 63 94 / 14%);
+
+  &:hover:not(:disabled) {
+    border-color: rgb(225 29 72 / 56%);
+    background: #ffe4e8;
+    color: #9f1239;
+  }
+}
+
+.reportActionFeedback {
+  max-width: 16rem;
 }
 
 .section {
