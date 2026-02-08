@@ -110,7 +110,7 @@ function EnglishSupport() {
         </p>
       </header>
 
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>Common questions</h2>
 
         <p>
@@ -149,7 +149,7 @@ function KoreanSupport() {
         </p>
       </header>
 
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>자주 묻는 질문</h2>
 
         <p>
@@ -187,7 +187,7 @@ function JapaneseSupport() {
         </p>
       </header>
 
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>よくある質問</h2>
 
         <p>
@@ -225,7 +225,7 @@ function ChineseSupport() {
         </p>
       </header>
 
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>常见问题</h2>
 
         <p>
@@ -261,7 +261,7 @@ function SpanishSupport() {
         <h1 className={styles.title}>Soporte de MomentBook</h1>
         <p className={styles.subtitle}>Ayuda tranquila para tus fotos y viajes.</p>
       </header>
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>Preguntas frecuentes</h2>
         <p>
           Puedes encontrar respuestas rapidas en{" "}
@@ -285,7 +285,7 @@ function PortugueseSupport() {
         <h1 className={styles.title}>Suporte do MomentBook</h1>
         <p className={styles.subtitle}>Ajuda tranquila para suas fotos e jornadas.</p>
       </header>
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>Perguntas frequentes</h2>
         <p>
           Voce pode encontrar respostas rapidas no{" "}
@@ -309,7 +309,7 @@ function FrenchSupport() {
         <h1 className={styles.title}>Support MomentBook</h1>
         <p className={styles.subtitle}>Aide calme pour vos photos et voyages.</p>
       </header>
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>Questions frequentes</h2>
         <p>
           Vous pouvez trouver une reponse rapide dans la{" "}
@@ -333,7 +333,7 @@ function ThaiSupport() {
         <h1 className={styles.title}>ศูนย์ช่วยเหลือ MomentBook</h1>
         <p className={styles.subtitle}>ความช่วยเหลือแบบสงบสำหรับรูปและทริปของคุณ</p>
       </header>
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>คําถามที่พบบ่อย</h2>
         <p>
           คุณอาจพบคําตอบได้จาก{" "}
@@ -357,7 +357,7 @@ function VietnameseSupport() {
         <h1 className={styles.title}>Ho tro MomentBook</h1>
         <p className={styles.subtitle}>Tro giup nhe nhang cho anh va hanh trinh cua ban.</p>
       </header>
-      <div className={styles.textContent}>
+      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>Cau hoi thuong gap</h2>
         <p>
           Ban co the tim thay cau tra loi nhanh trong{" "}

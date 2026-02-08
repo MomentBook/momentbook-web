@@ -131,6 +131,19 @@
   }
 }
 
+.supportTextContent {
+  gap: var(--spacing-md);
+
+  h2 {
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  h2:first-child {
+    margin-top: 0;
+  }
+}
+
 /* Lists */
 .list {
   list-style: disc;
