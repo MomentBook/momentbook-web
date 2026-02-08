@@ -77,6 +77,7 @@ export type PublishedPhotoApi = {
 type PublishedJourneyResponse = {
     status: string;
     data?: PublishedJourneyApi;
+    message?: string;
 };
 
 type PublishedJourneysResponse = {
@@ -89,6 +90,14 @@ type PublishedPhotoResponse = {
     data?: PublishedPhotoApi;
 };
 
+type FetchPublishedJourneyResult = {
+    status: "success" | "hidden" | "not_found" | "error";
+    data: PublishedJourneyApi | null;
+    message?: string;
+};
+
+const PUBLIC_JOURNEY_CACHE_TTL_SECONDS = 60;
+
 function getApiBaseUrl(): string | null {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -99,38 +108,84 @@ function getApiBaseUrl(): string | null {
     return baseUrl.replace(/\/+$/, "");
 }
 
-export async function fetchPublishedJourney(
+function readMessage(value: unknown): string | null {
+    if (typeof value === "string") {
+        return value;
+    }
+
+    if (Array.isArray(value)) {
+        const firstString = value.find((item) => typeof item === "string");
+        return typeof firstString === "string" ? firstString : null;
+    }
+
+    return null;
+}
+
+function isHiddenJourneyMessage(message: string | null): boolean {
+    if (!message) {
+        return false;
+    }
+
+    const normalized = message.toLowerCase();
+    return (
+        message.includes("숨김") ||
+        message.includes("신고가 누적") ||
+        normalized.includes("hidden") ||
+        normalized.includes("reported")
+    );
+}
+
+export async function fetchPublishedJourneyResult(
     publicId: string,
-): Promise<PublishedJourneyApi | null> {
+): Promise<FetchPublishedJourneyResult> {
     const baseUrl = getApiBaseUrl();
     if (!baseUrl) {
-        return null;
+        return { status: "error", data: null };
     }
 
     try {
         const response = await fetch(
             `${baseUrl}/v2/journeys/public/${encodeURIComponent(publicId)}`,
-            { next: { revalidate: 3600 } },
+            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
         );
 
-        if (!response.ok) {
-            return null;
+        const payload = (await response.json().catch(() => null)) as
+            | PublishedJourneyResponse
+            | { message?: unknown }
+            | null;
+        const message = readMessage(payload?.message);
+
+        if (response.ok) {
+            if (payload?.status !== "success" || !payload.data) {
+                return { status: "error", data: null, message };
+            }
+
+            return { status: "success", data: payload.data, message };
         }
 
-        const payload = (await response.json()) as PublishedJourneyResponse;
+        if (response.status === 404) {
+            if (isHiddenJourneyMessage(message)) {
+                return { status: "hidden", data: null, message };
+            }
 
-        if (payload?.status !== "success" || !payload.data) {
-            return null;
+            return { status: "not_found", data: null, message };
         }
 
-        return payload.data;
+        return { status: "error", data: null, message };
     } catch (error) {
         console.warn(
             "[published-journey] Failed to fetch published journey",
             error,
         );
-        return null;
+        return { status: "error", data: null };
     }
+}
+
+export async function fetchPublishedJourney(
+    publicId: string,
+): Promise<PublishedJourneyApi | null> {
+    const result = await fetchPublishedJourneyResult(publicId);
+    return result.status === "success" ? result.data : null;
 }
 
 export async function fetchPublishedJourneys(options?: {
@@ -159,7 +214,7 @@ export async function fetchPublishedJourneys(options?: {
 
         const response = await fetch(
             `${baseUrl}/v2/journeys/public?${params.toString()}`,
-            { next: { revalidate: 3600 } },
+            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
         );
 
         if (!response.ok) {
@@ -193,7 +248,7 @@ export async function fetchPublishedPhoto(
     try {
         const response = await fetch(
             `${baseUrl}/v2/journeys/public/photos/${encodeURIComponent(photoId)}`,
-            { next: { revalidate: 3600 } },
+            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
         );
 
         if (!response.ok) {

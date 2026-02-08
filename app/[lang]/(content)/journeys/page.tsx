@@ -18,7 +18,7 @@ import { fetchPublicUser } from "@/lib/public-users";
 import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
 import { formatJourneyPeriodRange, readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 const JOURNEYS_PER_PAGE = 12;
 

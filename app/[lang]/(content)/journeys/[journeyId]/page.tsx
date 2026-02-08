@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import { fetchPublishedJourney } from "@/lib/published-journey";
+import { fetchPublishedJourneyResult } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
 import JourneyContent from "./components/JourneyContent";
 import ReportJourneyButton from "../components/ReportJourneyButton";
@@ -19,7 +19,48 @@ import {
     buildImageUrlToPhotoIdMap,
 } from "./utils";
 
-export const revalidate = 3600;
+export const revalidate = 60;
+
+const hiddenNoticeByLanguage: Partial<Record<Language, { title: string; message: string }>> & {
+    en: { title: string; message: string };
+} = {
+    en: {
+        title: "This journey is hidden",
+        message: "This post has been hidden due to accumulated reports.",
+    },
+    ko: {
+        title: "숨김 처리된 게시글입니다",
+        message: "신고가 누적되어 숨김 처리된 게시글입니다.",
+    },
+    ja: {
+        title: "非表示の投稿です",
+        message: "この投稿は通報の累積により非表示になりました。",
+    },
+    zh: {
+        title: "此帖子已被隐藏",
+        message: "该帖子因举报累计已被隐藏。",
+    },
+    es: {
+        title: "Esta publicacion esta oculta",
+        message: "Esta publicacion fue ocultada por reportes acumulados.",
+    },
+    pt: {
+        title: "Esta publicacao esta oculta",
+        message: "Esta publicacao foi ocultada por denuncias acumuladas.",
+    },
+    fr: {
+        title: "Cette publication est masquee",
+        message: "Cette publication a ete masquee suite a des signalements repetes.",
+    },
+    th: {
+        title: "โพสต์นี้ถูกซ่อน",
+        message: "โพสต์นี้ถูกซ่อนเนื่องจากมีการรายงานสะสม",
+    },
+    vi: {
+        title: "Bai dang da bi an",
+        message: "Bai dang nay da bi an do tich luy bao cao.",
+    },
+};
 
 export async function generateMetadata({
     params,
@@ -30,8 +71,18 @@ export async function generateMetadata({
         lang: Language;
         journeyId: string;
     };
-    const journey = await fetchPublishedJourney(journeyId);
+    const result = await fetchPublishedJourneyResult(journeyId);
 
+    if (result.status === "hidden") {
+        const hiddenNotice = hiddenNoticeByLanguage[lang] ?? hiddenNoticeByLanguage.en;
+        return {
+            title: hiddenNotice.title,
+            description: hiddenNotice.message,
+            alternates: buildAlternates(lang, `/journeys/${journeyId}`),
+        };
+    }
+
+    const journey = result.data;
     if (!journey) {
         return {
             title: "Journey not found",
@@ -81,8 +132,21 @@ export default async function JourneyPage({
         lang: Language;
         journeyId: string;
     };
-    const journey = await fetchPublishedJourney(journeyId);
+    const result = await fetchPublishedJourneyResult(journeyId);
+    const hiddenNotice = hiddenNoticeByLanguage[lang] ?? hiddenNoticeByLanguage.en;
 
+    if (result.status === "hidden") {
+        return (
+            <div className={styles.page}>
+                <section className={styles.hiddenNotice}>
+                    <h1 className={styles.hiddenNoticeTitle}>{hiddenNotice.title}</h1>
+                    <p className={styles.hiddenNoticeMessage}>{hiddenNotice.message}</p>
+                </section>
+            </div>
+        );
+    }
+
+    const journey = result.data;
     if (!journey) {
         notFound();
     }

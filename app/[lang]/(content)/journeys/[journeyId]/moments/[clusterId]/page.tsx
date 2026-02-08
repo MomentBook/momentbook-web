@@ -11,7 +11,7 @@ import {
 } from "@/lib/published-journey";
 import ClientMap from "../../components/ClientMap";
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 type MomentLabels = {
   eyebrow: string;

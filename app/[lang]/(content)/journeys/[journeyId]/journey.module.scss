@@ -11,6 +11,28 @@
   margin-bottom: var(--spacing-xl);
 }
 
+.hiddenNotice {
+  margin: calc(var(--spacing-xl) * 1.2) auto;
+  max-width: 40rem;
+  border: 1px solid rgb(244 63 94 / 24%);
+  background: rgb(255 241 242 / 80%);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.hiddenNoticeTitle {
+  margin: 0;
+  font-size: 1.35rem;
+  color: #9f1239;
+}
+
+.hiddenNoticeMessage {
+  margin: 0.65rem 0 0;
+  color: #be123c;
+  line-height: 1.6;
+}
+
 .heroTop {
   display: flex;
   flex-direction: column;
