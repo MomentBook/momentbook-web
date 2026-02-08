@@ -1516,6 +1516,16 @@ export interface PublishedJourneyDetailDto {
   publishedAt: string;
   /** Creation timestamp */
   createdAt: string;
+  /**
+   * Content availability status for rendering
+   * @example "available"
+   */
+  contentStatus?: "available" | "reported_hidden";
+  /**
+   * Notice for moderated/hidden content
+   * @example "This journey has been reported and is currently hidden."
+   */
+  notice?: string;
 }
 
 export interface PublishedJourneyDetailResponseDto {
@@ -3279,7 +3289,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve published journey data for rendering. Returns only essential data (clusters, images, metadata).
+     * @description Public endpoint to retrieve published journey data for rendering. Hidden-by-moderation journeys return success with contentStatus=reported_hidden.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourney
