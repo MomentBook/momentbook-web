@@ -121,7 +121,7 @@ function readMessage(value: unknown): string | null {
     return null;
 }
 
-function isHiddenJourneyMessage(message: string | null): boolean {
+function isHiddenJourneyMessage(message: string | null | undefined): boolean {
     if (!message) {
         return false;
     }
@@ -163,7 +163,7 @@ export async function fetchPublishedJourneyResult(
             | PublishedJourneyResponse
             | { message?: unknown }
             | null;
-        const message = readMessage(payload?.message);
+        const message = readMessage(payload?.message) ?? undefined;
 
         if (response.ok) {
             if (!isPublishedJourneyResponse(payload)) {
