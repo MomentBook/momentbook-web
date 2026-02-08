@@ -48,6 +48,8 @@
   transition: color 0.25s ease;
   letter-spacing: -0.015em;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
 
   @media (min-width: 768px) {
     font-size: 1.5rem;
@@ -56,6 +58,50 @@
   &:hover {
     color: var(--color-accent);
   }
+}
+
+.logoMark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.logoIcon {
+  width: 2.45rem;
+  height: 2.45rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+
+  @media (min-width: 768px) {
+    width: 2.85rem;
+    height: 2.85rem;
+  }
+}
+
+.logoWordmark {
+  height: 1.85rem;
+  width: auto;
+  display: block;
+  align-self: center;
+
+  @media (min-width: 768px) {
+    height: 2.2rem;
+  }
+}
+
+.logo:hover .logoIcon,
+.footerLogo:hover .logoIcon {
+  transform: translateY(-1px);
+}
+
+.footerLogo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* Desktop Navigation Links */
@@ -169,16 +215,8 @@
   gap: var(--spacing-sm);
 }
 
-.footerLogo {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  letter-spacing: -0.02em;
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: var(--color-accent);
-  }
+.footerLogo:hover {
+  color: var(--color-accent);
 }
 
 .footerSummary {

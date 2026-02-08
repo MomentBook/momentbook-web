@@ -1,0 +1,45 @@
+<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mb-left" x1="12" y1="16" x2="56" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F3C7C0"/>
+      <stop offset="1" stop-color="#E5A9B2"/>
+    </linearGradient>
+    <linearGradient id="mb-right" x1="40" y1="16" x2="88" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FCE8DA"/>
+      <stop offset="1" stop-color="#F6D5C9"/>
+    </linearGradient>
+  </defs>
+  <path
+    d="M14 27C14 20.37 19.37 15 26 15H46.5C51.19 15 55 18.81 55 23.5V72C51.05 68.71 45.99 66.5 40.49 66.5H26C19.37 66.5 14 61.13 14 54.5V27Z"
+    fill="url(#mb-left)"
+    stroke="#6B3F4C"
+    stroke-width="3.5"
+  />
+  <path
+    d="M82 27C82 20.37 76.63 15 70 15H49.5C44.81 15 41 18.81 41 23.5V72C44.95 68.71 50.01 66.5 55.51 66.5H70C76.63 66.5 82 61.13 82 54.5V27Z"
+    fill="url(#mb-right)"
+    stroke="#6B3F4C"
+    stroke-width="3.5"
+  />
+  <text
+    x="30"
+    y="50"
+    text-anchor="middle"
+    font-size="22"
+    font-weight="700"
+    fill="#6B3F4C"
+    font-family="SUIT, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+  >
+    M
+  </text>
+  <path
+    d="M65.5 38.5c3.2-3.2 8.4-3.2 11.6 0a8.1 8.1 0 0 1 0 11.54L65.5 61.5 54 50.04a8.1 8.1 0 0 1 0-11.54c3.2-3.2 8.4-3.2 11.5 0Z"
+    fill="#FF7A9A"
+  />
+  <path
+    d="M24 62.5c4.1-1.5 9.2-2.4 15-2.4H57c5.8 0 10.9.9 15 2.4"
+    stroke="#6B3F4C"
+    stroke-width="3.5"
+    stroke-linecap="round"
+  />
+</svg>
