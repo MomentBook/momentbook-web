@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Link from "next/link";
 import styles from "./layout.module.scss";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { HeaderProfileMenu } from "@/components/HeaderProfileMenu";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
 import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
@@ -34,6 +35,17 @@ const suit = localFont({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const iosPath = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
+const journeysNavLabelMap: Record<Language, string> = {
+  en: "Journeys",
+  ko: "여정",
+  ja: "旅",
+  zh: "行程",
+  es: "Viajes",
+  pt: "Jornadas",
+  fr: "Voyages",
+  th: "ทริป",
+  vi: "Hanh trinh",
+};
 
 function getStoreLinks(lang: Language) {
   const region = getStoreRegion(lang);
@@ -82,6 +94,7 @@ export default async function LangLayout({
   const { lang } = await params as { lang: Language };
   const dict = await getDictionary(lang);
   const storeLinks = getStoreLinks(lang);
+  const journeysNavLabel = journeysNavLabelMap[lang] ?? journeysNavLabelMap.en;
 
   return (
     <div className={suit.variable}>
@@ -97,9 +110,6 @@ export default async function LangLayout({
               <Link href={`/${lang}/about`} className={styles.navLink}>
                 {dict.nav.about}
               </Link>
-              <Link href={`/${lang}/how-it-works`} className={styles.navLink}>
-                {dict.nav.howItWorks}
-              </Link>
               <Link href={`/${lang}/faq`} className={styles.navLink}>
                 {dict.nav.faq}
               </Link>
@@ -110,9 +120,13 @@ export default async function LangLayout({
 
             {/* Controls (Language + Theme) */}
             <div className={styles.controls}>
+              <Link href={`/${lang}/journeys`} className={styles.journeysLink}>
+                {journeysNavLabel}
+              </Link>
               <LanguageDropdown currentLang={lang} />
               <ThemeToggle />
-              <MobileMenu lang={lang} dict={dict} />
+              <HeaderProfileMenu lang={lang} />
+              <MobileMenu lang={lang} dict={dict} journeysLabel={journeysNavLabel} />
             </div>
           </nav>
         </ScrollHeader>
@@ -144,11 +158,6 @@ export default async function LangLayout({
                     <li>
                       <Link href={`/${lang}/about`} className={styles.footerLink}>
                         {dict.nav.about}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href={`/${lang}/how-it-works`} className={styles.footerLink}>
-                        {dict.nav.howItWorks}
                       </Link>
                     </li>
                     <li>

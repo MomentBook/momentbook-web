@@ -34,7 +34,7 @@
 
 ## Core Features (What This Web Project Is)
 
-- 제품 소개 (About / How it works / Download)
+- 제품 소개 (About / Download)
 - 다국어 지원 (en/ko/ja/zh/es/pt/fr/th/vi — 9개 언어)
 - 공개 여정 상세 페이지 (journeys/[journeyId])
 - 공개 여정 모먼트 상세 (journeys/[journeyId]/moments/[clusterId])
@@ -61,7 +61,6 @@
 /[lang]
   /(marketing)
     /about
-    /how-it-works
     /download
   /(content)
     /journeys

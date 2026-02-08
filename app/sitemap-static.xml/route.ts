@@ -34,7 +34,7 @@ export async function GET() {
   const lastmod = new Date().toISOString();
 
   // Static marketing pages
-  const marketingPages = ["about", "how-it-works", "download"];
+  const marketingPages = ["about", "download"];
 
   // Static content pages
   const contentPages = ["faq", "journeys", "users"];

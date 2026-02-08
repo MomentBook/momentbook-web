@@ -11,15 +11,52 @@
   margin-bottom: var(--spacing-xl);
 }
 
+.hiddenNotice {
+  margin: calc(var(--spacing-xl) * 1.2) auto;
+  max-width: 40rem;
+  border: 1px solid rgb(244 63 94 / 24%);
+  background: rgb(255 241 242 / 80%);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.hiddenNoticeTitle {
+  margin: 0;
+  font-size: 1.35rem;
+  color: #9f1239;
+}
+
+.hiddenNoticeMessage {
+  margin: 0.65rem 0 0;
+  color: #be123c;
+  line-height: 1.6;
+}
+
 .heroTop {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 
   @media (min-width: 900px) {
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 18rem);
     align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+}
+
+.heroMain {
+  min-width: 0;
+}
+
+.heroAside {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+
+  @media (min-width: 900px) {
+    align-self: start;
   }
 }
 
@@ -48,38 +85,47 @@
   max-width: 40rem;
 }
 
-.userCard {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-canvas);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-primary);
-  transition: all 0.2s ease;
-
-  &:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-}
-
-.userName {
-  font-weight: 600;
-}
-
-.userHandle {
-  font-size: 0.9rem;
-  color: var(--color-text-tertiary);
-}
-
 .metaRow {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1.5rem;
   font-size: 0.95rem;
   color: var(--color-text-tertiary);
+}
+
+.metaAuthor {
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.reportActionWrap {
+  align-items: flex-end;
+}
+
+.reportActionTrigger {
+  padding: 0.5rem 1rem;
+  border-color: rgb(244 63 94 / 38%);
+  background: rgb(255 241 242 / 92%);
+  color: #be123c;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 6px 18px rgb(244 63 94 / 14%);
+
+  &:hover:not(:disabled) {
+    border-color: rgb(225 29 72 / 56%);
+    background: #ffe4e8;
+    color: #9f1239;
+  }
+}
+
+.reportActionFeedback {
+  max-width: 16rem;
 }
 
 .section {
@@ -141,6 +187,18 @@
   background: var(--color-accent-soft);
   color: var(--color-text-secondary);
   font-size: 0.9rem;
+}
+
+.tagLink {
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--color-bg-canvas);
+  }
 }
 
 .ctaLink {

@@ -1,4 +1,5 @@
 export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
+export type PublishedJourneyContentStatus = "available" | "reported_hidden";
 
 export type PublishedJourneyImage = {
     url: string;
@@ -34,6 +35,30 @@ export type PublishedJourneyApi = {
     clusters: PublishedJourneyCluster[];
     publishedAt: string;
     createdAt: string;
+    contentStatus?: PublishedJourneyContentStatus;
+    notice?: string;
+};
+
+export type PublishedJourneyListItemApi = {
+    publicId: string;
+    journeyId: string;
+    userId: string;
+    startedAt: number;
+    endedAt?: number;
+    recapStage: string;
+    imageCount: number;
+    thumbnailUrl?: string;
+    metadata?: Record<string, unknown>;
+    publishedAt?: string;
+    createdAt: string;
+};
+
+export type PublishedJourneysListApi = {
+    journeys: PublishedJourneyListItemApi[];
+    total: number;
+    page: number;
+    pages: number;
+    limit: number;
 };
 
 export type PublishedPhotoApi = {
@@ -55,12 +80,26 @@ export type PublishedPhotoApi = {
 type PublishedJourneyResponse = {
     status: string;
     data?: PublishedJourneyApi;
+    message?: string;
+};
+
+type PublishedJourneysResponse = {
+    status: string;
+    data?: PublishedJourneysListApi;
 };
 
 type PublishedPhotoResponse = {
     status: string;
     data?: PublishedPhotoApi;
 };
+
+type FetchPublishedJourneyResult = {
+    status: "success" | "hidden" | "not_found" | "error";
+    data: PublishedJourneyApi | null;
+    message?: string;
+};
+
+const PUBLIC_JOURNEY_CACHE_TTL_SECONDS = 60;
 
 function getApiBaseUrl(): string | null {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -72,25 +111,160 @@ function getApiBaseUrl(): string | null {
     return baseUrl.replace(/\/+$/, "");
 }
 
-export async function fetchPublishedJourney(
+function readMessage(value: unknown): string | null {
+    if (typeof value === "string") {
+        return value;
+    }
+
+    if (Array.isArray(value)) {
+        const firstString = value.find((item) => typeof item === "string");
+        return typeof firstString === "string" ? firstString : null;
+    }
+
+    return null;
+}
+
+function isHiddenJourneyMessage(message: string | null | undefined): boolean {
+    if (!message) {
+        return false;
+    }
+
+    const normalized = message.toLowerCase();
+    return (
+        message.includes("숨김") ||
+        message.includes("신고가 누적") ||
+        normalized.includes("hidden") ||
+        normalized.includes("reported")
+    );
+}
+
+function normalizeContentStatus(
+    value: unknown,
+): PublishedJourneyContentStatus | undefined {
+    if (value === "available" || value === "reported_hidden") {
+        return value;
+    }
+
+    return undefined;
+}
+
+function isPublishedJourneyResponse(
+    payload: unknown,
+): payload is PublishedJourneyResponse {
+    return Boolean(
+        payload &&
+        typeof payload === "object" &&
+        "status" in payload,
+    );
+}
+
+export async function fetchPublishedJourneyResult(
     publicId: string,
-): Promise<PublishedJourneyApi | null> {
+): Promise<FetchPublishedJourneyResult> {
     const baseUrl = getApiBaseUrl();
     if (!baseUrl) {
-        return null;
+        return { status: "error", data: null };
     }
 
     try {
         const response = await fetch(
             `${baseUrl}/v2/journeys/public/${encodeURIComponent(publicId)}`,
-            { next: { revalidate: 3600 } },
+            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
+        );
+
+        const payload = (await response.json().catch(() => null)) as
+            | PublishedJourneyResponse
+            | { message?: unknown }
+            | null;
+        const message = readMessage(payload?.message) ?? undefined;
+
+        if (response.ok) {
+            if (!isPublishedJourneyResponse(payload)) {
+                return { status: "error", data: null, message };
+            }
+
+            if (payload.status !== "success" || !payload.data) {
+                return { status: "error", data: null, message };
+            }
+
+            const data = payload.data;
+            const contentStatus = normalizeContentStatus(data.contentStatus);
+            const notice = readMessage(data.notice) ?? message;
+
+            if (contentStatus === "reported_hidden") {
+                return {
+                    status: "hidden",
+                    data: {
+                        ...data,
+                        contentStatus,
+                        notice: notice ?? data.notice,
+                    },
+                    message: notice,
+                };
+            }
+
+            return { status: "success", data: payload.data, message };
+        }
+
+        if (response.status === 404) {
+            if (isHiddenJourneyMessage(message)) {
+                return { status: "hidden", data: null, message };
+            }
+
+            return { status: "not_found", data: null, message };
+        }
+
+        return { status: "error", data: null, message };
+    } catch (error) {
+        console.warn(
+            "[published-journey] Failed to fetch published journey",
+            error,
+        );
+        return { status: "error", data: null };
+    }
+}
+
+export async function fetchPublishedJourney(
+    publicId: string,
+): Promise<PublishedJourneyApi | null> {
+    const result = await fetchPublishedJourneyResult(publicId);
+    return result.status === "success" ? result.data : null;
+}
+
+export async function fetchPublishedJourneys(options?: {
+    page?: number;
+    limit?: number;
+    sort?: "recent" | "oldest";
+    userId?: string;
+}): Promise<PublishedJourneysListApi | null> {
+    const baseUrl = getApiBaseUrl();
+    if (!baseUrl) {
+        return null;
+    }
+
+    const { page = 1, limit = 20, sort = "recent", userId } = options ?? {};
+
+    try {
+        const params = new URLSearchParams({
+            page: page.toString(),
+            limit: limit.toString(),
+            sort,
+        });
+
+        if (userId) {
+            params.set("userId", userId);
+        }
+
+        const response = await fetch(
+            `${baseUrl}/v2/journeys/public?${params.toString()}`,
+            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
         );
 
         if (!response.ok) {
             return null;
         }
 
-        const payload = (await response.json()) as PublishedJourneyResponse;
+        const payload = (await response.json()) as PublishedJourneysResponse;
 
         if (payload?.status !== "success" || !payload.data) {
             return null;
@@ -99,7 +273,7 @@ export async function fetchPublishedJourney(
         return payload.data;
     } catch (error) {
         console.warn(
-            "[published-journey] Failed to fetch published journey",
+            "[published-journey] Failed to fetch published journeys",
             error,
         );
         return null;
@@ -117,7 +291,7 @@ export async function fetchPublishedPhoto(
     try {
         const response = await fetch(
             `${baseUrl}/v2/journeys/public/photos/${encodeURIComponent(photoId)}`,
-            { next: { revalidate: 3600 } },
+            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
         );
 
         if (!response.ok) {

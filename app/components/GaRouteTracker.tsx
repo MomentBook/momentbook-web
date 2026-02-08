@@ -4,9 +4,15 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { ENV } from "@/src/configs/env.client";
 
+type GtagFunction = (
+    command: "event",
+    eventName: string,
+    params?: Record<string, string | number | boolean>,
+) => void;
+
 declare global {
     interface Window {
-        gtag?: (...args: any[]) => void;
+        gtag?: GtagFunction;
     }
 }
 
