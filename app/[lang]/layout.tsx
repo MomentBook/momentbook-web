@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Link from "next/link";
 import styles from "./layout.module.scss";
+import { MomentBookLogo } from "@/components/MomentBookLogo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { HeaderProfileMenu } from "@/components/HeaderProfileMenu";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
@@ -102,7 +103,11 @@ export default async function LangLayout({
         <ScrollHeader className={styles.header}>
           <nav className={styles.nav}>
             <Link href={`/${lang}`} className={styles.logo}>
-              MomentBook
+              <MomentBookLogo
+                className={styles.logoMark}
+                iconClassName={styles.logoIcon}
+                wordmarkClassName={styles.logoWordmark}
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -140,7 +145,11 @@ export default async function LangLayout({
             <div className={styles.footerTop}>
               <div className={styles.footerBrand}>
                 <Link href={`/${lang}`} className={styles.footerLogo}>
-                  MomentBook
+                  <MomentBookLogo
+                    className={styles.logoMark}
+                    iconClassName={styles.logoIcon}
+                    wordmarkClassName={styles.logoWordmark}
+                  />
                 </Link>
                 <p className={styles.footerSummary}>{dict.footer.summary}</p>
                 <div className={styles.footerActions}>
