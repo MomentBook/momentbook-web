@@ -101,8 +101,7 @@ if (process.env.APPLE_ID && process.env.APPLE_SECRET) {
       authorization: {
         params: {
           scope: "name email",
-          // In non-HTTPS dev environments, query callback avoids cross-site POST cookie edge cases.
-          response_mode: isHttpsAuthOrigin ? "form_post" : "query",
+          response_mode: "form_post",
         },
       },
     }),
