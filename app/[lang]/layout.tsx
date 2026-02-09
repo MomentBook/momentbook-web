@@ -162,6 +162,14 @@ export default async function LangLayout({
                 </div>
               </div>
 
+              <div className={styles.footerAbout}>
+                <h3 className={styles.footerAboutTitle}>{dict.footer.aboutSiteTitle}</h3>
+                <p className={styles.footerAboutText}>{dict.footer.aboutSiteText}</p>
+                <p className={styles.footerAboutContact}>
+                  Email: <a href={`mailto:${supportEmail}`} className={styles.footerLink}>{supportEmail}</a>
+                </p>
+              </div>
+
               <div className={styles.footerGrid}>
                 <div className={styles.footerColumn}>
                   <h3 className={styles.footerHeading}>{dict.footer.sections.product}</h3>

@@ -57,6 +57,8 @@ export const zh: Dictionary = {
     summary: '可从追踪或照片开始，需要时回到安静的旅程。',
     ctaPrimary: '下载',
     ctaSecondary: '支持',
+    aboutSiteTitle: '关于本站',
+    aboutSiteText: 'MomentBook 由 Reflecta Lab 运营。本网站提供对已发布旅程的只读访问，并解释应用程序。',
     sections: {
       product: '产品',
       download: '获取应用',

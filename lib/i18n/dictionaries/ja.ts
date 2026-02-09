@@ -57,6 +57,8 @@ export const ja: Dictionary = {
     summary: 'トラッキングでも写真でも始められ、戻りたいときに静かな旅に戻れます。',
     ctaPrimary: 'ダウンロード',
     ctaSecondary: 'サポート',
+    aboutSiteTitle: 'このサイトについて',
+    aboutSiteText: 'MomentBook は Reflecta Lab により運営されています。このウェブサイトは、公開された旅への読み取り専用アクセスを提供し、アプリの説明を行います。',
     sections: {
       product: 'プロダクト',
       download: 'アプリを入手',
