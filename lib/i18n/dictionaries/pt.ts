@@ -48,8 +48,6 @@ export const pt: Dictionary = {
     summary: "Comece com tracking ou fotos e volte a uma jornada calma quando quiser.",
     ctaPrimary: "Baixar",
     ctaSecondary: "Suporte",
-    aboutSiteTitle: "Sobre este site",
-    aboutSiteText: "O MomentBook e operado pela Reflecta Lab. Este site fornece acesso somente leitura a jornadas publicadas e explica o aplicativo.",
     sections: {
       product: "Produto",
       download: "Baixar o app",

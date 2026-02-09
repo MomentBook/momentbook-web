@@ -48,8 +48,6 @@ export const es: Dictionary = {
     summary: "Empieza con tracking o con fotos y vuelve a un viaje tranquilo cuando quieras.",
     ctaPrimary: "Descargar",
     ctaSecondary: "Soporte",
-    aboutSiteTitle: "Sobre este sitio",
-    aboutSiteText: "MomentBook es operado por Reflecta Lab. Este sitio web proporciona acceso de solo lectura a los viajes publicados y explica la aplicacion.",
     sections: {
       product: "Producto",
       download: "Obtener la app",

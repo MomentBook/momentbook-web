@@ -55,8 +55,6 @@ export const en = {
     summary: 'Start with tracking or photos, then return to a calm journey when you want.',
     ctaPrimary: 'Download',
     ctaSecondary: 'Support',
-    aboutSiteTitle: 'About This Site',
-    aboutSiteText: 'MomentBook is operated by Reflecta Lab. This website provides read-only access to published journeys and explains the app.',
     sections: {
       product: 'Product',
       download: 'Get the app',
@@ -124,8 +122,6 @@ export type Dictionary = {
     summary: string;
     ctaPrimary: string;
     ctaSecondary: string;
-    aboutSiteTitle: string;
-    aboutSiteText: string;
     sections: {
       product: string;
       download: string;

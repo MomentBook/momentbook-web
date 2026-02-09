@@ -48,8 +48,6 @@ export const th: Dictionary = {
     summary: "เริ่มด้วยการติดตามหรือรูป แล้วกลับมาที่ทริปอย่างสงบเมื่อคุณต้องการ",
     ctaPrimary: "ดาวน์โหลด",
     ctaSecondary: "ซัพพอร์ต",
-    aboutSiteTitle: "เกี่ยวกับเว็บไซต์นี้",
-    aboutSiteText: "MomentBook ดำเนินการโดย Reflecta Lab เว็บไซต์นี้ให้การเข้าถึงแบบอ่านอย่างเดียวสำหรับทริปที่เผยแพร่ และอธิบายแอป",
     sections: {
       product: "ผลิตภัณฑ์",
       download: "รับแอป",

@@ -48,8 +48,6 @@ export const vi: Dictionary = {
     summary: "Bat dau bang tracking hoac anh, roi quay lai hanh trinh yen tinh khi ban muon.",
     ctaPrimary: "Tai xuong",
     ctaSecondary: "Ho tro",
-    aboutSiteTitle: "Ve trang web nay",
-    aboutSiteText: "MomentBook duoc van hanh boi Reflecta Lab. Trang web nay cung cap quyen truy cap chi doc vao hanh trinh da xuat ban va giai thich ung dung.",
     sections: {
       product: "San pham",
       download: "Tai ung dung",

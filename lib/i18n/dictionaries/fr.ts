@@ -48,8 +48,6 @@ export const fr: Dictionary = {
     summary: "Commencez avec tracking ou photos et revenez a un voyage calme quand vous le souhaitez.",
     ctaPrimary: "Telecharger",
     ctaSecondary: "Support",
-    aboutSiteTitle: "A propos de ce site",
-    aboutSiteText: "MomentBook est gere par Reflecta Lab. Ce site web fournit un acces en lecture seule aux voyages publies et explique l'application.",
     sections: {
       product: "Produit",
       download: "Obtenir l'app",
