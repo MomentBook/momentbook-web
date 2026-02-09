@@ -41,6 +41,10 @@ type DownloadContent = {
   deviceAlt: string;
   availability: string;
   storeLabels: StoreLabels;
+  quickStartTitle: string;
+  quickStartQuestion: string;
+  quickStartAnswer: string;
+  quickStartSteps: string[];
   featuresTitle: string;
   features: DownloadFeature[];
   requirementsTitle: string;
@@ -80,6 +84,14 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "Descargar en Google Play",
       },
+      quickStartTitle: "Inicio rapido",
+      quickStartQuestion: "¿Como empiezo con MomentBook?",
+      quickStartAnswer: "Descarga la app, elige tu inicio (tracking o fotos) y comienza tu primer viaje.",
+      quickStartSteps: [
+        "Descarga desde App Store o Google Play",
+        "Elige inicio con tracking o solo fotos",
+        "Crea tu primer viaje y agrega momentos",
+      ],
       featuresTitle: "Pensado para dos inicios",
       features: [
         {
@@ -130,6 +142,14 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "Baixar no Google Play",
       },
+      quickStartTitle: "Inicio rapido",
+      quickStartQuestion: "Como comecar com o MomentBook?",
+      quickStartAnswer: "Baixe o app, escolha seu inicio (tracking ou fotos) e comece sua primeira jornada.",
+      quickStartSteps: [
+        "Baixe da App Store ou do Google Play",
+        "Escolha inicio com tracking ou so com fotos",
+        "Crie sua primeira jornada e adicione momentos",
+      ],
       featuresTitle: "Feito para dois inicios",
       features: [
         {
@@ -180,6 +200,14 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "Telecharger sur Google Play",
       },
+      quickStartTitle: "Demarrage rapide",
+      quickStartQuestion: "Comment commencer avec MomentBook?",
+      quickStartAnswer: "Telechargez l'app, choisissez votre debut (tracking ou photos) et commencez votre premier voyage.",
+      quickStartSteps: [
+        "Telechargez depuis l'App Store ou Google Play",
+        "Choisissez debut avec tracking ou seulement avec photos",
+        "Creez votre premier voyage et ajoutez des moments",
+      ],
       featuresTitle: "Pense pour deux debuts",
       features: [
         {
@@ -230,6 +258,14 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "ดาวน์โหลดจาก Google Play",
       },
+      quickStartTitle: "เริ่มต้นอย่างรวดเร็ว",
+      quickStartQuestion: "ฉันจะเริ่มใช้ MomentBook ได้อย่างไร?",
+      quickStartAnswer: "ดาวน์โหลดแอป เลือกวิธีเริ่มต้นของคุณ (ติดตามหรือรูป) และเริ่มการเดินทางครั้งแรก",
+      quickStartSteps: [
+        "ดาวน์โหลดจาก App Store หรือ Google Play",
+        "เลือกเริ่มต้นด้วยการติดตามหรือรูปเท่านั้น",
+        "สร้างการเดินทางครั้งแรกและเพิ่มช่วงเวลา",
+      ],
       featuresTitle: "ออกแบบมาสำหรับสองวิธีเริ่มต้น",
       features: [
         {
@@ -280,6 +316,14 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "Google Play",
         androidAriaLabel: "Tai tren Google Play",
       },
+      quickStartTitle: "Bat dau nhanh",
+      quickStartQuestion: "Lam cach nao de bat dau voi MomentBook?",
+      quickStartAnswer: "Tai ung dung, chon cach bat dau (tracking hoac anh) va bat dau hanh trinh dau tien.",
+      quickStartSteps: [
+        "Tai tu App Store hoac Google Play",
+        "Chon bat dau voi tracking hoac chi voi anh",
+        "Tao hanh trinh dau tien va them khoanh khac",
+      ],
       featuresTitle: "Danh cho hai cach bat dau",
       features: [
         {
@@ -330,6 +374,14 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "다운로드",
         androidAriaLabel: "Google Play에서 다운로드",
       },
+      quickStartTitle: "빠른 시작",
+      quickStartQuestion: "MomentBook을 어떻게 시작하나요?",
+      quickStartAnswer: "앱을 다운로드하고 시작 방식(트래킹 또는 사진)을 선택한 후 첫 여정을 만드세요.",
+      quickStartSteps: [
+        "App Store 또는 Google Play에서 다운로드",
+        "트래킹 기반 또는 사진만으로 시작 선택",
+        "첫 여정을 만들고 순간 추가",
+      ],
       featuresTitle: "두 가지 시작을 위한 기능",
       features: [
         {
@@ -380,6 +432,14 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "入手",
         androidAriaLabel: "Google Playで入手",
       },
+      quickStartTitle: "クイックスタート",
+      quickStartQuestion: "MomentBook の使い方は?",
+      quickStartAnswer: "アプリをダウンロードし、始め方(トラッキングまたは写真)を選んで最初の旅を作成します。",
+      quickStartSteps: [
+        "App Store または Google Play からダウンロード",
+        "トラッキングベースまたは写真のみの開始を選択",
+        "最初の旅を作成し、瞬間を追加",
+      ],
       featuresTitle: "二つの始め方のための機能",
       features: [
         {
@@ -430,6 +490,14 @@ function getDownloadContent(lang: Language): DownloadContent {
         androidName: "获取",
         androidAriaLabel: "在 Google Play 获取",
       },
+      quickStartTitle: "快速开始",
+      quickStartQuestion: "如何开始使用 MomentBook?",
+      quickStartAnswer: "下载应用，选择开始方式(追踪或照片)并创建第一次行程。",
+      quickStartSteps: [
+        "从 App Store 或 Google Play 下载",
+        "选择追踪式或仅照片开始",
+        "创建第一次行程并添加瞬间",
+      ],
       featuresTitle: "支持两种开始方式",
       features: [
         {
@@ -479,6 +547,14 @@ function getDownloadContent(lang: Language): DownloadContent {
       androidName: "Google Play",
       androidAriaLabel: "Get it on Google Play",
     },
+    quickStartTitle: "Quick start",
+    quickStartQuestion: "How do I get started with MomentBook?",
+    quickStartAnswer: "Download the app, choose your starting path (tracking or photos), and begin your first journey.",
+    quickStartSteps: [
+      "Download from App Store or Google Play",
+      "Choose tracking-based or photo-only start",
+      "Create your first journey and add moments",
+    ],
     featuresTitle: "Built for two ways to begin",
     features: [
       {
@@ -636,6 +712,21 @@ export default async function DownloadPage({
               </DeviceMock>
             </div>
           </FadeIn>
+        </div>
+      </section>
+
+      <section className={styles.quickStartSection}>
+        <div className={styles.quickStartInner}>
+          <h2 className={styles.quickStartTitle}>{content.quickStartTitle}</h2>
+          <div className={styles.quickStartCard}>
+            <h3 className={styles.quickStartQuestion}>{content.quickStartQuestion}</h3>
+            <p className={styles.quickStartAnswer}>{content.quickStartAnswer}</p>
+            <ol className={styles.quickStartSteps}>
+              {content.quickStartSteps.map((step, idx) => (
+                <li key={`quickstart-${idx}`}>{step}</li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 
