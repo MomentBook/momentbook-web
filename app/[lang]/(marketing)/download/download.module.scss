@@ -186,6 +186,13 @@
   line-height: 1.6;
 }
 
+.quickStartNote {
+  margin: var(--spacing-xs) 0 0;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--color-text-tertiary);
+}
+
 .section {
   padding: calc(var(--spacing-xl) * 0.9) var(--spacing-md);
 }

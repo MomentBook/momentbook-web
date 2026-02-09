@@ -608,6 +608,18 @@ function getDownloadContent(lang: Language): DownloadContent {
   };
 }
 
+const timelineExportNoteByLang: Record<Language, string> = {
+  en: "After organizing timeline moments, you can export a ZIP (images + metadata) to keep it yourself or share directly with others. Publishing is not required.",
+  ko: "타임라인으로 정리한 여정은 이미지+메타데이터 ZIP으로 내보내 개인 보관하거나 타인에게 직접 공유할 수 있습니다. 게시는 필수가 아닙니다.",
+  ja: "タイムラインに整理した旅は、画像+メタデータZIPで書き出して個人保管または直接共有できます。公開は必須ではありません。",
+  zh: "整理为时间线的旅程可导出为 ZIP（图片+元数据），用于个人保存或直接分享。无需发布。",
+  es: "Tras organizar el timeline, puedes exportar un ZIP (imagenes + metadatos) para guardarlo o compartirlo directamente. Publicar no es obligatorio.",
+  pt: "Apos organizar a timeline, voce pode exportar um ZIP (imagens + metadados) para guardar ou compartilhar diretamente. Publicar nao e obrigatorio.",
+  fr: "Apres organisation en timeline, vous pouvez exporter un ZIP (images + metadonnees) pour conserver ou partager directement. Publier n'est pas obligatoire.",
+  th: "เมื่อจัดเป็นไทม์ไลน์แล้ว คุณสามารถส่งออก ZIP (รูป+เมทาดาทา) เพื่อเก็บเองหรือแชร์โดยตรงได้ โดยไม่ต้องเผยแพร่",
+  vi: "Sau khi sap xep thanh timeline, ban co the xuat ZIP (anh + metadata) de tu luu hoac chia se truc tiep. Khong bat buoc dang bai.",
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -642,6 +654,7 @@ export default async function DownloadPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getDownloadContent(lang);
+  const timelineExportNote = timelineExportNoteByLang[lang] ?? timelineExportNoteByLang.en;
   const storeLinks = getStoreLinks(lang);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, "/download"), siteUrl).toString();
@@ -760,6 +773,7 @@ export default async function DownloadPage({
                 <li key={`quickstart-${idx}`}>{step}</li>
               ))}
             </ol>
+            <p className={styles.quickStartNote}>{timelineExportNote}</p>
           </div>
         </div>
       </section>

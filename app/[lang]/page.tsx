@@ -502,6 +502,18 @@ const homeContent: Record<Language, HomeContent> = {
   },
 };
 
+const timelineExportNoteByLang: Record<Language, string> = {
+  en: "After organizing a journey into a timeline, you can export a ZIP (images + metadata) to keep for yourself or share directly with others, even without publishing.",
+  ko: "여정을 타임라인으로 정리한 뒤 이미지+메타데이터 ZIP으로 내보내, 게시 없이도 직접 보관하거나 원하는 사람에게 공유할 수 있습니다.",
+  ja: "旅をタイムラインとして整理した後、画像+メタデータのZIPを書き出して、公開せずに自分で保管したり相手に直接共有できます。",
+  zh: "将旅程整理为时间线后，可导出包含图片和元数据的 ZIP，即使不发布也可自行保存或直接分享给他人。",
+  es: "Despues de ordenar el viaje en timeline, puedes exportar un ZIP (imagenes + metadatos) para guardarlo o compartirlo directamente, incluso sin publicar.",
+  pt: "Depois de organizar a jornada em timeline, voce pode exportar um ZIP (imagens + metadados) para guardar ou compartilhar diretamente, mesmo sem publicar.",
+  fr: "Apres avoir organise le voyage en timeline, vous pouvez exporter un ZIP (images + metadonnees) pour le conserver ou le partager directement, meme sans publier.",
+  th: "หลังจัดทริปเป็นไทม์ไลน์แล้ว คุณสามารถส่งออก ZIP (รูป+เมทาดาทา) เพื่อเก็บเองหรือแชร์ให้ผู้อื่นได้โดยตรง แม้ไม่ต้องเผยแพร่",
+  vi: "Sau khi sap xep hanh trinh thanh timeline, ban co the xuat ZIP (anh + metadata) de tu luu hoac chia se truc tiep, ke ca khi khong dang bai.",
+};
+
 function getHomeContent(lang: Language): HomeContent {
   return homeContent[lang] ?? homeContent.en;
 }
@@ -535,6 +547,7 @@ export default async function Home({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getHomeContent(lang);
+  const timelineExportNote = timelineExportNoteByLang[lang] ?? timelineExportNoteByLang.en;
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -638,6 +651,7 @@ export default async function Home({
                 <li key={`tldr-point-${idx}`}>{point}</li>
               ))}
             </ul>
+            <p className={styles.tldrNote}>{timelineExportNote}</p>
           </div>
         </div>
       </section>

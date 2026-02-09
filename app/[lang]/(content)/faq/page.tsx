@@ -21,6 +21,45 @@ type FAQContent = {
   items: FAQItem[];
 };
 
+const timelineExportFaqByLang: Record<Language, FAQItem> = {
+  en: {
+    question: "Can I export a journey timeline?",
+    answer: "Yes. After organizing the timeline, you can export a ZIP (images + metadata) to keep personally or share directly. This is available on both iOS and Android, and does not require publishing.",
+  },
+  ko: {
+    question: "여정 타임라인을 내보낼 수 있나요?",
+    answer: "네. 타임라인 정리 후 이미지+메타데이터 ZIP으로 내보내 개인 보관하거나 직접 공유할 수 있습니다. iOS와 Android에서 동일하게 지원되며, 게시하지 않아도 가능합니다.",
+  },
+  ja: {
+    question: "旅のタイムラインを書き出せますか？",
+    answer: "はい。タイムライン整理後に画像+メタデータZIPを書き出して、個人保管または直接共有できます。iOS/Androidで同じ機能が使え、公開は必須ではありません。",
+  },
+  zh: {
+    question: "可以导出旅程时间线吗？",
+    answer: "可以。时间线整理后可导出图片+元数据 ZIP，用于个人保存或直接分享。iOS 与 Android 功能一致，且无需发布。",
+  },
+  es: {
+    question: "Puedo exportar el timeline del viaje?",
+    answer: "Si. Tras ordenar el timeline, puedes exportar un ZIP (imagenes + metadatos) para guardarlo o compartirlo directamente. Esta funcion existe en iOS y Android, y no exige publicar.",
+  },
+  pt: {
+    question: "Posso exportar a timeline da jornada?",
+    answer: "Sim. Apos organizar a timeline, voce pode exportar um ZIP (imagens + metadados) para guardar ou compartilhar diretamente. Funciona em iOS e Android e nao exige publicar.",
+  },
+  fr: {
+    question: "Puis-je exporter la timeline du voyage ?",
+    answer: "Oui. Apres organisation de la timeline, vous pouvez exporter un ZIP (images + metadonnees) pour conserver ou partager directement. Disponible sur iOS et Android, sans obligation de publier.",
+  },
+  th: {
+    question: "ส่งออกไทม์ไลน์ทริปได้ไหม?",
+    answer: "ได้ หลังจัดไทม์ไลน์แล้ว คุณส่งออก ZIP (รูป+เมทาดาทา) เพื่อเก็บเองหรือแชร์โดยตรงได้ รองรับทั้ง iOS และ Android และไม่ต้องเผยแพร่ก็ได้",
+  },
+  vi: {
+    question: "Toi co the xuat timeline hanh trinh khong?",
+    answer: "Co. Sau khi sap xep timeline, ban co the xuat ZIP (anh + metadata) de tu luu hoac chia se truc tiep. Tinh nang nay giong nhau tren iOS va Android va khong bat buoc dang bai.",
+  },
+};
+
 function getFaqContent(lang: Language): FAQContent {
   if (lang === "es") {
     return {
@@ -379,13 +418,15 @@ export default async function FAQPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getFaqContent(lang);
+  const timelineExportFaq = timelineExportFaqByLang[lang] ?? timelineExportFaqByLang.en;
+  const faqItems = [...content.items, timelineExportFaq];
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, "/faq"), siteUrl).toString();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     url: pageUrl,
-    mainEntity: content.items.map((item) => ({
+    mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -408,7 +449,7 @@ export default async function FAQPage({
       </header>
 
       <div className={faqStyles.faqGrid}>
-        {content.items.map((faq, index) => (
+        {faqItems.map((faq, index) => (
           <section key={`${faq.question}-${index}`} className={faqStyles.faqItem}>
             <h2 className={faqStyles.faqQuestion}>{faq.question}</h2>
             <p className={faqStyles.faqAnswer}>{faq.answer}</p>

@@ -189,6 +189,45 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
   },
 };
 
+const timelineExportInfoByLang: Record<Language, { title: string; text: string }> = {
+  en: {
+    title: "Timeline export",
+    text: "After organizing a journey into a timeline, you can export a ZIP (images + metadata) to keep personally or share directly. This works even without publishing.",
+  },
+  ko: {
+    title: "타임라인 내보내기",
+    text: "여정을 타임라인으로 정리한 뒤 이미지+메타데이터 ZIP으로 내보내 개인 보관하거나 타인에게 직접 공유할 수 있습니다. 게시하지 않아도 가능합니다.",
+  },
+  ja: {
+    title: "タイムライン書き出し",
+    text: "旅をタイムラインとして整理した後、画像+メタデータのZIPを書き出して個人保管または直接共有できます。公開しなくても利用できます。",
+  },
+  zh: {
+    title: "时间线导出",
+    text: "将旅程整理为时间线后，可导出包含图片和元数据的 ZIP，用于个人保存或直接分享。无需发布也可使用。",
+  },
+  es: {
+    title: "Exportar timeline",
+    text: "Despues de ordenar el viaje en timeline, puedes exportar un ZIP (imagenes + metadatos) para guardarlo o compartirlo directamente. Funciona incluso sin publicar.",
+  },
+  pt: {
+    title: "Exportar timeline",
+    text: "Depois de organizar a jornada em timeline, voce pode exportar um ZIP (imagens + metadados) para guardar ou compartilhar diretamente. Funciona mesmo sem publicar.",
+  },
+  fr: {
+    title: "Export timeline",
+    text: "Apres organisation du voyage en timeline, vous pouvez exporter un ZIP (images + metadonnees) pour conserver ou partager directement. Cela fonctionne meme sans publier.",
+  },
+  th: {
+    title: "ส่งออกไทม์ไลน์",
+    text: "หลังจัดทริปเป็นไทม์ไลน์แล้ว คุณสามารถส่งออก ZIP (รูป+เมทาดาทา) เพื่อเก็บเองหรือแชร์โดยตรงได้ โดยไม่ต้องเผยแพร่",
+  },
+  vi: {
+    title: "Xuat timeline",
+    text: "Sau khi sap xep hanh trinh thanh timeline, ban co the xuat ZIP (anh + metadata) de tu luu hoac chia se truc tiep. Van dung duoc ma khong can dang bai.",
+  },
+};
+
 const howItWorksContent: Record<Language, HowItWorksContent> = {
   en: {
     metaTitle: "Two ways to begin — MomentBook",
@@ -972,6 +1011,7 @@ export default async function AboutPage({
   const { lang } = await params as { lang: Language };
   const content = getHowItWorksContent(lang);
   const essentials = aboutEssentialsContent[lang] ?? aboutEssentialsContent.en;
+  const timelineExportInfo = timelineExportInfoByLang[lang] ?? timelineExportInfoByLang.en;
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 
@@ -1110,6 +1150,8 @@ export default async function AboutPage({
           </ul>
           <h3 className={styles.essentialsTitle}>{essentials.privacyTitle}</h3>
           <p className={styles.essentialsText}>{essentials.privacyText}</p>
+          <h3 className={styles.essentialsTitle}>{timelineExportInfo.title}</h3>
+          <p className={styles.essentialsText}>{timelineExportInfo.text}</p>
           <p className={styles.essentialsText}>
             <Link href={`/${lang}/faq`} className={styles.faqLink}>
               {essentials.moreFaqLink}
