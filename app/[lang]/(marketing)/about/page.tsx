@@ -31,6 +31,8 @@ type HowItWorksContent = {
   heroSubtitle: string;
   heroTrackingCta: string;
   heroPhotoCta: string;
+  keyFactsTitle: string;
+  keyFacts: string[];
   flowTitle: string;
   flowLead: string;
   flows: HowItWorksFlow[];
@@ -185,6 +187,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "Track as you move, or start with photos only. Both lead to an organized journey you can return to.",
     heroTrackingCta: "Record with tracking",
     heroPhotoCta: "Organize with photos",
+    keyFactsTitle: "Key facts",
+    keyFacts: [
+      "Two ways to start: tracking-based journey or photo-only organization",
+      "Private by default; publishing is optional and creates a unique public page",
+      "No social features: no feeds, likes, or rankings",
+      "AI helps with titles and summaries but doesn't create for you",
+    ],
     flowTitle: "Two paths, one destination",
     flowLead: "Different starts, same journey.",
     flows: [
@@ -257,6 +266,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "트래킹 또는 사진만으로 시작해, 정리된 여정으로 남깁니다.",
     heroTrackingCta: "트래킹으로 기록하기",
     heroPhotoCta: "사진만으로 정리하기",
+    keyFactsTitle: "핵심 사실",
+    keyFacts: [
+      "두 가지 시작 방법: 트래킹 기반 여정 또는 사진만으로 정리",
+      "기본적으로 비공개; 게시는 선택 사항이며 고유한 공개 페이지 생성",
+      "소셜 기능 없음: 피드, 좋아요, 랭킹 없음",
+      "AI는 제목과 요약을 돕지만 대신 만들지 않음",
+    ],
     flowTitle: "두 가지 시작, 같은 목적지",
     flowLead: "시작은 달라도 결과는 같습니다.",
     flows: [
@@ -329,6 +345,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "トラッキングでも写真だけでも。整理された旅になります。",
     heroTrackingCta: "トラッキングで記録する",
     heroPhotoCta: "写真だけで整理する",
+    keyFactsTitle: "重要な事実",
+    keyFacts: [
+      "二つの始め方：トラッキング起点の旅または写真だけで整理",
+      "デフォルトで非公開；公開は任意で固有の公開ページを作成",
+      "ソーシャル機能なし：フィード、いいね、ランキングなし",
+      "AIはタイトルと要約を手助けしますが代わりに作りません",
+    ],
     flowTitle: "二つの始まり、同じ行き先",
     flowLead: "始まりは違っても、行き先は同じです。",
     flows: [
@@ -401,6 +424,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "可用追踪记录，也可只用照片整理。都能得到整理后的旅程。",
     heroTrackingCta: "用追踪记录",
     heroPhotoCta: "只用照片整理",
+    keyFactsTitle: "关键事实",
+    keyFacts: [
+      "两种开始方式：追踪式旅程或仅用照片整理",
+      "默认私密；发布是可选的并创建唯一的公开页面",
+      "无社交功能：无动态、点赞或排名",
+      "AI 帮助生成标题和摘要但不代替你创作",
+    ],
     flowTitle: "两种起点，同一终点",
     flowLead: "起点不同，终点相同。",
     flows: [
@@ -473,6 +503,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "Puedes registrar con tracking o ordenar solo con fotos. El resultado es un viaje organizado.",
     heroTrackingCta: "Registrar con tracking",
     heroPhotoCta: "Ordenar solo con fotos",
+    keyFactsTitle: "Datos clave",
+    keyFacts: [
+      "Dos formas de empezar: viaje con tracking u organización solo con fotos",
+      "Privado por defecto; publicar es opcional y crea una página pública única",
+      "Sin funciones sociales: sin feeds, likes ni rankings",
+      "La IA ayuda con títulos y resúmenes pero no crea por ti",
+    ],
     flowTitle: "Dos inicios, un destino",
     flowLead: "El inicio cambia, el destino es el mismo.",
     flows: [
@@ -545,6 +582,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "Voce pode registrar com tracking ou organizar so com fotos. O resultado e uma jornada organizada.",
     heroTrackingCta: "Registrar com tracking",
     heroPhotoCta: "Organizar so com fotos",
+    keyFactsTitle: "Fatos principais",
+    keyFacts: [
+      "Duas formas de começar: jornada com tracking ou organização só com fotos",
+      "Privado por padrão; publicar é opcional e cria uma página pública única",
+      "Sem recursos sociais: sem feeds, likes ou rankings",
+      "A IA ajuda com títulos e resumos mas não cria por você",
+    ],
     flowTitle: "Dois inicios, um destino",
     flowLead: "O inicio muda, o destino e o mesmo.",
     flows: [
@@ -617,6 +661,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "Enregistrer avec tracking ou organiser avec des photos. Le resultat est un voyage organise.",
     heroTrackingCta: "Enregistrer avec tracking",
     heroPhotoCta: "Organiser avec photos",
+    keyFactsTitle: "Faits principaux",
+    keyFacts: [
+      "Deux façons de commencer : voyage avec tracking ou organisation avec photos uniquement",
+      "Privé par défaut ; publier est optionnel et crée une page publique unique",
+      "Aucune fonction sociale : pas de feeds, likes ou classements",
+      "L'IA aide avec les titres et résumés mais ne crée pas pour vous",
+    ],
     flowTitle: "Deux departs, une destination",
     flowLead: "Le depart change, la destination reste la meme.",
     flows: [
@@ -689,6 +740,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "บันทึกด้วยการติดตาม หรือเริ่มจากรูปเท่านั้นก็ได้ ผลลัพธ์คือทริปที่จัดระเบียบแล้ว.",
     heroTrackingCta: "บันทึกด้วยการติดตาม",
     heroPhotoCta: "จัดด้วยรูปเท่านั้น",
+    keyFactsTitle: "ข้อเท็จจริงสำคัญ",
+    keyFacts: [
+      "สองวิธีเริ่มต้น: ทริปแบบติดตามหรือจัดด้วยรูปเท่านั้น",
+      "เป็นส่วนตัวโดยค่าเริ่มต้น การเผยแพร่เป็นตัวเลือกและสร้างหน้าสาธารณะเฉพาะ",
+      "ไม่มีฟีเจอร์โซเชียล: ไม่มีฟีด ไลค์ หรือการจัดอันดับ",
+      "AI ช่วยเหลือด้านชื่อเรื่องและสรุปแต่ไม่สร้างแทนคุณ",
+    ],
     flowTitle: "สองจุดเริ่ม ตรงสู่ปลายทางเดียวกัน",
     flowLead: "เริ่มต่างกัน แต่ไปจุดเดียวกัน.",
     flows: [
@@ -761,6 +819,13 @@ const howItWorksContent: Record<Language, HowItWorksContent> = {
     heroSubtitle: "Ghi lai bang tracking hoac chi voi anh. Ket qua la hanh trinh da sap xep.",
     heroTrackingCta: "Ghi lai bang tracking",
     heroPhotoCta: "Sap xep chi voi anh",
+    keyFactsTitle: "Su that quan trong",
+    keyFacts: [
+      "Hai cach bat dau: hanh trinh bang tracking hoac sap xep chi voi anh",
+      "Rieng tu mac dinh; dang bai la tuy chon va tao trang cong khai doc nhat",
+      "Khong co tinh nang xa hoi: khong co nguon tin, thich hoac xep hang",
+      "AI giup voi tieu de va tom tat nhung khong tao thay ban",
+    ],
     flowTitle: "Hai diem bat dau, mot dich den",
     flowLead: "Bat dau khac nhau, ket qua giong nhau.",
     flows: [
@@ -898,8 +963,33 @@ export default async function AboutPage({
   const content = getHowItWorksContent(lang);
   const essentials = aboutEssentialsContent[lang] ?? aboutEssentialsContent.en;
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "MomentBook",
+        item: `${siteUrl}/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: content.metaTitle.split(" — ")[0] || "About",
+        item: `${siteUrl}/${lang}/about`,
+      },
+    ],
+  };
+
   return (
     <main className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <header className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
@@ -914,6 +1004,19 @@ export default async function AboutPage({
           </div>
         </div>
       </header>
+
+      <section className={styles.keyFactsSection}>
+        <div className={styles.keyFactsInner}>
+          <h2 className={styles.keyFactsTitle}>{content.keyFactsTitle}</h2>
+          <ul className={styles.keyFactsList}>
+            {content.keyFacts.map((fact, idx) => (
+              <li key={`keyfact-${idx}`} className={styles.keyFactItem}>
+                {fact}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <section className={styles.section}>
         <header className={styles.sectionHeader}>
