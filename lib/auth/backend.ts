@@ -8,6 +8,12 @@ export type BackendAuthUser = {
   email: string | null;
 };
 
+export type BackendConsentStatus = {
+  isAllRequiredConsented: boolean;
+  missingRequiredConsents: string[];
+  requiresAction: boolean;
+};
+
 export type BackendAuthTokens = {
   accessToken: string;
   refreshToken: string | null;
@@ -16,6 +22,8 @@ export type BackendAuthTokens = {
 
 export type BackendAuthResult = BackendAuthTokens & {
   user: BackendAuthUser;
+  consents: BackendConsentStatus | null;
+  provider: string | null;
 };
 
 function asRecord(value: unknown): UnknownRecord | null {
@@ -24,6 +32,33 @@ function asRecord(value: unknown): UnknownRecord | null {
 
 function asString(value: unknown): string | null {
   return typeof value === "string" && value.length > 0 ? value : null;
+}
+
+function asNumber(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+
+  return null;
+}
+
+function asBoolean(value: unknown): boolean | null {
+  return typeof value === "boolean" ? value : null;
+}
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter((item): item is string => typeof item === "string");
 }
 
 function normalizeEmail(email: string): string {
@@ -55,6 +90,7 @@ function parseJwtExpiryMs(token: string): number | null {
 function getAuthHeaders() {
   return {
     "Content-Type": "application/json",
+    "X-Platform": "web",
     "App-Env": process.env.NEXT_PUBLIC_APP_ENV ?? "",
     "App-Is-Local": process.env.NEXT_PUBLIC_APP_IS_LOCAL ?? "false",
     "App-Version": version,
@@ -92,8 +128,27 @@ function normalizeAuthResult(payload: unknown): BackendAuthResult | null {
     asString(data?.refreshToken) ??
     asString(root?.refreshToken) ??
     null;
+
+  const expiresInSeconds = asNumber(data?.expiresIn) ?? asNumber(root?.expiresIn);
+  const expiresFromPayload =
+    typeof expiresInSeconds === "number" && expiresInSeconds > 0
+      ? Date.now() + expiresInSeconds * 1000
+      : null;
   const accessTokenExpiresAt =
-    parseJwtExpiryMs(accessToken) ?? Date.now() + 55 * 60 * 1000;
+    expiresFromPayload ??
+    parseJwtExpiryMs(accessToken) ??
+    Date.now() + 55 * 60 * 1000;
+
+  const consentsRaw = asRecord(data?.consents);
+  const consents: BackendConsentStatus | null = consentsRaw
+    ? {
+        isAllRequiredConsented: asBoolean(consentsRaw.isAllRequiredConsented) ?? false,
+        missingRequiredConsents: asStringArray(consentsRaw.missingRequiredConsents),
+        requiresAction: asBoolean(consentsRaw.requiresAction) ?? false,
+      }
+    : null;
+
+  const provider = asString(data?.provider) ?? asString(root?.provider) ?? null;
 
   return {
     user: {
@@ -104,6 +159,8 @@ function normalizeAuthResult(payload: unknown): BackendAuthResult | null {
     accessToken,
     refreshToken,
     accessTokenExpiresAt,
+    consents,
+    provider,
   };
 }
 
@@ -135,6 +192,26 @@ async function callBackendAuth(
   }
 }
 
+async function callBackendAction(path: string, body: UnknownRecord): Promise<boolean> {
+  const baseUrl = getApiBaseUrl();
+  if (!baseUrl) {
+    return false;
+  }
+
+  try {
+    const response = await fetch(`${baseUrl}${path}`, {
+      method: "POST",
+      cache: "no-store",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(body),
+    });
+
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 export async function exchangeEmailLogin(email: string, password: string) {
   const normalizedEmail = normalizeEmail(email);
   return callBackendAuth("/v2/auth/email/login", {
@@ -160,14 +237,18 @@ export async function exchangeGoogleLogin(
 export async function exchangeAppleLogin(
   idToken?: string,
   code?: string,
+  options?: { nonce?: string; state?: string },
 ) {
-  if (!idToken && !code) {
+  if (!idToken || !code) {
     return null;
   }
 
   return callBackendAuth("/v2/auth/apple", {
-    ...(idToken ? { id_token: idToken } : {}),
-    ...(code ? { code } : {}),
+    id_token: idToken,
+    code,
+    platform: "web",
+    ...(asString(options?.nonce) ? { nonce: options?.nonce } : {}),
+    ...(asString(options?.state) ? { state: options?.state } : {}),
   });
 }
 
@@ -176,5 +257,18 @@ export async function exchangeRefreshToken(refreshToken: string) {
     return null;
   }
 
-  return callBackendAuth("/v2/auth/refresh", { refreshToken });
+  const refreshed = await callBackendAuth("/v2/auth/refresh", { refreshToken });
+  if (!refreshed?.refreshToken) {
+    return null;
+  }
+
+  return refreshed;
+}
+
+export async function exchangeLogout(refreshToken: string) {
+  if (!refreshToken) {
+    return false;
+  }
+
+  return callBackendAction("/v2/auth/logout", { refreshToken });
 }
