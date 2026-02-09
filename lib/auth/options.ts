@@ -13,8 +13,9 @@ import {
   type BackendAuthResult,
 } from "./backend";
 
-const nextAuthUrl = (process.env.NEXTAUTH_URL ?? "").trim();
-const isHttpsAuthOrigin = /^https:\/\//i.test(nextAuthUrl);
+const configuredAuthUrl =
+  (process.env.NEXTAUTH_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "").trim();
+const isHttpsAuthOrigin = /^https:\/\//i.test(configuredAuthUrl);
 const oauthCookiePrefix = isHttpsAuthOrigin ? "__Secure-" : "";
 const oauthCookieSameSite = (isHttpsAuthOrigin ? "none" : "lax") as
   | "lax"
@@ -94,6 +95,14 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
 }
 
 if (process.env.APPLE_ID && process.env.APPLE_SECRET) {
+  if (!isHttpsAuthOrigin) {
+    console.warn(
+      "[auth] Apple OAuth is configured, but auth origin is not HTTPS. " +
+        "PKCE cookies may be dropped on callback POST. " +
+        "Set NEXTAUTH_URL (or NEXT_PUBLIC_SITE_URL) to an https origin.",
+    );
+  }
+
   providers.push(
     AppleProvider({
       clientId: process.env.APPLE_ID,
