@@ -14,10 +14,50 @@ type FAQContent = {
   metaDescription: string;
   pageTitle: string;
   pageSubtitle: string;
+  lastUpdated: string;
   calloutPrefix: string;
   calloutLink: string;
   calloutSuffix: string;
   items: FAQItem[];
+};
+
+const timelineExportFaqByLang: Record<Language, FAQItem> = {
+  en: {
+    question: "Can I export a journey timeline?",
+    answer: "Yes. After organizing the timeline, you can export a ZIP (images + metadata) to keep personally or share directly. This is available on both iOS and Android, and does not require publishing.",
+  },
+  ko: {
+    question: "여정 타임라인을 내보낼 수 있나요?",
+    answer: "네. 타임라인 정리 후 이미지+메타데이터 ZIP으로 내보내 개인 보관하거나 직접 공유할 수 있습니다. iOS와 Android에서 동일하게 지원되며, 게시하지 않아도 가능합니다.",
+  },
+  ja: {
+    question: "旅のタイムラインを書き出せますか？",
+    answer: "はい。タイムライン整理後に画像+メタデータZIPを書き出して、個人保管または直接共有できます。iOS/Androidで同じ機能が使え、公開は必須ではありません。",
+  },
+  zh: {
+    question: "可以导出旅程时间线吗？",
+    answer: "可以。时间线整理后可导出图片+元数据 ZIP，用于个人保存或直接分享。iOS 与 Android 功能一致，且无需发布。",
+  },
+  es: {
+    question: "Puedo exportar el timeline del viaje?",
+    answer: "Si. Tras ordenar el timeline, puedes exportar un ZIP (imagenes + metadatos) para guardarlo o compartirlo directamente. Esta funcion existe en iOS y Android, y no exige publicar.",
+  },
+  pt: {
+    question: "Posso exportar a timeline da jornada?",
+    answer: "Sim. Apos organizar a timeline, voce pode exportar um ZIP (imagens + metadados) para guardar ou compartilhar diretamente. Funciona em iOS e Android e nao exige publicar.",
+  },
+  fr: {
+    question: "Puis-je exporter la timeline du voyage ?",
+    answer: "Oui. Apres organisation de la timeline, vous pouvez exporter un ZIP (images + metadonnees) pour conserver ou partager directement. Disponible sur iOS et Android, sans obligation de publier.",
+  },
+  th: {
+    question: "ส่งออกไทม์ไลน์ทริปได้ไหม?",
+    answer: "ได้ หลังจัดไทม์ไลน์แล้ว คุณส่งออก ZIP (รูป+เมทาดาทา) เพื่อเก็บเองหรือแชร์โดยตรงได้ รองรับทั้ง iOS และ Android และไม่ต้องเผยแพร่ก็ได้",
+  },
+  vi: {
+    question: "Toi co the xuat timeline hanh trinh khong?",
+    answer: "Co. Sau khi sap xep timeline, ban co the xuat ZIP (anh + metadata) de tu luu hoac chia se truc tiep. Tinh nang nay giong nhau tren iOS va Android va khong bat buoc dang bai.",
+  },
 };
 
 function getFaqContent(lang: Language): FAQContent {
@@ -27,6 +67,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "Respuestas tranquilas para entender MomentBook.",
       pageTitle: "Preguntas sobre MomentBook",
       pageSubtitle: "Respuestas breves y calmadas sobre como funciona.",
+      lastUpdated: "Actualizado: 9 de febrero de 2026",
       calloutPrefix: "Tienes otra pregunta? ",
       calloutLink: "Contactanos",
       calloutSuffix: "",
@@ -50,6 +91,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "Respostas calmas sobre o MomentBook.",
       pageTitle: "Perguntas sobre o MomentBook",
       pageSubtitle: "Respostas curtas e tranquilas sobre como funciona.",
+      lastUpdated: "Atualizado: 9 de fevereiro de 2026",
       calloutPrefix: "Ainda com duvidas? ",
       calloutLink: "Fale conosco",
       calloutSuffix: "",
@@ -73,6 +115,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "Des reponses calmes pour comprendre MomentBook.",
       pageTitle: "Questions sur MomentBook",
       pageSubtitle: "Des reponses courtes et calmes sur son fonctionnement.",
+      lastUpdated: "Mis a jour : 9 fevrier 2026",
       calloutPrefix: "Une autre question ? ",
       calloutLink: "Nous contacter",
       calloutSuffix: "",
@@ -96,6 +139,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "คําตอบแบบเรียบง่ายเพื่อเข้าใจ MomentBook",
       pageTitle: "คําถามเกี่ยวกับ MomentBook",
       pageSubtitle: "คําตอบสั้นๆ อย่างสงบว่าแอปทํางานอย่างไร",
+      lastUpdated: "อัปเดต: 9 กุมภาพันธ์ 2026",
       calloutPrefix: "ยังมีคําถามอยู่ไหม? ",
       calloutLink: "ติดต่อเรา",
       calloutSuffix: "",
@@ -119,6 +163,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "Cau tra loi nhe nhang de hieu MomentBook.",
       pageTitle: "Cau hoi ve MomentBook",
       pageSubtitle: "Cau tra loi ngan gon va binh tinh ve cach ung dung hoat dong.",
+      lastUpdated: "Cap nhat: 9 thang 2 nam 2026",
       calloutPrefix: "Ban van con thac mac? ",
       calloutLink: "Lien he",
       calloutSuffix: "",
@@ -142,6 +187,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "MomentBook을 조용히 이해할 수 있는 질문과 답입니다.",
       pageTitle: "MomentBook 질문과 답",
       pageSubtitle: "짧고 차분한 답변을 모았습니다.",
+      lastUpdated: "업데이트: 2026년 2월 9일",
       calloutPrefix: "더 필요한 내용이 있나요? ",
       calloutLink: "문의하기",
       calloutSuffix: "",
@@ -192,6 +238,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "MomentBook を静かに理解するための質問と回答です。",
       pageTitle: "MomentBook 質問と回答",
       pageSubtitle: "短く穏やかな回答をまとめました。",
+      lastUpdated: "更新日: 2026年2月9日",
       calloutPrefix: "まだ気になる点があれば、",
       calloutLink: "お問い合わせ",
       calloutSuffix: "ください。",
@@ -242,6 +289,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "帮助你安静了解 MomentBook 的问题与回答。",
       pageTitle: "MomentBook 问题与回答",
       pageSubtitle: "简短而平和的回答汇总。",
+      lastUpdated: "更新：2026年2月9日",
       calloutPrefix: "还有其他疑问？",
       calloutLink: "联系我们",
       calloutSuffix: "",
@@ -291,6 +339,7 @@ function getFaqContent(lang: Language): FAQContent {
     metaDescription: "Quiet answers about MomentBook.",
     pageTitle: "MomentBook questions",
     pageSubtitle: "Short, calm answers about how it works.",
+    lastUpdated: "Updated: February 9, 2026",
     calloutPrefix: "Still wondering about something? ",
     calloutLink: "Get in touch",
     calloutSuffix: "",
@@ -369,13 +418,15 @@ export default async function FAQPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getFaqContent(lang);
+  const timelineExportFaq = timelineExportFaqByLang[lang] ?? timelineExportFaqByLang.en;
+  const faqItems = [...content.items, timelineExportFaq];
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, "/faq"), siteUrl).toString();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     url: pageUrl,
-    mainEntity: content.items.map((item) => ({
+    mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -394,10 +445,11 @@ export default async function FAQPage({
       <header className={faqStyles.header}>
         <h1 className={faqStyles.title}>{content.pageTitle}</h1>
         <p className={faqStyles.subtitle}>{content.pageSubtitle}</p>
+        <p className={faqStyles.lastUpdated}>{content.lastUpdated}</p>
       </header>
 
       <div className={faqStyles.faqGrid}>
-        {content.items.map((faq, index) => (
+        {faqItems.map((faq, index) => (
           <section key={`${faq.question}-${index}`} className={faqStyles.faqItem}>
             <h2 className={faqStyles.faqQuestion}>{faq.question}</h2>
             <p className={faqStyles.faqAnswer}>{faq.answer}</p>

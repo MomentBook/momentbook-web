@@ -58,6 +58,11 @@ Each ADR follows this structure:
     - **Status**: Accepted
     - **Summary**: Firebase Analytics (GA4) with lazy-loading singleton, client-only initialization, and graceful degradation for unsupported browsers
 
+8. [ADR 0008: AEO/GEO Optimization](./0008-aeo-geo-optimization.md)
+    - **Date**: 2026-02-09
+    - **Status**: Accepted
+    - **Summary**: Answer Engine & Generative Engine Optimization with answer-ready blocks (TL;DR/Key Facts/Quick Start), enhanced JSON-LD schemas, llms.txt, internal linking, and trust signals for AI-era discovery
+
 ## Status Definitions
 
 | Status | Meaning |
