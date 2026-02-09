@@ -14,6 +14,7 @@ type FAQContent = {
   metaDescription: string;
   pageTitle: string;
   pageSubtitle: string;
+  lastUpdated: string;
   calloutPrefix: string;
   calloutLink: string;
   calloutSuffix: string;
@@ -27,6 +28,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "Respuestas tranquilas para entender MomentBook.",
       pageTitle: "Preguntas sobre MomentBook",
       pageSubtitle: "Respuestas breves y calmadas sobre como funciona.",
+      lastUpdated: "Actualizado: 9 de febrero de 2026",
       calloutPrefix: "Tienes otra pregunta? ",
       calloutLink: "Contactanos",
       calloutSuffix: "",
@@ -50,6 +52,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "Respostas calmas sobre o MomentBook.",
       pageTitle: "Perguntas sobre o MomentBook",
       pageSubtitle: "Respostas curtas e tranquilas sobre como funciona.",
+      lastUpdated: "Atualizado: 9 de fevereiro de 2026",
       calloutPrefix: "Ainda com duvidas? ",
       calloutLink: "Fale conosco",
       calloutSuffix: "",
@@ -73,6 +76,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "Des reponses calmes pour comprendre MomentBook.",
       pageTitle: "Questions sur MomentBook",
       pageSubtitle: "Des reponses courtes et calmes sur son fonctionnement.",
+      lastUpdated: "Mis a jour : 9 fevrier 2026",
       calloutPrefix: "Une autre question ? ",
       calloutLink: "Nous contacter",
       calloutSuffix: "",
@@ -96,6 +100,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "คําตอบแบบเรียบง่ายเพื่อเข้าใจ MomentBook",
       pageTitle: "คําถามเกี่ยวกับ MomentBook",
       pageSubtitle: "คําตอบสั้นๆ อย่างสงบว่าแอปทํางานอย่างไร",
+      lastUpdated: "อัปเดต: 9 กุมภาพันธ์ 2026",
       calloutPrefix: "ยังมีคําถามอยู่ไหม? ",
       calloutLink: "ติดต่อเรา",
       calloutSuffix: "",
@@ -119,6 +124,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "Cau tra loi nhe nhang de hieu MomentBook.",
       pageTitle: "Cau hoi ve MomentBook",
       pageSubtitle: "Cau tra loi ngan gon va binh tinh ve cach ung dung hoat dong.",
+      lastUpdated: "Cap nhat: 9 thang 2 nam 2026",
       calloutPrefix: "Ban van con thac mac? ",
       calloutLink: "Lien he",
       calloutSuffix: "",
@@ -142,6 +148,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "MomentBook을 조용히 이해할 수 있는 질문과 답입니다.",
       pageTitle: "MomentBook 질문과 답",
       pageSubtitle: "짧고 차분한 답변을 모았습니다.",
+      lastUpdated: "업데이트: 2026년 2월 9일",
       calloutPrefix: "더 필요한 내용이 있나요? ",
       calloutLink: "문의하기",
       calloutSuffix: "",
@@ -192,6 +199,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "MomentBook を静かに理解するための質問と回答です。",
       pageTitle: "MomentBook 質問と回答",
       pageSubtitle: "短く穏やかな回答をまとめました。",
+      lastUpdated: "更新日: 2026年2月9日",
       calloutPrefix: "まだ気になる点があれば、",
       calloutLink: "お問い合わせ",
       calloutSuffix: "ください。",
@@ -242,6 +250,7 @@ function getFaqContent(lang: Language): FAQContent {
       metaDescription: "帮助你安静了解 MomentBook 的问题与回答。",
       pageTitle: "MomentBook 问题与回答",
       pageSubtitle: "简短而平和的回答汇总。",
+      lastUpdated: "更新：2026年2月9日",
       calloutPrefix: "还有其他疑问？",
       calloutLink: "联系我们",
       calloutSuffix: "",
@@ -291,6 +300,7 @@ function getFaqContent(lang: Language): FAQContent {
     metaDescription: "Quiet answers about MomentBook.",
     pageTitle: "MomentBook questions",
     pageSubtitle: "Short, calm answers about how it works.",
+    lastUpdated: "Updated: February 9, 2026",
     calloutPrefix: "Still wondering about something? ",
     calloutLink: "Get in touch",
     calloutSuffix: "",
@@ -394,6 +404,7 @@ export default async function FAQPage({
       <header className={faqStyles.header}>
         <h1 className={faqStyles.title}>{content.pageTitle}</h1>
         <p className={faqStyles.subtitle}>{content.pageSubtitle}</p>
+        <p className={faqStyles.lastUpdated}>{content.lastUpdated}</p>
       </header>
 
       <div className={faqStyles.faqGrid}>
