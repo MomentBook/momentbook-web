@@ -49,7 +49,7 @@ export interface GoogleTokenAuthDto {
    */
   accessToken?: string;
   /**
-   * Google ID Token (주로 iOS에서 사용)
+   * Google ID Token (iOS/Web에서 사용)
    * @example "eyJhbGciOiJSUzI1NiIs..."
    */
   idToken?: string;
@@ -184,6 +184,11 @@ export interface AppleAuthDto {
   nonce?: string;
   /** State parameter (Android/Web) */
   state?: string;
+  /**
+   * 클라이언트 플랫폼 (ios/android/web)
+   * @example "web"
+   */
+  platform?: "ios" | "android" | "web";
 }
 
 export interface AppleUserResponseDto {
@@ -2470,7 +2475,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.0.4
+ * @version 2.0.6
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -2552,7 +2557,7 @@ export class Api<
      *
      * @tags auth
      * @name AuthControllerSignInWithGoogleToken
-     * @summary Google Token으로 인증 (모바일)
+     * @summary Google Token으로 인증 (모바일/웹)
      * @request POST:/v2/auth/google/token
      */
     authControllerSignInWithGoogleToken: (
