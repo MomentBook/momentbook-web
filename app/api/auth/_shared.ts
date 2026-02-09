@@ -30,6 +30,7 @@ export async function buildAuthProxyHeaders() {
 
   return {
     "Content-Type": "application/json",
+    "X-Platform": "web",
     "App-Env": getEnv("NEXT_PUBLIC_APP_ENV"),
     "App-Is-Local": getEnv("NEXT_PUBLIC_APP_IS_LOCAL", "false"),
     "App-Version": version,

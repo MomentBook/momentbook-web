@@ -8,6 +8,7 @@ import {
   exchangeAppleLogin,
   exchangeEmailLogin,
   exchangeGoogleLogin,
+  exchangeLogout,
   exchangeRefreshToken,
   type BackendAuthResult,
 } from "./backend";
@@ -24,11 +25,25 @@ function applyBackendAuthToToken(
   backendAuth: BackendAuthResult,
 ) {
   token.accessToken = backendAuth.accessToken;
-  token.refreshToken = backendAuth.refreshToken ?? undefined;
+  if (backendAuth.refreshToken) {
+    token.refreshToken = backendAuth.refreshToken;
+  }
   token.accessTokenExpiresAt = backendAuth.accessTokenExpiresAt;
-  token.userId = backendAuth.user.userId;
-  token.userName = backendAuth.user.name;
-  token.userEmail = backendAuth.user.email;
+  if (backendAuth.user.userId) {
+    token.userId = backendAuth.user.userId;
+  }
+  if (backendAuth.user.name) {
+    token.userName = backendAuth.user.name;
+  }
+  if (backendAuth.user.email) {
+    token.userEmail = backendAuth.user.email;
+  }
+  if (backendAuth.consents) {
+    token.consents = backendAuth.consents;
+  }
+  if (backendAuth.provider) {
+    token.authProvider = backendAuth.provider;
+  }
   token.authError = null;
 }
 
@@ -108,9 +123,16 @@ export const authOptions: NextAuthOptions = {
       }
 
       if (account?.provider === "apple") {
+        const accountLike = account as Record<string, unknown>;
+        const state =
+          typeof accountLike.state === "string" ? accountLike.state : undefined;
+        const nonce =
+          typeof accountLike.nonce === "string" ? accountLike.nonce : undefined;
+
         const backendAuth = await exchangeAppleLogin(
           account.id_token,
           typeof account.code === "string" ? account.code : undefined,
+          { nonce, state },
         );
 
         if (backendAuth) {
@@ -157,8 +179,22 @@ export const authOptions: NextAuthOptions = {
 
       session.accessToken = (token.accessToken as string | undefined) ?? null;
       session.authError = (token.authError as string | undefined) ?? null;
+      session.consents = (token.consents as typeof session.consents) ?? null;
 
       return session;
+    },
+  },
+  events: {
+    async signOut(message) {
+      const refreshToken =
+        typeof message.token?.refreshToken === "string"
+          ? message.token.refreshToken
+          : null;
+      if (!refreshToken) {
+        return;
+      }
+
+      await exchangeLogout(refreshToken);
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
