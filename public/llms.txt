@@ -1,0 +1,37 @@
+# MomentBook
+
+> A quiet journey archive that can start with tracking or photos. Not a social network—no feeds, likes, or rankings. Private by default with optional publishing.
+
+## Main Sections
+
+- [About](https://momentbook.app/en/about): Two ways to begin (tracking or photos), product principles, and philosophy
+- [FAQ](https://momentbook.app/en/faq): Common questions about how MomentBook works, privacy, and features
+- [Download](https://momentbook.app/en/download): iOS and Android apps (free), system requirements, and getting started
+- [Journeys](https://momentbook.app/en/journeys): Examples of published journeys (public content)
+
+## Product Principles
+
+- Two ways to begin: tracking-based journey or photo-only organization
+- Private by default; publishing is optional and creates a unique public page
+- No social features: no feeds, likes, or rankings
+- AI helps with titles and summaries but doesn't create for you
+- Not a habit tracker, productivity tool, or recommendation engine
+- A quiet archive for returning to journeys
+
+## Technical Info
+
+- **Mobile apps**: iOS 16.0 or later, Android 10.0 or later
+- **Web**: Read-only public content (journeys, photos, user profiles)
+- **Languages**: English, Korean, Japanese, Chinese, Spanish, Portuguese, French, Thai, Vietnamese (9 languages supported)
+- **Architecture**: Next.js 16 (App Router), React 18, TypeScript, SSG + ISR
+
+## Policies & Support
+
+- [Privacy Policy](https://momentbook.app/en/privacy)
+- [Terms of Service](https://momentbook.app/en/terms)
+- [Community Guidelines](https://momentbook.app/en/community-guidelines)
+- [Support](https://momentbook.app/en/support): support@momentbook.app
+
+## What MomentBook Is Not
+
+MomentBook is not a social network, habit tracker, productivity tool, or performance optimizer. It doesn't have feeds, likes, rankings, or social interactions. It's not designed for sharing as a primary goal. It's a quiet archive for returning to your own journeys.

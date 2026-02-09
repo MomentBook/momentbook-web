@@ -27,12 +27,17 @@ type HomeContent = {
   heroDeviceImage: string;
   heroDeviceAlt: string;
   heroCaption: string;
+  tldrTitle: string;
+  tldrQuestion: string;
+  tldrAnswer: string;
+  tldrPoints: string[];
   pathsTitle: string;
   pathsLead: string;
   paths: HomePath[];
   finalTitle: string;
   finalLead: string;
   finalCta: string;
+  finalFaqCta: string;
 };
 
 const homeContent: Record<Language, HomeContent> = {
@@ -47,6 +52,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "Home screen showing the start journey prompt.",
     heroCaption: "The home screen. Choose a start.",
+    tldrTitle: "Quick answer",
+    tldrQuestion: "What is MomentBook?",
+    tldrAnswer: "MomentBook is a quiet journey archive that can start with tracking or photos. It's not a social network—no feeds, likes, or rankings.",
+    tldrPoints: [
+      "Two ways to begin: tracking or photos",
+      "Private by default, optional publishing",
+      "Organized moments, not a feed",
+      "AI helps but doesn't create for you",
+    ],
     pathsTitle: "Choose your start",
     pathsLead: "Both paths keep things simple.",
     paths: [
@@ -76,6 +90,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "A quiet record, on your terms",
     finalLead: "MomentBook is available on iOS and Android.",
     finalCta: "Go to download",
+    finalFaqCta: "Common questions",
   },
   ko: {
     metaTitle: "MomentBook — 두 가지 간단한 시작",
@@ -88,6 +103,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "여정을 시작하는 홈 화면",
     heroCaption: "홈 화면에서 시작을 고릅니다.",
+    tldrTitle: "핵심 요약",
+    tldrQuestion: "MomentBook은 무엇인가요?",
+    tldrAnswer: "MomentBook은 트래킹이나 사진으로 시작할 수 있는 조용한 여정 기록입니다. 소셜 네트워크가 아니며, 피드, 좋아요, 랭킹이 없습니다.",
+    tldrPoints: [
+      "두 가지 시작 방법: 트래킹 또는 사진",
+      "기본적으로 비공개, 선택적 게시",
+      "피드가 아닌 정리된 순간",
+      "AI가 돕지만 대신 만들지 않음",
+    ],
     pathsTitle: "시작 방법",
     pathsLead: "둘 중 어떤 선택도 간단합니다.",
     paths: [
@@ -117,6 +141,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "내 방식대로 남기는 기록",
     finalLead: "iOS와 Android에서 사용할 수 있습니다.",
     finalCta: "다운로드로 이동",
+    finalFaqCta: "자주 묻는 질문",
   },
   ja: {
     metaTitle: "MomentBook — 二つのシンプルな始め方",
@@ -129,6 +154,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "旅を開始するホーム画面",
     heroCaption: "ホーム画面で始め方を選びます。",
+    tldrTitle: "クイック回答",
+    tldrQuestion: "MomentBookとは何ですか？",
+    tldrAnswer: "MomentBookはトラッキングまたは写真で始められる静かな旅の記録です。ソーシャルネットワークではなく、フィード、いいね、ランキングはありません。",
+    tldrPoints: [
+      "二つの始め方：トラッキングまたは写真",
+      "デフォルトで非公開、公開は任意",
+      "フィードではなく整理された瞬間",
+      "AIは手助けしますが代わりに作りません",
+    ],
     pathsTitle: "始め方を選ぶ",
     pathsLead: "どちらもシンプルです。",
     paths: [
@@ -158,6 +192,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "静かな記録を自分のペースで",
     finalLead: "iOS と Android で利用できます。",
     finalCta: "ダウンロードへ",
+    finalFaqCta: "よくある質問",
   },
   zh: {
     metaTitle: "MomentBook — 两种简单的开始方式",
@@ -170,6 +205,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "显示开始旅程的主屏幕",
     heroCaption: "在主屏幕选择开始方式。",
+    tldrTitle: "快速回答",
+    tldrQuestion: "什么是 MomentBook？",
+    tldrAnswer: "MomentBook 是一个可以从追踪或照片开始的安静旅程记录。它不是社交网络，没有动态、点赞或排名。",
+    tldrPoints: [
+      "两种开始方式：追踪或照片",
+      "默认私密，可选发布",
+      "组织的瞬间，而非动态",
+      "AI 提供帮助但不代你创作",
+    ],
     pathsTitle: "选择开始方式",
     pathsLead: "两种方式都很简单。",
     paths: [
@@ -199,6 +243,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "按自己的节奏留下记录",
     finalLead: "可在 iOS 和 Android 使用。",
     finalCta: "前往下载",
+    finalFaqCta: "常见问题",
   },
   es: {
     metaTitle: "MomentBook — Dos formas simples de empezar",
@@ -211,6 +256,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "Pantalla de inicio con la opcion de iniciar un viaje.",
     heroCaption: "La pantalla de inicio. Elige como empezar.",
+    tldrTitle: "Respuesta rápida",
+    tldrQuestion: "¿Qué es MomentBook?",
+    tldrAnswer: "MomentBook es un archivo tranquilo de viajes que puede empezar con tracking o fotos. No es una red social: no hay feeds, likes ni rankings.",
+    tldrPoints: [
+      "Dos formas de empezar: tracking o fotos",
+      "Privado por defecto, publicación opcional",
+      "Momentos organizados, no un feed",
+      "La IA ayuda pero no crea por ti",
+    ],
     pathsTitle: "Elige el inicio",
     pathsLead: "Ambas opciones son simples.",
     paths: [
@@ -240,6 +294,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "Un registro tranquilo, a tu ritmo",
     finalLead: "MomentBook esta disponible en iOS y Android.",
     finalCta: "Ir a descarga",
+    finalFaqCta: "Preguntas frecuentes",
   },
   pt: {
     metaTitle: "MomentBook — Duas formas simples de comecar",
@@ -252,6 +307,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "Tela inicial com a opcao de iniciar jornada.",
     heroCaption: "A tela inicial. Escolha como comecar.",
+    tldrTitle: "Resposta rápida",
+    tldrQuestion: "O que é MomentBook?",
+    tldrAnswer: "MomentBook é um arquivo calmo de jornadas que pode começar com tracking ou fotos. Não é uma rede social—sem feeds, likes ou rankings.",
+    tldrPoints: [
+      "Duas formas de começar: tracking ou fotos",
+      "Privado por padrão, publicação opcional",
+      "Momentos organizados, não um feed",
+      "A IA ajuda mas não cria por você",
+    ],
     pathsTitle: "Escolha o inicio",
     pathsLead: "Ambas as opcoes sao simples.",
     paths: [
@@ -281,6 +345,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "Um registro calmo, no seu ritmo",
     finalLead: "MomentBook esta disponivel no iOS e Android.",
     finalCta: "Ir para download",
+    finalFaqCta: "Perguntas frequentes",
   },
   fr: {
     metaTitle: "MomentBook — Deux facons simples de commencer",
@@ -293,6 +358,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "Ecran d'accueil avec demarrage de voyage.",
     heroCaption: "Ecran d'accueil. Choisissez comment commencer.",
+    tldrTitle: "Réponse rapide",
+    tldrQuestion: "Qu'est-ce que MomentBook ?",
+    tldrAnswer: "MomentBook est un journal calme de voyages qui peut commencer avec tracking ou photos. Ce n'est pas un réseau social—pas de feeds, likes ou classements.",
+    tldrPoints: [
+      "Deux façons de commencer : tracking ou photos",
+      "Privé par défaut, publication optionnelle",
+      "Moments organisés, pas un feed",
+      "L'IA aide mais ne crée pas pour vous",
+    ],
     pathsTitle: "Choisir le depart",
     pathsLead: "Les deux options sont simples.",
     paths: [
@@ -322,6 +396,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "Un journal calme, a votre rythme",
     finalLead: "MomentBook est disponible sur iOS et Android.",
     finalCta: "Aller au telechargement",
+    finalFaqCta: "Questions fréquentes",
   },
   th: {
     metaTitle: "MomentBook — สองวิธีเริ่มต้นแบบเรียบง่าย",
@@ -334,6 +409,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "หน้าจอหลักที่เริ่มการเดินทาง",
     heroCaption: "หน้าจอหลัก เลือกวิธีเริ่มต้น.",
+    tldrTitle: "คำตอบสั้น",
+    tldrQuestion: "MomentBook คืออะไร?",
+    tldrAnswer: "MomentBook เป็นบันทึกทริปที่สงบซึ่งเริ่มได้ด้วยการติดตามหรือรูป ไม่ใช่โซเชียลเน็ตเวิร์ก ไม่มีฟีด ไลค์ หรือการจัดอันดับ.",
+    tldrPoints: [
+      "สองวิธีเริ่มต้น: การติดตามหรือรูป",
+      "ส่วนตัวเป็นค่าเริ่มต้น การเผยแพร่เป็นตัวเลือก",
+      "ช่วงเวลาที่จัดระเบียบ ไม่ใช่ฟีด",
+      "AI ช่วยแต่ไม่สร้างแทนคุณ",
+    ],
     pathsTitle: "เลือกวิธีเริ่มต้น",
     pathsLead: "ทั้งสองแบบเรียบง่าย.",
     paths: [
@@ -363,6 +447,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "บันทึกอย่างสงบ ในแบบของคุณ",
     finalLead: "MomentBook ใช้งานได้บน iOS และ Android.",
     finalCta: "ไปที่ดาวน์โหลด",
+    finalFaqCta: "คำถามที่พบบ่อย",
   },
   vi: {
     metaTitle: "MomentBook — Hai cach bat dau don gian",
@@ -375,6 +460,15 @@ const homeContent: Record<Language, HomeContent> = {
     heroDeviceImage: "/screenshots/start-journey.png",
     heroDeviceAlt: "Man hinh chinh voi nut bat dau hanh trinh",
     heroCaption: "Man hinh chinh. Chon cach bat dau.",
+    tldrTitle: "Cau tra loi nhanh",
+    tldrQuestion: "MomentBook la gi?",
+    tldrAnswer: "MomentBook la kho luu tru hanh trinh yen tinh co the bat dau bang tracking hoac anh. No khong phai mang xa hoi—khong co nguon tin, thich hoac xep hang.",
+    tldrPoints: [
+      "Hai cach bat dau: tracking hoac anh",
+      "Rieng tu mac dinh, xuat ban tuy chon",
+      "Khoanh khac duoc sap xep, khong phai nguon tin",
+      "AI giup nhung khong tao thay ban",
+    ],
     pathsTitle: "Chon cach bat dau",
     pathsLead: "Ca hai deu don gian.",
     paths: [
@@ -404,6 +498,7 @@ const homeContent: Record<Language, HomeContent> = {
     finalTitle: "Ghi chep yen binh, theo cach cua ban",
     finalLead: "MomentBook co san tren iOS va Android.",
     finalCta: "Di den tai ve",
+    finalFaqCta: "Cau hoi thuong gap",
   },
 };
 
@@ -441,8 +536,52 @@ export default async function Home({
   const { lang } = await params as { lang: Language };
   const content = getHomeContent(lang);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "MomentBook",
+    url: siteUrl,
+    logo: `${siteUrl}/logo.svg`,
+    sameAs: [
+      "https://apps.apple.com/app/momentbook/id6749165889",
+      "https://play.google.com/store/apps/details?id=com.reflectalab.momentbook",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Customer Support",
+      email: supportEmail,
+    },
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "MomentBook",
+    url: siteUrl,
+    description: content.metaDescription,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/${lang}/journeys?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.heroCopy}>
@@ -488,6 +627,21 @@ export default async function Home({
         </div>
       </section>
 
+      <section className={styles.tldrSection}>
+        <div className={styles.tldrInner}>
+          <h2 className={styles.tldrTitle}>{content.tldrTitle}</h2>
+          <div className={styles.tldrCard}>
+            <h3 className={styles.tldrQuestion}>{content.tldrQuestion}</h3>
+            <p className={styles.tldrAnswer}>{content.tldrAnswer}</p>
+            <ul className={styles.tldrPoints}>
+              {content.tldrPoints.map((point, idx) => (
+                <li key={`tldr-point-${idx}`}>{point}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section className={styles.section}>
         <div className={styles.sectionInnerWide}>
           <header className={styles.sectionHeader}>
@@ -520,9 +674,14 @@ export default async function Home({
         <div className={styles.finalInner}>
           <h2 className={styles.finalTitle}>{content.finalTitle}</h2>
           <p className={styles.finalLead}>{content.finalLead}</p>
-          <Link href={`/${lang}/download`} className={styles.primaryButton}>
-            {content.finalCta}
-          </Link>
+          <div className={styles.finalActions}>
+            <Link href={`/${lang}/download`} className={styles.primaryButton}>
+              {content.finalCta}
+            </Link>
+            <Link href={`/${lang}/faq`} className={styles.secondaryButton}>
+              {content.finalFaqCta}
+            </Link>
+          </div>
         </div>
       </section>
     </div>
