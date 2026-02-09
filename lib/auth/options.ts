@@ -13,6 +13,13 @@ import {
   type BackendAuthResult,
 } from "./backend";
 
+const nextAuthUrl = (process.env.NEXTAUTH_URL ?? "").trim();
+const isHttpsAuthOrigin = /^https:\/\//i.test(nextAuthUrl);
+const oauthCookiePrefix = isHttpsAuthOrigin ? "__Secure-" : "";
+const oauthCookieSameSite = (isHttpsAuthOrigin ? "none" : "lax") as
+  | "lax"
+  | "none";
+
 type AuthUserLike = {
   id?: string | null;
   name?: string | null;
@@ -91,6 +98,13 @@ if (process.env.APPLE_ID && process.env.APPLE_SECRET) {
     AppleProvider({
       clientId: process.env.APPLE_ID,
       clientSecret: process.env.APPLE_SECRET,
+      authorization: {
+        params: {
+          scope: "name email",
+          // In non-HTTPS dev environments, query callback avoids cross-site POST cookie edge cases.
+          response_mode: isHttpsAuthOrigin ? "form_post" : "query",
+        },
+      },
     }),
   );
 }
@@ -98,6 +112,38 @@ if (process.env.APPLE_ID && process.env.APPLE_SECRET) {
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
+  },
+  useSecureCookies: isHttpsAuthOrigin,
+  cookies: {
+    pkceCodeVerifier: {
+      name: `${oauthCookiePrefix}next-auth.pkce.code_verifier`,
+      options: {
+        httpOnly: true,
+        sameSite: oauthCookieSameSite,
+        path: "/",
+        secure: isHttpsAuthOrigin,
+        maxAge: 60 * 15,
+      },
+    },
+    state: {
+      name: `${oauthCookiePrefix}next-auth.state`,
+      options: {
+        httpOnly: true,
+        sameSite: oauthCookieSameSite,
+        path: "/",
+        secure: isHttpsAuthOrigin,
+        maxAge: 60 * 15,
+      },
+    },
+    nonce: {
+      name: `${oauthCookiePrefix}next-auth.nonce`,
+      options: {
+        httpOnly: true,
+        sameSite: oauthCookieSameSite,
+        path: "/",
+        secure: isHttpsAuthOrigin,
+      },
+    },
   },
   providers,
   callbacks: {
