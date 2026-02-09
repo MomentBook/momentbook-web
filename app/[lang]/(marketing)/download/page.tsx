@@ -632,16 +632,26 @@ export default async function DownloadPage({
     description: content.metaDescription,
     applicationCategory: "LifestyleApplication",
     operatingSystem: "iOS, Android",
+    softwareRequirements: "iOS 16.0 or later, Android 10.0 or later",
+    screenshot: [
+      `${siteUrl}/screenshots/journey-timeline.png`,
+      `${siteUrl}/screenshots/journey-map.png`,
+      `${siteUrl}/screenshots/moment-detail.png`,
+    ],
     url: pageUrl,
     offers: [
       {
         "@type": "Offer",
         url: storeLinks.ios,
+        price: "0",
+        priceCurrency: "USD",
         availability: "https://schema.org/InStock",
       },
       {
         "@type": "Offer",
         url: storeLinks.android,
+        price: "0",
+        priceCurrency: "USD",
         availability: "https://schema.org/InStock",
       },
     ],
