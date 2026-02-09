@@ -52,6 +52,8 @@ type DownloadContent = {
   privacyText: string;
   supportPrefix: string;
   supportLink: string;
+  faqOr: string;
+  faqLink: string;
   supportSuffix: string;
 };
 
@@ -121,6 +123,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       privacyText: "Privado por defecto. Publicar crea una pagina publica con URL unica.",
       supportPrefix: "Necesitas ayuda? ",
       supportLink: "Ir a soporte",
+      faqOr: " o ",
+      faqLink: "ver FAQ",
       supportSuffix: ".",
     };
   }
@@ -179,6 +183,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       privacyText: "Privado por padrao. Publicar cria uma pagina publica com URL unica.",
       supportPrefix: "Precisa de ajuda? ",
       supportLink: "Ir para suporte",
+      faqOr: " ou ",
+      faqLink: "ver FAQ",
       supportSuffix: ".",
     };
   }
@@ -237,6 +243,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       privacyText: "Prive par defaut. Publier cree une page publique avec une URL unique.",
       supportPrefix: "Besoin d'aide ? ",
       supportLink: "Aller au support",
+      faqOr: " ou ",
+      faqLink: "voir FAQ",
       supportSuffix: ".",
     };
   }
@@ -295,6 +303,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       privacyText: "เป็นส่วนตัวโดยค่าเริ่มต้น การเผยแพร่จะสร้างหน้าสาธารณะที่มี URL เฉพาะ",
       supportPrefix: "ต้องการความช่วยเหลือ? ",
       supportLink: "ไปที่หน้าซัพพอร์ต",
+      faqOr: " หรือ ",
+      faqLink: "ดู FAQ",
       supportSuffix: "",
     };
   }
@@ -353,6 +363,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       privacyText: "Rieng tu mac dinh. Dang bai tao trang cong khai voi URL rieng.",
       supportPrefix: "Can ho tro? ",
       supportLink: "Den trang ho tro",
+      faqOr: " hoac ",
+      faqLink: "xem FAQ",
       supportSuffix: ".",
     };
   }
@@ -411,6 +423,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       privacyText: "기본은 비공개입니다. 게시하면 고유 URL의 공개 페이지가 생성됩니다.",
       supportPrefix: "도움이 필요하신가요? ",
       supportLink: "지원 페이지",
+      faqOr: " 또는 ",
+      faqLink: "FAQ",
       supportSuffix: "로 이동하세요.",
     };
   }
@@ -469,6 +483,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       privacyText: "基本は非公開です。公開すると固有URLの公開ページが作成されます。",
       supportPrefix: "お困りの際は",
       supportLink: "サポート",
+      faqOr: "または",
+      faqLink: "FAQ",
       supportSuffix: "へ。",
     };
   }
@@ -527,6 +543,8 @@ function getDownloadContent(lang: Language): DownloadContent {
       privacyText: "默认私密。发布后会生成唯一 URL 的页面。",
       supportPrefix: "需要帮助？",
       supportLink: "前往支持页",
+      faqOr: "或",
+      faqLink: "查看 FAQ",
       supportSuffix: "。",
     };
   }
@@ -584,6 +602,8 @@ function getDownloadContent(lang: Language): DownloadContent {
     privacyText: "Private by default. Publishing creates a public page with a unique URL.",
     supportPrefix: "Need help? ",
     supportLink: "Visit support",
+    faqOr: " or ",
+    faqLink: "check FAQ",
     supportSuffix: ".",
   };
 }
@@ -700,6 +720,10 @@ export default async function DownloadPage({
                 {content.supportPrefix}
                 <Link href={`/${lang}/support`} className={styles.supportLink}>
                   {content.supportLink}
+                </Link>
+                {content.faqOr}
+                <Link href={`/${lang}/faq`} className={styles.supportLink}>
+                  {content.faqLink}
                 </Link>
                 {content.supportSuffix}
               </p>

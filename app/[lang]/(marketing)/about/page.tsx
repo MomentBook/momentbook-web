@@ -57,6 +57,7 @@ type AboutEssentialsContent = {
   principles: string[];
   privacyTitle: string;
   privacyText: string;
+  moreFaqLink: string;
 };
 
 const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
@@ -72,6 +73,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "Publishing and visibility",
     privacyText: "Journeys are private by default. Publishing is optional and public pages may be indexed by search engines.",
+    moreFaqLink: "More questions? Visit FAQ",
   },
   ko: {
     title: "핵심 원칙",
@@ -85,6 +87,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "게시와 공개 범위",
     privacyText: "여정은 기본적으로 비공개입니다. 게시는 선택이며 공개 페이지는 검색 엔진에 수집될 수 있습니다.",
+    moreFaqLink: "더 궁금하신가요? FAQ 보기",
   },
   ja: {
     title: "大事なポイント",
@@ -98,6 +101,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "公開と可視性",
     privacyText: "旅はデフォルトで非公開です。公開は任意で、公開ページは検索エンジンに表示される場合があります。",
+    moreFaqLink: "他にもご質問がありますか？FAQ を見る",
   },
   zh: {
     title: "核心原则",
@@ -111,6 +115,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "发布与可见性",
     privacyText: "旅程默认私密。发布是可选的，公开页面可能被搜索引擎收录。",
+    moreFaqLink: "更多疑问？查看 FAQ",
   },
   es: {
     title: "Lo esencial",
@@ -124,6 +129,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "Publicacion y visibilidad",
     privacyText: "Los viajes son privados por defecto. Publicar es opcional y la pagina publica puede indexarse.",
+    moreFaqLink: "¿Mas preguntas? Ver FAQ",
   },
   pt: {
     title: "O essencial",
@@ -137,6 +143,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "Publicacao e visibilidade",
     privacyText: "As jornadas sao privadas por padrao. Publicar e opcional e paginas publicas podem ser indexadas.",
+    moreFaqLink: "Tem mais duvidas? Ver FAQ",
   },
   fr: {
     title: "L'essentiel",
@@ -150,6 +157,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "Publication et visibilite",
     privacyText: "Les voyages sont prives par defaut. La publication est optionnelle et la page publique peut etre indexee.",
+    moreFaqLink: "D'autres questions ? Voir FAQ",
   },
   th: {
     title: "สิ่งสำคัญ",
@@ -163,6 +171,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "การเผยแพร่และการมองเห็น",
     privacyText: "ทริปเป็นส่วนตัวโดยค่าเริ่มต้น การเผยแพร่เป็นตัวเลือก และหน้าเว็บสาธารณะอาจถูกจัดทำดัชนี",
+    moreFaqLink: "มีคำถามเพิ่มเติมไหม? ดู FAQ",
   },
   vi: {
     title: "Dieu quan trong",
@@ -176,6 +185,7 @@ const aboutEssentialsContent: Record<Language, AboutEssentialsContent> = {
     ],
     privacyTitle: "Dang bai va hien thi",
     privacyText: "Hanh trinh mac dinh la rieng tu. Dang bai la tuy chon va trang cong khai co the duoc lap chi muc.",
+    moreFaqLink: "Them cau hoi? Xem FAQ",
   },
 };
 
@@ -1100,6 +1110,11 @@ export default async function AboutPage({
           </ul>
           <h3 className={styles.essentialsTitle}>{essentials.privacyTitle}</h3>
           <p className={styles.essentialsText}>{essentials.privacyText}</p>
+          <p className={styles.essentialsText}>
+            <Link href={`/${lang}/faq`} className={styles.faqLink}>
+              {essentials.moreFaqLink}
+            </Link>
+          </p>
         </div>
       </section>
     </main>
