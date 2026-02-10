@@ -80,7 +80,7 @@ function getFaqContent(lang: Language): FAQContent {
         { question: "Que significa Publish?", answer: "Publicar crea una pagina web publica con URL unica para ese viaje." },
         { question: "Se puede ver sin la app?", answer: "Si. Cualquiera con el enlace puede verlo en la web, y puede indexarse." },
         { question: "Rastrea mi ubicacion?", answer: "Solo si lo permites. Se usa para ubicar momentos dentro del viaje." },
-        { question: "Que hace la IA?", answer: "Ayuda con titulos, resumenes y nombres de lugares. No crea por ti." },
+        { question: "Como se organizan los momentos?", answer: "Fotos y registros se agrupan por tiempo y lugar en una linea de viaje para volver a recordar." },
       ],
     };
   }
@@ -104,7 +104,7 @@ function getFaqContent(lang: Language): FAQContent {
         { question: "O que significa Publish?", answer: "Publicar cria uma pagina web publica com URL unica para a jornada." },
         { question: "Da para ver sem o app?", answer: "Sim. Qualquer pessoa com o link pode ver na web, e pode ser indexado." },
         { question: "Ele rastreia minha localizacao?", answer: "Somente se voce permitir. A localizacao organiza os momentos da jornada." },
-        { question: "O que a IA faz?", answer: "Ajuda com titulos, resumos e nomes de lugares. Nao cria no seu lugar." },
+        { question: "Como os momentos sao organizados?", answer: "Fotos e registros sao agrupados por tempo e lugar em uma timeline de jornada para revisitar memórias." },
       ],
     };
   }
@@ -128,7 +128,7 @@ function getFaqContent(lang: Language): FAQContent {
         { question: "Que signifie Publish ?", answer: "Publier cree une page web publique avec une URL unique pour ce voyage." },
         { question: "Peut-on voir sans l'app ?", answer: "Oui. Toute personne ayant le lien peut voir la page web, qui peut etre indexee." },
         { question: "L'app suit-elle ma position ?", answer: "Seulement si vous l'autorisez. Elle sert a organiser les moments du voyage." },
-        { question: "Que fait l'IA ?", answer: "Elle aide pour les titres, resumes et noms de lieux. Elle ne cree pas a votre place." },
+        { question: "Comment les moments sont-ils organises ?", answer: "Photos et enregistrements sont regroupes par temps et lieu dans une timeline de voyage a revisiter." },
       ],
     };
   }
@@ -152,7 +152,7 @@ function getFaqContent(lang: Language): FAQContent {
         { question: "Publish คืออะไร?", answer: "การเผยแพร่จะสร้างหน้าเว็บสาธารณะที่มี URL เฉพาะของทริปนั้น" },
         { question: "ดูได้โดยไม่ต้องมีแอปไหม?", answer: "ได้ คนที่มีลิงก์ดูผ่านเว็บได้ และอาจถูกจัดทำดัชนีโดยเสิร์ชเอนจิน" },
         { question: "ติดตามตำแหน่งตลอดไหม?", answer: "เฉพาะเมื่อคุณอนุญาต ใช้เพื่อจัดช่วงเวลาให้อยู่ในทริป" },
-        { question: "AI ทําอะไร?", answer: "ช่วยเรื่องชื่อเรื่อง สรุป และชื่อสถานที่ ไม่ได้สร้างแทนคุณ" },
+        { question: "ช่วงเวลาถูกจัดอย่างไร?", answer: "รูปและบันทึกจะถูกรวมตามเวลาและสถานที่เป็นไทม์ไลน์ทริป เพื่อกลับมาทบทวนความทรงจําได้ง่าย" },
       ],
     };
   }
@@ -176,7 +176,7 @@ function getFaqContent(lang: Language): FAQContent {
         { question: "Publish co nghia la gi?", answer: "Dang se tao mot trang web cong khai co URL rieng cho hanh trinh do." },
         { question: "Nguoi khac co xem duoc neu khong co app?", answer: "Co. Bat ky ai co lien ket deu xem duoc tren web, va co the duoc lap chi muc." },
         { question: "Ung dung co theo doi vi tri lien tuc?", answer: "Chi khi ban cho phep. Vi tri duoc dung de xep khoanh khac vao hanh trinh." },
-        { question: "AI lam gi?", answer: "AI ho tro tieu de, tom tat va ten dia diem. AI khong tao thay ban." },
+        { question: "Khoanh khac duoc sap xep nhu the nao?", answer: "Anh va ban ghi duoc gom theo thoi gian va dia diem thanh timeline hanh trinh de de dang nho lai." },
       ],
     };
   }
@@ -225,8 +225,8 @@ function getFaqContent(lang: Language): FAQContent {
           answer: "아니요. 위치는 허용한 경우에만 사용됩니다.",
         },
         {
-          question: "AI는 무엇을 하나요?",
-          answer: "제목 제안, 요약, 장소명 정리처럼 정리를 돕는 역할에 한정됩니다.",
+          question: "순간은 어떻게 정리되나요?",
+          answer: "사진과 기록을 시간과 장소 기준으로 묶어 여정 타임라인으로 정리합니다.",
         },
       ],
     };
@@ -276,8 +276,8 @@ function getFaqContent(lang: Language): FAQContent {
           answer: "いいえ。位置情報は許可した場合のみ使用します。",
         },
         {
-          question: "AI は何をしますか？",
-          answer: "タイトル提案や要約、場所名の整理など、整理の補助に限ります。",
+          question: "瞬間はどのように整理されますか？",
+          answer: "写真と記録を時間と場所でまとめ、旅のタイムラインとして整理します。",
         },
       ],
     };
@@ -327,8 +327,8 @@ function getFaqContent(lang: Language): FAQContent {
           answer: "不会。只有在你允许时才会使用位置。",
         },
         {
-          question: "AI 会做什么？",
-          answer: "只负责整理辅助，例如标题建议、摘要、地点名称整理。",
+          question: "瞬间是如何整理的？",
+          answer: "照片与记录会按时间和地点归并，整理成可回看的旅程时间线。",
         },
       ],
     };
@@ -377,8 +377,8 @@ function getFaqContent(lang: Language): FAQContent {
         answer: "Only if you allow it. Location is used to place moments into a journey.",
       },
       {
-        question: "What does AI do?",
-        answer: "It helps with titles, summaries, and place names. It does not create for you.",
+        question: "How are moments organized?",
+        answer: "Photos and records are grouped by time and place into a journey timeline you can revisit.",
       },
     ],
   };
