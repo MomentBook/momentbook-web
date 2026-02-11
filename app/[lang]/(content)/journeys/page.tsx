@@ -420,7 +420,12 @@ export default async function JourneysPage({
         const author = userMap.get(journey.userId);
         const detail = detailMap.get(journey.publicId);
         const publishedAt = readTimestamp(journey.publishedAt) ?? readTimestamp(journey.createdAt);
-        const coverUrl = readText(journey.thumbnailUrl) ?? meta.thumbnailUri;
+        const detailCoverUrl =
+            detail?.images.find((image) => readText(image.url))?.url ?? null;
+        const coverUrl =
+            detailCoverUrl ??
+            readText(journey.thumbnailUrl) ??
+            meta.thumbnailUri;
         const periodRange = resolveJourneyPeriodRange({
             startedAt: detail?.startedAt ?? journey.startedAt,
             endedAt: detail?.endedAt ?? journey.endedAt,
@@ -430,12 +435,13 @@ export default async function JourneysPage({
         return {
             publicId: journey.publicId,
             userId: journey.userId,
-            title: meta.title ?? labels.untitledJourney,
-            description: meta.description ?? null,
+            title: readText(detail?.title) ?? meta.title ?? labels.untitledJourney,
+            description: readText(detail?.description) ?? meta.description ?? null,
             imageCount: resolvePhotoCount(
+                journey.photoCount,
                 detail?.photoCount,
-                Array.isArray(detail?.images) ? detail.images.length : null,
                 journey.imageCount,
+                Array.isArray(detail?.images) ? detail.images.length : null,
             ),
             coverUrl,
             authorName: readText(author?.name) ?? labels.unknownUserLabel,

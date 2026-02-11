@@ -8,6 +8,11 @@ import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
   fetchPublishedJourney,
 } from "@/lib/published-journey";
+import {
+  buildOpenGraphArticleTags,
+  buildPublicKeywords,
+  buildPublicRobots,
+} from "@/lib/seo/public-metadata";
 import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import ClientMap from "../../components/ClientMap";
 
@@ -159,6 +164,13 @@ export async function generateMetadata({
   const description = `A moment from ${journey.title}`;
   const path = `/journeys/${journey.publicId}/moments/${cluster.clusterId}`;
   const url = buildOpenGraphUrl(lang, path);
+  const keywords = buildPublicKeywords({
+    kind: "moment",
+    title,
+    locationNames: [locationName],
+    extra: ["travel moment page", "journey moment"],
+  });
+  const tags = buildOpenGraphArticleTags(keywords);
 
   const imageMap = buildImageUrlToPhotoIdMap(journey.images);
   const clusterImages = cluster.photoIds
@@ -173,6 +185,10 @@ export async function generateMetadata({
   return {
     title,
     description,
+    keywords,
+    category: "Travel",
+    robots: buildPublicRobots(),
+    publisher: "MomentBook",
     alternates: buildAlternates(lang, path),
     openGraph: {
       title,
@@ -180,6 +196,8 @@ export async function generateMetadata({
       type: "article",
       url,
       images: clusterImages.length > 0 ? clusterImages : undefined,
+      tags,
+      section: "Travel",
       publishedTime: journey.publishedAt,
       modifiedTime: journey.publishedAt,
     },

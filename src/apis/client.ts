@@ -248,9 +248,9 @@ export interface AppleLoginResponseDataDto {
   expiresIn: number;
   /**
    * 로그인한 플랫폼 정보
-   * @example "ios"
+   * @example "web"
    */
-  platform: "ios" | "android";
+  platform: "ios" | "android" | "web";
   /** 필수 동의 상태 정보 */
   consents: ConsentStatusDto;
 }
@@ -1352,6 +1352,79 @@ export interface RecapDraftDto {
   overrides: RecapOverridesDto;
 }
 
+export interface JourneyRecapExportMetaDto {
+  journeyId: string;
+  startedAt: number;
+  endedAt?: number;
+  /** @example 1240 */
+  locationSampleCount: number;
+  /** @example 128 */
+  photoCount: number;
+}
+
+export interface JourneyRecapExportTimeRangeDto {
+  startAt: number;
+  endAt: number;
+  durationMs: number;
+}
+
+export interface JourneyRecapExportLocationDto {
+  /** @example "Gyeongbokgung Palace" */
+  displayName?: string;
+  /** @example 37.579617 */
+  lat?: number;
+  /** @example 126.977041 */
+  lng?: number;
+  /** @example 40 */
+  radiusM?: number;
+}
+
+export interface JourneyRecapExportTimelineItemDto {
+  /**
+   * External timeline item ID (internal cluster IDs are masked)
+   * @format uuid
+   */
+  timelineId: string;
+  type: "ROUTE_STOP" | "ORPHAN_CLUSTER" | "ORPHAN_PHOTO";
+  time: JourneyRecapExportTimeRangeDto;
+  location?: JourneyRecapExportLocationDto;
+  /** External photo IDs mapped from internal IDs */
+  photoIds: string[];
+}
+
+export interface JourneyRecapExportPhotoLocationDto {
+  /** @example 37.5665 */
+  lat: number;
+  /** @example 126.978 */
+  lng: number;
+}
+
+export interface JourneyRecapExportPhotoDto {
+  /**
+   * External photo ID (internal identifier is masked)
+   * @format uuid
+   */
+  photoId: string;
+  takenAt: number;
+  /** Portable archive path (client photo URI / archive key) */
+  archivePath: string;
+  hasGps: boolean;
+  location?: JourneyRecapExportPhotoLocationDto;
+  width?: number;
+  height?: number;
+}
+
+export interface JourneyRecapExportDraftDto {
+  schemaVersion: number;
+  draftId: string;
+  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
+  createdAt: number;
+  updatedAt: number;
+  journey: JourneyRecapExportMetaDto;
+  timeline: JourneyRecapExportTimelineItemDto[];
+  photos: JourneyRecapExportPhotoDto[];
+}
+
 export interface JourneyImageLocationDto {
   /**
    * Latitude coordinate
@@ -1424,8 +1497,8 @@ export interface PublishJourneyRequestDto {
   startedAt: number;
   /** Journey end timestamp (ms) */
   endedAt?: number;
-  /** RecapDraft - 핵심 recap 데이터 (computed + overrides) */
-  recapDraft: RecapDraftDto;
+  /** RecapDraft payload. Supports legacy computed format and export-safe format. */
+  recapDraft: RecapDraftDto | JourneyRecapExportDraftDto;
   /**
    * Recap stage
    * @example "USER_DONE"
@@ -1526,6 +1599,11 @@ export interface PublishedJourneyDetailDto {
    * @example "available"
    */
   contentStatus?: "available" | "reported_hidden";
+  /**
+   * Visibility stored in DB
+   * @example "public"
+   */
+  visibility: "public" | "hidden";
   /**
    * Notice for moderated/hidden content
    * @example "This journey has been reported and is currently hidden."
@@ -2137,8 +2215,8 @@ export interface CreateJourneyRecapDraftRequestDto {
 }
 
 export interface JourneyRecapDraftResponseDataDto {
-  /** RecapDraft payload (contract-compatible object) */
-  recapDraft: object;
+  /** Export-safe recap draft payload */
+  recapDraft: JourneyRecapExportDraftDto;
 }
 
 export interface JourneyRecapDraftResponseDto {
@@ -2475,7 +2553,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.0.6
+ * @version 2.0.9
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3294,7 +3372,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve published journey data for rendering. Hidden-by-moderation journeys return success with contentStatus=reported_hidden.
+     * @description Public endpoint to retrieve published journey data for rendering. Includes DB visibility and returns success for hidden journeys with contentStatus=reported_hidden.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourney
@@ -3784,7 +3862,7 @@ export class Api<
       }),
 
     /**
-     * @description Generate recap draft from journey GPS samples and photo metadata. Stateless endpoint - does not persist the result.
+     * @description Generate recap draft from journey GPS samples and photo metadata. Returns export-safe payload only. Internal diagnostics are stored server-side.
      *
      * @tags journeys
      * @name JourneyRecapControllerCreateDraft
@@ -3801,6 +3879,33 @@ export class Api<
         body: data,
         type: ContentType.Json,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Returns internal diagnostics for incident/debug support. Access is audited.
+     *
+     * @tags journeys-admin
+     * @name JourneyRecapAdminControllerGetDiagnostics
+     * @summary Get recap draft diagnostics (admin only)
+     * @request GET:/v2/admin/journeys/recap/diagnostics/{draftId}
+     * @secure
+     */
+    journeyRecapAdminControllerGetDiagnostics: (
+      draftId: string,
+      query: {
+        /** Access reason (required for audit logging) */
+        reason: string;
+        /** Optional journey ID filter */
+        journeyId?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, void>({
+        path: `/v2/admin/journeys/recap/diagnostics/${draftId}`,
+        method: "GET",
+        query: query,
+        secure: true,
         ...params,
       }),
 

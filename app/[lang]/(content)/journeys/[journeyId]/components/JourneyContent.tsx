@@ -26,6 +26,56 @@ export default function JourneyContent({
 }: JourneyContentProps) {
     const orderedClusters = sortJourneyClustersByTimeline(journey.clusters);
     const encodedJourneyId = encodeURIComponent(journey.publicId);
+    const fallbackPhotos = journey.images
+        .map((image, index) => ({
+            key: image.photoId || `${index}-${image.url}`,
+            photoId: image.photoId || null,
+            url: image.url,
+            alt: image.locationName || journey.title,
+        }))
+        .filter((item) => Boolean(item.url));
+
+    const clusteredSections = orderedClusters
+        .map((cluster, index) => {
+            const encodedClusterId = encodeURIComponent(cluster.clusterId);
+            const clusterPhotos = cluster.photoIds
+                .map((photoId) => {
+                    const url = imageMap.get(photoId);
+                    if (!url) {
+                        return null;
+                    }
+
+                    return {
+                        photoId,
+                        url,
+                    };
+                })
+                .filter((photo): photo is { photoId: string; url: string } => Boolean(photo));
+
+            if (clusterPhotos.length === 0) {
+                return null;
+            }
+
+            return {
+                cluster,
+                index,
+                encodedClusterId,
+                clusterPhotos,
+            };
+        })
+        .filter(
+            (
+                section,
+            ): section is {
+                cluster: (typeof orderedClusters)[number];
+                index: number;
+                encodedClusterId: string;
+                clusterPhotos: Array<{ photoId: string; url: string }>;
+            } => Boolean(section),
+        );
+
+    const useFallbackGallery =
+        clusteredSections.length === 0 && fallbackPhotos.length > 0;
 
     return (
         <>
@@ -52,64 +102,89 @@ export default function JourneyContent({
                     {labels.gallery}
                 </h2>
 
-                {orderedClusters.map((cluster, index) => {
-                    const encodedClusterId = encodeURIComponent(cluster.clusterId);
-                    const clusterPhotos = cluster.photoIds
-                        .map((photoId) => {
-                            return {
-                                url: imageMap.get(photoId),
-                                photoId: photoId || "",
-                            };
-                        })
-                        .filter((photo) => photo.photoId);
+                {clusteredSections.map(({ cluster, index, encodedClusterId, clusterPhotos }) => (
+                    <div
+                        key={cluster.clusterId}
+                        id={cluster.clusterId}
+                        className={styles.clusterSection}
+                    >
+                        <div className={styles.clusterHeader}>
+                            <span className={styles.clusterIndex}>
+                                {index + 1}
+                            </span>
+                            <h3 className={styles.clusterTitle}>
+                                <Link
+                                    href={`/${lang}/journeys/${encodedJourneyId}/moments/${encodedClusterId}`}
+                                    className={styles.clusterTitleLink}
+                                >
+                                    {cluster.locationName || labels.locationFallback}
+                                </Link>
+                            </h3>
+                        </div>
 
-                    if (clusterPhotos.length === 0) return null;
+                        <div className={styles.photoGrid}>
+                            {clusterPhotos.map((photo) => (
+                                <Link
+                                    key={photo.photoId}
+                                    href={`/${lang}/photos/${photo.photoId}`}
+                                    className={styles.photoCard}
+                                >
+                                    <div className={styles.photoFrame}>
+                                        <Image
+                                            src={photo.url}
+                                            alt={cluster.locationName || journey.title}
+                                            fill
+                                            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1439px) 33vw, 25vw"
+                                            className={styles.photoImage}
+                                        />
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                ))}
 
-                    return (
-                        <div
-                            key={cluster.clusterId}
-                            id={cluster.clusterId}
-                            className={styles.clusterSection}
-                        >
-                            <div className={styles.clusterHeader}>
-                                <span className={styles.clusterIndex}>
-                                    {index + 1}
-                                </span>
-                                <h3 className={styles.clusterTitle}>
-                                    <Link
-                                        href={`/${lang}/journeys/${encodedJourneyId}/moments/${encodedClusterId}`}
-                                        className={styles.clusterTitleLink}
-                                    >
-                                        {cluster.locationName || labels.locationFallback}
-                                    </Link>
-                                </h3>
-                            </div>
+                {useFallbackGallery ? (
+                    <div className={styles.clusterSection}>
+                        <div className={styles.photoGrid}>
+                            {fallbackPhotos.map((photo) => {
+                                if (photo.photoId) {
+                                    return (
+                                        <Link
+                                            key={photo.key}
+                                            href={`/${lang}/photos/${photo.photoId}`}
+                                            className={styles.photoCard}
+                                        >
+                                            <div className={styles.photoFrame}>
+                                                <Image
+                                                    src={photo.url}
+                                                    alt={photo.alt}
+                                                    fill
+                                                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1439px) 33vw, 25vw"
+                                                    className={styles.photoImage}
+                                                />
+                                            </div>
+                                        </Link>
+                                    );
+                                }
 
-                            <div className={styles.photoGrid}>
-                                {clusterPhotos.map((photo) => (
-                                    <Link
-                                        key={photo.photoId}
-                                        href={`/${lang}/photos/${photo.photoId}`}
-                                        className={styles.photoCard}
-                                    >
+                                return (
+                                    <div key={photo.key} className={styles.photoCard}>
                                         <div className={styles.photoFrame}>
                                             <Image
-                                                src={photo.url as string}
-                                                alt={
-                                                    cluster.locationName ||
-                                                    journey.title
-                                                }
+                                                src={photo.url}
+                                                alt={photo.alt}
                                                 fill
                                                 sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1439px) 33vw, 25vw"
                                                 className={styles.photoImage}
                                             />
                                         </div>
-                                    </Link>
-                                ))}
-                            </div>
+                                    </div>
+                                );
+                            })}
                         </div>
-                    );
-                })}
+                    </div>
+                ) : null}
             </section>
         </>
     );

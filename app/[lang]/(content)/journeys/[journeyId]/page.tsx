@@ -6,7 +6,8 @@ import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourneyResult } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
-import { LocalizedDateRange } from "@/components/LocalizedTime";
+import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
+import { resolveJourneyPeriodRange } from "@/lib/journey-period";
 import JourneyContent from "./components/JourneyContent";
 import ReportJourneyButton from "../components/ReportJourneyButton";
 import {
@@ -18,6 +19,11 @@ import {
     getUniqueLocations,
     buildImageUrlToPhotoIdMap,
 } from "./utils";
+import {
+    buildOpenGraphArticleTags,
+    buildPublicKeywords,
+    buildPublicRobots,
+} from "@/lib/seo/public-metadata";
 
 export const revalidate = 60;
 
@@ -100,9 +106,18 @@ export async function generateMetadata({
     const path = `/journeys/${journey.publicId}`;
     const url = buildOpenGraphUrl(lang, path);
     const locations = getUniqueLocations(journey.clusters);
+    const author = await fetchPublicUser(journey.userId);
     const description =
         journey.description ||
         buildJourneyDescription(lang, locations, journey.photoCount);
+    const keywords = buildPublicKeywords({
+        kind: "journey",
+        title: journey.title,
+        locationNames: locations,
+        authorName: author?.name ?? null,
+        extra: ["published trip", "travel journal"],
+    });
+    const tags = buildOpenGraphArticleTags(keywords);
 
     const images = journey.images.slice(0, 6).map((img) => ({
         url: img.url,
@@ -112,6 +127,19 @@ export async function generateMetadata({
     return {
         title: journey.title,
         description,
+        keywords,
+        category: "Travel",
+        robots: buildPublicRobots(),
+        authors: author?.name
+            ? [
+                  {
+                      name: author.name,
+                      url: `/${lang}/users/${journey.userId}`,
+                  },
+              ]
+            : undefined,
+        creator: author?.name ?? undefined,
+        publisher: "MomentBook",
         alternates: buildAlternates(lang, path),
         openGraph: {
             title: journey.title,
@@ -119,6 +147,9 @@ export async function generateMetadata({
             type: "article",
             url,
             images,
+            authors: author?.name ? [author.name] : undefined,
+            tags,
+            section: "Travel",
             publishedTime: journey.publishedAt,
             modifiedTime: journey.publishedAt,
         },
@@ -171,6 +202,11 @@ export default async function JourneyPage({
         (sum, cluster) => sum + cluster.time.durationMs,
         0,
     );
+    const periodRange = resolveJourneyPeriodRange({
+        startedAt: journey.startedAt,
+        endedAt: journey.endedAt,
+        photoSources: [journey.images, journey.clusters],
+    });
     const imageMap = buildImageUrlToPhotoIdMap(journey);
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
@@ -249,10 +285,10 @@ export default async function JourneyPage({
                         {user?.name ?? labels.profileLinkLabel}
                     </Link>
                     <span>
-                        <LocalizedDateRange
+                        <LocalizedDateTimeRange
                             lang={lang}
-                            start={journey.startedAt}
-                            end={journey.endedAt}
+                            start={periodRange.start}
+                            end={periodRange.end}
                         />
                     </span>
                     <span>

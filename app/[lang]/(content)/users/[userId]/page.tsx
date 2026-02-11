@@ -9,6 +9,10 @@ import {
   type Language,
 } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import {
+  buildPublicKeywords,
+  buildPublicRobots,
+} from "@/lib/seo/public-metadata";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
 import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
@@ -266,6 +270,10 @@ function getJourneyPhotoCount(journey: UserJourneyApi): number {
     return journey.photoCount;
   }
 
+  if (typeof journey.imageCount === "number" && Number.isFinite(journey.imageCount)) {
+    return journey.imageCount;
+  }
+
   return 0;
 }
 
@@ -409,10 +417,27 @@ export async function generateMetadata({
   const path = `/users/${userId}`;
   const urlBase = buildOpenGraphUrl(lang, path);
   const url = currentPage > 1 ? `${urlBase}?page=${currentPage}` : urlBase;
+  const keywords = buildPublicKeywords({
+    kind: "user",
+    title: user.name,
+    authorName: user.name,
+    extra: currentPage > 1 ? [`journey page ${currentPage}`] : ["journey profile"],
+  });
 
   return {
     title: `${user.name} · MomentBook`,
     description,
+    keywords,
+    category: "Public Profile",
+    robots: buildPublicRobots(),
+    authors: [
+      {
+        name: user.name,
+        url: `/${lang}/users/${userId}`,
+      },
+    ],
+    creator: user.name,
+    publisher: "MomentBook",
     alternates: buildUserAlternates(lang, userId, currentPage),
     openGraph: {
       title: `${user.name} · MomentBook`,
