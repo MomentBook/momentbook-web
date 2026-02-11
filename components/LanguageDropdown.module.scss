@@ -56,8 +56,10 @@
 .drawerTrigger {
   width: 100%;
   justify-content: space-between;
-  padding: 0.62rem 0.78rem;
+  min-height: 2.6rem;
+  padding: 0.52rem 0.72rem;
   border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-bg-canvas) 86%, var(--color-accent-soft));
 }
 
 .drawer .currentLang {
@@ -115,6 +117,8 @@
   margin-top: 0.45rem;
   width: 100%;
   min-width: 0;
+  max-height: min(48vh, 21rem);
+  overflow-y: auto;
   box-shadow: none;
 }
 
