@@ -262,15 +262,10 @@ export async function generateMetadata({
     const keywords = buildPublicKeywords({
         kind: "photo",
         title,
-        description,
         locationNames: locationName ? [locationName] : [],
         extra: ["published image", "travel photography"],
     });
-    const tags = buildOpenGraphArticleTags({
-        kind: "photo",
-        title,
-        locationNames: locationName ? [locationName] : [],
-    });
+    const tags = buildOpenGraphArticleTags(keywords);
 
     return {
         title,

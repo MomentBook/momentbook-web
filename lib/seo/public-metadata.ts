@@ -5,7 +5,6 @@ export type PublicMetadataKind = "journey" | "moment" | "photo" | "user";
 type BuildPublicKeywordsOptions = {
   kind: PublicMetadataKind;
   title?: string | null;
-  description?: string | null;
   locationNames?: string[];
   authorName?: string | null;
   extra?: string[];
@@ -15,7 +14,6 @@ const COMMON_PUBLIC_KEYWORDS = [
   "MomentBook",
   "travel memories",
   "travel timeline",
-  "public content",
   "location based journey",
 ];
 
@@ -62,7 +60,8 @@ function normalizeKeyword(value: string): string | null {
   }
 
   if (compact.length > 80) {
-    return compact.slice(0, 80).trim();
+    const boundary = compact.lastIndexOf(" ", 80);
+    return (boundary > 0 ? compact.slice(0, boundary) : compact.slice(0, 80)).trim();
   }
 
   return compact;
@@ -93,13 +92,11 @@ function dedupeKeywords(values: string[]): string[] {
 export function buildPublicKeywords({
   kind,
   title,
-  description,
   locationNames,
   authorName,
   extra,
 }: BuildPublicKeywordsOptions): string[] {
   const cleanTitle = readText(title);
-  const cleanDescription = readText(description);
   const cleanAuthor = readText(authorName);
   const cleanLocations = (locationNames ?? [])
     .map((value) => readText(value))
@@ -111,7 +108,6 @@ export function buildPublicKeywords({
     ...KEYWORDS_BY_KIND[kind],
     ...(extra ?? []),
     ...(cleanTitle ? [cleanTitle, `${cleanTitle} momentbook`] : []),
-    ...(cleanDescription ? [cleanDescription] : []),
     ...(cleanAuthor ? [cleanAuthor, `${cleanAuthor} journey`] : []),
     ...cleanLocations,
     ...cleanLocations.map((location) => `${location} travel`),
@@ -120,10 +116,7 @@ export function buildPublicKeywords({
   return keywords.slice(0, 24);
 }
 
-export function buildOpenGraphArticleTags(
-  options: BuildPublicKeywordsOptions,
-): string[] {
-  const keywords = buildPublicKeywords(options);
+export function buildOpenGraphArticleTags(keywords: string[]): string[] {
   return keywords.filter((keyword) => keyword.length <= 50).slice(0, 10);
 }
 

@@ -270,6 +270,10 @@ function getJourneyPhotoCount(journey: UserJourneyApi): number {
     return journey.photoCount;
   }
 
+  if (typeof journey.imageCount === "number" && Number.isFinite(journey.imageCount)) {
+    return journey.imageCount;
+  }
+
   return 0;
 }
 
@@ -416,7 +420,6 @@ export async function generateMetadata({
   const keywords = buildPublicKeywords({
     kind: "user",
     title: user.name,
-    description,
     authorName: user.name,
     extra: currentPage > 1 ? [`journey page ${currentPage}`] : ["journey profile"],
   });

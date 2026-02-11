@@ -167,15 +167,10 @@ export async function generateMetadata({
   const keywords = buildPublicKeywords({
     kind: "moment",
     title,
-    description,
     locationNames: [locationName],
     extra: ["travel moment page", "journey moment"],
   });
-  const tags = buildOpenGraphArticleTags({
-    kind: "moment",
-    title,
-    locationNames: [locationName],
-  });
+  const tags = buildOpenGraphArticleTags(keywords);
 
   const imageMap = buildImageUrlToPhotoIdMap(journey.images);
   const clusterImages = cluster.photoIds

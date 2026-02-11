@@ -112,17 +112,11 @@ export async function generateMetadata({
     const keywords = buildPublicKeywords({
         kind: "journey",
         title: journey.title,
-        description,
         locationNames: locations,
         authorName: author?.name ?? null,
         extra: ["published trip", "travel journal"],
     });
-    const tags = buildOpenGraphArticleTags({
-        kind: "journey",
-        title: journey.title,
-        locationNames: locations,
-        authorName: author?.name ?? null,
-    });
+    const tags = buildOpenGraphArticleTags(keywords);
 
     const images = journey.images.slice(0, 6).map((img) => ({
         url: img.url,
