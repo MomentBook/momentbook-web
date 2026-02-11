@@ -6,7 +6,8 @@ import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourneyResult } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
-import { LocalizedDateRange } from "@/components/LocalizedTime";
+import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
+import { resolveJourneyPeriodRange } from "@/lib/journey-period";
 import JourneyContent from "./components/JourneyContent";
 import ReportJourneyButton from "../components/ReportJourneyButton";
 import {
@@ -201,6 +202,11 @@ export default async function JourneyPage({
         (sum, cluster) => sum + cluster.time.durationMs,
         0,
     );
+    const periodRange = resolveJourneyPeriodRange({
+        startedAt: journey.startedAt,
+        endedAt: journey.endedAt,
+        photoSources: [journey.images, journey.clusters],
+    });
     const imageMap = buildImageUrlToPhotoIdMap(journey);
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
@@ -279,10 +285,10 @@ export default async function JourneyPage({
                         {user?.name ?? labels.profileLinkLabel}
                     </Link>
                     <span>
-                        <LocalizedDateRange
+                        <LocalizedDateTimeRange
                             lang={lang}
-                            start={journey.startedAt}
-                            end={journey.endedAt}
+                            start={periodRange.start}
+                            end={periodRange.end}
                         />
                     </span>
                     <span>
