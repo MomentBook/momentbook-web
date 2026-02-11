@@ -54,9 +54,10 @@
 
 .drawer {
   width: 100%;
-  justify-content: center;
+  min-height: 2.6rem;
+  justify-content: space-between;
   border-radius: var(--radius-md);
-  padding: 0.62rem 0.78rem;
+  padding: 0.52rem 0.72rem;
 }
 
 .label {

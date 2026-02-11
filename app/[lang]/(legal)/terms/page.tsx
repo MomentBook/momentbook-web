@@ -4,18 +4,6 @@ import styles from "./terms.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
-const policyNotice: Partial<Record<Language, string>> & { en: string } = {
-  en: "These policies describe the MomentBook app. Public web pages are read-only and show only content you choose to publish.",
-  ko: "이 문서는 MomentBook 앱에 대한 정책입니다. 공개 웹 페이지는 읽기 전용이며, 게시한 내용만 표시됩니다.",
-  ja: "本書は MomentBook アプリのポリシーです。公開Webページは読み取り専用で、公開した内容のみ表示されます。",
-  zh: "本政策适用于 MomentBook 应用。公开网页为只读，仅展示你选择发布的内容。",
-  es: "Estas politicas describen la app MomentBook. Las paginas web publicas son de solo lectura y muestran solo lo que publicas.",
-  pt: "Estas politicas descrevem o app MomentBook. As paginas publicas sao somente leitura e mostram apenas o que voce publica.",
-  fr: "Ces politiques decrivent l'app MomentBook. Les pages publiques sont en lecture seule et affichent uniquement ce que vous publiez.",
-  th: "เอกสารนี้อธิบายนโยบายของแอป MomentBook หน้าสาธารณะเป็นแบบอ่านอย่างเดียว และแสดงเฉพาะสิ่งที่คุณเผยแพร่",
-  vi: "Chinh sach nay ap dung cho ung dung MomentBook. Trang web cong khai chi doc va chi hien thi noi dung ban dang.",
-};
-
 export async function generateMetadata({
   params,
 }: {
@@ -96,11 +84,9 @@ export default async function TermsPage({
     lang === "ja" ? <JapaneseTerms /> :
     lang === "zh" ? <ChineseTerms /> :
     <EnglishTerms />;
-  const notice = policyNotice[lang] ?? policyNotice.en;
 
   return (
     <div className={styles.container}>
-      <p className={styles.notice}>{notice}</p>
       <article className={styles.content}>{content}</article>
     </div>
   );
