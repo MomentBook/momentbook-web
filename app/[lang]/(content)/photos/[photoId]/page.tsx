@@ -10,6 +10,11 @@ import {
     fetchPublishedPhoto,
     type PublishedPhotoApi,
 } from "@/lib/published-journey";
+import {
+    buildOpenGraphArticleTags,
+    buildPublicKeywords,
+    buildPublicRobots,
+} from "@/lib/seo/public-metadata";
 
 export const revalidate = 3600;
 
@@ -249,14 +254,31 @@ export async function generateMetadata({
     const { title, description } = buildSeoText(copy, photo);
     const path = `/photos/${photo.photoId}`;
     const url = buildOpenGraphUrl(lang, path);
+    const locationName = readText(photo.locationName);
     const takenAt = hasValidTimestamp(photo.takenAt) ? photo.takenAt : null;
     const publishedTime = takenAt !== null
             ? new Date(takenAt).toISOString()
             : undefined;
+    const keywords = buildPublicKeywords({
+        kind: "photo",
+        title,
+        description,
+        locationNames: locationName ? [locationName] : [],
+        extra: ["published image", "travel photography"],
+    });
+    const tags = buildOpenGraphArticleTags({
+        kind: "photo",
+        title,
+        locationNames: locationName ? [locationName] : [],
+    });
 
     return {
         title,
         description,
+        keywords,
+        category: "Photography",
+        robots: buildPublicRobots(),
+        publisher: "MomentBook",
         alternates: buildAlternates(lang, path),
         openGraph: {
             title,
@@ -269,6 +291,8 @@ export async function generateMetadata({
                     alt: title,
                 },
             ],
+            tags,
+            section: "Photography",
             publishedTime,
         },
         twitter: {

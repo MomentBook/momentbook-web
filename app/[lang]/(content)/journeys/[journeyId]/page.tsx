@@ -18,6 +18,11 @@ import {
     getUniqueLocations,
     buildImageUrlToPhotoIdMap,
 } from "./utils";
+import {
+    buildOpenGraphArticleTags,
+    buildPublicKeywords,
+    buildPublicRobots,
+} from "@/lib/seo/public-metadata";
 
 export const revalidate = 60;
 
@@ -100,9 +105,24 @@ export async function generateMetadata({
     const path = `/journeys/${journey.publicId}`;
     const url = buildOpenGraphUrl(lang, path);
     const locations = getUniqueLocations(journey.clusters);
+    const author = await fetchPublicUser(journey.userId);
     const description =
         journey.description ||
         buildJourneyDescription(lang, locations, journey.photoCount);
+    const keywords = buildPublicKeywords({
+        kind: "journey",
+        title: journey.title,
+        description,
+        locationNames: locations,
+        authorName: author?.name ?? null,
+        extra: ["published trip", "travel journal"],
+    });
+    const tags = buildOpenGraphArticleTags({
+        kind: "journey",
+        title: journey.title,
+        locationNames: locations,
+        authorName: author?.name ?? null,
+    });
 
     const images = journey.images.slice(0, 6).map((img) => ({
         url: img.url,
@@ -112,6 +132,19 @@ export async function generateMetadata({
     return {
         title: journey.title,
         description,
+        keywords,
+        category: "Travel",
+        robots: buildPublicRobots(),
+        authors: author?.name
+            ? [
+                  {
+                      name: author.name,
+                      url: `/${lang}/users/${journey.userId}`,
+                  },
+              ]
+            : undefined,
+        creator: author?.name ?? undefined,
+        publisher: "MomentBook",
         alternates: buildAlternates(lang, path),
         openGraph: {
             title: journey.title,
@@ -119,6 +152,9 @@ export async function generateMetadata({
             type: "article",
             url,
             images,
+            authors: author?.name ? [author.name] : undefined,
+            tags,
+            section: "Travel",
             publishedTime: journey.publishedAt,
             modifiedTime: journey.publishedAt,
         },
