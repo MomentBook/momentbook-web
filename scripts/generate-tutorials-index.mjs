@@ -13,6 +13,7 @@ const cwd = process.cwd();
 const publicRoot = path.join(cwd, "public");
 const tutorialsRoot = path.join(publicRoot, "tutorials");
 const outputPath = path.join(tutorialsRoot, "index.json");
+const excludedTutorialSlugs = new Set(["sample"]);
 
 function toPosixPath(value) {
   return value.split(path.sep).join("/");
@@ -37,6 +38,7 @@ function listTutorialDirectories() {
 
   return readdirSync(tutorialsRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
+    .filter((entry) => !excludedTutorialSlugs.has(entry.name))
     .map((entry) => entry.name)
     .sort((a, b) => a.localeCompare(b));
 }
