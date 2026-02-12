@@ -25,6 +25,7 @@ export function proxy(request: NextRequest) {
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
+    pathname.startsWith("/tutorials") ||
     pathname.includes(".")
   ) {
     return nextWithPathnameHeader(request);
@@ -67,8 +68,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - public folder
+     * - public/tutorials (static HTML tutorial archives)
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\..*|api).*)",
+    "/((?!_next/static|_next/image|favicon.ico|tutorials(?:/|$)|.*\\..*|api).*)",
   ],
 };
