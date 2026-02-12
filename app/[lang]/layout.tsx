@@ -16,6 +16,7 @@ import {
   type Language,
 } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 
 const suit = localFont({
   variable: "--font-suit",
@@ -77,6 +78,7 @@ export async function generateMetadata({
       template: "%s | MomentBook",
     },
     description: "An app that quietly remembers your day.",
+    robots: buildNoIndexRobots(),
     openGraph: {
       type: "website",
       locale: toOpenGraphLocale(lang),

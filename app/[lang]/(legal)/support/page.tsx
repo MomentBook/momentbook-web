@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "@/styles/common.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const supportHref = `mailto:${supportEmail}`;
@@ -62,6 +63,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    robots: buildNoIndexRobots(),
     alternates: buildAlternates(lang, path),
     openGraph: {
       title,

@@ -7,6 +7,7 @@ import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./download.module.scss";
 import { getStoreRegion, type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { buildPublicRobots } from "@/lib/seo/public-metadata";
 
 type StoreLinks = {
   ios: string;
@@ -633,6 +634,7 @@ export async function generateMetadata({
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    robots: buildPublicRobots(),
     alternates: buildAlternates(lang, path),
     openGraph: {
       title: content.metaTitle,

@@ -18,6 +18,7 @@ import { fetchPublicUser } from "@/lib/public-users";
 import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
 import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
+import { buildPublicRobots } from "@/lib/seo/public-metadata";
 
 export const revalidate = 60;
 
@@ -360,6 +361,7 @@ export async function generateMetadata({
     return {
         title: `${labels.title}${pageTitleSuffix}`,
         description: labels.subtitle,
+        robots: buildPublicRobots(),
         alternates: buildJourneysAlternates(lang, currentPage),
         openGraph: {
             title: `${labels.title}${pageTitleSuffix}`,

@@ -3,6 +3,7 @@ import Link from "next/link";
 import faqStyles from "./faq.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { buildPublicRobots } from "@/lib/seo/public-metadata";
 
 type FAQItem = {
   question: string;
@@ -397,6 +398,7 @@ export async function generateMetadata({
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    robots: buildPublicRobots(),
     alternates: buildAlternates(lang, path),
     openGraph: {
       title: content.metaTitle,

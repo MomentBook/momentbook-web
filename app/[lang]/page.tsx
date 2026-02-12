@@ -7,6 +7,7 @@ import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./page.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { buildPublicRobots } from "@/lib/seo/public-metadata";
 
 type HomePath = {
   title: string;
@@ -527,6 +528,7 @@ export async function generateMetadata(
   return {
     title: content.metaTitle,
     description: content.metaDescription,
+    robots: buildPublicRobots(),
     alternates: buildAlternates(lang, "/"),
     openGraph: {
       title: content.metaTitle,
@@ -575,14 +577,6 @@ export default async function Home({
     name: "MomentBook",
     url: siteUrl,
     description: content.metaDescription,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${siteUrl}/${lang}/journeys?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
   };
 
   return (

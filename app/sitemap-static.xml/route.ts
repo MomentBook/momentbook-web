@@ -1,37 +1,18 @@
 import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
+import {
+  normalizeSitemapUrls,
+  renderSitemapUrlset,
+  toIsoDateOrNull,
+  type SitemapUrlEntry,
+} from "@/lib/sitemap/xml";
 
-function generateSitemapXML(urls: {
-  loc: string;
-  lastmod: string;
-  changefreq: string;
-  priority: number;
-  alternates: { lang: string; href: string }[];
-}[]) {
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${urls
-  .map(
-    (url) => `  <url>
-    <loc>${url.loc}</loc>
-    <lastmod>${url.lastmod}</lastmod>
-    <changefreq>${url.changefreq}</changefreq>
-    <priority>${url.priority}</priority>
-${url.alternates
-  .map(
-    (alt) =>
-      `    <xhtml:link rel="alternate" hreflang="${alt.lang}" href="${alt.href}"/>`
-  )
-  .join("\n")}
-  </url>`
-  )
-  .join("\n")}
-</urlset>`;
-}
+export const revalidate = 3600;
 
 export async function GET() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
-  const lastmod = new Date().toISOString();
+  const staticLastmod = toIsoDateOrNull(
+    process.env.NEXT_PUBLIC_SITEMAP_STATIC_LASTMOD ?? null,
+  );
 
   // Static marketing pages
   const marketingPages = ["about", "download"];
@@ -39,30 +20,15 @@ export async function GET() {
   // Static content pages
   const contentPages = ["faq", "journeys", "users"];
 
-  // Legal pages
-  const legalPages = [
-    "privacy",
-    "terms",
-    "community-guidelines",
-    "marketing-consent",
-    "support",
-  ];
+  const allPages = [...marketingPages, ...contentPages];
 
-  const allPages = [...marketingPages, ...contentPages, ...legalPages];
-
-  const urls: {
-    loc: string;
-    lastmod: string;
-    changefreq: string;
-    priority: number;
-    alternates: { lang: string; href: string }[];
-  }[] = [];
+  const urls: SitemapUrlEntry[] = [];
 
   // Homepage entries for each language
   languageList.forEach((lang) => {
     urls.push({
       loc: `${siteUrl}/${lang}`,
-      lastmod,
+      lastmod: staticLastmod,
       changefreq: "monthly",
       priority: 1.0,
       alternates: buildSitemapAlternates(siteUrl, ""),
@@ -74,7 +40,7 @@ export async function GET() {
     languageList.forEach((lang) => {
       urls.push({
         loc: `${siteUrl}/${lang}/${page}`,
-        lastmod,
+        lastmod: staticLastmod,
         changefreq: "monthly",
         priority: 0.8,
         alternates: buildSitemapAlternates(siteUrl, page),
@@ -82,7 +48,7 @@ export async function GET() {
     });
   });
 
-  const xml = generateSitemapXML(urls);
+  const xml = renderSitemapUrlset(normalizeSitemapUrls(urls, "sitemap-static"));
 
   return new Response(xml, {
     headers: {

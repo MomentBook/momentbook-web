@@ -4,6 +4,7 @@ import Image from "next/image";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublicUsers } from "@/lib/public-users";
+import { buildPublicRobots } from "@/lib/seo/public-metadata";
 import { UserSearchForm } from "./UserSearchForm";
 import styles from "./users.module.scss";
 
@@ -113,6 +114,7 @@ export async function generateMetadata({
   return {
     title: labels.title,
     description: labels.subtitle,
+    robots: buildPublicRobots(),
     alternates: buildAlternates(lang, path),
     openGraph: {
       title: labels.title,

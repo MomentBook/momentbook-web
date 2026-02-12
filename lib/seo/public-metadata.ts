@@ -133,3 +133,14 @@ export function buildPublicRobots(): Metadata["robots"] {
     },
   };
 }
+
+export function buildNoIndexRobots(): Metadata["robots"] {
+  return {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  };
+}
