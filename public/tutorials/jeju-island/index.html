@@ -1,84 +1,57 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MomentBook Tutorial Archive - Jeju</title>
+    <title>MomentBook Archive</title>
     <style>
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        margin: 24px;
-        color: #111827;
-      }
-      h1 {
-        margin-bottom: 8px;
-      }
-      p {
-        margin: 0 0 14px;
-        color: #374151;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-      }
-      th, td {
-        border: 1px solid #d1d5db;
-        padding: 8px;
-        vertical-align: top;
-        font-size: 13px;
-      }
-      th {
-        background: #f3f4f6;
-        text-align: left;
-      }
-      code {
-        background: #f3f4f6;
-        border-radius: 4px;
-        padding: 1px 5px;
-      }
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 24px; color: #111; }
+      h1 { margin-bottom: 6px; }
+      .meta { color: #666; margin-bottom: 16px; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #ddd; padding: 8px; vertical-align: top; font-size: 13px; }
+      th { background: #f7f7f7; text-align: left; }
     </style>
   </head>
   <body>
     <h1>A Quiet Jeju Day: Stone Park to Woljeongri Beach</h1>
-    <p>Schema v2 tutorial dataset aligned with MomentBook archive import format.</p>
-    <p>Route flow: <code>ROUTE_STOP</code> -> <code>ORPHAN_CLUSTER</code> -> <code>ROUTE_STOP</code></p>
-
+    <div class="meta">Exported: 2026-02-12T06:00:00.000Z</div>
+    <div></div>
     <table>
       <thead>
         <tr>
           <th>#</th>
-          <th>Block</th>
           <th>Type</th>
-          <th>Time (UTC)</th>
-          <th>Media Folder</th>
-          <th>Photo Count</th>
+          <th>Start</th>
+          <th>Location</th>
+          <th>Photos</th>
+          <th>Media Files</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>1</td>
-          <td>Jeju Stone Park</td>
           <td>ROUTE_STOP</td>
-          <td>2025-10-03T21:15:00.000Z - 2025-10-03T21:55:00.000Z</td>
-          <td><a href="./01-Jeju-Stone-Park/">01-Jeju-Stone-Park/</a></td>
+          <td>2025-10-04 06:15:00 KST</td>
+          <td>Jeju Stone Park</td>
           <td>5</td>
+          <td><a href="01-Jeju-Stone-Park/0001.jpg">01-Jeju-Stone-Park/0001.jpg</a><br/><a href="01-Jeju-Stone-Park/0002.jpg">01-Jeju-Stone-Park/0002.jpg</a><br/><a href="01-Jeju-Stone-Park/0003.jpg">01-Jeju-Stone-Park/0003.jpg</a><br/><a href="01-Jeju-Stone-Park/0004.jpg">01-Jeju-Stone-Park/0004.jpg</a><br/><a href="01-Jeju-Stone-Park/0005.jpg">01-Jeju-Stone-Park/0005.jpg</a></td>
         </tr>
         <tr>
           <td>2</td>
-          <td>Eastbound Coast Transit</td>
           <td>ORPHAN_CLUSTER</td>
-          <td>2025-10-03T21:55:00.000Z - 2025-10-03T22:30:00.000Z</td>
-          <td><a href="./02-Eastbound-Coast/">02-Eastbound-Coast/</a></td>
+          <td>2025-10-04 06:55:00 KST</td>
+          <td>Eastbound Coast Transit</td>
           <td>3</td>
+          <td><a href="02-Eastbound-Coast/0001.jpg">02-Eastbound-Coast/0001.jpg</a><br/><a href="02-Eastbound-Coast/0002.jpg">02-Eastbound-Coast/0002.jpg</a><br/><a href="02-Eastbound-Coast/0003.jpg">02-Eastbound-Coast/0003.jpg</a></td>
         </tr>
         <tr>
           <td>3</td>
-          <td>Woljeongri Beach</td>
           <td>ROUTE_STOP</td>
-          <td>2025-10-03T22:30:00.000Z - 2025-10-03T23:35:00.000Z</td>
-          <td><a href="./03-Woljeongri-Beach/">03-Woljeongri-Beach/</a></td>
+          <td>2025-10-04 07:30:00 KST</td>
+          <td>Woljeongri Beach</td>
           <td>7</td>
+          <td><a href="03-Woljeongri-Beach/0001.jpg">03-Woljeongri-Beach/0001.jpg</a><br/><a href="03-Woljeongri-Beach/0002.jpg">03-Woljeongri-Beach/0002.jpg</a><br/><a href="03-Woljeongri-Beach/0003.jpg">03-Woljeongri-Beach/0003.jpg</a><br/><a href="03-Woljeongri-Beach/0004.jpg">03-Woljeongri-Beach/0004.jpg</a><br/><a href="03-Woljeongri-Beach/0005.jpg">03-Woljeongri-Beach/0005.jpg</a><br/><a href="03-Woljeongri-Beach/0006.jpg">03-Woljeongri-Beach/0006.jpg</a><br/><a href="03-Woljeongri-Beach/0007.jpg">03-Woljeongri-Beach/0007.jpg</a></td>
         </tr>
       </tbody>
     </table>

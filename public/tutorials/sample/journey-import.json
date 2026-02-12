@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "exportedAt": "2026-02-11T01:02:25.944Z",
+  "journey": {
+    "id": "fb531339-37e3-4380-b2a8-761b4fb73475",
+    "startedAt": 1770771505064,
+    "endedAt": 1770771505064,
+    "isTemporary": false,
+    "title": "하이드 테스트",
+    "createdAt": 1770771505064,
+    "updatedAt": 1770771649119
+  },
+  "timeline": [
+    {
+      "timelineId": "xRCpsZJl6PQDpeKQgjD_H",
+      "order": 1,
+      "type": "PHOTO_GROUP",
+      "startAt": 1769319763777,
+      "endAt": 1769319763777,
+      "locationName": "121-5 Yangpyeong-dong5-ga, Yangpyeong-dong5-ga, Seoul, 07203, South Korea",
+      "photoIds": [
+        "R_Hyp8bwvcWfRpsgWVrU5"
+      ]
+    },
+    {
+      "timelineId": "i5bUu0OppA7xO_8UgCysH",
+      "order": 2,
+      "type": "PHOTO_GROUP",
+      "startAt": 1769402575771.9998,
+      "endAt": 1769402576287,
+      "locationName": "21 Baekbeom-ro 31-gil, Gongdeok-dong, Seoul, 04147, South Korea",
+      "photoIds": [
+        "CvUpoUDc0b7-qZ2ZZx3t4",
+        "aa0i6LI8yKnFuzr1Mi0iq"
+      ]
+    }
+  ],
+  "photos": [
+    {
+      "photoId": "R_Hyp8bwvcWfRpsgWVrU5",
+      "takenAt": 1769319763777,
+      "archivePath": "01-121-5-Yangpyeong-dong5-ga-Yangpyeong-dong5-ga-Seoul-07203-South-Korea/0001.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 37.541111666666666,
+        "lng": 126.89568333333334
+      }
+    },
+    {
+      "photoId": "CvUpoUDc0b7-qZ2ZZx3t4",
+      "takenAt": 1769402575771.9998,
+      "archivePath": "02-21-Baekbeom-ro-31-gil-Gongdeok-dong-Seoul-04147-South-Korea/0001.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 37.546488333333336,
+        "lng": 126.94976166666666
+      }
+    },
+    {
+      "photoId": "aa0i6LI8yKnFuzr1Mi0iq",
+      "takenAt": 1769402576287,
+      "archivePath": "02-21-Baekbeom-ro-31-gil-Gongdeok-dong-Seoul-04147-South-Korea/0002.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 37.546488333333336,
+        "lng": 126.94976166666666
+      }
+    }
+  ],
+  "media": {
+    "includedPhotoCount": 3,
+    "skippedPhotoCount": 0
+  }
+}

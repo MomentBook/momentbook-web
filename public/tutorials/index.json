@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-02-12T06:37:55.400Z",
+  "tutorials": [
+    {
+      "slug": "jeju-island",
+      "path": "/tutorials/jeju-island",
+      "title": "A Quiet Jeju Day: Stone Park to Woljeongri Beach",
+      "schemaVersion": 2,
+      "exportedAt": "2026-02-12T06:00:00.000Z",
+      "indexHtml": "/tutorials/jeju-island/index.html",
+      "journeyImport": "/tutorials/jeju-island/journey-import.json",
+      "timelineCount": 3,
+      "photoCount": 15,
+      "mediaFileCount": 15,
+      "coverPath": "/tutorials/jeju-island/01-Jeju-Stone-Park/0001.jpg",
+      "topLevelFiles": [
+        "/tutorials/jeju-island/index.html",
+        "/tutorials/jeju-island/journey-import.json",
+        "/tutorials/jeju-island/README.md"
+      ],
+      "folders": [
+        {
+          "name": "01-Jeju-Stone-Park",
+          "path": "/tutorials/jeju-island/01-Jeju-Stone-Park",
+          "fileCount": 5,
+          "files": [
+            {
+              "name": "0001.jpg",
+              "path": "/tutorials/jeju-island/01-Jeju-Stone-Park/0001.jpg"
+            },
+            {
+              "name": "0002.jpg",
+              "path": "/tutorials/jeju-island/01-Jeju-Stone-Park/0002.jpg"
+            },
+            {
+              "name": "0003.jpg",
+              "path": "/tutorials/jeju-island/01-Jeju-Stone-Park/0003.jpg"
+            },
+            {
+              "name": "0004.jpg",
+              "path": "/tutorials/jeju-island/01-Jeju-Stone-Park/0004.jpg"
+            },
+            {
+              "name": "0005.jpg",
+              "path": "/tutorials/jeju-island/01-Jeju-Stone-Park/0005.jpg"
+            }
+          ]
+        },
+        {
+          "name": "02-Eastbound-Coast",
+          "path": "/tutorials/jeju-island/02-Eastbound-Coast",
+          "fileCount": 3,
+          "files": [
+            {
+              "name": "0001.jpg",
+              "path": "/tutorials/jeju-island/02-Eastbound-Coast/0001.jpg"
+            },
+            {
+              "name": "0002.jpg",
+              "path": "/tutorials/jeju-island/02-Eastbound-Coast/0002.jpg"
+            },
+            {
+              "name": "0003.jpg",
+              "path": "/tutorials/jeju-island/02-Eastbound-Coast/0003.jpg"
+            }
+          ]
+        },
+        {
+          "name": "03-Woljeongri-Beach",
+          "path": "/tutorials/jeju-island/03-Woljeongri-Beach",
+          "fileCount": 7,
+          "files": [
+            {
+              "name": "0001.jpg",
+              "path": "/tutorials/jeju-island/03-Woljeongri-Beach/0001.jpg"
+            },
+            {
+              "name": "0002.jpg",
+              "path": "/tutorials/jeju-island/03-Woljeongri-Beach/0002.jpg"
+            },
+            {
+              "name": "0003.jpg",
+              "path": "/tutorials/jeju-island/03-Woljeongri-Beach/0003.jpg"
+            },
+            {
+              "name": "0004.jpg",
+              "path": "/tutorials/jeju-island/03-Woljeongri-Beach/0004.jpg"
+            },
+            {
+              "name": "0005.jpg",
+              "path": "/tutorials/jeju-island/03-Woljeongri-Beach/0005.jpg"
+            },
+            {
+              "name": "0006.jpg",
+              "path": "/tutorials/jeju-island/03-Woljeongri-Beach/0006.jpg"
+            },
+            {
+              "name": "0007.jpg",
+              "path": "/tutorials/jeju-island/03-Woljeongri-Beach/0007.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "sample",
+      "path": "/tutorials/sample",
+      "title": "하이드 테스트",
+      "schemaVersion": 2,
+      "exportedAt": "2026-02-11T01:02:25.944Z",
+      "indexHtml": "/tutorials/sample/index.html",
+      "journeyImport": "/tutorials/sample/journey-import.json",
+      "timelineCount": 2,
+      "photoCount": 3,
+      "mediaFileCount": 3,
+      "coverPath": "/tutorials/sample/01-121-5-Yangpyeong-dong5-ga-Yangpyeong-dong5-ga-Seoul-07203-South-Korea/0001.jpg",
+      "topLevelFiles": [
+        "/tutorials/sample/index.html",
+        "/tutorials/sample/journey-import.json"
+      ],
+      "folders": [
+        {
+          "name": "01-121-5-Yangpyeong-dong5-ga-Yangpyeong-dong5-ga-Seoul-07203-South-Korea",
+          "path": "/tutorials/sample/01-121-5-Yangpyeong-dong5-ga-Yangpyeong-dong5-ga-Seoul-07203-South-Korea",
+          "fileCount": 1,
+          "files": [
+            {
+              "name": "0001.jpg",
+              "path": "/tutorials/sample/01-121-5-Yangpyeong-dong5-ga-Yangpyeong-dong5-ga-Seoul-07203-South-Korea/0001.jpg"
+            }
+          ]
+        },
+        {
+          "name": "02-21-Baekbeom-ro-31-gil-Gongdeok-dong-Seoul-04147-South-Korea",
+          "path": "/tutorials/sample/02-21-Baekbeom-ro-31-gil-Gongdeok-dong-Seoul-04147-South-Korea",
+          "fileCount": 2,
+          "files": [
+            {
+              "name": "0001.jpg",
+              "path": "/tutorials/sample/02-21-Baekbeom-ro-31-gil-Gongdeok-dong-Seoul-04147-South-Korea/0001.jpg"
+            },
+            {
+              "name": "0002.jpg",
+              "path": "/tutorials/sample/02-21-Baekbeom-ro-31-gil-Gongdeok-dong-Seoul-04147-South-Korea/0002.jpg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,7 @@
         "build": "next build",
         "start": "next start -p 3100",
         "lint": "eslint",
+        "generate:tutorials": "node scripts/generate-tutorials-index.mjs",
         "generate:api": "npx swagger-typescript-api@13.1.3 generate -p http://10.133.199.201:3001/api-docs-json -o ./src/apis -n client.ts -t axios"
     },
     "dependencies": {
