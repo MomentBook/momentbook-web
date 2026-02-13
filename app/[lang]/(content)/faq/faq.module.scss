@@ -1,0 +1,82 @@
+.page {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: calc(var(--spacing-xl) * 0.9) var(--spacing-md) var(--spacing-xl);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.title {
+  font-size: 2.1rem;
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: var(--color-text-secondary);
+  max-width: 36rem;
+}
+
+.lastUpdated {
+  font-size: 0.85rem;
+  color: var(--color-text-tertiary);
+  margin-top: 0.25rem;
+}
+
+.faqGrid {
+  display: grid;
+  gap: var(--spacing-md);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.faqItem {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass-sm);
+}
+
+.faqQuestion {
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+}
+
+.faqAnswer {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.callout {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  background: var(--surface-glass-soft);
+  border: 1px solid var(--glass-border);
+  color: var(--color-text-secondary);
+}
+
+.link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: var(--color-accent-hover);
+    text-decoration-color: var(--color-accent-hover);
+  }
+}

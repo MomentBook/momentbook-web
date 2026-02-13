@@ -1,0 +1,26 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--surface-glass-soft);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass-sm);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  flex-shrink: 0;
+}
+
+.header {
+  width: 2.125rem;
+  height: 2.125rem;
+}
+
+.profile {
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  object-fit: cover;
+}

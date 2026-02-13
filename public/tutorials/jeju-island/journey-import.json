@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 2,
+  "exportedAt": "2026-02-12T06:00:00.000Z",
+  "journey": {
+    "id": "tutorial-jeju-stone-park-woljeongri",
+    "startedAt": 1759525800000,
+    "endedAt": 1759534500000,
+    "isTemporary": false,
+    "isArchived": false,
+    "metadata": {
+      "title": "A Quiet Jeju Day: Stone Park to Woljeongri Beach",
+      "description": "A curated Jeju sample journey with coastal scenes and calm pacing so you can explore recap and timeline features right away."
+    },
+    "title": "A Quiet Jeju Day: Stone Park to Woljeongri Beach",
+    "description": "A curated Jeju sample journey with coastal scenes and calm pacing so you can explore recap and timeline features right away.",
+    "createdAt": 1759525800000,
+    "updatedAt": 1759534500000
+  },
+  "timeline": [
+    {
+      "timelineId": "block-stop1-stone-park",
+      "order": 1,
+      "type": "ROUTE_STOP",
+      "startAt": 1759526100000,
+      "endAt": 1759528500000,
+      "locationName": "Jeju Stone Park",
+      "photoIds": [
+        "photo-ext-01",
+        "photo-ext-02",
+        "photo-ext-03",
+        "photo-ext-04",
+        "photo-ext-05"
+      ]
+    },
+    {
+      "timelineId": "block-move-eastbound",
+      "order": 2,
+      "type": "ORPHAN_CLUSTER",
+      "startAt": 1759528500000,
+      "endAt": 1759530600000,
+      "photoIds": [
+        "photo-ext-06",
+        "photo-ext-07",
+        "photo-ext-08"
+      ]
+    },
+    {
+      "timelineId": "block-stop2-woljeongri",
+      "order": 3,
+      "type": "ROUTE_STOP",
+      "startAt": 1759530600000,
+      "endAt": 1759534500000,
+      "locationName": "Woljeongri Beach",
+      "photoIds": [
+        "photo-ext-09",
+        "photo-ext-10",
+        "photo-ext-11",
+        "photo-ext-12",
+        "photo-ext-13",
+        "photo-ext-14",
+        "photo-ext-15"
+      ]
+    }
+  ],
+  "photos": [
+    {
+      "photoId": "photo-ext-01",
+      "takenAt": 1759526100000,
+      "archivePath": "01-Jeju-Stone-Park/0001.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.448,
+        "lng": 126.659
+      }
+    },
+    {
+      "photoId": "photo-ext-02",
+      "takenAt": 1759526280000,
+      "archivePath": "01-Jeju-Stone-Park/0002.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.4482,
+        "lng": 126.6594
+      }
+    },
+    {
+      "photoId": "photo-ext-03",
+      "takenAt": 1759526520000,
+      "archivePath": "01-Jeju-Stone-Park/0003.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.4485,
+        "lng": 126.6598
+      }
+    },
+    {
+      "photoId": "photo-ext-04",
+      "takenAt": 1759526880000,
+      "archivePath": "01-Jeju-Stone-Park/0004.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.4481,
+        "lng": 126.6586
+      }
+    },
+    {
+      "photoId": "photo-ext-05",
+      "takenAt": 1759527300000,
+      "archivePath": "01-Jeju-Stone-Park/0005.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.4477,
+        "lng": 126.6589
+      }
+    },
+    {
+      "photoId": "photo-ext-06",
+      "takenAt": 1759528680000,
+      "archivePath": "02-Eastbound-Coast/0001.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.475,
+        "lng": 126.703
+      }
+    },
+    {
+      "photoId": "photo-ext-07",
+      "takenAt": 1759529040000,
+      "archivePath": "02-Eastbound-Coast/0002.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.505,
+        "lng": 126.748
+      }
+    },
+    {
+      "photoId": "photo-ext-08",
+      "takenAt": 1759529400000,
+      "archivePath": "02-Eastbound-Coast/0003.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.533,
+        "lng": 126.781
+      }
+    },
+    {
+      "photoId": "photo-ext-09",
+      "takenAt": 1759530900000,
+      "archivePath": "03-Woljeongri-Beach/0001.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.5564,
+        "lng": 126.7948
+      }
+    },
+    {
+      "photoId": "photo-ext-10",
+      "takenAt": 1759531320000,
+      "archivePath": "03-Woljeongri-Beach/0002.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.5567,
+        "lng": 126.7953
+      }
+    },
+    {
+      "photoId": "photo-ext-11",
+      "takenAt": 1759531800000,
+      "archivePath": "03-Woljeongri-Beach/0003.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.557,
+        "lng": 126.796
+      }
+    },
+    {
+      "photoId": "photo-ext-12",
+      "takenAt": 1759532280000,
+      "archivePath": "03-Woljeongri-Beach/0004.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.5565,
+        "lng": 126.7965
+      }
+    },
+    {
+      "photoId": "photo-ext-13",
+      "takenAt": 1759533000000,
+      "archivePath": "03-Woljeongri-Beach/0005.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.5561,
+        "lng": 126.796
+      }
+    },
+    {
+      "photoId": "photo-ext-14",
+      "takenAt": 1759533600000,
+      "archivePath": "03-Woljeongri-Beach/0006.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.5558,
+        "lng": 126.7952
+      }
+    },
+    {
+      "photoId": "photo-ext-15",
+      "takenAt": 1759534200000,
+      "archivePath": "03-Woljeongri-Beach/0007.jpg",
+      "hasGps": true,
+      "location": {
+        "lat": 33.5555,
+        "lng": 126.7946
+      }
+    }
+  ],
+  "media": {
+    "includedPhotoCount": 15,
+    "skippedPhotoCount": 0
+  }
+}

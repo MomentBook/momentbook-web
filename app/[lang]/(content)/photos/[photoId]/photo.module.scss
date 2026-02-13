@@ -1,0 +1,150 @@
+.page {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: calc(var(--spacing-xl) * 0.9) var(--spacing-md) var(--spacing-xl);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: calc(var(--spacing-lg) + 0.35rem);
+}
+
+.backLink {
+  width: fit-content;
+  font-size: 0.95rem;
+  color: var(--color-text-tertiary);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-text-primary);
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.title {
+  margin: 0;
+  font-size: 2.1rem;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.journeyLink {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.section {
+  margin-bottom: calc(var(--spacing-xl) + 0.45rem);
+}
+
+.sectionTitle {
+  margin: 0 0 var(--spacing-md);
+  font-size: 1.28rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  min-height: 22rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
+  background:
+    radial-gradient(
+      circle at 15% 12%,
+      color-mix(in srgb, var(--color-accent-soft) 46%, transparent),
+      transparent 45%
+    ),
+    var(--color-bg-muted);
+
+  @media (min-width: 768px) {
+    min-height: 34rem;
+  }
+}
+
+.image {
+  object-fit: contain;
+}
+
+.caption {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.68;
+}
+
+.detailsGrid {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--spacing-sm);
+  grid-template-columns: 1fr;
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.detailItem {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--color-border) 88%, transparent);
+  background: color-mix(in srgb, var(--color-bg-canvas) 94%, transparent);
+}
+
+.detailLabel {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.detailValue {
+  margin: 0.3rem 0 0;
+  font-size: 0.98rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.detailLink {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}

@@ -1,0 +1,304 @@
+.page {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--color-accent) 24%, transparent), transparent 42%),
+    radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--color-accent-secondary) 18%, transparent), transparent 44%);
+}
+
+.hero {
+  padding: clamp(1.4rem, 3.3vw, 2.8rem) var(--spacing-md) calc(var(--spacing-xl) * 0.8);
+}
+
+.heroInner {
+  max-width: 78rem;
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(0.95rem, 2.7vw, 2rem);
+  align-items: center;
+
+  @media (min-width: 960px) {
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  }
+}
+
+.heroCopy {
+  display: grid;
+  gap: 0.66rem;
+}
+
+.heroTitle {
+  font-size: 2.5rem;
+  line-height: 1.08;
+  font-weight: 640;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.heroSubtitle {
+  font-size: 0.99rem;
+  line-height: 1.68;
+  color: var(--color-text-secondary);
+  max-width: 34rem;
+}
+
+.heroVisual {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.heroDevice {
+  width: min(100%, 16.9rem);
+
+  @media (min-width: 1024px) {
+    width: min(100%, 17.8rem);
+  }
+}
+
+.storeButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 24rem;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    max-width: none;
+  }
+}
+
+.storeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2rem;
+  padding: 0.8rem 1.28rem;
+  border-radius: 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 52%, var(--glass-border));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--surface-glass-soft) 88%, #fff), color-mix(in srgb, var(--surface-glass) 84%, #fff));
+  color: var(--color-text-primary);
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--color-accent) 22%, transparent);
+  transition: transform 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    color: var(--color-accent);
+    border-color: color-mix(in srgb, var(--color-accent) 62%, var(--glass-border));
+  }
+}
+
+.storeButtonContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.12rem;
+}
+
+.storeButtonLabel {
+  font-size: 0.68rem;
+  opacity: 0.8;
+}
+
+.storeButtonName {
+  font-size: 0.96rem;
+  font-weight: 700;
+}
+
+.availability {
+  font-size: 0.86rem;
+  color: var(--color-text-tertiary);
+}
+
+.supportNote {
+  font-size: 0.88rem;
+  line-height: 1.58;
+  color: var(--color-text-tertiary);
+}
+
+.supportLink {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: var(--color-accent-hover);
+    text-decoration-color: var(--color-accent-hover);
+  }
+}
+
+.quickStartSection {
+  padding: 0 var(--spacing-md) calc(var(--spacing-xl) * 0.62);
+}
+
+.quickStartInner {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: clamp(1rem, 2.2vw, 1.45rem);
+  border-radius: 1.1rem;
+  border: 1px solid var(--glass-border);
+  background: var(--surface-glass-strong);
+  box-shadow: var(--shadow-glass-sm);
+  backdrop-filter: blur(calc(var(--glass-blur) + 1px)) saturate(150%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 1px)) saturate(150%);
+}
+
+.quickStartTitle {
+  font-size: 1.14rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.68rem;
+}
+
+.quickStartCard {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.quickStartQuestion {
+  font-size: 1.01rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.quickStartAnswer {
+  font-size: 0.95rem;
+  line-height: 1.62;
+  color: var(--color-text-secondary);
+}
+
+.quickStartSteps {
+  margin: 0.16rem 0 0;
+  padding-left: 1.08rem;
+  display: grid;
+  gap: 0.32rem;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.48;
+}
+
+.quickStartNote {
+  margin-top: 0.08rem;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--color-text-tertiary);
+}
+
+.section {
+  padding: 0 var(--spacing-md) calc(var(--spacing-xl) * 0.74);
+}
+
+.sectionInner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.sectionHeader {
+  display: grid;
+  gap: 0.28rem;
+  margin-bottom: 0.84rem;
+}
+
+.sectionTitle {
+  font-size: 1.72rem;
+  line-height: 1.24;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+}
+
+.sectionLead {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.featureGrid {
+  display: grid;
+  gap: 0.72rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.featureCard {
+  padding: 0.92rem;
+  border-radius: 0.95rem;
+  background: var(--surface-glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass-sm);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+.featureTitle {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: var(--color-text-primary);
+}
+
+.featureText {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.52;
+}
+
+.requirementsGrid {
+  display: grid;
+  gap: 0.72rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.requirementCard {
+  padding: 0.92rem;
+  border-radius: 0.95rem;
+  background: var(--surface-glass);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+.requirementTitle {
+  font-size: 0.98rem;
+  color: var(--color-accent);
+  margin-bottom: 0.28rem;
+  font-weight: 700;
+}
+
+.requirementDetails {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.privacyBand {
+  padding: 0 var(--spacing-md) calc(var(--spacing-xl) * 0.9);
+}
+
+.privacyText {
+  max-width: 56rem;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.94rem;
+  line-height: 1.56;
+  color: var(--color-text-secondary);
+  padding: 0.88rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--glass-border);
+  background: var(--surface-glass-soft);
+  box-shadow: var(--shadow-glass-sm);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}

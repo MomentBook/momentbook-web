@@ -1,0 +1,242 @@
+.page {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: calc(var(--spacing-xl) * 0.9) var(--spacing-md) var(--spacing-xl);
+}
+
+.card {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--shadow-glass-sm);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 1.45rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.socialRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.socialButton {
+  border: 1px solid var(--glass-border);
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--shadow-glass-sm);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+  min-height: 2.6rem;
+  padding: 0.52rem 0.72rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-border-hover);
+    background: var(--surface-glass-strong);
+    box-shadow: var(--shadow-glass-md);
+  }
+
+  &:disabled {
+    opacity: 0.72;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 50% 0 auto;
+    border-top: 1px solid var(--glass-border);
+  }
+
+  span {
+    position: relative;
+    background: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    color: var(--color-text-tertiary);
+    font-size: 0.82rem;
+    padding: 0 0.5rem;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.48rem;
+}
+
+.label {
+  font-size: 0.84rem;
+  color: var(--color-text-secondary);
+}
+
+.input {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 72%, var(--color-accent) 28%);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--surface-glass-strong) 92%, transparent);
+  backdrop-filter: blur(calc(var(--glass-blur) - 6px)) saturate(138%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 6px)) saturate(138%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--glass-border-strong) 70%, transparent),
+    0 8px 18px color-mix(in srgb, var(--color-text-primary) 7%, transparent);
+  color: var(--color-text-primary);
+  padding: 0.65rem 0.72rem;
+  font-size: 0.92rem;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+
+  &::placeholder {
+    color: color-mix(in srgb, var(--color-text-tertiary) 84%, transparent);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--color-accent) 46%, var(--glass-border-strong));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--glass-border-strong) 74%, transparent),
+      0 10px 20px color-mix(in srgb, var(--color-text-primary) 9%, transparent);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: color-mix(in srgb, var(--color-accent) 74%, var(--glass-border-strong));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--glass-border-strong) 78%, transparent),
+      0 0 0 2px color-mix(in srgb, var(--color-accent) 30%, transparent),
+      0 12px 24px color-mix(in srgb, var(--color-accent) 14%, transparent);
+  }
+
+  &:disabled {
+    opacity: 0.78;
+    cursor: not-allowed;
+    box-shadow: none;
+    background: color-mix(in srgb, var(--surface-glass-muted) 90%, transparent);
+  }
+}
+
+.inlineRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+}
+
+.secondaryButton {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  color: var(--color-text-secondary);
+  font-size: 0.83rem;
+  min-width: 5.9rem;
+  padding: 0 0.65rem;
+  cursor: pointer;
+  transition: border-color 0.16s ease, color 0.16s ease;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-accent);
+    color: var(--color-text-primary);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.actions {
+  margin-top: 0.72rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.submitButton {
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: 0.56rem 0.96rem;
+  font-size: 0.9rem;
+  min-width: 7rem;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.72;
+    cursor: not-allowed;
+  }
+}
+
+.errorMessage,
+.noticeMessage {
+  margin: 0.25rem 0 0;
+  border-radius: var(--radius-sm);
+  padding: 0.54rem 0.65rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.errorMessage {
+  color: #9a1f18;
+  background: color-mix(in srgb, #b42318 10%, var(--color-bg-canvas));
+  border: 1px solid color-mix(in srgb, #b42318 26%, transparent);
+}
+
+.noticeMessage {
+  color: var(--color-text-secondary);
+  background: var(--surface-glass-soft);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 34%, transparent);
+}
+
+.footnote {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+}
+
+.link,
+.linkStrong {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.12rem;
+}
+
+.linkStrong {
+  font-weight: 600;
+}

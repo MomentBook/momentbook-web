@@ -1,0 +1,474 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import faqStyles from "./faq.module.scss";
+import { type Language } from "@/lib/i18n/config";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { serializeJsonLd } from "@/lib/seo/json-ld";
+import { buildPublicRobots } from "@/lib/seo/public-metadata";
+
+type FAQItem = {
+  question: string;
+  answer: string;
+};
+
+type FAQContent = {
+  metaTitle: string;
+  metaDescription: string;
+  pageTitle: string;
+  pageSubtitle: string;
+  lastUpdated: string;
+  calloutPrefix: string;
+  calloutLink: string;
+  calloutSuffix: string;
+  items: FAQItem[];
+};
+
+const timelineExportFaqByLang: Record<Language, FAQItem> = {
+  en: {
+    question: "Can I export a journey timeline?",
+    answer: "Yes. After organizing the timeline, you can export a ZIP (images + metadata) to keep personally or share directly. This is available on both iOS and Android, and does not require publishing.",
+  },
+  ko: {
+    question: "여정 타임라인을 내보낼 수 있나요?",
+    answer: "네. 타임라인 정리 후 이미지+메타데이터 ZIP으로 내보내 개인 보관하거나 직접 공유할 수 있습니다. iOS와 Android에서 동일하게 지원되며, 게시하지 않아도 가능합니다.",
+  },
+  ja: {
+    question: "旅のタイムラインを書き出せますか？",
+    answer: "はい。タイムライン整理後に画像+メタデータZIPを書き出して、個人保管または直接共有できます。iOS/Androidで同じ機能が使え、公開は必須ではありません。",
+  },
+  zh: {
+    question: "可以导出旅程时间线吗？",
+    answer: "可以。时间线整理后可导出图片+元数据 ZIP，用于个人保存或直接分享。iOS 与 Android 功能一致，且无需发布。",
+  },
+  es: {
+    question: "Puedo exportar el timeline del viaje?",
+    answer: "Si. Tras ordenar el timeline, puedes exportar un ZIP (imagenes + metadatos) para guardarlo o compartirlo directamente. Esta funcion existe en iOS y Android, y no exige publicar.",
+  },
+  pt: {
+    question: "Posso exportar a timeline da jornada?",
+    answer: "Sim. Apos organizar a timeline, voce pode exportar um ZIP (imagens + metadados) para guardar ou compartilhar diretamente. Funciona em iOS e Android e nao exige publicar.",
+  },
+  fr: {
+    question: "Puis-je exporter la timeline du voyage ?",
+    answer: "Oui. Apres organisation de la timeline, vous pouvez exporter un ZIP (images + metadonnees) pour conserver ou partager directement. Disponible sur iOS et Android, sans obligation de publier.",
+  },
+  th: {
+    question: "ส่งออกไทม์ไลน์ทริปได้ไหม?",
+    answer: "ได้ หลังจัดไทม์ไลน์แล้ว คุณส่งออก ZIP (รูป+เมทาดาทา) เพื่อเก็บเองหรือแชร์โดยตรงได้ รองรับทั้ง iOS และ Android และไม่ต้องเผยแพร่ก็ได้",
+  },
+  vi: {
+    question: "Toi co the xuat timeline hanh trinh khong?",
+    answer: "Co. Sau khi sap xep timeline, ban co the xuat ZIP (anh + metadata) de tu luu hoac chia se truc tiep. Tinh nang nay giong nhau tren iOS va Android va khong bat buoc dang bai.",
+  },
+};
+
+function getFaqContent(lang: Language): FAQContent {
+  if (lang === "es") {
+    return {
+      metaTitle: "Preguntas sobre MomentBook",
+      metaDescription: "Respuestas tranquilas para entender MomentBook.",
+      pageTitle: "Preguntas sobre MomentBook",
+      pageSubtitle: "Respuestas breves y calmadas sobre como funciona.",
+      lastUpdated: "Actualizado: 9 de febrero de 2026",
+      calloutPrefix: "Tienes otra pregunta? ",
+      calloutLink: "Contactanos",
+      calloutSuffix: "",
+      items: [
+        { question: "Que es MomentBook?", answer: "Un archivo tranquilo que puede empezar con tracking o con fotos y convertirse en un viaje." },
+        { question: "Es una red social?", answer: "No. No hay feed, likes ni rankings. Compartir es opcional." },
+        { question: "El tracking es obligatorio?", answer: "No. Puedes registrar con tracking o ordenar solo con fotos." },
+        { question: "Que se guarda?", answer: "Fotos, notas cortas, hora de captura y lugares/rutas si permites ubicacion." },
+        { question: "Es privado por defecto?", answer: "Si. Los viajes siguen privados hasta que los publiques." },
+        { question: "Que significa Publish?", answer: "Publicar crea una pagina web publica con URL unica para ese viaje." },
+        { question: "Se puede ver sin la app?", answer: "Si. Cualquiera con el enlace puede verlo en la web, y puede indexarse." },
+        { question: "Rastrea mi ubicacion?", answer: "Solo si lo permites. Se usa para ubicar momentos dentro del viaje." },
+        { question: "Como se organizan los momentos?", answer: "Fotos y registros se agrupan por tiempo y lugar en una linea de viaje para volver a recordar." },
+      ],
+    };
+  }
+
+  if (lang === "pt") {
+    return {
+      metaTitle: "Perguntas sobre o MomentBook",
+      metaDescription: "Respostas calmas sobre o MomentBook.",
+      pageTitle: "Perguntas sobre o MomentBook",
+      pageSubtitle: "Respostas curtas e tranquilas sobre como funciona.",
+      lastUpdated: "Atualizado: 9 de fevereiro de 2026",
+      calloutPrefix: "Ainda com duvidas? ",
+      calloutLink: "Fale conosco",
+      calloutSuffix: "",
+      items: [
+        { question: "O que e o MomentBook?", answer: "Um arquivo tranquilo que pode comecar com tracking ou fotos e virar uma jornada." },
+        { question: "E uma rede social?", answer: "Nao. Nao ha feed, curtidas ou ranking. Compartilhar e opcional." },
+        { question: "O tracking e obrigatorio?", answer: "Nao. Voce pode registrar com tracking ou organizar so com fotos." },
+        { question: "O que e salvo?", answer: "Fotos, notas curtas, horario da captura e lugares/rotas quando a localizacao e permitida." },
+        { question: "E privado por padrao?", answer: "Sim. As jornadas ficam privadas ate voce publicar." },
+        { question: "O que significa Publish?", answer: "Publicar cria uma pagina web publica com URL unica para a jornada." },
+        { question: "Da para ver sem o app?", answer: "Sim. Qualquer pessoa com o link pode ver na web, e pode ser indexado." },
+        { question: "Ele rastreia minha localizacao?", answer: "Somente se voce permitir. A localizacao organiza os momentos da jornada." },
+        { question: "Como os momentos sao organizados?", answer: "Fotos e registros sao agrupados por tempo e lugar em uma timeline de jornada para revisitar memórias." },
+      ],
+    };
+  }
+
+  if (lang === "fr") {
+    return {
+      metaTitle: "Questions sur MomentBook",
+      metaDescription: "Des reponses calmes pour comprendre MomentBook.",
+      pageTitle: "Questions sur MomentBook",
+      pageSubtitle: "Des reponses courtes et calmes sur son fonctionnement.",
+      lastUpdated: "Mis a jour : 9 fevrier 2026",
+      calloutPrefix: "Une autre question ? ",
+      calloutLink: "Nous contacter",
+      calloutSuffix: "",
+      items: [
+        { question: "Qu'est-ce que MomentBook ?", answer: "Une archive calme qui peut commencer par le tracking ou par des photos et devenir un voyage." },
+        { question: "Est-ce un reseau social ?", answer: "Non. Pas de fil, de likes ni de classement. Le partage est optionnel." },
+        { question: "Le tracking est-il obligatoire ?", answer: "Non. Vous pouvez enregistrer avec tracking ou organiser seulement avec des photos." },
+        { question: "Que sauvegarde l'app ?", answer: "Photos, notes courtes, heure de prise et lieux/itineraires si la localisation est autorisee." },
+        { question: "Est-ce prive par defaut ?", answer: "Oui. Les voyages restent prives tant que vous ne publiez pas." },
+        { question: "Que signifie Publish ?", answer: "Publier cree une page web publique avec une URL unique pour ce voyage." },
+        { question: "Peut-on voir sans l'app ?", answer: "Oui. Toute personne ayant le lien peut voir la page web, qui peut etre indexee." },
+        { question: "L'app suit-elle ma position ?", answer: "Seulement si vous l'autorisez. Elle sert a organiser les moments du voyage." },
+        { question: "Comment les moments sont-ils organises ?", answer: "Photos et enregistrements sont regroupes par temps et lieu dans une timeline de voyage a revisiter." },
+      ],
+    };
+  }
+
+  if (lang === "th") {
+    return {
+      metaTitle: "คําถามเกี่ยวกับ MomentBook",
+      metaDescription: "คําตอบแบบเรียบง่ายเพื่อเข้าใจ MomentBook",
+      pageTitle: "คําถามเกี่ยวกับ MomentBook",
+      pageSubtitle: "คําตอบสั้นๆ อย่างสงบว่าแอปทํางานอย่างไร",
+      lastUpdated: "อัปเดต: 9 กุมภาพันธ์ 2026",
+      calloutPrefix: "ยังมีคําถามอยู่ไหม? ",
+      calloutLink: "ติดต่อเรา",
+      calloutSuffix: "",
+      items: [
+        { question: "MomentBook คืออะไร?", answer: "คลังบันทึกแบบเงียบๆ ที่เริ่มได้ทั้งการติดตามหรือรูป และต่อยอดเป็นทริปได้" },
+        { question: "เป็นโซเชียลเน็ตเวิร์กไหม?", answer: "ไม่ใช่ ไม่มีฟีด ไลก์ หรืออันดับ การแชร์เป็นทางเลือก" },
+        { question: "ต้องติดตามไหม?", answer: "ไม่จำเป็น คุณบันทึกด้วยการติดตามหรือจัดด้วยรูปเท่านั้นก็ได้" },
+        { question: "บันทึกอะไรบ้าง?", answer: "รูป เมโมสั้น เวลา และสถานที่/เส้นทางเมื่อคุณอนุญาตตำแหน่ง" },
+        { question: "เป็นส่วนตัวโดยค่าเริ่มต้นไหม?", answer: "ใช่ ทริปจะเป็นส่วนตัวจนกว่าคุณจะเผยแพร่" },
+        { question: "Publish คืออะไร?", answer: "การเผยแพร่จะสร้างหน้าเว็บสาธารณะที่มี URL เฉพาะของทริปนั้น" },
+        { question: "ดูได้โดยไม่ต้องมีแอปไหม?", answer: "ได้ คนที่มีลิงก์ดูผ่านเว็บได้ และอาจถูกจัดทำดัชนีโดยเสิร์ชเอนจิน" },
+        { question: "ติดตามตำแหน่งตลอดไหม?", answer: "เฉพาะเมื่อคุณอนุญาต ใช้เพื่อจัดช่วงเวลาให้อยู่ในทริป" },
+        { question: "ช่วงเวลาถูกจัดอย่างไร?", answer: "รูปและบันทึกจะถูกรวมตามเวลาและสถานที่เป็นไทม์ไลน์ทริป เพื่อกลับมาทบทวนความทรงจําได้ง่าย" },
+      ],
+    };
+  }
+
+  if (lang === "vi") {
+    return {
+      metaTitle: "Cau hoi ve MomentBook",
+      metaDescription: "Cau tra loi nhe nhang de hieu MomentBook.",
+      pageTitle: "Cau hoi ve MomentBook",
+      pageSubtitle: "Cau tra loi ngan gon va binh tinh ve cach ung dung hoat dong.",
+      lastUpdated: "Cap nhat: 9 thang 2 nam 2026",
+      calloutPrefix: "Ban van con thac mac? ",
+      calloutLink: "Lien he",
+      calloutSuffix: "",
+      items: [
+        { question: "MomentBook la gi?", answer: "Mot kho luu tru nhe nhang co the bat dau bang tracking hoac anh va tro thanh hanh trinh." },
+        { question: "Day co phai mang xa hoi?", answer: "Khong. Khong co feed, like hay xep hang. Chia se la tuy chon." },
+        { question: "Tracking co bat buoc khong?", answer: "Khong. Ban co the ghi lai bang tracking hoac sap xep chi voi anh." },
+        { question: "Ung dung luu gi?", answer: "Anh, ghi chu ngan, thoi gian chup va dia diem/tuyen duong neu ban cho phep vi tri." },
+        { question: "Mac dinh co rieng tu khong?", answer: "Co. Hanh trinh van rieng tu tru khi ban dang." },
+        { question: "Publish co nghia la gi?", answer: "Dang se tao mot trang web cong khai co URL rieng cho hanh trinh do." },
+        { question: "Nguoi khac co xem duoc neu khong co app?", answer: "Co. Bat ky ai co lien ket deu xem duoc tren web, va co the duoc lap chi muc." },
+        { question: "Ung dung co theo doi vi tri lien tuc?", answer: "Chi khi ban cho phep. Vi tri duoc dung de xep khoanh khac vao hanh trinh." },
+        { question: "Khoanh khac duoc sap xep nhu the nao?", answer: "Anh va ban ghi duoc gom theo thoi gian va dia diem thanh timeline hanh trinh de de dang nho lai." },
+      ],
+    };
+  }
+
+  if (lang === "ko") {
+    return {
+      metaTitle: "MomentBook 질문과 답",
+      metaDescription: "MomentBook을 조용히 이해할 수 있는 질문과 답입니다.",
+      pageTitle: "MomentBook 질문과 답",
+      pageSubtitle: "짧고 차분한 답변을 모았습니다.",
+      lastUpdated: "업데이트: 2026년 2월 9일",
+      calloutPrefix: "더 필요한 내용이 있나요? ",
+      calloutLink: "문의하기",
+      calloutSuffix: "",
+      items: [
+        {
+          question: "MomentBook이 무엇인가요?",
+          answer: "트래킹이나 사진으로 시작해 여정으로 이어질 수 있는 조용한 기록 아카이브입니다.",
+        },
+        {
+          question: "SNS인가요?",
+          answer: "아니요. 피드, 좋아요, 랭킹이 없고 공유는 선택입니다.",
+        },
+        {
+          question: "트래킹은 필수인가요?",
+          answer: "아니요. 트래킹으로 기록하거나 사진만으로 정리할 수 있습니다.",
+        },
+        {
+          question: "무엇이 저장되나요?",
+          answer: "사진, 짧은 메모, 기록 시각, 위치를 허용한 경우 장소와 경로입니다.",
+        },
+        {
+          question: "기본은 비공개인가요?",
+          answer: "네. 기본은 비공개이며, 게시할 때만 공개됩니다.",
+        },
+        {
+          question: "게시(Publish)는 무엇인가요?",
+          answer: "해당 여정만의 고유 URL 페이지를 만들어 공유하는 기능입니다.",
+        },
+        {
+          question: "앱 없이도 볼 수 있나요?",
+          answer: "네. 링크를 받은 사람은 웹에서 볼 수 있고, 검색 엔진에 수집될 수 있습니다.",
+        },
+        {
+          question: "항상 위치를 추적하나요?",
+          answer: "아니요. 위치는 허용한 경우에만 사용됩니다.",
+        },
+        {
+          question: "순간은 어떻게 정리되나요?",
+          answer: "사진과 기록을 시간과 장소 기준으로 묶어 여정 타임라인으로 정리합니다.",
+        },
+      ],
+    };
+  }
+
+  if (lang === "ja") {
+    return {
+      metaTitle: "MomentBook 質問と回答",
+      metaDescription: "MomentBook を静かに理解するための質問と回答です。",
+      pageTitle: "MomentBook 質問と回答",
+      pageSubtitle: "短く穏やかな回答をまとめました。",
+      lastUpdated: "更新日: 2026年2月9日",
+      calloutPrefix: "まだ気になる点があれば、",
+      calloutLink: "お問い合わせ",
+      calloutSuffix: "ください。",
+      items: [
+        {
+          question: "MomentBook とは何ですか？",
+          answer: "トラッキングでも写真でも始められる、静かな記録アーカイブです。",
+        },
+        {
+          question: "SNS ですか？",
+          answer: "いいえ。フィードやいいね、ランキングはなく、共有は任意です。",
+        },
+        {
+          question: "トラッキングは必須ですか？",
+          answer: "いいえ。トラッキングでも写真だけでも始められます。",
+        },
+        {
+          question: "何が保存されますか？",
+          answer: "写真、短いメモ、記録時刻、許可した場合の場所とルートです。",
+        },
+        {
+          question: "デフォルトは非公開ですか？",
+          answer: "はい。基本は非公開で、投稿したときだけ公開されます。",
+        },
+        {
+          question: "Publish(投稿)とは？",
+          answer: "その旅だけの固有URLページを作成して共有することです。",
+        },
+        {
+          question: "アプリがなくても見られますか？",
+          answer: "はい。リンクを受け取った人はWebで閲覧でき、検索エンジンに表示される可能性もあります。",
+        },
+        {
+          question: "常に位置情報を追跡しますか？",
+          answer: "いいえ。位置情報は許可した場合のみ使用します。",
+        },
+        {
+          question: "瞬間はどのように整理されますか？",
+          answer: "写真と記録を時間と場所でまとめ、旅のタイムラインとして整理します。",
+        },
+      ],
+    };
+  }
+
+  if (lang === "zh") {
+    return {
+      metaTitle: "MomentBook 问题与回答",
+      metaDescription: "帮助你安静了解 MomentBook 的问题与回答。",
+      pageTitle: "MomentBook 问题与回答",
+      pageSubtitle: "简短而平和的回答汇总。",
+      lastUpdated: "更新：2026年2月9日",
+      calloutPrefix: "还有其他疑问？",
+      calloutLink: "联系我们",
+      calloutSuffix: "",
+      items: [
+        {
+          question: "MomentBook 是什么？",
+          answer: "可从追踪或照片开始，整理成旅程的安静记录档案。",
+        },
+        {
+          question: "是社交网络吗？",
+          answer: "不是。没有信息流、点赞或排名，分享是可选的。",
+        },
+        {
+          question: "必须追踪吗？",
+          answer: "不必。可以追踪记录，也可以只用照片整理。",
+        },
+        {
+          question: "会保存哪些内容？",
+          answer: "照片、短句、记录时间，以及在允许位置时的地点与路线。",
+        },
+        {
+          question: "默认是私密的吗？",
+          answer: "是的。默认私密，仅在发布时公开。",
+        },
+        {
+          question: "发布(Publish)是什么？",
+          answer: "为该旅程生成一个唯一 URL 的网页并进行分享。",
+        },
+        {
+          question: "没有 App 也能看吗？",
+          answer: "可以。收到链接的人可在网页查看，并可能被搜索引擎收录。",
+        },
+        {
+          question: "会一直追踪位置吗？",
+          answer: "不会。只有在你允许时才会使用位置。",
+        },
+        {
+          question: "瞬间是如何整理的？",
+          answer: "照片与记录会按时间和地点归并，整理成可回看的旅程时间线。",
+        },
+      ],
+    };
+  }
+
+  return {
+    metaTitle: "MomentBook Questions",
+    metaDescription: "Quiet answers about MomentBook.",
+    pageTitle: "MomentBook questions",
+    pageSubtitle: "Short, calm answers about how it works.",
+    lastUpdated: "Updated: February 9, 2026",
+    calloutPrefix: "Still wondering about something? ",
+    calloutLink: "Get in touch",
+    calloutSuffix: "",
+    items: [
+      {
+        question: "What is MomentBook?",
+        answer: "A quiet archive that can begin with tracking or photos, and become a journey.",
+      },
+      {
+        question: "Is it a social network?",
+        answer: "No. There is no feed, likes, or rankings. Sharing is optional.",
+      },
+      {
+        question: "Do I have to track?",
+        answer: "No. You can track a journey or organize with photos only.",
+      },
+      {
+        question: "What gets saved?",
+        answer: "Photos, short notes, time of capture, and places/routes when location is allowed.",
+      },
+      {
+        question: "Is it private by default?",
+        answer: "Yes. Journeys stay private unless you publish them.",
+      },
+      {
+        question: "What does Publish mean?",
+        answer: "Publishing creates a public web page with a unique URL for that journey.",
+      },
+      {
+        question: "Can people view without the app?",
+        answer: "Yes. Anyone with the link can view it on the web, and it may be indexed.",
+      },
+      {
+        question: "Does it track my location?",
+        answer: "Only if you allow it. Location is used to place moments into a journey.",
+      },
+      {
+        question: "How are moments organized?",
+        answer: "Photos and records are grouped by time and place into a journey timeline you can revisit.",
+      },
+    ],
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params as { lang: Language };
+  const content = getFaqContent(lang);
+  const path = "/faq";
+  const url = buildOpenGraphUrl(lang, path);
+
+  return {
+    title: content.metaTitle,
+    description: content.metaDescription,
+    robots: buildPublicRobots(),
+    alternates: buildAlternates(lang, path),
+    openGraph: {
+      title: content.metaTitle,
+      description: content.metaDescription,
+      url,
+    },
+    twitter: {
+      card: "summary",
+      title: content.metaTitle,
+      description: content.metaDescription,
+    },
+  };
+}
+
+export default async function FAQPage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params as { lang: Language };
+  const content = getFaqContent(lang);
+  const timelineExportFaq = timelineExportFaqByLang[lang] ?? timelineExportFaqByLang.en;
+  const faqItems = [...content.items, timelineExportFaq];
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const pageUrl = new URL(buildOpenGraphUrl(lang, "/faq"), siteUrl).toString();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    url: pageUrl,
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
+  return (
+    <div className={faqStyles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
+      />
+      <header className={faqStyles.header}>
+        <h1 className={faqStyles.title}>{content.pageTitle}</h1>
+        <p className={faqStyles.subtitle}>{content.pageSubtitle}</p>
+        <p className={faqStyles.lastUpdated}>{content.lastUpdated}</p>
+      </header>
+
+      <div className={faqStyles.faqGrid}>
+        {faqItems.map((faq, index) => (
+          <section key={`${faq.question}-${index}`} className={faqStyles.faqItem}>
+            <h2 className={faqStyles.faqQuestion}>{faq.question}</h2>
+            <p className={faqStyles.faqAnswer}>{faq.answer}</p>
+          </section>
+        ))}
+      </div>
+
+      <aside className={faqStyles.callout}>
+        <p>
+          {content.calloutPrefix}
+          <Link href={`/${lang}/support`} className={faqStyles.link}>
+            {content.calloutLink}
+          </Link>
+          {content.calloutSuffix}
+        </p>
+      </aside>
+    </div>
+  );
+}
