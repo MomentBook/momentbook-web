@@ -437,7 +437,12 @@
       "ops": [],
       "hiddenPhotoIds": [],
       "manualAssignments": [],
-      "manualClusterEdits": []
+      "manualClusterEdits": [],
+      "blockOrder": [
+        "block-stop1-stone-park",
+        "block-move-eastbound",
+        "block-stop2-woljeongri"
+      ]
     }
   },
   "media": {
