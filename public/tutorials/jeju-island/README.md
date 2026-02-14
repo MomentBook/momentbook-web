@@ -1,10 +1,13 @@
 # Tutorial Sample Dataset (Jeju Route Blocks)
 
-This dataset mirrors the archive import package format produced by `buildJourneyArchive`.
+This dataset mirrors the archive import package format produced by `buildJourneyArchive`
+compatible with schema 3 (`format: momentbook.journey-archive`).
 
 Contents:
 
-- `journey-import.json` (`schemaVersion: 2`)
+- `journey-import.json` (`schemaVersion: 3`, includes:
+  - top-level fallback `timeline`/`photos`
+  - `recap` block with `photoIdSpace`, draft, and overrides
 - `index.html`
 - `01-Jeju-Stone-Park/0001.jpg` ~ `0005.jpg`
 - `02-Eastbound-Coast/0001.jpg` ~ `0003.jpg`

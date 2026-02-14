@@ -1,3 +1,36 @@
+$menu-drawer-control-size: 2.15rem;
+$menu-drawer-control-radius: 999px;
+$menu-drawer-control-hover-border: color-mix(in srgb, var(--color-accent) 58%, var(--glass-border));
+$menu-drawer-control-focus: color-mix(in srgb, var(--color-accent) 72%, #fff);
+
+@mixin menu-drawer-control {
+  height: $menu-drawer-control-size;
+  min-height: $menu-drawer-control-size;
+  border: 1px solid var(--glass-border);
+  border-radius: $menu-drawer-control-radius;
+  background: var(--surface-glass);
+  color: var(--color-text-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  line-height: 1;
+  align-self: center;
+  padding: 0;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    border-color: $menu-drawer-control-hover-border;
+    background: var(--surface-glass-soft);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $menu-drawer-control-focus;
+    outline-offset: 2px;
+  }
+}
+
 .hamburger {
   position: relative;
   z-index: 210;
@@ -102,39 +135,66 @@
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.45rem;
+  min-height: 2.15rem;
 }
 
-.menuTitle {
-  margin: 0;
-  font-size: 1.02rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--color-text-primary);
+.menuHome {
+  @include menu-drawer-control;
+  width: auto;
+  padding: 0 0.52rem 0 0.46rem;
+  justify-content: flex-start;
+  gap: 0.34rem;
+  text-decoration: none;
+  min-width: 0;
+  background: transparent;
+  border-color: transparent;
+
+  &:hover {
+    background: transparent;
+    border-color: transparent;
+  }
+}
+
+.menuLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  line-height: 0;
+  flex-shrink: 1;
+  width: 100%;
+  padding: 0;
+}
+
+.menuLogo :global(span) {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.menuLogo :global(img) {
+  display: block;
+}
+
+.menuLogoIcon {
+  display: inline-flex;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.menuWordmarkText {
+  width: auto;
+  max-width: 130px;
+  height: auto;
+  line-height: 0;
 }
 
 .closeButton {
-  width: 2.15rem;
-  height: 2.15rem;
-  border: 1px solid var(--glass-border);
-  border-radius: 999px;
-  background: var(--surface-glass);
-  color: var(--color-text-primary);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  @include menu-drawer-control;
   flex-shrink: 0;
 
   &:hover {
-    border-color: color-mix(in srgb, var(--color-accent) 58%, var(--glass-border));
     color: var(--color-accent);
-    background: var(--surface-glass-soft);
-  }
-
-  &:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--color-accent) 72%, #fff);
-    outline-offset: 2px;
   }
 }
 
@@ -255,6 +315,7 @@
   .line,
   .overlay,
   .menu,
+  .menuHome,
   .closeButton,
   .menuLink,
   .journeysButton {

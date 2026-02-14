@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type Language } from "@/lib/i18n/config";
+import { MomentBookLogo } from "@/components/MomentBookLogo";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import styles from "./MobileMenu.module.scss";
@@ -20,26 +21,50 @@ interface MobileMenuProps {
   };
 }
 
+type MobileMenuLink = {
+  href: string;
+  label: string;
+};
+
+const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+function createMenuLinks(lang: Language, dict: MobileMenuProps["dict"]): MobileMenuLink[] {
+  return [
+    { href: `/${lang}/about`, label: dict.nav.about },
+    { href: `/${lang}/faq`, label: dict.nav.faq },
+    { href: `/${lang}/download`, label: dict.nav.download },
+  ];
+}
+
+function isActivePath(currentPath: string, href: string) {
+  return currentPath === href || currentPath.startsWith(`${href}/`);
+}
+
 export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const menuId = useId();
   const drawerRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const navLinks = [
-    { href: `/${lang}/about`, label: dict.nav.about },
-    { href: `/${lang}/faq`, label: dict.nav.faq },
-    { href: `/${lang}/download`, label: dict.nav.download },
-  ];
+  const homeHref = `/${lang}`;
   const journeysHref = `/${lang}/journeys`;
+  const navLinks = useMemo(
+    () => createMenuLinks(lang, dict),
+    [lang, dict.nav.about, dict.nav.faq, dict.nav.download],
+  );
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setIsOpen(false);
-  };
+  }, []);
 
-  const isActiveLink = (href: string) => {
-    return pathname === href || pathname.startsWith(`${href}/`);
-  };
+  const openMenu = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const isActiveLink = useCallback(
+    (href: string) => isActivePath(pathname, href),
+    [pathname],
+  );
 
   // Prevent background scroll and keep keyboard focus inside drawer.
   useEffect(() => {
@@ -70,9 +95,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
       }
 
       const focusable = Array.from(
-        drawerRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-        ),
+        drawerRef.current.querySelectorAll<HTMLElement>(focusableSelector),
       ).filter((element) => element.tabIndex !== -1);
 
       if (focusable.length === 0) {
@@ -108,7 +131,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
         previousFocused.focus();
       }
     };
-  }, [isOpen]);
+  }, [closeMenu, isOpen]);
 
   return (
     <>
@@ -116,7 +139,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
         <button
           type="button"
           className={styles.hamburger}
-          onClick={() => setIsOpen(true)}
+          onClick={openMenu}
           aria-label="Open menu"
           aria-expanded={false}
           aria-controls={menuId}
@@ -139,7 +162,19 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
             onClick={(event) => event.stopPropagation()}
           >
             <div className={styles.menuHeader}>
-              <p className={styles.menuTitle}>MomentBook</p>
+              <Link
+                href={homeHref}
+                className={styles.menuHome}
+                onClick={closeMenu}
+                aria-label="Go to Home"
+              >
+                <MomentBookLogo
+                  className={styles.menuLogo}
+                  wordmarkClassName={styles.menuWordmarkText}
+                  hideIcon
+                  wordmarkWidth={130}
+                />
+              </Link>
               <button
                 ref={closeButtonRef}
                 type="button"
