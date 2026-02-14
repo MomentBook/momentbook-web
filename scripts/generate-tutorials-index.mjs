@@ -8,10 +8,6 @@ import {
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
-import {
-  normalizeJourneyImportToV3,
-  validateJourneyImportV3,
-} from "./journey-import-v3.mjs";
 
 const cwd = process.cwd();
 const publicRoot = path.join(cwd, "public");
@@ -97,24 +93,11 @@ function buildTutorialEntry(slug) {
   const journeyImportPath = path.join(tutorialDir, "journey-import.json");
   const indexHtmlPath = path.join(tutorialDir, "index.html");
   const journeyImport = safeReadJson(journeyImportPath);
-  const normalizedJourneyImport = journeyImport
-    ? normalizeJourneyImportToV3(journeyImport)
-    : null;
-  const validation = normalizedJourneyImport
-    ? validateJourneyImportV3(normalizedJourneyImport)
-    : null;
-
-  if (validation && !validation.isValid) {
-    throw new Error(
-      `Invalid journey-import.json for ${slug}: ${validation.errors.join("; ")}`,
-    );
-  }
-
-  const photos = Array.isArray(normalizedJourneyImport?.photos)
-    ? normalizedJourneyImport.photos
+  const photos = Array.isArray(journeyImport?.photos)
+    ? journeyImport.photos
     : [];
-  const timeline = Array.isArray(normalizedJourneyImport?.timeline)
-    ? normalizedJourneyImport.timeline
+  const timeline = Array.isArray(journeyImport?.timeline)
+    ? journeyImport.timeline
     : [];
   const mediaFiles = listMediaFilesByArchivePath(tutorialDir, photos);
   const groupedFolders = groupMediaFiles(mediaFiles);
@@ -125,16 +108,16 @@ function buildTutorialEntry(slug) {
     slug,
     path: `/tutorials/${slug}`,
     title:
-      normalizedJourneyImport?.journey?.title ??
-      normalizedJourneyImport?.journey?.metadata?.title ??
+      journeyImport?.journey?.title ??
+      journeyImport?.journey?.metadata?.title ??
       slug,
     schemaVersion:
-      typeof normalizedJourneyImport?.schemaVersion === "number"
-        ? normalizedJourneyImport.schemaVersion
+      typeof journeyImport?.schemaVersion === "number"
+        ? journeyImport.schemaVersion
         : null,
     exportedAt:
-      typeof normalizedJourneyImport?.exportedAt === "string"
-        ? normalizedJourneyImport.exportedAt
+      typeof journeyImport?.exportedAt === "string"
+        ? journeyImport.exportedAt
         : null,
     indexHtml: existsSync(indexHtmlPath) ? `/tutorials/${slug}/index.html` : null,
     journeyImport: existsSync(journeyImportPath)
