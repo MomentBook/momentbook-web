@@ -45,7 +45,7 @@ export const fr: Dictionary = {
     learnMore: "Voir deux facons",
   },
   footer: {
-    summary: "Commencez avec tracking ou photos et revenez a un voyage calme quand vous le souhaitez.",
+    summary: "Importez les photos du voyage en lot, organisez-les par date et heure, puis revoyez le voyage quand vous voulez.",
     ctaPrimary: "Telecharger",
     ctaSecondary: "Support",
     sections: {

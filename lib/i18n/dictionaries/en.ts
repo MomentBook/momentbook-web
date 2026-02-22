@@ -52,7 +52,7 @@ export const en = {
 
   // Footer
   footer: {
-    summary: 'Start with tracking or photos, then return to a calm journey when you want.',
+    summary: 'Upload travel photos in one batch, auto-organize by date and time, and revisit your trip when you want.',
     ctaPrimary: 'Download',
     ctaSecondary: 'Support',
     sections: {

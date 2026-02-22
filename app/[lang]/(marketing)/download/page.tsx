@@ -74,9 +74,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "es") {
     return {
       metaTitle: "Descargar MomentBook",
-      metaDescription: "Registra con tracking o ordena solo con fotos en iOS y Android.",
+      metaDescription: "Sube fotos del viaje en lote y ordenalas automaticamente por fecha y hora en iOS y Android.",
       title: "Descargar MomentBook",
-      subtitle: "Dos formas tranquilas de empezar. Disponible para iPhone y Android.",
+      subtitle: "Carga en lote, organizacion automatica y recap del viaje. Disponible para iPhone y Android.",
       deviceAlt: "Pantalla de organizacion de fotos",
       availability: "Disponible en App Store y Google Play.",
       storeLabels: {
@@ -89,25 +89,25 @@ function getDownloadContent(lang: Language): DownloadContent {
       },
       quickStartTitle: "Inicio rapido",
       quickStartQuestion: "¿Como empiezo con MomentBook?",
-      quickStartAnswer: "Descarga la app, elige tu inicio (tracking o fotos) y comienza tu primer viaje.",
+      quickStartAnswer: "Descarga la app, sube las fotos del viaje en una sola carga y revisa la timeline ordenada automaticamente.",
       quickStartSteps: [
         "Descarga desde App Store o Google Play",
-        "Elige inicio con tracking o solo fotos",
-        "Crea tu primer viaje y agrega momentos",
+        "Sube en lote las fotos del viaje",
+        "Revisa la timeline organizada por fecha y hora",
       ],
-      featuresTitle: "Pensado para dos inicios",
+      featuresTitle: "Flujo de organizacion automatica",
       features: [
         {
-          title: "Tracking o fotos",
-          text: "Registra mientras te mueves o empieza seleccionando fotos.",
+          title: "Carga en lote",
+          text: "Sube fotos de varios dias en una sola vez.",
         },
         {
-          title: "Terminar y revisar",
-          text: "Cierra el viaje y revisa los momentos organizados.",
+          title: "Orden automatico por fecha y hora",
+          text: "Las fotos se ordenan en timeline sin clasificacion manual completa.",
         },
         {
-          title: "Publicacion opcional",
-          text: "Publica solo cuando quieras; lo privado es el punto de partida.",
+          title: "Recap y publicacion opcional",
+          text: "Revisa el viaje y publica solo cuando quieras.",
         },
       ],
       requirementsTitle: "Requisitos del sistema",
@@ -133,9 +133,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "pt") {
     return {
       metaTitle: "Baixar MomentBook",
-      metaDescription: "Registre com tracking ou organize so com fotos no iOS e Android.",
+      metaDescription: "Envie fotos da viagem em lote e organize automaticamente por data e hora no iOS e Android.",
       title: "Baixar MomentBook",
-      subtitle: "Duas formas tranquilas de comecar. Disponivel para iPhone e Android.",
+      subtitle: "Envio em lote, organizacao automatica e recap da viagem. Disponivel para iPhone e Android.",
       deviceAlt: "Tela de organizacao de fotos",
       availability: "Disponivel na App Store e no Google Play.",
       storeLabels: {
@@ -148,25 +148,25 @@ function getDownloadContent(lang: Language): DownloadContent {
       },
       quickStartTitle: "Inicio rapido",
       quickStartQuestion: "Como comecar com o MomentBook?",
-      quickStartAnswer: "Baixe o app, escolha seu inicio (tracking ou fotos) e comece sua primeira jornada.",
+      quickStartAnswer: "Baixe o app, envie as fotos da viagem em uma vez e veja a timeline organizada automaticamente.",
       quickStartSteps: [
         "Baixe da App Store ou do Google Play",
-        "Escolha inicio com tracking ou so com fotos",
-        "Crie sua primeira jornada e adicione momentos",
+        "Envie em lote as fotos da viagem",
+        "Revise a timeline organizada por data e hora",
       ],
-      featuresTitle: "Feito para dois inicios",
+      featuresTitle: "Fluxo de organizacao automatica",
       features: [
         {
-          title: "Tracking ou fotos",
-          text: "Registre enquanto se move ou comece escolhendo fotos.",
+          title: "Envio em lote",
+          text: "Envie fotos de varios dias de uma so vez.",
         },
         {
-          title: "Finalizar e revisar",
-          text: "Finalize a jornada e veja os momentos organizados.",
+          title: "Ordem automatica por data e hora",
+          text: "As fotos entram na timeline sem classificacao manual completa.",
         },
         {
-          title: "Publicacao opcional",
-          text: "Publique so quando quiser; o padrao e o privado.",
+          title: "Recap e publicacao opcional",
+          text: "Revise a viagem e publique so quando quiser.",
         },
       ],
       requirementsTitle: "Requisitos do sistema",
@@ -192,9 +192,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "fr") {
     return {
       metaTitle: "Telecharger MomentBook",
-      metaDescription: "Enregistrez avec tracking ou organisez seulement avec des photos sur iOS et Android.",
+      metaDescription: "Importez les photos du voyage en lot et organisez-les automatiquement par date et heure sur iOS et Android.",
       title: "Telecharger MomentBook",
-      subtitle: "Deux facons calmes de commencer. Disponible sur iPhone et Android.",
+      subtitle: "Import en lot, organisation automatique et recap du voyage. Disponible sur iPhone et Android.",
       deviceAlt: "Ecran d'organisation de photos",
       availability: "Disponible sur App Store et Google Play.",
       storeLabels: {
@@ -207,25 +207,25 @@ function getDownloadContent(lang: Language): DownloadContent {
       },
       quickStartTitle: "Demarrage rapide",
       quickStartQuestion: "Comment commencer avec MomentBook?",
-      quickStartAnswer: "Telechargez l'app, choisissez votre debut (tracking ou photos) et commencez votre premier voyage.",
+      quickStartAnswer: "Telechargez l'app, importez les photos du voyage en une fois et consultez la timeline organisee automatiquement.",
       quickStartSteps: [
         "Telechargez depuis l'App Store ou Google Play",
-        "Choisissez debut avec tracking ou seulement avec photos",
-        "Creez votre premier voyage et ajoutez des moments",
+        "Importez en lot les photos du voyage",
+        "Consultez la timeline classee par date et heure",
       ],
-      featuresTitle: "Pense pour deux debuts",
+      featuresTitle: "Flux d'organisation automatique",
       features: [
         {
-          title: "Tracking ou photos",
-          text: "Enregistrez en mouvement ou commencez en choisissant des photos.",
+          title: "Import en lot",
+          text: "Importez d'un coup des photos de plusieurs jours.",
         },
         {
-          title: "Terminer et revoir",
-          text: "Terminez le voyage et revoyez les moments organises.",
+          title: "Classement auto par date et heure",
+          text: "Les photos se placent en timeline sans tri manuel complet.",
         },
         {
-          title: "Publication optionnelle",
-          text: "Publiez seulement si vous le souhaitez; le prive reste la base.",
+          title: "Recap et publication optionnelle",
+          text: "Revoyez le voyage et publiez seulement si vous le souhaitez.",
         },
       ],
       requirementsTitle: "Configuration requise",
@@ -251,9 +251,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "th") {
     return {
       metaTitle: "ดาวน์โหลด MomentBook",
-      metaDescription: "บันทึกด้วยการติดตามหรือจัดด้วยรูปเท่านั้นบน iOS และ Android",
+      metaDescription: "อัปโหลดรูปทริปแบบชุดเดียวและจัดตามวันเวลาอัตโนมัติบน iOS และ Android",
       title: "ดาวน์โหลด MomentBook",
-      subtitle: "สองวิธีเริ่มต้นอย่างสงบ ใช้ได้บน iPhone และ Android",
+      subtitle: "อัปโหลดครั้งเดียว จัดอัตโนมัติ และทบทวนทริป ใช้ได้บน iPhone และ Android",
       deviceAlt: "หน้าจอจัดรูป",
       availability: "ดาวน์โหลดได้จาก App Store และ Google Play",
       storeLabels: {
@@ -266,25 +266,25 @@ function getDownloadContent(lang: Language): DownloadContent {
       },
       quickStartTitle: "เริ่มต้นอย่างรวดเร็ว",
       quickStartQuestion: "ฉันจะเริ่มใช้ MomentBook ได้อย่างไร?",
-      quickStartAnswer: "ดาวน์โหลดแอป เลือกวิธีเริ่มต้นของคุณ (ติดตามหรือรูป) และเริ่มการเดินทางครั้งแรก",
+      quickStartAnswer: "ดาวน์โหลดแอป อัปโหลดรูปทริปแบบชุดเดียว แล้วดูไทม์ไลน์ที่จัดอัตโนมัติได้ทันที",
       quickStartSteps: [
         "ดาวน์โหลดจาก App Store หรือ Google Play",
-        "เลือกเริ่มต้นด้วยการติดตามหรือรูปเท่านั้น",
-        "สร้างการเดินทางครั้งแรกและเพิ่มช่วงเวลา",
+        "อัปโหลดรูประหว่างทริปแบบชุดเดียว",
+        "ทบทวนไทม์ไลน์ที่จัดตามวันและเวลา",
       ],
-      featuresTitle: "ออกแบบมาสำหรับสองวิธีเริ่มต้น",
+      featuresTitle: "โฟลว์จัดรูปอัตโนมัติ",
       features: [
         {
-          title: "ติดตามหรือรูป",
-          text: "บันทึกขณะเคลื่อนไหว หรือเริ่มจากการเลือกรูป",
+          title: "อัปโหลดแบบชุดเดียว",
+          text: "อัปโหลดรูปหลายวันพร้อมกันในครั้งเดียว",
         },
         {
-          title: "จบและทบทวน",
-          text: "จบทริปและดูช่วงเวลาที่จัดเรียงแล้ว",
+          title: "จัดตามวันและเวลาอัตโนมัติ",
+          text: "รูปถูกเรียงในไทม์ไลน์โดยไม่ต้องจัดเองทั้งหมด",
         },
         {
-          title: "เผยแพร่แบบเลือกได้",
-          text: "เผยแพร่เมื่อคุณเลือก โดยพื้นฐานเป็นส่วนตัว",
+          title: "ทบทวนและเผยแพร่แบบเลือกได้",
+          text: "ย้อนดูทริปก่อน และเผยแพร่เมื่อคุณต้องการเท่านั้น",
         },
       ],
       requirementsTitle: "ความต้องการของระบบ",
@@ -310,9 +310,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "vi") {
     return {
       metaTitle: "Tai MomentBook",
-      metaDescription: "Ghi lai bang tracking hoac sap xep chi voi anh tren iOS va Android.",
+      metaDescription: "Tai anh du lich theo lo va tu dong sap xep theo ngay gio tren iOS va Android.",
       title: "Tai MomentBook",
-      subtitle: "Hai cach bat dau nhe nhang. Co tren iPhone va Android.",
+      subtitle: "Tai len hang loat, tu dong sap xep va recap chuyen di. Co tren iPhone va Android.",
       deviceAlt: "Man hinh sap xep anh",
       availability: "Co tren App Store va Google Play.",
       storeLabels: {
@@ -325,25 +325,25 @@ function getDownloadContent(lang: Language): DownloadContent {
       },
       quickStartTitle: "Bat dau nhanh",
       quickStartQuestion: "Lam cach nao de bat dau voi MomentBook?",
-      quickStartAnswer: "Tai ung dung, chon cach bat dau (tracking hoac anh) va bat dau hanh trinh dau tien.",
+      quickStartAnswer: "Tai ung dung, tai anh du lich mot lan va xem timeline da duoc sap xep tu dong.",
       quickStartSteps: [
         "Tai tu App Store hoac Google Play",
-        "Chon bat dau voi tracking hoac chi voi anh",
-        "Tao hanh trinh dau tien va them khoanh khac",
+        "Tai len hang loat anh trong chuyen di",
+        "Xem timeline da sap xep theo ngay gio",
       ],
-      featuresTitle: "Danh cho hai cach bat dau",
+      featuresTitle: "Luong tu dong sap xep",
       features: [
         {
-          title: "Tracking hoac anh",
-          text: "Ghi lai khi di chuyen, hoac bat dau bang viec chon anh.",
+          title: "Tai len hang loat",
+          text: "Tai anh cua nhieu ngay trong mot lan.",
         },
         {
-          title: "Ket thuc va xem lai",
-          text: "Ket thuc hanh trinh va xem cac khoanh khac da sap xep.",
+          title: "Tu dong sap xep theo ngay gio",
+          text: "Anh vao timeline ma khong can sap xep thu cong day du.",
         },
         {
-          title: "Dang tuy chon",
-          text: "Chi dang khi ban muon; mac dinh la rieng tu.",
+          title: "Recap va dang tuy chon",
+          text: "Nhin lai chuyen di truoc, dang bai chi khi ban muon.",
         },
       ],
       requirementsTitle: "Yeu cau he thong",
@@ -369,9 +369,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "ko") {
     return {
       metaTitle: "MomentBook 다운로드",
-      metaDescription: "iOS와 Android에서 트래킹으로 기록하거나 사진만으로 정리하세요.",
+      metaDescription: "여행 기간 사진을 한 번에 업로드하면 날짜와 시간으로 자동 정리해 회고하기 쉬운 타임라인을 만듭니다.",
       title: "MomentBook 다운로드",
-      subtitle: "두 가지 시작으로 여정을 남기는 조용한 공간. iPhone과 Android에서 사용할 수 있습니다.",
+      subtitle: "여행 사진 일괄 업로드부터 자동 정리, 여행 회고까지. iPhone과 Android에서 사용할 수 있습니다.",
       deviceAlt: "사진을 정리하는 화면",
       availability: "App Store와 Google Play에서 받을 수 있습니다.",
       storeLabels: {
@@ -384,25 +384,25 @@ function getDownloadContent(lang: Language): DownloadContent {
       },
       quickStartTitle: "빠른 시작",
       quickStartQuestion: "MomentBook을 어떻게 시작하나요?",
-      quickStartAnswer: "앱을 다운로드하고 시작 방식(트래킹 또는 사진)을 선택한 후 첫 여정을 만드세요.",
+      quickStartAnswer: "앱을 다운로드하고 여행 사진을 한 번에 올리면 날짜·시간 기준으로 자동 정리된 타임라인을 바로 확인할 수 있습니다.",
       quickStartSteps: [
         "App Store 또는 Google Play에서 다운로드",
-        "트래킹 기반 또는 사진만으로 시작 선택",
-        "첫 여정을 만들고 순간 추가",
+        "여행 기간 사진을 한 번에 선택해 업로드",
+        "자동 정리된 타임라인으로 여행 회고",
       ],
-      featuresTitle: "두 가지 시작을 위한 기능",
+      featuresTitle: "사진 자동 정리 흐름",
       features: [
         {
-          title: "트래킹 또는 사진",
-          text: "이동을 기록하거나 사진을 고르는 것으로 시작합니다.",
+          title: "여행 사진 일괄 업로드",
+          text: "여러 날짜의 사진을 한 번에 올려 정리를 시작합니다.",
         },
         {
-          title: "마무리와 확인",
-          text: "여정을 마무리하고 정리된 순간을 확인합니다.",
+          title: "날짜·시간 자동 정리",
+          text: "업로드한 사진을 시간 흐름대로 정리해 타임라인을 구성합니다.",
         },
         {
-          title: "선택적 게시",
-          text: "원할 때만 게시하고 기본은 비공개입니다.",
+          title: "여행 회고와 선택적 게시",
+          text: "정리된 여행을 돌아보고, 원할 때만 게시할 수 있습니다.",
         },
       ],
       requirementsTitle: "시스템 요구 사항",
@@ -428,9 +428,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "ja") {
     return {
       metaTitle: "MomentBook をダウンロード",
-      metaDescription: "iOS と Android でトラッキング記録または写真だけで整理できます。",
+      metaDescription: "iOS と Android で旅行写真を一括アップロードし、日時順に自動整理できます。",
       title: "MomentBook をダウンロード",
-      subtitle: "二つの始め方で旅を残す静かな場所。iPhone と Android に対応。",
+      subtitle: "一括アップロード、自動整理、旅の振り返り。iPhone と Android に対応。",
       deviceAlt: "写真を整理する画面",
       availability: "App Store と Google Play で入手できます。",
       storeLabels: {
@@ -443,25 +443,25 @@ function getDownloadContent(lang: Language): DownloadContent {
       },
       quickStartTitle: "クイックスタート",
       quickStartQuestion: "MomentBook の使い方は?",
-      quickStartAnswer: "アプリをダウンロードし、始め方(トラッキングまたは写真)を選んで最初の旅を作成します。",
+      quickStartAnswer: "アプリをダウンロードして旅行写真をまとめてアップロードすると、日時順に整理されたタイムラインをすぐ確認できます。",
       quickStartSteps: [
         "App Store または Google Play からダウンロード",
-        "トラッキングベースまたは写真のみの開始を選択",
-        "最初の旅を作成し、瞬間を追加",
+        "旅行写真を一括アップロード",
+        "自動整理されたタイムラインで振り返る",
       ],
-      featuresTitle: "二つの始め方のための機能",
+      featuresTitle: "写真自動整理フロー",
       features: [
         {
-          title: "トラッキングでも写真でも",
-          text: "移動を記録するか、写真を選んで始めます。",
+          title: "旅行写真の一括アップロード",
+          text: "複数日の写真をまとめて整理開始できます。",
         },
         {
-          title: "終えて見返す",
-          text: "旅を終えて、整理された瞬間を確認します。",
+          title: "日時で自動整理",
+          text: "写真が時系列でタイムラインに自動配置されます。",
         },
         {
-          title: "任意の公開",
-          text: "必要なときだけ公開し、基本は非公開です。",
+          title: "旅の振り返りと任意公開",
+          text: "まず振り返り、必要なときだけ公開できます。",
         },
       ],
       requirementsTitle: "システム要件",
@@ -487,9 +487,9 @@ function getDownloadContent(lang: Language): DownloadContent {
   if (lang === "zh") {
     return {
       metaTitle: "下载 MomentBook",
-      metaDescription: "在 iOS 与 Android 上可用追踪记录或只用照片整理。",
+      metaDescription: "在 iOS 与 Android 上可批量上传旅行照片，并按日期时间自动整理。",
       title: "下载 MomentBook",
-      subtitle: "两种开始方式的安静空间。支持 iPhone 与 Android。",
+      subtitle: "批量上传、自动整理、旅行回顾。支持 iPhone 与 Android。",
       deviceAlt: "整理照片的界面",
       availability: "可在 App Store 与 Google Play 安装。",
       storeLabels: {
@@ -502,25 +502,25 @@ function getDownloadContent(lang: Language): DownloadContent {
       },
       quickStartTitle: "快速开始",
       quickStartQuestion: "如何开始使用 MomentBook?",
-      quickStartAnswer: "下载应用，选择开始方式(追踪或照片)并创建第一次行程。",
+      quickStartAnswer: "下载应用后一次上传旅行照片，即可查看按日期和时间自动整理的时间线。",
       quickStartSteps: [
         "从 App Store 或 Google Play 下载",
-        "选择追踪式或仅照片开始",
-        "创建第一次行程并添加瞬间",
+        "批量上传旅行照片",
+        "查看自动整理后的旅行时间线",
       ],
-      featuresTitle: "支持两种开始方式",
+      featuresTitle: "照片自动整理流程",
       features: [
         {
-          title: "追踪或照片",
-          text: "可以记录移动，也可以从选择照片开始。",
+          title: "旅行照片批量上传",
+          text: "可一次上传多个日期的照片开始整理。",
         },
         {
-          title: "结束并查看",
-          text: "结束行程，查看整理后的瞬间。",
+          title: "按日期时间自动整理",
+          text: "照片会自动进入按时间排序的时间线。",
         },
         {
-          title: "可选发布",
-          text: "仅在需要时发布，默认私密。",
+          title: "旅行回顾与可选发布",
+          text: "先回顾再决定是否发布，默认私密。",
         },
       ],
       requirementsTitle: "系统要求",
@@ -545,9 +545,9 @@ function getDownloadContent(lang: Language): DownloadContent {
 
   return {
     metaTitle: "Download MomentBook",
-    metaDescription: "Track a journey or organize with photos only on iOS and Android.",
+    metaDescription: "Batch upload travel photos and auto-organize them by date and time on iOS and Android.",
     title: "Download MomentBook",
-    subtitle: "Two calm ways to begin. Available for iPhone and Android.",
+    subtitle: "Batch upload, auto-organization, and trip recap. Available for iPhone and Android.",
     deviceAlt: "Organizing photos screen on MomentBook",
     availability: "Available on the App Store and Google Play.",
     storeLabels: {
@@ -560,25 +560,25 @@ function getDownloadContent(lang: Language): DownloadContent {
     },
     quickStartTitle: "Quick start",
     quickStartQuestion: "How do I get started with MomentBook?",
-    quickStartAnswer: "Download the app, choose your starting path (tracking or photos), and begin your first journey.",
+    quickStartAnswer: "Download the app, upload travel photos in one batch, and review the auto-organized timeline right away.",
     quickStartSteps: [
       "Download from App Store or Google Play",
-      "Choose tracking-based or photo-only start",
-      "Create your first journey and add moments",
+      "Batch upload photos from your trip",
+      "Review the timeline sorted by date and time",
     ],
-    featuresTitle: "Built for two ways to begin",
+    featuresTitle: "Auto-organization flow",
     features: [
       {
-        title: "Tracking or photos",
-        text: "Track as you move, or start by selecting photos.",
+        title: "Batch upload",
+        text: "Upload photos from multiple dates in one go.",
       },
       {
-        title: "Finish and review",
-        text: "End a journey and review the organized moments.",
+        title: "Automatic date/time sorting",
+        text: "Photos are arranged in timeline order without full manual sorting.",
       },
       {
-        title: "Optional publishing",
-        text: "Publish only when you choose, and keep it private by default.",
+        title: "Trip recap and optional publishing",
+        text: "Revisit your trip first and publish only when you choose.",
       },
     ],
     requirementsTitle: "System requirements",

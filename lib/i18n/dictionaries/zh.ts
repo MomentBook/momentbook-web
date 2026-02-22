@@ -54,7 +54,7 @@ export const zh: Dictionary = {
 
   // Footer
   footer: {
-    summary: '可从追踪或照片开始，需要时回到安静的旅程。',
+    summary: '旅行照片一次上传后会按日期和时间自动整理，便于随时回顾旅程。',
     ctaPrimary: '下载',
     ctaSecondary: '支持',
     sections: {

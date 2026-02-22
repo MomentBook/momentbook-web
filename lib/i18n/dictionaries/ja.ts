@@ -54,7 +54,7 @@ export const ja: Dictionary = {
 
   // Footer
   footer: {
-    summary: 'トラッキングでも写真でも始められ、戻りたいときに静かな旅に戻れます。',
+    summary: '旅行写真をまとめてアップロードすると、日時順に整理され、旅を振り返りやすくなります。',
     ctaPrimary: 'ダウンロード',
     ctaSecondary: 'サポート',
     sections: {

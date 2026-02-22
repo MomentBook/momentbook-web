@@ -45,7 +45,7 @@ export const pt: Dictionary = {
     learnMore: "Ver duas formas",
   },
   footer: {
-    summary: "Comece com tracking ou fotos e volte a uma jornada calma quando quiser.",
+    summary: "Envie as fotos da viagem em lote, organize por data e hora e reveja a jornada quando quiser.",
     ctaPrimary: "Baixar",
     ctaSecondary: "Suporte",
     sections: {

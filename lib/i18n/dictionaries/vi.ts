@@ -45,7 +45,7 @@ export const vi: Dictionary = {
     learnMore: "Xem hai cach bat dau",
   },
   footer: {
-    summary: "Bat dau bang tracking hoac anh, roi quay lai hanh trinh yen tinh khi ban muon.",
+    summary: "Tai anh du lich theo lo, tu dong sap xep theo ngay gio, va nhin lai hanh trinh bat cu luc nao.",
     ctaPrimary: "Tai xuong",
     ctaSecondary: "Ho tro",
     sections: {

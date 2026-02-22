@@ -45,7 +45,7 @@ export const es: Dictionary = {
     learnMore: "Ver dos formas",
   },
   footer: {
-    summary: "Empieza con tracking o con fotos y vuelve a un viaje tranquilo cuando quieras.",
+    summary: "Sube las fotos del viaje en lote, ordenalas por fecha y hora, y vuelve al viaje cuando quieras.",
     ctaPrimary: "Descargar",
     ctaSecondary: "Soporte",
     sections: {

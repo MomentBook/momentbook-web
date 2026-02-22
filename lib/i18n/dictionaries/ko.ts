@@ -54,7 +54,7 @@ export const ko: Dictionary = {
 
   // Footer
   footer: {
-    summary: '트래킹이나 사진으로 시작해, 원할 때 조용한 여정으로 돌아옵니다.',
+    summary: '여행 사진을 한 번에 올리면 날짜와 시간순으로 정리되어, 여행을 다시 돌아보기 쉬워집니다.',
     ctaPrimary: '다운로드',
     ctaSecondary: '지원',
     sections: {
