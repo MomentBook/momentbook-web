@@ -50,7 +50,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
   const journeysHref = `/${lang}/journeys`;
   const navLinks = useMemo(
     () => createMenuLinks(lang, dict),
-    [lang, dict.nav.about, dict.nav.faq, dict.nav.download],
+    [lang, dict],
   );
 
   const closeMenu = useCallback(() => {
@@ -170,9 +170,11 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
               >
                 <MomentBookLogo
                   className={styles.menuLogo}
+                  iconClassName={styles.menuLogoIcon}
                   wordmarkClassName={styles.menuWordmarkText}
-                  hideIcon
-                  wordmarkWidth={130}
+                  iconSize={24}
+                  wordmarkWidth={120}
+                  wordmarkHeight={27}
                 />
               </Link>
               <button

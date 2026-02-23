@@ -6,6 +6,7 @@ import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./page.module.scss";
 import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
+import { buildAbsoluteAppLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
@@ -652,7 +653,7 @@ export default async function Home({
     "@type": "Organization",
     name: "MomentBook",
     url: siteUrl,
-    logo: `${siteUrl}/logo.svg`,
+    logo: buildAbsoluteAppLogoUrl(siteUrl),
     sameAs: [
       "https://apps.apple.com/app/momentbook/id6749165889",
       "https://play.google.com/store/apps/details?id=com.reflectalab.momentbook",

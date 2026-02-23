@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { APP_LOGO_PATH, APP_WORDMARK_PATH } from "@/lib/branding/logo";
 
 const DEFAULT_ICON_SIZE = 40;
 const DEFAULT_WORDMARK_WIDTH = 180;
@@ -40,7 +41,7 @@ export function MomentBookLogo({
       {shouldShowIcon && (
         <Image
           className={iconClassName}
-          src="/images/logos/momentbook-logo-only-transparent.png"
+          src={APP_LOGO_PATH}
           alt=""
           aria-hidden="true"
           width={iconDimension}
@@ -51,7 +52,7 @@ export function MomentBookLogo({
       {shouldShowWordmark && (
         <Image
           className={wordmarkClassName}
-          src="/wordmark.svg"
+          src={APP_WORDMARK_PATH}
           alt="MomentBook"
           width={wordmarkDimensionWidth}
           height={wordmarkDimensionHeight}

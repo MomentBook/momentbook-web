@@ -7,6 +7,7 @@ import AuthSessionProvider from "./components/AuthSessionProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ENV } from "@/src/configs/env.server";
 import GaRouteTracker from "./components/GaRouteTracker";
+import { APP_LOGO_PATH } from "@/lib/branding/logo";
 import {
     defaultLanguage,
     isValidLanguage,
@@ -19,6 +20,11 @@ const GA_ID = ENV.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
+    icons: {
+        icon: APP_LOGO_PATH,
+        shortcut: APP_LOGO_PATH,
+        apple: APP_LOGO_PATH,
+    },
 };
 
 function resolveRequestLanguage(pathname: string | null): Language {
