@@ -1,82 +1,74 @@
 .page {
-  max-width: 72rem;
+  max-width: 74rem;
   margin: 0 auto;
-  padding: calc(var(--spacing-xl) * 0.9) var(--spacing-md) var(--spacing-xl);
+  padding: calc(var(--spacing-xl) * 0.86) var(--spacing-md) var(--spacing-xl);
+  display: grid;
+  gap: 1.1rem;
 }
 
 .header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: var(--spacing-lg);
+  display: grid;
+  gap: 0.44rem;
+  max-width: 54rem;
 }
 
 .title {
-  font-size: 2.1rem;
-  line-height: 1.25;
-  font-weight: 500;
+  font-size: clamp(1.75rem, 4.3vw, 2.55rem);
+  line-height: 1.16;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
 }
 
 .subtitle {
-  font-size: 1.05rem;
+  font-size: 0.98rem;
+  line-height: 1.66;
   color: var(--color-text-secondary);
-  max-width: 36rem;
-}
-
-.lastUpdated {
-  font-size: 0.85rem;
-  color: var(--color-text-tertiary);
-  margin-top: 0.25rem;
 }
 
 .faqGrid {
   display: grid;
-  gap: var(--spacing-md);
+  gap: 0.68rem;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (min-width: 880px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .faqItem {
-  padding: var(--spacing-md);
-  border-radius: var(--radius-lg);
-  background: var(--surface-glass);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  padding: 0.92rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface-glass) 90%, #fff);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-glass-sm);
+  display: grid;
+  gap: 0.38rem;
 }
 
 .faqQuestion {
-  font-size: 1.05rem;
-  font-weight: 500;
-  margin-bottom: var(--spacing-xs);
+  font-size: 0.98rem;
+  line-height: 1.4;
+  font-weight: 650;
+  color: var(--color-text-primary);
 }
 
 .faqAnswer {
-  font-size: 0.98rem;
-  line-height: 1.7;
+  font-size: 0.92rem;
+  line-height: 1.58;
   color: var(--color-text-secondary);
 }
 
 .callout {
-  margin-top: var(--spacing-lg);
-  padding: var(--spacing-md);
-  border-radius: var(--radius-lg);
-  background: var(--surface-glass-soft);
+  padding: 0.88rem 0.96rem;
+  border-radius: 0.98rem;
+  background: color-mix(in srgb, var(--surface-glass-soft) 86%, #fff);
   border: 1px solid var(--glass-border);
   color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.56;
 }
 
 .link {
-  color: var(--color-accent);
+  color: var(--color-accent-hover);
   text-decoration: underline;
-  text-decoration-color: var(--color-accent);
-  text-underline-offset: 2px;
-
-  &:hover {
-    color: var(--color-accent-hover);
-    text-decoration-color: var(--color-accent-hover);
-  }
+  text-underline-offset: 0.16rem;
 }
