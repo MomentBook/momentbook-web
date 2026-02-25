@@ -20,16 +20,16 @@
   }
 
   &:hover {
-    transform: translateY(-4px) scale(1.01);
+    transform: translateY(-4px);
   }
 }
 
 .phone {
-  width: min(100%, 21rem);
+  width: min(100%, var(--device-phone-width, 21rem));
   aspect-ratio: 375 / 812;
 
   @media (min-width: 768px) {
-    width: min(100%, 22rem);
+    width: min(100%, var(--device-phone-width-desktop, 22rem));
   }
 }
 

@@ -4,7 +4,7 @@ import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./download.module.scss";
-import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
+import { APP_LOGO_TRANSPARENT_PATH } from "@/lib/branding/logo";
 import { getStoreRegion, type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
@@ -23,6 +23,7 @@ type DownloadCopy = {
   subtitle?: string;
   availability: string;
   deviceAlt: string;
+  splashSubtitle: string;
   iosTopLabel: string;
   iosName: string;
   androidTopLabel: string;
@@ -41,7 +42,8 @@ const downloadCopy: { en: DownloadCopy; ko: DownloadCopy } = {
     title: "Download on iOS and Android",
     subtitle: "Install once, then keep the same post-trip organization flow every time.",
     availability: "Available on App Store and Google Play.",
-    deviceAlt: "MomentBook timeline screen",
+    deviceAlt: "MomentBook splash screen",
+    splashSubtitle: "Travel memories, quietly kept.",
     iosTopLabel: "Download on",
     iosName: "App Store",
     androidTopLabel: "Get it on",
@@ -57,7 +59,8 @@ const downloadCopy: { en: DownloadCopy; ko: DownloadCopy } = {
     eyebrow: "Install MomentBook",
     title: "iOS와 Android에서 다운로드",
     availability: "App Store와 Google Play에서 이용할 수 있습니다.",
-    deviceAlt: "MomentBook 타임라인 화면",
+    deviceAlt: "MomentBook 스플래시 화면",
+    splashSubtitle: "여행 기억을 차분히 보관합니다.",
     iosTopLabel: "다운로드",
     iosName: "App Store",
     androidTopLabel: "다운로드",
@@ -121,7 +124,6 @@ export default async function DownloadPage({
   const { lang } = await params as { lang: Language };
   const content = getDownloadCopy(lang);
   const storeLinks = getStoreLinks(lang);
-  const deviceImage = getLocalizedScreenshotPath(lang, "timeline");
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, "/download"), siteUrl).toString();
@@ -197,13 +199,21 @@ export default async function DownloadPage({
 
           <FadeIn delay={140}>
             <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
-              <Image
-                src={deviceImage}
-                alt={content.deviceAlt}
-                fill
-                sizes="(max-width: 768px) 260px, (max-width: 1024px) 300px, 340px"
-                className={deviceStyles.screenImage}
-              />
+              <div className={styles.splashScreen} role="img" aria-label={content.deviceAlt}>
+                <div className={styles.splashLogoWrap}>
+                  <Image
+                    src={APP_LOGO_TRANSPARENT_PATH}
+                    alt=""
+                    aria-hidden="true"
+                    width={168}
+                    height={168}
+                    sizes="168px"
+                    className={styles.splashLogo}
+                  />
+                </div>
+                <p className={styles.splashAppName}>MomentBook</p>
+                <p className={styles.splashSubtitle}>{content.splashSubtitle}</p>
+              </div>
             </DeviceMock>
           </FadeIn>
         </div>

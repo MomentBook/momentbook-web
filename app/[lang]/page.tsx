@@ -4,8 +4,7 @@ import Link from "next/link";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
-import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
-import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
+import { APP_LOGO_TRANSPARENT_PATH, buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
@@ -22,6 +21,7 @@ type HomePageCopy = {
   secondaryCta: string;
   heroMeta: string;
   deviceAlt: string;
+  splashSubtitle: string;
 };
 
 const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
@@ -36,20 +36,22 @@ const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
     primaryCta: "Download MomentBook",
     secondaryCta: "Read About",
     heroMeta: "One focused flow: batch upload, auto-order, light cleanup, and recap.",
-    deviceAlt: "MomentBook timeline screen",
+    deviceAlt: "MomentBook splash screen",
+    splashSubtitle: "Travel memories, quietly kept.",
   },
   ko: {
-    metaTitle: "MomentBook — 여행 사진을 하나의 타임라인과",
+    metaTitle: "MomentBook — 여행 후 정리하여 보관하세요",
     metaDescription:
       "MomentBook는 여행 후 사진을 일괄 업로드해 하나의 타임라인과 지도 회상으로 정리합니다.",
     eyebrow: "MomentBook App",
-    heroTitle: "여행 사진을 하나의 타임라인과 지도 회상으로 정리합니다.",
+    heroTitle: "여행 후 정리하여 보관하세요",
     heroLead:
       "여행 후 한 번에 업로드하고 필요한 보정만 거쳐, 타임라인 순서와 지도 핀으로 장소를 다시 떠올립니다.",
     primaryCta: "MomentBook 다운로드",
     secondaryCta: "소개 읽기",
     heroMeta: "핵심 흐름: 일괄 업로드, 자동 정리, 최소 보정, 회상.",
-    deviceAlt: "MomentBook 타임라인 화면",
+    deviceAlt: "MomentBook 스플래시 화면",
+    splashSubtitle: "여행 기억을 차분히 보관합니다.",
   },
 };
 
@@ -91,7 +93,6 @@ export default async function Home({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
-  const deviceImage = getLocalizedScreenshotPath(lang, "timeline");
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -162,13 +163,21 @@ export default async function Home({
 
           <FadeIn delay={120} className={styles.heroMediaWrap}>
             <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
-              <Image
-                src={deviceImage}
-                alt={content.deviceAlt}
-                fill
-                sizes="(max-width: 768px) 260px, (max-width: 1024px) 300px, 340px"
-                className={deviceStyles.screenImage}
-              />
+              <div className={styles.splashScreen} role="img" aria-label={content.deviceAlt}>
+                <div className={styles.splashLogoWrap}>
+                  <Image
+                    src={APP_LOGO_TRANSPARENT_PATH}
+                    alt=""
+                    aria-hidden="true"
+                    width={168}
+                    height={168}
+                    sizes="168px"
+                    className={styles.splashLogo}
+                  />
+                </div>
+                <p className={styles.splashAppName}>MomentBook</p>
+                <p className={styles.splashSubtitle}>{content.splashSubtitle}</p>
+              </div>
             </DeviceMock>
           </FadeIn>
         </div>
