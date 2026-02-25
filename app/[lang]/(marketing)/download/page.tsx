@@ -33,14 +33,13 @@ type DownloadCopy = {
   androidRequirement: string[];
 };
 
-const downloadCopy: { en: DownloadCopy; ko: DownloadCopy } = {
+const downloadCopy: Record<Language, DownloadCopy> = {
   en: {
     metaTitle: "Download MomentBook",
     metaDescription:
-      "Download MomentBook on iOS and Android and follow one post-trip flow from batch upload to timeline and map recap.",
+      "Install MomentBook on iOS and Android, then keep one post-trip flow from batch upload to timeline and map recap.",
     eyebrow: "Install MomentBook",
     title: "Download on iOS and Android",
-    subtitle: "Install once, then keep the same post-trip organization flow every time.",
     availability: "Available on App Store and Google Play.",
     deviceAlt: "MomentBook splash screen",
     splashSubtitle: "Travel memories, quietly kept.",
@@ -56,7 +55,7 @@ const downloadCopy: { en: DownloadCopy; ko: DownloadCopy } = {
     metaTitle: "MomentBook 다운로드",
     metaDescription:
       "iOS와 Android에서 MomentBook을 설치하고, 여행 후 일괄 업로드부터 타임라인/지도 회상까지 같은 흐름으로 사용하세요.",
-    eyebrow: "Install MomentBook",
+    eyebrow: "MomentBook 설치",
     title: "iOS와 Android에서 다운로드",
     availability: "App Store와 Google Play에서 이용할 수 있습니다.",
     deviceAlt: "MomentBook 스플래시 화면",
@@ -68,6 +67,125 @@ const downloadCopy: { en: DownloadCopy; ko: DownloadCopy } = {
     requirementsTitle: "시스템 요구사항",
     iosRequirement: ["iOS 16.0 이상", "iPhone 및 iPad"],
     androidRequirement: ["Android 10.0 이상", "대부분의 Android 기기"],
+  },
+  ja: {
+    metaTitle: "MomentBook ダウンロード",
+    metaDescription:
+      "iOS と Android で MomentBook をインストールし、旅行後は一括アップロードからタイムライン/地図回想まで同じ流れで使えます。",
+    eyebrow: "MomentBook インストール",
+    title: "iOS と Android でダウンロード",
+    availability: "App Store と Google Play で利用できます。",
+    deviceAlt: "MomentBook スプラッシュ画面",
+    splashSubtitle: "旅の記憶を静かに保管します。",
+    iosTopLabel: "ダウンロード",
+    iosName: "App Store",
+    androidTopLabel: "ダウンロード",
+    androidName: "Google Play",
+    requirementsTitle: "システム要件",
+    iosRequirement: ["iOS 16.0 以上", "iPhone および iPad"],
+    androidRequirement: ["Android 10.0 以上", "ほとんどの Android 端末"],
+  },
+  zh: {
+    metaTitle: "下载 MomentBook",
+    metaDescription:
+      "在 iOS 和 Android 上安装 MomentBook，并在每次旅行后按同一流程完成批量上传、时间线与地图回想。",
+    eyebrow: "安装 MomentBook",
+    title: "在 iOS 和 Android 下载",
+    availability: "可在 App Store 与 Google Play 使用。",
+    deviceAlt: "MomentBook 启动画面",
+    splashSubtitle: "安静地保存旅行记忆。",
+    iosTopLabel: "下载",
+    iosName: "App Store",
+    androidTopLabel: "下载",
+    androidName: "Google Play",
+    requirementsTitle: "系统要求",
+    iosRequirement: ["iOS 16.0 及以上", "iPhone 与 iPad"],
+    androidRequirement: ["Android 10.0 及以上", "大多数 Android 设备"],
+  },
+  es: {
+    metaTitle: "Descargar MomentBook",
+    metaDescription:
+      "Instala MomentBook en iOS y Android y usa el mismo flujo después del viaje: carga por lotes, timeline y repaso en mapa.",
+    eyebrow: "Instalar MomentBook",
+    title: "Descargar en iOS y Android",
+    availability: "Disponible en App Store y Google Play.",
+    deviceAlt: "Pantalla de inicio de MomentBook",
+    splashSubtitle: "Tus recuerdos de viaje, guardados con calma.",
+    iosTopLabel: "Descargar en",
+    iosName: "App Store",
+    androidTopLabel: "Descargar en",
+    androidName: "Google Play",
+    requirementsTitle: "Requisitos del sistema",
+    iosRequirement: ["iOS 16.0 o posterior", "iPhone y iPad"],
+    androidRequirement: ["Android 10.0 o posterior", "La mayoría de dispositivos Android"],
+  },
+  pt: {
+    metaTitle: "Baixar MomentBook",
+    metaDescription:
+      "Instale o MomentBook no iOS e Android e use o mesmo fluxo após a viagem: envio em lote, timeline e recap no mapa.",
+    eyebrow: "Instalar MomentBook",
+    title: "Baixar no iOS e Android",
+    availability: "Disponível na App Store e no Google Play.",
+    deviceAlt: "Tela de abertura do MomentBook",
+    splashSubtitle: "Memórias de viagem guardadas com tranquilidade.",
+    iosTopLabel: "Baixar na",
+    iosName: "App Store",
+    androidTopLabel: "Baixar no",
+    androidName: "Google Play",
+    requirementsTitle: "Requisitos do sistema",
+    iosRequirement: ["iOS 16.0 ou superior", "iPhone e iPad"],
+    androidRequirement: ["Android 10.0 ou superior", "A maioria dos dispositivos Android"],
+  },
+  fr: {
+    metaTitle: "Télécharger MomentBook",
+    metaDescription:
+      "Installez MomentBook sur iOS et Android et utilisez le même flux après le voyage: import en lot, timeline et rappel sur carte.",
+    eyebrow: "Installer MomentBook",
+    title: "Télécharger sur iOS et Android",
+    availability: "Disponible sur App Store et Google Play.",
+    deviceAlt: "Écran de démarrage MomentBook",
+    splashSubtitle: "Les souvenirs de voyage, conservés avec calme.",
+    iosTopLabel: "Télécharger sur",
+    iosName: "App Store",
+    androidTopLabel: "Télécharger sur",
+    androidName: "Google Play",
+    requirementsTitle: "Configuration requise",
+    iosRequirement: ["iOS 16.0 ou version ultérieure", "iPhone et iPad"],
+    androidRequirement: ["Android 10.0 ou version ultérieure", "La plupart des appareils Android"],
+  },
+  th: {
+    metaTitle: "ดาวน์โหลด MomentBook",
+    metaDescription:
+      "ติดตั้ง MomentBook บน iOS และ Android แล้วใช้โฟลว์เดิมหลังทริป ตั้งแต่อัปโหลดแบบชุดเดียวจนถึงไทม์ไลน์และการย้อนดูบนแผนที่",
+    eyebrow: "ติดตั้ง MomentBook",
+    title: "ดาวน์โหลดบน iOS และ Android",
+    availability: "ใช้งานได้บน App Store และ Google Play",
+    deviceAlt: "หน้าสแปลชของ MomentBook",
+    splashSubtitle: "เก็บความทรงจำการเดินทางไว้อย่างสงบ",
+    iosTopLabel: "ดาวน์โหลดบน",
+    iosName: "App Store",
+    androidTopLabel: "ดาวน์โหลดบน",
+    androidName: "Google Play",
+    requirementsTitle: "ความต้องการของระบบ",
+    iosRequirement: ["iOS 16.0 ขึ้นไป", "iPhone และ iPad"],
+    androidRequirement: ["Android 10.0 ขึ้นไป", "อุปกรณ์ Android ส่วนใหญ่"],
+  },
+  vi: {
+    metaTitle: "Tải MomentBook",
+    metaDescription:
+      "Cài MomentBook trên iOS và Android rồi dùng cùng một luồng sau chuyến đi: tải theo lô, timeline và hồi tưởng trên bản đồ.",
+    eyebrow: "Cài đặt MomentBook",
+    title: "Tải trên iOS và Android",
+    availability: "Có trên App Store và Google Play.",
+    deviceAlt: "Màn hình splash MomentBook",
+    splashSubtitle: "Lưu giữ ký ức chuyến đi một cách nhẹ nhàng.",
+    iosTopLabel: "Tải trên",
+    iosName: "App Store",
+    androidTopLabel: "Tải trên",
+    androidName: "Google Play",
+    requirementsTitle: "Yêu cầu hệ thống",
+    iosRequirement: ["iOS 16.0 trở lên", "iPhone và iPad"],
+    androidRequirement: ["Android 10.0 trở lên", "Phần lớn thiết bị Android"],
   },
 };
 
@@ -83,11 +201,7 @@ function getStoreLinks(lang: Language): StoreLinks {
 }
 
 function getDownloadCopy(lang: Language): DownloadCopy {
-  if (lang === "ko") {
-    return downloadCopy.ko;
-  }
-
-  return downloadCopy.en;
+  return downloadCopy[lang] ?? downloadCopy.en;
 }
 
 export async function generateMetadata({
