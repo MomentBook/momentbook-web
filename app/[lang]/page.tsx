@@ -24,7 +24,6 @@ type HomePageCopy = {
   primaryCta: string;
   secondaryCta: string;
   journeysCta: string;
-  finalTitle: string;
 };
 
 const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
@@ -40,7 +39,6 @@ const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
     primaryCta: "Download MomentBook",
     secondaryCta: "How it works",
     journeysCta: "See public journeys",
-    finalTitle: "Simple by design",
   },
   ko: {
     metaTitle: "MomentBook — 한 번 업로드, 하나의 여행 타임라인",
@@ -54,7 +52,6 @@ const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
     primaryCta: "MomentBook 다운로드",
     secondaryCta: "작동 방식 보기",
     journeysCta: "공개 여정 보기",
-    finalTitle: "의도적으로 단순하게",
   },
 };
 
@@ -179,22 +176,6 @@ export default async function Home({
         </div>
       </section>
 
-      <section className={styles.flowSection}>
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{coreFlow.title}</h2>
-          <p className={styles.sectionLead}>{coreFlow.lead}</p>
-        </div>
-
-        <ol className={styles.stepList}>
-          {coreFlow.steps.map((step) => (
-            <li key={step.title} className={styles.stepCard}>
-              <h3 className={styles.stepTitle}>{step.title}</h3>
-              <p className={styles.stepDetail}>{step.detail}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
       <section className={styles.mapSection}>
         <div className={styles.mapCopy}>
           <h2 className={styles.sectionTitle}>{coreFlow.mapRecapTitle}</h2>
@@ -213,18 +194,6 @@ export default async function Home({
             className={deviceStyles.screenImage}
           />
         </DeviceMock>
-      </section>
-
-      <section className={styles.ctaSection}>
-        <h2 className={styles.sectionTitle}>{content.finalTitle}</h2>
-        <div className={styles.heroActions}>
-          <Link href={`/${lang}/download`} className={styles.primaryButton}>
-            {content.primaryCta}
-          </Link>
-          <Link href={`/${lang}/about`} className={styles.secondaryButton}>
-            {content.secondaryCta}
-          </Link>
-        </div>
       </section>
     </main>
   );

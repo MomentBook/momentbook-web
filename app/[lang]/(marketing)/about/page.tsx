@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./about.module.scss";
@@ -17,14 +16,8 @@ import { buildPublicRobots } from "@/lib/seo/public-metadata";
 type AboutCopy = {
   metaTitle: string;
   metaDescription: string;
-  heroTitle: string;
-  heroLead: string;
-  primaryCta: string;
-  secondaryCta: string;
   previewTitle: string;
   previewLead: string;
-  principleTitle: string;
-  principles: string[];
 };
 
 const aboutCopy: { en: AboutCopy; ko: AboutCopy } = {
@@ -32,35 +25,15 @@ const aboutCopy: { en: AboutCopy; ko: AboutCopy } = {
     metaTitle: "How MomentBook works — one clean travel flow",
     metaDescription:
       "A simple flow: batch upload, auto-organize, manual cleanup, timeline completion, and map-based trip recall.",
-    heroTitle: "How it works, without noise",
-    heroLead: "One travel-photo flow from upload to recap.",
-    primaryCta: "Download app",
-    secondaryCta: "Common questions",
     previewTitle: "What you see in the app",
     previewLead: "Only the screens you need for upload, organize, and recap.",
-    principleTitle: "Design principles",
-    principles: [
-      "One clear path from upload to recap",
-      "Auto first, manual only when needed",
-      "Timeline and map used together",
-    ],
   },
   ko: {
     metaTitle: "MomentBook 작동 방식 — 하나의 깔끔한 여행 흐름",
     metaDescription:
       "일괄 업로드, 자동 정리, 수동 보정, 타임라인 완성, 지도 기반 회상까지 하나의 단순한 흐름으로 구성됩니다.",
-    heroTitle: "군더더기 없는 작동 방식",
-    heroLead: "업로드부터 회고까지 하나의 사진 정리 흐름에 집중합니다.",
-    primaryCta: "앱 다운로드",
-    secondaryCta: "자주 묻는 질문",
     previewTitle: "앱에서 보이는 화면",
     previewLead: "업로드, 정리, 회고에 필요한 화면만 남겼습니다.",
-    principleTitle: "디자인 원칙",
-    principles: [
-      "업로드부터 회고까지 한 줄기 흐름",
-      "자동 우선, 필요한 지점만 수동 보정",
-      "타임라인과 지도를 함께 사용",
-    ],
   },
 };
 
@@ -157,19 +130,6 @@ export default async function AboutPage({
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }}
       />
 
-      <header className={styles.hero}>
-        <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
-        <p className={styles.heroLead}>{content.heroLead}</p>
-        <div className={styles.heroActions}>
-          <Link href={`/${lang}/download`} className={styles.primaryButton}>
-            {content.primaryCta}
-          </Link>
-          <Link href={`/${lang}/faq`} className={styles.secondaryButton}>
-            {content.secondaryCta}
-          </Link>
-        </div>
-      </header>
-
       <section className={styles.section}>
         <header className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>{flow.title}</h2>
@@ -210,25 +170,6 @@ export default async function AboutPage({
               <p className={styles.previewCaption}>{getCaption(lang, screenshot.key)}</p>
             </article>
           ))}
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <div className={styles.principleCard}>
-          <h2 className={styles.sectionTitle}>{content.principleTitle}</h2>
-          <ul className={styles.principleList}>
-            {content.principles.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <div className={styles.heroActions}>
-            <Link href={`/${lang}/download`} className={styles.primaryButton}>
-              {content.primaryCta}
-            </Link>
-            <Link href={`/${lang}/faq`} className={styles.secondaryButton}>
-              {content.secondaryCta}
-            </Link>
-          </div>
         </div>
       </section>
     </main>

@@ -29,7 +29,8 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 2.1 Core Intro Flow (Marketing Surface)
 
-현재 `/`, `/about`, `/download`, `/faq`는 아래 핵심 흐름 설명에 집중한다.
+현재 `/about`, `/download`, `/faq`는 아래 핵심 흐름 설명에 집중하며, 홈(`/`)은 이를 요약해 소개한다.
+`/about`은 별도 상단 소개 블록 없이 핵심 흐름 섹션부터 시작하며, 앱 화면 프리뷰 섹션까지 제공한다.
 
 1. 여행 종료
 2. 여행 사진 일괄 업로드

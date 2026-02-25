@@ -6,82 +6,6 @@
   gap: clamp(2rem, 4.5vw, 3.7rem);
 }
 
-.hero {
-  padding: clamp(1.24rem, 2.8vw, 1.9rem);
-  border-radius: 1.3rem;
-  border: 1px solid var(--glass-border-strong);
-  background: linear-gradient(
-    160deg,
-    color-mix(in srgb, var(--surface-glass-strong) 88%, #fff),
-    color-mix(in srgb, var(--surface-glass-soft) 82%, #fff)
-  );
-  box-shadow: var(--shadow-glass-sm);
-  display: grid;
-  gap: 0.86rem;
-}
-
-.heroTitle {
-  font-size: clamp(1.56rem, 3.8vw, 2.28rem);
-  line-height: 1.14;
-  letter-spacing: -0.02em;
-  color: var(--color-text-primary);
-  max-width: 20ch;
-}
-
-.heroLead {
-  font-size: 0.92rem;
-  line-height: 1.74;
-  color: var(--color-text-secondary);
-  max-width: 40rem;
-}
-
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.62rem;
-  margin-top: 0.3rem;
-}
-
-.primaryButton,
-.secondaryButton {
-  min-height: 2.48rem;
-  padding: 0.66rem 1.02rem;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.84rem;
-  font-weight: 620;
-  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.primaryButton {
-  color: var(--color-on-accent);
-  border-color: color-mix(in srgb, var(--color-accent) 74%, var(--glass-border));
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--color-accent) 66%, #fff),
-    color-mix(in srgb, var(--color-accent-secondary) 28%, var(--color-accent) 72%)
-  );
-
-  &:hover {
-    transform: translateY(-1px);
-  }
-}
-
-.secondaryButton {
-  color: var(--color-text-primary);
-  border-color: var(--glass-border);
-  background: var(--surface-glass);
-
-  &:hover {
-    transform: translateY(-1px);
-    color: var(--color-accent-hover);
-    border-color: color-mix(in srgb, var(--color-accent) 58%, var(--glass-border));
-  }
-}
-
 .section {
   display: grid;
   gap: 1.06rem;
@@ -189,24 +113,4 @@
   font-size: 0.78rem;
   line-height: 1.5;
   color: var(--color-text-tertiary);
-}
-
-.principleCard {
-  padding: clamp(1.08rem, 2.6vw, 1.6rem);
-  border-radius: 1.1rem;
-  border: 1px solid var(--glass-border);
-  background: color-mix(in srgb, var(--surface-glass-strong) 86%, #fff);
-  box-shadow: var(--shadow-glass-sm);
-  display: grid;
-  gap: 0.92rem;
-}
-
-.principleList {
-  margin: 0;
-  padding-left: 1rem;
-  display: grid;
-  gap: 0.42rem;
-  color: var(--color-text-secondary);
-  font-size: 0.86rem;
-  line-height: 1.6;
 }
