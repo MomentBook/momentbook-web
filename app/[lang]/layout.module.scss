@@ -59,7 +59,7 @@
 .logoMark {
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1.28rem;
 }
 
 .logoIcon {
@@ -78,13 +78,13 @@
 }
 
 .logoWordmark {
-  height: 1.65rem;
+  height: 1.62rem;
   width: auto;
   display: block;
   align-self: center;
 
   @media (min-width: 768px) {
-    height: 1.9rem;
+    height: 1.88rem;
   }
 }
 

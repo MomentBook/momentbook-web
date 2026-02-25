@@ -11,106 +11,127 @@ type FAQItem = {
   answer: string;
 };
 
+type FAQGroup = {
+  title: string;
+  description: string;
+  items: FAQItem[];
+};
+
 type FAQContent = {
   metaTitle: string;
   metaDescription: string;
   pageTitle: string;
   pageSubtitle: string;
+  groups: FAQGroup[];
   calloutPrefix: string;
   calloutLink: string;
   calloutSuffix: string;
-  items: FAQItem[];
 };
 
 const faqContent: { en: FAQContent; ko: FAQContent } = {
   en: {
     metaTitle: "MomentBook FAQ",
-    metaDescription: "Simple answers about MomentBook's core travel-photo flow.",
+    metaDescription: "Frequently asked questions about MomentBook's travel-photo organization flow.",
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
-      "Short answers for one flow: upload, organize, clean up, timeline, map.",
-    calloutPrefix: "Need more help? ",
-    calloutLink: "Contact support",
-    calloutSuffix: " for account or technical issues.",
-    items: [
+      "This page keeps practical answers short: upload, organize, cleanup, publish scope, and archive handling.",
+    groups: [
       {
-        question: "What is MomentBook for?",
-        answer:
-          "It turns mixed travel photos into one clear timeline and map recap.",
+        title: "Flow basics",
+        description: "What MomentBook does from trip end to recap.",
+        items: [
+          {
+            question: "What is MomentBook for?",
+            answer: "It turns mixed travel photos into one timeline and map recap.",
+          },
+          {
+            question: "Do I upload photos one by one?",
+            answer: "No. The main flow starts with a single batch upload.",
+          },
+          {
+            question: "What happens after upload?",
+            answer: "Photos are auto-organized by date and time.",
+          },
+          {
+            question: "Can I fix wrongly organized photos?",
+            answer: "Yes. You can remove unrelated photos and adjust grouped sections manually.",
+          },
+        ],
       },
       {
-        question: "Do I need to upload photos one by one?",
-        answer:
-          "No. The main flow starts with one batch upload of all travel photos.",
-      },
-      {
-        question: "What happens after upload?",
-        answer:
-          "Photos are auto-organized by date and time.",
-      },
-      {
-        question: "Can I fix wrongly organized photos?",
-        answer:
-          "Yes. You can manually remove receipts or unrelated shots and adjust grouped items.",
-      },
-      {
-        question: "What does the final result look like?",
-        answer:
-          "A complete travel timeline and map pins for recall.",
-      },
-      {
-        question: "Is everything public by default?",
-        answer:
-          "No. Journeys are private by default. Publishing is optional.",
-      },
-      {
-        question: "Can I keep a copy without publishing?",
-        answer:
-          "Yes. Export a ZIP (images + metadata) for archive or direct sharing.",
+        title: "Visibility and archive",
+        description: "How publish visibility and backup behave.",
+        items: [
+          {
+            question: "Is everything public by default?",
+            answer: "No. Journeys are private by default and publishing is optional.",
+          },
+          {
+            question: "Can I keep a copy without publishing?",
+            answer: "Yes. You can export a ZIP with images and metadata.",
+          },
+          {
+            question: "What does MomentBook Web provide?",
+            answer: "Public journeys, moments, photos, and user profiles are available as read-only pages.",
+          },
+        ],
       },
     ],
+    calloutPrefix: "Need account or technical help? ",
+    calloutLink: "Contact support",
+    calloutSuffix: ".",
   },
   ko: {
     metaTitle: "MomentBook FAQ",
-    metaDescription: "MomentBook 핵심 여행 사진 정리 흐름에 대한 간단한 답변입니다.",
+    metaDescription: "MomentBook 여행 사진 정리 흐름에 대한 자주 묻는 질문입니다.",
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
-      "업로드, 자동 정리, 수동 보정, 타임라인, 지도 회상만 짧게 설명합니다.",
-    calloutPrefix: "추가 도움이 필요하면 ",
-    calloutLink: "지원팀에 문의",
-    calloutSuffix: "해 주세요.",
-    items: [
+      "업로드, 자동 정리, 보정, 공개 범위, 보관 방식까지 필요한 답변만 짧게 정리했습니다.",
+    groups: [
       {
-        question: "MomentBook은 어떤 앱인가요?",
-        answer:
-          "흩어진 여행 사진을 타임라인과 지도 회상으로 정리하는 앱입니다.",
+        title: "핵심 흐름",
+        description: "여행 종료 후 회상 결과까지의 기본 동작입니다.",
+        items: [
+          {
+            question: "MomentBook은 어떤 앱인가요?",
+            answer: "흩어진 여행 사진을 하나의 타임라인과 지도 회상으로 정리하는 앱입니다.",
+          },
+          {
+            question: "사진을 하나씩 올려야 하나요?",
+            answer: "아니요. 핵심은 여행 사진을 한 번에 일괄 업로드하는 방식입니다.",
+          },
+          {
+            question: "업로드 후에는 무엇이 일어나나요?",
+            answer: "사진이 날짜와 시간 기준으로 자동 정리됩니다.",
+          },
+          {
+            question: "잘못 정리된 사진은 수정할 수 있나요?",
+            answer: "네. 불필요한 사진을 제거하고 잘못 묶인 구간을 수동 보정할 수 있습니다.",
+          },
+        ],
       },
       {
-        question: "사진을 하나씩 올려야 하나요?",
-        answer: "아니요. 핵심 흐름은 여행 사진 전체를 한 번에 일괄 업로드하는 방식입니다.",
-      },
-      {
-        question: "업로드 후에는 무엇이 일어나나요?",
-        answer: "사진이 날짜와 시간 기준으로 자동 정리됩니다.",
-      },
-      {
-        question: "잘못 정리된 사진은 수정할 수 있나요?",
-        answer: "네. 영수증이나 기타 잘못 분류된 사진을 수동으로 정리할 수 있습니다.",
-      },
-      {
-        question: "최종 결과는 어떻게 보이나요?",
-        answer: "완성된 타임라인과 지도 핀으로 여행을 회상할 수 있습니다.",
-      },
-      {
-        question: "기본 공개인가요?",
-        answer: "아니요. 기본은 비공개이며 게시는 선택입니다.",
-      },
-      {
-        question: "게시하지 않고도 보관할 수 있나요?",
-        answer:
-          "네. 이미지와 메타데이터 ZIP으로 내보내 보관하거나 직접 공유할 수 있습니다.",
+        title: "공개와 보관",
+        description: "게시 공개 범위와 백업 관련 동작입니다.",
+        items: [
+          {
+            question: "기본 공개인가요?",
+            answer: "아니요. 기본은 비공개이며 게시는 선택입니다.",
+          },
+          {
+            question: "게시하지 않고 보관할 수 있나요?",
+            answer: "네. 이미지와 메타데이터를 ZIP으로 내보낼 수 있습니다.",
+          },
+          {
+            question: "웹에서는 무엇을 제공하나요?",
+            answer: "공개된 여정, 모먼트, 사진, 프로필을 읽기 전용 페이지로 제공합니다.",
+          },
+        ],
       },
     ],
+    calloutPrefix: "계정 또는 기술 지원이 필요하면 ",
+    calloutLink: "지원팀에 문의",
+    calloutSuffix: "해 주세요.",
   },
 };
 
@@ -120,6 +141,10 @@ function getFaqContent(lang: Language): FAQContent {
   }
 
   return faqContent.en;
+}
+
+function flattenItems(groups: FAQGroup[]): FAQItem[] {
+  return groups.flatMap((group) => group.items);
 }
 
 export async function generateMetadata({
@@ -162,7 +187,7 @@ export default async function FAQPage({
     "@context": "https://schema.org",
     "@type": "FAQPage",
     url: pageUrl,
-    mainEntity: content.items.map((item) => ({
+    mainEntity: flattenItems(content.groups).map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -184,11 +209,22 @@ export default async function FAQPage({
         <p className={faqStyles.subtitle}>{content.pageSubtitle}</p>
       </header>
 
-      <div className={faqStyles.faqGrid}>
-        {content.items.map((faq) => (
-          <section key={faq.question} className={faqStyles.faqItem}>
-            <h2 className={faqStyles.faqQuestion}>{faq.question}</h2>
-            <p className={faqStyles.faqAnswer}>{faq.answer}</p>
+      <div className={faqStyles.groupStack}>
+        {content.groups.map((group) => (
+          <section key={group.title} className={faqStyles.group}>
+            <header className={faqStyles.groupHeader}>
+              <h2 className={faqStyles.groupTitle}>{group.title}</h2>
+              <p className={faqStyles.groupDescription}>{group.description}</p>
+            </header>
+
+            <div className={faqStyles.faqGrid}>
+              {group.items.map((faq) => (
+                <article key={faq.question} className={faqStyles.faqItem}>
+                  <h3 className={faqStyles.faqQuestion}>{faq.question}</h3>
+                  <p className={faqStyles.faqAnswer}>{faq.answer}</p>
+                </article>
+              ))}
+            </div>
           </section>
         ))}
       </div>

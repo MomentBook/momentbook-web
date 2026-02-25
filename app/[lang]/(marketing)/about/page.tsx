@@ -1,54 +1,116 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { DeviceMock } from "@/components/DeviceMock";
-import deviceStyles from "@/components/DeviceMock.module.scss";
+import Link from "next/link";
 import styles from "./about.module.scss";
-import {
-  type AppScreenshotKey,
-  getLocalizedScreenshotGallery,
-} from "@/lib/app-screenshots";
 import { getCoreFlowContent } from "@/lib/core-flow";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
 
+type AboutSection = {
+  title: string;
+  paragraphs: string[];
+};
+
 type AboutCopy = {
   metaTitle: string;
   metaDescription: string;
-  previewTitle: string;
-  previewLead: string;
+  pageTitle: string;
+  pageLead: string;
+  sections: AboutSection[];
+  flowTitle: string;
+  flowLead: string;
+  scopeTitle: string;
+  scopePoints: string[];
+  scopeLead: string;
+  faqCta: string;
+  downloadCta: string;
 };
 
 const aboutCopy: { en: AboutCopy; ko: AboutCopy } = {
   en: {
-    metaTitle: "How MomentBook works — one clean travel flow",
+    metaTitle: "About MomentBook — Detailed text guide",
     metaDescription:
-      "A simple flow: batch upload, auto-organize, manual cleanup, timeline completion, and map-based trip recall.",
-    previewTitle: "What you see in the app",
-    previewLead: "Only the screens you need for upload, organize, and recap.",
+      "Detailed text explanation of MomentBook's post-trip photo flow and the read-only scope of MomentBook Web.",
+    pageTitle: "About MomentBook",
+    pageLead:
+      "This page keeps the app explanation in plain text. It is intended for users who want to understand the full flow before installation.",
+    sections: [
+      {
+        title: "What MomentBook focuses on",
+        paragraphs: [
+          "MomentBook is built around one moment: after your trip ends and photos are mixed in your camera roll.",
+          "The app starts with batch upload, auto-ordering by date and time, and only small manual cleanup when needed.",
+        ],
+      },
+      {
+        title: "What MomentBook does not target",
+        paragraphs: [
+          "It is not a feed product, ranking product, or frequent posting loop.",
+          "The main outcome is a clear timeline and map recap for personal recall.",
+        ],
+      },
+      {
+        title: "How the web and app split roles",
+        paragraphs: [
+          "Native app handles creation, editing, and account-side controls.",
+          "Web exposes published journeys, moments, photos, and profiles as public read-only pages.",
+        ],
+      },
+    ],
+    flowTitle: "Detailed post-trip flow",
+    flowLead: "The core sequence is fixed and repeated for each trip.",
+    scopeTitle: "Public web scope",
+    scopeLead: "Current web scope is intentionally limited to explanation and read-only access.",
+    scopePoints: [
+      "Marketing pages explain app context and route users to installation.",
+      "FAQ provides short operational answers without redefining app behavior.",
+      "Download page links to official stores and platform requirements.",
+    ],
+    faqCta: "Read FAQ",
+    downloadCta: "Go to Download",
   },
   ko: {
-    metaTitle: "MomentBook 작동 방식 — 하나의 깔끔한 여행 흐름",
+    metaTitle: "MomentBook 소개 — 상세 텍스트 가이드",
     metaDescription:
-      "일괄 업로드, 자동 정리, 수동 보정, 타임라인 완성, 지도 기반 회상까지 하나의 단순한 흐름으로 구성됩니다.",
-    previewTitle: "앱에서 보이는 화면",
-    previewLead: "업로드, 정리, 회고에 필요한 화면만 남겼습니다.",
-  },
-};
-
-const screenshotCaptions: Record<"en" | "ko", Record<AppScreenshotKey, string>> = {
-  en: {
-    intro: "App entry",
-    tracking: "Trip context",
-    photos: "Batch upload and organization",
-    timeline: "Timeline and recap",
-  },
-  ko: {
-    intro: "앱 시작 화면",
-    tracking: "여행 맥락 확인",
-    photos: "일괄 업로드와 정리",
-    timeline: "타임라인 회고",
+      "MomentBook의 여행 후 사진 정리 흐름과 웹의 읽기 전용 범위를 텍스트로 자세히 설명합니다.",
+    pageTitle: "MomentBook 소개",
+    pageLead:
+      "이 페이지는 앱 설명을 단순 텍스트로 유지합니다. 설치 전에 전체 흐름을 먼저 확인하려는 사용자를 위한 구성입니다.",
+    sections: [
+      {
+        title: "MomentBook가 집중하는 지점",
+        paragraphs: [
+          "MomentBook는 여행이 끝난 직후, 카메라롤에 사진이 섞여 있는 상황에 맞춰 설계되었습니다.",
+          "흐름은 일괄 업로드, 날짜/시간 자동 정리, 필요한 수동 보정으로 이어집니다.",
+        ],
+      },
+      {
+        title: "MomentBook의 비목표",
+        paragraphs: [
+          "피드 소비, 랭킹 경쟁, 잦은 게시 유도 구조를 목표로 하지 않습니다.",
+          "핵심 결과는 여행 순서를 정리한 타임라인과 지도 회상입니다.",
+        ],
+      },
+      {
+        title: "웹과 앱의 역할 분리",
+        paragraphs: [
+          "작성/편집/계정 제어는 네이티브 앱에서 수행합니다.",
+          "웹은 공개된 여정, 모먼트, 사진, 프로필을 읽기 전용으로 제공합니다.",
+        ],
+      },
+    ],
+    flowTitle: "여행 후 상세 흐름",
+    flowLead: "아래 순서는 매 여행마다 반복되는 고정 흐름입니다.",
+    scopeTitle: "공개 웹 제공 범위",
+    scopeLead: "현재 웹 범위는 설명과 읽기 전용 접근으로 의도적으로 제한되어 있습니다.",
+    scopePoints: [
+      "홈/소개 페이지는 앱 사용 맥락을 설명하고 설치로 연결합니다.",
+      "FAQ는 앱 동작을 재정의하지 않고 짧은 답변만 제공합니다.",
+      "Download는 공식 스토어 링크와 플랫폼 요구사항을 제공합니다.",
+    ],
+    faqCta: "FAQ 보기",
+    downloadCta: "다운로드로 이동",
   },
 };
 
@@ -58,14 +120,6 @@ function getAboutCopy(lang: Language): AboutCopy {
   }
 
   return aboutCopy.en;
-}
-
-function getCaption(lang: Language, key: AppScreenshotKey): string {
-  if (lang === "ko") {
-    return screenshotCaptions.ko[key];
-  }
-
-  return screenshotCaptions.en[key];
 }
 
 export async function generateMetadata(
@@ -99,9 +153,6 @@ export default async function AboutPage({
   const { lang } = await params as { lang: Language };
   const content = getAboutCopy(lang);
   const flow = getCoreFlowContent(lang);
-  const screenshots = getLocalizedScreenshotGallery(lang).filter(
-    (item) => item.key === "photos" || item.key === "timeline" || item.key === "tracking",
-  );
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const breadcrumbSchema = {
@@ -130,48 +181,55 @@ export default async function AboutPage({
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }}
       />
 
-      <section className={styles.section}>
-        <header className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{flow.title}</h2>
-          <p className={styles.sectionLead}>{flow.lead}</p>
+      <article className={styles.article}>
+        <header className={styles.header}>
+          <h1 className={styles.pageTitle}>{content.pageTitle}</h1>
+          <p className={styles.pageLead}>{content.pageLead}</p>
         </header>
 
-        <ol className={styles.stepList}>
-          {flow.steps.map((step, index) => (
-            <li key={step.title} className={styles.stepItem}>
-              <span className={styles.stepBadge}>{index + 1}</span>
-              <div className={styles.stepBody}>
-                <h3 className={styles.stepTitle}>{step.title}</h3>
-                <p className={styles.stepDetail}>{step.detail}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
+        {content.sections.map((section) => (
+          <section key={section.title} className={styles.section}>
+            <h2 className={styles.sectionTitle}>{section.title}</h2>
+            {section.paragraphs.map((paragraph) => (
+              <p key={paragraph} className={styles.paragraph}>{paragraph}</p>
+            ))}
+          </section>
+        ))}
 
-      <section className={styles.section}>
-        <header className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{content.previewTitle}</h2>
-          <p className={styles.sectionLead}>{content.previewLead}</p>
-        </header>
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>{content.flowTitle}</h2>
+          <p className={styles.paragraph}>{content.flowLead}</p>
+          <p className={styles.paragraph}>{flow.lead}</p>
+          <ol className={styles.flowList}>
+            {flow.steps.map((step) => (
+              <li key={step.title} className={styles.flowItem}>
+                <p className={styles.flowTitle}>{step.title}</p>
+                <p className={styles.paragraph}>{step.detail}</p>
+              </li>
+            ))}
+          </ol>
+          <p className={styles.paragraph}>{flow.mapRecapTitle}: {flow.mapRecapDetail}</p>
+        </section>
 
-        <div className={styles.previewGrid}>
-          {screenshots.map((screenshot) => (
-            <article key={screenshot.src} className={styles.previewCard}>
-              <DeviceMock className={styles.previewDevice} screenClassName={deviceStyles.screenMedia}>
-                <Image
-                  src={screenshot.src}
-                  alt={getCaption(lang, screenshot.key)}
-                  fill
-                  sizes="(max-width: 768px) 72vw, (max-width: 1080px) 32vw, 280px"
-                  className={deviceStyles.screenImage}
-                />
-              </DeviceMock>
-              <p className={styles.previewCaption}>{getCaption(lang, screenshot.key)}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>{content.scopeTitle}</h2>
+          <p className={styles.paragraph}>{content.scopeLead}</p>
+          <ul className={styles.scopeList}>
+            {content.scopePoints.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+        </section>
+
+        <footer className={styles.footerLinks}>
+          <Link href={`/${lang}/faq`} className={styles.linkButton}>
+            {content.faqCta}
+          </Link>
+          <Link href={`/${lang}/download`} className={styles.linkButton}>
+            {content.downloadCta}
+          </Link>
+        </footer>
+      </article>
     </main>
   );
 }

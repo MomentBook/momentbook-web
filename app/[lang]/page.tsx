@@ -4,54 +4,52 @@ import Link from "next/link";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
-import styles from "./page.module.scss";
-import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
-import { getCoreFlowContent } from "@/lib/core-flow";
+import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
+import styles from "./page.module.scss";
 
 type HomePageCopy = {
   metaTitle: string;
   metaDescription: string;
   eyebrow: string;
-  title: string;
-  lead: string;
-  heroImageAlt: string;
-  mapImageAlt: string;
+  heroTitle: string;
+  heroLead: string;
   primaryCta: string;
   secondaryCta: string;
-  journeysCta: string;
+  heroMeta: string;
+  deviceAlt: string;
 };
 
 const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
   en: {
-    metaTitle: "MomentBook — One upload, one travel timeline",
+    metaTitle: "MomentBook — Travel photos into one timeline",
     metaDescription:
-      "Upload all trip photos in one batch, clean up misplaced shots, and revisit your route through timeline and map pins.",
-    eyebrow: "MomentBook",
-    title: "From mixed camera roll to one complete travel timeline.",
-    lead: "Upload once, clean up quickly, and revisit your trip with timeline and map pins.",
-    heroImageAlt: "MomentBook photo batch upload screen",
-    mapImageAlt: "MomentBook timeline and map pin screen",
+      "MomentBook organizes post-trip photos into one timeline and one map recap through a single batch-based flow.",
+    eyebrow: "MomentBook App",
+    heroTitle: "Travel photos become one timeline and one map recap.",
+    heroLead:
+      "After a trip, upload in one batch, adjust only what is needed, and revisit places through timeline order and map pins.",
     primaryCta: "Download MomentBook",
-    secondaryCta: "How it works",
-    journeysCta: "See public journeys",
+    secondaryCta: "Read About",
+    heroMeta: "One focused flow: batch upload, auto-order, light cleanup, and recap.",
+    deviceAlt: "MomentBook timeline screen",
   },
   ko: {
-    metaTitle: "MomentBook — 한 번 업로드, 하나의 여행 타임라인",
+    metaTitle: "MomentBook — 여행 사진을 하나의 타임라인과",
     metaDescription:
-      "여행 사진을 한 번에 업로드하고, 잘못 분류된 사진을 정리한 뒤, 타임라인과 지도 핀으로 여행을 다시 떠올릴 수 있습니다.",
-    eyebrow: "MomentBook",
-    title: "흩어진 카메라롤을 하나의 여행 타임라인으로.",
-    lead: "한 번에 업로드하고, 필요한 것만 보정한 뒤, 타임라인과 지도 핀으로 회상합니다.",
-    heroImageAlt: "MomentBook 사진 일괄 업로드 화면",
-    mapImageAlt: "MomentBook 타임라인과 지도 핀 화면",
+      "MomentBook는 여행 후 사진을 일괄 업로드해 하나의 타임라인과 지도 회상으로 정리합니다.",
+    eyebrow: "MomentBook App",
+    heroTitle: "여행 사진을 하나의 타임라인과 지도 회상으로 정리합니다.",
+    heroLead:
+      "여행 후 한 번에 업로드하고 필요한 보정만 거쳐, 타임라인 순서와 지도 핀으로 장소를 다시 떠올립니다.",
     primaryCta: "MomentBook 다운로드",
-    secondaryCta: "작동 방식 보기",
-    journeysCta: "공개 여정 보기",
+    secondaryCta: "소개 읽기",
+    heroMeta: "핵심 흐름: 일괄 업로드, 자동 정리, 최소 보정, 회상.",
+    deviceAlt: "MomentBook 타임라인 화면",
   },
 };
 
@@ -93,10 +91,7 @@ export default async function Home({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
-  const coreFlow = getCoreFlowContent(lang);
-
-  const heroImage = getLocalizedScreenshotPath(lang, "photos");
-  const mapImage = getLocalizedScreenshotPath(lang, "timeline");
+  const deviceImage = getLocalizedScreenshotPath(lang, "timeline");
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -138,16 +133,17 @@ export default async function Home({
       />
 
       <section className={styles.hero}>
-        <div className={styles.heroInner}>
+        <div className={styles.heroBackdrop} aria-hidden />
+        <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
             <FadeIn>
               <span className={styles.eyebrow}>{content.eyebrow}</span>
             </FadeIn>
             <FadeIn delay={80}>
-              <h1 className={styles.heroTitle}>{content.title}</h1>
+              <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
             </FadeIn>
             <FadeIn delay={120}>
-              <p className={styles.heroLead}>{content.lead}</p>
+              <p className={styles.heroLead}>{content.heroLead}</p>
             </FadeIn>
             <FadeIn delay={160}>
               <div className={styles.heroActions}>
@@ -159,41 +155,23 @@ export default async function Home({
                 </Link>
               </div>
             </FadeIn>
+            <FadeIn delay={200}>
+              <p className={styles.heroMeta}>{content.heroMeta}</p>
+            </FadeIn>
           </div>
 
-          <FadeIn delay={140}>
+          <FadeIn delay={120} className={styles.heroMediaWrap}>
             <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
               <Image
-                src={heroImage}
-                alt={content.heroImageAlt}
+                src={deviceImage}
+                alt={content.deviceAlt}
                 fill
-                priority
-                sizes="(max-width: 768px) 240px, (max-width: 1024px) 280px, 320px"
+                sizes="(max-width: 768px) 260px, (max-width: 1024px) 300px, 340px"
                 className={deviceStyles.screenImage}
               />
             </DeviceMock>
           </FadeIn>
         </div>
-      </section>
-
-      <section className={styles.mapSection}>
-        <div className={styles.mapCopy}>
-          <h2 className={styles.sectionTitle}>{coreFlow.mapRecapTitle}</h2>
-          <p className={styles.sectionLead}>{coreFlow.mapRecapDetail}</p>
-          <Link href={`/${lang}/journeys`} className={styles.inlineLink}>
-            {content.journeysCta}
-          </Link>
-        </div>
-
-        <DeviceMock className={styles.mapDevice} screenClassName={deviceStyles.screenMedia}>
-          <Image
-            src={mapImage}
-            alt={content.mapImageAlt}
-            fill
-            sizes="(max-width: 768px) 240px, (max-width: 1024px) 280px, 320px"
-            className={deviceStyles.screenImage}
-          />
-        </DeviceMock>
       </section>
     </main>
   );
