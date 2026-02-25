@@ -205,22 +205,29 @@ export default async function FAQPage({
       />
 
       <header className={faqStyles.header}>
+        <span className={faqStyles.headerBadge}>FAQ</span>
         <h1 className={faqStyles.title}>{content.pageTitle}</h1>
         <p className={faqStyles.subtitle}>{content.pageSubtitle}</p>
       </header>
 
       <div className={faqStyles.groupStack}>
-        {content.groups.map((group) => (
+        {content.groups.map((group, groupIndex) => (
           <section key={group.title} className={faqStyles.group}>
             <header className={faqStyles.groupHeader}>
+              <span className={faqStyles.groupBadge}>
+                {lang === "ko" ? `섹션 ${groupIndex + 1}` : `Section ${groupIndex + 1}`}
+              </span>
               <h2 className={faqStyles.groupTitle}>{group.title}</h2>
               <p className={faqStyles.groupDescription}>{group.description}</p>
             </header>
 
             <div className={faqStyles.faqGrid}>
-              {group.items.map((faq) => (
+              {group.items.map((faq, itemIndex) => (
                 <article key={faq.question} className={faqStyles.faqItem}>
-                  <h3 className={faqStyles.faqQuestion}>{faq.question}</h3>
+                  <div className={faqStyles.faqQuestionRow}>
+                    <span className={faqStyles.faqIndex}>{groupIndex + 1}.{itemIndex + 1}</span>
+                    <h3 className={faqStyles.faqQuestion}>{faq.question}</h3>
+                  </div>
                   <p className={faqStyles.faqAnswer}>{faq.answer}</p>
                 </article>
               ))}
