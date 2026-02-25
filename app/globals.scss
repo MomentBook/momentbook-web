@@ -61,11 +61,11 @@
   --color-text-secondary: #3b4a59;
   --color-text-tertiary: #697a88;
 
-  --color-accent: #00e5c3;
-  --color-accent-hover: #00c9ab;
-  --color-accent-soft: rgba(0, 229, 195, 0.24);
-  --color-accent-secondary: #5edfff;
-  --color-accent-secondary-soft: rgba(94, 223, 255, 0.28);
+  --color-accent: #5edfff;
+  --color-accent-hover: #36caec;
+  --color-accent-soft: rgba(94, 223, 255, 0.24);
+  --color-accent-secondary: #00e5c3;
+  --color-accent-secondary-soft: rgba(0, 229, 195, 0.28);
   --color-on-accent: #0a2c31;
 
   --color-status-success: #2d8e7f;
@@ -96,8 +96,8 @@
   --gray-900: #1f3337;
 
   --bg-base-gradient:
-    radial-gradient(circle at 12% 8%, rgba(0, 229, 195, 0.24), transparent 42%),
-    radial-gradient(circle at 86% 14%, rgba(94, 223, 255, 0.2), transparent 40%),
+    radial-gradient(circle at 12% 8%, rgba(94, 223, 255, 0.24), transparent 42%),
+    radial-gradient(circle at 86% 14%, rgba(0, 229, 195, 0.2), transparent 40%),
     radial-gradient(circle at 50% 120%, rgba(170, 246, 235, 0.3), transparent 52%),
     linear-gradient(160deg, #f2fcfb 0%, #f7fdfd 52%, #ecf9f7 100%);
 }
@@ -111,11 +111,11 @@
   --color-text-secondary: #c9dddd;
   --color-text-tertiary: #8ea8a8;
 
-  --color-accent: #33e6c8;
-  --color-accent-hover: #61f2d9;
-  --color-accent-soft: rgba(51, 230, 200, 0.3);
-  --color-accent-secondary: #5edfff;
-  --color-accent-secondary-soft: rgba(94, 223, 255, 0.3);
+  --color-accent: #5edfff;
+  --color-accent-hover: #8beeff;
+  --color-accent-soft: rgba(94, 223, 255, 0.3);
+  --color-accent-secondary: #33e6c8;
+  --color-accent-secondary-soft: rgba(51, 230, 200, 0.3);
   --color-on-accent: #06252a;
 
   --color-status-success: #7bd8c8;
@@ -158,8 +158,8 @@
   --gray-900: #deeff1;
 
   --bg-base-gradient:
-    radial-gradient(circle at 10% 8%, rgba(0, 229, 195, 0.25), transparent 42%),
-    radial-gradient(circle at 88% 12%, rgba(94, 223, 255, 0.2), transparent 40%),
+    radial-gradient(circle at 10% 8%, rgba(94, 223, 255, 0.25), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(0, 229, 195, 0.2), transparent 40%),
     radial-gradient(circle at 50% 118%, rgba(34, 132, 144, 0.28), transparent 54%),
     linear-gradient(160deg, #0e1b21 0%, #13232a 52%, #102027 100%);
 }
@@ -217,14 +217,14 @@ body::after {
 }
 
 body::before {
-  background: radial-gradient(circle, rgba(0, 229, 195, 0.56) 0%, rgba(2, 176, 158, 0.2) 46%, transparent 72%);
+  background: radial-gradient(circle, rgba(94, 223, 255, 0.56) 0%, rgba(40, 160, 189, 0.2) 46%, transparent 72%);
   top: -8vw;
   left: -9vw;
   animation: glassDriftA 24s ease-in-out infinite alternate;
 }
 
 body::after {
-  background: radial-gradient(circle, rgba(94, 223, 255, 0.48) 0%, rgba(35, 157, 175, 0.2) 48%, transparent 72%);
+  background: radial-gradient(circle, rgba(0, 229, 195, 0.48) 0%, rgba(2, 176, 158, 0.2) 48%, transparent 72%);
   right: -10vw;
   bottom: -10vw;
   animation: glassDriftB 26s ease-in-out infinite alternate;

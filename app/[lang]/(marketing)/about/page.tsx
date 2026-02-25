@@ -201,9 +201,12 @@ export default async function AboutPage({
           <p className={styles.paragraph}>{content.flowLead}</p>
           <p className={styles.paragraph}>{flow.lead}</p>
           <ol className={styles.flowList}>
-            {flow.steps.map((step) => (
+            {flow.steps.map((step, index) => (
               <li key={step.title} className={styles.flowItem}>
-                <p className={styles.flowTitle}>{step.title}</p>
+                <div className={styles.flowHeading}>
+                  <span className={styles.flowNumber}>{index + 1}</span>
+                  <p className={styles.flowTitle}>{step.title}</p>
+                </div>
                 <p className={styles.paragraph}>{step.detail}</p>
               </li>
             ))}
@@ -222,10 +225,10 @@ export default async function AboutPage({
         </section>
 
         <footer className={styles.footerLinks}>
-          <Link href={`/${lang}/faq`} className={styles.linkButton}>
+          <Link href={`/${lang}/faq`} className={`${styles.linkButton} ${styles.linkButtonGhost}`}>
             {content.faqCta}
           </Link>
-          <Link href={`/${lang}/download`} className={styles.linkButton}>
+          <Link href={`/${lang}/download`} className={`${styles.linkButton} ${styles.linkButtonPrimary}`}>
             {content.downloadCta}
           </Link>
         </footer>
