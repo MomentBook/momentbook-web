@@ -125,7 +125,7 @@ $menu-drawer-control-focus: color-mix(in srgb, var(--color-accent) 72%, #fff);
   padding-right: calc(0.85rem + env(safe-area-inset-right));
   border-left: 1px solid var(--color-border);
   background: var(--mobile-drawer-bg);
-  box-shadow: -14px 0 38px rgba(10, 17, 34, 0.38);
+  box-shadow: -14px 0 38px color-mix(in srgb, var(--mobile-drawer-overlay) 38%, transparent);
   animation: drawerIn 0.24s ease-out;
 }
 

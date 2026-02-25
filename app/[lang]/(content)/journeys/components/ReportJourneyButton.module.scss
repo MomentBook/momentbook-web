@@ -59,11 +59,11 @@
 }
 
 .feedbackSuccess {
-  color: #0f766e;
+  color: var(--color-status-success);
 }
 
 .feedbackError {
-  color: #b42318;
+  color: var(--color-status-error);
 }
 
 .feedbackInfo {
@@ -73,7 +73,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgb(15 23 42 / 46%);
+  background: color-mix(in srgb, var(--mobile-drawer-overlay) 46%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -208,5 +208,5 @@
 .submitButton {
   border: 1px solid var(--color-accent);
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
 }

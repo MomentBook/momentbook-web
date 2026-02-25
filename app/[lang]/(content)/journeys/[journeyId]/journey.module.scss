@@ -14,8 +14,8 @@
 .hiddenNotice {
   margin: calc(var(--spacing-xl) * 1.2) auto;
   max-width: 40rem;
-  border: 1px solid rgb(244 63 94 / 24%);
-  background: rgb(255 241 242 / 80%);
+  border: 1px solid color-mix(in srgb, var(--color-status-error) 28%, transparent);
+  background: color-mix(in srgb, var(--color-status-error-soft) 78%, var(--surface-glass));
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-glass-sm);
@@ -24,12 +24,12 @@
 .hiddenNoticeTitle {
   margin: 0;
   font-size: 1.35rem;
-  color: #9f1239;
+  color: var(--color-status-error);
 }
 
 .hiddenNoticeMessage {
   margin: 0.65rem 0 0;
-  color: #be123c;
+  color: color-mix(in srgb, var(--color-status-error) 88%, var(--color-text-secondary));
   line-height: 1.6;
 }
 
@@ -110,17 +110,17 @@
 
 .reportActionTrigger {
   padding: 0.5rem 1rem;
-  border-color: rgb(244 63 94 / 38%);
-  background: rgb(255 241 242 / 92%);
-  color: #be123c;
+  border-color: color-mix(in srgb, var(--color-status-error) 42%, transparent);
+  background: color-mix(in srgb, var(--color-status-error-soft) 82%, var(--surface-glass-strong));
+  color: var(--color-status-error);
   font-weight: 600;
   font-size: 0.9rem;
-  box-shadow: 0 6px 18px rgb(244 63 94 / 14%);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--color-status-error) 18%, transparent);
 
   &:hover:not(:disabled) {
-    border-color: rgb(225 29 72 / 56%);
-    background: #ffe4e8;
-    color: #9f1239;
+    border-color: color-mix(in srgb, var(--color-status-error) 56%, transparent);
+    background: color-mix(in srgb, var(--color-status-error-soft) 92%, var(--surface-glass-strong));
+    color: color-mix(in srgb, var(--color-status-error) 84%, var(--color-text-primary));
   }
 }
 

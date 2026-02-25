@@ -110,12 +110,12 @@
 }
 
 .danger {
-  color: #d34a53;
+  color: var(--color-status-error);
 }
 
 .danger:hover {
-  color: #b13c44;
-  background: color-mix(in srgb, #d34a53 14%, transparent);
+  color: color-mix(in srgb, var(--color-status-error) 82%, var(--color-text-primary));
+  background: color-mix(in srgb, var(--color-status-error-soft) 76%, transparent);
 }
 
 .disabled {

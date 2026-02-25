@@ -78,7 +78,7 @@ export default function JourneyMap({
     }).addTo(map);
 
     const cssVars = getComputedStyle(document.documentElement);
-    const routeColor = cssVars.getPropertyValue("--color-accent").trim() || "#2f6bff";
+    const routeColor = cssVars.getPropertyValue("--color-accent").trim() || "#00E5C3";
     const hasRouteLine = mode === "ROUTE_STRONG" || mode === "ROUTE_WEAK";
 
     if (hasRouteLine && orderedClusters.length > 1) {
@@ -107,13 +107,13 @@ export default function JourneyMap({
 
       const tooltipContent = `
         <div style="padding: 0.5rem;">
-          <p style="margin: 0 0 0.2rem; font-size: 0.75rem; color: #64748b;">
+          <p style="margin: 0 0 0.2rem; font-size: 0.75rem; color: var(--color-text-tertiary);">
             #${sequence}
           </p>
-          <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.95rem;">
+          <strong style="display: block; margin-bottom: 0.25rem; font-size: 0.95rem; color: var(--color-text-primary);">
             ${safeLocationName}
           </strong>
-          <p style="margin: 0; font-size: 0.85rem; color: #666;">
+          <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-secondary);">
             ${cluster.photoIds.length} ${photoLabel}
           </p>
         </div>
