@@ -25,7 +25,6 @@ type HomePageCopy = {
   secondaryCta: string;
   journeysCta: string;
   finalTitle: string;
-  finalLead: string;
 };
 
 const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
@@ -35,15 +34,13 @@ const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
       "Upload all trip photos in one batch, clean up misplaced shots, and revisit your route through timeline and map pins.",
     eyebrow: "MomentBook",
     title: "From mixed camera roll to one complete travel timeline.",
-    lead: "Batch upload first. Auto-organize next. Then fix misplaced photos and revisit your trip with timeline and map pins.",
+    lead: "Upload once, clean up quickly, and revisit your trip with timeline and map pins.",
     heroImageAlt: "MomentBook photo batch upload screen",
     mapImageAlt: "MomentBook timeline and map pin screen",
     primaryCta: "Download MomentBook",
     secondaryCta: "How it works",
     journeysCta: "See public journeys",
     finalTitle: "Simple by design",
-    finalLead:
-      "No noisy feed. No ranking. Just your trip, organized in order and recalled on a map.",
   },
   ko: {
     metaTitle: "MomentBook — 한 번 업로드, 하나의 여행 타임라인",
@@ -51,15 +48,13 @@ const homePageCopy: { en: HomePageCopy; ko: HomePageCopy } = {
       "여행 사진을 한 번에 업로드하고, 잘못 분류된 사진을 정리한 뒤, 타임라인과 지도 핀으로 여행을 다시 떠올릴 수 있습니다.",
     eyebrow: "MomentBook",
     title: "흩어진 카메라롤을 하나의 여행 타임라인으로.",
-    lead: "먼저 일괄 업로드하고, 자동 정리한 뒤, 잘못 들어간 사진만 정리합니다. 마지막에는 타임라인과 지도 핀으로 여행을 회상합니다.",
+    lead: "한 번에 업로드하고, 필요한 것만 보정한 뒤, 타임라인과 지도 핀으로 회상합니다.",
     heroImageAlt: "MomentBook 사진 일괄 업로드 화면",
     mapImageAlt: "MomentBook 타임라인과 지도 핀 화면",
     primaryCta: "MomentBook 다운로드",
     secondaryCta: "작동 방식 보기",
     journeysCta: "공개 여정 보기",
     finalTitle: "의도적으로 단순하게",
-    finalLead:
-      "시끄러운 피드도, 랭킹도 없습니다. 여행을 정리하고 장소를 다시 떠올리는 데만 집중합니다.",
   },
 };
 
@@ -222,7 +217,6 @@ export default async function Home({
 
       <section className={styles.ctaSection}>
         <h2 className={styles.sectionTitle}>{content.finalTitle}</h2>
-        <p className={styles.sectionLead}>{content.finalLead}</p>
         <div className={styles.heroActions}>
           <Link href={`/${lang}/download`} className={styles.primaryButton}>
             {content.primaryCta}

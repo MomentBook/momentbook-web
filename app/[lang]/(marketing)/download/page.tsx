@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
@@ -33,21 +32,15 @@ type DownloadCopy = {
   requirementsTitle: string;
   iosRequirement: string[];
   androidRequirement: string[];
-  supportPrefix: string;
-  supportLink: string;
-  supportMiddle: string;
-  faqLink: string;
-  supportSuffix: string;
 };
 
 const downloadCopy: { en: DownloadCopy; ko: DownloadCopy } = {
   en: {
     metaTitle: "Download MomentBook",
     metaDescription:
-      "Download MomentBook on iOS and Android, then follow one clear flow from batch upload to timeline and map recall.",
+      "Download MomentBook on iOS and Android. Upload trip photos once, then revisit with timeline and map pins.",
     title: "Download MomentBook",
-    subtitle:
-      "Start with one batch upload, finish with one complete timeline and map recap.",
+    subtitle: "Start with one batch upload. End with one complete trip recap.",
     availability: "Available on App Store and Google Play.",
     deviceAlt: "MomentBook timeline screen",
     iosTopLabel: "Download on",
@@ -55,22 +48,17 @@ const downloadCopy: { en: DownloadCopy; ko: DownloadCopy } = {
     androidTopLabel: "Get it on",
     androidName: "Google Play",
     startTitle: "Start in one flow",
-    startLead: "Install the app and follow the same simple sequence every trip.",
+    startLead: "Use the same simple sequence every trip.",
     requirementsTitle: "System requirements",
     iosRequirement: ["iOS 16.0 or later", "iPhone and iPad"],
     androidRequirement: ["Android 10.0 or later", "Most Android devices"],
-    supportPrefix: "Need help? ",
-    supportLink: "Support",
-    supportMiddle: " or ",
-    faqLink: "FAQ",
-    supportSuffix: ".",
   },
   ko: {
     metaTitle: "MomentBook 다운로드",
     metaDescription:
-      "iOS와 Android에서 MomentBook을 다운로드하고, 일괄 업로드부터 타임라인·지도 회상까지 하나의 흐름으로 사용하세요.",
+      "iOS와 Android에서 MomentBook을 다운로드하고, 여행 사진을 한 번에 올린 뒤 타임라인과 지도 핀으로 회상하세요.",
     title: "MomentBook 다운로드",
-    subtitle: "한 번의 일괄 업로드로 시작해, 완성된 타임라인과 지도 회상으로 마무리합니다.",
+    subtitle: "한 번의 일괄 업로드로 시작해, 한 번의 여행 회고로 마무리합니다.",
     availability: "App Store와 Google Play에서 이용할 수 있습니다.",
     deviceAlt: "MomentBook 타임라인 화면",
     iosTopLabel: "다운로드",
@@ -78,15 +66,10 @@ const downloadCopy: { en: DownloadCopy; ko: DownloadCopy } = {
     androidTopLabel: "다운로드",
     androidName: "Google Play",
     startTitle: "하나의 흐름으로 시작",
-    startLead: "앱을 설치한 뒤, 매 여행마다 같은 단순한 순서로 정리합니다.",
+    startLead: "매 여행마다 같은 단순한 순서로 정리합니다.",
     requirementsTitle: "시스템 요구사항",
     iosRequirement: ["iOS 16.0 이상", "iPhone 및 iPad"],
     androidRequirement: ["Android 10.0 이상", "대부분의 Android 기기"],
-    supportPrefix: "도움이 필요하신가요? ",
-    supportLink: "지원",
-    supportMiddle: " 또는 ",
-    faqLink: "FAQ",
-    supportSuffix: ".",
   },
 };
 
@@ -212,17 +195,6 @@ export default async function DownloadPage({
               </div>
 
               <p className={styles.availability}>{content.availability}</p>
-              <p className={styles.supportText}>
-                {content.supportPrefix}
-                <Link href={`/${lang}/support`} className={styles.inlineLink}>
-                  {content.supportLink}
-                </Link>
-                {content.supportMiddle}
-                <Link href={`/${lang}/faq`} className={styles.inlineLink}>
-                  {content.faqLink}
-                </Link>
-                {content.supportSuffix}
-              </p>
             </div>
           </FadeIn>
 

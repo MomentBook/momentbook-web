@@ -28,7 +28,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
     metaDescription: "Simple answers about MomentBook's core travel-photo flow.",
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
-      "Short answers focused on one flow: upload, organize, clean up, timeline, and map recall.",
+      "Short answers for one flow: upload, organize, clean up, timeline, map.",
     calloutPrefix: "Need more help? ",
     calloutLink: "Contact support",
     calloutSuffix: " for account or technical issues.",
@@ -36,7 +36,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
       {
         question: "What is MomentBook for?",
         answer:
-          "It turns mixed travel photos into one clean timeline and map-based recap after your trip.",
+          "It turns mixed travel photos into one clear timeline and map recap.",
       },
       {
         question: "Do I need to upload photos one by one?",
@@ -46,7 +46,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
       {
         question: "What happens after upload?",
         answer:
-          "Photos are auto-organized by date and time into chronological moments.",
+          "Photos are auto-organized by date and time.",
       },
       {
         question: "Can I fix wrongly organized photos?",
@@ -56,7 +56,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
       {
         question: "What does the final result look like?",
         answer:
-          "A completed travel timeline plus map pins that help you recall where you traveled.",
+          "A complete travel timeline and map pins for recall.",
       },
       {
         question: "Is everything public by default?",
@@ -66,7 +66,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
       {
         question: "Can I keep a copy without publishing?",
         answer:
-          "Yes. You can export a ZIP (images + metadata) for personal archive or direct sharing.",
+          "Yes. Export a ZIP (images + metadata) for archive or direct sharing.",
       },
     ],
   },
@@ -75,7 +75,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
     metaDescription: "MomentBook 핵심 여행 사진 정리 흐름에 대한 간단한 답변입니다.",
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
-      "업로드, 자동 정리, 수동 보정, 타임라인 완성, 지도 회상까지 핵심 흐름만 짧게 설명합니다.",
+      "업로드, 자동 정리, 수동 보정, 타임라인, 지도 회상만 짧게 설명합니다.",
     calloutPrefix: "추가 도움이 필요하면 ",
     calloutLink: "지원팀에 문의",
     calloutSuffix: "해 주세요.",
@@ -83,7 +83,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
       {
         question: "MomentBook은 어떤 앱인가요?",
         answer:
-          "여행 후 흩어진 사진을 하나의 타임라인과 지도 회상으로 정리하는 앱입니다.",
+          "흩어진 여행 사진을 타임라인과 지도 회상으로 정리하는 앱입니다.",
       },
       {
         question: "사진을 하나씩 올려야 하나요?",
@@ -91,7 +91,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
       },
       {
         question: "업로드 후에는 무엇이 일어나나요?",
-        answer: "사진이 날짜와 시간 기준으로 자동 정리되어 순간 단위로 묶입니다.",
+        answer: "사진이 날짜와 시간 기준으로 자동 정리됩니다.",
       },
       {
         question: "잘못 정리된 사진은 수정할 수 있나요?",
@@ -99,7 +99,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
       },
       {
         question: "최종 결과는 어떻게 보이나요?",
-        answer: "완성된 여행 타임라인과 지도 핀으로 다녀온 장소를 회상할 수 있습니다.",
+        answer: "완성된 타임라인과 지도 핀으로 여행을 회상할 수 있습니다.",
       },
       {
         question: "기본 공개인가요?",
@@ -108,7 +108,7 @@ const faqContent: { en: FAQContent; ko: FAQContent } = {
       {
         question: "게시하지 않고도 보관할 수 있나요?",
         answer:
-          "네. 이미지와 메타데이터가 포함된 ZIP으로 내보내 개인 보관하거나 직접 공유할 수 있습니다.",
+          "네. 이미지와 메타데이터 ZIP으로 내보내 보관하거나 직접 공유할 수 있습니다.",
       },
     ],
   },

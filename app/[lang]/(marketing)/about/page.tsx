@@ -33,18 +33,16 @@ const aboutCopy: { en: AboutCopy; ko: AboutCopy } = {
     metaDescription:
       "A simple flow: batch upload, auto-organize, manual cleanup, timeline completion, and map-based trip recall.",
     heroTitle: "How it works, without noise",
-    heroLead:
-      "MomentBook is not a feed product. It is a single travel-photo flow designed for clear recap after your trip.",
+    heroLead: "One travel-photo flow from upload to recap.",
     primaryCta: "Download app",
     secondaryCta: "Common questions",
     previewTitle: "What you see in the app",
-    previewLead:
-      "Screens stay focused on upload, organization, and recap. No extra panels or endless choices.",
+    previewLead: "Only the screens you need for upload, organize, and recap.",
     principleTitle: "Design principles",
     principles: [
       "One clear path from upload to recap",
-      "Automation first, manual correction only where needed",
-      "Timeline and map used together for memory recall",
+      "Auto first, manual only when needed",
+      "Timeline and map used together",
     ],
   },
   ko: {
@@ -52,18 +50,16 @@ const aboutCopy: { en: AboutCopy; ko: AboutCopy } = {
     metaDescription:
       "일괄 업로드, 자동 정리, 수동 보정, 타임라인 완성, 지도 기반 회상까지 하나의 단순한 흐름으로 구성됩니다.",
     heroTitle: "군더더기 없는 작동 방식",
-    heroLead:
-      "MomentBook은 피드 중심 제품이 아닙니다. 여행 후 회고를 위해, 사진 정리 흐름 하나에 집중한 앱입니다.",
+    heroLead: "업로드부터 회고까지 하나의 사진 정리 흐름에 집중합니다.",
     primaryCta: "앱 다운로드",
     secondaryCta: "자주 묻는 질문",
     previewTitle: "앱에서 보이는 화면",
-    previewLead:
-      "화면은 업로드, 정리, 회고에만 집중합니다. 불필요한 패널이나 복잡한 선택지를 두지 않습니다.",
+    previewLead: "업로드, 정리, 회고에 필요한 화면만 남겼습니다.",
     principleTitle: "디자인 원칙",
     principles: [
       "업로드부터 회고까지 한 줄기 흐름",
-      "자동화 우선, 필요한 지점만 수동 보정",
-      "타임라인과 지도를 함께 써서 기억 회상",
+      "자동 우선, 필요한 지점만 수동 보정",
+      "타임라인과 지도를 함께 사용",
     ],
   },
 };
