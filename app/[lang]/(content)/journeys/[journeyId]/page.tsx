@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
-import { buildAbsoluteAppLogoUrl } from "@/lib/branding/logo";
+import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourneyResult } from "@/lib/published-journey";
@@ -242,7 +242,7 @@ export default async function JourneyPage({
             url: siteUrl,
             logo: {
                 "@type": "ImageObject",
-                url: buildAbsoluteAppLogoUrl(siteUrl),
+                url: buildAbsoluteAppTransparentLogoUrl(siteUrl),
             },
         },
         mainEntityOfPage: pageUrl,
