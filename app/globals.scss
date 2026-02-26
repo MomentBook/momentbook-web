@@ -309,3 +309,12 @@ ol[role="list"] {
     animation: none;
   }
 }
+
+@media (max-width: 767px) {
+  :root {
+    --spacing-sm: 1rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2.25rem;
+    --spacing-xl: 3.75rem;
+  }
+}

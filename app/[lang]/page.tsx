@@ -228,7 +228,6 @@ export default async function Home({
       />
 
       <section className={styles.hero}>
-        <div className={styles.heroBackdrop} aria-hidden />
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
             <FadeIn>
