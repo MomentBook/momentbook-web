@@ -16,6 +16,7 @@ type JourneyPreviewCardProps = {
   topMeta?: ReactNode;
   metaItems: JourneyMetaItem[];
   authorText?: string;
+  variant?: "default" | "glimmer";
 };
 
 function readText(value: unknown): string | null {
@@ -37,13 +38,16 @@ export function JourneyPreviewCard({
   topMeta,
   metaItems,
   authorText,
+  variant = "default",
 }: JourneyPreviewCardProps) {
   const safeDescription = readText(description);
   const safeCover = readText(coverUrl);
   const safeAuthor = readText(authorText);
+  const cardClassName =
+    variant === "glimmer" ? `${styles.card} ${styles.cardGlimmer}` : styles.card;
 
   return (
-    <article className={styles.card}>
+    <article className={cardClassName}>
       <Link href={href} className={styles.cardLink} aria-label={title} />
 
       <div className={styles.cover}>

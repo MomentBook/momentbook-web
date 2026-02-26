@@ -424,6 +424,11 @@ export default async function JourneysPage({
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
             />
+            <div className={styles.backdrop} aria-hidden="true">
+                <span className={styles.backdropOrbPrimary} />
+                <span className={styles.backdropOrbSecondary} />
+                <span className={styles.backdropLine} />
+            </div>
 
             <header className={styles.hero}>
                 <p className={styles.kicker}>{countText}</p>
@@ -436,47 +441,56 @@ export default async function JourneysPage({
                     ) : null}
                 </h1>
                 <p className={styles.subtitle}>{labels.subtitle}</p>
+                <div className={styles.heroChips}>
+                    <span className={styles.heroChip}>{countText}</span>
+                    <span className={styles.heroChip}>
+                        {labels.pageLabel.replace("{page}", String(safeCurrentPage))} / {totalPages}
+                    </span>
+                </div>
             </header>
 
             {cards.length === 0 ? (
                 <div className={styles.emptyState}>{labels.empty}</div>
             ) : (
                 <>
-                    <div className={styles.grid}>
-                        {cards.map((card) => (
-                            <JourneyPreviewCard
-                                key={card.publicId}
-                                href={`/${lang}/journeys/${card.publicId}`}
-                                title={card.title}
-                                description={card.description}
-                                coverUrl={card.coverUrl}
-                                topMeta={(
-                                    <>
-                                        {labels.publishedLabel} ·{" "}
-                                        <LocalizedDate
-                                            lang={lang}
-                                            timestamp={card.publishedAt}
-                                            fallback={labels.unknownDateLabel}
-                                        />
-                                    </>
-                                )}
-                                metaItems={[
-                                    { label: labels.photosLabel, value: card.imageCount },
-                                    {
-                                        label: labels.periodLabel,
-                                        value: (
-                                            <LocalizedDateTimeRange
+                    <div className={styles.contentShell}>
+                        <div className={styles.grid}>
+                            {cards.map((card) => (
+                                <JourneyPreviewCard
+                                    key={card.publicId}
+                                    href={`/${lang}/journeys/${card.publicId}`}
+                                    variant="glimmer"
+                                    title={card.title}
+                                    description={card.description}
+                                    coverUrl={card.coverUrl}
+                                    topMeta={(
+                                        <>
+                                            {labels.publishedLabel} ·{" "}
+                                            <LocalizedDate
                                                 lang={lang}
-                                                start={card.periodRange.start}
-                                                end={card.periodRange.end}
+                                                timestamp={card.publishedAt}
                                                 fallback={labels.unknownDateLabel}
                                             />
-                                        ),
-                                    },
-                                ]}
-                                authorText={`${labels.byLabel} ${card.authorName}`}
-                            />
-                        ))}
+                                        </>
+                                    )}
+                                    metaItems={[
+                                        { label: labels.photosLabel, value: card.imageCount },
+                                        {
+                                            label: labels.periodLabel,
+                                            value: (
+                                                <LocalizedDateTimeRange
+                                                    lang={lang}
+                                                    start={card.periodRange.start}
+                                                    end={card.periodRange.end}
+                                                    fallback={labels.unknownDateLabel}
+                                                />
+                                            ),
+                                        },
+                                    ]}
+                                    authorText={`${labels.byLabel} ${card.authorName}`}
+                                />
+                            ))}
+                        </div>
                     </div>
 
                     <nav className={styles.pagination} aria-label="Journey list pagination">
