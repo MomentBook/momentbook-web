@@ -387,7 +387,6 @@ export default async function JourneysPage({
         };
     });
 
-    const countText = labels.countLabel.replace("{count}", String(totalJourneys));
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
     const pagePath = buildOpenGraphUrl(lang, "/journeys");
     const pagePathWithQuery =
@@ -431,7 +430,6 @@ export default async function JourneysPage({
             </div>
 
             <header className={styles.hero}>
-                <p className={styles.kicker}>{countText}</p>
                 <h1 className={styles.title}>
                     {labels.title}
                     {safeCurrentPage > 1 ? (
@@ -441,12 +439,6 @@ export default async function JourneysPage({
                     ) : null}
                 </h1>
                 <p className={styles.subtitle}>{labels.subtitle}</p>
-                <div className={styles.heroChips}>
-                    <span className={styles.heroChip}>{countText}</span>
-                    <span className={styles.heroChip}>
-                        {labels.pageLabel.replace("{page}", String(safeCurrentPage))} / {totalPages}
-                    </span>
-                </div>
             </header>
 
             {cards.length === 0 ? (
