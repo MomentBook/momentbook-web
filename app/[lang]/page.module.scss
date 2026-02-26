@@ -9,9 +9,41 @@
   overflow: hidden;
   padding: clamp(1.4rem, 3.6vw, 2.4rem);
   border-radius: 1.5rem;
-  border: 1px solid var(--glass-border);
-  background: color-mix(in srgb, var(--surface-glass-strong) 86%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 78%, var(--color-accent-secondary) 22%);
+  background:
+    radial-gradient(circle at 16% -18%, rgba(255, 255, 255, 0.44), transparent 46%),
+    radial-gradient(
+      circle at 84% 114%,
+      color-mix(in srgb, var(--color-accent-secondary) 20%, transparent),
+      transparent 58%
+    ),
+    linear-gradient(
+      148deg,
+      color-mix(in srgb, var(--surface-glass-strong) 72%, transparent) 0%,
+      color-mix(in srgb, var(--surface-glass-soft) 62%, transparent) 56%,
+      color-mix(in srgb, var(--surface-glass) 68%, transparent) 100%
+    );
   box-shadow: var(--shadow-glass-md);
+  backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    176deg,
+    rgba(255, 255, 255, 0.24) 0%,
+    rgba(255, 255, 255, 0.08) 44%,
+    rgba(255, 255, 255, 0.16) 100%
+  );
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .heroBackdrop {
