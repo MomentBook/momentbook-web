@@ -175,12 +175,13 @@ Web page -> `/api/auth/email/*` -> backend `/v2/auth/email/*` 프록시 구조.
 - `buildAlternates(lang, path)`
 - `buildOpenGraphUrl(lang, path)`
 - `buildPublicRobots()` / `buildNoIndexRobots()`
-- `buildPublicKeywords()`
+- Public pages use lean metadata: title/description/canonical/alternates + basic OpenGraph/Twitter
 
 ## 8.2 Robots Policy
 
 - Public content/marketing pages: index/follow
 - Legal + login pages: noindex/nofollow
+- No aggressive googlebot `max-*` overrides
 
 ## 8.3 Structured Data
 
