@@ -5,33 +5,123 @@
 }
 
 .article {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: grid;
   gap: 1.08rem;
   max-width: 70rem;
   margin: 0 auto;
   padding: clamp(1.2rem, 3vw, 2rem);
   border-radius: 1.5rem;
-  border: 1px solid var(--glass-border);
-  background: color-mix(in srgb, var(--surface-glass-strong) 88%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 78%, var(--color-accent-secondary) 22%);
+  background:
+    radial-gradient(circle at 16% -14%, rgba(255, 255, 255, 0.42), transparent 48%),
+    radial-gradient(
+      circle at 86% 116%,
+      color-mix(in srgb, var(--color-accent-secondary) 18%, transparent),
+      transparent 58%
+    ),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--surface-glass-strong) 72%, transparent) 0%,
+      color-mix(in srgb, var(--surface-glass-soft) 62%, transparent) 56%,
+      color-mix(in srgb, var(--surface-glass) 68%, transparent) 100%
+    );
   box-shadow: var(--shadow-glass-md);
+  backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+}
+
+.article::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    176deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.08) 44%,
+    rgba(255, 255, 255, 0.16) 100%
+  );
+}
+
+.article > * {
+  position: relative;
+  z-index: 1;
 }
 
 .header {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: 0.74rem;
   padding: clamp(1rem, 2.4vw, 1.4rem);
   border-radius: 1.12rem;
-  border: 1px solid color-mix(in srgb, var(--glass-border) 86%, #fff);
-  background: color-mix(in srgb, var(--surface-glass-soft) 90%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 82%, rgba(255, 255, 255, 0.76));
+  background: linear-gradient(
+    154deg,
+    color-mix(in srgb, var(--surface-glass-strong) 66%, transparent) 0%,
+    color-mix(in srgb, var(--surface-glass-soft) 56%, transparent) 60%,
+    color-mix(in srgb, var(--surface-glass) 62%, transparent) 100%
+  );
+  backdrop-filter: blur(calc(var(--glass-blur) - 9px)) saturate(142%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 9px)) saturate(142%);
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    178deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.07) 42%,
+    rgba(255, 255, 255, 0.14) 100%
+  );
+}
+
+.header > * {
+  position: relative;
+  z-index: 1;
 }
 
 .section {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: 0.72rem;
   padding: clamp(1rem, 2.3vw, 1.3rem);
   border-radius: 1.02rem;
-  border: 1px solid color-mix(in srgb, var(--glass-border) 82%, #fff);
-  background: color-mix(in srgb, var(--surface-glass) 90%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 80%, var(--color-accent) 20%);
+  background: linear-gradient(
+    152deg,
+    color-mix(in srgb, var(--surface-glass-strong) 64%, transparent) 0%,
+    color-mix(in srgb, var(--surface-glass-soft) 52%, transparent) 58%,
+    color-mix(in srgb, var(--surface-glass) 60%, transparent) 100%
+  );
+  backdrop-filter: blur(calc(var(--glass-blur) - 10px)) saturate(140%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 10px)) saturate(140%);
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    176deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.06) 46%,
+    rgba(255, 255, 255, 0.13) 100%
+  );
+}
+
+.section > * {
+  position: relative;
+  z-index: 1;
 }
 
 .pageTitle {
@@ -73,12 +163,40 @@
 }
 
 .flowItem {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: 0.32rem;
   padding: 0.84rem 0.9rem;
   border-radius: 0.9rem;
-  border: 1px solid color-mix(in srgb, var(--glass-border) 84%, #fff);
-  background: color-mix(in srgb, var(--surface-glass-soft) 92%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 78%, var(--color-accent) 22%);
+  background: linear-gradient(
+    154deg,
+    color-mix(in srgb, var(--surface-glass-strong) 66%, transparent) 0%,
+    color-mix(in srgb, var(--surface-glass-soft) 58%, transparent) 60%,
+    color-mix(in srgb, var(--surface-glass) 62%, transparent) 100%
+  );
+  box-shadow: var(--shadow-glass-sm);
+  backdrop-filter: blur(calc(var(--glass-blur) - 12px)) saturate(138%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 12px)) saturate(138%);
+}
+
+.flowItem::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    178deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.06) 44%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+}
+
+.flowItem > * {
+  position: relative;
+  z-index: 1;
 }
 
 .flowHeading {
@@ -128,7 +246,7 @@
   flex-wrap: wrap;
   gap: 0.62rem;
   padding-top: 0.48rem;
-  border-top: 1px solid color-mix(in srgb, var(--glass-border) 72%, #fff);
+  border-top: 1px solid color-mix(in srgb, var(--glass-border-strong) 70%, rgba(255, 255, 255, 0.7));
 }
 
 .linkButton {
@@ -150,8 +268,14 @@
 
 .linkButtonGhost {
   color: var(--color-text-primary);
-  border-color: var(--glass-border);
-  background: color-mix(in srgb, var(--surface-glass) 90%, #fff);
+  border-color: color-mix(in srgb, var(--glass-border-strong) 76%, var(--color-accent) 24%);
+  background: linear-gradient(
+    152deg,
+    color-mix(in srgb, var(--surface-glass-strong) 70%, transparent),
+    color-mix(in srgb, var(--surface-glass-soft) 58%, transparent)
+  );
+  backdrop-filter: blur(calc(var(--glass-blur) - 12px)) saturate(140%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 12px)) saturate(140%);
 
   &:hover {
     border-color: color-mix(in srgb, var(--color-accent) 58%, var(--glass-border));

@@ -7,14 +7,50 @@
 }
 
 .header {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: grid;
   gap: 0.7rem;
   max-width: 62rem;
   padding: clamp(1rem, 2.4vw, 1.4rem);
   border-radius: 1.15rem;
-  border: 1px solid color-mix(in srgb, var(--glass-border) 86%, #fff);
-  background: color-mix(in srgb, var(--surface-glass) 88%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 80%, var(--color-accent-secondary) 20%);
+  background:
+    radial-gradient(circle at 16% -12%, rgba(255, 255, 255, 0.4), transparent 46%),
+    radial-gradient(
+      circle at 86% 118%,
+      color-mix(in srgb, var(--color-accent-secondary) 17%, transparent),
+      transparent 58%
+    ),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--surface-glass-strong) 70%, transparent) 0%,
+      color-mix(in srgb, var(--surface-glass-soft) 60%, transparent) 56%,
+      color-mix(in srgb, var(--surface-glass) 64%, transparent) 100%
+    );
   box-shadow: var(--shadow-glass-sm);
+  backdrop-filter: blur(calc(var(--glass-blur) - 8px)) saturate(144%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 8px)) saturate(144%);
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    176deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.08) 44%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+}
+
+.header > * {
+  position: relative;
+  z-index: 1;
 }
 
 .headerBadge {
@@ -27,8 +63,14 @@
   color: var(--color-text-secondary);
   padding: 0.36rem 0.62rem;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--glass-border) 82%, #fff);
-  background: color-mix(in srgb, var(--surface-glass) 90%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 78%, rgba(255, 255, 255, 0.76));
+  background: linear-gradient(
+    152deg,
+    color-mix(in srgb, var(--surface-glass-strong) 68%, transparent),
+    color-mix(in srgb, var(--surface-glass-soft) 58%, transparent)
+  );
+  backdrop-filter: blur(calc(var(--glass-blur) - 12px)) saturate(140%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 12px)) saturate(140%);
 }
 
 .title {
@@ -52,13 +94,44 @@
 }
 
 .group {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   padding: clamp(0.96rem, 2.3vw, 1.2rem);
   border-radius: 1.14rem;
-  border: 1px solid color-mix(in srgb, var(--glass-border) 84%, #fff);
-  background: color-mix(in srgb, var(--surface-glass) 88%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 80%, var(--color-accent) 20%);
+  background:
+    radial-gradient(circle at 18% -8%, rgba(255, 255, 255, 0.28), transparent 44%),
+    linear-gradient(
+      152deg,
+      color-mix(in srgb, var(--surface-glass-strong) 68%, transparent) 0%,
+      color-mix(in srgb, var(--surface-glass-soft) 56%, transparent) 58%,
+      color-mix(in srgb, var(--surface-glass) 62%, transparent) 100%
+    );
   box-shadow: var(--shadow-glass-md);
+  backdrop-filter: blur(calc(var(--glass-blur) - 9px)) saturate(142%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 9px)) saturate(142%);
   display: grid;
   gap: 0.92rem;
+}
+
+.group::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    176deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.06) 46%,
+    rgba(255, 255, 255, 0.14) 100%
+  );
+}
+
+.group > * {
+  position: relative;
+  z-index: 1;
 }
 
 .groupHeader {
@@ -105,13 +178,40 @@
 }
 
 .faqItem {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: 0.48rem;
   padding: 0.92rem;
   border-radius: 0.9rem;
-  border: 1px solid color-mix(in srgb, var(--glass-border) 82%, #fff);
-  background: color-mix(in srgb, var(--surface-glass) 86%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 78%, var(--color-accent) 22%);
+  background: linear-gradient(
+    154deg,
+    color-mix(in srgb, var(--surface-glass-strong) 66%, transparent) 0%,
+    color-mix(in srgb, var(--surface-glass-soft) 56%, transparent) 60%,
+    color-mix(in srgb, var(--surface-glass) 62%, transparent) 100%
+  );
   box-shadow: var(--shadow-glass-sm);
+  backdrop-filter: blur(calc(var(--glass-blur) - 11px)) saturate(140%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 11px)) saturate(140%);
+}
+
+.faqItem::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    178deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.06) 44%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+}
+
+.faqItem > * {
+  position: relative;
+  z-index: 1;
 }
 
 .faqQuestionRow {
@@ -156,14 +256,41 @@
 }
 
 .callout {
+  position: relative;
+  overflow: hidden;
   padding: 1rem 1.06rem;
   border-radius: 1rem;
-  border: 1px solid color-mix(in srgb, var(--glass-border) 82%, #fff);
-  background: color-mix(in srgb, var(--surface-glass) 88%, #fff);
+  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 78%, var(--color-accent-secondary) 22%);
+  background: linear-gradient(
+    152deg,
+    color-mix(in srgb, var(--surface-glass-strong) 68%, transparent) 0%,
+    color-mix(in srgb, var(--surface-glass-soft) 58%, transparent) 58%,
+    color-mix(in srgb, var(--surface-glass) 64%, transparent) 100%
+  );
   box-shadow: var(--shadow-glass-sm);
+  backdrop-filter: blur(calc(var(--glass-blur) - 10px)) saturate(140%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 10px)) saturate(140%);
   color: var(--color-text-secondary);
   font-size: 0.9rem;
   line-height: 1.7;
+}
+
+.callout::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    176deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.07) 44%,
+    rgba(255, 255, 255, 0.13) 100%
+  );
+}
+
+.callout > * {
+  position: relative;
+  z-index: 1;
 }
 
 .link {
