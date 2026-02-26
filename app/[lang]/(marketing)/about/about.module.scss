@@ -171,22 +171,7 @@
 }
 
 .flowHeading {
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-}
-
-.flowNumber {
-  display: inline-flex;
-  align-items: baseline;
-  justify-content: flex-start;
-  min-width: 1.2rem;
-  font-size: 0.79rem;
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--color-accent-hover);
-  background: transparent;
-  box-shadow: none;
+  display: block;
 }
 
 .flowTitle {
@@ -194,10 +179,6 @@
   line-height: 1.48;
   font-weight: 640;
   color: var(--color-text-primary);
-}
-
-.flowItem .paragraph {
-  margin-left: 1.58rem;
 }
 
 .scopeList {

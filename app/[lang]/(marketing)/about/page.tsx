@@ -491,10 +491,9 @@ export default async function AboutPage({
           <p className={styles.paragraph}>{content.flowLead}</p>
           <p className={styles.paragraph}>{flow.lead}</p>
           <ol className={styles.flowList}>
-            {flow.steps.map((step, index) => (
+            {flow.steps.map((step) => (
               <li key={step.title} className={styles.flowItem}>
                 <div className={styles.flowHeading}>
-                  <span className={styles.flowNumber}>{index + 1}</span>
                   <p className={styles.flowTitle}>{step.title}</p>
                 </div>
                 <p className={styles.paragraph}>{step.detail}</p>
