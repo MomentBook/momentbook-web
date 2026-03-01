@@ -26,11 +26,11 @@ type HomePageCopy = {
 
 const homePageCopy: Record<Language, HomePageCopy> = {
   en: {
-    metaTitle: "MomentBook — Organize and keep after every trip",
+    metaTitle: "MomentBook — Memorize your moments",
     metaDescription:
       "MomentBook uploads post-trip photos in one batch and organizes them into one timeline and one map recap.",
     eyebrow: "MomentBook App",
-    heroTitle: "Organize and keep after every trip.",
+    heroTitle: "Memorize your moments",
     heroLead:
       "After your trip, upload once and adjust only what is needed, then revisit places through timeline order and map pins.",
     primaryCta: "Download MomentBook",
@@ -40,25 +40,25 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     splashSubtitle: "Travel memories, quietly kept.",
   },
   ko: {
-    metaTitle: "MomentBook — 여행 후 정리하여 보관하세요",
+    metaTitle: "MomentBook — 여행의 순간을 기억해요",
     metaDescription:
-      "MomentBook는 여행 후 사진을 일괄 업로드해 하나의 타임라인과 지도 회상으로 정리합니다.",
+      "MomentBook로 여행의 순간을 한 번에 담고, 타임라인과 지도에서 오래 기억하세요.",
     eyebrow: "MomentBook App",
-    heroTitle: "여행 후 정리하여 보관하세요",
+    heroTitle: "여행의 순간을 기억해요",
     heroLead:
-      "여행 후 한 번에 업로드하고 필요한 보정만 거쳐, 타임라인 순서와 지도 핀으로 장소를 다시 떠올립니다.",
+      "여행이 끝난 뒤 사진을 한 번에 올리면, 시간과 장소의 흐름대로 순간이 모여 언제든 다시 기억할 수 있어요.",
     primaryCta: "MomentBook 다운로드",
     secondaryCta: "소개 읽기",
-    heroMeta: "핵심 흐름: 일괄 업로드, 자동 정리, 최소 보정, 회상.",
+    heroMeta: "한 번에 올리고, 조용히 돌아보는 여행 기록.",
     deviceAlt: "MomentBook 스플래시 화면",
     splashSubtitle: "여행 기억을 차분히 보관합니다.",
   },
   ja: {
-    metaTitle: "MomentBook — 旅行後に整理して保管しましょう",
+    metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
     metaDescription:
       "MomentBookは旅行後の写真を一括アップロードし、ひとつのタイムラインと地図の回想に整理します。",
     eyebrow: "MomentBook App",
-    heroTitle: "旅行後に整理して保管しましょう",
+    heroTitle: "旅の瞬間を、ずっと記憶に",
     heroLead:
       "旅行後に一度でアップロードし、必要な補正だけを行って、タイムライン順序と地図ピンで場所を思い出せます。",
     primaryCta: "MomentBookをダウンロード",
@@ -68,11 +68,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     splashSubtitle: "旅の記憶を静かに保管します。",
   },
   zh: {
-    metaTitle: "MomentBook — 旅行后整理并保存",
+    metaTitle: "MomentBook — 记住每个旅行瞬间",
     metaDescription:
       "MomentBook 会在旅行后一次上传照片，并整理为一条时间线和一次地图回想。",
     eyebrow: "MomentBook App",
-    heroTitle: "旅行后整理并保存",
+    heroTitle: "记住每个旅行瞬间",
     heroLead:
       "旅行结束后一次上传，只做必要修正，再通过时间线顺序和地图标记回想去过的地方。",
     primaryCta: "下载 MomentBook",
@@ -82,11 +82,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     splashSubtitle: "安静地保存旅行记忆。",
   },
   es: {
-    metaTitle: "MomentBook — Organiza y guarda después del viaje",
+    metaTitle: "MomentBook — Memoriza tus momentos",
     metaDescription:
       "MomentBook sube fotos de viaje en lote y las organiza en una sola línea de tiempo y un repaso en mapa.",
     eyebrow: "MomentBook App",
-    heroTitle: "Organiza y guarda después del viaje.",
+    heroTitle: "Memoriza tus momentos",
     heroLead:
       "Después del viaje, sube todo una vez, corrige solo lo necesario y recuerda lugares con orden temporal y pines del mapa.",
     primaryCta: "Descargar MomentBook",
@@ -96,11 +96,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     splashSubtitle: "Tus recuerdos de viaje, guardados con calma.",
   },
   pt: {
-    metaTitle: "MomentBook — Organize e guarde após a viagem",
+    metaTitle: "MomentBook — Guarde seus momentos",
     metaDescription:
       "O MomentBook envia fotos da viagem em lote e organiza tudo em uma timeline única com recap no mapa.",
     eyebrow: "MomentBook App",
-    heroTitle: "Organize e guarde após a viagem.",
+    heroTitle: "Guarde seus momentos",
     heroLead:
       "Após a viagem, envie tudo de uma vez, ajuste apenas o necessário e relembre lugares pela ordem da timeline e pelos pinos no mapa.",
     primaryCta: "Baixar MomentBook",
@@ -110,11 +110,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     splashSubtitle: "Memórias de viagem guardadas com tranquilidade.",
   },
   fr: {
-    metaTitle: "MomentBook — Organisez et conservez après le voyage",
+    metaTitle: "MomentBook — Memorisez vos moments",
     metaDescription:
       "MomentBook importe les photos de voyage en lot puis les organise en une timeline unique et un rappel sur carte.",
     eyebrow: "MomentBook App",
-    heroTitle: "Organisez et conservez après le voyage.",
+    heroTitle: "Memorisez vos moments",
     heroLead:
       "Après le voyage, importez tout en une fois, corrigez seulement l'essentiel et revoyez les lieux avec la timeline et les épingles de carte.",
     primaryCta: "Télécharger MomentBook",
@@ -124,11 +124,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     splashSubtitle: "Les souvenirs de voyage, conservés avec calme.",
   },
   th: {
-    metaTitle: "MomentBook — จัดระเบียบและเก็บไว้หลังทริป",
+    metaTitle: "MomentBook — จดจำทุกช่วงเวลาของคุณ",
     metaDescription:
       "MomentBook อัปโหลดรูปหลังทริปแบบชุดเดียว และจัดเป็นไทม์ไลน์เดียวพร้อมการย้อนดูบนแผนที่",
     eyebrow: "MomentBook App",
-    heroTitle: "จัดระเบียบและเก็บไว้หลังทริป",
+    heroTitle: "จดจำทุกช่วงเวลาของคุณ",
     heroLead:
       "หลังทริป อัปโหลดครั้งเดียว ปรับแก้เท่าที่จำเป็น แล้วทบทวนสถานที่ผ่านลำดับไทม์ไลน์และหมุดแผนที่",
     primaryCta: "ดาวน์โหลด MomentBook",
@@ -138,11 +138,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     splashSubtitle: "เก็บความทรงจำการเดินทางไว้อย่างสงบ",
   },
   vi: {
-    metaTitle: "MomentBook — Sắp xếp và lưu giữ sau chuyến đi",
+    metaTitle: "MomentBook — Ghi nho khoanh khac cua ban",
     metaDescription:
       "MomentBook tải ảnh sau chuyến đi theo lô và sắp thành một timeline cùng phần hồi tưởng trên bản đồ.",
     eyebrow: "MomentBook App",
-    heroTitle: "Sắp xếp và lưu giữ sau chuyến đi.",
+    heroTitle: "Ghi nho khoanh khac cua ban",
     heroLead:
       "Sau chuyến đi, tải lên một lần, chỉ chỉnh những gì cần thiết rồi nhớ lại địa điểm qua timeline và ghim bản đồ.",
     primaryCta: "Tải MomentBook",
@@ -236,15 +236,12 @@ export default async function Home({
             <FadeIn delay={120}>
               <p className={styles.heroLead}>{content.heroLead}</p>
             </FadeIn>
-            <FadeIn delay={160}>
+            <FadeIn delay={160} className={styles.heroActionsWrap}>
               <div className={styles.heroActions}>
                 <Link href={`/${lang}/download`} className={styles.primaryButton}>
                   {content.primaryCta}
                 </Link>
               </div>
-            </FadeIn>
-            <FadeIn delay={200}>
-              <p className={styles.heroMeta}>{content.heroMeta}</p>
             </FadeIn>
           </div>
 

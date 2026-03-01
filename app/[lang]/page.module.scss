@@ -1,257 +1,338 @@
 .page {
-  max-width: 78rem;
-  margin: 0 auto;
-  padding: clamp(1.6rem, 3.4vw, 2.9rem) var(--spacing-md) calc(var(--spacing-xl) * 1.08);
+    max-width: 78rem;
+    margin: 0 auto;
+    padding: clamp(1.6rem, 3.4vw, 2.9rem) var(--spacing-md)
+        calc(var(--spacing-xl) * 1.08);
 }
 
 .hero {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  padding: clamp(1.4rem, 3.6vw, 2.4rem);
-  border-radius: 1.5rem;
-  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 78%, var(--color-accent-secondary) 22%);
-  background:
-    radial-gradient(circle at 16% -18%, rgba(255, 255, 255, 0.28), transparent 44%),
-    radial-gradient(
-      circle at 84% 114%,
-      color-mix(in srgb, var(--color-accent-secondary) 18%, transparent),
-      transparent 56%
-    ),
-    radial-gradient(
-      circle at 8% 92%,
-      color-mix(in srgb, var(--color-accent) 12%, transparent),
-      transparent 58%
-    ),
-    linear-gradient(
-      148deg,
-      color-mix(in srgb, var(--surface-glass-strong) 64%, transparent) 0%,
-      color-mix(in srgb, var(--surface-glass-soft) 52%, transparent) 54%,
-      color-mix(in srgb, var(--surface-glass) 48%, transparent) 100%
-    );
-  box-shadow: var(--shadow-glass-md);
-  backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: clamp(1.52rem, 4.2vw, 2.5rem) clamp(1rem, 2.8vw, 1.9rem);
+    border-radius: 1.5rem;
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--glass-border-strong) 78%,
+            var(--color-accent-secondary) 22%
+        );
+    background:
+        radial-gradient(
+            circle at 16% -18%,
+            rgba(255, 255, 255, 0.28),
+            transparent 44%
+        ),
+        radial-gradient(
+            circle at 84% 114%,
+            color-mix(in srgb, var(--color-accent-secondary) 18%, transparent),
+            transparent 56%
+        ),
+        radial-gradient(
+            circle at 8% 92%,
+            color-mix(in srgb, var(--color-accent) 12%, transparent),
+            transparent 58%
+        ),
+        linear-gradient(
+            148deg,
+            color-mix(in srgb, var(--surface-glass-strong) 64%, transparent) 0%,
+            color-mix(in srgb, var(--surface-glass-soft) 52%, transparent) 54%,
+            color-mix(in srgb, var(--surface-glass) 48%, transparent) 100%
+        );
+    box-shadow: var(--shadow-glass-md);
+    backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
 }
 
 .hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      170deg,
-      rgba(255, 255, 255, 0.16) 0%,
-      rgba(255, 255, 255, 0.04) 40%,
-      rgba(255, 255, 255, 0.06) 70%,
-      transparent 100%
-    ),
-    radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.14), transparent 48%),
-    radial-gradient(circle at 86% 4%, rgba(255, 255, 255, 0.1), transparent 46%);
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            170deg,
+            rgba(255, 255, 255, 0.16) 0%,
+            rgba(255, 255, 255, 0.04) 40%,
+            rgba(255, 255, 255, 0.06) 70%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle at 14% 16%,
+            rgba(255, 255, 255, 0.14),
+            transparent 48%
+        ),
+        radial-gradient(
+            circle at 86% 4%,
+            rgba(255, 255, 255, 0.1),
+            transparent 46%
+        );
 }
 
 .hero > * {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .heroGrid {
-  position: relative;
-  display: grid;
-  gap: 1.1rem;
-  align-items: center;
+    position: relative;
+    display: grid;
+    gap: 1.1rem;
+    align-items: center;
 
-  @media (min-width: 980px) {
-    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-  }
+    @media (min-width: 980px) {
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    }
 }
 
 .heroCopy {
-  display: grid;
-  gap: 0.86rem;
-  max-width: 50rem;
+    display: grid;
+    gap: 0.86rem;
+    max-width: 50rem;
 }
 
 .eyebrow {
-  width: fit-content;
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  padding: 0.34rem 0.66rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--glass-border-strong) 82%, rgba(255, 255, 255, 0.8));
-  color: var(--color-text-secondary);
-  background: linear-gradient(
-    152deg,
-    color-mix(in srgb, var(--surface-glass-strong) 74%, transparent),
-    color-mix(in srgb, var(--surface-glass-soft) 66%, transparent)
-  );
-  backdrop-filter: blur(calc(var(--glass-blur) - 11px)) saturate(144%);
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 11px)) saturate(144%);
+    width: fit-content;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.34rem 0.66rem;
+    border-radius: 999px;
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--glass-border-strong) 82%,
+            rgba(255, 255, 255, 0.8)
+        );
+    color: var(--color-text-secondary);
+    background: linear-gradient(
+        152deg,
+        color-mix(in srgb, var(--surface-glass-strong) 74%, transparent),
+        color-mix(in srgb, var(--surface-glass-soft) 66%, transparent)
+    );
+    backdrop-filter: blur(calc(var(--glass-blur) - 11px)) saturate(144%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 11px)) saturate(144%);
 }
 
 .heroTitle {
-  font-size: clamp(1.7rem, 4vw, 2.8rem);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--color-text-primary);
-  max-width: 20ch;
+    font-size: clamp(1.7rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-text-primary);
+    max-width: 20ch;
+    text-align: center;
+    margin: 0 auto;
 }
 
 .heroLead {
-  font-size: 0.95rem;
-  line-height: 1.72;
-  color: var(--color-text-secondary);
-  max-width: 44rem;
+    font-size: 0.95rem;
+    line-height: 1.72;
+    color: var(--color-text-secondary);
+    max-width: 44rem;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.heroActionsWrap {
+    width: 100%;
 }
 
 .heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.64rem;
-  margin-top: 0.24rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.64rem;
+    margin-top: 0.24rem;
+    justify-content: center;
 }
 
 .primaryButton,
 .secondaryButton {
-  min-height: 2.62rem;
-  padding: 0.68rem 1.04rem;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.84rem;
-  font-weight: 620;
-  letter-spacing: 0.01em;
-  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    min-height: 2.62rem;
+    padding: 0.68rem 1.04rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.84rem;
+    font-weight: 620;
+    letter-spacing: 0.01em;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
 }
 
 .primaryButton {
-  color: var(--color-on-accent);
-  border-color: color-mix(in srgb, var(--color-accent) 70%, var(--glass-border));
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--color-accent) 74%, #fff),
-    color-mix(in srgb, var(--color-accent-secondary) 22%, var(--color-accent) 78%)
-  );
+    color: #fff;
+    border-color: color-mix(
+        in srgb,
+        var(--color-accent) 70%,
+        var(--glass-border)
+    );
+    background: linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--color-accent) 74%, #fff),
+        color-mix(
+            in srgb,
+            var(--color-accent-secondary) 22%,
+            var(--color-accent) 78%
+        )
+    );
 
-  &:hover {
-    transform: translateY(-1px);
-    border-color: color-mix(in srgb, var(--color-accent) 86%, var(--glass-border));
-  }
+    &:hover {
+        transform: translateY(-1px);
+        border-color: color-mix(
+            in srgb,
+            var(--color-accent) 86%,
+            var(--glass-border)
+        );
+    }
 }
 
 .secondaryButton {
-  color: var(--color-text-primary);
-  border-color: color-mix(in srgb, var(--glass-border-strong) 78%, var(--color-accent) 22%);
-  background: linear-gradient(
-    150deg,
-    color-mix(in srgb, var(--surface-glass-strong) 72%, transparent),
-    color-mix(in srgb, var(--surface-glass-soft) 60%, transparent)
-  );
-  backdrop-filter: blur(calc(var(--glass-blur) - 10px)) saturate(142%);
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 10px)) saturate(142%);
+    color: var(--color-text-primary);
+    border-color: color-mix(
+        in srgb,
+        var(--glass-border-strong) 78%,
+        var(--color-accent) 22%
+    );
+    background: linear-gradient(
+        150deg,
+        color-mix(in srgb, var(--surface-glass-strong) 72%, transparent),
+        color-mix(in srgb, var(--surface-glass-soft) 60%, transparent)
+    );
+    backdrop-filter: blur(calc(var(--glass-blur) - 10px)) saturate(142%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 10px)) saturate(142%);
 
-  &:hover {
-    transform: translateY(-1px);
-    border-color: color-mix(in srgb, var(--color-accent) 56%, var(--glass-border));
-    color: var(--color-accent-hover);
-  }
+    &:hover {
+        transform: translateY(-1px);
+        border-color: color-mix(
+            in srgb,
+            var(--color-accent) 56%,
+            var(--glass-border)
+        );
+        color: var(--color-accent-hover);
+    }
 }
 
 .heroMeta {
-  font-size: 0.82rem;
-  line-height: 1.56;
-  color: var(--color-text-tertiary);
-  max-width: 48rem;
+    font-size: 0.82rem;
+    line-height: 1.56;
+    color: var(--color-text-tertiary);
+    max-width: 48rem;
 }
 
 .heroMediaWrap {
-  display: grid;
+    display: grid;
 }
 
 .heroDevice {
-  --device-phone-width: 14.2rem;
-  --device-phone-width-desktop: 14.2rem;
+    --device-phone-width: 14.2rem;
+    --device-phone-width-desktop: 14.2rem;
 
-  @media (max-width: 979px) {
-    margin: 0 auto;
-  }
+    @media (max-width: 979px) {
+        margin: 0 auto;
+    }
 }
 
 .splashScreen {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  gap: 0.76rem;
-  padding: 1.2rem 1rem;
-  background:
-    radial-gradient(circle at 16% 12%, rgba(255, 255, 255, 0.5), transparent 46%),
-    radial-gradient(circle at 84% 86%, rgba(74, 214, 184, 0.46), transparent 56%),
-    radial-gradient(circle at 50% 110%, rgba(214, 250, 242, 0.4), transparent 52%),
-    linear-gradient(156deg, #2f8581 0%, #39a798 46%, #63cdb7 100%);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 0.76rem;
+    padding: 1.2rem 1rem;
+    background:
+        radial-gradient(
+            circle at 16% 12%,
+            rgba(255, 255, 255, 0.5),
+            transparent 46%
+        ),
+        radial-gradient(
+            circle at 84% 86%,
+            rgba(74, 214, 184, 0.46),
+            transparent 56%
+        ),
+        radial-gradient(
+            circle at 50% 110%,
+            rgba(214, 250, 242, 0.4),
+            transparent 52%
+        ),
+        linear-gradient(156deg, #2f8581 0%, #39a798 46%, #63cdb7 100%);
 }
 
 .splashScreen::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.14) 42%, transparent 100%),
-    radial-gradient(circle at 50% 108%, rgba(229, 255, 248, 0.28), transparent 50%);
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.34) 0%,
+            rgba(255, 255, 255, 0.14) 42%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle at 50% 108%,
+            rgba(229, 255, 248, 0.28),
+            transparent 50%
+        );
 }
 
 .splashScreen > * {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .splashLogoWrap {
-  width: min(56%, 7rem);
-  aspect-ratio: 1 / 1;
-  border-radius: 1.25rem;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(148deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.16));
-  border: 1px solid rgba(226, 252, 245, 0.5);
-  box-shadow:
-    0 14px 28px rgba(9, 33, 35, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.54);
-  backdrop-filter: blur(10px) saturate(142%);
-  -webkit-backdrop-filter: blur(10px) saturate(142%);
+    width: min(56%, 7rem);
+    aspect-ratio: 1 / 1;
+    border-radius: 1.25rem;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(
+        148deg,
+        rgba(255, 255, 255, 0.38),
+        rgba(255, 255, 255, 0.16)
+    );
+    border: 1px solid rgba(226, 252, 245, 0.5);
+    box-shadow:
+        0 14px 28px rgba(9, 33, 35, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.54);
+    backdrop-filter: blur(10px) saturate(142%);
+    -webkit-backdrop-filter: blur(10px) saturate(142%);
 }
 
 .splashLogo {
-  width: 74%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.2));
+    width: 74%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.2));
 }
 
 .splashAppName {
-  font-size: 1.14rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.16;
-  text-align: center;
-  color: rgba(246, 255, 253, 0.98);
-  text-shadow: 0 6px 16px rgba(6, 35, 36, 0.26);
+    font-size: 1.14rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.16;
+    text-align: center;
+    color: rgba(246, 255, 253, 0.98);
+    text-shadow: 0 6px 16px rgba(6, 35, 36, 0.26);
 }
 
 .splashSubtitle {
-  font-size: 0.71rem;
-  letter-spacing: 0.02em;
-  line-height: 1.42;
-  color: rgba(240, 255, 252, 0.94);
-  text-align: center;
+    font-size: 0.71rem;
+    letter-spacing: 0.02em;
+    line-height: 1.42;
+    color: rgba(240, 255, 252, 0.94);
+    text-align: center;
 }
