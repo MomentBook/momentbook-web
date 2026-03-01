@@ -54,7 +54,7 @@ export const ko: Dictionary = {
 
   // Footer
   footer: {
-    summary: '여행 사진을 한 번에 올리면 날짜와 시간순으로 정리되어, 여행을 다시 돌아보기 쉬워집니다.',
+    summary: 'Memorize your moments, 여행의 순간을 오래 기억하세요.',
     ctaPrimary: '다운로드',
     ctaSecondary: '지원',
     sections: {

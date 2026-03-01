@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { FadeIn } from "@/components/FadeIn";
-import { DeviceMock } from "@/components/DeviceMock";
-import deviceStyles from "@/components/DeviceMock.module.scss";
 import styles from "./download.module.scss";
-import { APP_LOGO_TRANSPARENT_PATH } from "@/lib/branding/logo";
 import { getStoreRegion, type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
@@ -33,6 +30,34 @@ type DownloadCopy = {
   androidRequirement: string[];
 };
 
+const IOS_REQUIREMENTS_EN = [
+  "Minimum OS: iOS 15.1+ (production app target for MomentBook)",
+  "Note: Podfile/dev target is iOS 15.6 (mixed target values)",
+  "Device: iPhone/iPad, arm64",
+  "Permissions: Camera, Photo Library, Location (When In Use / Always), Background Location",
+];
+
+const ANDROID_REQUIREMENTS_EN = [
+  "Minimum OS: Android 7.0+ (API 24+)",
+  "Target/Compile: API 36",
+  "Permissions: Camera, Image Read, Location (Precise / Approximate / Background)",
+  "Foreground service: Location",
+];
+
+const IOS_REQUIREMENTS_KO = [
+  "최소 OS: iOS 15.1+ (프로덕션 앱 타깃 MomentBook 기준)",
+  "참고: Podfile/Dev 타깃은 iOS 15.6으로 값이 혼재되어 있음",
+  "디바이스: iPhone/iPad, arm64",
+  "주요 권한: 카메라, 사진 보관함, 위치(사용 중/항상), 백그라운드 위치",
+];
+
+const ANDROID_REQUIREMENTS_KO = [
+  "최소 OS: API 24+ (Android 7.0+)",
+  "Target/Compile: API 36",
+  "주요 권한: 카메라, 이미지 읽기, 위치(정확/대략/백그라운드)",
+  "위치 포그라운드 서비스",
+];
+
 const downloadCopy: Record<Language, DownloadCopy> = {
   en: {
     metaTitle: "Download MomentBook",
@@ -48,15 +73,15 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Get it on",
     androidName: "Google Play",
     requirementsTitle: "System requirements",
-    iosRequirement: ["iOS 16.0 or later", "iPhone and iPad"],
-    androidRequirement: ["Android 10.0 or later", "Most Android devices"],
+    iosRequirement: IOS_REQUIREMENTS_EN,
+    androidRequirement: ANDROID_REQUIREMENTS_EN,
   },
   ko: {
     metaTitle: "MomentBook 다운로드",
     metaDescription:
       "iOS와 Android에서 MomentBook을 설치하고, 여행 후 일괄 업로드부터 타임라인/지도 회상까지 같은 흐름으로 사용하세요.",
     eyebrow: "MomentBook 설치",
-    title: "iOS와 Android에서 다운로드",
+    title: "지금, 여행의 순간을 기억해요",
     availability: "App Store와 Google Play에서 이용할 수 있습니다.",
     deviceAlt: "MomentBook 스플래시 화면",
     splashSubtitle: "여행 기억을 차분히 보관합니다.",
@@ -65,8 +90,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "다운로드",
     androidName: "Google Play",
     requirementsTitle: "시스템 요구사항",
-    iosRequirement: ["iOS 16.0 이상", "iPhone 및 iPad"],
-    androidRequirement: ["Android 10.0 이상", "대부분의 Android 기기"],
+    iosRequirement: IOS_REQUIREMENTS_KO,
+    androidRequirement: ANDROID_REQUIREMENTS_KO,
   },
   ja: {
     metaTitle: "MomentBook ダウンロード",
@@ -82,8 +107,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "ダウンロード",
     androidName: "Google Play",
     requirementsTitle: "システム要件",
-    iosRequirement: ["iOS 16.0 以上", "iPhone および iPad"],
-    androidRequirement: ["Android 10.0 以上", "ほとんどの Android 端末"],
+    iosRequirement: IOS_REQUIREMENTS_EN,
+    androidRequirement: ANDROID_REQUIREMENTS_EN,
   },
   zh: {
     metaTitle: "下载 MomentBook",
@@ -99,8 +124,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "下载",
     androidName: "Google Play",
     requirementsTitle: "系统要求",
-    iosRequirement: ["iOS 16.0 及以上", "iPhone 与 iPad"],
-    androidRequirement: ["Android 10.0 及以上", "大多数 Android 设备"],
+    iosRequirement: IOS_REQUIREMENTS_EN,
+    androidRequirement: ANDROID_REQUIREMENTS_EN,
   },
   es: {
     metaTitle: "Descargar MomentBook",
@@ -116,8 +141,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Descargar en",
     androidName: "Google Play",
     requirementsTitle: "Requisitos del sistema",
-    iosRequirement: ["iOS 16.0 o posterior", "iPhone y iPad"],
-    androidRequirement: ["Android 10.0 o posterior", "La mayoría de dispositivos Android"],
+    iosRequirement: IOS_REQUIREMENTS_EN,
+    androidRequirement: ANDROID_REQUIREMENTS_EN,
   },
   pt: {
     metaTitle: "Baixar MomentBook",
@@ -133,8 +158,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Baixar no",
     androidName: "Google Play",
     requirementsTitle: "Requisitos do sistema",
-    iosRequirement: ["iOS 16.0 ou superior", "iPhone e iPad"],
-    androidRequirement: ["Android 10.0 ou superior", "A maioria dos dispositivos Android"],
+    iosRequirement: IOS_REQUIREMENTS_EN,
+    androidRequirement: ANDROID_REQUIREMENTS_EN,
   },
   fr: {
     metaTitle: "Télécharger MomentBook",
@@ -150,8 +175,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Télécharger sur",
     androidName: "Google Play",
     requirementsTitle: "Configuration requise",
-    iosRequirement: ["iOS 16.0 ou version ultérieure", "iPhone et iPad"],
-    androidRequirement: ["Android 10.0 ou version ultérieure", "La plupart des appareils Android"],
+    iosRequirement: IOS_REQUIREMENTS_EN,
+    androidRequirement: ANDROID_REQUIREMENTS_EN,
   },
   th: {
     metaTitle: "ดาวน์โหลด MomentBook",
@@ -167,8 +192,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "ดาวน์โหลดบน",
     androidName: "Google Play",
     requirementsTitle: "ความต้องการของระบบ",
-    iosRequirement: ["iOS 16.0 ขึ้นไป", "iPhone และ iPad"],
-    androidRequirement: ["Android 10.0 ขึ้นไป", "อุปกรณ์ Android ส่วนใหญ่"],
+    iosRequirement: IOS_REQUIREMENTS_EN,
+    androidRequirement: ANDROID_REQUIREMENTS_EN,
   },
   vi: {
     metaTitle: "Tải MomentBook",
@@ -184,8 +209,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Tải trên",
     androidName: "Google Play",
     requirementsTitle: "Yêu cầu hệ thống",
-    iosRequirement: ["iOS 16.0 trở lên", "iPhone và iPad"],
-    androidRequirement: ["Android 10.0 trở lên", "Phần lớn thiết bị Android"],
+    iosRequirement: IOS_REQUIREMENTS_EN,
+    androidRequirement: ANDROID_REQUIREMENTS_EN,
   },
 };
 
@@ -249,7 +274,8 @@ export default async function DownloadPage({
     description: content.metaDescription,
     applicationCategory: "LifestyleApplication",
     operatingSystem: "iOS, Android",
-    softwareRequirements: "iOS 16.0 or later, Android 10.0 or later",
+    softwareRequirements:
+      "iOS 15.1+, iPhone/iPad arm64; Android 7.0+ (API 24+), target/compile API 36",
     url: pageUrl,
     offers: [
       {
@@ -278,7 +304,6 @@ export default async function DownloadPage({
         <div className={styles.heroInner}>
           <FadeIn>
             <div className={styles.heroCopy}>
-              <span className={styles.eyebrow}>{content.eyebrow}</span>
               <h1 className={styles.heroTitle}>{content.title}</h1>
               {content.subtitle ? (
                 <p className={styles.heroSubtitle}>{content.subtitle}</p>
@@ -292,8 +317,13 @@ export default async function DownloadPage({
                   rel="noopener noreferrer"
                   aria-label={content.iosName}
                 >
-                  <span className={styles.storeTop}>{content.iosTopLabel}</span>
-                  <span className={styles.storeName}>{content.iosName}</span>
+                  <Image
+                    src="/images/download/app-store-button.png"
+                    alt={content.iosName}
+                    width={635}
+                    height={200}
+                    className={styles.storeBadge}
+                  />
                 </a>
                 <a
                   href={storeLinks.android}
@@ -302,60 +332,19 @@ export default async function DownloadPage({
                   rel="noopener noreferrer"
                   aria-label={content.androidName}
                 >
-                  <span className={styles.storeTop}>{content.androidTopLabel}</span>
-                  <span className={styles.storeName}>{content.androidName}</span>
+                  <Image
+                    src="/images/download/google-play-button.png"
+                    alt={content.androidName}
+                    width={636}
+                    height={200}
+                    className={styles.storeBadge}
+                  />
                 </a>
               </div>
 
               <p className={styles.availability}>{content.availability}</p>
             </div>
           </FadeIn>
-
-          <FadeIn delay={140}>
-            <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
-              <div className={styles.splashScreen} role="img" aria-label={content.deviceAlt}>
-                <div className={styles.splashLogoWrap}>
-                  <Image
-                    src={APP_LOGO_TRANSPARENT_PATH}
-                    alt=""
-                    aria-hidden="true"
-                    width={168}
-                    height={168}
-                    sizes="168px"
-                    className={styles.splashLogo}
-                  />
-                </div>
-                <p className={styles.splashAppName}>MomentBook</p>
-                <p className={styles.splashSubtitle}>{content.splashSubtitle}</p>
-              </div>
-            </DeviceMock>
-          </FadeIn>
-        </div>
-      </section>
-
-      <section className={styles.section}>
-        <header className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{content.requirementsTitle}</h2>
-        </header>
-
-        <div className={styles.requirementGrid}>
-          <article className={styles.requirementCard}>
-            <h3 className={styles.requirementTitle}>iOS</h3>
-            <ul className={styles.requirementList}>
-              {content.iosRequirement.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </article>
-
-          <article className={styles.requirementCard}>
-            <h3 className={styles.requirementTitle}>Android</h3>
-            <ul className={styles.requirementList}>
-              {content.androidRequirement.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </article>
         </div>
       </section>
     </main>
