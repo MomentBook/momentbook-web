@@ -101,9 +101,9 @@ $menu-drawer-control-focus: color-mix(in srgb, var(--color-accent) 72%, #fff);
   align-items: stretch;
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--mobile-drawer-overlay) 0%, transparent) 0%,
-    color-mix(in srgb, var(--mobile-drawer-overlay) 16%, transparent) 58%,
-    color-mix(in srgb, var(--mobile-drawer-overlay) 32%, transparent) 100%
+    color-mix(in srgb, var(--mobile-drawer-overlay) 46%, transparent) 0%,
+    color-mix(in srgb, var(--mobile-drawer-overlay) 34%, transparent) 58%,
+    color-mix(in srgb, var(--mobile-drawer-overlay) 22%, transparent) 100%
   );
   backdrop-filter: blur(2px) saturate(108%);
   -webkit-backdrop-filter: blur(2px) saturate(108%);
@@ -111,7 +111,7 @@ $menu-drawer-control-focus: color-mix(in srgb, var(--color-accent) 72%, #fff);
 }
 
 .menu {
-  width: min(60vw, 22rem);
+  width: min(75vw, 22rem);
   height: 100dvh;
   max-height: 100dvh;
   margin: 0;
