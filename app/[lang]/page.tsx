@@ -28,11 +28,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   en: {
     metaTitle: "MomentBook — Memorize your moments",
     metaDescription:
-      "MomentBook uploads post-trip photos in one batch and organizes them into one timeline and one map recap.",
+      "Capture your travel moments in one upload, and remember them longer on your timeline and map.",
     eyebrow: "MomentBook App",
     heroTitle: "Memorize your moments",
     heroLead:
-      "After your trip, upload once and adjust only what is needed, then revisit places through timeline order and map pins.",
+      "After each trip, upload once and let moments gather by time and place so you can revisit them anytime.",
     primaryCta: "Download MomentBook",
     secondaryCta: "Read About",
     heroMeta: "Core flow: batch upload, auto organization, minimal cleanup, and recap.",
@@ -56,11 +56,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   ja: {
     metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
     metaDescription:
-      "MomentBookは旅行後の写真を一括アップロードし、ひとつのタイムラインと地図の回想に整理します。",
+      "旅の瞬間をまとめて取り込み、タイムラインと地図で長く思い出せます。",
     eyebrow: "MomentBook App",
     heroTitle: "旅の瞬間を、ずっと記憶に",
     heroLead:
-      "旅行後に一度でアップロードし、必要な補正だけを行って、タイムライン順序と地図ピンで場所を思い出せます。",
+      "旅が終わったら一度にアップロード。時間と場所の流れで瞬間がまとまり、いつでも振り返れます。",
     primaryCta: "MomentBookをダウンロード",
     secondaryCta: "紹介を見る",
     heroMeta: "コアフロー: 一括アップロード、自動整理、最小補正、回想。",
@@ -70,11 +70,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   zh: {
     metaTitle: "MomentBook — 记住每个旅行瞬间",
     metaDescription:
-      "MomentBook 会在旅行后一次上传照片，并整理为一条时间线和一次地图回想。",
+      "一次上传旅行瞬间，在时间线与地图中长久回想。",
     eyebrow: "MomentBook App",
     heroTitle: "记住每个旅行瞬间",
     heroLead:
-      "旅行结束后一次上传，只做必要修正，再通过时间线顺序和地图标记回想去过的地方。",
+      "旅行结束后一次上传，瞬间会按时间与地点自然汇聚，随时都能再回看。",
     primaryCta: "下载 MomentBook",
     secondaryCta: "查看介绍",
     heroMeta: "核心流程: 批量上传、自动整理、最少修正、回想。",
@@ -84,11 +84,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   es: {
     metaTitle: "MomentBook — Memoriza tus momentos",
     metaDescription:
-      "MomentBook sube fotos de viaje en lote y las organiza en una sola línea de tiempo y un repaso en mapa.",
+      "Guarda tus momentos de viaje en una sola carga y recuerdalos por mas tiempo en timeline y mapa.",
     eyebrow: "MomentBook App",
     heroTitle: "Memoriza tus momentos",
     heroLead:
-      "Después del viaje, sube todo una vez, corrige solo lo necesario y recuerda lugares con orden temporal y pines del mapa.",
+      "Al terminar el viaje, sube todo una vez y deja que los momentos se ordenen por tiempo y lugar para volver a ellos cuando quieras.",
     primaryCta: "Descargar MomentBook",
     secondaryCta: "Leer introducción",
     heroMeta: "Flujo central: carga en lote, organización automática, ajuste mínimo y repaso.",
@@ -98,11 +98,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   pt: {
     metaTitle: "MomentBook — Guarde seus momentos",
     metaDescription:
-      "O MomentBook envia fotos da viagem em lote e organiza tudo em uma timeline única com recap no mapa.",
+      "Guarde seus momentos de viagem em um unico envio e reviva-os por mais tempo na timeline e no mapa.",
     eyebrow: "MomentBook App",
     heroTitle: "Guarde seus momentos",
     heroLead:
-      "Após a viagem, envie tudo de uma vez, ajuste apenas o necessário e relembre lugares pela ordem da timeline e pelos pinos no mapa.",
+      "Quando a viagem terminar, envie tudo de uma vez e deixe os momentos se organizarem por tempo e lugar para revisitar quando quiser.",
     primaryCta: "Baixar MomentBook",
     secondaryCta: "Ler introdução",
     heroMeta: "Fluxo principal: envio em lote, organização automática, ajuste mínimo e recap.",
@@ -112,11 +112,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   fr: {
     metaTitle: "MomentBook — Memorisez vos moments",
     metaDescription:
-      "MomentBook importe les photos de voyage en lot puis les organise en une timeline unique et un rappel sur carte.",
+      "Gardez vos moments de voyage en un seul envoi et retrouvez-les plus longtemps sur la timeline et la carte.",
     eyebrow: "MomentBook App",
     heroTitle: "Memorisez vos moments",
     heroLead:
-      "Après le voyage, importez tout en une fois, corrigez seulement l'essentiel et revoyez les lieux avec la timeline et les épingles de carte.",
+      "A la fin du voyage, importez tout en une fois et laissez les moments se ranger par temps et lieu pour y revenir quand vous voulez.",
     primaryCta: "Télécharger MomentBook",
     secondaryCta: "Lire la présentation",
     heroMeta: "Flux principal: import en lot, organisation automatique, correction minimale et rappel.",
@@ -126,11 +126,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   th: {
     metaTitle: "MomentBook — จดจำทุกช่วงเวลาของคุณ",
     metaDescription:
-      "MomentBook อัปโหลดรูปหลังทริปแบบชุดเดียว และจัดเป็นไทม์ไลน์เดียวพร้อมการย้อนดูบนแผนที่",
+      "เก็บทุกช่วงเวลาการเดินทางในครั้งเดียว แล้วกลับมาจดจำได้ยาวนานบนไทม์ไลน์และแผนที่",
     eyebrow: "MomentBook App",
     heroTitle: "จดจำทุกช่วงเวลาของคุณ",
     heroLead:
-      "หลังทริป อัปโหลดครั้งเดียว ปรับแก้เท่าที่จำเป็น แล้วทบทวนสถานที่ผ่านลำดับไทม์ไลน์และหมุดแผนที่",
+      "เมื่อทริปจบ อัปโหลดครั้งเดียว แล้วช่วงเวลาจะเรียงตามเวลาและสถานที่ ให้คุณย้อนกลับมาดูได้ทุกเมื่อ",
     primaryCta: "ดาวน์โหลด MomentBook",
     secondaryCta: "อ่านแนะนำ",
     heroMeta: "โฟลว์หลัก: อัปโหลดแบบชุด, จัดระเบียบอัตโนมัติ, ปรับแก้น้อยที่สุด, ย้อนความทรงจำ",
@@ -140,11 +140,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   vi: {
     metaTitle: "MomentBook — Ghi nho khoanh khac cua ban",
     metaDescription:
-      "MomentBook tải ảnh sau chuyến đi theo lô và sắp thành một timeline cùng phần hồi tưởng trên bản đồ.",
+      "Luu khoanh khac chuyen di trong mot lan tai len, roi nhin lai lau hon tren timeline va ban do.",
     eyebrow: "MomentBook App",
     heroTitle: "Ghi nho khoanh khac cua ban",
     heroLead:
-      "Sau chuyến đi, tải lên một lần, chỉ chỉnh những gì cần thiết rồi nhớ lại địa điểm qua timeline và ghim bản đồ.",
+      "Sau moi chuyen di, tai len mot lan de cac khoanh khac tu sap theo thoi gian va dia diem, de ban quay lai bat cu luc nao.",
     primaryCta: "Tải MomentBook",
     secondaryCta: "Đọc giới thiệu",
     heroMeta: "Luồng chính: tải theo lô, tự động sắp xếp, chỉnh tối thiểu và hồi tưởng.",

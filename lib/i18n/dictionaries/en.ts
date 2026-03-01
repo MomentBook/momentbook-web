@@ -52,7 +52,7 @@ export const en = {
 
   // Footer
   footer: {
-    summary: 'Upload travel photos in one batch, auto-organize by date and time, and revisit your trip when you want.',
+    summary: 'Memorize your moments, and keep your travel memories close.',
     ctaPrimary: 'Download',
     ctaSecondary: 'Support',
     sections: {

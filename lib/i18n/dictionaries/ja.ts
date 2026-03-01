@@ -54,7 +54,7 @@ export const ja: Dictionary = {
 
   // Footer
   footer: {
-    summary: '旅行写真をまとめてアップロードすると、日時順に整理され、旅を振り返りやすくなります。',
+    summary: 'Memorize your moments. 旅の瞬間を、ずっと心に。',
     ctaPrimary: 'ダウンロード',
     ctaSecondary: 'サポート',
     sections: {

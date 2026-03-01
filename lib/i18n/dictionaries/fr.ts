@@ -45,7 +45,7 @@ export const fr: Dictionary = {
     learnMore: "Voir deux facons",
   },
   footer: {
-    summary: "Importez les photos du voyage en lot, organisez-les par date et heure, puis revoyez le voyage quand vous voulez.",
+    summary: "Memorize your moments : gardez plus longtemps les souvenirs de votre voyage.",
     ctaPrimary: "Telecharger",
     ctaSecondary: "Support",
     sections: {
