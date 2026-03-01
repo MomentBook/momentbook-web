@@ -10,7 +10,6 @@ import { fetchPublicUser } from "@/lib/public-users";
 import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import { resolveJourneyPeriodRange } from "@/lib/journey-period";
 import JourneyContent from "./components/JourneyContent";
-import ReportJourneyButton from "../components/ReportJourneyButton";
 import {
     journeyLabels,
     buildJourneyDescription,
@@ -229,27 +228,14 @@ export default async function JourneyPage({
             />
 
             <header className={styles.hero}>
-                <div className={styles.heroTop}>
-                    <div className={styles.heroMain}>
-                        <p className={styles.eyebrow}>{labels.eyebrow}</p>
-                        <h1 className={styles.title}>{journey.title}</h1>
-                        {journey.description && (
-                            <p className={styles.subtitle}>
-                                {journey.description}
-                            </p>
-                        )}
-                    </div>
-                    <aside className={styles.heroAside}>
-                        <ReportJourneyButton
-                            publicId={journey.publicId}
-                            lang={lang}
-                            ownerUserId={journey.userId}
-                            variant="detail"
-                            wrapperClassName={styles.reportActionWrap}
-                            triggerClassName={styles.reportActionTrigger}
-                            feedbackClassName={styles.reportActionFeedback}
-                        />
-                    </aside>
+                <div className={styles.heroMain}>
+                    <p className={styles.eyebrow}>{labels.eyebrow}</p>
+                    <h1 className={styles.title}>{journey.title}</h1>
+                    {journey.description && (
+                        <p className={styles.subtitle}>
+                            {journey.description}
+                        </p>
+                    )}
                 </div>
 
                 <div className={styles.metaRow}>

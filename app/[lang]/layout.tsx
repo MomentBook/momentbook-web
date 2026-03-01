@@ -4,7 +4,6 @@ import Link from "next/link";
 import styles from "./layout.module.scss";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { HeaderProfileMenu } from "@/components/HeaderProfileMenu";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
 import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
@@ -134,7 +133,6 @@ export default async function LangLayout({
                 <LanguageDropdown currentLang={lang} variant="compact" />
                 <ThemeToggle variant="icon" />
               </div>
-              <HeaderProfileMenu lang={lang} />
               <MobileMenu lang={lang} dict={dict} journeysLabel={journeysNavLabel} />
             </div>
           </nav>

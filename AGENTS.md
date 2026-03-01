@@ -36,10 +36,7 @@
 
 - i18n routing entrypoint: `proxy.ts` (not `middleware.ts`)
 - Root: `/` -> client-side language redirect (`app/page.tsx`)
-- Auth:
-  - NextAuth route: `app/api/auth/[...nextauth]/route.ts`
-  - Email auth proxy routes: `app/api/auth/email/*`
-  - Login pages: `/{lang}/login`, `/login/signup`, `/login/forgot-password`
+- Web authentication/login routes are removed (public read-only surface only)
 - Public content cache TTL:
   - Journey list/detail/moment: 60s
   - Users/photos: 3600s

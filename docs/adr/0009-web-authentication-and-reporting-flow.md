@@ -1,10 +1,10 @@
 # ADR 0009: Web Authentication and Reporting Flow
 
 ## Status
-Accepted
+Superseded by ADR 0010
 
 ## Date
-2026-02-12
+2026-02-12 (superseded: 2026-03-01)
 
 ## Context
 

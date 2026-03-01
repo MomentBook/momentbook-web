@@ -72,22 +72,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/marketing-consent`
 - `/{lang}/support`
 
-### 4.3 Auth Pages (Noindex)
-
-- `/{lang}/login`
-- `/{lang}/login/signup`
-- `/{lang}/login/forgot-password`
-
-### 4.4 API Routes (Web Auth Proxy)
-
-- `/api/auth/[...nextauth]`
-- `/api/auth/email/send-verification`
-- `/api/auth/email/verify-code`
-- `/api/auth/email/signup`
-- `/api/auth/email/request-password-reset`
-- `/api/auth/email/reset-password`
-
-### 4.5 SEO Infrastructure Routes
+### 4.3 SEO Infrastructure Routes
 
 - `/robots.txt` (via `app/robots.ts`)
 - `/sitemap.xml`
@@ -98,7 +83,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/sitemap-users.xml`
 - `/llms.txt` (static file in `public/`)
 
-### 4.6 Static Archive Surface
+### 4.4 Static Archive Surface
 
 - `/tutorials/*` (`public/tutorials/*` 정적 파일)
 - `proxy.ts` matcher에서 제외되어 언어 리다이렉트 없이 직접 접근
@@ -134,32 +119,11 @@ MomentBook Web은 다음 역할만 수행한다.
 - Sitemap routes: `revalidate = 3600`
 - API fetch helper 일부: `next.revalidate = 3600` 또는 60(상수)
 
-## 6) Authentication Surface (Web)
+## 6) Interaction Constraints
 
-## 6.1 Session/Auth Stack
-
-- NextAuth (JWT strategy)
-- Providers: Credentials(email/password), Google, Apple(환경변수 있을 때만 활성)
-- Auth UI: `/{lang}/login`, `/{lang}/login/signup`에서 Google/Apple 진입 버튼 제공
-- Backend token exchange: `lib/auth/backend.ts`
-- Session token sync: `app/components/AuthSessionProvider.tsx`
-- API client token store: `src/apis/instance.client.ts`
-
-## 6.2 Email Flow
-
-Web page -> `/api/auth/email/*` -> backend `/v2/auth/email/*` 프록시 구조.
-
-- verification code 발송/검증
-- signup
-- password reset 요청/실행
-
-## 6.3 Report Flow
-
-여정 상세의 신고 버튼은 인증 상태를 검사한다.
-
-- 미인증/게스트: 로그인 유도 (`returnUrl` + report intent query)
-- 인증 사용자: 신고 모달 열고 `reportsControllerCreateReport` 호출
-- 본인 게시물 신고 방지 로직 포함
+- 웹 로그인/Auth UI 및 `/api/auth/*` 라우트는 제공하지 않는다.
+- 여정 상세의 신고 버튼/신고 제출 플로우는 제거되어 있다.
+- 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 
 ## 7) i18n / Preference Behavior
 
@@ -180,7 +144,7 @@ Web page -> `/api/auth/email/*` -> backend `/v2/auth/email/*` 프록시 구조.
 ## 8.2 Robots Policy
 
 - Public content/marketing pages: index/follow
-- Legal + login pages: noindex/nofollow
+- Legal pages: noindex/nofollow
 - No aggressive googlebot `max-*` overrides
 
 ## 8.3 Structured Data
@@ -208,7 +172,7 @@ Web page -> `/api/auth/email/*` -> backend `/v2/auth/email/*` 프록시 구조.
 - response header: `Cache-Control: public, max-age=3600, s-maxage=3600`
 
 주의:
-- static sitemap은 현재 marketing/content 일부 경로 중심이며 legal/login 경로는 포함하지 않는다.
+- static sitemap은 현재 marketing/content 일부 경로 중심이며 legal 경로는 포함하지 않는다.
 
 ## 10) UI / Theme
 
@@ -228,21 +192,6 @@ Web page -> `/api/auth/email/*` -> backend `/v2/auth/email/*` 프록시 구조.
 - `NEXT_PUBLIC_SUPPORT_EMAIL`
 - `NEXT_PUBLIC_SITEMAP_STATIC_LASTMOD` (optional)
 - `NEXT_PUBLIC_FIREBASE_*` (firebase config set)
-
-## 11.2 Auth / Server
-
-- `NEXTAUTH_URL`
-- `NEXTAUTH_SECRET`
-- `GOOGLE_CLIENT_ID`
-- `GOOGLE_CLIENT_SECRET`
-- `APPLE_ID`
-- `APPLE_SECRET`
-
-## 11.3 Script-only (Apple Secret Generator)
-
-- `APPLE_TEAM_ID`
-- `APPLE_KEY_ID`
-- `APPLE_PRIVATE_KEY_PATH`
 
 ## 12) Build & Ops Commands
 

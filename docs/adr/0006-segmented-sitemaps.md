@@ -54,7 +54,7 @@ Accepted
 - marketing: `about`, `download`
 - content index: `faq`, `journeys`, `users`
 
-(legal/login/how-it-works 경로는 static sitemap에 포함하지 않음)
+(legal/how-it-works 경로는 static sitemap에 포함하지 않음)
 
 ## Rationale
 

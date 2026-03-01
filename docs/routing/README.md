@@ -57,22 +57,7 @@
 - `/{lang}/marketing-consent`
 - `/{lang}/support`
 
-## 3.4 Auth UI (noindex)
-
-- `/{lang}/login`
-- `/{lang}/login/signup`
-- `/{lang}/login/forgot-password`
-
-## 3.5 API Routes
-
-- `/api/auth/[...nextauth]`
-- `/api/auth/email/send-verification`
-- `/api/auth/email/verify-code`
-- `/api/auth/email/signup`
-- `/api/auth/email/request-password-reset`
-- `/api/auth/email/reset-password`
-
-## 3.6 SEO/System Routes
+## 3.4 SEO/System Routes
 
 - `/robots.txt`
 - `/sitemap.xml`
@@ -83,7 +68,7 @@
 - `/sitemap-users.xml`
 - `/llms.txt`
 
-## 3.7 Static Archive
+## 3.5 Static Archive
 
 - `/tutorials/*` (public 정적 파일)
 
@@ -97,7 +82,6 @@
 ### 4.2 noindex/nofollow
 
 - Legal pages (`privacy`, `terms`, `community-guidelines`, `marketing-consent`, `support`)
-- Login pages (`/login*`)
 
 ## 5) Revalidation Policy (Route Level)
 
@@ -117,7 +101,7 @@
   - home
   - `about`, `download`
   - `faq`, `journeys`, `users`
-- `how-it-works`, legal, login 경로는 static sitemap에 포함하지 않음
+- `how-it-works`, legal 경로는 static sitemap에 포함하지 않음
 
 ## 8) Ownership Files
 

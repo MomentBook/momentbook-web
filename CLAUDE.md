@@ -39,7 +39,7 @@
 - Language: TypeScript
 - UI: React 18 + SCSS Modules
 - State: Jotai (`theme`, `language`)
-- Auth (web): NextAuth + backend token exchange + email auth proxy routes
+- Auth (web): no web login/auth route (public read-only only)
 - Analytics: GA4 (`@next/third-parties/google`) + route page_view tracking
 - i18n: 9개 언어 (`en/ko/ja/zh/es/pt/fr/th/vi`)
 - Routing guard: `proxy.ts` (non-prefixed path -> language-prefixed redirect)

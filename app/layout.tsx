@@ -3,7 +3,6 @@ import { headers } from "next/headers";
 import Script from "next/script";
 import "./globals.scss";
 import LanguageSyncProvider from "./components/LanguageSyncProvider";
-import AuthSessionProvider from "./components/AuthSessionProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ENV } from "@/src/configs/env.server";
 import GaRouteTracker from "./components/GaRouteTracker";
@@ -71,16 +70,14 @@ export default async function RootLayout({
                 </Script>
             </head>
             <body>
-                <AuthSessionProvider>
-                    <LanguageSyncProvider />
-                    {process.env.NODE_ENV === "production" ? (
-                        <>
-                            <GoogleAnalytics gaId={GA_ID} />
-                            <GaRouteTracker />
-                        </>
-                    ) : null}
-                    {children}
-                </AuthSessionProvider>
+                <LanguageSyncProvider />
+                {process.env.NODE_ENV === "production" ? (
+                    <>
+                        <GoogleAnalytics gaId={GA_ID} />
+                        <GaRouteTracker />
+                    </>
+                ) : null}
+                {children}
             </body>
         </html>
     );

@@ -61,8 +61,13 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 
 9. [ADR 0009: Web Authentication and Reporting Flow](./0009-web-authentication-and-reporting-flow.md)
 - Date: 2026-02-12
+- Status: Superseded by ADR 0010
+- Summary: NextAuth 기반 웹 인증/신고 플로우(현재는 superseded)
+
+10. [ADR 0010: Remove Web Authentication Surface](./0010-remove-web-authentication-surface.md)
+- Date: 2026-03-01
 - Status: Accepted
-- Summary: NextAuth + backend token exchange + email auth proxy + report intent login return flow
+- Summary: 웹 로그인/API auth/report UI 제거, 공개 읽기 전용 표면으로 단순화
 
 ## Status Definitions
 
