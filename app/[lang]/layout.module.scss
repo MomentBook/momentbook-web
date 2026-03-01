@@ -288,16 +288,12 @@
 }
 
 .footerActions {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  grid-template-columns: 1fr;
-
-  @media (min-width: 440px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  justify-content: center;
 
   @media (min-width: 960px) {
-    display: inline-flex;
     justify-content: flex-end;
     gap: 0.55rem;
   }
@@ -309,7 +305,7 @@
   align-items: center;
   justify-content: center;
   min-height: 2.38rem;
-  width: 100%;
+  width: auto;
   padding: 0.54rem 0.94rem;
   border-radius: 999px;
   font-size: 0.82rem;

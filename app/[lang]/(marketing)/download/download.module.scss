@@ -1,5 +1,7 @@
 .page {
     --page-padding: clamp(1.52rem, 4.2vw, 2.5rem);
+    max-width: 78rem;
+    margin: 0 auto;
     padding: var(--page-padding);
     min-height: calc(100dvh - 120px);
     display: grid;
