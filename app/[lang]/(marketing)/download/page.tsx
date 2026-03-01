@@ -318,7 +318,7 @@ export default async function DownloadPage({
                   aria-label={content.iosName}
                 >
                   <Image
-                    src="/images/download/app-store-button.png"
+                    src="/images/download/app-store-button.webp"
                     alt={content.iosName}
                     width={635}
                     height={200}
@@ -333,7 +333,7 @@ export default async function DownloadPage({
                   aria-label={content.androidName}
                 >
                   <Image
-                    src="/images/download/google-play-button.png"
+                    src="/images/download/google-play-button.webp"
                     alt={content.androidName}
                     width={636}
                     height={200}
