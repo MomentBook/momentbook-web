@@ -15,7 +15,7 @@ export async function GET() {
   );
 
   // Static marketing pages
-  const marketingPages = ["about", "download"];
+  const marketingPages = ["download"];
 
   // Static content pages
   const contentPages = ["faq", "journeys", "users"];

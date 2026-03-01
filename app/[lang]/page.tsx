@@ -230,9 +230,6 @@ export default async function Home({
       <section className={styles.hero}>
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
-            <FadeIn>
-              <span className={styles.eyebrow}>{content.eyebrow}</span>
-            </FadeIn>
             <FadeIn delay={80}>
               <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
             </FadeIn>
@@ -243,9 +240,6 @@ export default async function Home({
               <div className={styles.heroActions}>
                 <Link href={`/${lang}/download`} className={styles.primaryButton}>
                   {content.primaryCta}
-                </Link>
-                <Link href={`/${lang}/about`} className={styles.secondaryButton}>
-                  {content.secondaryCta}
                 </Link>
               </div>
             </FadeIn>

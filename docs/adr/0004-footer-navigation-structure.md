@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-02-12)
+2025-01-04 (updated: 2026-03-01)
 
 ## Context
 
@@ -27,7 +27,7 @@ Footer는 모든 페이지 하단의 공통 탐색 영역이다.
 
 ### 2) 링크 구성 (Current)
 
-- Product: `about`, `faq`
+- Product: `faq`
 - Download: `download`, App Store, Google Play
 - Support: `support`, support email
 - Legal: `privacy`, `terms`, `community-guidelines`, `marketing-consent`

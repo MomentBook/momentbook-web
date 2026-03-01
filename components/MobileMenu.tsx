@@ -14,7 +14,6 @@ interface MobileMenuProps {
   journeysLabel: string;
   dict: {
     nav: {
-      about: string;
       faq: string;
       download: string;
     };
@@ -30,7 +29,6 @@ const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabi
 
 function createMenuLinks(lang: Language, dict: MobileMenuProps["dict"]): MobileMenuLink[] {
   return [
-    { href: `/${lang}/about`, label: dict.nav.about },
     { href: `/${lang}/faq`, label: dict.nav.faq },
     { href: `/${lang}/download`, label: dict.nav.download },
   ];

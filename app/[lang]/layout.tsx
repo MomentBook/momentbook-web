@@ -113,9 +113,6 @@ export default async function LangLayout({
 
             {/* Desktop Navigation */}
             <div className={styles.desktopNav}>
-              <Link href={`/${lang}/about`} className={styles.navLink}>
-                {dict.nav.about}
-              </Link>
               <Link href={`/${lang}/faq`} className={styles.navLink}>
                 {dict.nav.faq}
               </Link>
@@ -166,11 +163,6 @@ export default async function LangLayout({
                 <div className={styles.footerColumn}>
                   <h3 className={styles.footerHeading}>{dict.footer.sections.product}</h3>
                   <ul className={styles.footerList}>
-                    <li>
-                      <Link href={`/${lang}/about`} className={styles.footerLink}>
-                        {dict.nav.about}
-                      </Link>
-                    </li>
                     <li>
                       <Link href={`/${lang}/faq`} className={styles.footerLink}>
                         {dict.nav.faq}

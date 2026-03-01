@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-02-09 (updated: 2026-02-12)
+2026-02-09 (updated: 2026-03-01)
 
 ## Context
 
@@ -23,14 +23,12 @@ Accepted
 핵심 페이지에 질문-답변형 요약 블록을 추가한다.
 
 - Home: TL;DR/Quick answer
-- About: Key facts
 - Download: Quick start
 - FAQ: direct Q&A 유지
 
 ### 2) Structured data 강화
 
 - Home: `Organization`, `WebSite`
-- About: `BreadcrumbList`
 - Download: `SoftwareApplication`
 - FAQ: `FAQPage`
 - Journey/Moment: `Article`
@@ -39,7 +37,7 @@ Accepted
 
 ### 3) Internal linking 보강
 
-Home/About/Download/FAQ 사이의 문맥 링크를 강화해 관련 탐색 경로를 명확히 한다.
+Home/Download/FAQ 사이의 문맥 링크를 강화해 관련 탐색 경로를 명확히 한다.
 
 ### 4) `llms.txt` 제공
 
@@ -74,7 +72,6 @@ Rejected: 정보 중복 및 유지보수 복잡도 증가
 ## Implementation Files
 
 - `app/[lang]/page.tsx`
-- `app/[lang]/(marketing)/about/page.tsx`
 - `app/[lang]/(marketing)/download/page.tsx`
 - `app/[lang]/(content)/faq/page.tsx`
 - `public/llms.txt`

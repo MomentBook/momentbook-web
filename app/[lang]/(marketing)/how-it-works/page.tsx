@@ -7,5 +7,5 @@ export default async function HowItWorksPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  permanentRedirect(`/${lang}/about`);
+  permanentRedirect(`/${lang}`);
 }

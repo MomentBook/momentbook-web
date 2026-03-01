@@ -12,7 +12,6 @@ MomentBook 웹은 공개 소개 + 공개 여정/사진 페이지를 제공하는
 ```
 /[lang]
   /(marketing)
-    /about
     /how-it-works
     /download
   /(content)
@@ -30,6 +29,7 @@ MomentBook 웹은 공개 소개 + 공개 여정/사진 페이지를 제공하는
 ```
 
 - 다국어 라우팅: `app/[lang]/...`
+- `/{lang}/how-it-works`는 `/{lang}`으로 영구 리다이렉트
 - 공개 콘텐츠 페이지는 `revalidate = 3600`
 
 ---
@@ -43,7 +43,7 @@ MomentBook 웹은 공개 소개 + 공개 여정/사진 페이지를 제공하는
 
 ## SEO Infrastructure
 
-- `app/robots.ts` / `app/sitemap.ts`
+- `app/robots.ts` / `app/sitemap*.xml/route.ts`
 - 각 페이지별 Metadata + OpenGraph + Twitter
 - `journeys/[journeyId]`는 JSON-LD 포함
 

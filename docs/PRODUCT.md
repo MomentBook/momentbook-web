@@ -29,8 +29,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 2.1 Core Intro Flow (Marketing Surface)
 
-현재 홈(`/`)은 단일 Hero 섹션만 제공하며, 핵심 소개 문구와 CTA(Download/About), 우측 DeviceMock 프리뷰를 함께 노출한다.
-`/about`은 장문 텍스트 중심으로 앱 목적, 비목표, 웹/앱 역할 분리, 핵심 흐름을 문서형으로 설명한다.
+현재 홈(`/`)은 단일 Hero 섹션만 제공하며, 핵심 소개 문구와 CTA(Download), 우측 DeviceMock 프리뷰를 함께 노출한다.
 `/faq`는 질문을 주제별 그룹으로 구성해 짧은 답변을 제공한다.
 `/download`는 스토어 CTA와 플랫폼 요구사항을 제공한다.
 
@@ -53,8 +52,7 @@ MomentBook Web은 다음 역할만 수행한다.
 ### 4.1 Public Pages
 
 - `/{lang}`
-- `/{lang}/about`
-- `/{lang}/how-it-works` (실제로 `/{lang}/about`으로 `permanentRedirect`)
+- `/{lang}/how-it-works` (실제로 `/{lang}`으로 `permanentRedirect`)
 - `/{lang}/download`
 - `/{lang}/faq`
 - `/{lang}/journeys`
@@ -152,7 +150,6 @@ MomentBook Web은 다음 역할만 수행한다.
 페이지별 JSON-LD가 구현되어 있다.
 
 - Home: Organization, WebSite
-- About: BreadcrumbList
 - Download: SoftwareApplication
 - FAQ: FAQPage
 - Journeys/Moments: Article

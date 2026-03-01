@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-01-29 (updated: 2026-02-12)
+2026-01-29 (updated: 2026-03-01)
 
 ## Context
 
@@ -51,7 +51,7 @@ Accepted
 현재 static sitemap은 다음만 포함한다.
 
 - 홈
-- marketing: `about`, `download`
+- marketing: `download`
 - content index: `faq`, `journeys`, `users`
 
 (legal/how-it-works 경로는 static sitemap에 포함하지 않음)

@@ -28,14 +28,13 @@
 
 ### 2.2 Marketing alias
 
-- `/{lang}/how-it-works` -> `/{lang}/about` (`permanentRedirect`)
+- `/{lang}/how-it-works` -> `/{lang}` (`permanentRedirect`)
 
 ## 3) Route Inventory
 
 ## 3.1 Marketing
 
 - `/{lang}`
-- `/{lang}/about`
 - `/{lang}/how-it-works` (redirect)
 - `/{lang}/download`
 
@@ -99,7 +98,7 @@
 
 - `sitemap-static.xml` 포함:
   - home
-  - `about`, `download`
+  - `download`
   - `faq`, `journeys`, `users`
 - `how-it-works`, legal 경로는 static sitemap에 포함하지 않음
 
