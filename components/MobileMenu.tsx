@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createPortal } from "react-dom";
 import { type Language } from "@/lib/i18n/config";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
@@ -148,89 +149,92 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
         </button>
       )}
 
-      {isOpen && (
-        <div className={styles.overlay} onClick={closeMenu}>
-          <aside
-            id={menuId}
-            ref={drawerRef}
-            className={styles.menu}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile navigation menu"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className={styles.menuHeader}>
-              <Link
-                href={homeHref}
-                className={styles.menuHome}
-                onClick={closeMenu}
-                aria-label="Go to Home"
+      {isOpen && typeof document !== "undefined"
+        ? createPortal(
+            <div className={styles.overlay} onClick={closeMenu}>
+              <aside
+                id={menuId}
+                ref={drawerRef}
+                className={styles.menu}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Mobile navigation menu"
+                onClick={(event) => event.stopPropagation()}
               >
-                <MomentBookLogo
-                  className={styles.menuLogo}
-                  iconClassName={styles.menuLogoIcon}
-                  wordmarkClassName={styles.menuWordmarkText}
-                  iconSize={24}
-                  wordmarkWidth={120}
-                  wordmarkHeight={27}
-                />
-              </Link>
-              <button
-                ref={closeButtonRef}
-                type="button"
-                className={styles.closeButton}
-                onClick={closeMenu}
-                aria-label="Close menu"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="m6 6 12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <nav className={styles.menuMain} aria-label="Main navigation">
-              {navLinks.map((link) => {
-                const isActive = isActiveLink(link.href);
-
-                return (
+                <div className={styles.menuHeader}>
                   <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`${styles.menuLink} ${isActive ? styles.menuLinkActive : ""}`}
+                    href={homeHref}
+                    className={styles.menuHome}
                     onClick={closeMenu}
-                    aria-current={isActive ? "page" : undefined}
+                    aria-label="Go to Home"
                   >
-                    {link.label}
+                    <MomentBookLogo
+                      className={styles.menuLogo}
+                      iconClassName={styles.menuLogoIcon}
+                      wordmarkClassName={styles.menuWordmarkText}
+                      iconSize={24}
+                      wordmarkWidth={120}
+                      wordmarkHeight={27}
+                    />
                   </Link>
-                );
-              })}
-            </nav>
+                  <button
+                    ref={closeButtonRef}
+                    type="button"
+                    className={styles.closeButton}
+                    onClick={closeMenu}
+                    aria-label="Close menu"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                  </button>
+                </div>
 
-            <div className={styles.menuPrefs}>
-              <LanguageDropdown currentLang={lang} variant="drawer" />
-              <ThemeToggle variant="drawer" />
-            </div>
+                <nav className={styles.menuMain} aria-label="Main navigation">
+                  {navLinks.map((link) => {
+                    const isActive = isActiveLink(link.href);
 
-            <Link
-              href={journeysHref}
-              className={`${styles.journeysButton} ${isActiveLink(journeysHref) ? styles.journeysButtonActive : ""}`}
-              onClick={closeMenu}
-            >
-              {journeysLabel}
-            </Link>
-          </aside>
-        </div>
-      )}
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className={`${styles.menuLink} ${isActive ? styles.menuLinkActive : ""}`}
+                        onClick={closeMenu}
+                        aria-current={isActive ? "page" : undefined}
+                      >
+                        {link.label}
+                      </Link>
+                    );
+                  })}
+                </nav>
+
+                <div className={styles.menuPrefs}>
+                  <LanguageDropdown currentLang={lang} variant="drawer" />
+                  <ThemeToggle variant="drawer" />
+                </div>
+
+                <Link
+                  href={journeysHref}
+                  className={`${styles.journeysButton} ${isActiveLink(journeysHref) ? styles.journeysButtonActive : ""}`}
+                  onClick={closeMenu}
+                >
+                  {journeysLabel}
+                </Link>
+              </aside>
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }
