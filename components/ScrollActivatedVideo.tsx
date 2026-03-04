@@ -39,6 +39,7 @@ export function ScrollActivatedVideo({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [requiresUserPlay, setRequiresUserPlay] = useState(!autoplay);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -77,7 +78,6 @@ export function ScrollActivatedVideo({
 
       try {
         await video.play();
-        onPlaybackStart?.();
       } catch {
         // Browser blocked autoplay with sound; wait for explicit user action.
         setRequiresUserPlay(true);
@@ -108,25 +108,57 @@ export function ScrollActivatedVideo({
       observer.disconnect();
       video.pause();
     };
-  }, [autoplay, hasEnded, onPlaybackStart, shouldRenderVideo]);
+  }, [autoplay, hasEnded, shouldRenderVideo]);
 
-  const handleReplay = async () => {
+  const playVideo = async (options?: {
+    restart?: boolean;
+    forceUnmute?: boolean;
+  }) => {
     const video = videoRef.current;
 
     if (!video) {
       return;
     }
 
-    video.currentTime = 0;
-    setHasEnded(false);
+    if (options?.restart) {
+      video.currentTime = 0;
+      setHasEnded(false);
+    }
+
+    if (options?.forceUnmute) {
+      video.muted = false;
+      setIsMuted(false);
+    }
+
     setRequiresUserPlay(false);
 
     try {
       await video.play();
-      onPlaybackStart?.();
     } catch {
-      // Ignore autoplay failures triggered by browser policies.
+      setRequiresUserPlay(true);
     }
+  };
+
+  const handleVideoToggle = async () => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    if (video.paused || video.ended) {
+      await playVideo({
+        restart: video.ended || hasEnded,
+        forceUnmute: requiresUserPlay,
+      });
+      return;
+    }
+
+    video.pause();
+  };
+
+  const handleReplay = async () => {
+    await playVideo({ restart: true });
   };
 
   const handleSoundToggle = () => {
@@ -142,23 +174,7 @@ export function ScrollActivatedVideo({
   };
 
   const handleUserPlayWithSound = async () => {
-    const video = videoRef.current;
-
-    if (!video) {
-      return;
-    }
-
-    video.muted = false;
-    setIsMuted(false);
-    setRequiresUserPlay(false);
-
-    try {
-      await video.play();
-      onPlaybackStart?.();
-    } catch {
-      // Keep controls visible so user can retry.
-      setRequiresUserPlay(true);
-    }
+    await playVideo({ forceUnmute: true });
   };
 
   if (!shouldRenderVideo) {
@@ -171,6 +187,7 @@ export function ScrollActivatedVideo({
         ref={videoRef}
         className={styles.video}
         aria-label={title}
+        tabIndex={0}
         autoPlay={autoplay}
         muted={isMuted}
         playsInline
@@ -179,13 +196,32 @@ export function ScrollActivatedVideo({
         poster={poster}
         onError={() => setHasError(true)}
         onEnded={() => {
+          setIsPlaying(false);
           setHasEnded(true);
           onPlaybackEnd?.();
+        }}
+        onPlay={() => {
+          setIsPlaying(true);
+          onPlaybackStart?.();
+        }}
+        onPause={() => {
+          setIsPlaying(false);
+        }}
+        onClick={() => {
+          void handleVideoToggle();
+        }}
+        onKeyDown={(event) => {
+          if (event.key !== " " && event.key !== "Enter") {
+            return;
+          }
+
+          event.preventDefault();
+          void handleVideoToggle();
         }}
       >
         <source src={src ?? undefined} type="video/mp4" />
       </video>
-      {requiresUserPlay ? (
+      {requiresUserPlay || (!isPlaying && !hasEnded) ? (
         <>
           <div className={styles.startOverlay} aria-hidden="true" />
           <button
@@ -193,7 +229,12 @@ export function ScrollActivatedVideo({
             className={styles.playWithSoundButton}
             aria-label={playWithSoundLabel}
             onClick={() => {
-              void handleUserPlayWithSound();
+              if (requiresUserPlay) {
+                void handleUserPlayWithSound();
+                return;
+              }
+
+              void handleVideoToggle();
             }}
           >
             <span aria-hidden="true">
