@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import faqStyles from "./faq.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
@@ -552,12 +551,13 @@ export default async function FAQPage({
   const content = getFaqContent(lang);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, "/faq"), siteUrl).toString();
+  const faqItems = flattenItems(content.groups);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     url: pageUrl,
-    mainEntity: flattenItems(content.groups).map((item) => ({
+    mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -575,46 +575,20 @@ export default async function FAQPage({
       />
 
       <header className={faqStyles.header}>
-        <span className={faqStyles.headerBadge}>FAQ</span>
         <h1 className={faqStyles.title}>{content.pageTitle}</h1>
         <p className={faqStyles.subtitle}>{content.pageSubtitle}</p>
       </header>
 
-      <div className={faqStyles.groupStack}>
-        {content.groups.map((group, groupIndex) => (
-          <section key={group.title} className={faqStyles.group}>
-            <header className={faqStyles.groupHeader}>
-              <span className={faqStyles.groupBadge}>
-                {content.sectionLabel.replace("{index}", String(groupIndex + 1))}
-              </span>
-              <h2 className={faqStyles.groupTitle}>{group.title}</h2>
-              <p className={faqStyles.groupDescription}>{group.description}</p>
-            </header>
-
-            <div className={faqStyles.faqGrid}>
-              {group.items.map((faq, itemIndex) => (
-                <article key={faq.question} className={faqStyles.faqItem}>
-                  <div className={faqStyles.faqQuestionRow}>
-                    <span className={faqStyles.faqIndex}>{groupIndex + 1}.{itemIndex + 1}</span>
-                    <h3 className={faqStyles.faqQuestion}>{faq.question}</h3>
-                  </div>
-                  <p className={faqStyles.faqAnswer}>{faq.answer}</p>
-                </article>
-              ))}
+      <section className={faqStyles.faqList} aria-label={content.pageTitle}>
+        {faqItems.map((faq, index) => (
+          <details key={`${faq.question}-${index}`} className={faqStyles.faqItem}>
+            <summary className={faqStyles.faqQuestion}>{faq.question}</summary>
+            <div className={faqStyles.faqAnswerWrap}>
+              <p className={faqStyles.faqAnswer}>{faq.answer}</p>
             </div>
-          </section>
+          </details>
         ))}
-      </div>
-
-      <aside className={faqStyles.callout}>
-        <p>
-          {content.calloutPrefix}
-          <Link href={`/${lang}/support`} className={faqStyles.link}>
-            {content.calloutLink}
-          </Link>
-          {content.calloutSuffix}
-        </p>
-      </aside>
+      </section>
     </main>
   );
 }
