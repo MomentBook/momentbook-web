@@ -338,7 +338,7 @@
 }
 
 .introSection {
-    margin-top: clamp(1rem, 2.6vw, 1.8rem);
+    margin-top: clamp(2rem, 5vw, 3.4rem);
     position: relative;
     overflow: hidden;
     isolation: isolate;
@@ -397,19 +397,41 @@
 .introStage {
     position: relative;
     width: 100%;
-    min-height: clamp(18rem, 38vw, 31rem);
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 0fr;
-    transition: grid-template-columns 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    --intro-side-gap: clamp(0.65rem, 1.9vw, 1.15rem);
+    --intro-panel-gap: clamp(0.6rem, 1.6vw, 0.95rem);
 }
 
-.introSectionExpanded .introStage {
-    grid-template-columns: minmax(0, 0.62fr) minmax(0, 0.38fr);
+.introStage::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%;
 }
 
 .introMediaPane {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    transform: translateY(-50%);
     overflow: hidden;
+    border-radius: 0;
+    transition:
+        width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        left 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        border-radius 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.introSectionExpanded .introMediaPane {
+    left: var(--intro-side-gap);
+    width: calc(62% - var(--intro-side-gap));
+    border-radius: 0.92rem;
+    box-shadow:
+        0 14px 30px rgba(7, 27, 31, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .introPromptButton {
@@ -456,9 +478,16 @@
 }
 
 .introGuidePane {
+    position: absolute;
+    top: 0;
+    right: var(--intro-side-gap);
+    bottom: 0;
+    width: calc(38% - var(--intro-side-gap) - var(--intro-panel-gap));
     overflow: hidden;
     display: grid;
     align-content: center;
+    justify-items: center;
+    text-align: center;
     gap: 0.86rem;
     padding: 0;
     opacity: 0;
@@ -491,6 +520,14 @@
     );
 }
 
+:global([data-theme="dark"]) .introGuidePane {
+    background: transparent;
+}
+
+:global([data-theme="dark"]) .introGuidePaneVisible {
+    border-left-color: transparent;
+}
+
 .introGuideTitle {
     margin: 0;
     font-size: clamp(1.15rem, 2.5vw, 1.55rem);
@@ -511,6 +548,7 @@
     flex-wrap: wrap;
     gap: 0.56rem;
     margin-top: 0.2rem;
+    justify-content: center;
 }
 
 .introGuideReplayButton {
@@ -571,20 +609,37 @@
 
 @media (max-width: 979px) {
     .introStage {
-        min-height: auto;
-        grid-template-columns: 1fr;
+        overflow: visible;
     }
 
-    .introSectionExpanded .introStage {
-        grid-template-columns: 1fr;
+    .introStage::before {
+        display: none;
     }
 
     .introMediaPane {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
         aspect-ratio: 16 / 9;
     }
 
+    .introSectionExpanded .introMediaPane {
+        left: auto;
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
     .introGuidePane {
+        position: relative;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        width: 100%;
         display: none;
+        transform: none;
     }
 
     .introSectionExpanded .introGuidePane {

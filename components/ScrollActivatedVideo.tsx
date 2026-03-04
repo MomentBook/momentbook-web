@@ -9,7 +9,12 @@ type ScrollActivatedVideoProps = {
   poster?: string;
   title: string;
   replayLabel: string;
+  playWithSoundLabel?: string;
+  soundOnLabel?: string;
+  soundOffLabel?: string;
+  autoplay?: boolean;
   showReplayButton?: boolean;
+  showSoundToggle?: boolean;
   fallback: ReactNode;
   onPlaybackStart?: () => void;
   onPlaybackEnd?: () => void;
@@ -21,7 +26,12 @@ export function ScrollActivatedVideo({
   poster,
   title,
   replayLabel,
+  playWithSoundLabel = "Play with sound",
+  soundOnLabel = "Turn sound on",
+  soundOffLabel = "Turn sound off",
+  autoplay = true,
   showReplayButton = true,
+  showSoundToggle = true,
   fallback,
   onPlaybackStart,
   onPlaybackEnd,
@@ -29,6 +39,8 @@ export function ScrollActivatedVideo({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [requiresUserPlay, setRequiresUserPlay] = useState(!autoplay);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const shouldRenderVideo = Boolean(src) && !hasError && !prefersReducedMotion;
 
@@ -54,7 +66,7 @@ export function ScrollActivatedVideo({
   useEffect(() => {
     const video = videoRef.current;
 
-    if (!video || !shouldRenderVideo) {
+    if (!video || !shouldRenderVideo || !autoplay) {
       return;
     }
 
@@ -67,7 +79,8 @@ export function ScrollActivatedVideo({
         await video.play();
         onPlaybackStart?.();
       } catch {
-        // Ignore autoplay failures and keep fallback controls hidden.
+        // Browser blocked autoplay with sound; wait for explicit user action.
+        setRequiresUserPlay(true);
       }
     };
 
@@ -95,7 +108,7 @@ export function ScrollActivatedVideo({
       observer.disconnect();
       video.pause();
     };
-  }, [hasEnded, onPlaybackStart, shouldRenderVideo]);
+  }, [autoplay, hasEnded, onPlaybackStart, shouldRenderVideo]);
 
   const handleReplay = async () => {
     const video = videoRef.current;
@@ -106,12 +119,45 @@ export function ScrollActivatedVideo({
 
     video.currentTime = 0;
     setHasEnded(false);
+    setRequiresUserPlay(false);
 
     try {
       await video.play();
       onPlaybackStart?.();
     } catch {
       // Ignore autoplay failures triggered by browser policies.
+    }
+  };
+
+  const handleSoundToggle = () => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    const nextMuted = !isMuted;
+    video.muted = nextMuted;
+    setIsMuted(nextMuted);
+  };
+
+  const handleUserPlayWithSound = async () => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    video.muted = false;
+    setIsMuted(false);
+    setRequiresUserPlay(false);
+
+    try {
+      await video.play();
+      onPlaybackStart?.();
+    } catch {
+      // Keep controls visible so user can retry.
+      setRequiresUserPlay(true);
     }
   };
 
@@ -125,8 +171,8 @@ export function ScrollActivatedVideo({
         ref={videoRef}
         className={styles.video}
         aria-label={title}
-        autoPlay
-        muted
+        autoPlay={autoplay}
+        muted={isMuted}
         playsInline
         preload="metadata"
         controls={false}
@@ -139,6 +185,26 @@ export function ScrollActivatedVideo({
       >
         <source src={src ?? undefined} type="video/mp4" />
       </video>
+      {requiresUserPlay ? (
+        <button
+          type="button"
+          className={styles.playWithSoundButton}
+          onClick={() => {
+            void handleUserPlayWithSound();
+          }}
+        >
+          {playWithSoundLabel}
+        </button>
+      ) : null}
+      {showSoundToggle ? (
+        <button
+          type="button"
+          className={styles.soundButton}
+          onClick={handleSoundToggle}
+        >
+          {isMuted ? soundOnLabel : soundOffLabel}
+        </button>
+      ) : null}
       {showReplayButton ? (
         <button
           type="button"

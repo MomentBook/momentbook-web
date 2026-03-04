@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
@@ -19,6 +19,9 @@ export type HomeHeroContent = {
   deviceAlt: string;
   splashSubtitle: string;
   replayLabel: string;
+  playWithSoundLabel: string;
+  soundOnLabel: string;
+  soundOffLabel: string;
   introPromptCta: string;
   introGuideTitle: string;
   introGuideLead: string;
@@ -34,6 +37,21 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
   const [introVersion, setIntroVersion] = useState(0);
   const [showIntroPrompt, setShowIntroPrompt] = useState(false);
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!showIntroPrompt || isIntroExpanded) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsIntroExpanded(true);
+      setShowIntroPrompt(false);
+    }, 2000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [isIntroExpanded, showIntroPrompt]);
 
   const scrollToIntroSection = () => {
     const section = introSectionRef.current;
@@ -104,6 +122,10 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                 poster="/media/intro-poster.jpg"
                 title={content.deviceAlt}
                 replayLabel={content.replayLabel}
+                playWithSoundLabel={content.playWithSoundLabel}
+                soundOnLabel={content.soundOnLabel}
+                soundOffLabel={content.soundOffLabel}
+                autoplay={false}
                 showReplayButton={false}
                 onPlaybackStart={() => {
                   setShowIntroPrompt(false);

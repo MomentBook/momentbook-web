@@ -20,6 +20,9 @@ type HomePageCopy = {
   deviceAlt: string;
   splashSubtitle: string;
   replayLabel: string;
+  playWithSoundLabel: string;
+  soundOnLabel: string;
+  soundOffLabel: string;
   introPromptCta: string;
   introGuideTitle: string;
   introGuideLead: string;
@@ -41,6 +44,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook splash screen",
     splashSubtitle: "Travel memories, quietly kept.",
     replayLabel: "Replay intro",
+    playWithSoundLabel: "Play with sound",
+    soundOnLabel: "Turn sound on",
+    soundOffLabel: "Turn sound off",
     introPromptCta: "Try organizing in the app",
     introGuideTitle: "Continue your trip recap in MomentBook",
     introGuideLead:
@@ -61,6 +67,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook 스플래시 화면",
     splashSubtitle: "여행 기억을 차분히 보관합니다.",
     replayLabel: "인트로 다시 보기",
+    playWithSoundLabel: "소리와 함께 재생",
+    soundOnLabel: "소리 켜기",
+    soundOffLabel: "소리 끄기",
     introPromptCta: "앱에서 정리해보기",
     introGuideTitle: "MomentBook에서 여행을 정리해보세요",
     introGuideLead:
@@ -81,6 +90,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook スプラッシュ画面",
     splashSubtitle: "旅の記憶を静かに保管します。",
     replayLabel: "イントロを再生",
+    playWithSoundLabel: "音声付きで再生",
+    soundOnLabel: "音声をオン",
+    soundOffLabel: "音声をオフ",
     introPromptCta: "アプリで整理してみる",
     introGuideTitle: "MomentBookで旅の記録を続ける",
     introGuideLead:
@@ -101,6 +113,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook 启动画面",
     splashSubtitle: "安静地保存旅行记忆。",
     replayLabel: "重播介绍",
+    playWithSoundLabel: "开启声音播放",
+    soundOnLabel: "开启声音",
+    soundOffLabel: "关闭声音",
     introPromptCta: "在应用中整理看看",
     introGuideTitle: "在 MomentBook 继续整理旅程",
     introGuideLead:
@@ -121,6 +136,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Pantalla de inicio de MomentBook",
     splashSubtitle: "Tus recuerdos de viaje, guardados con calma.",
     replayLabel: "Repetir intro",
+    playWithSoundLabel: "Reproducir con sonido",
+    soundOnLabel: "Activar sonido",
+    soundOffLabel: "Silenciar",
     introPromptCta: "Organizar en la app",
     introGuideTitle: "Continua tu recap en MomentBook",
     introGuideLead:
@@ -141,6 +159,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Tela de abertura do MomentBook",
     splashSubtitle: "Memórias de viagem guardadas com tranquilidade.",
     replayLabel: "Reproduzir intro",
+    playWithSoundLabel: "Reproduzir com som",
+    soundOnLabel: "Ativar som",
+    soundOffLabel: "Desativar som",
     introPromptCta: "Organizar no app",
     introGuideTitle: "Continue seu recap no MomentBook",
     introGuideLead:
@@ -161,6 +182,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Écran de démarrage MomentBook",
     splashSubtitle: "Les souvenirs de voyage, conservés avec calme.",
     replayLabel: "Rejouer l'intro",
+    playWithSoundLabel: "Lire avec le son",
+    soundOnLabel: "Activer le son",
+    soundOffLabel: "Couper le son",
     introPromptCta: "Organiser dans l'app",
     introGuideTitle: "Continuez votre recap dans MomentBook",
     introGuideLead:
@@ -181,6 +205,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "หน้าสแปลชของ MomentBook",
     splashSubtitle: "เก็บความทรงจำการเดินทางไว้อย่างสงบ",
     replayLabel: "เล่นอินโทรอีกครั้ง",
+    playWithSoundLabel: "เล่นพร้อมเสียง",
+    soundOnLabel: "เปิดเสียง",
+    soundOffLabel: "ปิดเสียง",
     introPromptCta: "ลองจัดในแอป",
     introGuideTitle: "จัดทริปต่อใน MomentBook",
     introGuideLead:
@@ -201,6 +228,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Màn hình splash MomentBook",
     splashSubtitle: "Lưu giữ ký ức chuyến đi một cách nhẹ nhàng.",
     replayLabel: "Xem lai intro",
+    playWithSoundLabel: "Phat kem am thanh",
+    soundOnLabel: "Bat am thanh",
+    soundOffLabel: "Tat am thanh",
     introPromptCta: "Thu sap xep trong app",
     introGuideTitle: "Tiep tuc recap trong MomentBook",
     introGuideLead:
