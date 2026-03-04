@@ -1,6 +1,13 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import styles from "./ScrollActivatedVideo.module.scss";
 
 type ScrollActivatedVideoProps = {
@@ -20,7 +27,15 @@ type ScrollActivatedVideoProps = {
   onPlaybackEnd?: () => void;
 };
 
-export function ScrollActivatedVideo({
+export type ScrollActivatedVideoHandle = {
+  replay: (options?: { forceUnmute?: boolean }) => Promise<void>;
+};
+
+export const ScrollActivatedVideo = forwardRef<
+  ScrollActivatedVideoHandle,
+  ScrollActivatedVideoProps
+>(function ScrollActivatedVideo(
+{
   className,
   src,
   poster,
@@ -35,7 +50,9 @@ export function ScrollActivatedVideo({
   fallback,
   onPlaybackStart,
   onPlaybackEnd,
-}: ScrollActivatedVideoProps) {
+},
+ref,
+) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
@@ -177,6 +194,19 @@ export function ScrollActivatedVideo({
     await playVideo({ forceUnmute: true });
   };
 
+  useImperativeHandle(
+    ref,
+    () => ({
+      replay: async (options) => {
+        await playVideo({
+          restart: true,
+          forceUnmute: options?.forceUnmute ?? false,
+        });
+      },
+    }),
+    [],
+  );
+
   if (!shouldRenderVideo) {
     return <div className={className}>{fallback}</div>;
   }
@@ -268,4 +298,4 @@ export function ScrollActivatedVideo({
       ) : null}
     </div>
   );
-}
+});

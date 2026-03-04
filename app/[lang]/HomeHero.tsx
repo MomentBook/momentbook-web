@@ -6,7 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
-import { ScrollActivatedVideo } from "@/components/ScrollActivatedVideo";
+import {
+  ScrollActivatedVideo,
+  type ScrollActivatedVideoHandle,
+} from "@/components/ScrollActivatedVideo";
 import { type Language } from "@/lib/i18n/config";
 import styles from "./page.module.scss";
 
@@ -33,7 +36,7 @@ type HomeHeroProps = {
 
 export function HomeHero({ lang, content }: HomeHeroProps) {
   const introSectionRef = useRef<HTMLElement>(null);
-  const [introVersion, setIntroVersion] = useState(0);
+  const introVideoRef = useRef<ScrollActivatedVideoHandle>(null);
   const [showIntroPrompt, setShowIntroPrompt] = useState(false);
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
 
@@ -108,7 +111,7 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
           <div className={styles.introStage}>
             <div className={styles.introMediaPane}>
               <ScrollActivatedVideo
-                key={`intro-${introVersion}`}
+                ref={introVideoRef}
                 className={styles.introVideo}
                 src="/media/intro.mp4"
                 poster="/media/intro-poster.jpg"
@@ -164,9 +167,9 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                   type="button"
                   className={styles.introGuideReplayButton}
                   onClick={() => {
-                    setIntroVersion((current) => current + 1);
                     setIsIntroExpanded(false);
                     setShowIntroPrompt(false);
+                    void introVideoRef.current?.replay({ forceUnmute: true });
                   }}
                 >
                   {content.replayLabel}
