@@ -51,6 +51,8 @@ type FullscreenCapableElement = HTMLElement & {
 
 type IOSFullscreenVideo = HTMLVideoElement & {
   webkitEnterFullscreen?: () => void;
+  webkitExitFullscreen?: () => void;
+  webkitDisplayingFullscreen?: boolean;
 };
 
 const DEFAULT_VOLUME = 0.5;
@@ -75,6 +77,18 @@ function formatDuration(seconds: number) {
   }
 
   return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+}
+
+function blurActiveElement() {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  const activeElement = document.activeElement;
+
+  if (activeElement instanceof HTMLElement) {
+    activeElement.blur();
+  }
 }
 
 export const ScrollActivatedVideo = forwardRef<
@@ -128,6 +142,7 @@ export const ScrollActivatedVideo = forwardRef<
   const timeline = `${formatDuration(safeCurrentTime)} / ${formatDuration(safeDuration)}`;
   const showCenterPlayButton = requiresUserPlay || (!isPlaying && !hasEnded);
   const showControls = !hasEnded && (!isPlaying || isPointerInside);
+  const isVideoInteractionLocked = hasEnded && !allowReplayFromControls;
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -376,6 +391,36 @@ export const ScrollActivatedVideo = forwardRef<
     }
   };
 
+  const exitFullscreenIfNeeded = async () => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const fullscreenDoc = document as FullscreenDocument;
+    const fullscreenElement =
+      fullscreenDoc.fullscreenElement ??
+      fullscreenDoc.webkitFullscreenElement ??
+      null;
+
+    if (fullscreenElement) {
+      if (fullscreenDoc.exitFullscreen) {
+        await fullscreenDoc.exitFullscreen();
+        return;
+      }
+
+      if (fullscreenDoc.webkitExitFullscreen) {
+        await fullscreenDoc.webkitExitFullscreen();
+      }
+      return;
+    }
+
+    const video = videoRef.current as IOSFullscreenVideo | null;
+
+    if (video?.webkitDisplayingFullscreen) {
+      video.webkitExitFullscreen?.();
+    }
+  };
+
   const handleFullscreenToggle = async () => {
     if (typeof document === "undefined") {
       return;
@@ -389,14 +434,8 @@ export const ScrollActivatedVideo = forwardRef<
 
     try {
       if (fullscreenElement) {
-        if (fullscreenDoc.exitFullscreen) {
-          await fullscreenDoc.exitFullscreen();
-          return;
-        }
-
-        if (fullscreenDoc.webkitExitFullscreen) {
-          await fullscreenDoc.webkitExitFullscreen();
-        }
+        await exitFullscreenIfNeeded();
+        blurActiveElement();
         return;
       }
 
@@ -404,16 +443,19 @@ export const ScrollActivatedVideo = forwardRef<
 
       if (fullscreenTarget?.requestFullscreen) {
         await fullscreenTarget.requestFullscreen();
+        blurActiveElement();
         return;
       }
 
       if (fullscreenTarget?.webkitRequestFullscreen) {
         await fullscreenTarget.webkitRequestFullscreen();
+        blurActiveElement();
         return;
       }
 
       const video = videoRef.current as IOSFullscreenVideo | null;
       video?.webkitEnterFullscreen?.();
+      blurActiveElement();
     } catch {
       // Fullscreen may be blocked by browser policy.
     }
@@ -452,9 +494,9 @@ export const ScrollActivatedVideo = forwardRef<
     >
       <video
         ref={videoRef}
-        className={styles.video}
+        className={`${styles.video} ${!isVideoInteractionLocked ? styles.videoInteractive : ""}`}
         aria-label={title}
-        tabIndex={0}
+        tabIndex={isVideoInteractionLocked ? -1 : 0}
         autoPlay={autoplay}
         muted={isMuted}
         playsInline
@@ -496,6 +538,7 @@ export const ScrollActivatedVideo = forwardRef<
           setIsPlaying(false);
           setHasEnded(true);
           setCurrentTime(video?.duration ?? currentTime);
+          void exitFullscreenIfNeeded();
           onPlaybackEnd?.();
         }}
         onPlay={() => {
@@ -507,9 +550,17 @@ export const ScrollActivatedVideo = forwardRef<
           setIsPlaying(false);
         }}
         onClick={() => {
+          if (isVideoInteractionLocked) {
+            return;
+          }
+
           void handleVideoToggle();
         }}
         onKeyDown={(event) => {
+          if (isVideoInteractionLocked) {
+            return;
+          }
+
           if (event.key !== " " && event.key !== "Enter") {
             return;
           }
