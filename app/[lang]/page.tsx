@@ -13,6 +13,7 @@ type HomePageCopy = {
   eyebrow: string;
   heroTitle: string;
   heroLead: string;
+  heroTutorialCta: string;
   primaryCta: string;
   secondaryCta: string;
   heroMeta: string;
@@ -33,6 +34,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Memorize your moments",
     heroLead:
       "After each trip, upload once and let moments gather by time and place so you can revisit them anytime.",
+    heroTutorialCta: "Watch tutorial",
     primaryCta: "Download MomentBook",
     secondaryCta: "Read About",
     heroMeta: "Core flow: batch upload, auto organization, minimal cleanup, and recap.",
@@ -52,6 +54,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "여행의 순간을 기억해요",
     heroLead:
       "여행이 끝난 뒤 사진을 한 번에 올리면, 시간과 장소의 흐름대로 순간이 모여 언제든 다시 기억할 수 있어요.",
+    heroTutorialCta: "튜토리얼 보기",
     primaryCta: "MomentBook 다운로드",
     secondaryCta: "소개 읽기",
     heroMeta: "한 번에 올리고, 조용히 돌아보는 여행 기록.",
@@ -71,6 +74,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "旅の瞬間を、ずっと記憶に",
     heroLead:
       "旅が終わったら一度にアップロード。時間と場所の流れで瞬間がまとまり、いつでも振り返れます。",
+    heroTutorialCta: "チュートリアルを見る",
     primaryCta: "MomentBookをダウンロード",
     secondaryCta: "紹介を見る",
     heroMeta: "コアフロー: 一括アップロード、自動整理、最小補正、回想。",
@@ -90,6 +94,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "记住每个旅行瞬间",
     heroLead:
       "旅行结束后一次上传，瞬间会按时间与地点自然汇聚，随时都能再回看。",
+    heroTutorialCta: "查看教程",
     primaryCta: "下载 MomentBook",
     secondaryCta: "查看介绍",
     heroMeta: "核心流程: 批量上传、自动整理、最少修正、回想。",
@@ -109,6 +114,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Memoriza tus momentos",
     heroLead:
       "Al terminar el viaje, sube todo una vez y deja que los momentos se ordenen por tiempo y lugar para volver a ellos cuando quieras.",
+    heroTutorialCta: "Ver tutorial",
     primaryCta: "Descargar MomentBook",
     secondaryCta: "Leer introducción",
     heroMeta: "Flujo central: carga en lote, organización automática, ajuste mínimo y repaso.",
@@ -128,6 +134,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Guarde seus momentos",
     heroLead:
       "Quando a viagem terminar, envie tudo de uma vez e deixe os momentos se organizarem por tempo e lugar para revisitar quando quiser.",
+    heroTutorialCta: "Ver tutorial",
     primaryCta: "Baixar MomentBook",
     secondaryCta: "Ler introdução",
     heroMeta: "Fluxo principal: envio em lote, organização automática, ajuste mínimo e recap.",
@@ -147,6 +154,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Memorisez vos moments",
     heroLead:
       "A la fin du voyage, importez tout en une fois et laissez les moments se ranger par temps et lieu pour y revenir quand vous voulez.",
+    heroTutorialCta: "Voir le tutoriel",
     primaryCta: "Télécharger MomentBook",
     secondaryCta: "Lire la présentation",
     heroMeta: "Flux principal: import en lot, organisation automatique, correction minimale et rappel.",
@@ -166,6 +174,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "จดจำทุกช่วงเวลาของคุณ",
     heroLead:
       "เมื่อทริปจบ อัปโหลดครั้งเดียว แล้วช่วงเวลาจะเรียงตามเวลาและสถานที่ ให้คุณย้อนกลับมาดูได้ทุกเมื่อ",
+    heroTutorialCta: "ดูทิวโทเรียล",
     primaryCta: "ดาวน์โหลด MomentBook",
     secondaryCta: "อ่านแนะนำ",
     heroMeta: "โฟลว์หลัก: อัปโหลดแบบชุด, จัดระเบียบอัตโนมัติ, ปรับแก้น้อยที่สุด, ย้อนความทรงจำ",
@@ -185,6 +194,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Ghi nho khoanh khac cua ban",
     heroLead:
       "Sau moi chuyen di, tai len mot lan de cac khoanh khac tu sap theo thoi gian va dia diem, de ban quay lai bat cu luc nao.",
+    heroTutorialCta: "Xem huong dan",
     primaryCta: "Tải MomentBook",
     secondaryCta: "Đọc giới thiệu",
     heroMeta: "Luồng chính: tải theo lô, tự động sắp xếp, chỉnh tối thiểu và hồi tưởng.",

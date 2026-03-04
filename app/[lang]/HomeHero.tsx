@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
@@ -14,6 +14,7 @@ import styles from "./page.module.scss";
 export type HomeHeroContent = {
   heroTitle: string;
   heroLead: string;
+  heroTutorialCta: string;
   primaryCta: string;
   deviceAlt: string;
   splashSubtitle: string;
@@ -29,9 +30,23 @@ type HomeHeroProps = {
 };
 
 export function HomeHero({ lang, content }: HomeHeroProps) {
+  const introSectionRef = useRef<HTMLElement>(null);
   const [introVersion, setIntroVersion] = useState(0);
   const [showIntroPrompt, setShowIntroPrompt] = useState(false);
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
+
+  const scrollToIntroSection = () => {
+    const section = introSectionRef.current;
+
+    if (!section) {
+      return;
+    }
+
+    window.scrollTo({
+      top: section.getBoundingClientRect().top + window.scrollY,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>
@@ -46,9 +61,9 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
             </FadeIn>
             <FadeIn delay={160} className={styles.heroActionsWrap}>
               <div className={styles.heroActions}>
-                <Link href={`/${lang}/download`} className={styles.primaryButton}>
-                  {content.primaryCta}
-                </Link>
+                <button type="button" className={styles.primaryButton} onClick={scrollToIntroSection}>
+                  {content.heroTutorialCta}
+                </button>
               </div>
             </FadeIn>
           </div>
@@ -76,6 +91,7 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
       </section>
 
       <section
+        ref={introSectionRef}
         className={`${styles.introSection} ${isIntroExpanded ? styles.introSectionExpanded : ""}`}
       >
         <FadeIn delay={140} className={styles.introStageWrap}>
