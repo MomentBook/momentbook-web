@@ -18,6 +18,7 @@ type DownloadCopy = {
   eyebrow: string;
   title: string;
   subtitle?: string;
+  flowHighlights: [string, string, string];
   availability: string;
   deviceAlt: string;
   splashSubtitle: string;
@@ -162,7 +163,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "Install MomentBook on iOS and Android, then keep one post-trip flow from batch upload to timeline and map recap.",
     eyebrow: "Install MomentBook",
-    title: "Remember your travel moments now",
+    title: "Remember every travel moment now",
+    flowHighlights: [
+      "Upload once",
+      "Auto organize by time and place",
+      "Revisit on timeline and map",
+    ],
     availability: "Available on App Store and Google Play.",
     deviceAlt: "MomentBook splash screen",
     splashSubtitle: "Travel memories, quietly kept.",
@@ -179,7 +185,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "iOS와 Android에서 MomentBook을 설치하고, 여행 후 일괄 업로드부터 타임라인/지도 회상까지 같은 흐름으로 사용하세요.",
     eyebrow: "MomentBook 설치",
-    title: "지금, 여행의 순간을 기억해요",
+    title: "지금, 여행의 순간을 기억하세요",
+    flowHighlights: [
+      "한 번에 업로드",
+      "시간과 장소 기준 자동 정리",
+      "타임라인과 지도로 다시 보기",
+    ],
     availability: "App Store와 Google Play에서 이용할 수 있습니다.",
     deviceAlt: "MomentBook 스플래시 화면",
     splashSubtitle: "여행 기억을 차분히 보관합니다.",
@@ -196,7 +207,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "iOS と Android で MomentBook をインストールし、旅行後は一括アップロードからタイムライン/地図回想まで同じ流れで使えます。",
     eyebrow: "MomentBook インストール",
-    title: "今、旅の瞬間を記憶に",
+    title: "今、旅の瞬間を記憶に残してください",
+    flowHighlights: [
+      "一度にアップロード",
+      "時間と場所で自動整理",
+      "タイムラインと地図で振り返り",
+    ],
     availability: "App Store と Google Play で利用できます。",
     deviceAlt: "MomentBook スプラッシュ画面",
     splashSubtitle: "旅の記憶を静かに保管します。",
@@ -213,7 +229,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "在 iOS 和 Android 上安装 MomentBook，并在每次旅行后按同一流程完成批量上传、时间线与地图回想。",
     eyebrow: "安装 MomentBook",
-    title: "此刻，记住旅行的每个瞬间",
+    title: "此刻，请记住旅行的每个瞬间",
+    flowHighlights: [
+      "一次上传",
+      "按时间与地点自动整理",
+      "在时间线和地图中回看",
+    ],
     availability: "可在 App Store 与 Google Play 使用。",
     deviceAlt: "MomentBook 启动画面",
     splashSubtitle: "安静地保存旅行记忆。",
@@ -230,7 +251,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "Instala MomentBook en iOS y Android y usa el mismo flujo después del viaje: carga por lotes, línea de tiempo y repaso en mapa.",
     eyebrow: "Instalar MomentBook",
-    title: "Recuerda ahora tus momentos de viaje",
+    title: "Recuerda ahora cada momento de tu viaje",
+    flowHighlights: [
+      "Carga una vez",
+      "Orden automático por tiempo y lugar",
+      "Revísalo en línea de tiempo y mapa",
+    ],
     availability: "Disponible en App Store y Google Play.",
     deviceAlt: "Pantalla de inicio de MomentBook",
     splashSubtitle: "Tus recuerdos de viaje, guardados con calma.",
@@ -247,7 +273,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "Instale o MomentBook no iOS e Android e use o mesmo fluxo após a viagem: envio em lote, linha do tempo e revisão no mapa.",
     eyebrow: "Instalar MomentBook",
-    title: "Lembre agora seus momentos de viagem",
+    title: "Lembre agora cada momento da sua viagem",
+    flowHighlights: [
+      "Envie uma vez",
+      "Organização automática por tempo e lugar",
+      "Revise na linha do tempo e no mapa",
+    ],
     availability: "Disponível na App Store e no Google Play.",
     deviceAlt: "Tela de abertura do MomentBook",
     splashSubtitle: "Memórias de viagem guardadas com tranquilidade.",
@@ -264,7 +295,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "Installez MomentBook sur iOS et Android et utilisez le même flux après le voyage : import en lot, timeline et rappel sur carte.",
     eyebrow: "Installer MomentBook",
-    title: "Gardez maintenant vos moments de voyage",
+    title: "Gardez maintenant chaque moment de votre voyage",
+    flowHighlights: [
+      "Importez en une fois",
+      "Tri automatique par temps et lieu",
+      "Revoyez sur la timeline et la carte",
+    ],
     availability: "Disponible sur App Store et Google Play.",
     deviceAlt: "Écran de démarrage MomentBook",
     splashSubtitle: "Les souvenirs de voyage, conservés avec calme.",
@@ -281,7 +317,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "ติดตั้ง MomentBook บน iOS และ Android แล้วใช้โฟลว์เดิมหลังทริป ตั้งแต่อัปโหลดแบบชุดเดียวจนถึงไทม์ไลน์และการย้อนดูบนแผนที่",
     eyebrow: "ติดตั้ง MomentBook",
-    title: "จดจำช่วงเวลาการเดินทางของคุณตอนนี้",
+    title: "จดจำทุกช่วงเวลาการเดินทางของคุณตอนนี้",
+    flowHighlights: [
+      "อัปโหลดครั้งเดียว",
+      "จัดอัตโนมัติตามเวลาและสถานที่",
+      "ย้อนดูบนไทม์ไลน์และแผนที่",
+    ],
     availability: "ใช้งานได้บน App Store และ Google Play",
     deviceAlt: "หน้าสแปลชของ MomentBook",
     splashSubtitle: "เก็บความทรงจำการเดินทางไว้อย่างสงบ",
@@ -298,7 +339,12 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     metaDescription:
       "Cài MomentBook trên iOS và Android rồi dùng cùng một luồng sau chuyến đi: tải theo lô, timeline và hồi tưởng trên bản đồ.",
     eyebrow: "Cài đặt MomentBook",
-    title: "Ghi nhớ ngay những khoảnh khắc chuyến đi",
+    title: "Ghi nhớ ngay từng khoảnh khắc chuyến đi của bạn",
+    flowHighlights: [
+      "Tải lên một lần",
+      "Tự động sắp theo thời gian và địa điểm",
+      "Xem lại trên timeline và bản đồ",
+    ],
     availability: "Có trên App Store và Google Play.",
     deviceAlt: "Màn hình splash MomentBook",
     splashSubtitle: "Lưu giữ ký ức chuyến đi một cách nhẹ nhàng.",

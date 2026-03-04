@@ -53,11 +53,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
       "After the intro, open the app to upload your photos at once and arrange moments by time and place.",
   },
   ko: {
-    metaTitle: "MomentBook — 여행의 순간을 기억해요",
+    metaTitle: "MomentBook — 여행의 순간을 기억하세요",
     metaDescription:
       "MomentBook로 여행의 순간을 한 번에 담고, 타임라인과 지도에서 오래 기억하세요.",
     eyebrow: "MomentBook App",
-    heroTitle: "여행의 순간을 기억해요",
+    heroTitle: "여행의 순간을 기억하세요",
     heroLead:
       "여행이 끝난 뒤 사진을 한 번에 올리면, 시간과 장소의 흐름대로 순간이 모여 언제든 다시 기억할 수 있어요.",
     heroTutorialCta: "튜토리얼 보기",
