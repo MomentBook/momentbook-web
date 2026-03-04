@@ -19,6 +19,9 @@ type HomePageCopy = {
   deviceAlt: string;
   splashSubtitle: string;
   replayLabel: string;
+  introPromptCta: string;
+  introGuideTitle: string;
+  introGuideLead: string;
 };
 
 const homePageCopy: Record<Language, HomePageCopy> = {
@@ -36,6 +39,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook splash screen",
     splashSubtitle: "Travel memories, quietly kept.",
     replayLabel: "Replay intro",
+    introPromptCta: "Try organizing in the app",
+    introGuideTitle: "Continue your trip recap in MomentBook",
+    introGuideLead:
+      "After the intro, open the app to upload your photos at once and arrange moments by time and place.",
   },
   ko: {
     metaTitle: "MomentBook — 여행의 순간을 기억해요",
@@ -51,6 +58,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook 스플래시 화면",
     splashSubtitle: "여행 기억을 차분히 보관합니다.",
     replayLabel: "인트로 다시 보기",
+    introPromptCta: "앱에서 정리해보기",
+    introGuideTitle: "MomentBook에서 여행을 정리해보세요",
+    introGuideLead:
+      "인트로를 본 뒤 앱에서 사진을 한 번에 올리고, 시간과 장소 흐름으로 순간을 정리해보세요.",
   },
   ja: {
     metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
@@ -66,6 +77,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook スプラッシュ画面",
     splashSubtitle: "旅の記憶を静かに保管します。",
     replayLabel: "イントロを再生",
+    introPromptCta: "アプリで整理してみる",
+    introGuideTitle: "MomentBookで旅の記録を続ける",
+    introGuideLead:
+      "イントロのあと、アプリで写真をまとめてアップロードし、時間と場所の流れで瞬間を整理できます。",
   },
   zh: {
     metaTitle: "MomentBook — 记住每个旅行瞬间",
@@ -81,6 +96,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook 启动画面",
     splashSubtitle: "安静地保存旅行记忆。",
     replayLabel: "重播介绍",
+    introPromptCta: "在应用中整理看看",
+    introGuideTitle: "在 MomentBook 继续整理旅程",
+    introGuideLead:
+      "看完介绍后，在应用里一次上传照片，按时间与地点把旅行瞬间整理好。",
   },
   es: {
     metaTitle: "MomentBook — Memoriza tus momentos",
@@ -96,6 +115,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Pantalla de inicio de MomentBook",
     splashSubtitle: "Tus recuerdos de viaje, guardados con calma.",
     replayLabel: "Repetir intro",
+    introPromptCta: "Organizar en la app",
+    introGuideTitle: "Continua tu recap en MomentBook",
+    introGuideLead:
+      "Despues del intro, abre la app para subir fotos en lote y ordenar momentos por tiempo y lugar.",
   },
   pt: {
     metaTitle: "MomentBook — Guarde seus momentos",
@@ -111,6 +134,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Tela de abertura do MomentBook",
     splashSubtitle: "Memórias de viagem guardadas com tranquilidade.",
     replayLabel: "Reproduzir intro",
+    introPromptCta: "Organizar no app",
+    introGuideTitle: "Continue seu recap no MomentBook",
+    introGuideLead:
+      "Depois do intro, abra o app para enviar fotos em lote e organizar momentos por tempo e lugar.",
   },
   fr: {
     metaTitle: "MomentBook — Memorisez vos moments",
@@ -126,6 +153,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Écran de démarrage MomentBook",
     splashSubtitle: "Les souvenirs de voyage, conservés avec calme.",
     replayLabel: "Rejouer l'intro",
+    introPromptCta: "Organiser dans l'app",
+    introGuideTitle: "Continuez votre recap dans MomentBook",
+    introGuideLead:
+      "Apres l'intro, ouvrez l'app pour importer vos photos en lot et organiser les moments par temps et lieu.",
   },
   th: {
     metaTitle: "MomentBook — จดจำทุกช่วงเวลาของคุณ",
@@ -141,6 +172,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "หน้าสแปลชของ MomentBook",
     splashSubtitle: "เก็บความทรงจำการเดินทางไว้อย่างสงบ",
     replayLabel: "เล่นอินโทรอีกครั้ง",
+    introPromptCta: "ลองจัดในแอป",
+    introGuideTitle: "จัดทริปต่อใน MomentBook",
+    introGuideLead:
+      "หลังดูอินโทรแล้ว เปิดแอปเพื่ออัปโหลดรูปแบบชุดและจัดช่วงเวลาตามเวลาและสถานที่",
   },
   vi: {
     metaTitle: "MomentBook — Ghi nho khoanh khac cua ban",
@@ -156,6 +191,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Màn hình splash MomentBook",
     splashSubtitle: "Lưu giữ ký ức chuyến đi một cách nhẹ nhàng.",
     replayLabel: "Xem lai intro",
+    introPromptCta: "Thu sap xep trong app",
+    introGuideTitle: "Tiep tuc recap trong MomentBook",
+    introGuideLead:
+      "Sau intro, mo app de tai anh theo lo va sap xep khoanh khac theo thoi gian va dia diem.",
   },
 };
 

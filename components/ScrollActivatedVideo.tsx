@@ -9,6 +9,7 @@ type ScrollActivatedVideoProps = {
   poster?: string;
   title: string;
   replayLabel: string;
+  showReplayButton?: boolean;
   fallback: ReactNode;
   onPlaybackStart?: () => void;
   onPlaybackEnd?: () => void;
@@ -20,6 +21,7 @@ export function ScrollActivatedVideo({
   poster,
   title,
   replayLabel,
+  showReplayButton = true,
   fallback,
   onPlaybackStart,
   onPlaybackEnd,
@@ -137,15 +139,17 @@ export function ScrollActivatedVideo({
       >
         <source src={src ?? undefined} type="video/mp4" />
       </video>
-      <button
-        type="button"
-        className={`${styles.replayButton} ${hasEnded ? styles.replayButtonVisible : ""}`}
-        onClick={() => {
-          void handleReplay();
-        }}
-      >
-        {replayLabel}
-      </button>
+      {showReplayButton ? (
+        <button
+          type="button"
+          className={`${styles.replayButton} ${hasEnded ? styles.replayButtonVisible : ""}`}
+          onClick={() => {
+            void handleReplay();
+          }}
+        >
+          {replayLabel}
+        </button>
+      ) : null}
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
@@ -17,6 +18,9 @@ export type HomeHeroContent = {
   deviceAlt: string;
   splashSubtitle: string;
   replayLabel: string;
+  introPromptCta: string;
+  introGuideTitle: string;
+  introGuideLead: string;
 };
 
 type HomeHeroProps = {
@@ -25,6 +29,10 @@ type HomeHeroProps = {
 };
 
 export function HomeHero({ lang, content }: HomeHeroProps) {
+  const [introVersion, setIntroVersion] = useState(0);
+  const [showIntroPrompt, setShowIntroPrompt] = useState(false);
+  const [isIntroExpanded, setIsIntroExpanded] = useState(false);
+
   return (
     <>
       <section className={styles.hero}>
@@ -67,28 +75,77 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
         </div>
       </section>
 
-      <section className={styles.introSection}>
+      <section
+        className={`${styles.introSection} ${isIntroExpanded ? styles.introSectionExpanded : ""}`}
+      >
         <FadeIn delay={140} className={styles.introStageWrap}>
           <div className={styles.introStage}>
-            <ScrollActivatedVideo
-              className={styles.introVideo}
-              src="/media/intro.mp4"
-              poster="/media/intro-poster.jpg"
-              title={content.deviceAlt}
-              replayLabel={content.replayLabel}
-              fallback={(
-                <div className={styles.introFallback} role="img" aria-label={content.deviceAlt}>
-                  <Image
-                    src="/media/intro-poster.jpg"
-                    alt=""
-                    aria-hidden="true"
-                    fill
-                    sizes="(max-width: 979px) 92vw, 78vw"
-                    className={styles.introFallbackImage}
-                  />
-                </div>
-              )}
-            />
+            <div className={styles.introMediaPane}>
+              <ScrollActivatedVideo
+                key={`intro-${introVersion}`}
+                className={styles.introVideo}
+                src="/media/intro.mp4"
+                poster="/media/intro-poster.jpg"
+                title={content.deviceAlt}
+                replayLabel={content.replayLabel}
+                showReplayButton={false}
+                onPlaybackStart={() => {
+                  setShowIntroPrompt(false);
+                }}
+                onPlaybackEnd={() => {
+                  setShowIntroPrompt(true);
+                }}
+                fallback={(
+                  <div className={styles.introFallback} role="img" aria-label={content.deviceAlt}>
+                    <Image
+                      src="/media/intro-poster.jpg"
+                      alt=""
+                      aria-hidden="true"
+                      fill
+                      sizes="(max-width: 979px) 92vw, 78vw"
+                      className={styles.introFallbackImage}
+                    />
+                  </div>
+                )}
+              />
+
+              {!isIntroExpanded && showIntroPrompt ? (
+                <button
+                  type="button"
+                  className={styles.introPromptButton}
+                  onClick={() => {
+                    setIsIntroExpanded(true);
+                    setShowIntroPrompt(false);
+                  }}
+                >
+                  {content.introPromptCta}
+                </button>
+              ) : null}
+            </div>
+
+            <aside
+              className={`${styles.introGuidePane} ${isIntroExpanded ? styles.introGuidePaneVisible : ""}`}
+              aria-hidden={!isIntroExpanded}
+            >
+              <h2 className={styles.introGuideTitle}>{content.introGuideTitle}</h2>
+              <p className={styles.introGuideLead}>{content.introGuideLead}</p>
+              <div className={styles.introGuideActions}>
+                <button
+                  type="button"
+                  className={styles.introGuideReplayButton}
+                  onClick={() => {
+                    setIntroVersion((current) => current + 1);
+                    setIsIntroExpanded(false);
+                    setShowIntroPrompt(false);
+                  }}
+                >
+                  {content.replayLabel}
+                </button>
+                <Link href={`/${lang}/download`} className={styles.primaryButton}>
+                  {content.primaryCta}
+                </Link>
+              </div>
+            </aside>
           </div>
         </FadeIn>
       </section>
