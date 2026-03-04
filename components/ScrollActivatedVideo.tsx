@@ -267,9 +267,9 @@ ref,
               void handleVideoToggle();
             }}
           >
-            <span aria-hidden="true">
-              <svg viewBox="0 0 24 24" className={styles.playIcon}>
-                <path d="M8 6v12l10-6z" fill="currentColor" />
+            <span aria-hidden="true" className={styles.playIconWrap}>
+              <svg viewBox="0 0 18 18" className={styles.playIcon}>
+                <path d="M3.2 1.3v15.4L16.8 9 3.2 1.3Z" fill="currentColor" />
               </svg>
             </span>
             <span className={styles.visuallyHidden}>{playWithSoundLabel}</span>
