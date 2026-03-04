@@ -5,18 +5,10 @@
 
 :root {
   --font-sans:
-    "SF Pro Rounded",
-    "Avenir Next Rounded",
-    "Segoe UI Rounded",
-    "Nunito",
+    var(--font-rounded),
     "Arial Rounded MT Bold",
     var(--font-suit),
-    "Noto Sans KR",
-    "Noto Sans JP",
-    "Noto Sans SC",
-    "Noto Sans Thai",
     "Noto Sans",
-    ui-rounded,
     sans-serif;
 
   --spacing-xs: 0.625rem;

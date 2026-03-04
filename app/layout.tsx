@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Nunito } from "next/font/google";
 import "./globals.scss";
 import LanguageSyncProvider from "./components/LanguageSyncProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -20,6 +21,11 @@ const HTML_LANG_BY_CODE = Object.fromEntries(
 ) as Record<Language, string>;
 const DEFAULT_HTML_LANG = HTML_LANG_BY_CODE[defaultLanguage];
 const HTML_LANG_MAP_JSON = JSON.stringify(HTML_LANG_BY_CODE);
+
+const nunito = Nunito({
+    variable: "--font-rounded",
+    weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
@@ -67,7 +73,7 @@ export default async function RootLayout({
           `}
                 </Script>
             </head>
-            <body>
+            <body className={nunito.variable}>
                 <LanguageSyncProvider />
                 {process.env.NODE_ENV === "production" ? (
                     <>
