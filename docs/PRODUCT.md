@@ -120,6 +120,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Users list/detail, photo detail: `revalidate = 3600`
 - Sitemap routes: `revalidate = 3600`
 - API fetch helper 일부: `next.revalidate = 3600` 또는 60(상수)
+- `app/layout.tsx`는 request-scoped Dynamic API(`headers`, `cookies`)를 사용하지 않음
 
 ## 6) Interaction Constraints
 
@@ -133,6 +134,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 언어 감지 순서(redirect): cookie -> `Accept-Language` -> default(`en`)
 - 클라이언트 선호 언어 상태: Jotai `languageAtom`
 - `LanguageSyncProvider`가 localStorage/cookie/path language 동기화
+- `LocalizedTime` 계열은 SSR에서 UTC 스냅샷을 출력하고 hydration 후 viewer locale/timezone 기준으로 갱신
 
 ## 8) Metadata / SEO / AEO
 
@@ -147,6 +149,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - Public content/marketing pages: index/follow
 - Legal pages: noindex/nofollow
+- `/users?q=...` 검색 파라미터 페이지: noindex/follow + canonical(`/{lang}/users`)
 - No aggressive googlebot `max-*` overrides
 
 ## 8.3 Structured Data

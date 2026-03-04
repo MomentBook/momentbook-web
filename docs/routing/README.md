@@ -82,6 +82,11 @@
 
 - Legal pages (`privacy`, `terms`, `community-guidelines`, `marketing-consent`, `support`)
 
+### 4.3 noindex/follow (query variants)
+
+- `/{lang}/users?q=...` (internal search results)
+- canonical: `/{lang}/users`
+
 ## 5) Revalidation Policy (Route Level)
 
 - `/{lang}/journeys` + journey detail + moment detail: `revalidate = 60`

@@ -61,6 +61,15 @@ function resolveRange(
 }
 
 function formatDate(lang: Language, timestamp: number | null, fallback: string) {
+  return formatDateWithTimeZone(lang, timestamp, fallback);
+}
+
+function formatDateWithTimeZone(
+  lang: Language,
+  timestamp: number | null,
+  fallback: string,
+  timeZone?: string,
+) {
   if (timestamp === null) {
     return fallback;
   }
@@ -70,6 +79,7 @@ function formatDate(lang: Language, timestamp: number | null, fallback: string) 
       year: "numeric",
       month: "short",
       day: "numeric",
+      ...(timeZone ? { timeZone } : {}),
     }).format(timestamp);
   } catch {
     return fallback;
@@ -81,6 +91,7 @@ function formatDateRange(
   start: number | null | undefined,
   end: number | null | undefined,
   fallback: string,
+  timeZone?: string,
 ) {
   const range = resolveRange(start, end);
   if (!range) {
@@ -92,6 +103,7 @@ function formatDateRange(
       year: "numeric",
       month: "long",
       day: "numeric",
+      ...(timeZone ? { timeZone } : {}),
     });
     const startDate = formatter.format(range.start);
     const endDate = formatter.format(range.end);
@@ -111,6 +123,7 @@ function formatDateTimeRange(
   start: number | null | undefined,
   end: number | null | undefined,
   fallback: string,
+  timeZone?: string,
 ) {
   const range = resolveRange(start, end);
   if (!range) {
@@ -122,10 +135,12 @@ function formatDateTimeRange(
       year: "numeric",
       month: "short",
       day: "numeric",
+      ...(timeZone ? { timeZone } : {}),
     });
     const timeFormatter = new Intl.DateTimeFormat(toLocaleTag(lang), {
       hour: "2-digit",
       minute: "2-digit",
+      ...(timeZone ? { timeZone } : {}),
     });
 
     const startDate = dateFormatter.format(range.start);
@@ -150,13 +165,18 @@ export function LocalizedDate({
   fallback = "",
 }: LocalizedDateProps) {
   const normalized = normalizeTimestamp(timestamp);
+  const isoDateTime = normalized === null ? undefined : new Date(normalized).toISOString();
   const value = useSyncExternalStore(
     noopSubscribe,
     () => formatDate(lang, normalized, fallback),
-    () => fallback,
+    () => formatDateWithTimeZone(lang, normalized, fallback, "UTC"),
   );
 
-  return <span className={className}>{value}</span>;
+  return (
+    <time className={className} dateTime={isoDateTime}>
+      {value}
+    </time>
+  );
 }
 
 export function LocalizedDateRange({
@@ -169,7 +189,7 @@ export function LocalizedDateRange({
   const value = useSyncExternalStore(
     noopSubscribe,
     () => formatDateRange(lang, start, end, fallback),
-    () => fallback,
+    () => formatDateRange(lang, start, end, fallback, "UTC"),
   );
 
   return <span className={className}>{value}</span>;
@@ -185,7 +205,7 @@ export function LocalizedDateTimeRange({
   const value = useSyncExternalStore(
     noopSubscribe,
     () => formatDateTimeRange(lang, start, end, fallback),
-    () => fallback,
+    () => formatDateTimeRange(lang, start, end, fallback, "UTC"),
   );
 
   return <span className={className}>{value}</span>;

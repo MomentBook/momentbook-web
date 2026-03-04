@@ -102,20 +102,57 @@ const userListLabels: Partial<Record<Language, {
   },
 };
 
+function readSearchQuery(value: string | string[] | undefined): string {
+  if (Array.isArray(value)) {
+    for (const candidate of value) {
+      if (typeof candidate !== "string") {
+        continue;
+      }
+
+      const trimmed = candidate.trim();
+      if (trimmed.length > 0) {
+        return trimmed;
+      }
+    }
+
+    return "";
+  }
+
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  return value.trim();
+}
+
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ lang: string }>;
+  searchParams: Promise<{ q?: string | string[] }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
+  const { q } = await searchParams as { q?: string | string[] };
   const labels = userListLabels[lang] ?? userListLabels.en;
+  const query = readSearchQuery(q);
   const path = "/users";
   const url = buildOpenGraphUrl(lang, path);
+  const shouldNoIndexSearchResults = query.length > 0;
 
   return {
     title: labels.title,
     description: labels.subtitle,
-    robots: buildPublicRobots(),
+    robots: shouldNoIndexSearchResults
+      ? {
+          index: false,
+          follow: true,
+          googleBot: {
+            index: false,
+            follow: true,
+          },
+        }
+      : buildPublicRobots(),
     alternates: buildAlternates(lang, path),
     openGraph: {
       title: labels.title,
@@ -135,17 +172,17 @@ export default async function UsersPage({
   searchParams,
 }: {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string | string[] }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const { q } = await searchParams as { q?: string };
+  const { q } = await searchParams as { q?: string | string[] };
   const labels = userListLabels[lang] ?? userListLabels.en;
 
   const response = await fetchPublicUsers({ limit: 100, sort: "recent" });
   const allUsers = response?.data?.users ?? [];
 
   // Server-side filtering
-  const query = q?.trim().toLowerCase() || "";
+  const query = readSearchQuery(q).toLowerCase();
   const filteredUsers = query
     ? allUsers.filter((user) => {
         const searchText = [user.name, user.biography]

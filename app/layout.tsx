@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import Script from "next/script";
 import "./globals.scss";
 import LanguageSyncProvider from "./components/LanguageSyncProvider";
@@ -9,13 +8,18 @@ import GaRouteTracker from "./components/GaRouteTracker";
 import { APP_LOGO_PATH } from "@/lib/branding/logo";
 import {
     defaultLanguage,
-    isValidLanguage,
+    languageList,
     toLocaleTag,
     type Language,
 } from "@/lib/i18n/config";
 //
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 const GA_ID = ENV.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID;
+const HTML_LANG_BY_CODE = Object.fromEntries(
+    languageList.map((code) => [code, toLocaleTag(code)]),
+) as Record<Language, string>;
+const DEFAULT_HTML_LANG = HTML_LANG_BY_CODE[defaultLanguage];
+const HTML_LANG_MAP_JSON = JSON.stringify(HTML_LANG_BY_CODE);
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
@@ -26,31 +30,25 @@ export const metadata: Metadata = {
     },
 };
 
-function resolveRequestLanguage(pathname: string | null): Language {
-    if (!pathname) {
-        return defaultLanguage;
-    }
-
-    const firstSegment = pathname.split("/").filter(Boolean)[0];
-    if (firstSegment && isValidLanguage(firstSegment)) {
-        return firstSegment;
-    }
-
-    return defaultLanguage;
-}
-
 export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const requestHeaders = await headers();
-    const pathname = requestHeaders.get("x-pathname");
-    const lang = resolveRequestLanguage(pathname);
-
     return (
-        <html lang={toLocaleTag(lang)} suppressHydrationWarning>
+        <html lang={DEFAULT_HTML_LANG} suppressHydrationWarning>
             <head>
+                <Script id="html-lang-script" strategy="beforeInteractive">
+                    {`
+            (function() {
+              var langMap = ${HTML_LANG_MAP_JSON};
+              var pathname = window.location.pathname || "/";
+              var segment = pathname.split("/")[1];
+              var lang = langMap[segment] || "${DEFAULT_HTML_LANG}";
+              document.documentElement.setAttribute("lang", lang);
+            })();
+          `}
+                </Script>
                 <Script id="theme-script" strategy="beforeInteractive">
                     {`
             (function() {

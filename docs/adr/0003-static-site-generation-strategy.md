@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-02-12)
+2025-01-04 (updated: 2026-03-04)
 
 ## Context
 
@@ -36,7 +36,8 @@ MomentBook 웹은 SEO 우선 공개 웹이며, 서버 부하를 낮추면서도 
 
 ### 3) 클라이언트 로컬 시간 표시
 
-시간 표시는 viewer locale/timezone 기준으로 렌더링한다.
+시간 표시는 hydration 이후 viewer locale/timezone 기준으로 렌더링한다.
+초기 SSR 스냅샷은 UTC 기준 문자열을 출력해 비어 있는 fallback 마크업을 피한다.
 
 - `LocalizedDateTime`
 - `LocalizedDate`, `LocalizedDateTimeRange`
@@ -44,6 +45,12 @@ MomentBook 웹은 SEO 우선 공개 웹이며, 서버 부하를 낮추면서도 
 ### 4) 다국어 정적 라우팅
 
 `app/[lang]` 기반으로 언어별 URL을 고정하고 metadata alternates를 생성한다.
+
+### 5) Root Layout Dynamic API 제한
+
+- `app/layout.tsx`에서는 `headers()`/`cookies()` 같은 request-scoped Dynamic API를 사용하지 않는다.
+- 이유: 상위 레이아웃 Dynamic API 사용 시 하위 공개 페이지의 정적 캐시(Full Route Cache) 적용 범위가 축소될 수 있다.
+- `<html lang>`는 기본값으로 렌더링하고, 언어 prefix 경로(`/{lang}/...`) 기준으로 클라이언트에서 보정한다.
 
 ## Rationale
 
@@ -55,6 +62,7 @@ MomentBook 웹은 SEO 우선 공개 웹이며, 서버 부하를 낮추면서도 
 - ✅ 빠른 응답 및 crawl 안정성
 - ✅ 콘텐츠 유형별 TTL 조정 가능
 - ✅ API 오류 시 페이지 붕괴 최소화
+- ✅ 상위 레이아웃 Dynamic API 제거로 정적 캐시 적합성 개선
 
 ### Negative
 - ⚠️ 페이지별 TTL이 다르므로 운영 이해가 필요
@@ -79,6 +87,8 @@ Rejected: 공개 콘텐츠 최신성 부족
 - `app/[lang]/(content)/users/page.tsx`
 - `app/[lang]/(content)/users/[userId]/page.tsx`
 - `app/[lang]/(content)/photos/[photoId]/page.tsx`
+- `app/layout.tsx`
+- `proxy.ts`
 - `components/LocalizedTime.tsx`
 - `app/[lang]/(content)/photos/[photoId]/LocalizedDateTime.tsx`
 

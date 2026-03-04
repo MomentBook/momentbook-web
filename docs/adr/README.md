@@ -30,9 +30,9 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: 법적 문서 component 분기, core locale 원문 유지, extended locale 본문 영어 fallback, legal noindex
 
 3. [ADR 0003: Static Generation + Revalidation Strategy](./0003-static-site-generation-strategy.md)
-- Date: 2025-01-04 (updated: 2026-02-12)
+- Date: 2025-01-04 (updated: 2026-03-04)
 - Status: Accepted
-- Summary: 정적 중심 + route별 revalidate(60/3600) + null-safe fetch 실패 처리
+- Summary: 정적 중심 + route별 revalidate(60/3600) + root layout Dynamic API 제한 + null-safe fetch 실패 처리
 
 4. [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)
 - Date: 2025-01-04 (updated: 2026-02-12)

@@ -7,17 +7,6 @@ import {
   languageList,
 } from "@/lib/i18n/config";
 
-function nextWithPathnameHeader(request: NextRequest) {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-pathname", request.nextUrl.pathname);
-
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
-}
-
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -28,7 +17,7 @@ export function proxy(request: NextRequest) {
     pathname.startsWith("/tutorials") ||
     pathname.includes(".")
   ) {
-    return nextWithPathnameHeader(request);
+    return NextResponse.next();
   }
 
   // Check if pathname already has a language prefix
@@ -37,7 +26,7 @@ export function proxy(request: NextRequest) {
   );
 
   if (hasLanguagePrefix) {
-    return nextWithPathnameHeader(request);
+    return NextResponse.next();
   }
 
   // Determine the user's preferred language
