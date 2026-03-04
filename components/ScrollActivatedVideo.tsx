@@ -19,7 +19,14 @@ type ScrollActivatedVideoProps = {
   title: string;
   replayLabel: string;
   playWithSoundLabel?: string;
+  playLabel?: string;
+  pauseLabel?: string;
+  muteLabel?: string;
+  unmuteLabel?: string;
   volumeLabel?: string;
+  seekLabel?: string;
+  fullscreenLabel?: string;
+  exitFullscreenLabel?: string;
   autoplay?: boolean;
   showReplayButton?: boolean;
   showSoundToggle?: boolean;
@@ -32,28 +39,72 @@ export type ScrollActivatedVideoHandle = {
   replay: (options?: { forceUnmute?: boolean }) => Promise<void>;
 };
 
+type FullscreenDocument = Document & {
+  webkitFullscreenElement?: Element | null;
+  webkitExitFullscreen?: () => Promise<void> | void;
+};
+
+type FullscreenCapableElement = HTMLElement & {
+  webkitRequestFullscreen?: () => Promise<void> | void;
+};
+
+type IOSFullscreenVideo = HTMLVideoElement & {
+  webkitEnterFullscreen?: () => void;
+};
+
+const DEFAULT_VOLUME = 0.5;
+const SEEK_STEP_SECONDS = 0.1;
+
+function clampVolume(value: number) {
+  return Math.min(1, Math.max(0, value));
+}
+
+function formatDuration(seconds: number) {
+  if (!Number.isFinite(seconds) || seconds < 0) {
+    return "0:00";
+  }
+
+  const wholeSeconds = Math.floor(seconds);
+  const hours = Math.floor(wholeSeconds / 3600);
+  const minutes = Math.floor((wholeSeconds % 3600) / 60);
+  const remainingSeconds = wholeSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
+  }
+
+  return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+}
+
 export const ScrollActivatedVideo = forwardRef<
   ScrollActivatedVideoHandle,
   ScrollActivatedVideoProps
 >(function ScrollActivatedVideo(
-{
-  className,
-  src,
-  poster,
-  title,
-  replayLabel,
-  playWithSoundLabel = "Play with sound",
-  volumeLabel = "Volume",
-  autoplay = true,
-  showReplayButton = true,
-  showSoundToggle = true,
-  fallback,
-  onPlaybackStart,
-  onPlaybackEnd,
-},
-ref,
+  {
+    className,
+    src,
+    poster,
+    title,
+    replayLabel,
+    playWithSoundLabel = "Play with sound",
+    playLabel = "Play",
+    pauseLabel = "Pause",
+    muteLabel = "Mute",
+    unmuteLabel = "Unmute",
+    volumeLabel = "Volume",
+    seekLabel = "Seek video",
+    fullscreenLabel = "Full screen",
+    exitFullscreenLabel = "Exit full screen",
+    autoplay = true,
+    showReplayButton = true,
+    showSoundToggle = true,
+    fallback,
+    onPlaybackStart,
+    onPlaybackEnd,
+  },
+  ref,
 ) {
-  const DEFAULT_VOLUME = 0.5;
+  const rootRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
@@ -61,9 +112,20 @@ ref,
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(DEFAULT_VOLUME);
   const [lastNonZeroVolume, setLastNonZeroVolume] = useState(DEFAULT_VOLUME);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isPointerInside, setIsPointerInside] = useState(false);
   const [requiresUserPlay, setRequiresUserPlay] = useState(!autoplay);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
   const shouldRenderVideo = Boolean(src) && !hasError && !prefersReducedMotion;
+  const safeDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
+  const safeCurrentTime = Math.min(currentTime, safeDuration || currentTime);
+  const seekPercent = safeDuration > 0 ? (safeCurrentTime / safeDuration) * 100 : 0;
+  const timeline = `${formatDuration(safeCurrentTime)} / ${formatDuration(safeDuration)}`;
+  const showCenterPlayButton = requiresUserPlay || (!isPlaying && !hasEnded);
+  const showControls = !isPlaying || hasEnded || isPointerInside;
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -141,6 +203,40 @@ ref,
     };
   }, [autoplay, hasEnded, shouldRenderVideo]);
 
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const fullscreenDoc = document as FullscreenDocument;
+
+    const syncFullscreenState = () => {
+      const fullscreenElement =
+        fullscreenDoc.fullscreenElement ??
+        fullscreenDoc.webkitFullscreenElement ??
+        null;
+      const rootElement = rootRef.current;
+      const videoElement = videoRef.current;
+
+      setIsFullscreen(
+        Boolean(
+          fullscreenElement &&
+            (fullscreenElement === rootElement || fullscreenElement === videoElement),
+        ),
+      );
+    };
+
+    syncFullscreenState();
+
+    document.addEventListener("fullscreenchange", syncFullscreenState);
+    document.addEventListener("webkitfullscreenchange", syncFullscreenState);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", syncFullscreenState);
+      document.removeEventListener("webkitfullscreenchange", syncFullscreenState);
+    };
+  }, []);
+
   const playVideo = async (options?: {
     restart?: boolean;
     forceUnmute?: boolean;
@@ -153,6 +249,7 @@ ref,
 
     if (options?.restart) {
       video.currentTime = 0;
+      setCurrentTime(0);
       setHasEnded(false);
     }
 
@@ -202,7 +299,7 @@ ref,
 
   const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const video = videoRef.current;
-    const nextVolume = Math.min(1, Math.max(0, Number(event.target.value)));
+    const nextVolume = clampVolume(Number(event.target.value));
     const mutedByVolume = nextVolume <= 0;
 
     setVolume(nextVolume);
@@ -218,6 +315,96 @@ ref,
 
     video.volume = nextVolume;
     video.muted = mutedByVolume;
+  };
+
+  const handleMuteToggle = () => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    if (isMuted || volume <= 0) {
+      const restoredVolume =
+        volume > 0
+          ? volume
+          : lastNonZeroVolume > 0
+            ? lastNonZeroVolume
+            : DEFAULT_VOLUME;
+
+      video.muted = false;
+      video.volume = restoredVolume;
+      setIsMuted(false);
+      setVolume(restoredVolume);
+      setLastNonZeroVolume(restoredVolume);
+      return;
+    }
+
+    video.muted = true;
+    setIsMuted(true);
+  };
+
+  const handleSeekChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const video = videoRef.current;
+
+    if (!video || safeDuration <= 0) {
+      return;
+    }
+
+    const nextTime = Math.min(
+      safeDuration,
+      Math.max(0, Number(event.target.value)),
+    );
+
+    video.currentTime = nextTime;
+    setCurrentTime(nextTime);
+
+    if (hasEnded && nextTime < safeDuration) {
+      setHasEnded(false);
+    }
+  };
+
+  const handleFullscreenToggle = async () => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    const fullscreenDoc = document as FullscreenDocument;
+    const fullscreenElement =
+      fullscreenDoc.fullscreenElement ??
+      fullscreenDoc.webkitFullscreenElement ??
+      null;
+
+    try {
+      if (fullscreenElement) {
+        if (fullscreenDoc.exitFullscreen) {
+          await fullscreenDoc.exitFullscreen();
+          return;
+        }
+
+        if (fullscreenDoc.webkitExitFullscreen) {
+          await fullscreenDoc.webkitExitFullscreen();
+        }
+        return;
+      }
+
+      const fullscreenTarget = rootRef.current as FullscreenCapableElement | null;
+
+      if (fullscreenTarget?.requestFullscreen) {
+        await fullscreenTarget.requestFullscreen();
+        return;
+      }
+
+      if (fullscreenTarget?.webkitRequestFullscreen) {
+        await fullscreenTarget.webkitRequestFullscreen();
+        return;
+      }
+
+      const video = videoRef.current as IOSFullscreenVideo | null;
+      video?.webkitEnterFullscreen?.();
+    } catch {
+      // Fullscreen may be blocked by browser policy.
+    }
   };
 
   const handleUserPlayWithSound = async () => {
@@ -241,7 +428,16 @@ ref,
   }
 
   return (
-    <div className={`${styles.root} ${className ?? ""}`}>
+    <div
+      ref={rootRef}
+      className={`${styles.root} ${className ?? ""}`}
+      onMouseEnter={() => {
+        setIsPointerInside(true);
+      }}
+      onMouseLeave={() => {
+        setIsPointerInside(false);
+      }}
+    >
       <video
         ref={videoRef}
         className={styles.video}
@@ -254,13 +450,45 @@ ref,
         controls={false}
         poster={poster}
         onError={() => setHasError(true)}
+        onLoadedMetadata={() => {
+          const video = videoRef.current;
+
+          if (!video) {
+            return;
+          }
+
+          setDuration(Number.isFinite(video.duration) ? video.duration : 0);
+          setCurrentTime(video.currentTime);
+        }}
+        onDurationChange={() => {
+          const video = videoRef.current;
+
+          if (!video) {
+            return;
+          }
+
+          setDuration(Number.isFinite(video.duration) ? video.duration : 0);
+        }}
+        onTimeUpdate={() => {
+          const video = videoRef.current;
+
+          if (!video) {
+            return;
+          }
+
+          setCurrentTime(video.currentTime);
+        }}
         onEnded={() => {
+          const video = videoRef.current;
+
           setIsPlaying(false);
           setHasEnded(true);
+          setCurrentTime(video?.duration ?? currentTime);
           onPlaybackEnd?.();
         }}
         onPlay={() => {
           setIsPlaying(true);
+          setHasEnded(false);
           onPlaybackStart?.();
         }}
         onPause={() => {
@@ -280,7 +508,7 @@ ref,
       >
         <source src={src ?? undefined} type="video/mp4" />
       </video>
-      {requiresUserPlay || (!isPlaying && !hasEnded) ? (
+      {showCenterPlayButton ? (
         <>
           <div className={styles.startOverlay} aria-hidden="true" />
           <button
@@ -297,35 +525,130 @@ ref,
             }}
           >
             <span aria-hidden="true" className={styles.playIconWrap}>
-              <svg viewBox="0 0 18 18" className={styles.playIcon}>
-                <path d="M3.2 1.3v15.4L16.8 9 3.2 1.3Z" fill="currentColor" />
+              <svg viewBox="0 0 24 24" className={styles.playIcon}>
+                <path d="M8 5v14l11-7z" fill="currentColor" />
               </svg>
             </span>
             <span className={styles.visuallyHidden}>{playWithSoundLabel}</span>
           </button>
         </>
       ) : null}
-      {showSoundToggle ? (
-        <div className={styles.soundControls}>
-          <label className={styles.volumeControl}>
-            <input
-              type="range"
-              min={0}
-              max={1}
-              step={0.05}
-              value={volume}
-              onChange={handleVolumeChange}
-              className={styles.volumeSlider}
-              aria-label={volumeLabel}
-              style={
-                {
-                  "--volume-percent": `${Math.round(volume * 100)}%`,
-                } as CSSProperties
-              }
-            />
-          </label>
+
+      <div className={`${styles.controls} ${showControls ? styles.controlsVisible : ""}`}>
+        <div className={styles.seekRow}>
+          <input
+            type="range"
+            min={0}
+            max={safeDuration > 0 ? safeDuration : 0}
+            step={SEEK_STEP_SECONDS}
+            value={safeDuration > 0 ? safeCurrentTime : 0}
+            onChange={handleSeekChange}
+            className={styles.seekSlider}
+            aria-label={seekLabel}
+            disabled={safeDuration <= 0}
+            style={
+              {
+                "--seek-percent": `${Math.round(seekPercent)}%`,
+              } as CSSProperties
+            }
+          />
         </div>
-      ) : null}
+        <div className={styles.controlRow}>
+          <div className={styles.leftControls}>
+            <button
+              type="button"
+              className={styles.controlButton}
+              aria-label={isPlaying ? pauseLabel : playLabel}
+              onClick={() => {
+                void handleVideoToggle();
+              }}
+            >
+              {isPlaying ? (
+                <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 6h3v12H8zM13 6h3v12h-3z" fill="currentColor" />
+                </svg>
+              ) : (
+                <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14l11-7z" fill="currentColor" />
+                </svg>
+              )}
+            </button>
+
+            {showSoundToggle ? (
+              <>
+                <button
+                  type="button"
+                  className={styles.controlButton}
+                  aria-label={isMuted ? unmuteLabel : muteLabel}
+                  onClick={handleMuteToggle}
+                >
+                  {isMuted || volume <= 0 ? (
+                    <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        d="M14 5.23v2.06A3.001 3.001 0 0 1 17 10h2c0-2.64-1.67-4.9-4-5.77zM4.27 3 3 4.27 7.73 9H5v6h4l5 5v-6.73l4.73 4.73L20 16.73 4.27 3zM14 10.27l-2-2V12l2 2v-3.73z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  ) : (
+                    <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                      <path
+                        d="M5 9v6h4l5 5V4L9 9H5zm11.5 3c0-1.77-1-3.29-2.5-4.03v8.05A4.48 4.48 0 0 0 16.5 12zm0-7v2.06A7 7 0 0 1 20 12a7 7 0 0 1-3.5 6v2.06A9 9 0 0 0 22 12a9 9 0 0 0-5.5-7z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  )}
+                </button>
+                <label className={styles.volumeControl}>
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.05}
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    className={styles.volumeSlider}
+                    aria-label={volumeLabel}
+                    style={
+                      {
+                        "--volume-percent": `${Math.round(volume * 100)}%`,
+                      } as CSSProperties
+                    }
+                  />
+                </label>
+              </>
+            ) : null}
+
+            <span className={styles.timeText}>{timeline}</span>
+          </div>
+          <div className={styles.rightControls}>
+            <button
+              type="button"
+              className={styles.controlButton}
+              aria-label={isFullscreen ? exitFullscreenLabel : fullscreenLabel}
+              onClick={() => {
+                void handleFullscreenToggle();
+              }}
+            >
+              {isFullscreen ? (
+                <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M6 16h2v2h2v2H6v-4zm10 2h2v-2h2v4h-4v-2zM6 4h4v2H8v2H6V4zm12 0h2v4h-2V6h-2V4h4z"
+                    fill="currentColor"
+                  />
+                </svg>
+              ) : (
+                <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M7 14H5v5h5v-2H7v-3zm0-4h2V7h3V5H5v5zm10 7h-3v2h5v-5h-2v3zm0-12h-3v2h3v3h2V5h-2z"
+                    fill="currentColor"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
       {showReplayButton ? (
         <button
           type="button"

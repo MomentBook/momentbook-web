@@ -17,6 +17,14 @@ type HomePageCopy = {
   deviceAlt: string;
   replayLabel: string;
   playWithSoundLabel: string;
+  playLabel: string;
+  pauseLabel: string;
+  muteLabel: string;
+  unmuteLabel: string;
+  volumeLabel: string;
+  seekLabel: string;
+  fullscreenLabel: string;
+  exitFullscreenLabel: string;
   introPromptCta: string;
   introGuideTitle: string;
   introGuideLead: string;
@@ -35,6 +43,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook splash screen",
     replayLabel: "Replay intro",
     playWithSoundLabel: "Play with sound",
+    playLabel: "Play",
+    pauseLabel: "Pause",
+    muteLabel: "Mute",
+    unmuteLabel: "Unmute",
+    volumeLabel: "Volume",
+    seekLabel: "Seek video",
+    fullscreenLabel: "Full screen",
+    exitFullscreenLabel: "Exit full screen",
     introPromptCta: "Try organizing in the app",
     introGuideTitle: "Continue your trip recap in MomentBook",
     introGuideLead:
@@ -52,6 +68,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook 스플래시 화면",
     replayLabel: "인트로 다시 보기",
     playWithSoundLabel: "소리와 함께 재생",
+    playLabel: "재생",
+    pauseLabel: "일시정지",
+    muteLabel: "음소거",
+    unmuteLabel: "음소거 해제",
+    volumeLabel: "볼륨",
+    seekLabel: "영상 탐색",
+    fullscreenLabel: "전체 화면",
+    exitFullscreenLabel: "전체 화면 종료",
     introPromptCta: "앱에서 정리해보기",
     introGuideTitle: "MomentBook에서 여행을 정리해보세요",
     introGuideLead:
@@ -69,6 +93,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook スプラッシュ画面",
     replayLabel: "イントロを再生",
     playWithSoundLabel: "音声付きで再生",
+    playLabel: "再生",
+    pauseLabel: "一時停止",
+    muteLabel: "ミュート",
+    unmuteLabel: "ミュート解除",
+    volumeLabel: "音量",
+    seekLabel: "動画シーク",
+    fullscreenLabel: "全画面",
+    exitFullscreenLabel: "全画面を終了",
     introPromptCta: "アプリで整理してみる",
     introGuideTitle: "MomentBookで旅の記録を続ける",
     introGuideLead:
@@ -86,6 +118,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "MomentBook 启动画面",
     replayLabel: "重播介绍",
     playWithSoundLabel: "开启声音播放",
+    playLabel: "播放",
+    pauseLabel: "暂停",
+    muteLabel: "静音",
+    unmuteLabel: "取消静音",
+    volumeLabel: "音量",
+    seekLabel: "调整播放进度",
+    fullscreenLabel: "全屏",
+    exitFullscreenLabel: "退出全屏",
     introPromptCta: "在应用中整理看看",
     introGuideTitle: "在 MomentBook 继续整理旅程",
     introGuideLead:
@@ -103,6 +143,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Pantalla de inicio de MomentBook",
     replayLabel: "Repetir intro",
     playWithSoundLabel: "Reproducir con sonido",
+    playLabel: "Reproducir",
+    pauseLabel: "Pausar",
+    muteLabel: "Silenciar",
+    unmuteLabel: "Activar sonido",
+    volumeLabel: "Volumen",
+    seekLabel: "Buscar en el video",
+    fullscreenLabel: "Pantalla completa",
+    exitFullscreenLabel: "Salir de pantalla completa",
     introPromptCta: "Organizar en la app",
     introGuideTitle: "Continúa tu repaso en MomentBook",
     introGuideLead:
@@ -120,6 +168,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Tela de abertura do MomentBook",
     replayLabel: "Reproduzir intro",
     playWithSoundLabel: "Reproduzir com som",
+    playLabel: "Reproduzir",
+    pauseLabel: "Pausar",
+    muteLabel: "Silenciar",
+    unmuteLabel: "Ativar som",
+    volumeLabel: "Volume",
+    seekLabel: "Buscar no vídeo",
+    fullscreenLabel: "Tela cheia",
+    exitFullscreenLabel: "Sair da tela cheia",
     introPromptCta: "Organizar no app",
     introGuideTitle: "Continue seu resumo no MomentBook",
     introGuideLead:
@@ -137,6 +193,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Écran de démarrage MomentBook",
     replayLabel: "Rejouer l'intro",
     playWithSoundLabel: "Lire avec le son",
+    playLabel: "Lire",
+    pauseLabel: "Pause",
+    muteLabel: "Couper le son",
+    unmuteLabel: "Activer le son",
+    volumeLabel: "Volume",
+    seekLabel: "Avancer dans la vidéo",
+    fullscreenLabel: "Plein écran",
+    exitFullscreenLabel: "Quitter le plein écran",
     introPromptCta: "Organiser dans l'app",
     introGuideTitle: "Continuez votre récapitulatif dans MomentBook",
     introGuideLead:
@@ -154,6 +218,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "หน้าสแปลชของ MomentBook",
     replayLabel: "เล่นอินโทรอีกครั้ง",
     playWithSoundLabel: "เล่นพร้อมเสียง",
+    playLabel: "เล่น",
+    pauseLabel: "หยุดชั่วคราว",
+    muteLabel: "ปิดเสียง",
+    unmuteLabel: "เปิดเสียง",
+    volumeLabel: "ระดับเสียง",
+    seekLabel: "เลื่อนตำแหน่งวิดีโอ",
+    fullscreenLabel: "เต็มหน้าจอ",
+    exitFullscreenLabel: "ออกจากโหมดเต็มหน้าจอ",
     introPromptCta: "ลองจัดในแอป",
     introGuideTitle: "จัดทริปต่อใน MomentBook",
     introGuideLead:
@@ -171,6 +243,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     deviceAlt: "Màn hình splash MomentBook",
     replayLabel: "Xem lại phần mở đầu",
     playWithSoundLabel: "Phát kèm âm thanh",
+    playLabel: "Phát",
+    pauseLabel: "Tạm dừng",
+    muteLabel: "Tắt tiếng",
+    unmuteLabel: "Bật tiếng",
+    volumeLabel: "Âm lượng",
+    seekLabel: "Tua video",
+    fullscreenLabel: "Toàn màn hình",
+    exitFullscreenLabel: "Thoát toàn màn hình",
     introPromptCta: "Thử sắp xếp trong app",
     introGuideTitle: "Tiếp tục phần tóm tắt trong MomentBook",
     introGuideLead:

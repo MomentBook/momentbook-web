@@ -21,6 +21,14 @@ export type HomeHeroContent = {
   deviceAlt: string;
   replayLabel: string;
   playWithSoundLabel: string;
+  playLabel: string;
+  pauseLabel: string;
+  muteLabel: string;
+  unmuteLabel: string;
+  volumeLabel: string;
+  seekLabel: string;
+  fullscreenLabel: string;
+  exitFullscreenLabel: string;
   introPromptCta: string;
   introGuideTitle: string;
   introGuideLead: string;
@@ -115,6 +123,14 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                 title={content.deviceAlt}
                 replayLabel={content.replayLabel}
                 playWithSoundLabel={content.playWithSoundLabel}
+                playLabel={content.playLabel}
+                pauseLabel={content.pauseLabel}
+                muteLabel={content.muteLabel}
+                unmuteLabel={content.unmuteLabel}
+                volumeLabel={content.volumeLabel}
+                seekLabel={content.seekLabel}
+                fullscreenLabel={content.fullscreenLabel}
+                exitFullscreenLabel={content.exitFullscreenLabel}
                 autoplay={false}
                 showReplayButton={false}
                 onPlaybackStart={() => {
