@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  CSSProperties,
+  ChangeEvent,
   forwardRef,
   ReactNode,
   useEffect,
@@ -17,8 +19,7 @@ type ScrollActivatedVideoProps = {
   title: string;
   replayLabel: string;
   playWithSoundLabel?: string;
-  soundOnLabel?: string;
-  soundOffLabel?: string;
+  volumeLabel?: string;
   autoplay?: boolean;
   showReplayButton?: boolean;
   showSoundToggle?: boolean;
@@ -42,8 +43,7 @@ export const ScrollActivatedVideo = forwardRef<
   title,
   replayLabel,
   playWithSoundLabel = "Play with sound",
-  soundOnLabel = "Turn sound on",
-  soundOffLabel = "Turn sound off",
+  volumeLabel = "Volume",
   autoplay = true,
   showReplayButton = true,
   showSoundToggle = true,
@@ -53,11 +53,14 @@ export const ScrollActivatedVideo = forwardRef<
 },
 ref,
 ) {
+  const DEFAULT_VOLUME = 0.5;
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(DEFAULT_VOLUME);
+  const [lastNonZeroVolume, setLastNonZeroVolume] = useState(DEFAULT_VOLUME);
   const [requiresUserPlay, setRequiresUserPlay] = useState(!autoplay);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const shouldRenderVideo = Boolean(src) && !hasError && !prefersReducedMotion;
@@ -80,6 +83,17 @@ ref,
       mediaQuery.removeEventListener("change", updatePreference);
     };
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video || !shouldRenderVideo) {
+      return;
+    }
+
+    video.volume = volume;
+    video.muted = isMuted;
+  }, [isMuted, shouldRenderVideo, volume]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -143,7 +157,15 @@ ref,
     }
 
     if (options?.forceUnmute) {
+      const targetVolume =
+        volume > 0
+          ? volume
+          : lastNonZeroVolume > 0
+            ? lastNonZeroVolume
+            : DEFAULT_VOLUME;
+      video.volume = targetVolume;
       video.muted = false;
+      setVolume(targetVolume);
       setIsMuted(false);
     }
 
@@ -178,16 +200,24 @@ ref,
     await playVideo({ restart: true });
   };
 
-  const handleSoundToggle = () => {
+  const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const video = videoRef.current;
+    const nextVolume = Math.min(1, Math.max(0, Number(event.target.value)));
+    const mutedByVolume = nextVolume <= 0;
+
+    setVolume(nextVolume);
+    setIsMuted(mutedByVolume);
+
+    if (nextVolume > 0) {
+      setLastNonZeroVolume(nextVolume);
+    }
 
     if (!video) {
       return;
     }
 
-    const nextMuted = !isMuted;
-    video.muted = nextMuted;
-    setIsMuted(nextMuted);
+    video.volume = nextVolume;
+    video.muted = mutedByVolume;
   };
 
   const handleUserPlayWithSound = async () => {
@@ -204,7 +234,6 @@ ref,
         });
       },
     }),
-    [],
   );
 
   if (!shouldRenderVideo) {
@@ -277,13 +306,25 @@ ref,
         </>
       ) : null}
       {showSoundToggle ? (
-        <button
-          type="button"
-          className={styles.soundButton}
-          onClick={handleSoundToggle}
-        >
-          {isMuted ? soundOnLabel : soundOffLabel}
-        </button>
+        <div className={styles.soundControls}>
+          <label className={styles.volumeControl}>
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.05}
+              value={volume}
+              onChange={handleVolumeChange}
+              className={styles.volumeSlider}
+              aria-label={volumeLabel}
+              style={
+                {
+                  "--volume-percent": `${Math.round(volume * 100)}%`,
+                } as CSSProperties
+              }
+            />
+          </label>
+        </div>
       ) : null}
       {showReplayButton ? (
         <button

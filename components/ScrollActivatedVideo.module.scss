@@ -62,18 +62,20 @@
   z-index: 3;
 }
 
-.soundButton {
+.soundControls {
   position: absolute;
   right: 0.72rem;
   top: 0.72rem;
-  border: 0;
+  z-index: 3;
+}
+
+.volumeControl {
+  width: clamp(4.1rem, 14vw, 5.4rem);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
   border-radius: 999px;
-  padding: 0.46rem 0.76rem;
-  font-size: 0.66rem;
-  line-height: 1;
-  font-weight: 640;
-  letter-spacing: 0.01em;
-  color: rgba(236, 251, 246, 0.98);
+  padding: 0.3rem 0.54rem;
   background: linear-gradient(
     145deg,
     rgba(12, 46, 48, 0.8),
@@ -84,8 +86,89 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  transition: box-shadow 0.22s ease, transform 0.22s ease;
-  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.root:hover .volumeControl,
+.soundControls:hover .volumeControl {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.volumeSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  height: 0.3rem;
+  border-radius: 999px;
+  background: transparent;
+  outline: none;
+}
+
+.volumeSlider::-webkit-slider-runnable-track {
+  height: 0.3rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-accent) 76%, #fff) 0%,
+    color-mix(in srgb, var(--color-accent) 76%, #fff) var(--volume-percent, 50%),
+    rgba(232, 247, 245, 0.28) var(--volume-percent, 50%),
+    rgba(232, 247, 245, 0.28) 100%
+  );
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0.72rem;
+  height: 0.72rem;
+  margin-top: -0.21rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  background: rgba(246, 255, 253, 0.98);
+  box-shadow: 0 3px 9px rgba(5, 18, 24, 0.4);
+}
+
+.volumeSlider::-moz-range-track {
+  height: 0.3rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(232, 247, 245, 0.28);
+}
+
+.volumeSlider::-moz-range-progress {
+  height: 0.3rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent) 76%, #fff);
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  background: rgba(246, 255, 253, 0.98);
+  box-shadow: 0 3px 9px rgba(5, 18, 24, 0.4);
+}
+
+.volumeSlider::-moz-focus-outer {
+  border: 0;
+}
+
+.volumeSlider:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 68%, #fff);
+  outline-offset: 2px;
 }
 
 .playWithSoundButton {
@@ -159,18 +242,6 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-.soundButton:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 10px 24px rgba(2, 19, 22, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.soundButton:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--color-accent) 68%, #fff);
-  outline-offset: 2px;
 }
 
 .replayButtonVisible {

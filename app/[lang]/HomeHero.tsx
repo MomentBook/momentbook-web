@@ -118,8 +118,6 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                 title={content.deviceAlt}
                 replayLabel={content.replayLabel}
                 playWithSoundLabel={content.playWithSoundLabel}
-                soundOnLabel={content.soundOnLabel}
-                soundOffLabel={content.soundOffLabel}
                 autoplay={false}
                 showReplayButton={false}
                 onPlaybackStart={() => {
