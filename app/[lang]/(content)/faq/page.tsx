@@ -583,9 +583,7 @@ export default async function FAQPage({
         {faqItems.map((faq, index) => (
           <details key={`${faq.question}-${index}`} className={faqStyles.faqItem}>
             <summary className={faqStyles.faqQuestion}>{faq.question}</summary>
-            <div className={faqStyles.faqAnswerWrap}>
-              <p className={faqStyles.faqAnswer}>{faq.answer}</p>
-            </div>
+            <p className={faqStyles.faqAnswer}>{faq.answer}</p>
           </details>
         ))}
       </section>

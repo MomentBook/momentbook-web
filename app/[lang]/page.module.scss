@@ -355,19 +355,25 @@
         );
     background:
         radial-gradient(
-            circle at 84% -16%,
-            rgba(255, 255, 255, 0.2),
-            transparent 42%
+            circle at 16% -18%,
+            rgba(255, 255, 255, 0.28),
+            transparent 44%
         ),
         radial-gradient(
-            circle at 12% 112%,
-            color-mix(in srgb, var(--color-accent) 14%, transparent),
+            circle at 84% 114%,
+            color-mix(in srgb, var(--color-accent-secondary) 18%, transparent),
             transparent 56%
         ),
+        radial-gradient(
+            circle at 8% 92%,
+            color-mix(in srgb, var(--color-accent) 12%, transparent),
+            transparent 58%
+        ),
         linear-gradient(
-            150deg,
-            color-mix(in srgb, var(--surface-glass-strong) 66%, transparent),
-            color-mix(in srgb, var(--surface-glass-soft) 58%, transparent)
+            148deg,
+            color-mix(in srgb, var(--surface-glass-strong) 64%, transparent) 0%,
+            color-mix(in srgb, var(--surface-glass-soft) 52%, transparent) 54%,
+            color-mix(in srgb, var(--surface-glass) 48%, transparent) 100%
         );
     box-shadow: var(--shadow-glass-md);
     backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
@@ -382,10 +388,21 @@
     pointer-events: none;
     background:
         linear-gradient(
-            160deg,
-            rgba(255, 255, 255, 0.14) 0%,
-            rgba(255, 255, 255, 0.04) 38%,
-            transparent 82%
+            170deg,
+            rgba(255, 255, 255, 0.16) 0%,
+            rgba(255, 255, 255, 0.04) 40%,
+            rgba(255, 255, 255, 0.06) 70%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle at 14% 16%,
+            rgba(255, 255, 255, 0.14),
+            transparent 48%
+        ),
+        radial-gradient(
+            circle at 86% 4%,
+            rgba(255, 255, 255, 0.1),
+            transparent 46%
         );
 }
 
@@ -425,17 +442,13 @@
         width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
         left 0.42s cubic-bezier(0.16, 1, 0.3, 1),
         transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        border-radius 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+        border-radius 0.42s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .introSectionExpanded .introMediaPane {
     left: var(--intro-side-gap);
     width: calc(62% - var(--intro-side-gap));
     border-radius: 0.92rem;
-    box-shadow:
-        0 14px 30px rgba(7, 27, 31, 0.24),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .introPromptButton {
@@ -498,17 +511,10 @@
     visibility: hidden;
     transform: translateX(0.8rem);
     pointer-events: none;
-    border-left: 1px solid transparent;
-    background: linear-gradient(
-        166deg,
-        color-mix(in srgb, var(--surface-glass-strong) 76%, transparent),
-        color-mix(in srgb, var(--surface-glass-soft) 64%, transparent)
-    );
     transition:
         opacity 0.3s ease,
         transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        padding 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-        border-color 0.3s ease;
+        padding 0.42s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .introGuidePaneVisible {
@@ -517,19 +523,6 @@
     visibility: visible;
     transform: translateX(0);
     pointer-events: auto;
-    border-left-color: color-mix(
-        in srgb,
-        var(--glass-border-strong) 72%,
-        rgba(255, 255, 255, 0.24)
-    );
-}
-
-:global([data-theme="dark"]) .introGuidePane {
-    background: transparent;
-}
-
-:global([data-theme="dark"]) .introGuidePaneVisible {
-    border-left-color: transparent;
 }
 
 .introGuideTitle {
@@ -648,13 +641,6 @@
 
     .introSectionExpanded .introGuidePane {
         display: grid;
-        border-left: 0;
-        border-top: 1px solid
-            color-mix(
-                in srgb,
-                var(--glass-border-strong) 72%,
-                rgba(255, 255, 255, 0.24)
-            );
     }
 }
 
