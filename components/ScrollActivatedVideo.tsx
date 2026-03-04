@@ -57,6 +57,7 @@ type IOSFullscreenVideo = HTMLVideoElement & {
 
 const DEFAULT_VOLUME = 0.5;
 const SEEK_STEP_SECONDS = 0.1;
+const HOVER_IDLE_TIMEOUT_MS = 1200;
 
 function clampVolume(value: number) {
   return Math.min(1, Math.max(0, value));
@@ -122,6 +123,7 @@ export const ScrollActivatedVideo = forwardRef<
 ) {
   const rootRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hoverIdleTimerRef = useRef<number | null>(null);
   const [hasError, setHasError] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -132,6 +134,7 @@ export const ScrollActivatedVideo = forwardRef<
   const [duration, setDuration] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPointerInside, setIsPointerInside] = useState(false);
+  const [isPointerActive, setIsPointerActive] = useState(false);
   const [requiresUserPlay, setRequiresUserPlay] = useState(!autoplay);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -141,8 +144,17 @@ export const ScrollActivatedVideo = forwardRef<
   const seekPercent = safeDuration > 0 ? (safeCurrentTime / safeDuration) * 100 : 0;
   const timeline = `${formatDuration(safeCurrentTime)} / ${formatDuration(safeDuration)}`;
   const showCenterPlayButton = requiresUserPlay || (!isPlaying && !hasEnded);
-  const showControls = !hasEnded && (!isPlaying || isPointerInside);
+  const showControls = !hasEnded && (!isPlaying || (isPointerInside && isPointerActive));
   const isVideoInteractionLocked = hasEnded && !allowReplayFromControls;
+  const shouldHideCursor = isPointerInside && !isPointerActive && isPlaying && !hasEnded;
+
+  useEffect(() => {
+    return () => {
+      if (hoverIdleTimerRef.current !== null) {
+        window.clearTimeout(hoverIdleTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -391,6 +403,27 @@ export const ScrollActivatedVideo = forwardRef<
     }
   };
 
+  const clearHoverIdleTimer = () => {
+    if (hoverIdleTimerRef.current === null) {
+      return;
+    }
+
+    window.clearTimeout(hoverIdleTimerRef.current);
+    hoverIdleTimerRef.current = null;
+  };
+
+  const activatePointerHover = () => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    setIsPointerActive(true);
+    clearHoverIdleTimer();
+    hoverIdleTimerRef.current = window.setTimeout(() => {
+      setIsPointerActive(false);
+    }, HOVER_IDLE_TIMEOUT_MS);
+  };
+
   const exitFullscreenIfNeeded = async () => {
     if (typeof document === "undefined") {
       return;
@@ -484,12 +517,18 @@ export const ScrollActivatedVideo = forwardRef<
   return (
     <div
       ref={rootRef}
-      className={`${styles.root} ${className ?? ""}`}
+      className={`${styles.root} ${shouldHideCursor ? styles.cursorHidden : ""} ${className ?? ""}`}
       onMouseEnter={() => {
         setIsPointerInside(true);
+        activatePointerHover();
+      }}
+      onMouseMove={() => {
+        activatePointerHover();
       }}
       onMouseLeave={() => {
         setIsPointerInside(false);
+        setIsPointerActive(false);
+        clearHoverIdleTimer();
       }}
     >
       <video
