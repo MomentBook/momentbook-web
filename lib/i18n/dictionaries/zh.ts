@@ -54,7 +54,7 @@ export const zh: Dictionary = {
 
   // Footer
   footer: {
-    summary: 'Memorize your moments，长久记住每一个旅行瞬间。',
+    summary: '长久记住每一个旅行瞬间。',
     ctaPrimary: '下载',
     ctaSecondary: '支持',
     sections: {
@@ -71,6 +71,6 @@ export const zh: Dictionary = {
       marketingConsent: '营销同意',
       support: '支持',
     },
-    copyright: '© 2024 MomentBook. All rights reserved.',
+    copyright: '© 2024 MomentBook. 保留所有权利。',
   },
 };

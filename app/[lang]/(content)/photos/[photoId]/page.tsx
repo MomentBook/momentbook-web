@@ -171,6 +171,18 @@ const photoCopy: Partial<Record<Language, PhotoPageCopy>> & {
     },
 };
 
+const photoNotFoundTitleByLanguage: Record<Language, string> = {
+    en: "Photo not found",
+    ko: "사진을 찾을 수 없습니다",
+    ja: "写真が見つかりません",
+    zh: "找不到照片",
+    es: "No se encontró la foto",
+    pt: "Foto não encontrada",
+    fr: "Photo introuvable",
+    th: "ไม่พบรูปภาพ",
+    vi: "Không tìm thấy ảnh",
+};
+
 function fillTemplate(
     template: string,
     values: Record<string, string>,
@@ -246,7 +258,7 @@ export async function generateMetadata({
 
     if (!photo) {
         return {
-            title: "Photo not found",
+            title: photoNotFoundTitleByLanguage[lang],
         };
     }
 

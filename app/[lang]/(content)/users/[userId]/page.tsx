@@ -202,6 +202,18 @@ const userDescriptionTemplates: Partial<Record<Language, string>> & {
   vi: "Các hành trình được {name} chia sẻ trên MomentBook.",
 };
 
+const userNotFoundTitleByLanguage: Record<Language, string> = {
+  en: "User not found",
+  ko: "사용자를 찾을 수 없습니다",
+  ja: "ユーザーが見つかりません",
+  zh: "找不到用户",
+  es: "No se encontró el usuario",
+  pt: "Usuário não encontrado",
+  fr: "Utilisateur introuvable",
+  th: "ไม่พบผู้ใช้",
+  vi: "Không tìm thấy người dùng",
+};
+
 function readText(value: unknown): string | null {
   if (typeof value !== "string") {
     return null;
@@ -334,7 +346,7 @@ export async function generateMetadata({
 
   if (!user) {
     return {
-      title: "User not found",
+      title: userNotFoundTitleByLanguage[lang],
     };
   }
 

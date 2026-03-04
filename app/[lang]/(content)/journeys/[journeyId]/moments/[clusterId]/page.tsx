@@ -28,6 +28,34 @@ type MomentLabels = {
   locationFallback: string;
 };
 
+const momentNotFoundTitleByLanguage: Record<Language, string> = {
+  en: "Moment not found",
+  ko: "순간을 찾을 수 없습니다",
+  ja: "瞬間が見つかりません",
+  zh: "找不到瞬间",
+  es: "No se encontró el momento",
+  pt: "Momento não encontrado",
+  fr: "Moment introuvable",
+  th: "ไม่พบช่วงเวลา",
+  vi: "Không tìm thấy khoảnh khắc",
+};
+
+const momentDescriptionTemplateByLanguage: Record<Language, string> = {
+  en: "A moment from {journey}",
+  ko: "{journey}의 한 순간입니다",
+  ja: "{journey}のひとつの瞬間です",
+  zh: "来自 {journey} 的一个瞬间",
+  es: "Un momento de {journey}",
+  pt: "Um momento de {journey}",
+  fr: "Un moment de {journey}",
+  th: "ช่วงเวลาหนึ่งจาก {journey}",
+  vi: "Một khoảnh khắc từ {journey}",
+};
+
+function fillTemplate(template: string, values: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
+}
+
 const momentLabels: Partial<Record<Language, MomentLabels>> & { en: MomentLabels } = {
   en: {
     eyebrow: "Moment",
@@ -146,21 +174,23 @@ export async function generateMetadata({
 
   if (!journey) {
     return {
-      title: "Moment not found",
+      title: momentNotFoundTitleByLanguage[lang],
     };
   }
 
   const cluster = journey.clusters.find((item) => item.clusterId === clusterId);
   if (!cluster) {
     return {
-      title: "Moment not found",
+      title: momentNotFoundTitleByLanguage[lang],
     };
   }
 
   const labels = momentLabels[lang] ?? momentLabels.en;
   const locationName = cluster.locationName || labels.locationFallback;
   const title = `${locationName} · ${journey.title}`;
-  const description = `A moment from ${journey.title}`;
+  const description = fillTemplate(momentDescriptionTemplateByLanguage[lang], {
+    journey: journey.title,
+  });
   const path = `/journeys/${journey.publicId}/moments/${cluster.clusterId}`;
   const url = buildOpenGraphUrl(lang, path);
   const imageMap = buildImageUrlToPhotoIdMap(journey.images);
@@ -239,7 +269,9 @@ export default async function JourneyMomentPage({
     "@context": "https://schema.org",
     "@type": "Article",
     headline: locationName,
-    description: `Moment from ${journey.title}`,
+    description: fillTemplate(momentDescriptionTemplateByLanguage[lang], {
+      journey: journey.title,
+    }),
     image: clusterImageUrls,
     datePublished: journey.publishedAt,
     dateModified: journey.publishedAt,

@@ -19,11 +19,8 @@ export type HomeHeroContent = {
   heroTutorialCta: string;
   primaryCta: string;
   deviceAlt: string;
-  splashSubtitle: string;
   replayLabel: string;
   playWithSoundLabel: string;
-  soundOnLabel: string;
-  soundOffLabel: string;
   introPromptCta: string;
   introGuideTitle: string;
   introGuideLead: string;

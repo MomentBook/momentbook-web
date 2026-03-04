@@ -48,6 +48,18 @@ const journeysNavLabelMap: Record<Language, string> = {
   vi: "Hành trình",
 };
 
+const siteDescriptionByLanguage: Record<Language, string> = {
+  en: "An app that quietly remembers your day.",
+  ko: "하루의 순간을 조용히 기억하는 앱.",
+  ja: "一日の瞬間を静かに記憶するアプリ。",
+  zh: "安静记录你一天瞬间的应用。",
+  es: "Una app que recuerda en silencio los momentos de tu día.",
+  pt: "Um app que guarda em silêncio os momentos do seu dia.",
+  fr: "Une app qui garde en mémoire, en douceur, les moments de votre journée.",
+  th: "แอปที่จดจำช่วงเวลาของวันคุณอย่างเงียบๆ",
+  vi: "Ứng dụng lặng lẽ ghi nhớ những khoảnh khắc trong ngày của bạn.",
+};
+
 function getStoreLinks(lang: Language) {
   const region = getStoreRegion(lang);
 
@@ -76,7 +88,7 @@ export async function generateMetadata({
       default: "MomentBook",
       template: "%s | MomentBook",
     },
-    description: "An app that quietly remembers your day.",
+    description: siteDescriptionByLanguage[lang],
     robots: buildNoIndexRobots(),
     openGraph: {
       type: "website",

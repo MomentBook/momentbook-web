@@ -54,7 +54,7 @@ export const ko: Dictionary = {
 
   // Footer
   footer: {
-    summary: 'Memorize your moments, 여행의 순간을 오래 기억하세요.',
+    summary: '여행의 순간을 오래 기억하세요.',
     ctaPrimary: '다운로드',
     ctaSecondary: '지원',
     sections: {
@@ -71,6 +71,6 @@ export const ko: Dictionary = {
       marketingConsent: '마케팅 수신 동의',
       support: '고객 지원',
     },
-    copyright: '© 2024 MomentBook. All rights reserved.',
+    copyright: '© 2024 MomentBook. 모든 권리 보유.',
   },
 };

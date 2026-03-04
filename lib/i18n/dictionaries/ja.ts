@@ -54,7 +54,7 @@ export const ja: Dictionary = {
 
   // Footer
   footer: {
-    summary: 'Memorize your moments. 旅の瞬間を、ずっと心に。',
+    summary: '旅の瞬間を、ずっと心に。',
     ctaPrimary: 'ダウンロード',
     ctaSecondary: 'サポート',
     sections: {
@@ -71,6 +71,6 @@ export const ja: Dictionary = {
       marketingConsent: 'マーケティング同意',
       support: 'サポート',
     },
-    copyright: '© 2024 MomentBook. All rights reserved.',
+    copyright: '© 2024 MomentBook. すべての権利を保有します。',
   },
 };

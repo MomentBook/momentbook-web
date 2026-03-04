@@ -67,6 +67,30 @@ const hiddenNoticeByLanguage: Partial<Record<Language, { title: string; message:
     },
 };
 
+const journeyNotFoundTitleByLanguage: Record<Language, string> = {
+    en: "Journey not found",
+    ko: "여정을 찾을 수 없습니다",
+    ja: "旅が見つかりません",
+    zh: "找不到行程",
+    es: "No se encontró el viaje",
+    pt: "Jornada não encontrada",
+    fr: "Voyage introuvable",
+    th: "ไม่พบทริป",
+    vi: "Không tìm thấy hành trình",
+};
+
+const journeyAuthorFallbackByLanguage: Record<Language, string> = {
+    en: "MomentBook User",
+    ko: "MomentBook 사용자",
+    ja: "MomentBookユーザー",
+    zh: "MomentBook 用户",
+    es: "Usuario de MomentBook",
+    pt: "Usuário do MomentBook",
+    fr: "Utilisateur MomentBook",
+    th: "ผู้ใช้ MomentBook",
+    vi: "Người dùng MomentBook",
+};
+
 export async function generateMetadata({
     params,
 }: {
@@ -98,7 +122,7 @@ export async function generateMetadata({
     const journey = result.data;
     if (!journey) {
         return {
-            title: "Journey not found",
+            title: journeyNotFoundTitleByLanguage[lang],
         };
     }
 
@@ -202,7 +226,7 @@ export default async function JourneyPage({
         dateModified: journey.publishedAt,
         author: {
             "@type": "Person",
-            name: user?.name || "MomentBook User",
+            name: user?.name || journeyAuthorFallbackByLanguage[lang],
             url: new URL(
                 buildOpenGraphUrl(lang, `/users/${journey.userId}`),
                 siteUrl,
