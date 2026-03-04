@@ -186,15 +186,24 @@ export function ScrollActivatedVideo({
         <source src={src ?? undefined} type="video/mp4" />
       </video>
       {requiresUserPlay ? (
-        <button
-          type="button"
-          className={styles.playWithSoundButton}
-          onClick={() => {
-            void handleUserPlayWithSound();
-          }}
-        >
-          {playWithSoundLabel}
-        </button>
+        <>
+          <div className={styles.startOverlay} aria-hidden="true" />
+          <button
+            type="button"
+            className={styles.playWithSoundButton}
+            aria-label={playWithSoundLabel}
+            onClick={() => {
+              void handleUserPlayWithSound();
+            }}
+          >
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24" className={styles.playIcon}>
+                <path d="M8 6v12l10-6z" fill="currentColor" />
+              </svg>
+            </span>
+            <span className={styles.visuallyHidden}>{playWithSoundLabel}</span>
+          </button>
+        </>
       ) : null}
       {showSoundToggle ? (
         <button

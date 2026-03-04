@@ -84,6 +84,10 @@
     @media (min-width: 980px) {
         grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
     }
+
+    @media (max-width: 979px) {
+        gap: clamp(1.55rem, 6vw, 2.15rem);
+    }
 }
 
 .heroCopy {
