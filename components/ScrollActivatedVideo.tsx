@@ -27,6 +27,7 @@ type ScrollActivatedVideoProps = {
   seekLabel?: string;
   fullscreenLabel?: string;
   exitFullscreenLabel?: string;
+  allowReplayFromControls?: boolean;
   autoplay?: boolean;
   showReplayButton?: boolean;
   showSoundToggle?: boolean;
@@ -95,6 +96,7 @@ export const ScrollActivatedVideo = forwardRef<
     seekLabel = "Seek video",
     fullscreenLabel = "Full screen",
     exitFullscreenLabel = "Exit full screen",
+    allowReplayFromControls = true,
     autoplay = true,
     showReplayButton = true,
     showSoundToggle = true,
@@ -125,7 +127,7 @@ export const ScrollActivatedVideo = forwardRef<
   const seekPercent = safeDuration > 0 ? (safeCurrentTime / safeDuration) * 100 : 0;
   const timeline = `${formatDuration(safeCurrentTime)} / ${formatDuration(safeDuration)}`;
   const showCenterPlayButton = requiresUserPlay || (!isPlaying && !hasEnded);
-  const showControls = !isPlaying || hasEnded || isPointerInside;
+  const showControls = !hasEnded && (!isPlaying || isPointerInside);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -283,8 +285,14 @@ export const ScrollActivatedVideo = forwardRef<
     }
 
     if (video.paused || video.ended) {
+      const shouldRestart = video.ended || hasEnded;
+
+      if (shouldRestart && !allowReplayFromControls) {
+        return;
+      }
+
       await playVideo({
-        restart: video.ended || hasEnded,
+        restart: shouldRestart,
         forceUnmute: requiresUserPlay,
       });
       return;
@@ -294,6 +302,10 @@ export const ScrollActivatedVideo = forwardRef<
   };
 
   const handleReplay = async () => {
+    if (!allowReplayFromControls) {
+      return;
+    }
+
     await playVideo({ restart: true });
   };
 
@@ -534,120 +546,122 @@ export const ScrollActivatedVideo = forwardRef<
         </>
       ) : null}
 
-      <div className={`${styles.controls} ${showControls ? styles.controlsVisible : ""}`}>
-        <div className={styles.seekRow}>
-          <input
-            type="range"
-            min={0}
-            max={safeDuration > 0 ? safeDuration : 0}
-            step={SEEK_STEP_SECONDS}
-            value={safeDuration > 0 ? safeCurrentTime : 0}
-            onChange={handleSeekChange}
-            className={styles.seekSlider}
-            aria-label={seekLabel}
-            disabled={safeDuration <= 0}
-            style={
-              {
-                "--seek-percent": `${Math.round(seekPercent)}%`,
-              } as CSSProperties
-            }
-          />
-        </div>
-        <div className={styles.controlRow}>
-          <div className={styles.leftControls}>
-            <button
-              type="button"
-              className={styles.controlButton}
-              aria-label={isPlaying ? pauseLabel : playLabel}
-              onClick={() => {
-                void handleVideoToggle();
-              }}
-            >
-              {isPlaying ? (
-                <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M8 6h3v12H8zM13 6h3v12h-3z" fill="currentColor" />
-                </svg>
-              ) : (
-                <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M8 5v14l11-7z" fill="currentColor" />
-                </svg>
-              )}
-            </button>
-
-            {showSoundToggle ? (
-              <>
-                <button
-                  type="button"
-                  className={styles.controlButton}
-                  aria-label={isMuted ? unmuteLabel : muteLabel}
-                  onClick={handleMuteToggle}
-                >
-                  {isMuted || volume <= 0 ? (
-                    <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
-                      <path
-                        d="M14 5.23v2.06A3.001 3.001 0 0 1 17 10h2c0-2.64-1.67-4.9-4-5.77zM4.27 3 3 4.27 7.73 9H5v6h4l5 5v-6.73l4.73 4.73L20 16.73 4.27 3zM14 10.27l-2-2V12l2 2v-3.73z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  ) : (
-                    <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
-                      <path
-                        d="M5 9v6h4l5 5V4L9 9H5zm11.5 3c0-1.77-1-3.29-2.5-4.03v8.05A4.48 4.48 0 0 0 16.5 12zm0-7v2.06A7 7 0 0 1 20 12a7 7 0 0 1-3.5 6v2.06A9 9 0 0 0 22 12a9 9 0 0 0-5.5-7z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  )}
-                </button>
-                <label className={styles.volumeControl}>
-                  <input
-                    type="range"
-                    min={0}
-                    max={1}
-                    step={0.05}
-                    value={volume}
-                    onChange={handleVolumeChange}
-                    className={styles.volumeSlider}
-                    aria-label={volumeLabel}
-                    style={
-                      {
-                        "--volume-percent": `${Math.round(volume * 100)}%`,
-                      } as CSSProperties
-                    }
-                  />
-                </label>
-              </>
-            ) : null}
-
-            <span className={styles.timeText}>{timeline}</span>
+      {!hasEnded ? (
+        <div className={`${styles.controls} ${showControls ? styles.controlsVisible : ""}`}>
+          <div className={styles.seekRow}>
+            <input
+              type="range"
+              min={0}
+              max={safeDuration > 0 ? safeDuration : 0}
+              step={SEEK_STEP_SECONDS}
+              value={safeDuration > 0 ? safeCurrentTime : 0}
+              onChange={handleSeekChange}
+              className={styles.seekSlider}
+              aria-label={seekLabel}
+              disabled={safeDuration <= 0}
+              style={
+                {
+                  "--seek-percent": `${Math.round(seekPercent)}%`,
+                } as CSSProperties
+              }
+            />
           </div>
-          <div className={styles.rightControls}>
-            <button
-              type="button"
-              className={styles.controlButton}
-              aria-label={isFullscreen ? exitFullscreenLabel : fullscreenLabel}
-              onClick={() => {
-                void handleFullscreenToggle();
-              }}
-            >
-              {isFullscreen ? (
-                <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    d="M6 16h2v2h2v2H6v-4zm10 2h2v-2h2v4h-4v-2zM6 4h4v2H8v2H6V4zm12 0h2v4h-2V6h-2V4h4z"
-                    fill="currentColor"
-                  />
-                </svg>
-              ) : (
-                <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    d="M7 14H5v5h5v-2H7v-3zm0-4h2V7h3V5H5v5zm10 7h-3v2h5v-5h-2v3zm0-12h-3v2h3v3h2V5h-2z"
-                    fill="currentColor"
-                  />
-                </svg>
-              )}
-            </button>
+          <div className={styles.controlRow}>
+            <div className={styles.leftControls}>
+              <button
+                type="button"
+                className={styles.controlButton}
+                aria-label={isPlaying ? pauseLabel : playLabel}
+                onClick={() => {
+                  void handleVideoToggle();
+                }}
+              >
+                {isPlaying ? (
+                  <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8 6h3v12H8zM13 6h3v12h-3z" fill="currentColor" />
+                  </svg>
+                ) : (
+                  <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8 5v14l11-7z" fill="currentColor" />
+                  </svg>
+                )}
+              </button>
+
+              {showSoundToggle ? (
+                <>
+                  <button
+                    type="button"
+                    className={styles.controlButton}
+                    aria-label={isMuted ? unmuteLabel : muteLabel}
+                    onClick={handleMuteToggle}
+                  >
+                    {isMuted || volume <= 0 ? (
+                      <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                          d="M14 5.23v2.06A3.001 3.001 0 0 1 17 10h2c0-2.64-1.67-4.9-4-5.77zM4.27 3 3 4.27 7.73 9H5v6h4l5 5v-6.73l4.73 4.73L20 16.73 4.27 3zM14 10.27l-2-2V12l2 2v-3.73z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    ) : (
+                      <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                          d="M5 9v6h4l5 5V4L9 9H5zm11.5 3c0-1.77-1-3.29-2.5-4.03v8.05A4.48 4.48 0 0 0 16.5 12zm0-7v2.06A7 7 0 0 1 20 12a7 7 0 0 1-3.5 6v2.06A9 9 0 0 0 22 12a9 9 0 0 0-5.5-7z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    )}
+                  </button>
+                  <label className={styles.volumeControl}>
+                    <input
+                      type="range"
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      value={volume}
+                      onChange={handleVolumeChange}
+                      className={styles.volumeSlider}
+                      aria-label={volumeLabel}
+                      style={
+                        {
+                          "--volume-percent": `${Math.round(volume * 100)}%`,
+                        } as CSSProperties
+                      }
+                    />
+                  </label>
+                </>
+              ) : null}
+
+              <span className={styles.timeText}>{timeline}</span>
+            </div>
+            <div className={styles.rightControls}>
+              <button
+                type="button"
+                className={styles.controlButton}
+                aria-label={isFullscreen ? exitFullscreenLabel : fullscreenLabel}
+                onClick={() => {
+                  void handleFullscreenToggle();
+                }}
+              >
+                {isFullscreen ? (
+                  <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M6 16h2v2h2v2H6v-4zm10 2h2v-2h2v4h-4v-2zM6 4h4v2H8v2H6V4zm12 0h2v4h-2V6h-2V4h4z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                ) : (
+                  <svg className={styles.controlIcon} viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7 14H5v5h5v-2H7v-3zm0-4h2V7h3V5H5v5zm10 7h-3v2h5v-5h-2v3zm0-12h-3v2h3v3h2V5h-2z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
 
       {showReplayButton ? (
         <button

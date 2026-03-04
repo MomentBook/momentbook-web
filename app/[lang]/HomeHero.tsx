@@ -131,6 +131,7 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                 seekLabel={content.seekLabel}
                 fullscreenLabel={content.fullscreenLabel}
                 exitFullscreenLabel={content.exitFullscreenLabel}
+                allowReplayFromControls={false}
                 autoplay={false}
                 showReplayButton={false}
                 onPlaybackStart={() => {
