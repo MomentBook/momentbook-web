@@ -279,7 +279,8 @@
   font-size: 0.85rem;
   line-height: 1.62;
   color: var(--color-text-secondary);
-  max-width: 38rem;
+  width: 100%;
+  max-width: none;
   margin: 0;
 
   @media (max-width: 959px) {
