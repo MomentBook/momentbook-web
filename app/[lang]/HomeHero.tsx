@@ -7,7 +7,6 @@ import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
 import { ScrollActivatedVideo } from "@/components/ScrollActivatedVideo";
-import { APP_LOGO_TRANSPARENT_PATH } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import styles from "./page.module.scss";
 
@@ -88,21 +87,14 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
 
           <FadeIn delay={120} className={styles.heroMediaWrap}>
             <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
-              <div className={styles.splashScreen} role="img" aria-label={content.deviceAlt}>
-                <div className={styles.splashLogoWrap}>
-                  <Image
-                    src={APP_LOGO_TRANSPARENT_PATH}
-                    alt=""
-                    aria-hidden="true"
-                    width={168}
-                    height={168}
-                    sizes="168px"
-                    className={styles.splashLogo}
-                  />
-                </div>
-                <p className={styles.splashAppName}>MomentBook</p>
-                <p className={styles.splashSubtitle}>{content.splashSubtitle}</p>
-              </div>
+              <Image
+                src="/device-mocks/home.new.en.webp"
+                alt={content.deviceAlt}
+                fill
+                priority
+                sizes="(max-width: 979px) min(100vw, 14.2rem), 14.2rem"
+                className={deviceStyles.screenImage}
+              />
             </DeviceMock>
           </FadeIn>
         </div>
