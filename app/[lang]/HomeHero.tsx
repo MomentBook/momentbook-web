@@ -1,0 +1,97 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { FadeIn } from "@/components/FadeIn";
+import { DeviceMock } from "@/components/DeviceMock";
+import deviceStyles from "@/components/DeviceMock.module.scss";
+import { ScrollActivatedVideo } from "@/components/ScrollActivatedVideo";
+import { APP_LOGO_TRANSPARENT_PATH } from "@/lib/branding/logo";
+import { type Language } from "@/lib/i18n/config";
+import styles from "./page.module.scss";
+
+export type HomeHeroContent = {
+  heroTitle: string;
+  heroLead: string;
+  primaryCta: string;
+  deviceAlt: string;
+  splashSubtitle: string;
+  replayLabel: string;
+};
+
+type HomeHeroProps = {
+  lang: Language;
+  content: HomeHeroContent;
+};
+
+export function HomeHero({ lang, content }: HomeHeroProps) {
+  return (
+    <>
+      <section className={styles.hero}>
+        <div className={styles.heroGrid}>
+          <div className={styles.heroCopy}>
+            <FadeIn delay={80}>
+              <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
+            </FadeIn>
+            <FadeIn delay={120}>
+              <p className={styles.heroLead}>{content.heroLead}</p>
+            </FadeIn>
+            <FadeIn delay={160} className={styles.heroActionsWrap}>
+              <div className={styles.heroActions}>
+                <Link href={`/${lang}/download`} className={styles.primaryButton}>
+                  {content.primaryCta}
+                </Link>
+              </div>
+            </FadeIn>
+          </div>
+
+          <FadeIn delay={120} className={styles.heroMediaWrap}>
+            <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
+              <div className={styles.splashScreen} role="img" aria-label={content.deviceAlt}>
+                <div className={styles.splashLogoWrap}>
+                  <Image
+                    src={APP_LOGO_TRANSPARENT_PATH}
+                    alt=""
+                    aria-hidden="true"
+                    width={168}
+                    height={168}
+                    sizes="168px"
+                    className={styles.splashLogo}
+                  />
+                </div>
+                <p className={styles.splashAppName}>MomentBook</p>
+                <p className={styles.splashSubtitle}>{content.splashSubtitle}</p>
+              </div>
+            </DeviceMock>
+          </FadeIn>
+        </div>
+      </section>
+
+      <section className={styles.introSection}>
+        <FadeIn delay={140} className={styles.introStageWrap}>
+          <div className={styles.introStage}>
+            <ScrollActivatedVideo
+              className={styles.introVideo}
+              src="/media/intro.mp4"
+              poster="/media/intro-poster.jpg"
+              title={content.deviceAlt}
+              replayLabel={content.replayLabel}
+              fallback={(
+                <div className={styles.introFallback} role="img" aria-label={content.deviceAlt}>
+                  <Image
+                    src="/media/intro-poster.jpg"
+                    alt=""
+                    aria-hidden="true"
+                    fill
+                    sizes="(max-width: 979px) 92vw, 78vw"
+                    className={styles.introFallbackImage}
+                  />
+                </div>
+              )}
+            />
+          </div>
+        </FadeIn>
+      </section>
+    </>
+  );
+}

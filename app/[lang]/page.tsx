@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import { FadeIn } from "@/components/FadeIn";
-import { DeviceMock } from "@/components/DeviceMock";
-import deviceStyles from "@/components/DeviceMock.module.scss";
-import { APP_LOGO_TRANSPARENT_PATH, buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
+import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
+import { HomeHero } from "./HomeHero";
 import styles from "./page.module.scss";
 
 type HomePageCopy = {
@@ -22,6 +18,7 @@ type HomePageCopy = {
   heroMeta: string;
   deviceAlt: string;
   splashSubtitle: string;
+  replayLabel: string;
 };
 
 const homePageCopy: Record<Language, HomePageCopy> = {
@@ -38,6 +35,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "Core flow: batch upload, auto organization, minimal cleanup, and recap.",
     deviceAlt: "MomentBook splash screen",
     splashSubtitle: "Travel memories, quietly kept.",
+    replayLabel: "Replay intro",
   },
   ko: {
     metaTitle: "MomentBook — 여행의 순간을 기억해요",
@@ -52,6 +50,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "한 번에 올리고, 조용히 돌아보는 여행 기록.",
     deviceAlt: "MomentBook 스플래시 화면",
     splashSubtitle: "여행 기억을 차분히 보관합니다.",
+    replayLabel: "인트로 다시 보기",
   },
   ja: {
     metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
@@ -66,6 +65,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "コアフロー: 一括アップロード、自動整理、最小補正、回想。",
     deviceAlt: "MomentBook スプラッシュ画面",
     splashSubtitle: "旅の記憶を静かに保管します。",
+    replayLabel: "イントロを再生",
   },
   zh: {
     metaTitle: "MomentBook — 记住每个旅行瞬间",
@@ -80,6 +80,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "核心流程: 批量上传、自动整理、最少修正、回想。",
     deviceAlt: "MomentBook 启动画面",
     splashSubtitle: "安静地保存旅行记忆。",
+    replayLabel: "重播介绍",
   },
   es: {
     metaTitle: "MomentBook — Memoriza tus momentos",
@@ -94,6 +95,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "Flujo central: carga en lote, organización automática, ajuste mínimo y repaso.",
     deviceAlt: "Pantalla de inicio de MomentBook",
     splashSubtitle: "Tus recuerdos de viaje, guardados con calma.",
+    replayLabel: "Repetir intro",
   },
   pt: {
     metaTitle: "MomentBook — Guarde seus momentos",
@@ -108,6 +110,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "Fluxo principal: envio em lote, organização automática, ajuste mínimo e recap.",
     deviceAlt: "Tela de abertura do MomentBook",
     splashSubtitle: "Memórias de viagem guardadas com tranquilidade.",
+    replayLabel: "Reproduzir intro",
   },
   fr: {
     metaTitle: "MomentBook — Memorisez vos moments",
@@ -122,6 +125,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "Flux principal: import en lot, organisation automatique, correction minimale et rappel.",
     deviceAlt: "Écran de démarrage MomentBook",
     splashSubtitle: "Les souvenirs de voyage, conservés avec calme.",
+    replayLabel: "Rejouer l'intro",
   },
   th: {
     metaTitle: "MomentBook — จดจำทุกช่วงเวลาของคุณ",
@@ -136,6 +140,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "โฟลว์หลัก: อัปโหลดแบบชุด, จัดระเบียบอัตโนมัติ, ปรับแก้น้อยที่สุด, ย้อนความทรงจำ",
     deviceAlt: "หน้าสแปลชของ MomentBook",
     splashSubtitle: "เก็บความทรงจำการเดินทางไว้อย่างสงบ",
+    replayLabel: "เล่นอินโทรอีกครั้ง",
   },
   vi: {
     metaTitle: "MomentBook — Ghi nho khoanh khac cua ban",
@@ -150,6 +155,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroMeta: "Luồng chính: tải theo lô, tự động sắp xếp, chỉnh tối thiểu và hồi tưởng.",
     deviceAlt: "Màn hình splash MomentBook",
     splashSubtitle: "Lưu giữ ký ức chuyến đi một cách nhẹ nhàng.",
+    replayLabel: "Xem lai intro",
   },
 };
 
@@ -227,45 +233,7 @@ export default async function Home({
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteSchema) }}
       />
 
-      <section className={styles.hero}>
-        <div className={styles.heroGrid}>
-          <div className={styles.heroCopy}>
-            <FadeIn delay={80}>
-              <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
-            </FadeIn>
-            <FadeIn delay={120}>
-              <p className={styles.heroLead}>{content.heroLead}</p>
-            </FadeIn>
-            <FadeIn delay={160} className={styles.heroActionsWrap}>
-              <div className={styles.heroActions}>
-                <Link href={`/${lang}/download`} className={styles.primaryButton}>
-                  {content.primaryCta}
-                </Link>
-              </div>
-            </FadeIn>
-          </div>
-
-          <FadeIn delay={120} className={styles.heroMediaWrap}>
-            <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
-              <div className={styles.splashScreen} role="img" aria-label={content.deviceAlt}>
-                <div className={styles.splashLogoWrap}>
-                  <Image
-                    src={APP_LOGO_TRANSPARENT_PATH}
-                    alt=""
-                    aria-hidden="true"
-                    width={168}
-                    height={168}
-                    sizes="168px"
-                    className={styles.splashLogo}
-                  />
-                </div>
-                <p className={styles.splashAppName}>MomentBook</p>
-                <p className={styles.splashSubtitle}>{content.splashSubtitle}</p>
-              </div>
-            </DeviceMock>
-          </FadeIn>
-        </div>
-      </section>
+      <HomeHero lang={lang} content={content} />
     </main>
   );
 }

@@ -29,7 +29,11 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 2.1 Core Intro Flow (Marketing Surface)
 
-현재 홈(`/`)은 단일 Hero 섹션만 제공하며, 핵심 소개 문구와 CTA(Download), 우측 DeviceMock 프리뷰를 함께 노출한다.
+현재 홈(`/`)은 두 개의 도입 블록을 제공한다.
+
+- Hero 섹션: 핵심 소개 문구 + CTA(Download) + 우측 DeviceMock 프리뷰
+- Intro video 섹션: landscape 인트로 영상(자동 재생/무음/인라인, 종료 후 replay 버튼)
+
 `/faq`는 질문을 주제별 그룹으로 구성해 짧은 답변을 제공한다.
 `/download`는 스토어 CTA를 제공한다.
 
