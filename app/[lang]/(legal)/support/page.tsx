@@ -53,8 +53,8 @@ export async function generateMetadata({
   }
 
   if (lang === "vi") {
-    title = "Ho tro MomentBook";
-    description = "Tro giup va lien he cho MomentBook.";
+    title = "Hỗ trợ MomentBook";
+    description = "Trợ giúp và liên hệ cho MomentBook.";
   }
 
   const path = "/support";
@@ -266,7 +266,7 @@ function SpanishSupport() {
       <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>Preguntas frecuentes</h2>
         <p>
-          Puedes encontrar respuestas rapidas en{" "}
+          Puedes encontrar respuestas rápidas en{" "}
           <Link href="/es/faq" className={styles.link}>FAQ</Link>.
         </p>
         <h2 className={styles.heading2}>Contacto</h2>
@@ -274,7 +274,7 @@ function SpanishSupport() {
           Para otras dudas o problemas, escribe a{" "}
           <a href={supportHref} className={styles.link}>{supportEmail}</a>.
         </p>
-        <p className={styles.note}>Normalmente respondemos en 1-2 dias habiles.</p>
+        <p className={styles.note}>Normalmente respondemos en 1-2 días hábiles.</p>
       </div>
     </>
   );
@@ -290,15 +290,15 @@ function PortugueseSupport() {
       <div className={`${styles.textContent} ${styles.supportTextContent}`}>
         <h2 className={styles.heading2}>Perguntas frequentes</h2>
         <p>
-          Voce pode encontrar respostas rapidas no{" "}
+          Você pode encontrar respostas rápidas no{" "}
           <Link href="/pt/faq" className={styles.link}>FAQ</Link>.
         </p>
         <h2 className={styles.heading2}>Contato</h2>
         <p>
-          Para outras duvidas ou problemas, fale com{" "}
+          Para outras dúvidas ou problemas, fale com{" "}
           <a href={supportHref} className={styles.link}>{supportEmail}</a>.
         </p>
-        <p className={styles.note}>Normalmente respondemos em 1-2 dias uteis.</p>
+        <p className={styles.note}>Normalmente respondemos em 1-2 dias úteis.</p>
       </div>
     </>
   );
@@ -312,9 +312,9 @@ function FrenchSupport() {
         <p className={styles.subtitle}>Aide calme pour vos photos et voyages.</p>
       </header>
       <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>Questions frequentes</h2>
+        <h2 className={styles.heading2}>Questions fréquentes</h2>
         <p>
-          Vous pouvez trouver une reponse rapide dans la{" "}
+          Vous pouvez trouver une réponse rapide dans la{" "}
           <Link href="/fr/faq" className={styles.link}>FAQ</Link>.
         </p>
         <h2 className={styles.heading2}>Contact</h2>
@@ -322,7 +322,7 @@ function FrenchSupport() {
           Pour toute autre question, contactez{" "}
           <a href={supportHref} className={styles.link}>{supportEmail}</a>.
         </p>
-        <p className={styles.note}>Nous repondons en general sous 1 a 2 jours ouvres.</p>
+        <p className={styles.note}>Nous répondons en général sous 1 à 2 jours ouvrés.</p>
       </div>
     </>
   );
@@ -356,21 +356,21 @@ function VietnameseSupport() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.title}>Ho tro MomentBook</h1>
-        <p className={styles.subtitle}>Tro giup nhe nhang cho anh va hanh trinh cua ban.</p>
+        <h1 className={styles.title}>Hỗ trợ MomentBook</h1>
+        <p className={styles.subtitle}>Trợ giúp nhẹ nhàng cho ảnh và hành trình của bạn.</p>
       </header>
       <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>Cau hoi thuong gap</h2>
+        <h2 className={styles.heading2}>Câu hỏi thường gặp</h2>
         <p>
-          Ban co the tim thay cau tra loi nhanh trong{" "}
+          Bạn có thể tìm thấy câu trả lời nhanh trong{" "}
           <Link href="/vi/faq" className={styles.link}>FAQ</Link>.
         </p>
-        <h2 className={styles.heading2}>Lien he</h2>
+        <h2 className={styles.heading2}>Liên hệ</h2>
         <p>
-          Voi cac cau hoi hoac su co khac, vui long lien he{" "}
+          Với các câu hỏi hoặc sự cố khác, vui lòng liên hệ{" "}
           <a href={supportHref} className={styles.link}>{supportEmail}</a>.
         </p>
-        <p className={styles.note}>Thong thuong chung toi phan hoi trong 1-2 ngay lam viec.</p>
+        <p className={styles.note}>Thông thường chúng tôi phản hồi trong 1-2 ngày làm việc.</p>
       </div>
     </>
   );

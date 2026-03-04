@@ -1,4 +1,4 @@
-// Korean dictionary - To be translated
+// Korean dictionary
 
 import type { Dictionary } from './en';
 
@@ -13,7 +13,7 @@ export const ko: Dictionary = {
     support: '고객 지원',
   },
 
-  // Home page - Placeholder, needs proper translation
+  // Home page
   home: {
     hero: {
       title: '하루가 지나간 자리를 조용히 기록합니다',

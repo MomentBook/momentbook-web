@@ -1,4 +1,4 @@
-// Chinese dictionary - To be translated
+// Chinese dictionary
 
 import type { Dictionary } from './en';
 
@@ -13,7 +13,7 @@ export const zh: Dictionary = {
     support: '支持',
   },
 
-  // Home page - Placeholder, needs proper translation
+  // Home page
   home: {
     hero: {
       title: '把一天去过的地方安静记录下来',

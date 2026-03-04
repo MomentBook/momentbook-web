@@ -2,37 +2,37 @@ import type { Dictionary } from "./en";
 
 export const pt: Dictionary = {
   nav: {
-    home: "Inicio",
+    home: "Início",
     about: "Sobre",
-    howItWorks: "Duas formas",
+    howItWorks: "Como funciona",
     download: "Baixar",
-    faq: "FAQ",
+    faq: "Perguntas frequentes",
     support: "Suporte",
   },
   home: {
     hero: {
-      title: "Um registro tranquilo dos lugares por onde o seu dia passa",
+      title: "Registre com calma os lugares por onde seu dia passou",
       deviceText: "Momentos guardados com calma",
     },
     flow: {
       photo: {
         deviceText: "Capture um momento",
-        text: "Salve uma foto ou nota curta quando algo merecer ser lembrado.",
+        text: "Salve uma foto ou uma nota curta quando quiser guardar aquele momento.",
       },
       moment: {
         deviceText: "O dia ganha forma",
-        text: "Os momentos se agrupam por lugar e tempo, transformando o dia em uma historia simples.",
+        text: "Os momentos se agrupam por lugar e horário, e o dia vira uma história simples.",
       },
       memory: {
         deviceText: "Volte quando quiser",
-        text: "Navegue por dia ou lugar. Sem metas, sem pressao.",
+        text: "Revise por data ou lugar. Sem metas, sem pressão.",
       },
     },
     pause: {
-      text: "Sem sequencias.\n\nAlertas de viagem e lembretes de encerramento quando ajudarem.",
+      text: "Sem sequências.\n\nDetecção de deslocamento e lembrete de fim da jornada quando você precisar.",
     },
     privacy: {
-      text: "Privado por padrao. Publique so quando quiser.",
+      text: "Privado por padrão. Só fica público quando você escolhe publicar.",
     },
     cta: {
       deviceText: "Comece um dia",
@@ -42,10 +42,10 @@ export const pt: Dictionary = {
   },
   common: {
     comingSoon: "Em breve",
-    learnMore: "Ver duas formas",
+    learnMore: "Ver como funciona",
   },
   footer: {
-    summary: "Memorize your moments: guarde por mais tempo as memorias da sua viagem.",
+    summary: "Guarde por mais tempo os momentos da sua viagem.",
     ctaPrimary: "Baixar",
     ctaSecondary: "Suporte",
     sections: {

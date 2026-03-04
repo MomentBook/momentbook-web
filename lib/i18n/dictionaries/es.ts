@@ -4,48 +4,48 @@ export const es: Dictionary = {
   nav: {
     home: "Inicio",
     about: "Acerca de",
-    howItWorks: "Dos formas",
+    howItWorks: "Cómo funciona",
     download: "Descargar",
-    faq: "FAQ",
+    faq: "Preguntas frecuentes",
     support: "Soporte",
   },
   home: {
     hero: {
-      title: "Un registro tranquilo de los lugares a los que te lleva el dia",
+      title: "Registra en calma los lugares por donde pasó tu día",
       deviceText: "Momentos guardados con calma",
     },
     flow: {
       photo: {
         deviceText: "Captura un momento",
-        text: "Guarda una foto o una nota corta cuando algo merezca recordarse.",
+        text: "Guarda una foto o una nota breve cuando quieras recordar ese momento.",
       },
       moment: {
-        deviceText: "El dia toma forma",
-        text: "Los momentos se agrupan por lugar y tiempo, para que el dia sea una historia simple.",
+        deviceText: "El día toma forma",
+        text: "Los momentos se agrupan por lugar y hora, y así tu día se vuelve un relato sencillo.",
       },
       memory: {
         deviceText: "Vuelve cuando quieras",
-        text: "Explora por dia o lugar. Sin rachas, sin presion.",
+        text: "Revísalo por fecha o lugar. Sin rachas, sin presión.",
       },
     },
     pause: {
-      text: "Sin rachas.\n\nAlertas de viaje y recordatorios de cierre cuando ayudan.",
+      text: "Sin rachas.\n\nDetección de movimiento y recordatorio de fin de viaje cuando lo necesites.",
     },
     privacy: {
-      text: "Privado por defecto. Publica solo cuando tu quieras.",
+      text: "Privado por defecto. Solo se hace público cuando tú eliges publicar.",
     },
     cta: {
-      deviceText: "Empieza un dia",
+      deviceText: "Empieza el primer día",
       primaryButton: "Descargar MomentBook",
       secondaryButton: "Descargar para Android",
     },
   },
   common: {
-    comingSoon: "Proximamente",
-    learnMore: "Ver dos formas",
+    comingSoon: "Próximamente",
+    learnMore: "Ver cómo funciona",
   },
   footer: {
-    summary: "Memorize your moments: guarda tus recuerdos de viaje por mas tiempo.",
+    summary: "Guarda por más tiempo los momentos de tu viaje.",
     ctaPrimary: "Descargar",
     ctaSecondary: "Soporte",
     sections: {
@@ -57,7 +57,7 @@ export const es: Dictionary = {
     email: "Correo",
     links: {
       privacy: "Privacidad",
-      terms: "Terminos",
+      terms: "Términos",
       communityGuidelines: "Normas de la comunidad",
       marketingConsent: "Consentimiento de marketing",
       support: "Soporte",

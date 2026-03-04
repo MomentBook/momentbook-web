@@ -58,6 +58,104 @@ const ANDROID_REQUIREMENTS_KO = [
   "위치 포그라운드 서비스",
 ];
 
+const IOS_REQUIREMENTS_JA = [
+  "最小OS: iOS 15.1+（MomentBook本番アプリ基準）",
+  "参考: Podfile/Devターゲットは iOS 15.6 で値が混在",
+  "デバイス: iPhone/iPad, arm64",
+  "主な権限: カメラ、写真ライブラリ、位置情報（使用中/常時）、バックグラウンド位置情報",
+];
+
+const ANDROID_REQUIREMENTS_JA = [
+  "最小OS: API 24+（Android 7.0+）",
+  "Target/Compile: API 36",
+  "主な権限: カメラ、画像読み取り、位置情報（高精度/おおよそ/バックグラウンド）",
+  "位置情報フォアグラウンドサービス",
+];
+
+const IOS_REQUIREMENTS_ZH = [
+  "最低 OS：iOS 15.1+（以 MomentBook 生产版本为准）",
+  "备注：Podfile/开发目标为 iOS 15.6，存在版本混用",
+  "设备：iPhone/iPad，arm64",
+  "主要权限：相机、照片库、位置（使用期间/始终）、后台位置",
+];
+
+const ANDROID_REQUIREMENTS_ZH = [
+  "最低 OS：API 24+（Android 7.0+）",
+  "Target/Compile：API 36",
+  "主要权限：相机、读取图片、位置（精确/大致/后台）",
+  "前台服务：位置",
+];
+
+const IOS_REQUIREMENTS_ES = [
+  "SO mínimo: iOS 15.1+ (según el objetivo de la app de producción de MomentBook)",
+  "Nota: el objetivo de Podfile/desarrollo es iOS 15.6 (hay valores mezclados)",
+  "Dispositivo: iPhone/iPad, arm64",
+  "Permisos principales: Cámara, Fotos, Ubicación (en uso/siempre), Ubicación en segundo plano",
+];
+
+const ANDROID_REQUIREMENTS_ES = [
+  "SO mínimo: API 24+ (Android 7.0+)",
+  "Target/Compile: API 36",
+  "Permisos principales: Cámara, Lectura de imágenes, Ubicación (precisa/aproximada/segundo plano)",
+  "Servicio en primer plano: Ubicación",
+];
+
+const IOS_REQUIREMENTS_PT = [
+  "SO mínimo: iOS 15.1+ (alvo do app de produção do MomentBook)",
+  "Observação: o alvo de Podfile/desenvolvimento é iOS 15.6 (valores mistos)",
+  "Dispositivo: iPhone/iPad, arm64",
+  "Permissões principais: Câmera, Fotos, Localização (em uso/sempre), Localização em segundo plano",
+];
+
+const ANDROID_REQUIREMENTS_PT = [
+  "SO mínimo: API 24+ (Android 7.0+)",
+  "Target/Compile: API 36",
+  "Permissões principais: Câmera, Leitura de imagens, Localização (precisa/aproximada/segundo plano)",
+  "Serviço em primeiro plano: Localização",
+];
+
+const IOS_REQUIREMENTS_FR = [
+  "OS minimum : iOS 15.1+ (cible de l'app de production MomentBook)",
+  "Remarque : la cible Podfile/dev est iOS 15.6 (valeurs mixtes)",
+  "Appareil : iPhone/iPad, arm64",
+  "Autorisations principales : Appareil photo, Photothèque, Localisation (en cours d'utilisation/toujours), Localisation en arrière-plan",
+];
+
+const ANDROID_REQUIREMENTS_FR = [
+  "OS minimum : API 24+ (Android 7.0+)",
+  "Target/Compile : API 36",
+  "Autorisations principales : Appareil photo, Lecture d'images, Localisation (précise/approximative/arrière-plan)",
+  "Service au premier plan : Localisation",
+];
+
+const IOS_REQUIREMENTS_TH = [
+  "ระบบขั้นต่ำ: iOS 15.1+ (อิงตามเป้าหมายแอปโปรดักชันของ MomentBook)",
+  "หมายเหตุ: เป้าหมาย Podfile/Dev เป็น iOS 15.6 จึงมีค่าปะปน",
+  "อุปกรณ์: iPhone/iPad, arm64",
+  "สิทธิ์หลัก: กล้อง, คลังรูปภาพ, ตำแหน่ง (ขณะใช้งาน/ตลอดเวลา), ตำแหน่งเบื้องหลัง",
+];
+
+const ANDROID_REQUIREMENTS_TH = [
+  "ระบบขั้นต่ำ: API 24+ (Android 7.0+)",
+  "Target/Compile: API 36",
+  "สิทธิ์หลัก: กล้อง, อ่านรูปภาพ, ตำแหน่ง (แม่นยำ/โดยประมาณ/เบื้องหลัง)",
+  "บริการเบื้องหน้า: ตำแหน่ง",
+];
+
+const IOS_REQUIREMENTS_VI = [
+  "OS tối thiểu: iOS 15.1+ (theo mục tiêu app production của MomentBook)",
+  "Lưu ý: mục tiêu Podfile/Dev là iOS 15.6 nên có giá trị lẫn nhau",
+  "Thiết bị: iPhone/iPad, arm64",
+  "Quyền chính: Camera, Thư viện ảnh, Vị trí (khi dùng/luôn luôn), Vị trí nền",
+];
+
+const ANDROID_REQUIREMENTS_VI = [
+  "OS tối thiểu: API 24+ (Android 7.0+)",
+  "Target/Compile: API 36",
+  "Quyền chính: Camera, Đọc hình ảnh, Vị trí (chính xác/tương đối/nền)",
+  "Dịch vụ foreground: Vị trí",
+];
+
 const downloadCopy: Record<Language, DownloadCopy> = {
   en: {
     metaTitle: "Download MomentBook",
@@ -107,8 +205,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "ダウンロード",
     androidName: "Google Play",
     requirementsTitle: "システム要件",
-    iosRequirement: IOS_REQUIREMENTS_EN,
-    androidRequirement: ANDROID_REQUIREMENTS_EN,
+    iosRequirement: IOS_REQUIREMENTS_JA,
+    androidRequirement: ANDROID_REQUIREMENTS_JA,
   },
   zh: {
     metaTitle: "下载 MomentBook",
@@ -124,13 +222,13 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "下载",
     androidName: "Google Play",
     requirementsTitle: "系统要求",
-    iosRequirement: IOS_REQUIREMENTS_EN,
-    androidRequirement: ANDROID_REQUIREMENTS_EN,
+    iosRequirement: IOS_REQUIREMENTS_ZH,
+    androidRequirement: ANDROID_REQUIREMENTS_ZH,
   },
   es: {
     metaTitle: "Descargar MomentBook",
     metaDescription:
-      "Instala MomentBook en iOS y Android y usa el mismo flujo después del viaje: carga por lotes, timeline y repaso en mapa.",
+      "Instala MomentBook en iOS y Android y usa el mismo flujo después del viaje: carga por lotes, línea de tiempo y repaso en mapa.",
     eyebrow: "Instalar MomentBook",
     title: "Recuerda ahora tus momentos de viaje",
     availability: "Disponible en App Store y Google Play.",
@@ -141,13 +239,13 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Descargar en",
     androidName: "Google Play",
     requirementsTitle: "Requisitos del sistema",
-    iosRequirement: IOS_REQUIREMENTS_EN,
-    androidRequirement: ANDROID_REQUIREMENTS_EN,
+    iosRequirement: IOS_REQUIREMENTS_ES,
+    androidRequirement: ANDROID_REQUIREMENTS_ES,
   },
   pt: {
     metaTitle: "Baixar MomentBook",
     metaDescription:
-      "Instale o MomentBook no iOS e Android e use o mesmo fluxo após a viagem: envio em lote, timeline e recap no mapa.",
+      "Instale o MomentBook no iOS e Android e use o mesmo fluxo após a viagem: envio em lote, linha do tempo e revisão no mapa.",
     eyebrow: "Instalar MomentBook",
     title: "Lembre agora seus momentos de viagem",
     availability: "Disponível na App Store e no Google Play.",
@@ -158,13 +256,13 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Baixar no",
     androidName: "Google Play",
     requirementsTitle: "Requisitos do sistema",
-    iosRequirement: IOS_REQUIREMENTS_EN,
-    androidRequirement: ANDROID_REQUIREMENTS_EN,
+    iosRequirement: IOS_REQUIREMENTS_PT,
+    androidRequirement: ANDROID_REQUIREMENTS_PT,
   },
   fr: {
     metaTitle: "Télécharger MomentBook",
     metaDescription:
-      "Installez MomentBook sur iOS et Android et utilisez le même flux après le voyage: import en lot, timeline et rappel sur carte.",
+      "Installez MomentBook sur iOS et Android et utilisez le même flux après le voyage : import en lot, timeline et rappel sur carte.",
     eyebrow: "Installer MomentBook",
     title: "Gardez maintenant vos moments de voyage",
     availability: "Disponible sur App Store et Google Play.",
@@ -175,8 +273,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Télécharger sur",
     androidName: "Google Play",
     requirementsTitle: "Configuration requise",
-    iosRequirement: IOS_REQUIREMENTS_EN,
-    androidRequirement: ANDROID_REQUIREMENTS_EN,
+    iosRequirement: IOS_REQUIREMENTS_FR,
+    androidRequirement: ANDROID_REQUIREMENTS_FR,
   },
   th: {
     metaTitle: "ดาวน์โหลด MomentBook",
@@ -192,15 +290,15 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "ดาวน์โหลดบน",
     androidName: "Google Play",
     requirementsTitle: "ความต้องการของระบบ",
-    iosRequirement: IOS_REQUIREMENTS_EN,
-    androidRequirement: ANDROID_REQUIREMENTS_EN,
+    iosRequirement: IOS_REQUIREMENTS_TH,
+    androidRequirement: ANDROID_REQUIREMENTS_TH,
   },
   vi: {
     metaTitle: "Tải MomentBook",
     metaDescription:
       "Cài MomentBook trên iOS và Android rồi dùng cùng một luồng sau chuyến đi: tải theo lô, timeline và hồi tưởng trên bản đồ.",
     eyebrow: "Cài đặt MomentBook",
-    title: "Ghi nho ngay nhung khoanh khac chuyen di",
+    title: "Ghi nhớ ngay những khoảnh khắc chuyến đi",
     availability: "Có trên App Store và Google Play.",
     deviceAlt: "Màn hình splash MomentBook",
     splashSubtitle: "Lưu giữ ký ức chuyến đi một cách nhẹ nhàng.",
@@ -209,8 +307,8 @@ const downloadCopy: Record<Language, DownloadCopy> = {
     androidTopLabel: "Tải trên",
     androidName: "Google Play",
     requirementsTitle: "Yêu cầu hệ thống",
-    iosRequirement: IOS_REQUIREMENTS_EN,
-    androidRequirement: ANDROID_REQUIREMENTS_EN,
+    iosRequirement: IOS_REQUIREMENTS_VI,
+    androidRequirement: ANDROID_REQUIREMENTS_VI,
   },
 };
 

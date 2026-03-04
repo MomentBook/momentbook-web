@@ -82,11 +82,11 @@ const momentLabels: Partial<Record<Language, MomentLabels>> & { en: MomentLabels
   pt: {
     eyebrow: "Momento",
     backToJourney: "Voltar para jornada",
-    timeLabel: "Horario",
+    timeLabel: "Horário",
     photosLabel: "fotos",
     journeyLabel: "Jornada",
     mapTitle: "Local no mapa",
-    emptyPhotos: "Nao ha fotos neste momento.",
+    emptyPhotos: "Não há fotos neste momento.",
     locationFallback: "Local",
   },
   fr: {
@@ -110,14 +110,14 @@ const momentLabels: Partial<Record<Language, MomentLabels>> & { en: MomentLabels
     locationFallback: "สถานที่",
   },
   vi: {
-    eyebrow: "Khoanh khac",
-    backToJourney: "Quay lai hanh trinh",
-    timeLabel: "Thoi gian",
-    photosLabel: "anh",
-    journeyLabel: "Hanh trinh",
-    mapTitle: "Dia diem tren ban do",
-    emptyPhotos: "Khong co anh trong khoanh khac nay.",
-    locationFallback: "Dia diem",
+    eyebrow: "Khoảnh khắc",
+    backToJourney: "Quay lại hành trình",
+    timeLabel: "Thời gian",
+    photosLabel: "ảnh",
+    journeyLabel: "Hành trình",
+    mapTitle: "Địa điểm trên bản đồ",
+    emptyPhotos: "Không có ảnh trong khoảnh khắc này.",
+    locationFallback: "Địa điểm",
   },
 };
 

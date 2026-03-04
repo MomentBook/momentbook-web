@@ -30,17 +30,17 @@ export async function generateMetadata({
 
   if (lang === "es") {
     title = "Normas de la comunidad de MomentBook";
-    description = "Normas de comunidad y politica de contenido de MomentBook.";
+    description = "Normas de comunidad y política de contenido de MomentBook.";
   }
 
   if (lang === "pt") {
     title = "Diretrizes da comunidade do MomentBook";
-    description = "Diretrizes da comunidade e politica de conteudo do MomentBook.";
+    description = "Diretrizes da comunidade e política de conteúdo do MomentBook.";
   }
 
   if (lang === "fr") {
-    title = "Regles de la communaute MomentBook";
-    description = "Regles de communaute et politique de contenu de MomentBook.";
+    title = "Règles de la communauté MomentBook";
+    description = "Règles de communauté et politique de contenu de MomentBook.";
   }
 
   if (lang === "th") {
@@ -49,8 +49,8 @@ export async function generateMetadata({
   }
 
   if (lang === "vi") {
-    title = "Huong dan cong dong MomentBook";
-    description = "Huong dan cong dong va chinh sach noi dung cua MomentBook.";
+    title = "Hướng dẫn cộng đồng MomentBook";
+    description = "Hướng dẫn cộng đồng và chính sách nội dung của MomentBook.";
   }
 
   const path = "/community-guidelines";

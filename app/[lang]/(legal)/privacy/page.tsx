@@ -30,18 +30,18 @@ export async function generateMetadata({
   }
 
   if (lang === "es") {
-    title = "Politica de privacidad de MomentBook";
-    description = "Como maneja MomentBook tus datos.";
+    title = "Política de privacidad de MomentBook";
+    description = "Cómo maneja MomentBook tus datos.";
   }
 
   if (lang === "pt") {
-    title = "Politica de privacidade do MomentBook";
+    title = "Política de privacidade do MomentBook";
     description = "Como o MomentBook trata seus dados.";
   }
 
   if (lang === "fr") {
-    title = "Politique de confidentialite de MomentBook";
-    description = "Comment MomentBook gere vos donnees.";
+    title = "Politique de confidentialité de MomentBook";
+    description = "Comment MomentBook gère vos données.";
   }
 
   if (lang === "th") {
@@ -50,8 +50,8 @@ export async function generateMetadata({
   }
 
   if (lang === "vi") {
-    title = "Chinh sach quyen rieng tu cua MomentBook";
-    description = "MomentBook xu ly du lieu cua ban nhu the nao.";
+    title = "Chính sách quyền riêng tư của MomentBook";
+    description = "MomentBook xử lý dữ liệu của bạn như thế nào.";
   }
 
   const path = "/privacy";

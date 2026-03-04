@@ -45,7 +45,7 @@ const journeysNavLabelMap: Record<Language, string> = {
   pt: "Jornadas",
   fr: "Voyages",
   th: "ทริป",
-  vi: "Hanh trinh",
+  vi: "Hành trình",
 };
 
 function getStoreLinks(lang: Language) {

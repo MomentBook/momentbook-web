@@ -304,11 +304,11 @@ const faqContent: Record<Language, FAQContent> = {
     groups: [
       {
         title: "Fluxo principal",
-        description: "Comportamento básico do fim da viagem até o recap.",
+        description: "Comportamento básico do fim da viagem até a revisão.",
         items: [
           {
             question: "Que tipo de app é o MomentBook?",
-            answer: "É um app que organiza fotos de viagem dispersas em uma timeline única e um recap no mapa.",
+            answer: "É um app que organiza fotos de viagem dispersas em uma timeline única e uma revisão no mapa.",
           },
           {
             question: "Preciso enviar fotos uma por uma?",

@@ -30,8 +30,8 @@ export async function generateMetadata({
   }
 
   if (lang === "es") {
-    title = "Terminos de servicio de MomentBook";
-    description = "Consulta los terminos de uso de MomentBook.";
+    title = "Términos de servicio de MomentBook";
+    description = "Consulta los términos de uso de MomentBook.";
   }
 
   if (lang === "pt") {
@@ -50,8 +50,8 @@ export async function generateMetadata({
   }
 
   if (lang === "vi") {
-    title = "Dieu khoan su dung MomentBook";
-    description = "Xem dieu khoan su dung cua MomentBook.";
+    title = "Điều khoản sử dụng MomentBook";
+    description = "Xem điều khoản sử dụng của MomentBook.";
   }
 
   const path = "/terms";

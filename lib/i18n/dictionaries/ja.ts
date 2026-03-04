@@ -1,4 +1,4 @@
-// Japanese dictionary - To be translated
+// Japanese dictionary
 
 import type { Dictionary } from './en';
 
@@ -13,7 +13,7 @@ export const ja: Dictionary = {
     support: 'サポート',
   },
 
-  // Home page - Placeholder, needs proper translation
+  // Home page
   home: {
     hero: {
       title: '一日の行き先を静かに記録します',

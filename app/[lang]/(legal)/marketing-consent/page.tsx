@@ -29,13 +29,13 @@ export async function generateMetadata({
   }
 
   if (lang === "es") {
-    title = "Consentimiento de informacion de marketing de MomentBook";
-    description = "Politica de consentimiento para comunicaciones promocionales de MomentBook.";
+    title = "Consentimiento de información de marketing de MomentBook";
+    description = "Política de consentimiento para comunicaciones promocionales de MomentBook.";
   }
 
   if (lang === "pt") {
-    title = "Consentimento de informacoes de marketing do MomentBook";
-    description = "Politica de consentimento para comunicacoes promocionais do MomentBook.";
+    title = "Consentimento de informações de marketing do MomentBook";
+    description = "Política de consentimento para comunicações promocionais do MomentBook.";
   }
 
   if (lang === "fr") {
@@ -49,8 +49,8 @@ export async function generateMetadata({
   }
 
   if (lang === "vi") {
-    title = "Dong y nhan thong tin tiep thi MomentBook";
-    description = "Chinh sach dong y cho thong tin tiep thi va truyen thong khuyen mai cua MomentBook.";
+    title = "Đồng ý nhận thông tin tiếp thị MomentBook";
+    description = "Chính sách đồng ý cho thông tin tiếp thị và truyền thông khuyến mại của MomentBook.";
   }
 
   const path = "/marketing-consent";

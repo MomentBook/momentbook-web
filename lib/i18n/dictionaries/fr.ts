@@ -3,50 +3,50 @@ import type { Dictionary } from "./en";
 export const fr: Dictionary = {
   nav: {
     home: "Accueil",
-    about: "A propos",
-    howItWorks: "Deux facons",
-    download: "Telecharger",
-    faq: "FAQ",
+    about: "À propos",
+    howItWorks: "Comment ça marche",
+    download: "Télécharger",
+    faq: "Questions fréquentes",
     support: "Support",
   },
   home: {
     hero: {
-      title: "Une trace calme des endroits ou votre journee vous mene",
-      deviceText: "Des moments gardes en douceur",
+      title: "Un enregistrement calme des lieux traversés dans votre journée",
+      deviceText: "Des moments gardés en douceur",
     },
     flow: {
       photo: {
         deviceText: "Capturez un moment",
-        text: "Enregistrez une photo ou une note courte quand un moment merite d'etre garde.",
+        text: "Enregistrez une photo ou une note courte quand un moment mérite d'être gardé.",
       },
       moment: {
-        deviceText: "La journee prend forme",
-        text: "Les moments se regroupent par lieu et par temps, pour former un recit simple.",
+        deviceText: "La journée prend forme",
+        text: "Les moments se regroupent par lieu et par heure, pour former un récit simple.",
       },
       memory: {
         deviceText: "Revenez quand vous voulez",
-        text: "Parcourez par jour ou par lieu. Sans pression, sans rythme impose.",
+        text: "Parcourez par date ou par lieu. Sans pression, sans rythme imposé.",
       },
     },
     pause: {
-      text: "Pas de serie.\n\nAlertes de voyage et rappels de fin de trajet quand c'est utile.",
+      text: "Pas de série.\n\nDétection de déplacement et rappel de fin de voyage quand c'est utile.",
     },
     privacy: {
-      text: "Prive par defaut. Publiez uniquement quand vous le choisissez.",
+      text: "Privé par défaut. Publiez seulement quand vous le choisissez.",
     },
     cta: {
-      deviceText: "Commencer une journee",
-      primaryButton: "Telecharger MomentBook",
-      secondaryButton: "Telecharger pour Android",
+      deviceText: "Commencez une journée",
+      primaryButton: "Télécharger MomentBook",
+      secondaryButton: "Télécharger pour Android",
     },
   },
   common: {
-    comingSoon: "Bientot disponible",
-    learnMore: "Voir deux facons",
+    comingSoon: "Bientôt disponible",
+    learnMore: "Voir comment ça marche",
   },
   footer: {
-    summary: "Memorize your moments : gardez plus longtemps les souvenirs de votre voyage.",
-    ctaPrimary: "Telecharger",
+    summary: "Gardez plus longtemps les moments de votre voyage.",
+    ctaPrimary: "Télécharger",
     ctaSecondary: "Support",
     sections: {
       product: "Produit",
@@ -56,12 +56,12 @@ export const fr: Dictionary = {
     },
     email: "Email",
     links: {
-      privacy: "Confidentialite",
+      privacy: "Confidentialité",
       terms: "Conditions",
-      communityGuidelines: "Regles de la communaute",
+      communityGuidelines: "Règles de la communauté",
       marketingConsent: "Consentement marketing",
       support: "Support",
     },
-    copyright: "© 2024 MomentBook. Tous droits reserves.",
+    copyright: "© 2024 MomentBook. Tous droits réservés.",
   },
 };

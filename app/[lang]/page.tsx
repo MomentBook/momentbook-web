@@ -124,7 +124,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   es: {
     metaTitle: "MomentBook — Memoriza tus momentos",
     metaDescription:
-      "Guarda tus momentos de viaje en una sola carga y recuerdalos por mas tiempo en timeline y mapa.",
+      "Guarda tus momentos de viaje en una sola carga y recuérdalos por más tiempo en la línea de tiempo y el mapa.",
     eyebrow: "MomentBook App",
     heroTitle: "Memoriza tus momentos",
     heroLead:
@@ -140,14 +140,14 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     soundOnLabel: "Activar sonido",
     soundOffLabel: "Silenciar",
     introPromptCta: "Organizar en la app",
-    introGuideTitle: "Continua tu recap en MomentBook",
+    introGuideTitle: "Continúa tu repaso en MomentBook",
     introGuideLead:
-      "Despues del intro, abre la app para subir fotos en lote y ordenar momentos por tiempo y lugar.",
+      "Después de la introducción, abre la app para subir fotos en lote y ordenar momentos por tiempo y lugar.",
   },
   pt: {
     metaTitle: "MomentBook — Guarde seus momentos",
     metaDescription:
-      "Guarde seus momentos de viagem em um unico envio e reviva-os por mais tempo na timeline e no mapa.",
+      "Guarde seus momentos de viagem em um único envio e reviva-os por mais tempo na timeline e no mapa.",
     eyebrow: "MomentBook App",
     heroTitle: "Guarde seus momentos",
     heroLead:
@@ -155,7 +155,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTutorialCta: "Ver tutorial",
     primaryCta: "Baixar MomentBook",
     secondaryCta: "Ler introdução",
-    heroMeta: "Fluxo principal: envio em lote, organização automática, ajuste mínimo e recap.",
+    heroMeta: "Fluxo principal: envio em lote, organização automática, ajuste mínimo e revisão.",
     deviceAlt: "Tela de abertura do MomentBook",
     splashSubtitle: "Memórias de viagem guardadas com tranquilidade.",
     replayLabel: "Reproduzir intro",
@@ -163,9 +163,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     soundOnLabel: "Ativar som",
     soundOffLabel: "Desativar som",
     introPromptCta: "Organizar no app",
-    introGuideTitle: "Continue seu recap no MomentBook",
+    introGuideTitle: "Continue seu resumo no MomentBook",
     introGuideLead:
-      "Depois do intro, abra o app para enviar fotos em lote e organizar momentos por tempo e lugar.",
+      "Depois da introdução, abra o app para enviar fotos em lote e organizar momentos por tempo e lugar.",
   },
   fr: {
     metaTitle: "MomentBook — Memorisez vos moments",
@@ -174,7 +174,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     eyebrow: "MomentBook App",
     heroTitle: "Memorisez vos moments",
     heroLead:
-      "A la fin du voyage, importez tout en une fois et laissez les moments se ranger par temps et lieu pour y revenir quand vous voulez.",
+      "À la fin du voyage, importez tout en une fois et laissez les moments se ranger par temps et lieu pour y revenir quand vous voulez.",
     heroTutorialCta: "Voir le tutoriel",
     primaryCta: "Télécharger MomentBook",
     secondaryCta: "Lire la présentation",
@@ -186,9 +186,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     soundOnLabel: "Activer le son",
     soundOffLabel: "Couper le son",
     introPromptCta: "Organiser dans l'app",
-    introGuideTitle: "Continuez votre recap dans MomentBook",
+    introGuideTitle: "Continuez votre récapitulatif dans MomentBook",
     introGuideLead:
-      "Apres l'intro, ouvrez l'app pour importer vos photos en lot et organiser les moments par temps et lieu.",
+      "Après l'introduction, ouvrez l'app pour importer vos photos en lot et organiser les moments par temps et lieu.",
   },
   th: {
     metaTitle: "MomentBook — จดจำทุกช่วงเวลาของคุณ",
@@ -214,27 +214,27 @@ const homePageCopy: Record<Language, HomePageCopy> = {
       "หลังดูอินโทรแล้ว เปิดแอปเพื่ออัปโหลดรูปแบบชุดและจัดช่วงเวลาตามเวลาและสถานที่",
   },
   vi: {
-    metaTitle: "MomentBook — Ghi nho khoanh khac cua ban",
+    metaTitle: "MomentBook — Ghi nhớ khoảnh khắc của bạn",
     metaDescription:
-      "Luu khoanh khac chuyen di trong mot lan tai len, roi nhin lai lau hon tren timeline va ban do.",
+      "Lưu khoảnh khắc chuyến đi trong một lần tải lên, rồi xem lại lâu hơn trên timeline và bản đồ.",
     eyebrow: "MomentBook App",
-    heroTitle: "Ghi nho khoanh khac cua ban",
+    heroTitle: "Ghi nhớ khoảnh khắc của bạn",
     heroLead:
-      "Sau moi chuyen di, tai len mot lan de cac khoanh khac tu sap theo thoi gian va dia diem, de ban quay lai bat cu luc nao.",
-    heroTutorialCta: "Xem huong dan",
+      "Sau mỗi chuyến đi, tải lên một lần để các khoảnh khắc tự sắp theo thời gian và địa điểm, để bạn quay lại bất cứ lúc nào.",
+    heroTutorialCta: "Xem hướng dẫn",
     primaryCta: "Tải MomentBook",
     secondaryCta: "Đọc giới thiệu",
     heroMeta: "Luồng chính: tải theo lô, tự động sắp xếp, chỉnh tối thiểu và hồi tưởng.",
     deviceAlt: "Màn hình splash MomentBook",
     splashSubtitle: "Lưu giữ ký ức chuyến đi một cách nhẹ nhàng.",
-    replayLabel: "Xem lai intro",
-    playWithSoundLabel: "Phat kem am thanh",
-    soundOnLabel: "Bat am thanh",
-    soundOffLabel: "Tat am thanh",
-    introPromptCta: "Thu sap xep trong app",
-    introGuideTitle: "Tiep tuc recap trong MomentBook",
+    replayLabel: "Xem lại phần mở đầu",
+    playWithSoundLabel: "Phát kèm âm thanh",
+    soundOnLabel: "Bật âm thanh",
+    soundOffLabel: "Tắt âm thanh",
+    introPromptCta: "Thử sắp xếp trong app",
+    introGuideTitle: "Tiếp tục phần tóm tắt trong MomentBook",
     introGuideLead:
-      "Sau intro, mo app de tai anh theo lo va sap xep khoanh khac theo thoi gian va dia diem.",
+      "Sau phần mở đầu, mở app để tải ảnh theo lô và sắp xếp khoảnh khắc theo thời gian và địa điểm.",
   },
 };
 

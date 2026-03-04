@@ -99,7 +99,7 @@ const photoCopy: Partial<Record<Language, PhotoPageCopy>> & {
         backToJourney: "Volver al viaje",
         detailsTitle: "Detalles de la foto",
         journeyLabel: "Viaje",
-        takenAt: "Capturado en",
+        takenAt: "Capturada en",
         location: "Lugar",
         coordinates: "Coordenadas",
         journeyFallback: "Viaje",
@@ -127,17 +127,17 @@ const photoCopy: Partial<Record<Language, PhotoPageCopy>> & {
     fr: {
         eyebrow: "Photo",
         backToJourney: "Retour au voyage",
-        detailsTitle: "Details de la photo",
+        detailsTitle: "Détails de la photo",
         journeyLabel: "Voyage",
-        takenAt: "Capture le",
+        takenAt: "Prise le",
         location: "Lieu",
-        coordinates: "Coordonnees",
+        coordinates: "Coordonnées",
         journeyFallback: "Voyage",
         metadataTitleTemplate: "Photo de {journey}",
         metadataDescriptionWithLocationTemplate:
-            "Une photo de {journey} prise a {location}.",
+            "Une photo de {journey} prise à {location}.",
         metadataDescriptionWithoutLocationTemplate:
-            "Une photo publiee de {journey}.",
+            "Une photo publiée de {journey}.",
     },
     th: {
         eyebrow: "รูปภาพ",
@@ -155,19 +155,19 @@ const photoCopy: Partial<Record<Language, PhotoPageCopy>> & {
             "รูปที่เผยแพร่จาก {journey}",
     },
     vi: {
-        eyebrow: "Anh",
-        backToJourney: "Quay lai hanh trinh",
-        detailsTitle: "Thong tin anh",
-        journeyLabel: "Hanh trinh",
-        takenAt: "Ghi luc",
-        location: "Dia diem",
-        coordinates: "Toa do",
-        journeyFallback: "Hanh trinh",
-        metadataTitleTemplate: "Anh tu {journey}",
+        eyebrow: "Ảnh",
+        backToJourney: "Quay lại hành trình",
+        detailsTitle: "Thông tin ảnh",
+        journeyLabel: "Hành trình",
+        takenAt: "Thời điểm ghi",
+        location: "Địa điểm",
+        coordinates: "Tọa độ",
+        journeyFallback: "Hành trình",
+        metadataTitleTemplate: "Ảnh từ {journey}",
         metadataDescriptionWithLocationTemplate:
-            "Anh tu {journey} chup tai {location}.",
+            "Ảnh từ {journey} chụp tại {location}.",
         metadataDescriptionWithoutLocationTemplate:
-            "Anh da dang tu {journey}.",
+            "Ảnh đã đăng từ {journey}.",
     },
 };
 

@@ -46,24 +46,24 @@ const hiddenNoticeByLanguage: Partial<Record<Language, { title: string; message:
         message: "该帖子因举报累计已被隐藏。",
     },
     es: {
-        title: "Esta publicacion esta oculta",
-        message: "Esta publicacion fue ocultada por reportes acumulados.",
+        title: "Esta publicación está oculta",
+        message: "Esta publicación fue ocultada por reportes acumulados.",
     },
     pt: {
-        title: "Esta publicacao esta oculta",
-        message: "Esta publicacao foi ocultada por denuncias acumuladas.",
+        title: "Esta publicação está oculta",
+        message: "Esta publicação foi ocultada por denúncias acumuladas.",
     },
     fr: {
-        title: "Cette publication est masquee",
-        message: "Cette publication a ete masquee suite a des signalements repetes.",
+        title: "Cette publication est masquée",
+        message: "Cette publication a été masquée suite à des signalements répétés.",
     },
     th: {
         title: "โพสต์นี้ถูกซ่อน",
         message: "โพสต์นี้ถูกซ่อนเนื่องจากมีการรายงานสะสม",
     },
     vi: {
-        title: "Bai dang da bi an",
-        message: "Bai dang nay da bi an do tich luy bao cao.",
+        title: "Bài đăng đã bị ẩn",
+        message: "Bài đăng này đã bị ẩn do tích lũy báo cáo.",
     },
 };
 

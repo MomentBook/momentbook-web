@@ -73,9 +73,9 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         eyebrow: "Viaje",
         photoCount: "fotos",
         locationCount: "lugares",
-        duration: "duracion",
+        duration: "duración",
         places: "Lugares visitados",
-        gallery: "Galeria de fotos",
+        gallery: "Galería de fotos",
         hours: "h",
         routeTitle: "Mapa del viaje",
         mapEmpty: "No hay datos de mapa para este viaje.",
@@ -86,12 +86,12 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         eyebrow: "Jornada",
         photoCount: "fotos",
         locationCount: "locais",
-        duration: "duracao",
+        duration: "duração",
         places: "Locais visitados",
         gallery: "Galeria de fotos",
         hours: "h",
         routeTitle: "Mapa da jornada",
-        mapEmpty: "Nao ha dados de mapa para esta jornada.",
+        mapEmpty: "Não há dados de mapa para esta jornada.",
         locationFallback: "Local",
         profileLinkLabel: "Perfil publicado",
     },
@@ -99,12 +99,12 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         eyebrow: "Voyage",
         photoCount: "photos",
         locationCount: "lieux",
-        duration: "duree",
-        places: "Lieux visites",
+        duration: "durée",
+        places: "Lieux visités",
         gallery: "Galerie photo",
         hours: "h",
         routeTitle: "Carte du voyage",
-        mapEmpty: "Aucune donnee de carte pour ce voyage.",
+        mapEmpty: "Aucune donnée de carte pour ce voyage.",
         locationFallback: "Lieu",
         profileLinkLabel: "Profil public",
     },
@@ -122,17 +122,17 @@ export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
         profileLinkLabel: "โปรไฟล์สาธารณะ",
     },
     vi: {
-        eyebrow: "Hanh trinh",
-        photoCount: "anh",
-        locationCount: "dia diem",
-        duration: "thoi luong",
-        places: "Dia diem da den",
-        gallery: "Bo suu tap anh",
+        eyebrow: "Hành trình",
+        photoCount: "ảnh",
+        locationCount: "địa điểm",
+        duration: "thời lượng",
+        places: "Địa điểm đã đến",
+        gallery: "Bộ sưu tập ảnh",
         hours: "h",
-        routeTitle: "Ban do hanh trinh",
-        mapEmpty: "Khong co du lieu ban do cho hanh trinh nay.",
-        locationFallback: "Dia diem",
-        profileLinkLabel: "Ho so cong khai",
+        routeTitle: "Bản đồ hành trình",
+        mapEmpty: "Không có dữ liệu bản đồ cho hành trình này.",
+        locationFallback: "Địa điểm",
+        profileLinkLabel: "Hồ sơ công khai",
     },
 };
 
@@ -175,8 +175,8 @@ export function buildJourneyDescription(
 
     if (lang === "fr") {
         return locationText
-            ? `Voyage a travers ${locationText} avec ${photoCount} photos.`
-            : `Un voyage publie avec ${photoCount} photos.`;
+            ? `Voyage à travers ${locationText} avec ${photoCount} photos.`
+            : `Un voyage publié avec ${photoCount} photos.`;
     }
 
     if (lang === "th") {
@@ -187,8 +187,8 @@ export function buildJourneyDescription(
 
     if (lang === "vi") {
         return locationText
-            ? `Hanh trinh qua ${locationText} voi ${photoCount} anh.`
-            : `Mot hanh trinh da dang voi ${photoCount} anh.`;
+            ? `Hành trình qua ${locationText} với ${photoCount} ảnh.`
+            : `Một hành trình đã đăng với ${photoCount} ảnh.`;
     }
 
     return locationText
