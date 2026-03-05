@@ -80,6 +80,24 @@ function formatDuration(seconds: number) {
   return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
 }
 
+function resolveVideoDuration(video: HTMLVideoElement) {
+  const metadataDuration = video.duration;
+
+  if (Number.isFinite(metadataDuration) && metadataDuration > 0) {
+    return metadataDuration;
+  }
+
+  if (video.seekable.length > 0) {
+    const seekableEnd = video.seekable.end(video.seekable.length - 1);
+
+    if (Number.isFinite(seekableEnd) && seekableEnd > 0) {
+      return seekableEnd;
+    }
+  }
+
+  return 0;
+}
+
 function blurActiveElement() {
   if (typeof document === "undefined") {
     return;
@@ -138,15 +156,30 @@ export const ScrollActivatedVideo = forwardRef<
   const [requiresUserPlay, setRequiresUserPlay] = useState(!autoplay);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  const shouldRenderVideo = Boolean(src) && !hasError && !prefersReducedMotion;
+  const shouldRenderVideo = Boolean(src) && !hasError;
   const safeDuration = Number.isFinite(duration) && duration > 0 ? duration : 0;
   const safeCurrentTime = Math.min(currentTime, safeDuration || currentTime);
   const seekPercent = safeDuration > 0 ? (safeCurrentTime / safeDuration) * 100 : 0;
   const timeline = `${formatDuration(safeCurrentTime)} / ${formatDuration(safeDuration)}`;
   const showCenterPlayButton = requiresUserPlay || (!isPlaying && !hasEnded);
-  const showControls = !hasEnded && (!isPlaying || (isPointerInside && isPointerActive));
+  const showControls = !hasEnded && (!isPlaying || isPointerActive);
   const isVideoInteractionLocked = hasEnded && !allowReplayFromControls;
   const shouldHideCursor = isPointerInside && !isPointerActive && isPlaying && !hasEnded;
+
+  const syncTimelineState = () => {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    setCurrentTime(video.currentTime);
+    const resolvedDuration = resolveVideoDuration(video);
+
+    if (resolvedDuration > 0) {
+      setDuration(resolvedDuration);
+    }
+  };
 
   useEffect(() => {
     return () => {
@@ -168,10 +201,18 @@ export const ScrollActivatedVideo = forwardRef<
     };
 
     updatePreference();
-    mediaQuery.addEventListener("change", updatePreference);
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", updatePreference);
+
+      return () => {
+        mediaQuery.removeEventListener("change", updatePreference);
+      };
+    }
+
+    mediaQuery.addListener(updatePreference);
 
     return () => {
-      mediaQuery.removeEventListener("change", updatePreference);
+      mediaQuery.removeListener(updatePreference);
     };
   }, []);
 
@@ -189,7 +230,7 @@ export const ScrollActivatedVideo = forwardRef<
   useEffect(() => {
     const video = videoRef.current;
 
-    if (!video || !shouldRenderVideo || !autoplay) {
+    if (!video || !shouldRenderVideo || !autoplay || prefersReducedMotion) {
       return;
     }
 
@@ -230,7 +271,7 @@ export const ScrollActivatedVideo = forwardRef<
       observer.disconnect();
       video.pause();
     };
-  }, [autoplay, hasEnded, shouldRenderVideo]);
+  }, [autoplay, hasEnded, prefersReducedMotion, shouldRenderVideo]);
 
   useEffect(() => {
     if (typeof document === "undefined") {
@@ -238,6 +279,7 @@ export const ScrollActivatedVideo = forwardRef<
     }
 
     const fullscreenDoc = document as FullscreenDocument;
+    const video = videoRef.current as IOSFullscreenVideo | null;
 
     const syncFullscreenState = () => {
       const fullscreenElement =
@@ -254,15 +296,28 @@ export const ScrollActivatedVideo = forwardRef<
         ),
       );
     };
+    const onIOSFullscreenStart = () => {
+      setIsFullscreen(true);
+    };
+    const onIOSFullscreenEnd = () => {
+      setIsFullscreen(false);
+    };
 
     syncFullscreenState();
 
     document.addEventListener("fullscreenchange", syncFullscreenState);
     document.addEventListener("webkitfullscreenchange", syncFullscreenState);
+    video?.addEventListener("webkitbeginfullscreen", onIOSFullscreenStart as EventListener);
+    video?.addEventListener("webkitendfullscreen", onIOSFullscreenEnd as EventListener);
 
     return () => {
       document.removeEventListener("fullscreenchange", syncFullscreenState);
       document.removeEventListener("webkitfullscreenchange", syncFullscreenState);
+      video?.removeEventListener(
+        "webkitbeginfullscreen",
+        onIOSFullscreenStart as EventListener,
+      );
+      video?.removeEventListener("webkitendfullscreen", onIOSFullscreenEnd as EventListener);
     };
   }, []);
 
@@ -530,6 +585,22 @@ export const ScrollActivatedVideo = forwardRef<
         setIsPointerActive(false);
         clearHoverIdleTimer();
       }}
+      onTouchStart={() => {
+        activatePointerHover();
+      }}
+      onTouchMove={() => {
+        activatePointerHover();
+      }}
+      onTouchEnd={() => {
+        if (isPlaying) {
+          activatePointerHover();
+        }
+      }}
+      onTouchCancel={() => {
+        if (isPlaying) {
+          activatePointerHover();
+        }
+      }}
     >
       <video
         ref={videoRef}
@@ -544,39 +615,35 @@ export const ScrollActivatedVideo = forwardRef<
         poster={poster}
         onError={() => setHasError(true)}
         onLoadedMetadata={() => {
-          const video = videoRef.current;
-
-          if (!video) {
-            return;
-          }
-
-          setDuration(Number.isFinite(video.duration) ? video.duration : 0);
-          setCurrentTime(video.currentTime);
+          syncTimelineState();
+        }}
+        onLoadedData={() => {
+          syncTimelineState();
+        }}
+        onCanPlay={() => {
+          syncTimelineState();
         }}
         onDurationChange={() => {
-          const video = videoRef.current;
-
-          if (!video) {
-            return;
-          }
-
-          setDuration(Number.isFinite(video.duration) ? video.duration : 0);
+          syncTimelineState();
+        }}
+        onProgress={() => {
+          syncTimelineState();
         }}
         onTimeUpdate={() => {
-          const video = videoRef.current;
-
-          if (!video) {
-            return;
-          }
-
-          setCurrentTime(video.currentTime);
+          syncTimelineState();
         }}
         onEnded={() => {
           const video = videoRef.current;
+          const resolvedDuration = video ? resolveVideoDuration(video) : 0;
 
           setIsPlaying(false);
           setHasEnded(true);
-          setCurrentTime(video?.duration ?? currentTime);
+          if (resolvedDuration > 0) {
+            setDuration(resolvedDuration);
+            setCurrentTime(resolvedDuration);
+          } else {
+            setCurrentTime(video?.duration ?? currentTime);
+          }
           void exitFullscreenIfNeeded();
           onPlaybackEnd?.();
         }}
@@ -593,6 +660,7 @@ export const ScrollActivatedVideo = forwardRef<
             return;
           }
 
+          activatePointerHover();
           void handleVideoToggle();
         }}
         onKeyDown={(event) => {
