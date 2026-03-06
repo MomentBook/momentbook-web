@@ -16,18 +16,28 @@ type AppLinkConfig = {
 
 export type StoreLinks = Record<MobilePlatform, string>;
 
-const LEGACY_IOS_APP_ID = "6749165889";
-const LEGACY_IOS_STORE_PATH = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
-const LEGACY_ANDROID_APP_ID = "com.reflectalab.momentbook";
+function readRequiredPublicEnv(value: string | undefined, name: string) {
+  const normalized = value?.trim();
 
-function readPublicEnv(name: string, fallback: string) {
-  const value = process.env[name]?.trim();
-  return value && value.length > 0 ? value : fallback;
+  if (!normalized) {
+    throw new Error(`Missing required public env: ${name}`);
+  }
+
+  return normalized;
 }
 
-export const IOS_APP_ID = readPublicEnv("NEXT_PUBLIC_IOS_APP_ID", LEGACY_IOS_APP_ID);
-export const IOS_STORE_PATH = readPublicEnv("NEXT_PUBLIC_IOS_STORE_PATH", LEGACY_IOS_STORE_PATH);
-export const ANDROID_APP_ID = readPublicEnv("NEXT_PUBLIC_ANDROID_APP_ID", LEGACY_ANDROID_APP_ID);
+export const IOS_APP_ID = readRequiredPublicEnv(
+  process.env.NEXT_PUBLIC_IOS_APP_ID,
+  "NEXT_PUBLIC_IOS_APP_ID",
+);
+export const IOS_STORE_PATH = readRequiredPublicEnv(
+  process.env.NEXT_PUBLIC_IOS_STORE_PATH,
+  "NEXT_PUBLIC_IOS_STORE_PATH",
+);
+export const ANDROID_APP_ID = readRequiredPublicEnv(
+  process.env.NEXT_PUBLIC_ANDROID_APP_ID,
+  "NEXT_PUBLIC_ANDROID_APP_ID",
+);
 
 const DEEP_LINK_CONFIG: AppLinkConfig = {
   defaultUrlByPlatform: {
