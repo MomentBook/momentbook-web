@@ -227,6 +227,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.56rem;
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -298,6 +300,9 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.58rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .heroStep {

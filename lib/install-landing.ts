@@ -34,7 +34,6 @@ type DestinationSample = {
   key: DestinationSampleKey;
   city: LocalizedText;
   heroLabel: LocalizedText;
-  heroLead: LocalizedText;
   sectionTitle: LocalizedText;
   sectionLead: LocalizedText;
   days: SampleDay[];
@@ -65,6 +64,7 @@ type LandingCopy = {
 };
 
 export type InstallLandingContent = {
+  heroHeadlineKey: InstallLandingVariantKey;
   heroHeadline: string;
   heroHeadlineOptions: Array<{ key: InstallLandingVariantKey; label: string; text: string }>;
   eyebrow: string;
@@ -88,7 +88,6 @@ export type InstallLandingContent = {
     key: DestinationSampleKey;
     city: string;
     heroLabel: string;
-    heroLead: string;
     sectionTitle: string;
     sectionLead: string;
     days: Array<{
@@ -237,14 +236,6 @@ const LANDING_COPY: LandingCopy = {
       en: "Available on Google Play",
       ko: "Google Play에서 사용 가능",
     },
-    {
-      en: "iOS 15.1+",
-      ko: "iOS 15.1+",
-    },
-    {
-      en: "Android 7.0+",
-      ko: "Android 7.0+",
-    },
   ],
   benefitsTitle: {
     en: "What changes after the trip",
@@ -306,10 +297,6 @@ const DESTINATION_SAMPLES: Record<DestinationSampleKey, DestinationSample> = {
     heroLabel: {
       en: "Short-led sample",
       ko: "쇼츠 맥락 예시",
-    },
-    heroLead: {
-      en: "A destination-matched sample can make the first step feel familiar instead of generic.",
-      ko: "여행지에 맞춘 예시는 첫 화면을 일반적인 소개보다 더 익숙하게 만듭니다.",
     },
     sectionTitle: {
       en: "A calm sample timeline",
@@ -374,10 +361,6 @@ const DESTINATION_SAMPLES: Record<DestinationSampleKey, DestinationSample> = {
       en: "Paris sample",
       ko: "파리 예시",
     },
-    heroLead: {
-      en: "Keep the landing close to the short with a Paris day flow instead of a generic travel pitch.",
-      ko: "일반적인 여행 소개 대신 파리 day flow를 보여줘 쇼츠의 감정선을 이어갑니다.",
-    },
     sectionTitle: {
       en: "A Paris sample timeline",
       ko: "파리 예시 타임라인",
@@ -441,10 +424,6 @@ const DESTINATION_SAMPLES: Record<DestinationSampleKey, DestinationSample> = {
       en: "Tokyo sample",
       ko: "도쿄 예시",
     },
-    heroLead: {
-      en: "Swap the example to Tokyo so the first screen still feels connected to the short.",
-      ko: "도쿄 예시로 바꿔 첫 화면이 방금 본 쇼츠와 계속 이어지도록 만듭니다.",
-    },
     sectionTitle: {
       en: "A Tokyo sample timeline",
       ko: "도쿄 예시 타임라인",
@@ -507,10 +486,6 @@ const DESTINATION_SAMPLES: Record<DestinationSampleKey, DestinationSample> = {
     heroLabel: {
       en: "Jeju sample",
       ko: "제주 예시",
-    },
-    heroLead: {
-      en: "Jeju matches the existing sample timeline already shown inside the app UI assets.",
-      ko: "제주는 현재 앱 UI 자산 안에 이미 포함된 예시 타임라인과 자연스럽게 이어집니다.",
     },
     sectionTitle: {
       en: "A Jeju sample timeline",
@@ -622,6 +597,7 @@ export function getInstallLandingContent(
       );
 
   return {
+    heroHeadlineKey: activeHeadline.key,
     heroHeadline: readText(lang, activeHeadline.text),
     heroHeadlineOptions: HERO_HEADLINE_OPTIONS.map((option) => ({
       key: option.key,
@@ -649,7 +625,6 @@ export function getInstallLandingContent(
       key: destination.key,
       city: readText(lang, destination.city),
       heroLabel: readText(lang, destination.heroLabel),
-      heroLead: readText(lang, destination.heroLead),
       sectionTitle: destinationKey === "default"
         ? readText(lang, LANDING_COPY.sampleFallbackTitle)
         : readText(lang, destination.sectionTitle),

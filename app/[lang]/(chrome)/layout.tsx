@@ -1,52 +1,43 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import styles from "./layout.module.scss";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
-import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
 import { ScrollHeader } from "@/components/ScrollHeader";
-import { type Dictionary } from "@/lib/i18n/dictionaries/en";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 import { type Language } from "@/lib/i18n/config";
+import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 
-type LangRouteShellProps = {
-  children: React.ReactNode;
-  lang: Language;
-  dict: Dictionary;
-  journeysNavLabel: string;
-  supportEmail: string;
-  storeLinks: {
-    ios: string;
-    android: string;
-  };
+const supportEmail =
+  process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
+
+const journeysNavLabelMap: Record<Language, string> = {
+  en: "Journeys",
+  ko: "여정",
+  ja: "旅",
+  zh: "行程",
+  es: "Viajes",
+  pt: "Jornadas",
+  fr: "Voyages",
+  th: "ทริป",
+  vi: "Hành trình",
 };
 
-export function LangRouteShell({
+export default async function ChromeLayout({
   children,
-  lang,
-  dict,
-  journeysNavLabel,
-  supportEmail,
-  storeLinks,
-}: LangRouteShellProps) {
-  const pathname = usePathname();
-  const isInstallLanding = pathname === `/${lang}/install`;
-
-  if (isInstallLanding) {
-    return (
-      <>
-        <LanguagePreferenceSync currentLang={lang} />
-        <main className={styles.installMain}>{children}</main>
-      </>
-    );
-  }
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params as { lang: Language };
+  const dict = await getDictionary(lang);
+  const storeLinks = getCanonicalStoreLinks(lang);
+  const journeysNavLabel = journeysNavLabelMap[lang] ?? journeysNavLabelMap.en;
 
   return (
     <>
-      <LanguagePreferenceSync currentLang={lang} />
       <ScrollHeader className={styles.header}>
         <nav className={styles.nav}>
           <Link href={`/${lang}`} className={styles.logo}>
@@ -191,9 +182,7 @@ export function LangRouteShell({
           </div>
 
           <div className={styles.footerBottom}>
-            <p className={styles.footerCopyright}>
-              {dict.footer.copyright}
-            </p>
+            <p className={styles.footerCopyright}>{dict.footer.copyright}</p>
           </div>
         </div>
       </footer>

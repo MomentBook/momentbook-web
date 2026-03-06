@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { LangRouteShell } from "./LangRouteShell";
+import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
 import {
   languageList,
   toOpenGraphLocale,
   type Language,
 } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/dictionaries";
-import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 
 const suit = localFont({
@@ -27,19 +25,6 @@ const suit = localFont({
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
-const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
-const journeysNavLabelMap: Record<Language, string> = {
-  en: "Journeys",
-  ko: "여정",
-  ja: "旅",
-  zh: "行程",
-  es: "Viajes",
-  pt: "Jornadas",
-  fr: "Voyages",
-  th: "ทริป",
-  vi: "Hành trình",
-};
-
 const siteDescriptionByLanguage: Record<Language, string> = {
   en: "An app that quietly remembers your day.",
   ko: "하루의 순간을 조용히 기억하는 앱.",
@@ -89,21 +74,11 @@ export default async function LangLayout({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const dict = await getDictionary(lang);
-  const storeLinks = getCanonicalStoreLinks(lang);
-  const journeysNavLabel = journeysNavLabelMap[lang] ?? journeysNavLabelMap.en;
 
   return (
     <div className={suit.variable}>
-      <LangRouteShell
-        lang={lang}
-        dict={dict}
-        journeysNavLabel={journeysNavLabel}
-        supportEmail={supportEmail}
-        storeLinks={storeLinks}
-      >
-        {children}
-      </LangRouteShell>
+      <LanguagePreferenceSync currentLang={lang} />
+      {children}
     </div>
   );
 }

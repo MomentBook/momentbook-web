@@ -37,6 +37,7 @@ MomentBook Web은 다음 역할만 수행한다.
 `/faq`는 질문을 주제별 그룹으로 구성해 짧은 답변을 제공한다.
 `/download`는 스토어 CTA를 제공한다.
 `/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다.
+이 경로는 `app/[lang]/install/*`에서 독립적으로 렌더링되고, 나머지 공개 페이지의 공통 chrome은 `app/[lang]/(chrome)/layout.tsx`가 담당한다.
 
 1. 여행 종료
 2. 여행 사진 일괄 업로드
@@ -72,6 +73,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/install`
 - 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`
 - `dest`는 hero/sample copy와 sample section을 config 기반으로 전환한다.
+- query 해석과 UA 기반 플랫폼 힌트는 서버에서 처리하고, client는 CTA 상호작용과 analytics만 담당한다.
 - non-prefixed `/install?...` 진입은 `proxy.ts`가 언어 prefix로 정규화한다.
 
 ### 4.3 Legal Pages (Noindex)
@@ -193,8 +195,9 @@ MomentBook Web은 다음 역할만 수행한다.
 - 글로벌 디자인 토큰: `app/globals.scss`
 - theme: `data-theme="light|dark"`
 - 저장: Jotai `themeAtom` (`localStorage`)
-- 헤더/푸터 공통 레이아웃: `app/[lang]/layout.tsx`
-- `/{lang}/install`은 `app/[lang]/LangRouteShell.tsx`에서 공통 헤더/푸터를 생략하고 최소 chrome만 렌더링한다.
+- 언어 공통 래퍼: `app/[lang]/layout.tsx`
+- 헤더/푸터 공통 레이아웃: `app/[lang]/(chrome)/layout.tsx`
+- `/{lang}/install`은 shared chrome을 타지 않는 standalone route다.
 
 ## 11) Environment Variables
 

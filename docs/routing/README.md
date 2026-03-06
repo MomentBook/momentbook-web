@@ -117,8 +117,9 @@ redirect 시 `lang` query는 제거되고 나머지 query는 유지된다.
 
 - Redirect/locale gate: `proxy.ts`
 - App root redirect: `app/page.tsx`
-- Install landing route + shell: `app/[lang]/(marketing)/install/*`, `app/[lang]/LangRouteShell.tsx`
+- Shared chrome layout: `app/[lang]/(chrome)/layout.tsx`
+- Install landing route: `app/[lang]/install/*`
 - i18n config: `lib/i18n/config.ts`
-- install landing content/store config: `lib/install-landing.ts`, `lib/mobile-app.ts`
+- install landing campaign/content/store config: `lib/install-campaign.ts`, `lib/install-landing.ts`, `lib/mobile-app.ts`
 - alternates/canonical helper: `lib/i18n/metadata.ts`
 - sitemap generators: `app/sitemap*.xml/route.ts`

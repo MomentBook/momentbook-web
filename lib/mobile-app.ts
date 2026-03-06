@@ -1,29 +1,9 @@
-import { getStoreRegion, type Language } from "@/lib/i18n/config";
-
 export type MobilePlatform = "ios" | "android";
-
-export type CampaignParams = {
-  source?: string | null;
-  dest?: string | null;
-  lang?: string | null;
-  utmSource?: string | null;
-  utmMedium?: string | null;
-  utmCampaign?: string | null;
-  utmContent?: string | null;
-  utmTerm?: string | null;
-  variant?: string | null;
-};
-
-type CampaignQueryKey =
-  | "source"
-  | "dest"
-  | "lang"
-  | "utm_source"
-  | "utm_medium"
-  | "utm_campaign"
-  | "utm_content"
-  | "utm_term"
-  | "variant";
+import { getStoreRegion, type Language } from "@/lib/i18n/config";
+import {
+  type CampaignParams,
+  type CampaignQueryKey,
+} from "@/lib/install-campaign";
 
 type CampaignOverrideMap = Partial<Record<string, string>>;
 
@@ -33,6 +13,8 @@ type AppLinkConfig = {
   bySource?: Partial<Record<MobilePlatform, CampaignOverrideMap>>;
   bySourceDestination?: Partial<Record<MobilePlatform, CampaignOverrideMap>>;
 };
+
+export type StoreLinks = Record<MobilePlatform, string>;
 
 export const IOS_APP_ID = "6749165889";
 export const IOS_STORE_PATH = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
@@ -176,7 +158,13 @@ function appendCampaignQuery(urlValue: string, campaign: CampaignParams = {}) {
     return "";
   }
 
-  const url = new URL(urlValue);
+  let url: URL;
+
+  try {
+    url = new URL(urlValue);
+  } catch {
+    return urlValue;
+  }
 
   CAMPAIGN_QUERY_KEYS.forEach((key) => {
     url.searchParams.delete(key);
@@ -193,14 +181,14 @@ export function getCanonicalStoreLinks(lang: Language) {
   return {
     ios: resolveConfiguredUrl(STORE_LINK_CONFIG, "ios", lang),
     android: resolveConfiguredUrl(STORE_LINK_CONFIG, "android", lang),
-  };
+  } satisfies StoreLinks;
 }
 
 export function getStoreLinks(lang: Language, campaign: CampaignParams = {}) {
   return {
     ios: buildStoreLink("ios", lang, campaign),
     android: buildStoreLink("android", lang, campaign),
-  };
+  } satisfies StoreLinks;
 }
 
 export function buildStoreLink(
@@ -230,8 +218,8 @@ export function canOpenInApp(platform: MobilePlatform, lang: Language, campaign:
   return Boolean(buildOpenInAppUrl(platform, lang, campaign));
 }
 
-export function buildAppleSmartBannerContent(lang: Language) {
-  const appArgument = buildOpenInAppUrl("ios", lang, { lang });
+export function buildAppleSmartBannerContent(lang: Language, campaign: CampaignParams = {}) {
+  const appArgument = buildOpenInAppUrl("ios", lang, { ...campaign, lang });
   return appArgument
     ? `app-id=${IOS_APP_ID}, app-argument=${appArgument}`
     : `app-id=${IOS_APP_ID}`;

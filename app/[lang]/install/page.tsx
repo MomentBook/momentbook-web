@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import { buildAppleSmartBannerContent } from "@/lib/mobile-app";
+import {
+  detectLandingPlatform,
+  normalizeCampaignParams,
+  type CampaignSearchParams,
+} from "@/lib/install-campaign";
+import { getInstallLandingContent } from "@/lib/install-landing";
+import { buildAppleSmartBannerContent, getStoreLinks } from "@/lib/mobile-app";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 import { InstallLanding } from "./InstallLanding";
 
@@ -24,10 +31,13 @@ function getInstallMetadata(lang: Language) {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ lang: string }>;
+  searchParams: Promise<CampaignSearchParams>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
+  const campaign = normalizeCampaignParams(await searchParams, lang);
   const content = getInstallMetadata(lang);
   const path = "/install";
 
@@ -46,17 +56,35 @@ export async function generateMetadata({
       description: content.description,
     },
     other: {
-      "apple-itunes-app": buildAppleSmartBannerContent(lang),
+      "apple-itunes-app": buildAppleSmartBannerContent(lang, campaign),
     },
   };
 }
 
 export default async function InstallPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ lang: string }>;
+  searchParams: Promise<CampaignSearchParams>;
 }) {
   const { lang } = await params as { lang: Language };
+  const campaign = normalizeCampaignParams(await searchParams, lang);
+  const headerStore = await headers();
+  const platform = detectLandingPlatform(headerStore.get("user-agent") ?? "");
+  const content = getInstallLandingContent(lang, {
+    dest: campaign.dest,
+    variant: campaign.variant,
+  });
+  const storeLinks = getStoreLinks(lang, campaign);
 
-  return <InstallLanding lang={lang} />;
+  return (
+    <InstallLanding
+      lang={lang}
+      campaign={campaign}
+      platform={platform}
+      content={content}
+      storeLinks={storeLinks}
+    />
+  );
 }

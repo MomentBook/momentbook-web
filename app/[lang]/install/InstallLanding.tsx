@@ -2,28 +2,41 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useSyncExternalStore } from "react";
-import { useSearchParams } from "next/navigation";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
 import { trackAnalyticsEvent } from "@/lib/analytics/gtag";
 import {
-  getInstallLandingContent,
-  type InstallLandingVariantKey,
-} from "@/lib/install-landing";
+  buildCampaignEventParams,
+  detectLandingPlatform,
+  type CampaignParams,
+  type LandingPlatform,
+} from "@/lib/install-campaign";
 import {
+  canOpenInApp,
   buildOpenInAppUrl,
   buildStoreLink,
-  canOpenInApp,
-  getStoreLinks,
-  type CampaignParams,
   type MobilePlatform,
+  type StoreLinks,
 } from "@/lib/mobile-app";
+import { type InstallLandingContent } from "@/lib/install-landing";
 import { type Language } from "@/lib/i18n/config";
 import styles from "./install.module.scss";
 
-type LandingPlatform = MobilePlatform | "desktop";
+type InstallLandingProps = {
+  lang: Language;
+  campaign: CampaignParams;
+  platform: LandingPlatform;
+  content: InstallLandingContent;
+  storeLinks: StoreLinks;
+};
 
 type StoreBadgeLinkProps = {
   platform: MobilePlatform;
@@ -36,64 +49,6 @@ const INSTALL_BAR_SESSION_KEY = "momentbook-install-bar-dismissed";
 
 function subscribeNoop() {
   return () => undefined;
-}
-
-function detectPlatform(userAgent: string, maxTouchPoints = 0): LandingPlatform {
-  const normalized = userAgent.toLowerCase();
-  const isiPadOs = normalized.includes("macintosh") && maxTouchPoints > 1;
-
-  if (/iphone|ipad|ipod/.test(normalized) || isiPadOs) {
-    return "ios";
-  }
-
-  if (/android/.test(normalized)) {
-    return "android";
-  }
-
-  return "desktop";
-}
-
-function getSearchValue(searchParams: ReturnType<typeof useSearchParams>, key: string) {
-  const value = searchParams.get(key);
-  return value && value.trim().length > 0 ? value.trim() : null;
-}
-
-function buildCampaignParams(
-  searchParams: ReturnType<typeof useSearchParams>,
-  lang: Language,
-): CampaignParams {
-  return {
-    source: getSearchValue(searchParams, "source"),
-    dest: getSearchValue(searchParams, "dest"),
-    lang,
-    utmSource: getSearchValue(searchParams, "utm_source"),
-    utmMedium: getSearchValue(searchParams, "utm_medium"),
-    utmCampaign: getSearchValue(searchParams, "utm_campaign"),
-    utmContent: getSearchValue(searchParams, "utm_content"),
-    utmTerm: getSearchValue(searchParams, "utm_term"),
-    variant: getSearchValue(searchParams, "variant"),
-  };
-}
-
-function buildEventParams(
-  campaign: CampaignParams,
-  lang: Language,
-  platform: LandingPlatform,
-  extra: Record<string, string | number | boolean | null | undefined> = {},
-) {
-  return {
-    route_lang: lang,
-    platform_hint: platform,
-    source: campaign.source,
-    dest: campaign.dest,
-    utm_source: campaign.utmSource,
-    utm_medium: campaign.utmMedium,
-    utm_campaign: campaign.utmCampaign,
-    utm_content: campaign.utmContent,
-    utm_term: campaign.utmTerm,
-    variant: campaign.variant,
-    ...extra,
-  };
 }
 
 function launchAppOrStore(
@@ -113,18 +68,12 @@ function launchAppOrStore(
     return;
   }
 
-  const clearEvents = new Set<number>();
   const fallbackTimeout = window.setTimeout(() => {
     window.location.assign(fallbackUrl);
   }, 900);
 
-  clearEvents.add(fallbackTimeout);
-
   const clearFallback = () => {
-    clearEvents.forEach((timeoutId) => {
-      window.clearTimeout(timeoutId);
-    });
-    clearEvents.clear();
+    window.clearTimeout(fallbackTimeout);
     document.removeEventListener("visibilitychange", handleVisibilityChange);
     window.removeEventListener("pagehide", clearFallback);
   };
@@ -170,80 +119,54 @@ function StoreBadgeLink({
   );
 }
 
-export function InstallLanding({ lang }: { lang: Language }) {
-  const searchParams = useSearchParams();
-  const campaign = buildCampaignParams(searchParams, lang);
-  const content = getInstallLandingContent(lang, {
-    dest: campaign.dest,
-    variant: campaign.variant,
-  });
-  const storeLinks = getStoreLinks(lang, campaign);
-  const {
-    source,
-    dest,
-    utmSource,
-    utmMedium,
-    utmCampaign,
-    utmContent,
-    utmTerm,
-    variant,
-  } = campaign;
-  const platform = useSyncExternalStore(
+export function InstallLanding({
+  lang,
+  campaign,
+  platform,
+  content,
+  storeLinks,
+}: InstallLandingProps) {
+  const [installBarVisible, setInstallBarVisible] = useState(false);
+  const resolvedPlatform = useSyncExternalStore(
     subscribeNoop,
-    () => detectPlatform(window.navigator.userAgent, window.navigator.maxTouchPoints),
-    () => null,
+    () => detectLandingPlatform(window.navigator.userAgent, window.navigator.maxTouchPoints),
+    () => platform,
   );
-  const storedInstallBarDismissed = useSyncExternalStore(
+  const installBarDismissed = useSyncExternalStore(
     subscribeNoop,
     () => window.sessionStorage.getItem(INSTALL_BAR_SESSION_KEY) === "1",
     () => false,
   );
-  const [installBarVisible, setInstallBarVisible] = useState(false);
-  const [installBarDismissed, setInstallBarDismissed] = useState(false);
-  const isInstallBarDismissed = installBarDismissed || storedInstallBarDismissed;
-  const resolvedPlatform = platform ?? "desktop";
 
-  useEffect(() => {
-    if (platform === null) {
-      return;
-    }
+  const eventParams = useMemo(
+    () => buildCampaignEventParams(campaign, lang, resolvedPlatform, {
+      hero_variant: content.heroHeadlineKey,
+    }),
+    [campaign, content.heroHeadlineKey, lang, resolvedPlatform],
+  );
 
-    trackAnalyticsEvent(
-      "page_view_from_short",
-      buildEventParams({
-        source,
-        dest,
-        lang,
-        utmSource,
-        utmMedium,
-        utmCampaign,
-        utmContent,
-        utmTerm,
-        variant,
-      }, lang, resolvedPlatform, {
-        page_location: typeof window === "undefined" ? undefined : window.location.href,
-      }),
-    );
-  }, [
-    dest,
-    lang,
-    platform,
-    resolvedPlatform,
-    source,
-    utmCampaign,
-    utmContent,
-    utmMedium,
-    utmSource,
-    utmTerm,
-    variant,
-  ]);
+  const trackInstallEvent = useCallback(
+    (
+      eventName: string,
+      extra: Record<string, string | number | boolean | null | undefined> = {},
+    ) => {
+      trackAnalyticsEvent(eventName, { ...eventParams, ...extra });
+    },
+    [eventParams],
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
 
-    if (platform === null) {
+    trackInstallEvent("page_view_from_short", {
+      page_location: window.location.href,
+    });
+  }, [trackInstallEvent]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
       return;
     }
 
@@ -259,20 +182,7 @@ export function InstallLanding({ lang }: { lang: Language }) {
 
       if (progress >= 0.5) {
         hasTrackedHalfScroll = true;
-        trackAnalyticsEvent(
-          "scroll_50",
-          buildEventParams({
-            source,
-            dest,
-            lang,
-            utmSource,
-            utmMedium,
-            utmCampaign,
-            utmContent,
-            utmTerm,
-            variant,
-          }, lang, resolvedPlatform),
-        );
+        trackInstallEvent("scroll_50");
       }
     };
 
@@ -282,26 +192,10 @@ export function InstallLanding({ lang }: { lang: Language }) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [
-    dest,
-    lang,
-    platform,
-    resolvedPlatform,
-    source,
-    utmCampaign,
-    utmContent,
-    utmMedium,
-    utmSource,
-    utmTerm,
-    variant,
-  ]);
+  }, [trackInstallEvent]);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    if (platform !== "android" || isInstallBarDismissed) {
+    if (resolvedPlatform !== "android" || installBarDismissed) {
       return;
     }
 
@@ -332,42 +226,59 @@ export function InstallLanding({ lang }: { lang: Language }) {
       window.removeEventListener("scroll", showInstallBar);
       window.removeEventListener("keydown", showInstallBar);
     };
-  }, [isInstallBarDismissed, platform]);
+  }, [installBarDismissed, resolvedPlatform]);
+
+  const openInAppAvailability = useMemo(
+    () => ({
+      ios: canOpenInApp("ios", lang, campaign),
+      android: canOpenInApp("android", lang, campaign),
+    }),
+    [campaign, lang],
+  );
+
+  const heroStorePlatforms = useMemo(() => {
+    if (resolvedPlatform === "desktop") {
+      return ["ios", "android"] as MobilePlatform[];
+    }
+
+    return [resolvedPlatform] as MobilePlatform[];
+  }, [resolvedPlatform]);
+
+  const showOpenAction = (
+    resolvedPlatform === "ios" && openInAppAvailability.ios
+  ) || (
+    resolvedPlatform === "android" && openInAppAvailability.android
+  );
 
   const handleHeroOpenClick = (targetPlatform: MobilePlatform) => {
-    trackAnalyticsEvent(
+    trackInstallEvent(
       targetPlatform === "ios" ? "hero_cta_click_ios" : "hero_cta_click_android",
-      buildEventParams(campaign, lang, resolvedPlatform, { surface: "hero" }),
+      { surface: "hero" },
     );
-    trackAnalyticsEvent(
-      "open_in_app_click",
-      buildEventParams(campaign, lang, resolvedPlatform, {
-        surface: "hero",
-        target_platform: targetPlatform,
-      }),
-    );
+    trackInstallEvent("open_in_app_click", {
+      surface: "hero",
+      target_platform: targetPlatform,
+    });
     launchAppOrStore(targetPlatform, lang, campaign);
   };
 
   const handleHeroStoreClick = (targetPlatform: MobilePlatform) => {
-    trackAnalyticsEvent(
+    trackInstallEvent(
       targetPlatform === "ios" ? "hero_cta_click_ios" : "hero_cta_click_android",
-      buildEventParams(campaign, lang, resolvedPlatform, { surface: "hero" }),
+      { surface: "hero" },
     );
   };
 
   const handleSampleTripClick = () => {
-    trackAnalyticsEvent(
-      "sample_trip_click",
-      buildEventParams(campaign, lang, resolvedPlatform, { sample_key: content.sample.key }),
-    );
+    trackInstallEvent("sample_trip_click", {
+      sample_key: content.sample.key,
+    });
   };
 
   const handleFinalStoreClick = (targetPlatform: MobilePlatform) => {
-    trackAnalyticsEvent(
-      "final_cta_click",
-      buildEventParams(campaign, lang, resolvedPlatform, { target_platform: targetPlatform }),
-    );
+    trackInstallEvent("final_cta_click", {
+      target_platform: targetPlatform,
+    });
   };
 
   const dismissInstallBar = () => {
@@ -375,32 +286,29 @@ export function InstallLanding({ lang }: { lang: Language }) {
       window.sessionStorage.setItem(INSTALL_BAR_SESSION_KEY, "1");
     }
 
-    setInstallBarDismissed(true);
     setInstallBarVisible(false);
-    trackAnalyticsEvent("install_banner_dismiss", buildEventParams(campaign, lang, resolvedPlatform));
+    trackInstallEvent("install_banner_dismiss");
   };
 
   const handleInstallBarAction = () => {
-    if (platform !== "android") {
+    if (resolvedPlatform !== "android") {
       return;
     }
 
-    if (canOpenInApp("android", lang, campaign)) {
-      trackAnalyticsEvent(
-        "open_in_app_click",
-        buildEventParams(campaign, lang, resolvedPlatform, {
-          surface: "install_bar",
-          target_platform: "android",
-        }),
-      );
+    if (openInAppAvailability.android) {
+      trackInstallEvent("open_in_app_click", {
+        surface: "install_bar",
+        target_platform: "android",
+      });
     }
 
     launchAppOrStore("android", lang, campaign);
   };
 
-  const activeVariant = (campaign.variant ?? content.heroHeadlineOptions[0].key) as InstallLandingVariantKey;
-  const showIosOpenAction = resolvedPlatform === "ios" && canOpenInApp("ios", lang, campaign);
-  const showAndroidOpenAction = resolvedPlatform === "android" && canOpenInApp("android", lang, campaign);
+  const highlightTimelineStep = content.heroHeadlineKey === "timeline";
+  const primaryOpenPlatform = resolvedPlatform === "desktop"
+    ? null
+    : resolvedPlatform;
 
   return (
     <div className={styles.page}>
@@ -429,42 +337,26 @@ export function InstallLanding({ lang }: { lang: Language }) {
             <p className={styles.heroLead}>{content.heroSubheadline}</p>
 
             <div className={styles.heroActions}>
-              {showIosOpenAction ? (
+              {showOpenAction && primaryOpenPlatform ? (
                 <button
                   type="button"
                   className={styles.primaryActionButton}
-                  onClick={() => handleHeroOpenClick("ios")}
+                  onClick={() => handleHeroOpenClick(primaryOpenPlatform)}
                 >
                   {content.openInAppLabel}
                 </button>
               ) : null}
 
-              {showAndroidOpenAction ? (
-                <button
-                  type="button"
-                  className={styles.primaryActionButton}
-                  onClick={() => handleHeroOpenClick("android")}
-                >
-                  {content.openInAppLabel}
-                </button>
-              ) : null}
-
-              {!showIosOpenAction && !showAndroidOpenAction ? (
+              {!showOpenAction ? (
                 <div className={styles.heroStoreActions}>
-                  {(resolvedPlatform === "desktop" || resolvedPlatform === "ios") ? (
+                  {heroStorePlatforms.map((targetPlatform) => (
                     <StoreBadgeLink
-                      platform="ios"
-                      href={storeLinks.ios}
-                      onClick={() => handleHeroStoreClick("ios")}
+                      key={targetPlatform}
+                      platform={targetPlatform}
+                      href={storeLinks[targetPlatform]}
+                      onClick={() => handleHeroStoreClick(targetPlatform)}
                     />
-                  ) : null}
-                  {(resolvedPlatform === "desktop" || resolvedPlatform === "android") ? (
-                    <StoreBadgeLink
-                      platform="android"
-                      href={storeLinks.android}
-                      onClick={() => handleHeroStoreClick("android")}
-                    />
-                  ) : null}
+                  ))}
                 </div>
               ) : null}
 
@@ -501,17 +393,19 @@ export function InstallLanding({ lang }: { lang: Language }) {
                 </div>
               </DeviceMock>
 
-              <div className={styles.heroStepRail} aria-label={content.timelineViewLabel}>
+              <ol className={styles.heroStepRail} aria-label={content.timelineViewLabel}>
                 {content.heroSteps.map((step, index) => (
-                  <div
+                  <li
                     key={`${step}-${index}`}
-                    className={`${styles.heroStep} ${activeVariant === "timeline" && index === 2 ? styles.heroStepStrong : ""}`}
+                    className={`${styles.heroStep} ${highlightTimelineStep && index === 2 ? styles.heroStepStrong : ""}`}
                   >
-                    <span className={styles.heroStepIndex}>0{index + 1}</span>
+                    <span className={styles.heroStepIndex} aria-hidden="true">
+                      0{index + 1}
+                    </span>
                     <span>{step}</span>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
           </div>
         </section>
@@ -532,7 +426,8 @@ export function InstallLanding({ lang }: { lang: Language }) {
                     alt=""
                     aria-hidden="true"
                     fill
-                    sizes="(max-width: 979px) 100vw, 20rem"
+                    loading="lazy"
+                    sizes="(max-width: 819px) 100vw, 20rem"
                     className={styles.benefitImage}
                     style={{ objectPosition: benefit.objectPosition }}
                   />
@@ -565,7 +460,8 @@ export function InstallLanding({ lang }: { lang: Language }) {
                   alt=""
                   aria-hidden="true"
                   fill
-                  sizes="(max-width: 979px) 100vw, 28rem"
+                  loading="lazy"
+                  sizes="(max-width: 819px) 100vw, 28rem"
                   className={styles.sampleScreenshot}
                 />
               </div>
@@ -607,7 +503,7 @@ export function InstallLanding({ lang }: { lang: Language }) {
         </section>
       </div>
 
-      {resolvedPlatform === "android" && installBarVisible && !isInstallBarDismissed ? (
+      {resolvedPlatform === "android" && installBarVisible && !installBarDismissed ? (
         <div className={styles.installBar} role="region" aria-label={content.installBarLead}>
           <div className={styles.installBarContent}>
             <div className={styles.installBarCopy}>
@@ -615,7 +511,7 @@ export function InstallLanding({ lang }: { lang: Language }) {
               <span>{content.sample.heroLabel}</span>
             </div>
             <button type="button" className={styles.installBarButton} onClick={handleInstallBarAction}>
-              {canOpenInApp("android", lang, campaign) ? content.openInAppLabel : content.installBarAction}
+              {openInAppAvailability.android ? content.openInAppLabel : content.installBarAction}
             </button>
             <button
               type="button"
