@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAtomValue } from "jotai";
 import {
@@ -10,7 +10,7 @@ import {
 } from "@/lib/i18n/config";
 import { languageAtom } from "@/lib/state/preferences";
 
-export default function RootPage() {
+function RootRedirect() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const preferredLanguage = useAtomValue(languageAtom);
@@ -45,4 +45,12 @@ export default function RootPage() {
   }, [preferredLanguage, router, searchParams, searchParamsString]);
 
   return null;
+}
+
+export default function RootPage() {
+  return (
+    <Suspense fallback={null}>
+      <RootRedirect />
+    </Suspense>
+  );
 }
