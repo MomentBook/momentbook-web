@@ -72,38 +72,35 @@ export default async function ChromeLayout({
 
       <footer className={styles.footer}>
         <div className={styles.footerContainer}>
-          <div className={styles.footerLeadGrid}>
-            <section className={styles.footerHeroCard}>
-              <div className={styles.footerHeroTop}>
-                <Link href={`/${lang}`} className={styles.footerLogo}>
-                  <MomentBookLogo
-                    className={styles.logoMark}
-                    iconClassName={styles.logoIcon}
-                    wordmarkClassName={styles.logoWordmark}
-                  />
-                </Link>
-                <p className={styles.footerSummary}>{dict.footer.summary}</p>
-              </div>
-              <div className={styles.footerActions}>
-                <DownloadActionButton
-                  lang={lang}
-                  className={styles.footerButton}
-                >
-                  {dict.footer.ctaPrimary}
-                </DownloadActionButton>
-                <Link href={`/${lang}/support`} className={styles.footerButtonGhost}>
-                  {dict.footer.ctaSecondary}
-                </Link>
-              </div>
-            </section>
-
-            <aside className={styles.footerSocialCard}>
+          <section className={styles.footerLead}>
+            <div className={styles.footerHeroTop}>
+              <Link href={`/${lang}`} className={styles.footerLogo}>
+                <MomentBookLogo
+                  className={styles.logoMark}
+                  iconClassName={styles.logoIcon}
+                  wordmarkClassName={styles.logoWordmark}
+                />
+              </Link>
+              <p className={styles.footerSummary}>{dict.footer.summary}</p>
+            </div>
+            <div className={styles.footerActions}>
+              <DownloadActionButton
+                lang={lang}
+                className={styles.footerButton}
+              >
+                {dict.footer.ctaPrimary}
+              </DownloadActionButton>
+              <Link href={`/${lang}/support`} className={styles.footerButtonGhost}>
+                {dict.footer.ctaSecondary}
+              </Link>
+            </div>
+            <div className={styles.footerSocialRow}>
               <SocialChannelLinks
                 ariaLabel={dict.footer.social.groupLabel}
                 linkLabels={dict.footer.social.links}
               />
-            </aside>
-          </div>
+            </div>
+          </section>
 
           <div className={styles.footerTop}>
             <div className={styles.footerGrid}>
