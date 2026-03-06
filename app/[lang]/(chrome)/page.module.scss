@@ -530,108 +530,61 @@
             color-mix(in srgb, var(--surface-glass-soft) 56%, transparent) 48%,
             color-mix(in srgb, var(--surface-glass) 48%, transparent) 100%
         );
+    padding: clamp(1.52rem, 4.2vw, 2.5rem) clamp(1rem, 2.8vw, 1.9rem);
 }
 
-.downloadGrid {
+.downloadHeroInner {
     display: grid;
-    gap: 1rem;
-    align-items: start;
-
-    @media (min-width: 860px) {
-        grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
-        gap: 1.1rem;
-    }
+    gap: 1.2rem;
+    align-items: center;
 }
 
-.downloadCopy {
+.downloadHeroCopy {
     display: grid;
-    align-content: start;
+    gap: 0.56rem;
 }
 
-.storeButtons {
-    display: grid;
-    gap: 0.72rem;
-    width: 100%;
-    max-width: 21rem;
-    margin: 0 auto;
-
-    @media (min-width: 860px) {
-        margin: 0;
-    }
-}
-
-.storeButton {
-    display: block;
-    border-radius: 1rem;
-    border: 1px solid
-        color-mix(
-            in srgb,
-            var(--glass-border-strong) 84%,
-            rgba(255, 255, 255, 0.78)
-        );
-    background: color-mix(in srgb, var(--surface-glass-strong) 88%, #fff);
-    box-shadow: var(--shadow-glass-sm);
-    overflow: hidden;
-    transition:
-        transform 0.22s ease,
-        border-color 0.22s ease,
-        box-shadow 0.22s ease;
-}
-
-.storeButton:hover {
-    transform: translateY(-1px);
-    border-color: color-mix(in srgb, var(--color-accent) 54%, var(--glass-border));
-    box-shadow: var(--shadow-glass-md);
-}
-
-.storeBadge {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-.platformGrid {
-    display: grid;
-    gap: 0.82rem;
-
-    @media (min-width: 620px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-.platformCard {
-    display: grid;
-    gap: 0.4rem;
-    min-height: 100%;
-    padding: 1rem;
-    border-radius: 1.15rem;
-    border: 1px solid
-        color-mix(
-            in srgb,
-            var(--glass-border-strong) 80%,
-            rgba(255, 255, 255, 0.72)
-        );
-    background: linear-gradient(
-        154deg,
-        color-mix(in srgb, var(--surface-glass-strong) 88%, #fff),
-        color-mix(in srgb, var(--surface-glass-soft) 84%, #fff)
-    );
-    box-shadow: var(--shadow-glass-sm);
-}
-
-.platformTitle {
+.downloadHeroTitle {
     margin: 0;
-    font-size: 1rem;
-    font-weight: 640;
-    letter-spacing: -0.02em;
+    font-size: clamp(1.36rem, 3.2vw, 1.98rem);
+    line-height: 1.14;
+    letter-spacing: -0.022em;
     color: var(--color-text-primary);
+    text-align: center;
 }
 
-.platformDetail {
+.downloadStoreButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 0.68rem;
+    justify-content: center;
+}
+
+.downloadStoreButton {
+    display: inline-flex;
+    line-height: 0;
+    border-radius: 0.58rem;
+    transition: transform 0.2s ease;
+}
+
+.downloadStoreButton:hover {
+    transform: translateY(-1px);
+}
+
+.downloadStoreBadge {
+    width: clamp(10.8rem, 32vw, 12.2rem);
+    height: auto;
+    display: block;
+}
+
+.downloadAvailability {
     margin: 0;
-    font-size: 0.88rem;
-    line-height: 1.65;
-    color: var(--color-text-secondary);
+    font-size: 0.81rem;
+    line-height: 1.56;
+    color: var(--color-text-tertiary);
+    margin-top: 0.78rem;
+    text-align: center;
 }
 
 .introSection::before {

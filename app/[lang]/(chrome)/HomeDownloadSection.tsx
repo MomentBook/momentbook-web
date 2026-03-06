@@ -21,61 +21,48 @@ export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps)
       className={`${styles.homeSection} ${styles.downloadSection}`}
       aria-labelledby="download-title"
     >
-      <FadeIn delay={120}>
-        <div className={styles.sectionHeader}>
-          <p className={styles.sectionEyebrow}>{content.metaTitle}</p>
-          <h2 id="download-title" className={styles.sectionTitle}>
-            {content.title}
-          </h2>
-          <p className={styles.sectionLead}>{content.availability}</p>
-        </div>
-      </FadeIn>
+      <div className={styles.downloadHeroInner}>
+        <FadeIn delay={120}>
+          <div className={styles.downloadHeroCopy}>
+            <h2 id="download-title" className={styles.downloadHeroTitle}>
+              {content.title}
+            </h2>
 
-      <div className={styles.downloadGrid}>
-        <FadeIn delay={160} className={styles.downloadCopy}>
-          <div className={styles.storeButtons}>
-            <a
-              href={storeLinks.ios}
-              className={styles.storeButton}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={content.iosName}
-            >
-              <Image
-                src="/images/download/app-store-button.webp"
-                alt={content.iosName}
-                width={635}
-                height={200}
-                className={styles.storeBadge}
-              />
-            </a>
-            <a
-              href={storeLinks.android}
-              className={styles.storeButton}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={content.androidName}
-            >
-              <Image
-                src="/images/download/google-play-button.webp"
-                alt={content.androidName}
-                width={636}
-                height={200}
-                className={styles.storeBadge}
-              />
-            </a>
+            <div className={styles.downloadStoreButtons}>
+              <a
+                href={storeLinks.ios}
+                className={styles.downloadStoreButton}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={content.iosName}
+              >
+                <Image
+                  src="/images/download/app-store-button.webp"
+                  alt={content.iosName}
+                  width={635}
+                  height={200}
+                  className={styles.downloadStoreBadge}
+                />
+              </a>
+              <a
+                href={storeLinks.android}
+                className={styles.downloadStoreButton}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={content.androidName}
+              >
+                <Image
+                  src="/images/download/google-play-button.webp"
+                  alt={content.androidName}
+                  width={636}
+                  height={200}
+                  className={styles.downloadStoreBadge}
+                />
+              </a>
+            </div>
+
+            <p className={styles.downloadAvailability}>{content.availability}</p>
           </div>
-        </FadeIn>
-
-        <FadeIn delay={220} className={styles.platformGrid}>
-          <article className={styles.platformCard}>
-            <h3 className={styles.platformTitle}>{content.iosName}</h3>
-            <p className={styles.platformDetail}>{content.iosRequirements}</p>
-          </article>
-          <article className={styles.platformCard}>
-            <h3 className={styles.platformTitle}>{content.androidName}</h3>
-            <p className={styles.platformDetail}>{content.androidRequirements}</p>
-          </article>
         </FadeIn>
       </div>
     </section>

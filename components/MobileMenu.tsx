@@ -28,9 +28,14 @@ type MobileMenuLink = {
 
 const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-function createMenuLinks(lang: Language, dict: MobileMenuProps["dict"]): MobileMenuLink[] {
+function createMenuLinks(
+  lang: Language,
+  dict: MobileMenuProps["dict"],
+  journeysLabel: string,
+): MobileMenuLink[] {
   return [
     { href: buildHomeSectionHref(lang, HOME_SECTION_IDS.download), label: dict.nav.download },
+    { href: `/${lang}/journeys`, label: journeysLabel },
   ];
 }
 
@@ -45,10 +50,9 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
   const drawerRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const homeHref = `/${lang}`;
-  const journeysHref = `/${lang}/journeys`;
   const navLinks = useMemo(
-    () => createMenuLinks(lang, dict),
-    [lang, dict],
+    () => createMenuLinks(lang, dict, journeysLabel),
+    [lang, dict, journeysLabel],
   );
 
   const closeMenu = useCallback(() => {
@@ -221,14 +225,6 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
                   <LanguageDropdown currentLang={lang} variant="drawer" />
                   <ThemeToggle variant="drawer" />
                 </div>
-
-                <Link
-                  href={journeysHref}
-                  className={`${styles.journeysButton} ${isActiveLink(journeysHref) ? styles.journeysButtonActive : ""}`}
-                  onClick={closeMenu}
-                >
-                  {journeysLabel}
-                </Link>
               </aside>
             </div>,
             document.body,

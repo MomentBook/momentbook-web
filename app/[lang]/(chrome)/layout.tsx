@@ -53,12 +53,12 @@ export default async function ChromeLayout({
             <Link href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)} className={styles.navLink}>
               {dict.nav.download}
             </Link>
+            <Link href={`/${lang}/journeys`} className={styles.navLink}>
+              {journeysNavLabel}
+            </Link>
           </div>
 
           <div className={styles.controls}>
-            <Link href={`/${lang}/journeys`} className={styles.journeysLink}>
-              {journeysNavLabel}
-            </Link>
             <div className={styles.desktopPrefs}>
               <LanguageDropdown currentLang={lang} variant="compact" />
               <ThemeToggle variant="icon" />
