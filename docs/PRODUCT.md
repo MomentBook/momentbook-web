@@ -196,6 +196,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 저장: Jotai `themeAtom` (`localStorage`)
 - 언어 공통 래퍼: `app/[lang]/layout.tsx`
 - 헤더/푸터 공통 레이아웃: `app/[lang]/(chrome)/layout.tsx`
+- shared footer brand block exposes official external channel icons for YouTube, Instagram, and TikTok
 - `/{lang}/install`은 shared chrome을 타지 않는 standalone route다.
 
 ## 11) Environment Variables

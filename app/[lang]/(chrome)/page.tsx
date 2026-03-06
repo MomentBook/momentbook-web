@@ -3,6 +3,7 @@ import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { getDownloadCopy } from "@/lib/marketing/download-content";
+import { MARKETING_CHANNEL_URLS } from "@/lib/marketing/social-channels";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
@@ -321,7 +322,7 @@ export default async function Home({
     name: "MomentBook",
     url: siteUrl,
     logo: buildAbsoluteAppTransparentLogoUrl(siteUrl),
-    sameAs: [storeLinks.ios, storeLinks.android],
+    sameAs: [...MARKETING_CHANNEL_URLS, storeLinks.ios, storeLinks.android],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: contactTypeByLanguage[lang],

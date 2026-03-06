@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from "./layout.module.scss";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
+import { SocialChannelLinks } from "@/components/SocialChannelLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { MobileMenu } from "@/components/MobileMenu";
@@ -81,7 +82,10 @@ export default async function ChromeLayout({
                   wordmarkClassName={styles.logoWordmark}
                 />
               </Link>
-              <p className={styles.footerSummary}>{dict.footer.summary}</p>
+              <div className={styles.footerBrandMeta}>
+                <p className={styles.footerSummary}>{dict.footer.summary}</p>
+                <SocialChannelLinks />
+              </div>
               <div className={styles.footerActions}>
                 <Link
                   href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)}

@@ -248,6 +248,12 @@
   }
 }
 
+.footerBrandMeta {
+  display: grid;
+  gap: 0.72rem;
+  align-content: center;
+}
+
 .footerSummary {
   font-size: 0.85rem;
   line-height: 1.62;
