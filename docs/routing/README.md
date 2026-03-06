@@ -33,20 +33,19 @@ redirect 시 `lang` query는 제거되고 나머지 query는 유지된다.
 
 - `/{lang}/how-it-works` -> `/{lang}#overview` (`permanentRedirect`)
 - `/{lang}/download` -> `/{lang}#download` (`permanentRedirect`)
-- `/{lang}/faq` -> `/{lang}#faq` (`permanentRedirect`)
 
 ## 3) Route Inventory
 
 ## 3.1 Marketing
 
-- `/{lang}` (intro + download + FAQ sections)
+- `/{lang}` (intro + download sections)
 - `/{lang}/how-it-works` (redirect)
 - `/{lang}/download` (redirect)
 - `/{lang}/install` (`source`, `dest`, `lang`, `utm_*`, `variant` query 지원, noindex)
 
 ## 3.2 Content
 
-- `/{lang}/faq` (redirect)
+- `/{lang}/faq`
 - `/{lang}/journeys`
 - `/{lang}/journeys/[journeyId]`
 - `/{lang}/journeys/[journeyId]/moments/[clusterId]`
@@ -82,6 +81,7 @@ redirect 시 `lang` query는 제거되고 나머지 query는 유지된다.
 ### 4.1 index/follow
 
 - Home
+- FAQ
 - Journeys/Users/Photos public pages
 
 ### 4.2 noindex/nofollow
@@ -110,8 +110,9 @@ redirect 시 `lang` query는 제거되고 나머지 query는 유지된다.
 
 - `sitemap-static.xml` 포함:
   - home
+  - `faq`
   - `journeys`, `users`
-- `how-it-works`, `download`, `faq`, legal 경로는 static sitemap에 포함하지 않음
+- `how-it-works`, `download`, legal 경로는 static sitemap에 포함하지 않음
 - `install` 경로도 static sitemap에 포함하지 않음
 
 ## 8) Ownership Files

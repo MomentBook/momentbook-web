@@ -51,9 +51,10 @@ Accepted
 현재 static sitemap은 다음만 포함한다.
 
 - 홈
+- 정적 공개 라우트: `faq`
 - content index: `journeys`, `users`
 
-(redirect alias `how-it-works`/`download`/`faq`, legal 경로는 static sitemap에 포함하지 않음)
+(redirect alias `how-it-works`/`download`, legal 경로는 static sitemap에 포함하지 않음)
 
 ## Rationale
 

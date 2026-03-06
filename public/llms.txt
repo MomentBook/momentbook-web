@@ -4,7 +4,8 @@
 
 ## Main Sections
 
-- [Home](https://momentbook.app/en): Product intro, app download, and FAQ sections
+- [Home](https://momentbook.app/en): Product intro and app download
+- [FAQ](https://momentbook.app/en/faq): Common questions about MomentBook's travel-photo organization flow
 - [Journeys](https://momentbook.app/en/journeys): Examples of published journeys (public content)
 - [Users](https://momentbook.app/en/users): Public profiles and published journey lists
 

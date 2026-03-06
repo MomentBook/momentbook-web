@@ -15,7 +15,7 @@ export async function GET() {
   );
 
   // Static content pages
-  const contentPages = ["journeys", "users"];
+  const contentPages = ["faq", "journeys", "users"];
 
   const urls: SitemapUrlEntry[] = [];
 

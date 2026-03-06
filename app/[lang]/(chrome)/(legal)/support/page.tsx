@@ -3,7 +3,6 @@ import Link from "next/link";
 import styles from "./support.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 
 type SupportContent = {
@@ -181,7 +180,7 @@ export default async function SupportPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getSupportContent(lang);
-  const faqHref = buildHomeSectionHref(lang, HOME_SECTION_IDS.faq);
+  const faqHref = `/${lang}/faq`;
 
   return (
     <div className={styles.container}>

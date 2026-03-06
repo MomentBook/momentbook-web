@@ -29,13 +29,13 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 2.1 Core Intro Flow (Marketing Surface)
 
-현재 홈(`/`)은 소개/다운로드/FAQ를 하나의 연속 스크롤 표면으로 제공한다.
+현재 홈(`/`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
 
 - Hero 섹션: 핵심 소개 문구 + CTA(튜토리얼 보기, intro video 카드로 smooth scroll) + 우측 DeviceMock 프리뷰
 - Intro video 섹션: hero와 동일 폭 카드에서 landscape 인트로 영상 재생(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%), 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환 제공, 영상 종료 시 전체화면은 자동 해제되고 컨트롤은 숨김 처리되며 재생은 우측 안내 패널의 "인트로 다시 보기" 버튼으로만 가능, 종료 후 "앱에서 정리해보기" CTA 노출 및 약 2초 후 자동 전개(수동 클릭도 가능), 전개 시 영상 축소 + 우측 안내/다운로드 액션 노출
 - Download 섹션: App Store / Google Play CTA와 플랫폼별 최소 설치 요구사항(iOS, Android)을 함께 노출
-- FAQ 섹션: 질문 그룹 카드 + accordion 답변 + support 링크를 홈 하단에 배치
-- 헤더/모바일 메뉴/푸터의 FAQ·Download 링크는 각각 홈의 `#faq`, `#download` 섹션으로 이동한다.
+- 헤더/모바일 메뉴의 Download 링크는 홈의 `#download` 섹션으로 이동한다.
+- FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
 `/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다.
 이 경로는 `app/[lang]/install/*`에서 독립적으로 렌더링되고, 나머지 공개 페이지의 공통 chrome은 `app/[lang]/(chrome)/layout.tsx`가 담당한다.
 
@@ -57,10 +57,10 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 4.1 Public Pages
 
-- `/{lang}` (hero + intro video + download section + FAQ section)
+- `/{lang}` (hero + intro video + download section)
 - `/{lang}/how-it-works` (`/{lang}#overview`로 `permanentRedirect`)
 - `/{lang}/download` (`/{lang}#download`로 `permanentRedirect`)
-- `/{lang}/faq` (`/{lang}#faq`로 `permanentRedirect`)
+- `/{lang}/faq`
 - `/{lang}/journeys`
 - `/{lang}/journeys/[journeyId]`
 - `/{lang}/journeys/[journeyId]/moments/[clusterId]`
@@ -167,7 +167,8 @@ MomentBook Web은 다음 역할만 수행한다.
 
 페이지별 JSON-LD가 구현되어 있다.
 
-- Home: Organization, WebSite, SoftwareApplication, FAQPage
+- Home: Organization, WebSite, SoftwareApplication
+- FAQ: FAQPage
 - Journeys/Moments: Article
 - Users: ProfilePage
 - Photos: ImageObject
@@ -185,7 +186,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - response header: `Cache-Control: public, max-age=3600, s-maxage=3600`
 
 주의:
-- static sitemap은 현재 홈과 content index 일부(`journeys`, `users`)만 포함하며 redirect alias(`how-it-works`, `download`, `faq`)와 legal 경로는 포함하지 않는다.
+- static sitemap은 현재 홈과 정적 공개 라우트 일부(`faq`, `journeys`, `users`)를 포함하며 redirect alias(`how-it-works`, `download`)와 legal 경로는 포함하지 않는다.
 - `/{lang}/install`은 acquisition 전용 noindex 경로라 sitemap에 포함하지 않는다.
 
 ## 10) UI / Theme

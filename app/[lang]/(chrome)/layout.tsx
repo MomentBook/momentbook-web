@@ -50,9 +50,6 @@ export default async function ChromeLayout({
           </Link>
 
           <div className={styles.desktopNav}>
-            <Link href={buildHomeSectionHref(lang, HOME_SECTION_IDS.faq)} className={styles.navLink}>
-              {dict.nav.faq}
-            </Link>
             <Link href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)} className={styles.navLink}>
               {dict.nav.download}
             </Link>
@@ -104,7 +101,7 @@ export default async function ChromeLayout({
                 <ul className={styles.footerList}>
                   <li>
                     <Link
-                      href={buildHomeSectionHref(lang, HOME_SECTION_IDS.faq)}
+                      href={`/${lang}/faq`}
                       className={styles.footerLink}
                     >
                       {dict.nav.faq}

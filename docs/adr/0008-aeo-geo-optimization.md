@@ -20,22 +20,24 @@ Accepted
 
 ### 1) Answer-ready sections 도입
 
-핵심 랜딩 경험을 홈 중심 단일 스크롤 구조로 유지하면서 answer-ready 블록을 통합한다.
+핵심 랜딩 경험은 홈과 FAQ 페이지를 분리해 유지한다.
 
-- Home: intro, download, FAQ 섹션을 모두 포함
-- `/{lang}/download`, `/{lang}/faq`, `/{lang}/how-it-works`는 홈 anchor로 redirect
-- FAQ answer와 store CTA는 홈 본문에 실제로 노출된 상태를 유지
+- Home: intro, download 섹션 중심 단일 스크롤 구조
+- `/{lang}/how-it-works`, `/{lang}/download`는 홈 anchor로 redirect
+- `/{lang}/faq`는 독립 answer-ready FAQ 페이지로 제공
+- FAQ answer는 FAQ 본문에, store CTA는 홈 본문에 실제로 노출된 상태를 유지
 
 ### 2) Structured data 강화
 
-- Home: `Organization`, `WebSite`, `SoftwareApplication`, `FAQPage`
+- Home: `Organization`, `WebSite`, `SoftwareApplication`
+- FAQ: `FAQPage`
 - Journey/Moment: `Article`
 - User: `ProfilePage`
 - Photo: `ImageObject`
 
 ### 3) Internal linking 보강
 
-헤더/모바일 메뉴/푸터에서 홈 내부 `#download`, `#faq` 섹션으로 이동하도록 하여 긴 페이지 내 탐색 비용을 줄인다.
+헤더/모바일 메뉴는 홈 내부 `#download` 섹션으로, 푸터와 support 페이지는 독립 FAQ 페이지로 연결한다.
 
 ### 4) `llms.txt` 제공
 
@@ -43,7 +45,7 @@ Accepted
 
 ## Rationale
 
-답변형 블록 + 구조화 데이터 + 명확한 in-page 링크 구조는 LLM/AI 검색 엔진이 페이지를 해석할 때의 추출 비용을 줄이고, 사용자에게도 한 번의 스크롤 흐름을 제공한다.
+답변형 블록 + 구조화 데이터 + 명확한 정보 구조는 LLM/AI 검색 엔진이 페이지를 해석할 때의 추출 비용을 줄이고, 사용자가 소개와 도움말을 다른 맥락에서 탐색할 수 있게 한다.
 
 ## Consequences
 
@@ -73,12 +75,12 @@ Rejected: 정보 중복 및 유지보수 복잡도 증가
 - `app/[lang]/(chrome)/page.tsx`
 - `app/[lang]/(chrome)/HomeHero.tsx`
 - `app/[lang]/(chrome)/HomeDownloadSection.tsx`
-- `app/[lang]/(chrome)/HomeFaqSection.tsx`
 - `lib/marketing/download-content.ts`
 - `lib/marketing/faq-content.ts`
 - `lib/marketing/home-sections.ts`
 - `app/[lang]/(chrome)/(marketing)/download/page.tsx`
 - `app/[lang]/(chrome)/(content)/faq/page.tsx`
+- `app/[lang]/(chrome)/(content)/faq/faq.module.scss`
 - `public/llms.txt`
 
 ## Related Decisions

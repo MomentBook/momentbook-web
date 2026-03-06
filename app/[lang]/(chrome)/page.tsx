@@ -3,13 +3,11 @@ import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { getDownloadCopy } from "@/lib/marketing/download-content";
-import { flattenFaqItems, getFaqContent } from "@/lib/marketing/faq-content";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
 import { HashTargetFocus } from "./HashTargetFocus";
 import { HomeDownloadSection } from "./HomeDownloadSection";
-import { HomeFaqSection } from "./HomeFaqSection";
 import { HomeHero } from "./HomeHero";
 import styles from "./page.module.scss";
 
@@ -311,8 +309,6 @@ export default async function Home({
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
   const downloadContent = getDownloadCopy(lang);
-  const faqContent = getFaqContent(lang);
-  const faqItems = flattenFaqItems(faqContent.groups);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -369,20 +365,6 @@ export default async function Home({
     ],
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    url: pageUrl,
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
-
   return (
     <div className={styles.page}>
       <HashTargetFocus />
@@ -398,14 +380,9 @@ export default async function Home({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(softwareApplicationSchema) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }}
-      />
 
       <HomeHero lang={lang} content={content} />
       <HomeDownloadSection lang={lang} content={downloadContent} />
-      <HomeFaqSection lang={lang} content={faqContent} />
     </div>
   );
 }
