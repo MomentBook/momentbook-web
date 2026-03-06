@@ -12,7 +12,6 @@ type LocalizedText = {
 
 type HeroHeadlineOption = {
   key: InstallLandingVariantKey;
-  label: string;
   text: LocalizedText;
 };
 
@@ -66,7 +65,6 @@ type LandingCopy = {
 export type InstallLandingContent = {
   heroHeadlineKey: InstallLandingVariantKey;
   heroHeadline: string;
-  heroHeadlineOptions: Array<{ key: InstallLandingVariantKey; label: string; text: string }>;
   eyebrow: string;
   heroSubheadline: string;
   sectionBenefitsLabel: string;
@@ -114,7 +112,6 @@ export type InstallLandingContent = {
 const HERO_HEADLINE_OPTIONS: HeroHeadlineOption[] = [
   {
     key: "organized-journey",
-    label: "Candidate A",
     text: {
       en: "Travel photos, organized into one journey.",
       ko: "여행 사진이 하나의 여정으로 정리됩니다.",
@@ -122,7 +119,6 @@ const HERO_HEADLINE_OPTIONS: HeroHeadlineOption[] = [
   },
   {
     key: "timeline",
-    label: "Candidate B",
     text: {
       en: "Turn your trip into a timeline.",
       ko: "여행을 하나의 타임라인으로 정리하세요.",
@@ -130,7 +126,6 @@ const HERO_HEADLINE_OPTIONS: HeroHeadlineOption[] = [
   },
   {
     key: "sorted-day-place",
-    label: "Candidate C",
     text: {
       en: "Your travel memories, sorted by day and place.",
       ko: "여행의 기억을 날짜와 장소 기준으로 정리합니다.",
@@ -599,11 +594,6 @@ export function getInstallLandingContent(
   return {
     heroHeadlineKey: activeHeadline.key,
     heroHeadline: readText(lang, activeHeadline.text),
-    heroHeadlineOptions: HERO_HEADLINE_OPTIONS.map((option) => ({
-      key: option.key,
-      label: option.label,
-      text: readText(lang, option.text),
-    })),
     eyebrow: readText(lang, LANDING_COPY.eyebrow),
     heroSubheadline,
     sectionBenefitsLabel: readText(lang, LANDING_COPY.sectionBenefitsLabel),

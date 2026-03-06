@@ -16,7 +16,6 @@ export type FAQContent = {
   metaDescription: string;
   pageTitle: string;
   pageSubtitle: string;
-  sectionLabel: string;
   groups: FAQGroup[];
   calloutPrefix: string;
   calloutLink: string;
@@ -30,7 +29,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "This page keeps practical answers short: upload, organize, cleanup, publish scope, and archive handling.",
-    sectionLabel: "Section {index}",
     groups: [
       {
         title: "Flow basics",
@@ -83,7 +81,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "업로드, 자동 정리, 보정, 공개 범위, 보관 방식까지 필요한 답변만 짧게 정리했습니다.",
-    sectionLabel: "섹션 {index}",
     groups: [
       {
         title: "핵심 흐름",
@@ -136,7 +133,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "アップロード、自動整理、補正、公開範囲、保管方法まで、必要な回答だけを短くまとめています。",
-    sectionLabel: "セクション {index}",
     groups: [
       {
         title: "コアフロー",
@@ -189,7 +185,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "从上传、自动整理、修正到公开范围与存档方式，仅保留必要且简短的回答。",
-    sectionLabel: "分组 {index}",
     groups: [
       {
         title: "核心流程",
@@ -242,7 +237,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "Respuestas breves y necesarias sobre carga, organización automática, ajustes, visibilidad y archivo.",
-    sectionLabel: "Sección {index}",
     groups: [
       {
         title: "Flujo principal",
@@ -297,7 +291,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "Respostas curtas e diretas sobre envio, organização automática, ajustes, visibilidade e arquivamento.",
-    sectionLabel: "Seção {index}",
     groups: [
       {
         title: "Fluxo principal",
@@ -352,7 +345,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "Des réponses courtes et utiles sur l'import, le tri automatique, la correction, la visibilité et l'archivage.",
-    sectionLabel: "Section {index}",
     groups: [
       {
         title: "Flux principal",
@@ -407,7 +399,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "สรุปคำตอบสั้น ๆ ที่จำเป็นเกี่ยวกับการอัปโหลด การจัดอัตโนมัติ การปรับแก้ ขอบเขตการเผยแพร่ และการเก็บรักษา",
-    sectionLabel: "ส่วน {index}",
     groups: [
       {
         title: "โฟลว์หลัก",
@@ -460,7 +451,6 @@ const faqContent: Record<Language, FAQContent> = {
     pageTitle: "MomentBook FAQ",
     pageSubtitle:
       "Tóm tắt ngắn gọn các câu trả lời cần thiết về tải ảnh, sắp xếp tự động, chỉnh sửa, phạm vi công khai và lưu trữ.",
-    sectionLabel: "Mục {index}",
     groups: [
       {
         title: "Luồng cốt lõi",

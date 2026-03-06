@@ -11,7 +11,15 @@ export function HashTargetFocus() {
         return;
       }
 
-      const target = document.getElementById(decodeURIComponent(hash));
+      let targetId = hash;
+
+      try {
+        targetId = decodeURIComponent(hash);
+      } catch {
+        targetId = hash;
+      }
+
+      const target = document.getElementById(targetId);
 
       if (!(target instanceof HTMLElement)) {
         return;

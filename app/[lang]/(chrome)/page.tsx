@@ -384,7 +384,7 @@ export default async function Home({
   };
 
   return (
-    <main className={styles.page}>
+    <div className={styles.page}>
       <HashTargetFocus />
       <script
         type="application/ld+json"
@@ -406,6 +406,6 @@ export default async function Home({
       <HomeHero lang={lang} content={content} />
       <HomeDownloadSection lang={lang} content={downloadContent} />
       <HomeFaqSection lang={lang} content={faqContent} />
-    </main>
+    </div>
   );
 }

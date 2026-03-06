@@ -6,19 +6,146 @@ import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 
+type SupportContent = {
+  metaTitle: string;
+  metaDescription: string;
+  title: string;
+  subtitle: string;
+  faqHeading: string;
+  faqPrefix: string;
+  faqLinkLabel: string;
+  faqSuffix: string;
+  contactHeading: string;
+  contactPrefix: string;
+  contactSuffix: string;
+};
+
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const supportHref = `mailto:${supportEmail}`;
-const faqHrefByLanguage: Record<Language, string> = {
-  en: buildHomeSectionHref("en", HOME_SECTION_IDS.faq),
-  ko: buildHomeSectionHref("ko", HOME_SECTION_IDS.faq),
-  ja: buildHomeSectionHref("ja", HOME_SECTION_IDS.faq),
-  zh: buildHomeSectionHref("zh", HOME_SECTION_IDS.faq),
-  es: buildHomeSectionHref("es", HOME_SECTION_IDS.faq),
-  pt: buildHomeSectionHref("pt", HOME_SECTION_IDS.faq),
-  fr: buildHomeSectionHref("fr", HOME_SECTION_IDS.faq),
-  th: buildHomeSectionHref("th", HOME_SECTION_IDS.faq),
-  vi: buildHomeSectionHref("vi", HOME_SECTION_IDS.faq),
+
+const supportContent: Record<Language, SupportContent> = {
+  en: {
+    metaTitle: "MomentBook Support",
+    metaDescription: "Help and contact for MomentBook.",
+    title: "MomentBook Support",
+    subtitle: "Quiet help for your photos and journeys.",
+    faqHeading: "Common questions",
+    faqPrefix: "You might find a quick answer in our ",
+    faqLinkLabel: "FAQ",
+    faqSuffix: ".",
+    contactHeading: "Contact",
+    contactPrefix: "For other questions or issues, you can reach us at ",
+    contactSuffix: ".",
+  },
+  ko: {
+    metaTitle: "MomentBook 지원",
+    metaDescription: "MomentBook 도움말과 문의 방법을 안내합니다.",
+    title: "MomentBook 지원",
+    subtitle: "사진과 여정을 위한 조용한 도움.",
+    faqHeading: "자주 묻는 질문",
+    faqPrefix: "",
+    faqLinkLabel: "FAQ",
+    faqSuffix: "에서 먼저 확인해 보실 수 있습니다.",
+    contactHeading: "문의",
+    contactPrefix: "그 외 문의는 ",
+    contactSuffix: "로 연락해 주세요.",
+  },
+  ja: {
+    metaTitle: "MomentBook サポート",
+    metaDescription: "MomentBookのヘルプとお問い合わせ方法をご案内します。",
+    title: "MomentBook サポート",
+    subtitle: "写真と旅のための静かなサポート。",
+    faqHeading: "よくある質問",
+    faqPrefix: "",
+    faqLinkLabel: "FAQ",
+    faqSuffix: "に回答があるかもしれません。",
+    contactHeading: "お問い合わせ",
+    contactPrefix: "その他のご質問や不具合は ",
+    contactSuffix: " までご連絡ください。",
+  },
+  zh: {
+    metaTitle: "MomentBook 支持",
+    metaDescription: "了解 MomentBook 的帮助与联系方法。",
+    title: "MomentBook 支持",
+    subtitle: "为照片与行程提供安静的帮助。",
+    faqHeading: "常见问题",
+    faqPrefix: "你可能可以在 ",
+    faqLinkLabel: "FAQ",
+    faqSuffix: " 中先查看答案。",
+    contactHeading: "联系",
+    contactPrefix: "其他问题或故障，请联系 ",
+    contactSuffix: "。",
+  },
+  es: {
+    metaTitle: "Soporte de MomentBook",
+    metaDescription: "Ayuda y contacto para MomentBook.",
+    title: "Soporte de MomentBook",
+    subtitle: "Ayuda tranquila para tus fotos y viajes.",
+    faqHeading: "Preguntas frecuentes",
+    faqPrefix: "Puedes encontrar respuestas rápidas en ",
+    faqLinkLabel: "FAQ",
+    faqSuffix: ".",
+    contactHeading: "Contacto",
+    contactPrefix: "Para otras dudas o problemas, escribe a ",
+    contactSuffix: ".",
+  },
+  pt: {
+    metaTitle: "Suporte do MomentBook",
+    metaDescription: "Ajuda e contato do MomentBook.",
+    title: "Suporte do MomentBook",
+    subtitle: "Ajuda tranquila para suas fotos e jornadas.",
+    faqHeading: "Perguntas frequentes",
+    faqPrefix: "Você pode encontrar respostas rápidas no ",
+    faqLinkLabel: "FAQ",
+    faqSuffix: ".",
+    contactHeading: "Contato",
+    contactPrefix: "Para outras dúvidas ou problemas, fale com ",
+    contactSuffix: ".",
+  },
+  fr: {
+    metaTitle: "Support MomentBook",
+    metaDescription: "Aide et contact pour MomentBook.",
+    title: "Support MomentBook",
+    subtitle: "Aide calme pour vos photos et voyages.",
+    faqHeading: "Questions fréquentes",
+    faqPrefix: "Vous pouvez trouver une réponse rapide dans la ",
+    faqLinkLabel: "FAQ",
+    faqSuffix: ".",
+    contactHeading: "Contact",
+    contactPrefix: "Pour toute autre question, contactez ",
+    contactSuffix: ".",
+  },
+  th: {
+    metaTitle: "ศูนย์ช่วยเหลือ MomentBook",
+    metaDescription: "ความช่วยเหลือและช่องทางติดต่อของ MomentBook",
+    title: "ศูนย์ช่วยเหลือ MomentBook",
+    subtitle: "ความช่วยเหลือแบบสงบสำหรับรูปและทริปของคุณ",
+    faqHeading: "คําถามที่พบบ่อย",
+    faqPrefix: "คุณอาจพบคําตอบได้จาก ",
+    faqLinkLabel: "FAQ",
+    faqSuffix: "",
+    contactHeading: "ติดต่อ",
+    contactPrefix: "หากมีปัญหาหรือคําถามเพิ่มเติม ติดต่อ ",
+    contactSuffix: "",
+  },
+  vi: {
+    metaTitle: "Hỗ trợ MomentBook",
+    metaDescription: "Trợ giúp và liên hệ cho MomentBook.",
+    title: "Hỗ trợ MomentBook",
+    subtitle: "Trợ giúp nhẹ nhàng cho ảnh và hành trình của bạn.",
+    faqHeading: "Câu hỏi thường gặp",
+    faqPrefix: "Bạn có thể tìm thấy câu trả lời nhanh trong ",
+    faqLinkLabel: "FAQ",
+    faqSuffix: ".",
+    contactHeading: "Liên hệ",
+    contactPrefix: "Với các câu hỏi hoặc sự cố khác, vui lòng liên hệ ",
+    contactSuffix: ".",
+  },
 };
+
+function getSupportContent(lang: Language) {
+  return supportContent[lang] ?? supportContent.en;
+}
 
 export async function generateMetadata({
   params,
@@ -26,66 +153,23 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
-  let title = "MomentBook Support";
-  let description = "Help and contact for MomentBook.";
-
-  if (lang === "ko") {
-    title = "MomentBook 지원";
-    description = "MomentBook 도움말과 문의 방법을 안내합니다.";
-  }
-
-  if (lang === "ja") {
-    title = "MomentBook サポート";
-    description = "MomentBookのヘルプとお問い合わせ方法をご案内します。";
-  }
-
-  if (lang === "zh") {
-    title = "MomentBook 支持";
-    description = "了解 MomentBook 的帮助与联系方法。";
-  }
-
-  if (lang === "es") {
-    title = "Soporte de MomentBook";
-    description = "Ayuda y contacto para MomentBook.";
-  }
-
-  if (lang === "pt") {
-    title = "Suporte do MomentBook";
-    description = "Ajuda e contato do MomentBook.";
-  }
-
-  if (lang === "fr") {
-    title = "Support MomentBook";
-    description = "Aide et contact pour MomentBook.";
-  }
-
-  if (lang === "th") {
-    title = "ศูนย์ช่วยเหลือ MomentBook";
-    description = "ความช่วยเหลือและช่องทางติดต่อของ MomentBook";
-  }
-
-  if (lang === "vi") {
-    title = "Hỗ trợ MomentBook";
-    description = "Trợ giúp và liên hệ cho MomentBook.";
-  }
-
+  const content = getSupportContent(lang);
   const path = "/support";
-  const url = buildOpenGraphUrl(lang, path);
 
   return {
-    title,
-    description,
+    title: content.metaTitle,
+    description: content.metaDescription,
     robots: buildNoIndexRobots(),
     alternates: buildAlternates(lang, path),
     openGraph: {
-      title,
-      description,
-      url,
+      title: content.metaTitle,
+      description: content.metaDescription,
+      url: buildOpenGraphUrl(lang, path),
     },
     twitter: {
       card: "summary",
-      title,
-      description,
+      title: content.metaTitle,
+      description: content.metaDescription,
     },
   };
 }
@@ -96,294 +180,37 @@ export default async function SupportPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const content =
-    lang === "ko" ? <KoreanSupport /> :
-    lang === "ja" ? <JapaneseSupport /> :
-    lang === "zh" ? <ChineseSupport /> :
-    lang === "es" ? <SpanishSupport /> :
-    lang === "pt" ? <PortugueseSupport /> :
-    lang === "fr" ? <FrenchSupport /> :
-    lang === "th" ? <ThaiSupport /> :
-    lang === "vi" ? <VietnameseSupport /> :
-    <EnglishSupport />;
+  const content = getSupportContent(lang);
+  const faqHref = buildHomeSectionHref(lang, HOME_SECTION_IDS.faq);
 
   return (
-    <main className={styles.container}>
-      <article className={styles.content}>{content}</article>
-    </main>
-  );
-}
+    <div className={styles.container}>
+      <article className={styles.content}>
+        <header className={styles.header}>
+          <h1 className={styles.title}>{content.title}</h1>
+          <p className={styles.subtitle}>{content.subtitle}</p>
+        </header>
 
-function EnglishSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>MomentBook Support</h1>
-        <p className={styles.subtitle}>
-          Quiet help for your photos and journeys.
-        </p>
-      </header>
+        <div className={`${styles.textContent} ${styles.supportTextContent}`}>
+          <h2 className={styles.heading2}>{content.faqHeading}</h2>
+          <p>
+            {content.faqPrefix}
+            <Link href={faqHref} className={styles.link}>
+              {content.faqLinkLabel}
+            </Link>
+            {content.faqSuffix}
+          </p>
 
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>Common questions</h2>
-
-        <p>
-          You might find a quick answer in our{" "}
-          <Link href={faqHrefByLanguage.en} className={styles.link}>
-            FAQ
-          </Link>
-          .
-        </p>
-
-        <h2 className={styles.heading2}>Contact</h2>
-
-        <p>
-          For other questions or issues, you can reach us at{" "}
-          <a href={supportHref} className={styles.link}>
-            {supportEmail}
-          </a>
-          .
-        </p>
-
-        <p className={styles.note}>
-          We typically respond within 1-2 business days.
-        </p>
-      </div>
-    </>
-  );
-}
-
-function KoreanSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>MomentBook 지원</h1>
-        <p className={styles.subtitle}>
-          사진과 여정을 위한 조용한 도움.
-        </p>
-      </header>
-
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>자주 묻는 질문</h2>
-
-        <p>
-          <Link href={faqHrefByLanguage.ko} className={styles.link}>
-            FAQ
-          </Link>
-          에서 먼저 확인해 보실 수 있습니다.
-        </p>
-
-        <h2 className={styles.heading2}>문의</h2>
-
-        <p>
-          그 외 문의는{" "}
-          <a href={supportHref} className={styles.link}>
-            {supportEmail}
-          </a>
-          로 연락해 주세요.
-        </p>
-
-        <p className={styles.note}>
-          일반적으로 영업일 기준 1~2일 이내에 답변드립니다.
-        </p>
-      </div>
-    </>
-  );
-}
-
-function JapaneseSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>MomentBook サポート</h1>
-        <p className={styles.subtitle}>
-          写真と旅のための静かなサポート。
-        </p>
-      </header>
-
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>よくある質問</h2>
-
-        <p>
-          <Link href={faqHrefByLanguage.ja} className={styles.link}>
-            FAQ
-          </Link>
-          に回答があるかもしれません。
-        </p>
-
-        <h2 className={styles.heading2}>お問い合わせ</h2>
-
-        <p>
-          その他のご質問や不具合は{" "}
-          <a href={supportHref} className={styles.link}>
-            {supportEmail}
-          </a>
-          までご連絡ください。
-        </p>
-
-        <p className={styles.note}>
-          通常、1〜2営業日以内にご返信します。
-        </p>
-      </div>
-    </>
-  );
-}
-
-function ChineseSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>MomentBook 支持</h1>
-        <p className={styles.subtitle}>
-          为照片与行程提供安静的帮助。
-        </p>
-      </header>
-
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>常见问题</h2>
-
-        <p>
-          你可能可以在{" "}
-          <Link href={faqHrefByLanguage.zh} className={styles.link}>
-            FAQ
-          </Link>
-          中先查看答案。
-        </p>
-
-        <h2 className={styles.heading2}>联系</h2>
-
-        <p>
-          其他问题或故障，请联系{" "}
-          <a href={supportHref} className={styles.link}>
-            {supportEmail}
-          </a>
-          。
-        </p>
-
-        <p className={styles.note}>
-          我们通常会在 1-2 个工作日内回复。
-        </p>
-      </div>
-    </>
-  );
-}
-
-function SpanishSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Soporte de MomentBook</h1>
-        <p className={styles.subtitle}>Ayuda tranquila para tus fotos y viajes.</p>
-      </header>
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>Preguntas frecuentes</h2>
-        <p>
-          Puedes encontrar respuestas rápidas en{" "}
-          <Link href={faqHrefByLanguage.es} className={styles.link}>FAQ</Link>.
-        </p>
-        <h2 className={styles.heading2}>Contacto</h2>
-        <p>
-          Para otras dudas o problemas, escribe a{" "}
-          <a href={supportHref} className={styles.link}>{supportEmail}</a>.
-        </p>
-        <p className={styles.note}>Normalmente respondemos en 1-2 días hábiles.</p>
-      </div>
-    </>
-  );
-}
-
-function PortugueseSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Suporte do MomentBook</h1>
-        <p className={styles.subtitle}>Ajuda tranquila para suas fotos e jornadas.</p>
-      </header>
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>Perguntas frequentes</h2>
-        <p>
-          Você pode encontrar respostas rápidas no{" "}
-          <Link href={faqHrefByLanguage.pt} className={styles.link}>FAQ</Link>.
-        </p>
-        <h2 className={styles.heading2}>Contato</h2>
-        <p>
-          Para outras dúvidas ou problemas, fale com{" "}
-          <a href={supportHref} className={styles.link}>{supportEmail}</a>.
-        </p>
-        <p className={styles.note}>Normalmente respondemos em 1-2 dias úteis.</p>
-      </div>
-    </>
-  );
-}
-
-function FrenchSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Support MomentBook</h1>
-        <p className={styles.subtitle}>Aide calme pour vos photos et voyages.</p>
-      </header>
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>Questions fréquentes</h2>
-        <p>
-          Vous pouvez trouver une réponse rapide dans la{" "}
-          <Link href={faqHrefByLanguage.fr} className={styles.link}>FAQ</Link>.
-        </p>
-        <h2 className={styles.heading2}>Contact</h2>
-        <p>
-          Pour toute autre question, contactez{" "}
-          <a href={supportHref} className={styles.link}>{supportEmail}</a>.
-        </p>
-        <p className={styles.note}>Nous répondons en général sous 1 à 2 jours ouvrés.</p>
-      </div>
-    </>
-  );
-}
-
-function ThaiSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>ศูนย์ช่วยเหลือ MomentBook</h1>
-        <p className={styles.subtitle}>ความช่วยเหลือแบบสงบสำหรับรูปและทริปของคุณ</p>
-      </header>
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>คําถามที่พบบ่อย</h2>
-        <p>
-          คุณอาจพบคําตอบได้จาก{" "}
-          <Link href={faqHrefByLanguage.th} className={styles.link}>FAQ</Link>
-        </p>
-        <h2 className={styles.heading2}>ติดต่อ</h2>
-        <p>
-          หากมีปัญหาหรือคําถามเพิ่มเติม ติดต่อ{" "}
-          <a href={supportHref} className={styles.link}>{supportEmail}</a>
-        </p>
-        <p className={styles.note}>โดยปกติเราจะตอบกลับภายใน 1-2 วันทําการ</p>
-      </div>
-    </>
-  );
-}
-
-function VietnameseSupport() {
-  return (
-    <>
-      <header className={styles.header}>
-        <h1 className={styles.title}>Hỗ trợ MomentBook</h1>
-        <p className={styles.subtitle}>Trợ giúp nhẹ nhàng cho ảnh và hành trình của bạn.</p>
-      </header>
-      <div className={`${styles.textContent} ${styles.supportTextContent}`}>
-        <h2 className={styles.heading2}>Câu hỏi thường gặp</h2>
-        <p>
-          Bạn có thể tìm thấy câu trả lời nhanh trong{" "}
-          <Link href={faqHrefByLanguage.vi} className={styles.link}>FAQ</Link>.
-        </p>
-        <h2 className={styles.heading2}>Liên hệ</h2>
-        <p>
-          Với các câu hỏi hoặc sự cố khác, vui lòng liên hệ{" "}
-          <a href={supportHref} className={styles.link}>{supportEmail}</a>.
-        </p>
-        <p className={styles.note}>Thông thường chúng tôi phản hồi trong 1-2 ngày làm việc.</p>
-      </div>
-    </>
+          <h2 className={styles.heading2}>{content.contactHeading}</h2>
+          <p>
+            {content.contactPrefix}
+            <a href={supportHref} className={styles.link}>
+              {supportEmail}
+            </a>
+            {content.contactSuffix}
+          </p>
+        </div>
+      </article>
+    </div>
   );
 }

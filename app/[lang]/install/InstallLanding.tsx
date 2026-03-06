@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   useSyncExternalStore,
 } from "react";
@@ -47,8 +47,20 @@ type StoreBadgeLinkProps = {
 
 const INSTALL_BAR_SESSION_KEY = "momentbook-install-bar-dismissed";
 
-function subscribeNoop() {
-  return () => undefined;
+function subscribePlatform(onStoreChange: () => void) {
+  if (typeof window === "undefined") {
+    return () => undefined;
+  }
+
+  window.addEventListener("resize", onStoreChange);
+
+  return () => {
+    window.removeEventListener("resize", onStoreChange);
+  };
+}
+
+function getClientPlatformSnapshot() {
+  return detectLandingPlatform(window.navigator.userAgent, window.navigator.maxTouchPoints);
 }
 
 function launchAppOrStore(
@@ -128,15 +140,19 @@ export function InstallLanding({
 }: InstallLandingProps) {
   const [installBarVisible, setInstallBarVisible] = useState(false);
   const resolvedPlatform = useSyncExternalStore(
-    subscribeNoop,
-    () => detectLandingPlatform(window.navigator.userAgent, window.navigator.maxTouchPoints),
+    subscribePlatform,
+    getClientPlatformSnapshot,
     () => platform,
   );
-  const installBarDismissed = useSyncExternalStore(
-    subscribeNoop,
-    () => window.sessionStorage.getItem(INSTALL_BAR_SESSION_KEY) === "1",
-    () => false,
-  );
+  const [installBarDismissed, setInstallBarDismissed] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.sessionStorage.getItem(INSTALL_BAR_SESSION_KEY) === "1";
+  });
+  const hasTrackedPageViewRef = useRef(false);
+  const hasTrackedHalfScrollRef = useRef(false);
 
   const eventParams = useMemo(
     () => buildCampaignEventParams(campaign, lang, resolvedPlatform, {
@@ -145,35 +161,36 @@ export function InstallLanding({
     [campaign, content.heroHeadlineKey, lang, resolvedPlatform],
   );
 
-  const trackInstallEvent = useCallback(
-    (
-      eventName: string,
-      extra: Record<string, string | number | boolean | null | undefined> = {},
-    ) => {
-      trackAnalyticsEvent(eventName, { ...eventParams, ...extra });
-    },
-    [eventParams],
-  );
+  const trackInstallEvent = (
+    eventName: string,
+    extra: Record<string, string | number | boolean | null | undefined> = {},
+  ) => {
+    trackAnalyticsEvent(eventName, { ...eventParams, ...extra });
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
 
-    trackInstallEvent("page_view_from_short", {
+    if (hasTrackedPageViewRef.current) {
+      return;
+    }
+
+    hasTrackedPageViewRef.current = true;
+    trackAnalyticsEvent("page_view_from_short", {
+      ...eventParams,
       page_location: window.location.href,
     });
-  }, [trackInstallEvent]);
+  }, [eventParams]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
 
-    let hasTrackedHalfScroll = false;
-
     const handleScroll = () => {
-      if (hasTrackedHalfScroll) {
+      if (hasTrackedHalfScrollRef.current) {
         return;
       }
 
@@ -181,8 +198,8 @@ export function InstallLanding({
       const progress = (window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1);
 
       if (progress >= 0.5) {
-        hasTrackedHalfScroll = true;
-        trackInstallEvent("scroll_50");
+        hasTrackedHalfScrollRef.current = true;
+        trackAnalyticsEvent("scroll_50", eventParams);
       }
     };
 
@@ -192,7 +209,7 @@ export function InstallLanding({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [trackInstallEvent]);
+  }, [eventParams]);
 
   useEffect(() => {
     if (resolvedPlatform !== "android" || installBarDismissed) {
@@ -228,21 +245,14 @@ export function InstallLanding({
     };
   }, [installBarDismissed, resolvedPlatform]);
 
-  const openInAppAvailability = useMemo(
-    () => ({
-      ios: canOpenInApp("ios", lang, campaign),
-      android: canOpenInApp("android", lang, campaign),
-    }),
-    [campaign, lang],
-  );
+  const openInAppAvailability = {
+    ios: canOpenInApp("ios", lang, campaign),
+    android: canOpenInApp("android", lang, campaign),
+  };
 
-  const heroStorePlatforms = useMemo(() => {
-    if (resolvedPlatform === "desktop") {
-      return ["ios", "android"] as MobilePlatform[];
-    }
-
-    return [resolvedPlatform] as MobilePlatform[];
-  }, [resolvedPlatform]);
+  const heroStorePlatforms: MobilePlatform[] = resolvedPlatform === "desktop"
+    ? ["ios", "android"]
+    : [resolvedPlatform];
 
   const showOpenAction = (
     resolvedPlatform === "ios" && openInAppAvailability.ios
@@ -286,6 +296,7 @@ export function InstallLanding({
       window.sessionStorage.setItem(INSTALL_BAR_SESSION_KEY, "1");
     }
 
+    setInstallBarDismissed(true);
     setInstallBarVisible(false);
     trackInstallEvent("install_banner_dismiss");
   };
