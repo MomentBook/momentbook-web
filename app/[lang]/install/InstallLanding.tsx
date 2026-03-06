@@ -38,6 +38,7 @@ type InstallLandingProps = {
 };
 
 type StoreBadgeLinkProps = {
+  lang: Language;
   platform: MobilePlatform;
   href: string;
   className?: string;
@@ -45,6 +46,45 @@ type StoreBadgeLinkProps = {
 };
 
 const INSTALL_BAR_SESSION_KEY = "momentbook-install-bar-dismissed";
+
+const storeBadgeLabelByLanguage: Record<Language, { ios: string; android: string }> = {
+  en: {
+    ios: "Download on the App Store",
+    android: "Get it on Google Play",
+  },
+  ko: {
+    ios: "App Store에서 다운로드",
+    android: "Google Play에서 받기",
+  },
+  ja: {
+    ios: "App Store でダウンロード",
+    android: "Google Play で入手",
+  },
+  zh: {
+    ios: "在 App Store 下载",
+    android: "在 Google Play 获取",
+  },
+  es: {
+    ios: "Descargar en App Store",
+    android: "Conseguir en Google Play",
+  },
+  pt: {
+    ios: "Baixar na App Store",
+    android: "Baixar no Google Play",
+  },
+  fr: {
+    ios: "Télécharger sur l'App Store",
+    android: "Télécharger sur Google Play",
+  },
+  th: {
+    ios: "ดาวน์โหลดบน App Store",
+    android: "รับบน Google Play",
+  },
+  vi: {
+    ios: "Tải trên App Store",
+    android: "Tải trên Google Play",
+  },
+};
 
 function subscribePlatform(onStoreChange: () => void) {
   if (typeof window === "undefined") {
@@ -63,6 +103,7 @@ function getClientPlatformSnapshot() {
 }
 
 function StoreBadgeLink({
+  lang,
   platform,
   href,
   className,
@@ -72,7 +113,9 @@ function StoreBadgeLink({
   const src = isIos
     ? "/images/download/app-store-button.webp"
     : "/images/download/google-play-button.webp";
-  const alt = isIos ? "Download on the App Store" : "Get it on Google Play";
+  const alt = isIos
+    ? storeBadgeLabelByLanguage[lang].ios
+    : storeBadgeLabelByLanguage[lang].android;
 
   return (
     <a
@@ -324,6 +367,7 @@ export function InstallLanding({
                   {heroStorePlatforms.map((targetPlatform) => (
                     <StoreBadgeLink
                       key={targetPlatform}
+                      lang={lang}
                       platform={targetPlatform}
                       href={storeLinks[targetPlatform]}
                       onClick={() => handleHeroStoreClick(targetPlatform)}
@@ -460,11 +504,13 @@ export function InstallLanding({
 
           <div className={styles.finalActions}>
             <StoreBadgeLink
+              lang={lang}
               platform="ios"
               href={storeLinks.ios}
               onClick={() => handleFinalStoreClick("ios")}
             />
             <StoreBadgeLink
+              lang={lang}
               platform="android"
               href={storeLinks.android}
               onClick={() => handleFinalStoreClick("android")}

@@ -26,6 +26,80 @@ type MobileMenuLink = {
   label: string;
 };
 
+type MobileMenuLabels = {
+  openMenu: string;
+  dialogLabel: string;
+  goHome: string;
+  closeMenu: string;
+  mainNavigation: string;
+};
+
+const mobileMenuLabelsByLanguage: Record<Language, MobileMenuLabels> = {
+  en: {
+    openMenu: "Open menu",
+    dialogLabel: "Mobile navigation menu",
+    goHome: "Go to home",
+    closeMenu: "Close menu",
+    mainNavigation: "Main navigation",
+  },
+  ko: {
+    openMenu: "메뉴 열기",
+    dialogLabel: "모바일 탐색 메뉴",
+    goHome: "홈으로 이동",
+    closeMenu: "메뉴 닫기",
+    mainNavigation: "주요 탐색",
+  },
+  ja: {
+    openMenu: "メニューを開く",
+    dialogLabel: "モバイルナビゲーションメニュー",
+    goHome: "ホームへ移動",
+    closeMenu: "メニューを閉じる",
+    mainNavigation: "メインナビゲーション",
+  },
+  zh: {
+    openMenu: "打开菜单",
+    dialogLabel: "移动导航菜单",
+    goHome: "前往首页",
+    closeMenu: "关闭菜单",
+    mainNavigation: "主导航",
+  },
+  es: {
+    openMenu: "Abrir menú",
+    dialogLabel: "Menú de navegación móvil",
+    goHome: "Ir al inicio",
+    closeMenu: "Cerrar menú",
+    mainNavigation: "Navegación principal",
+  },
+  pt: {
+    openMenu: "Abrir menu",
+    dialogLabel: "Menu de navegação móvel",
+    goHome: "Ir para o início",
+    closeMenu: "Fechar menu",
+    mainNavigation: "Navegação principal",
+  },
+  fr: {
+    openMenu: "Ouvrir le menu",
+    dialogLabel: "Menu de navigation mobile",
+    goHome: "Aller à l'accueil",
+    closeMenu: "Fermer le menu",
+    mainNavigation: "Navigation principale",
+  },
+  th: {
+    openMenu: "เปิดเมนู",
+    dialogLabel: "เมนูนำทางบนมือถือ",
+    goHome: "ไปหน้าหลัก",
+    closeMenu: "ปิดเมนู",
+    mainNavigation: "การนำทางหลัก",
+  },
+  vi: {
+    openMenu: "Mở menu",
+    dialogLabel: "Menu điều hướng trên di động",
+    goHome: "Đi tới trang chủ",
+    closeMenu: "Đóng menu",
+    mainNavigation: "Điều hướng chính",
+  },
+};
+
 const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 function createMenuLinks(
@@ -54,6 +128,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
     () => createMenuLinks(lang, dict, journeysLabel),
     [lang, dict, journeysLabel],
   );
+  const labels = mobileMenuLabelsByLanguage[lang] ?? mobileMenuLabelsByLanguage.en;
 
   const closeMenu = useCallback(() => {
     setIsOpen(false);
@@ -142,7 +217,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
           type="button"
           className={styles.hamburger}
           onClick={openMenu}
-          aria-label="Open menu"
+          aria-label={labels.openMenu}
           aria-expanded={false}
           aria-controls={menuId}
         >
@@ -161,7 +236,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
                 className={styles.menu}
                 role="dialog"
                 aria-modal="true"
-                aria-label="Mobile navigation menu"
+                aria-label={labels.dialogLabel}
                 onClick={(event) => event.stopPropagation()}
               >
                 <div className={styles.menuHeader}>
@@ -169,7 +244,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
                     href={homeHref}
                     className={styles.menuHome}
                     onClick={closeMenu}
-                    aria-label="Go to Home"
+                    aria-label={labels.goHome}
                   >
                     <MomentBookLogo
                       className={styles.menuLogo}
@@ -185,7 +260,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
                     type="button"
                     className={styles.closeButton}
                     onClick={closeMenu}
-                    aria-label="Close menu"
+                    aria-label={labels.closeMenu}
                   >
                     <svg
                       width="16"
@@ -203,7 +278,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
                   </button>
                 </div>
 
-                <nav className={styles.menuMain} aria-label="Main navigation">
+                <nav className={styles.menuMain} aria-label={labels.mainNavigation}>
                   {navLinks.map((link) => {
                     const isActive = isActiveLink(link.href);
 
