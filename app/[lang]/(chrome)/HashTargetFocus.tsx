@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
+import { scrollHomeSectionIntoView } from "@/lib/marketing/home-scroll";
 
 export function HashTargetFocus() {
   useEffect(() => {
-    const focusHashTarget = () => {
+    const focusHashTarget = (behavior: "auto" | "smooth") => {
       const hash = window.location.hash.slice(1);
 
       if (!hash) {
@@ -26,15 +27,20 @@ export function HashTargetFocus() {
       }
 
       window.requestAnimationFrame(() => {
-        target.focus({ preventScroll: true });
+        scrollHomeSectionIntoView(target, { behavior });
       });
     };
 
-    focusHashTarget();
-    window.addEventListener("hashchange", focusHashTarget);
+    focusHashTarget("auto");
+
+    const handleHashChange = () => {
+      focusHashTarget("smooth");
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
 
     return () => {
-      window.removeEventListener("hashchange", focusHashTarget);
+      window.removeEventListener("hashchange", handleHashChange);
     };
   }, []);
 

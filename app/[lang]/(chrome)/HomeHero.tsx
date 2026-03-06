@@ -11,6 +11,7 @@ import {
 } from "@/components/ScrollActivatedVideo";
 import { type Language } from "@/lib/i18n/config";
 import { detectLandingPlatform } from "@/lib/install-campaign";
+import { scrollHomeSectionIntoView } from "@/lib/marketing/home-scroll";
 import { launchAppOrStore } from "@/lib/mobile-app";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
@@ -71,26 +72,10 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
     };
   }, []);
 
-  const scrollToSection = (section: HTMLElement | null) => {
-    if (!section) {
-      return null;
-    }
-
-    if (typeof window === "undefined") {
-      return section;
-    }
-
-    window.scrollTo({
-      top: section.getBoundingClientRect().top + window.scrollY,
-      behavior: "smooth",
-    });
-    section.focus({ preventScroll: true });
-
-    return section;
-  };
-
   const scrollToIntroSection = () => {
-    scrollToSection(introSectionRef.current);
+    if (introSectionRef.current) {
+      scrollHomeSectionIntoView(introSectionRef.current);
+    }
   };
 
   const handleIntroDownloadClick = () => {
@@ -100,7 +85,7 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
       return;
     }
 
-    scrollToSection(downloadSection);
+    scrollHomeSectionIntoView(downloadSection);
 
     if (typeof window === "undefined") {
       return;
