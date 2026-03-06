@@ -57,6 +57,14 @@ export const zh: Dictionary = {
     summary: '长久记住每一个旅行瞬间。',
     ctaPrimary: '下载',
     ctaSecondary: '支持',
+    social: {
+      groupLabel: 'MomentBook 社交频道',
+      links: {
+        youtube: '在 YouTube 查看 MomentBook',
+        instagram: '在 Instagram 查看 MomentBook',
+        tiktok: '在 TikTok 查看 MomentBook',
+      },
+    },
     sections: {
       product: '产品',
       download: '获取应用',

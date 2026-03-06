@@ -48,6 +48,14 @@ export const th: Dictionary = {
     summary: "เก็บความทรงจำการเดินทางของคุณให้นานขึ้น",
     ctaPrimary: "ดาวน์โหลด",
     ctaSecondary: "ซัพพอร์ต",
+    social: {
+      groupLabel: "ช่องทางโซเชียลของ MomentBook",
+      links: {
+        youtube: "ดู MomentBook บน YouTube",
+        instagram: "ดู MomentBook บน Instagram",
+        tiktok: "ดู MomentBook บน TikTok",
+      },
+    },
     sections: {
       product: "ผลิตภัณฑ์",
       download: "รับแอป",

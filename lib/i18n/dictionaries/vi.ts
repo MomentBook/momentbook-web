@@ -48,6 +48,14 @@ export const vi: Dictionary = {
     summary: "Lưu giữ lâu hơn những khoảnh khắc của chuyến đi.",
     ctaPrimary: "Tải xuống",
     ctaSecondary: "Hỗ trợ",
+    social: {
+      groupLabel: "Kênh mạng xã hội của MomentBook",
+      links: {
+        youtube: "Xem MomentBook trên YouTube",
+        instagram: "Xem MomentBook trên Instagram",
+        tiktok: "Xem MomentBook trên TikTok",
+      },
+    },
     sections: {
       product: "Sản phẩm",
       download: "Tải ứng dụng",

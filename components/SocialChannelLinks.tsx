@@ -1,6 +1,11 @@
 import { MARKETING_CHANNELS, type MarketingChannelId } from "@/lib/marketing/social-channels";
 import styles from "./SocialChannelLinks.module.scss";
 
+type SocialChannelLinksProps = {
+  ariaLabel: string;
+  linkLabels: Record<MarketingChannelId, string>;
+};
+
 function YouTubeIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className={styles.icon}>
@@ -68,9 +73,12 @@ function ChannelIcon({ id }: { id: MarketingChannelId }) {
   return <TikTokIcon />;
 }
 
-export function SocialChannelLinks() {
+export function SocialChannelLinks({
+  ariaLabel,
+  linkLabels,
+}: SocialChannelLinksProps) {
   return (
-    <div className={styles.links} aria-label="MomentBook social channels">
+    <div className={styles.links} aria-label={ariaLabel}>
       {MARKETING_CHANNELS.map((channel) => (
         <a
           key={channel.id}
@@ -79,8 +87,8 @@ export function SocialChannelLinks() {
           rel="noopener noreferrer me"
           className={styles.link}
           data-channel={channel.id}
-          aria-label={`Visit MomentBook on ${channel.label}`}
-          title={channel.label}
+          aria-label={linkLabels[channel.id]}
+          title={linkLabels[channel.id]}
         >
           <ChannelIcon id={channel.id} />
         </a>

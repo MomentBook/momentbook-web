@@ -48,6 +48,14 @@ export const es: Dictionary = {
     summary: "Guarda por más tiempo los momentos de tu viaje.",
     ctaPrimary: "Descargar",
     ctaSecondary: "Soporte",
+    social: {
+      groupLabel: "Canales sociales de MomentBook",
+      links: {
+        youtube: "Ver MomentBook en YouTube",
+        instagram: "Ver MomentBook en Instagram",
+        tiktok: "Ver MomentBook en TikTok",
+      },
+    },
     sections: {
       product: "Producto",
       download: "Obtener la app",

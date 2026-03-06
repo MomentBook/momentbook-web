@@ -9,6 +9,7 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { ScrollHeader } from "@/components/ScrollHeader";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { type Language } from "@/lib/i18n/config";
+import { getDownloadCopy } from "@/lib/marketing/download-content";
 import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 
@@ -36,6 +37,7 @@ export default async function ChromeLayout({
 }) {
   const { lang } = await params as { lang: Language };
   const dict = await getDictionary(lang);
+  const downloadContent = getDownloadCopy(lang);
   const storeLinks = getCanonicalStoreLinks(lang);
   const journeysNavLabel = journeysNavLabelMap[lang] ?? journeysNavLabelMap.en;
 
@@ -100,7 +102,10 @@ export default async function ChromeLayout({
             </section>
 
             <aside className={styles.footerSocialCard}>
-              <SocialChannelLinks />
+              <SocialChannelLinks
+                ariaLabel={dict.footer.social.groupLabel}
+                linkLabels={dict.footer.social.links}
+              />
               <div className={styles.footerStoreLinks}>
                 <a
                   href={storeLinks.ios}
@@ -108,7 +113,7 @@ export default async function ChromeLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  App Store
+                  {downloadContent.iosName}
                 </a>
                 <a
                   href={storeLinks.android}
@@ -116,7 +121,7 @@ export default async function ChromeLayout({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Google Play
+                  {downloadContent.androidName}
                 </a>
               </div>
             </aside>

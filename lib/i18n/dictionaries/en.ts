@@ -55,6 +55,14 @@ export const en = {
     summary: 'Memorize your moments, and keep your travel memories close.',
     ctaPrimary: 'Download',
     ctaSecondary: 'Support',
+    social: {
+      groupLabel: 'MomentBook social channels',
+      links: {
+        youtube: 'Visit MomentBook on YouTube',
+        instagram: 'Visit MomentBook on Instagram',
+        tiktok: 'Visit MomentBook on TikTok',
+      },
+    },
     sections: {
       product: 'Product',
       download: 'Get the app',
@@ -122,6 +130,14 @@ export type Dictionary = {
     summary: string;
     ctaPrimary: string;
     ctaSecondary: string;
+    social: {
+      groupLabel: string;
+      links: {
+        youtube: string;
+        instagram: string;
+        tiktok: string;
+      };
+    };
     sections: {
       product: string;
       download: string;

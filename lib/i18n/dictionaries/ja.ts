@@ -57,6 +57,14 @@ export const ja: Dictionary = {
     summary: '旅の瞬間を、ずっと心に。',
     ctaPrimary: 'ダウンロード',
     ctaSecondary: 'サポート',
+    social: {
+      groupLabel: 'MomentBook のソーシャルチャンネル',
+      links: {
+        youtube: 'YouTube で MomentBook を見る',
+        instagram: 'Instagram で MomentBook を見る',
+        tiktok: 'TikTok で MomentBook を見る',
+      },
+    },
     sections: {
       product: 'プロダクト',
       download: 'アプリを入手',

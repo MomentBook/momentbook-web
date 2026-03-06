@@ -57,6 +57,14 @@ export const ko: Dictionary = {
     summary: '여행의 순간을 오래 기억하세요.',
     ctaPrimary: '다운로드',
     ctaSecondary: '지원',
+    social: {
+      groupLabel: 'MomentBook 소셜 채널',
+      links: {
+        youtube: 'YouTube에서 MomentBook 보기',
+        instagram: 'Instagram에서 MomentBook 보기',
+        tiktok: 'TikTok에서 MomentBook 보기',
+      },
+    },
     sections: {
       product: '제품',
       download: '앱 받기',
