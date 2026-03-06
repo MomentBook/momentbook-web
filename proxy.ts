@@ -31,21 +31,28 @@ export function proxy(request: NextRequest) {
 
   // Determine the user's preferred language
   let preferredLanguage = defaultLanguage;
+  const queryLang = request.nextUrl.searchParams.get("lang");
 
-  // 1. Check cookie first
-  const cookieLang = request.cookies.get("preferredLanguage")?.value;
-  if (cookieLang && isValidLanguage(cookieLang)) {
-    preferredLanguage = cookieLang;
+  // 1. Honor explicit query language for campaign links
+  if (queryLang && isValidLanguage(queryLang)) {
+    preferredLanguage = queryLang;
   } else {
-    // 2. Fallback to Accept-Language header
-    preferredLanguage = detectLanguageFromAcceptLanguage(
-      request.headers.get("accept-language"),
-    );
+    // 2. Check cookie
+    const cookieLang = request.cookies.get("preferredLanguage")?.value;
+    if (cookieLang && isValidLanguage(cookieLang)) {
+      preferredLanguage = cookieLang;
+    } else {
+      // 3. Fallback to Accept-Language header
+      preferredLanguage = detectLanguageFromAcceptLanguage(
+        request.headers.get("accept-language"),
+      );
+    }
   }
 
   // Redirect to the language-prefixed URL
   const url = request.nextUrl.clone();
   url.pathname = `/${preferredLanguage}${pathname}`;
+  url.searchParams.delete("lang");
 
   return NextResponse.redirect(url);
 }

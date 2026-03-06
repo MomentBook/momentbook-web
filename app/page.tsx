@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAtomValue } from "jotai";
 import {
   defaultLanguage,
@@ -12,14 +12,21 @@ import { languageAtom } from "@/lib/state/preferences";
 
 export default function RootPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const preferredLanguage = useAtomValue(languageAtom);
+  const searchParamsString = searchParams.toString();
 
   useEffect(() => {
     let targetLanguage = isValidLanguage(preferredLanguage)
       ? preferredLanguage
       : defaultLanguage;
+    const queryLang = searchParams.get("lang");
 
-    if (!isValidLanguage(preferredLanguage) && typeof navigator !== "undefined") {
+    if (queryLang && isValidLanguage(queryLang)) {
+      targetLanguage = queryLang;
+    }
+
+    if (!queryLang && !isValidLanguage(preferredLanguage) && typeof navigator !== "undefined") {
       const candidates =
         navigator.languages && navigator.languages.length > 0
           ? navigator.languages
@@ -30,8 +37,12 @@ export default function RootPage() {
       }
     }
 
-    router.replace(`/${targetLanguage}`);
-  }, [preferredLanguage, router]);
+    const nextSearchParams = new URLSearchParams(searchParamsString);
+    nextSearchParams.delete("lang");
+
+    const nextQuery = nextSearchParams.toString();
+    router.replace(nextQuery ? `/${targetLanguage}?${nextQuery}` : `/${targetLanguage}`);
+  }, [preferredLanguage, router, searchParams, searchParamsString]);
 
   return null;
 }

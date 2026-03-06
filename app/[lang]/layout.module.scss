@@ -215,6 +215,10 @@
   padding-top: 0.66rem;
 }
 
+.installMain {
+  min-height: 100vh;
+}
+
 .footer {
   margin-top: clamp(2rem, 5vw, 3.2rem);
   padding: 0 var(--spacing-md) clamp(0.95rem, 2.6vw, 1.4rem);

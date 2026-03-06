@@ -6,8 +6,8 @@
 
 - 모든 사용자 페이지는 `/{lang}/...` 구조를 사용한다.
 - 지원 언어: `en`, `ko`, `ja`, `zh`, `es`, `pt`, `fr`, `th`, `vi`
-- 언어 prefix 없는 경로는 `proxy.ts`에서 언어 prefix 경로로 redirect
-- 루트 `/`는 `app/page.tsx`에서 클라이언트 선호 언어로 `router.replace`
+- 언어 prefix 없는 경로는 `proxy.ts`에서 `?lang=` -> cookie -> `Accept-Language` -> `en` 순으로 언어 prefix 경로로 redirect
+- 루트 `/`는 `app/page.tsx`에서 `?lang=` 또는 클라이언트 선호 언어를 반영해 `router.replace`
 
 ## 2) Redirect Rules
 
@@ -22,9 +22,12 @@
 
 그 외 non-prefixed 경로는 아래 우선순위로 redirect:
 
-1. cookie `preferredLanguage`
-2. `Accept-Language`
-3. `en`
+1. query `lang`
+2. cookie `preferredLanguage`
+3. `Accept-Language`
+4. `en`
+
+redirect 시 `lang` query는 제거되고 나머지 query는 유지된다.
 
 ### 2.2 Marketing alias
 
@@ -37,6 +40,7 @@
 - `/{lang}`
 - `/{lang}/how-it-works` (redirect)
 - `/{lang}/download`
+- `/{lang}/install` (`source`, `dest`, `lang`, `utm_*`, `variant` query 지원, noindex)
 
 ## 3.2 Content
 
@@ -81,6 +85,7 @@
 ### 4.2 noindex/nofollow
 
 - Legal pages (`privacy`, `terms`, `community-guidelines`, `marketing-consent`, `support`)
+- Acquisition install landing (`/{lang}/install`)
 
 ### 4.3 noindex/follow (query variants)
 
@@ -106,11 +111,14 @@
   - `download`
   - `faq`, `journeys`, `users`
 - `how-it-works`, legal 경로는 static sitemap에 포함하지 않음
+- `install` 경로도 static sitemap에 포함하지 않음
 
 ## 8) Ownership Files
 
 - Redirect/locale gate: `proxy.ts`
 - App root redirect: `app/page.tsx`
+- Install landing route + shell: `app/[lang]/(marketing)/install/*`, `app/[lang]/LangRouteShell.tsx`
 - i18n config: `lib/i18n/config.ts`
+- install landing content/store config: `lib/install-landing.ts`, `lib/mobile-app.ts`
 - alternates/canonical helper: `lib/i18n/metadata.ts`
 - sitemap generators: `app/sitemap*.xml/route.ts`

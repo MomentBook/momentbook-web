@@ -2,15 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { FadeIn } from "@/components/FadeIn";
 import styles from "./download.module.scss";
-import { getStoreRegion, type Language } from "@/lib/i18n/config";
+import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
-
-type StoreLinks = {
-  ios: string;
-  android: string;
-};
 
 type DownloadCopy = {
   metaTitle: string;
@@ -124,17 +120,6 @@ const downloadCopy: Record<Language, DownloadCopy> = {
   },
 };
 
-const iosPath = "app/momentbook-%EC%97%AC%ED%96%89-%EA%B8%B0%EB%A1%9D/id6749165889";
-
-function getStoreLinks(lang: Language): StoreLinks {
-  const region = getStoreRegion(lang);
-
-  return {
-    ios: `https://apps.apple.com/${region.ios}/${iosPath}`,
-    android: `https://play.google.com/store/apps/details?id=com.reflectalab.momentbook&hl=${region.hl}&gl=${region.gl}`,
-  };
-}
-
 function getDownloadCopy(lang: Language): DownloadCopy {
   return downloadCopy[lang] ?? downloadCopy.en;
 }
@@ -172,7 +157,7 @@ export default async function DownloadPage({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getDownloadCopy(lang);
-  const storeLinks = getStoreLinks(lang);
+  const storeLinks = getCanonicalStoreLinks(lang);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, "/download"), siteUrl).toString();

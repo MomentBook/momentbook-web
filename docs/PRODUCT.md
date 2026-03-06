@@ -36,6 +36,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 `/faq`는 질문을 주제별 그룹으로 구성해 짧은 답변을 제공한다.
 `/download`는 스토어 CTA를 제공한다.
+`/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다.
 
 1. 여행 종료
 2. 여행 사진 일괄 업로드
@@ -48,8 +49,8 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - `en`, `ko`, `ja`, `zh`, `es`, `pt`, `fr`, `th`, `vi` (총 9개)
 - 라우트 프리픽스: `/{lang}/...`
-- 루트(`/`)는 클라이언트에서 선호 언어로 리다이렉트
-- 언어 없는 경로는 `proxy.ts`에서 언어 프리픽스로 리다이렉트
+- 루트(`/`)는 클라이언트에서 `?lang=` -> 선호 언어 상태 -> 브라우저 언어 순서로 언어를 정한 뒤 리다이렉트
+- 언어 없는 경로는 `proxy.ts`에서 `?lang=` -> cookie -> `Accept-Language` -> `en` 순서로 언어 프리픽스로 리다이렉트
 
 ## 4) Route Surface
 
@@ -66,7 +67,14 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/users/[userId]`
 - `/{lang}/photos/[photoId]`
 
-### 4.2 Legal Pages (Noindex)
+### 4.2 Acquisition Landing (Noindex)
+
+- `/{lang}/install`
+- 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`
+- `dest`는 hero/sample copy와 sample section을 config 기반으로 전환한다.
+- non-prefixed `/install?...` 진입은 `proxy.ts`가 언어 prefix로 정규화한다.
+
+### 4.3 Legal Pages (Noindex)
 
 - `/{lang}/privacy`
 - `/{lang}/terms`
@@ -74,7 +82,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/marketing-consent`
 - `/{lang}/support`
 
-### 4.3 SEO Infrastructure Routes
+### 4.4 SEO Infrastructure Routes
 
 - `/robots.txt` (via `app/robots.ts`)
 - `/sitemap.xml`
@@ -85,7 +93,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/sitemap-users.xml`
 - `/llms.txt` (static file in `public/`)
 
-### 4.4 Static Archive Surface
+### 4.5 Static Archive Surface
 
 - `/tutorials/*` (`public/tutorials/*` 정적 파일)
 - `proxy.ts` matcher에서 제외되어 언어 리다이렉트 없이 직접 접근
@@ -148,6 +156,7 @@ MomentBook Web은 다음 역할만 수행한다.
 ## 8.2 Robots Policy
 
 - Public content/marketing pages: index/follow
+- `/{lang}/install`: noindex/nofollow
 - Legal pages: noindex/nofollow
 - `/users?q=...` 검색 파라미터 페이지: noindex/follow + canonical(`/{lang}/users`)
 - No aggressive googlebot `max-*` overrides
@@ -177,6 +186,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 주의:
 - static sitemap은 현재 marketing/content 일부 경로 중심이며 legal 경로는 포함하지 않는다.
+- `/{lang}/install`은 acquisition 전용 noindex 경로라 sitemap에 포함하지 않는다.
 
 ## 10) UI / Theme
 
@@ -184,6 +194,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - theme: `data-theme="light|dark"`
 - 저장: Jotai `themeAtom` (`localStorage`)
 - 헤더/푸터 공통 레이아웃: `app/[lang]/layout.tsx`
+- `/{lang}/install`은 `app/[lang]/LangRouteShell.tsx`에서 공통 헤더/푸터를 생략하고 최소 chrome만 렌더링한다.
 
 ## 11) Environment Variables
 
