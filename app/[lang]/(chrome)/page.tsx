@@ -321,10 +321,7 @@ export default async function Home({
     name: "MomentBook",
     url: siteUrl,
     logo: buildAbsoluteAppTransparentLogoUrl(siteUrl),
-    sameAs: [
-      "https://apps.apple.com/app/momentbook/id6749165889",
-      "https://play.google.com/store/apps/details?id=com.reflectalab.momentbook",
-    ],
+    sameAs: [storeLinks.ios, storeLinks.android],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: contactTypeByLanguage[lang],
