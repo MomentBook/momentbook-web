@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
@@ -11,7 +10,9 @@ import {
   type ScrollActivatedVideoHandle,
 } from "@/components/ScrollActivatedVideo";
 import { type Language } from "@/lib/i18n/config";
-import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
+import { detectLandingPlatform } from "@/lib/install-campaign";
+import { launchAppOrStore } from "@/lib/mobile-app";
+import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
 export type HomeHeroContent = {
@@ -43,6 +44,7 @@ type HomeHeroProps = {
 export function HomeHero({ lang, content }: HomeHeroProps) {
   const introSectionRef = useRef<HTMLElement>(null);
   const introVideoRef = useRef<ScrollActivatedVideoHandle>(null);
+  const autoInstallTimeoutRef = useRef<number | null>(null);
   const [showIntroPrompt, setShowIntroPrompt] = useState(false);
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
 
@@ -61,11 +63,21 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
     };
   }, [isIntroExpanded, showIntroPrompt]);
 
-  const scrollToIntroSection = () => {
-    const section = introSectionRef.current;
+  useEffect(() => {
+    return () => {
+      if (autoInstallTimeoutRef.current !== null) {
+        window.clearTimeout(autoInstallTimeoutRef.current);
+      }
+    };
+  }, []);
 
+  const scrollToSection = (section: HTMLElement | null) => {
     if (!section) {
-      return;
+      return null;
+    }
+
+    if (typeof window === "undefined") {
+      return section;
     }
 
     window.scrollTo({
@@ -73,6 +85,46 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
       behavior: "smooth",
     });
     section.focus({ preventScroll: true });
+
+    return section;
+  };
+
+  const scrollToIntroSection = () => {
+    scrollToSection(introSectionRef.current);
+  };
+
+  const handleIntroDownloadClick = () => {
+    const downloadSection = document.getElementById(HOME_SECTION_IDS.download);
+
+    if (!(downloadSection instanceof HTMLElement)) {
+      return;
+    }
+
+    scrollToSection(downloadSection);
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (autoInstallTimeoutRef.current !== null) {
+      window.clearTimeout(autoInstallTimeoutRef.current);
+    }
+
+    const platform = detectLandingPlatform(
+      window.navigator.userAgent,
+      window.navigator.maxTouchPoints,
+    );
+
+    if (platform === "desktop") {
+      return;
+    }
+
+    const launchDelay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 120 : 480;
+
+    autoInstallTimeoutRef.current = window.setTimeout(() => {
+      autoInstallTimeoutRef.current = null;
+      launchAppOrStore(platform, lang);
+    }, launchDelay);
   };
 
   return (
@@ -194,9 +246,13 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                 >
                   {content.replayLabel}
                 </button>
-                <Link href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)} className={styles.primaryButton}>
+                <button
+                  type="button"
+                  className={styles.primaryButton}
+                  onClick={handleIntroDownloadClick}
+                >
                   {content.primaryCta}
-                </Link>
+                </button>
               </div>
             </aside>
           </div>

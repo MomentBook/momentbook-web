@@ -218,6 +218,44 @@ export function canOpenInApp(platform: MobilePlatform, lang: Language, campaign:
   return Boolean(buildOpenInAppUrl(platform, lang, campaign));
 }
 
+export function launchAppOrStore(
+  platform: MobilePlatform,
+  lang: Language,
+  campaign: CampaignParams = {},
+) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const fallbackUrl = buildStoreLink(platform, lang, campaign);
+  const openInAppUrl = buildOpenInAppUrl(platform, lang, campaign);
+
+  if (!openInAppUrl) {
+    window.location.assign(fallbackUrl);
+    return;
+  }
+
+  const fallbackTimeout = window.setTimeout(() => {
+    window.location.assign(fallbackUrl);
+  }, 900);
+
+  const clearFallback = () => {
+    window.clearTimeout(fallbackTimeout);
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+    window.removeEventListener("pagehide", clearFallback);
+  };
+
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === "hidden") {
+      clearFallback();
+    }
+  };
+
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  window.addEventListener("pagehide", clearFallback, { once: true });
+  window.location.assign(openInAppUrl);
+}
+
 export function buildAppleSmartBannerContent(lang: Language, campaign: CampaignParams = {}) {
   const appArgument = buildOpenInAppUrl("ios", lang, { ...campaign, lang });
   return appArgument

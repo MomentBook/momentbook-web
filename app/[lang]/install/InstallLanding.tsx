@@ -21,8 +21,7 @@ import {
 } from "@/lib/install-campaign";
 import {
   canOpenInApp,
-  buildOpenInAppUrl,
-  buildStoreLink,
+  launchAppOrStore,
   type MobilePlatform,
   type StoreLinks,
 } from "@/lib/mobile-app";
@@ -61,44 +60,6 @@ function subscribePlatform(onStoreChange: () => void) {
 
 function getClientPlatformSnapshot() {
   return detectLandingPlatform(window.navigator.userAgent, window.navigator.maxTouchPoints);
-}
-
-function launchAppOrStore(
-  platform: MobilePlatform,
-  lang: Language,
-  campaign: CampaignParams,
-) {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  const fallbackUrl = buildStoreLink(platform, lang, campaign);
-  const openInAppUrl = buildOpenInAppUrl(platform, lang, campaign);
-
-  if (!openInAppUrl) {
-    window.location.assign(fallbackUrl);
-    return;
-  }
-
-  const fallbackTimeout = window.setTimeout(() => {
-    window.location.assign(fallbackUrl);
-  }, 900);
-
-  const clearFallback = () => {
-    window.clearTimeout(fallbackTimeout);
-    document.removeEventListener("visibilitychange", handleVisibilityChange);
-    window.removeEventListener("pagehide", clearFallback);
-  };
-
-  const handleVisibilityChange = () => {
-    if (document.visibilityState === "hidden") {
-      clearFallback();
-    }
-  };
-
-  document.addEventListener("visibilitychange", handleVisibilityChange);
-  window.addEventListener("pagehide", clearFallback, { once: true });
-  window.location.assign(openInAppUrl);
 }
 
 function StoreBadgeLink({
