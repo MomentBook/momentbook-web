@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { DownloadActionButton } from "@/components/DownloadActionButton";
 import { FadeIn } from "@/components/FadeIn";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
@@ -10,9 +11,7 @@ import {
   type ScrollActivatedVideoHandle,
 } from "@/components/ScrollActivatedVideo";
 import { type Language } from "@/lib/i18n/config";
-import { detectLandingPlatform } from "@/lib/install-campaign";
 import { scrollHomeSectionIntoView } from "@/lib/marketing/home-scroll";
-import { launchAppOrStore } from "@/lib/mobile-app";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
@@ -45,7 +44,6 @@ type HomeHeroProps = {
 export function HomeHero({ lang, content }: HomeHeroProps) {
   const introSectionRef = useRef<HTMLElement>(null);
   const introVideoRef = useRef<ScrollActivatedVideoHandle>(null);
-  const autoInstallTimeoutRef = useRef<number | null>(null);
   const [showIntroPrompt, setShowIntroPrompt] = useState(false);
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
 
@@ -64,52 +62,10 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
     };
   }, [isIntroExpanded, showIntroPrompt]);
 
-  useEffect(() => {
-    return () => {
-      if (autoInstallTimeoutRef.current !== null) {
-        window.clearTimeout(autoInstallTimeoutRef.current);
-      }
-    };
-  }, []);
-
   const scrollToIntroSection = () => {
     if (introSectionRef.current) {
       scrollHomeSectionIntoView(introSectionRef.current);
     }
-  };
-
-  const handleIntroDownloadClick = () => {
-    const downloadSection = document.getElementById(HOME_SECTION_IDS.download);
-
-    if (!(downloadSection instanceof HTMLElement)) {
-      return;
-    }
-
-    scrollHomeSectionIntoView(downloadSection);
-
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    if (autoInstallTimeoutRef.current !== null) {
-      window.clearTimeout(autoInstallTimeoutRef.current);
-    }
-
-    const platform = detectLandingPlatform(
-      window.navigator.userAgent,
-      window.navigator.maxTouchPoints,
-    );
-
-    if (platform === "desktop") {
-      return;
-    }
-
-    const launchDelay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 120 : 480;
-
-    autoInstallTimeoutRef.current = window.setTimeout(() => {
-      autoInstallTimeoutRef.current = null;
-      launchAppOrStore(platform, lang);
-    }, launchDelay);
   };
 
   return (
@@ -231,13 +187,12 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                 >
                   {content.replayLabel}
                 </button>
-                <button
-                  type="button"
+                <DownloadActionButton
+                  lang={lang}
                   className={styles.primaryButton}
-                  onClick={handleIntroDownloadClick}
                 >
                   {content.primaryCta}
-                </button>
+                </DownloadActionButton>
               </div>
             </aside>
           </div>

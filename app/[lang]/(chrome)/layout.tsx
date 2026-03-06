@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DownloadActionButton } from "@/components/DownloadActionButton";
 import styles from "./layout.module.scss";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
 import { SocialChannelLinks } from "@/components/SocialChannelLinks";
@@ -73,77 +74,68 @@ export default async function ChromeLayout({
 
       <footer className={styles.footer}>
         <div className={styles.footerContainer}>
-          <div className={styles.footerTop}>
-            <div className={styles.footerBrand}>
-              <Link href={`/${lang}`} className={styles.footerLogo}>
-                <MomentBookLogo
-                  className={styles.logoMark}
-                  iconClassName={styles.logoIcon}
-                  wordmarkClassName={styles.logoWordmark}
-                />
-              </Link>
-              <div className={styles.footerBrandMeta}>
+          <div className={styles.footerLeadGrid}>
+            <section className={styles.footerHeroCard}>
+              <div className={styles.footerHeroTop}>
+                <Link href={`/${lang}`} className={styles.footerLogo}>
+                  <MomentBookLogo
+                    className={styles.logoMark}
+                    iconClassName={styles.logoIcon}
+                    wordmarkClassName={styles.logoWordmark}
+                  />
+                </Link>
                 <p className={styles.footerSummary}>{dict.footer.summary}</p>
-                <SocialChannelLinks />
               </div>
               <div className={styles.footerActions}>
-                <Link
-                  href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)}
+                <DownloadActionButton
+                  lang={lang}
                   className={styles.footerButton}
                 >
                   {dict.footer.ctaPrimary}
-                </Link>
+                </DownloadActionButton>
                 <Link href={`/${lang}/support`} className={styles.footerButtonGhost}>
                   {dict.footer.ctaSecondary}
                 </Link>
               </div>
-            </div>
+            </section>
 
+            <aside className={styles.footerSocialCard}>
+              <SocialChannelLinks />
+              <div className={styles.footerStoreLinks}>
+                <a
+                  href={storeLinks.ios}
+                  className={styles.footerStoreLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  App Store
+                </a>
+                <a
+                  href={storeLinks.android}
+                  className={styles.footerStoreLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Google Play
+                </a>
+              </div>
+            </aside>
+          </div>
+
+          <div className={styles.footerTop}>
             <div className={styles.footerGrid}>
               <div className={styles.footerColumn}>
                 <h3 className={styles.footerHeading}>{dict.footer.sections.product}</h3>
                 <ul className={styles.footerList}>
                   <li>
-                    <Link
-                      href={`/${lang}/faq`}
-                      className={styles.footerLink}
-                    >
+                    <Link href={`/${lang}/journeys`} className={styles.footerLink}>
+                      {journeysNavLabel}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/${lang}/faq`} className={styles.footerLink}>
                       {dict.nav.faq}
                     </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div className={styles.footerColumn}>
-                <h3 className={styles.footerHeading}>{dict.footer.sections.download}</h3>
-                <ul className={styles.footerList}>
-                  <li>
-                    <Link
-                      href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)}
-                      className={styles.footerLink}
-                    >
-                      {dict.nav.download}
-                    </Link>
-                  </li>
-                  <li>
-                    <a
-                      href={storeLinks.ios}
-                      className={styles.footerLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      App Store
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href={storeLinks.android}
-                      className={styles.footerLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Google Play
-                    </a>
                   </li>
                 </ul>
               </div>
