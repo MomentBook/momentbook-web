@@ -1,29 +1,27 @@
 # MomentBook
 
-> A quiet journey archive that can start with tracking or photos. Not a social network—no feeds, likes, or rankings. Private by default with optional publishing.
+> A quiet archive for travel moments. The web explains the app and shows published journeys, moments, photos, and profiles as read-only pages.
 
 ## Main Sections
 
-- [About](https://momentbook.app/en/about): Two ways to begin (tracking or photos), product principles, and philosophy
-- [FAQ](https://momentbook.app/en/faq): Common questions about how MomentBook works, privacy, and features
-- [Download](https://momentbook.app/en/download): iOS and Android apps (free), system requirements, and getting started
+- [Home](https://momentbook.app/en): Product intro, app download, and FAQ sections
 - [Journeys](https://momentbook.app/en/journeys): Examples of published journeys (public content)
+- [Users](https://momentbook.app/en/users): Public profiles and published journey lists
 
 ## Product Principles
 
-- Two ways to begin: tracking-based journey or photo-only organization
+- One post-trip flow: upload photos in batch, then revisit them by timeline and map
+- Photos are organized by date and time, with manual cleanup available when needed
 - Private by default; publishing is optional and creates a unique public page
+- The web is read-only; it does not recreate app authoring or editing flows
 - No social features: no feeds, likes, or rankings
-- AI helps with titles and summaries but doesn't create for you
-- Not a habit tracker, productivity tool, or recommendation engine
-- A quiet archive for returning to journeys
 
 ## Technical Info
 
-- **Mobile apps**: iOS 16.0 or later, Android 10.0 or later
+- **Mobile apps**: iOS 15.1 or later, Android 7.0 or later
 - **Web**: Read-only public content (journeys, photos, user profiles)
 - **Languages**: English, Korean, Japanese, Chinese, Spanish, Portuguese, French, Thai, Vietnamese (9 languages supported)
-- **Architecture**: Next.js 16 (App Router), React 18, TypeScript, SSG + ISR
+- **Architecture**: Next.js 16 (App Router), React 18, TypeScript, route-level revalidation
 
 ## Policies & Support
 
@@ -34,4 +32,4 @@
 
 ## What MomentBook Is Not
 
-MomentBook is not a social network, habit tracker, productivity tool, or performance optimizer. It doesn't have feeds, likes, rankings, or social interactions. It's not designed for sharing as a primary goal. It's a quiet archive for returning to your own journeys.
+MomentBook is not a social network, productivity tool, habit tracker, or ranking system. It doesn't have feeds, likes, rankings, or web publishing flows beyond read-only access to already published content.

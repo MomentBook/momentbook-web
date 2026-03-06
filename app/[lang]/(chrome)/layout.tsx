@@ -7,6 +7,7 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { ScrollHeader } from "@/components/ScrollHeader";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { type Language } from "@/lib/i18n/config";
+import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 
 const supportEmail =
@@ -49,10 +50,10 @@ export default async function ChromeLayout({
           </Link>
 
           <div className={styles.desktopNav}>
-            <Link href={`/${lang}/faq`} className={styles.navLink}>
+            <Link href={buildHomeSectionHref(lang, HOME_SECTION_IDS.faq)} className={styles.navLink}>
               {dict.nav.faq}
             </Link>
-            <Link href={`/${lang}/download`} className={styles.navLink}>
+            <Link href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)} className={styles.navLink}>
               {dict.nav.download}
             </Link>
           </div>
@@ -85,7 +86,10 @@ export default async function ChromeLayout({
               </Link>
               <p className={styles.footerSummary}>{dict.footer.summary}</p>
               <div className={styles.footerActions}>
-                <Link href={`/${lang}/download`} className={styles.footerButton}>
+                <Link
+                  href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)}
+                  className={styles.footerButton}
+                >
                   {dict.footer.ctaPrimary}
                 </Link>
                 <Link href={`/${lang}/support`} className={styles.footerButtonGhost}>
@@ -99,7 +103,10 @@ export default async function ChromeLayout({
                 <h3 className={styles.footerHeading}>{dict.footer.sections.product}</h3>
                 <ul className={styles.footerList}>
                   <li>
-                    <Link href={`/${lang}/faq`} className={styles.footerLink}>
+                    <Link
+                      href={buildHomeSectionHref(lang, HOME_SECTION_IDS.faq)}
+                      className={styles.footerLink}
+                    >
                       {dict.nav.faq}
                     </Link>
                   </li>
@@ -110,7 +117,10 @@ export default async function ChromeLayout({
                 <h3 className={styles.footerHeading}>{dict.footer.sections.download}</h3>
                 <ul className={styles.footerList}>
                   <li>
-                    <Link href={`/${lang}/download`} className={styles.footerLink}>
+                    <Link
+                      href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)}
+                      className={styles.footerLink}
+                    >
                       {dict.nav.download}
                     </Link>
                   </li>

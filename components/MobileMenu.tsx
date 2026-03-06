@@ -8,6 +8,7 @@ import { type Language } from "@/lib/i18n/config";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
 import { LanguageDropdown } from "@/components/LanguageDropdown";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
 import styles from "./MobileMenu.module.scss";
 
 interface MobileMenuProps {
@@ -30,8 +31,8 @@ const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabi
 
 function createMenuLinks(lang: Language, dict: MobileMenuProps["dict"]): MobileMenuLink[] {
   return [
-    { href: `/${lang}/faq`, label: dict.nav.faq },
-    { href: `/${lang}/download`, label: dict.nav.download },
+    { href: buildHomeSectionHref(lang, HOME_SECTION_IDS.faq), label: dict.nav.faq },
+    { href: buildHomeSectionHref(lang, HOME_SECTION_IDS.download), label: dict.nav.download },
   ];
 }
 

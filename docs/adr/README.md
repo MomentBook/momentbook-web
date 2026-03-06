@@ -45,9 +45,9 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: 공개 콘텐츠 API 우선, host 후보 fallback fetch, generated API 타입 계약
 
 6. [ADR 0006: Segmented Sitemaps (Index + Sub-sitemaps)](./0006-segmented-sitemaps.md)
-- Date: 2026-01-29 (updated: 2026-02-12)
+- Date: 2026-01-29 (updated: 2026-03-06)
 - Status: Accepted
-- Summary: `/sitemap.xml` index + 리소스 분할 sitemap route handlers + hreflang alternates
+- Summary: `/sitemap.xml` index + 리소스 분할 sitemap route handlers + home/journeys/users 중심 static sitemap
 
 7. [ADR 0007: Web Analytics Integration (GA4 + Firebase-ready modules)](./0007-firebase-analytics-integration.md)
 - Date: 2026-02-06 (updated: 2026-02-12)
@@ -55,9 +55,9 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: production GA4 script + route page_view tracker, Firebase helper 모듈 준비 상태 유지
 
 8. [ADR 0008: AEO/GEO Optimization](./0008-aeo-geo-optimization.md)
-- Date: 2026-02-09 (updated: 2026-02-12)
+- Date: 2026-02-09 (updated: 2026-03-06)
 - Status: Accepted
-- Summary: answer-ready sections, JSON-LD 보강, 내부 링크 강화, `llms.txt` 제공
+- Summary: 홈 중심 answer-ready sections + Home JSON-LD 보강 + in-page anchor linking + `llms.txt` 제공
 
 9. [ADR 0009: Web Authentication and Reporting Flow](./0009-web-authentication-and-reporting-flow.md)
 - Date: 2026-02-12

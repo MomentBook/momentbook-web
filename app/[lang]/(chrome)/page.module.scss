@@ -5,6 +5,30 @@
         calc(var(--spacing-xl) * 1.08);
 }
 
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.hero,
+.introSection,
+.homeSection {
+    scroll-margin-top: clamp(5.4rem, 10vw, 7rem);
+}
+
+.introSection:focus-visible,
+.homeSection:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-accent) 72%, #fff);
+    outline-offset: 4px;
+}
+
 .hero {
     position: relative;
     overflow: hidden;
@@ -379,6 +403,377 @@
     box-shadow: var(--shadow-glass-md);
     backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
     -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+}
+
+.homeSection {
+    margin-top: clamp(1.6rem, 4vw, 2.4rem);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding: clamp(1.25rem, 3.2vw, 1.8rem);
+    border-radius: 1.5rem;
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--glass-border-strong) 78%,
+            var(--color-accent-secondary) 22%
+        );
+    background:
+        radial-gradient(
+            circle at 18% -12%,
+            rgba(255, 255, 255, 0.22),
+            transparent 48%
+        ),
+        radial-gradient(
+            circle at 88% 108%,
+            color-mix(in srgb, var(--color-accent-secondary) 16%, transparent),
+            transparent 54%
+        ),
+        linear-gradient(
+            152deg,
+            color-mix(in srgb, var(--surface-glass-strong) 66%, transparent) 0%,
+            color-mix(in srgb, var(--surface-glass-soft) 56%, transparent) 52%,
+            color-mix(in srgb, var(--surface-glass) 50%, transparent) 100%
+        );
+    box-shadow: var(--shadow-glass-md);
+    backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(146%);
+}
+
+.homeSection::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.18) 0%,
+            rgba(255, 255, 255, 0.04) 46%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle at 14% 16%,
+            rgba(255, 255, 255, 0.12),
+            transparent 48%
+        );
+}
+
+.homeSection > * {
+    position: relative;
+    z-index: 1;
+}
+
+.sectionHeader {
+    display: grid;
+    gap: 0.52rem;
+    justify-items: center;
+    text-align: center;
+    max-width: 42rem;
+    margin: 0 auto clamp(1.15rem, 3.4vw, 1.8rem);
+}
+
+.sectionEyebrow {
+    width: fit-content;
+    margin: 0;
+    padding: 0.34rem 0.68rem;
+    border-radius: 999px;
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--glass-border-strong) 82%,
+            rgba(255, 255, 255, 0.78)
+        );
+    background: linear-gradient(
+        152deg,
+        color-mix(in srgb, var(--surface-glass-strong) 74%, transparent),
+        color-mix(in srgb, var(--surface-glass-soft) 66%, transparent)
+    );
+    color: var(--color-text-secondary);
+    font-size: 0.74rem;
+    font-weight: 620;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.sectionTitle {
+    margin: 0;
+    font-size: clamp(1.26rem, 3vw, 1.82rem);
+    line-height: 1.14;
+    letter-spacing: -0.025em;
+    color: var(--color-text-primary);
+}
+
+.sectionLead {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+}
+
+.downloadSection {
+    background:
+        radial-gradient(
+            circle at 14% -14%,
+            rgba(255, 255, 255, 0.22),
+            transparent 46%
+        ),
+        radial-gradient(
+            circle at 92% 114%,
+            color-mix(in srgb, var(--color-accent) 18%, transparent),
+            transparent 52%
+        ),
+        linear-gradient(
+            150deg,
+            color-mix(in srgb, var(--surface-glass-strong) 68%, transparent) 0%,
+            color-mix(in srgb, var(--surface-glass-soft) 56%, transparent) 48%,
+            color-mix(in srgb, var(--surface-glass) 48%, transparent) 100%
+        );
+}
+
+.downloadGrid {
+    display: grid;
+    gap: 1rem;
+    align-items: start;
+
+    @media (min-width: 860px) {
+        grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+        gap: 1.1rem;
+    }
+}
+
+.downloadCopy {
+    display: grid;
+    align-content: start;
+}
+
+.storeButtons {
+    display: grid;
+    gap: 0.72rem;
+    width: 100%;
+    max-width: 21rem;
+    margin: 0 auto;
+
+    @media (min-width: 860px) {
+        margin: 0;
+    }
+}
+
+.storeButton {
+    display: block;
+    border-radius: 1rem;
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--glass-border-strong) 84%,
+            rgba(255, 255, 255, 0.78)
+        );
+    background: color-mix(in srgb, var(--surface-glass-strong) 88%, #fff);
+    box-shadow: var(--shadow-glass-sm);
+    overflow: hidden;
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.storeButton:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--color-accent) 54%, var(--glass-border));
+    box-shadow: var(--shadow-glass-md);
+}
+
+.storeBadge {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.platformGrid {
+    display: grid;
+    gap: 0.82rem;
+
+    @media (min-width: 620px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.platformCard {
+    display: grid;
+    gap: 0.4rem;
+    min-height: 100%;
+    padding: 1rem;
+    border-radius: 1.15rem;
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--glass-border-strong) 80%,
+            rgba(255, 255, 255, 0.72)
+        );
+    background: linear-gradient(
+        154deg,
+        color-mix(in srgb, var(--surface-glass-strong) 88%, #fff),
+        color-mix(in srgb, var(--surface-glass-soft) 84%, #fff)
+    );
+    box-shadow: var(--shadow-glass-sm);
+}
+
+.platformTitle {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 640;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+}
+
+.platformDetail {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+}
+
+.faqSection {
+    background:
+        radial-gradient(
+            circle at 8% -16%,
+            rgba(255, 255, 255, 0.22),
+            transparent 44%
+        ),
+        radial-gradient(
+            circle at 92% 106%,
+            color-mix(in srgb, #bdf6eb 18%, transparent),
+            transparent 54%
+        ),
+        linear-gradient(
+            152deg,
+            color-mix(in srgb, var(--surface-glass-strong) 68%, transparent) 0%,
+            color-mix(in srgb, var(--surface-glass-soft) 58%, transparent) 52%,
+            color-mix(in srgb, var(--surface-glass) 50%, transparent) 100%
+        );
+}
+
+.faqGroups {
+    display: grid;
+    gap: 0.95rem;
+
+    @media (min-width: 980px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.faqGroupCard {
+    display: grid;
+    gap: 1rem;
+    min-height: 100%;
+    padding: 1rem;
+    border-radius: 1.15rem;
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--glass-border-strong) 80%,
+            rgba(255, 255, 255, 0.72)
+        );
+    background: linear-gradient(
+        154deg,
+        color-mix(in srgb, var(--surface-glass-strong) 88%, #fff),
+        color-mix(in srgb, var(--surface-glass-soft) 84%, #fff)
+    );
+    box-shadow: var(--shadow-glass-sm);
+}
+
+.faqGroupHeader {
+    display: grid;
+    gap: 0.34rem;
+}
+
+.faqGroupTitle {
+    margin: 0;
+    font-size: 1.04rem;
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+}
+
+.faqGroupDescription {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.62;
+    color: var(--color-text-secondary);
+}
+
+.faqList {
+    display: grid;
+    gap: 0.72rem;
+}
+
+.faqItem {
+    border-radius: 0.96rem;
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--glass-border-strong) 80%,
+            rgba(255, 255, 255, 0.72)
+        );
+    background: color-mix(in srgb, var(--surface-glass-soft) 86%, #fff);
+    overflow: hidden;
+}
+
+.faqQuestion {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    list-style: none;
+    padding: 0.9rem 1rem;
+    padding-right: 2.85rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.faqQuestion::-webkit-details-marker {
+    display: none;
+}
+
+.faqQuestion::after {
+    content: "+";
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--color-accent);
+    transition: transform 0.2s ease;
+}
+
+.faqItem[open] .faqQuestion::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.faqAnswer {
+    margin: 0;
+    padding: 0 1rem 1rem;
+    font-size: 0.88rem;
+    line-height: 1.68;
+    color: var(--color-text-secondary);
+}
+
+.faqCallout {
+    margin: 1.15rem auto 0;
+    max-width: 38rem;
+    text-align: center;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+}
+
+.faqCalloutLink {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.16em;
 }
 
 .introSection::before {

@@ -11,6 +11,7 @@ import {
   type ScrollActivatedVideoHandle,
 } from "@/components/ScrollActivatedVideo";
 import { type Language } from "@/lib/i18n/config";
+import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
 export type HomeHeroContent = {
@@ -71,6 +72,7 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
       top: section.getBoundingClientRect().top + window.scrollY,
       behavior: "smooth",
     });
+    section.focus({ preventScroll: true });
   };
 
   return (
@@ -110,8 +112,14 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
 
       <section
         ref={introSectionRef}
+        id={HOME_SECTION_IDS.overview}
+        tabIndex={-1}
         className={`${styles.introSection} ${isIntroExpanded ? styles.introSectionExpanded : ""}`}
+        aria-labelledby="overview-title"
       >
+        <h2 id="overview-title" className={styles.srOnly}>
+          {content.heroTutorialCta}
+        </h2>
         <FadeIn delay={140} className={styles.introStageWrap}>
           <div className={styles.introStage}>
             <div className={styles.introMediaPane}>
@@ -186,7 +194,7 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                 >
                   {content.replayLabel}
                 </button>
-                <Link href={`/${lang}/download`} className={styles.primaryButton}>
+                <Link href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)} className={styles.primaryButton}>
                   {content.primaryCta}
                 </Link>
               </div>

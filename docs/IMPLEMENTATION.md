@@ -29,7 +29,9 @@ MomentBook 웹은 공개 소개 + 공개 여정/사진 페이지를 제공하는
 ```
 
 - 다국어 라우팅: `app/[lang]/...`
-- `/{lang}/how-it-works`는 `/{lang}`으로 영구 리다이렉트
+- `/{lang}`는 intro, download, FAQ 섹션을 하나의 스크롤 표면으로 렌더링
+- `/{lang}/how-it-works`는 `/{lang}#overview`로 영구 리다이렉트
+- `/{lang}/download`, `/{lang}/faq`는 각각 `/{lang}#download`, `/{lang}#faq`로 영구 리다이렉트
 - 공개 콘텐츠 페이지는 `revalidate = 3600`
 
 ---

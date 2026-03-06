@@ -14,13 +14,8 @@ export async function GET() {
     process.env.NEXT_PUBLIC_SITEMAP_STATIC_LASTMOD ?? null,
   );
 
-  // Static marketing pages
-  const marketingPages = ["download"];
-
   // Static content pages
-  const contentPages = ["faq", "journeys", "users"];
-
-  const allPages = [...marketingPages, ...contentPages];
+  const contentPages = ["journeys", "users"];
 
   const urls: SitemapUrlEntry[] = [];
 
@@ -36,7 +31,7 @@ export async function GET() {
   });
 
   // All static pages for each language
-  allPages.forEach((page) => {
+  contentPages.forEach((page) => {
     languageList.forEach((lang) => {
       urls.push({
         loc: `${siteUrl}/${lang}/${page}`,

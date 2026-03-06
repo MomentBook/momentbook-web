@@ -3,10 +3,22 @@ import Link from "next/link";
 import styles from "./support.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 
 const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
 const supportHref = `mailto:${supportEmail}`;
+const faqHrefByLanguage: Record<Language, string> = {
+  en: buildHomeSectionHref("en", HOME_SECTION_IDS.faq),
+  ko: buildHomeSectionHref("ko", HOME_SECTION_IDS.faq),
+  ja: buildHomeSectionHref("ja", HOME_SECTION_IDS.faq),
+  zh: buildHomeSectionHref("zh", HOME_SECTION_IDS.faq),
+  es: buildHomeSectionHref("es", HOME_SECTION_IDS.faq),
+  pt: buildHomeSectionHref("pt", HOME_SECTION_IDS.faq),
+  fr: buildHomeSectionHref("fr", HOME_SECTION_IDS.faq),
+  th: buildHomeSectionHref("th", HOME_SECTION_IDS.faq),
+  vi: buildHomeSectionHref("vi", HOME_SECTION_IDS.faq),
+};
 
 export async function generateMetadata({
   params,
@@ -117,7 +129,7 @@ function EnglishSupport() {
 
         <p>
           You might find a quick answer in our{" "}
-          <Link href="/en/faq" className={styles.link}>
+          <Link href={faqHrefByLanguage.en} className={styles.link}>
             FAQ
           </Link>
           .
@@ -155,7 +167,7 @@ function KoreanSupport() {
         <h2 className={styles.heading2}>자주 묻는 질문</h2>
 
         <p>
-          <Link href="/ko/faq" className={styles.link}>
+          <Link href={faqHrefByLanguage.ko} className={styles.link}>
             FAQ
           </Link>
           에서 먼저 확인해 보실 수 있습니다.
@@ -193,7 +205,7 @@ function JapaneseSupport() {
         <h2 className={styles.heading2}>よくある質問</h2>
 
         <p>
-          <Link href="/ja/faq" className={styles.link}>
+          <Link href={faqHrefByLanguage.ja} className={styles.link}>
             FAQ
           </Link>
           に回答があるかもしれません。
@@ -232,7 +244,7 @@ function ChineseSupport() {
 
         <p>
           你可能可以在{" "}
-          <Link href="/zh/faq" className={styles.link}>
+          <Link href={faqHrefByLanguage.zh} className={styles.link}>
             FAQ
           </Link>
           中先查看答案。
@@ -267,7 +279,7 @@ function SpanishSupport() {
         <h2 className={styles.heading2}>Preguntas frecuentes</h2>
         <p>
           Puedes encontrar respuestas rápidas en{" "}
-          <Link href="/es/faq" className={styles.link}>FAQ</Link>.
+          <Link href={faqHrefByLanguage.es} className={styles.link}>FAQ</Link>.
         </p>
         <h2 className={styles.heading2}>Contacto</h2>
         <p>
@@ -291,7 +303,7 @@ function PortugueseSupport() {
         <h2 className={styles.heading2}>Perguntas frequentes</h2>
         <p>
           Você pode encontrar respostas rápidas no{" "}
-          <Link href="/pt/faq" className={styles.link}>FAQ</Link>.
+          <Link href={faqHrefByLanguage.pt} className={styles.link}>FAQ</Link>.
         </p>
         <h2 className={styles.heading2}>Contato</h2>
         <p>
@@ -315,7 +327,7 @@ function FrenchSupport() {
         <h2 className={styles.heading2}>Questions fréquentes</h2>
         <p>
           Vous pouvez trouver une réponse rapide dans la{" "}
-          <Link href="/fr/faq" className={styles.link}>FAQ</Link>.
+          <Link href={faqHrefByLanguage.fr} className={styles.link}>FAQ</Link>.
         </p>
         <h2 className={styles.heading2}>Contact</h2>
         <p>
@@ -339,7 +351,7 @@ function ThaiSupport() {
         <h2 className={styles.heading2}>คําถามที่พบบ่อย</h2>
         <p>
           คุณอาจพบคําตอบได้จาก{" "}
-          <Link href="/th/faq" className={styles.link}>FAQ</Link>
+          <Link href={faqHrefByLanguage.th} className={styles.link}>FAQ</Link>
         </p>
         <h2 className={styles.heading2}>ติดต่อ</h2>
         <p>
@@ -363,7 +375,7 @@ function VietnameseSupport() {
         <h2 className={styles.heading2}>Câu hỏi thường gặp</h2>
         <p>
           Bạn có thể tìm thấy câu trả lời nhanh trong{" "}
-          <Link href="/vi/faq" className={styles.link}>FAQ</Link>.
+          <Link href={faqHrefByLanguage.vi} className={styles.link}>FAQ</Link>.
         </p>
         <h2 className={styles.heading2}>Liên hệ</h2>
         <p>
