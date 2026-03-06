@@ -9,9 +9,7 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { ScrollHeader } from "@/components/ScrollHeader";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { type Language } from "@/lib/i18n/config";
-import { getDownloadCopy } from "@/lib/marketing/download-content";
 import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
-import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 
 const supportEmail =
   process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -37,8 +35,6 @@ export default async function ChromeLayout({
 }) {
   const { lang } = await params as { lang: Language };
   const dict = await getDictionary(lang);
-  const downloadContent = getDownloadCopy(lang);
-  const storeLinks = getCanonicalStoreLinks(lang);
   const journeysNavLabel = journeysNavLabelMap[lang] ?? journeysNavLabelMap.en;
 
   return (
@@ -106,24 +102,6 @@ export default async function ChromeLayout({
                 ariaLabel={dict.footer.social.groupLabel}
                 linkLabels={dict.footer.social.links}
               />
-              <div className={styles.footerStoreLinks}>
-                <a
-                  href={storeLinks.ios}
-                  className={styles.footerStoreLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {downloadContent.iosName}
-                </a>
-                <a
-                  href={storeLinks.android}
-                  className={styles.footerStoreLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {downloadContent.androidName}
-                </a>
-              </div>
             </aside>
           </div>
 
