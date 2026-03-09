@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { DownloadQrModal } from "@/components/DownloadQrModal";
 import { type Language } from "@/lib/i18n/config";
 import { detectLandingPlatform } from "@/lib/install-campaign";
 import { scrollHomeSectionIntoView } from "@/lib/marketing/home-scroll";
-import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
+import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import { launchAppOrStore } from "@/lib/mobile-app";
 
 type DownloadActionButtonProps = {
@@ -19,8 +19,8 @@ export function DownloadActionButton({
   className,
   children,
 }: DownloadActionButtonProps) {
-  const router = useRouter();
   const launchTimeoutRef = useRef<number | null>(null);
+  const [isQrOpen, setIsQrOpen] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -41,19 +41,17 @@ export function DownloadActionButton({
       window.navigator.maxTouchPoints,
     );
 
+    if (platform === "desktop") {
+      setIsQrOpen(true);
+      return;
+    }
+
     if (downloadSection instanceof HTMLElement) {
       scrollHomeSectionIntoView(downloadSection);
-    } else if (platform === "desktop") {
-      router.push(buildHomeSectionHref(lang, HOME_SECTION_IDS.download));
-      return;
     }
 
     if (launchTimeoutRef.current !== null) {
       window.clearTimeout(launchTimeoutRef.current);
-    }
-
-    if (platform === "desktop") {
-      return;
     }
 
     const launchDelay = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -67,8 +65,17 @@ export function DownloadActionButton({
   };
 
   return (
-    <button type="button" className={className} onClick={handleClick}>
-      {children}
-    </button>
+    <>
+      <button type="button" className={className} onClick={handleClick}>
+        {children}
+      </button>
+      <DownloadQrModal
+        lang={lang}
+        isOpen={isQrOpen}
+        onClose={() => {
+          setIsQrOpen(false);
+        }}
+      />
+    </>
   );
 }

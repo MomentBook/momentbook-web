@@ -32,10 +32,10 @@ MomentBook Web은 다음 역할만 수행한다.
 현재 홈(`/`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
 
 - Hero 섹션: 핵심 소개 문구 + CTA(튜토리얼 보기, intro video 카드로 smooth scroll) + 우측 DeviceMock 프리뷰
-- Intro video 섹션: hero와 동일 폭 카드에서 landscape 인트로 영상 재생(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%), 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환 제공, 영상 종료 시 전체화면은 자동 해제되고 컨트롤은 숨김 처리되며 재생은 우측 안내 패널의 "인트로 다시 보기" 버튼으로만 가능, 종료 후 "앱에서 정리해보기" CTA 노출 및 약 2초 후 자동 전개(수동 클릭도 가능), 전개 시 영상 축소 + 우측 안내/다운로드 액션 노출, 다운로드 버튼 클릭 시 `#download`로 스크롤하며 모바일에서는 플랫폼별 앱 열기 또는 스토어 fallback을 시도
-- Download 섹션: App Store / Google Play CTA를 유지하고, 데스크톱에서는 locale-aware install landing으로 이어지는 QR handoff 카드를 함께 노출
+- Intro video 섹션: hero와 동일 폭 카드에서 landscape 인트로 영상 재생(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%), 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환 제공, 영상 종료 시 전체화면은 자동 해제되고 컨트롤은 숨김 처리되며 재생은 우측 안내 패널의 "인트로 다시 보기" 버튼으로만 가능, 종료 후 "앱에서 정리해보기" CTA 노출 및 약 2초 후 자동 전개(수동 클릭도 가능), 전개 시 영상 축소 + 우측 안내/다운로드 액션 노출, 데스크톱의 다운로드 버튼은 QR modal을 열고 모바일에서는 플랫폼별 앱 열기 또는 스토어 fallback을 시도
+- Download 섹션: App Store / Google Play CTA와 가용성 안내 문구를 중심으로 노출
 - 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
-- shared footer는 브랜드 CTA 카드와 채널/스토어 카드로 재구성되어 있으며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(홈 download 섹션 정렬 + 모바일 앱/스토어 launch)를 사용한다.
+- shared footer는 브랜드 CTA 카드와 채널/스토어 카드로 재구성되어 있으며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(데스크톱 QR modal + 모바일 앱/스토어 launch)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
 `/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing을 휴대폰에서 이어 열 수 있도록 QR handoff 카드를 함께 노출한다.
 이 경로는 `app/[lang]/install/*`에서 독립적으로 렌더링되고, 나머지 공개 페이지의 공통 chrome은 `app/[lang]/(chrome)/layout.tsx`가 담당한다.
@@ -200,7 +200,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 언어 공통 래퍼: `app/[lang]/layout.tsx`
 - 헤더/푸터 공통 레이아웃: `app/[lang]/(chrome)/layout.tsx`
 - shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus store links and the shared download CTA
-- 홈 download 섹션과 `/{lang}/install`의 데스크톱 표면은 QR handoff + 공식 스토어 배지를 함께 유지해 휴대폰 전환과 직접 스토어 이동을 둘 다 지원한다.
+- 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 QR modal을 열고, `/{lang}/install`은 데스크톱에서 QR handoff + 공식 스토어 배지를 함께 유지한다.
 - `/{lang}/install`은 shared chrome을 타지 않는 standalone route다.
 
 ## 11) Environment Variables

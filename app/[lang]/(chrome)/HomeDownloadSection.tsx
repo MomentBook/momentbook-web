@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { DownloadQrCard } from "@/components/DownloadQrCard";
 import { FadeIn } from "@/components/FadeIn";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
@@ -10,14 +9,9 @@ import styles from "./page.module.scss";
 type HomeDownloadSectionProps = {
   lang: Language;
   content: DownloadCopy;
-  qrSvgMarkup: string;
 };
 
-export function HomeDownloadSection({
-  lang,
-  content,
-  qrSvgMarkup,
-}: HomeDownloadSectionProps) {
+export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps) {
   const storeLinks = getCanonicalStoreLinks(lang);
 
   return (
@@ -69,14 +63,6 @@ export function HomeDownloadSection({
 
             <p className={styles.downloadAvailability}>{content.availability}</p>
           </div>
-        </FadeIn>
-
-        <FadeIn delay={180} className={styles.downloadQrPanel}>
-          <DownloadQrCard
-            title={content.desktopQrTitle}
-            description={content.desktopQrLead}
-            svgMarkup={qrSvgMarkup}
-          />
         </FadeIn>
       </div>
     </section>

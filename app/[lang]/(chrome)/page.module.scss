@@ -546,10 +546,6 @@
     gap: 0.56rem;
 }
 
-.downloadQrPanel {
-    display: none;
-}
-
 .downloadHeroTitle {
     margin: 0;
     font-size: clamp(1.36rem, 3.2vw, 1.98rem);
@@ -591,32 +587,6 @@
     color: var(--color-text-tertiary);
     margin-top: 0.78rem;
     text-align: center;
-}
-
-@media (min-width: 980px) {
-    .downloadHeroInner {
-        grid-template-columns: minmax(0, 1.12fr) minmax(16.8rem, 0.88fr);
-        gap: 1.35rem;
-    }
-
-    .downloadHeroCopy {
-        align-self: stretch;
-        padding-right: clamp(0rem, 2vw, 1rem);
-    }
-
-    .downloadHeroTitle,
-    .downloadAvailability {
-        text-align: left;
-    }
-
-    .downloadStoreButtons {
-        justify-content: flex-start;
-    }
-
-    .downloadQrPanel {
-        display: block;
-        align-self: stretch;
-    }
 }
 
 .introSection::before {
