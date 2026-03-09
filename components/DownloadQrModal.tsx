@@ -1,12 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { createPortal } from "react-dom";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { MomentBookLogo } from "@/components/MomentBookLogo";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { type Language } from "@/lib/i18n/config";
-import { getDownloadCopy } from "@/lib/marketing/download-content";
-import { buildAbsoluteInstallLandingUrl, getCanonicalStoreLinks } from "@/lib/mobile-app";
+import { buildAbsoluteInstallLandingUrl } from "@/lib/mobile-app";
 import styles from "./DownloadQrModal.module.scss";
 
 type DownloadQrModalProps = {
@@ -76,11 +73,7 @@ export function DownloadQrModal({
   isOpen,
   onClose,
 }: DownloadQrModalProps) {
-  const content = getDownloadCopy(lang);
-  const storeLinks = getCanonicalStoreLinks(lang);
   const labels = modalLabelsByLanguage[lang] ?? modalLabelsByLanguage.en;
-  const titleId = useId();
-  const descriptionId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [svgMarkup, setSvgMarkup] = useState("");
@@ -197,8 +190,7 @@ export function DownloadQrModal({
         className={styles.modal}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={titleId}
-        aria-describedby={descriptionId}
+        aria-label={labels.dialogLabel}
         onClick={(event) => event.stopPropagation()}
       >
         <button
@@ -223,77 +215,18 @@ export function DownloadQrModal({
           </svg>
         </button>
 
-        <div className={styles.shell}>
-          <div className={styles.header}>
-            <MomentBookLogo
-              className={styles.logo}
-              iconClassName={styles.logoIcon}
-              wordmarkClassName={styles.logoWordmark}
-              iconSize={28}
-              wordmarkWidth={132}
-              wordmarkHeight={32}
-            />
+        <div className={styles.qrStage}>
+          <div className={styles.qrSurface} aria-hidden="true">
+            {svgMarkup ? (
+              <div
+                className={styles.qrCode}
+                dangerouslySetInnerHTML={{ __html: svgMarkup }}
+              />
+            ) : (
+              <div className={styles.qrSkeleton} />
+            )}
           </div>
-
-          <div className={styles.body}>
-            <div className={styles.copy}>
-              <h2 id={titleId} className={styles.title}>
-                {content.desktopQrTitle}
-              </h2>
-              <p id={descriptionId} className={styles.lead}>
-                {content.desktopQrLead}
-              </p>
-
-              <div className={styles.storeButtons}>
-                <a
-                  href={storeLinks.ios}
-                  className={styles.storeButton}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={content.iosName}
-                >
-                  <Image
-                    src="/images/download/app-store-button.webp"
-                    alt={content.iosName}
-                    width={635}
-                    height={200}
-                    className={styles.storeBadge}
-                  />
-                </a>
-                <a
-                  href={storeLinks.android}
-                  className={styles.storeButton}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={content.androidName}
-                >
-                  <Image
-                    src="/images/download/google-play-button.webp"
-                    alt={content.androidName}
-                    width={636}
-                    height={200}
-                    className={styles.storeBadge}
-                  />
-                </a>
-              </div>
-
-              <p className={styles.availability}>{content.availability}</p>
-            </div>
-
-            <div className={styles.qrStage}>
-              <div className={styles.qrSurface} aria-hidden="true">
-                {svgMarkup ? (
-                  <div
-                    className={styles.qrCode}
-                    dangerouslySetInnerHTML={{ __html: svgMarkup }}
-                  />
-                ) : (
-                  <div className={styles.qrSkeleton} />
-                )}
-              </div>
-              <p className={styles.qrHint}>{labels.scanHint}</p>
-            </div>
-          </div>
+          <p className={styles.qrHint}>{labels.scanHint}</p>
         </div>
       </div>
     </div>,
