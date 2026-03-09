@@ -11,23 +11,14 @@ import styles from "./users.module.scss";
 
 export const revalidate = 3600;
 
-const userListLabels: Partial<Record<Language, {
+const userListLabels: Record<Language, {
   title: string;
   subtitle: string;
   searchPlaceholder: string;
   countLabel: string;
   empty: string;
   journeysLabel: string;
-}>> & {
-  en: {
-    title: string;
-    subtitle: string;
-    searchPlaceholder: string;
-    countLabel: string;
-    empty: string;
-    journeysLabel: string;
-  };
-} = {
+}> = {
   en: {
     title: "Published profiles",
     subtitle: "Profiles that share published journeys from MomentBook.",

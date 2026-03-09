@@ -46,9 +46,7 @@ type JourneyPageLabels = {
     unknownUserLabel: string;
 };
 
-const journeyPageLabels: Partial<Record<Language, JourneyPageLabels>> & {
-    en: JourneyPageLabels;
-} = {
+const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     en: {
         title: "Journeys",
         subtitle: "Shared journeys on MomentBook.",

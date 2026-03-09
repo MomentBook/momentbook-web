@@ -48,9 +48,7 @@ type UserPageLabels = {
 
 const JOURNEYS_PER_PAGE = 16;
 
-const userLabels: Partial<Record<Language, UserPageLabels>> & {
-  en: UserPageLabels;
-} = {
+const userLabels: Record<Language, UserPageLabels> = {
   en: {
     profileEyebrow: "Profile",
     journeys: "Journeys",
@@ -188,9 +186,7 @@ const userLabels: Partial<Record<Language, UserPageLabels>> & {
   },
 };
 
-const userDescriptionTemplates: Partial<Record<Language, string>> & {
-  en: string;
-} = {
+const userDescriptionTemplates: Record<Language, string> = {
   en: "Journeys shared by {name} on MomentBook.",
   ko: "{name}님이 MomentBook에서 공유한 여정입니다.",
   ja: "{name}さんが MomentBook で共有した旅です。",

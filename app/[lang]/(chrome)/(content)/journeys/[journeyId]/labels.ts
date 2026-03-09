@@ -14,9 +14,7 @@ export type JourneyLabels = {
     profileLinkLabel: string;
 };
 
-export const journeyLabels: Partial<Record<Language, JourneyLabels>> & {
-    en: JourneyLabels;
-} = {
+export const journeyLabels: Record<Language, JourneyLabels> = {
     en: {
         eyebrow: "Journey",
         photoCount: "photos",

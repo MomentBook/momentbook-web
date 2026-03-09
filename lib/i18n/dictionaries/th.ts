@@ -6,7 +6,7 @@ export const th: Dictionary = {
     about: "เกี่ยวกับ",
     howItWorks: "สองวิธีเริ่มต้น",
     download: "ดาวน์โหลด",
-    faq: "FAQ",
+    faq: "คำถามที่พบบ่อย",
     support: "ซัพพอร์ต",
   },
   home: {

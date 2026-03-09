@@ -56,7 +56,7 @@ function fillTemplate(template: string, values: Record<string, string>): string 
   return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
 }
 
-const momentLabels: Partial<Record<Language, MomentLabels>> & { en: MomentLabels } = {
+const momentLabels: Record<Language, MomentLabels> = {
   en: {
     eyebrow: "Moment",
     backToJourney: "Back to Journey",

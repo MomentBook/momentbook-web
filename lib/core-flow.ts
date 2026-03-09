@@ -176,7 +176,7 @@ const coreFlowContentByLanguage: Record<Language, CoreFlowContent> = {
   },
   pt: {
     title: "Um fluxo único após a viagem",
-    lead: "Organize fotos de viagem misturadas em uma linha do tempo e um recap no mapa.",
+    lead: "Organize fotos de viagem misturadas em uma linha do tempo e uma revisão no mapa.",
     steps: [
       {
         title: "1. Uma viagem de vários dias termina",
@@ -208,7 +208,7 @@ const coreFlowContentByLanguage: Record<Language, CoreFlowContent> = {
   },
   fr: {
     title: "Un seul flux après le voyage",
-    lead: "Organisez des photos de voyage mélangées en une timeline et un rappel sur carte.",
+    lead: "Organisez des photos de voyage mélangées en une chronologie et un rappel sur carte.",
     steps: [
       {
         title: "1. Un voyage de plusieurs jours se termine",
@@ -227,7 +227,7 @@ const coreFlowContentByLanguage: Record<Language, CoreFlowContent> = {
         detail: "Supprimez les reçus et corrigez les photos mal regroupées.",
       },
       {
-        title: "5. Timeline terminée",
+        title: "5. Chronologie terminée",
         detail: "Le flux du voyage est réuni en une séquence claire.",
       },
       {
@@ -235,8 +235,8 @@ const coreFlowContentByLanguage: Record<Language, CoreFlowContent> = {
         detail: "Les épingles sur la carte du monde vous aident à revoir les lieux visités.",
       },
     ],
-    mapRecapTitle: "Timeline + carte",
-    mapRecapDetail: "La timeline garde l'ordre, les épingles gardent les souvenirs des lieux.",
+    mapRecapTitle: "Chronologie + carte",
+    mapRecapDetail: "La chronologie garde l'ordre, les épingles gardent les souvenirs des lieux.",
   },
   th: {
     title: "หนึ่งโฟลว์หลังจบทริป",
@@ -244,7 +244,7 @@ const coreFlowContentByLanguage: Record<Language, CoreFlowContent> = {
     steps: [
       {
         title: "1. ทริปหลายวันสิ้นสุดลง",
-        detail: "รูปจากหลายวันปะปนอยู่ใน Camera Roll เดียวกัน",
+        detail: "รูปจากหลายวันปะปนอยู่ในคลังรูปเดียวกัน",
       },
       {
         title: "2. อัปโหลดรูปทริปทั้งหมดครั้งเดียว",
@@ -272,7 +272,7 @@ const coreFlowContentByLanguage: Record<Language, CoreFlowContent> = {
   },
   vi: {
     title: "Một luồng cố định sau chuyến đi",
-    lead: "Sắp xếp ảnh du lịch lẫn lộn thành một timeline và phần hồi tưởng trên bản đồ.",
+    lead: "Sắp xếp ảnh du lịch lẫn lộn thành một dòng thời gian và phần hồi tưởng trên bản đồ.",
     steps: [
       {
         title: "1. Kết thúc chuyến đi nhiều ngày",
@@ -291,7 +291,7 @@ const coreFlowContentByLanguage: Record<Language, CoreFlowContent> = {
         detail: "Xóa ảnh biên lai và sửa các nhóm ảnh bị gom sai.",
       },
       {
-        title: "5. Hoàn tất timeline",
+        title: "5. Hoàn tất dòng thời gian",
         detail: "Luồng chuyến đi được gói lại thành một chuỗi rõ ràng.",
       },
       {
@@ -299,8 +299,8 @@ const coreFlowContentByLanguage: Record<Language, CoreFlowContent> = {
         detail: "Ghim trên bản đồ thế giới giúp bạn nhớ lại những nơi đã đi.",
       },
     ],
-    mapRecapTitle: "Timeline + bản đồ",
-    mapRecapDetail: "Timeline giữ thứ tự, còn ghim bản đồ giữ ký ức về địa điểm.",
+    mapRecapTitle: "Dòng thời gian + bản đồ",
+    mapRecapDetail: "Dòng thời gian giữ thứ tự, còn ghim bản đồ giữ ký ức về địa điểm.",
   },
 };
 

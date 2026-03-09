@@ -149,7 +149,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTutorialCta: "Ver tutorial",
     primaryCta: "Descargar MomentBook",
     deviceAlt: "Pantalla de inicio de MomentBook",
-    replayLabel: "Repetir intro",
+    replayLabel: "Volver a ver la introducción",
     playWithSoundLabel: "Reproducir con sonido",
     playLabel: "Reproducir",
     pauseLabel: "Pausar",
@@ -159,22 +159,22 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Buscar en el video",
     fullscreenLabel: "Pantalla completa",
     exitFullscreenLabel: "Salir de pantalla completa",
-    introPromptCta: "Organizar en la app",
+    introPromptCta: "Organizar en la aplicación",
     introGuideTitle: "Continúa tu repaso en MomentBook",
     introGuideLead:
-      "Después de la introducción, abre la app para subir fotos en lote y ordenar momentos por tiempo y lugar.",
+      "Después de la introducción, abre la aplicación para subir fotos en lote y ordenar momentos por tiempo y lugar.",
   },
   pt: {
     metaTitle: "MomentBook — Guarde seus momentos",
     metaDescription:
-      "Guarde seus momentos de viagem em um único envio e reviva-os por mais tempo na timeline e no mapa.",
+      "Guarde seus momentos de viagem em um único envio e reviva-os por mais tempo na linha do tempo e no mapa.",
     heroTitle: "Guarde seus momentos",
     heroLead:
       "Quando a viagem terminar, envie tudo de uma vez e deixe os momentos se organizarem por tempo e lugar para revisitar quando quiser.",
     heroTutorialCta: "Ver tutorial",
     primaryCta: "Baixar MomentBook",
     deviceAlt: "Tela de abertura do MomentBook",
-    replayLabel: "Reproduzir intro",
+    replayLabel: "Rever a introdução",
     playWithSoundLabel: "Reproduzir com som",
     playLabel: "Reproduzir",
     pauseLabel: "Pausar",
@@ -184,22 +184,22 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Buscar no vídeo",
     fullscreenLabel: "Tela cheia",
     exitFullscreenLabel: "Sair da tela cheia",
-    introPromptCta: "Organizar no app",
+    introPromptCta: "Organizar no aplicativo",
     introGuideTitle: "Continue seu resumo no MomentBook",
     introGuideLead:
-      "Depois da introdução, abra o app para enviar fotos em lote e organizar momentos por tempo e lugar.",
+      "Depois da introdução, abra o aplicativo para enviar fotos em lote e organizar momentos por tempo e lugar.",
   },
   fr: {
     metaTitle: "MomentBook — Memorisez vos moments",
     metaDescription:
-      "Gardez vos moments de voyage en un seul envoi et retrouvez-les plus longtemps sur la timeline et la carte.",
+      "Gardez vos moments de voyage en un seul envoi et retrouvez-les plus longtemps sur la chronologie et la carte.",
     heroTitle: "Memorisez vos moments",
     heroLead:
       "À la fin du voyage, importez tout en une fois et laissez les moments se ranger par temps et lieu pour y revenir quand vous voulez.",
     heroTutorialCta: "Voir le tutoriel",
     primaryCta: "Télécharger MomentBook",
     deviceAlt: "Écran de démarrage MomentBook",
-    replayLabel: "Rejouer l'intro",
+    replayLabel: "Revoir l'introduction",
     playWithSoundLabel: "Lire avec le son",
     playLabel: "Lire",
     pauseLabel: "Pause",
@@ -209,10 +209,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Avancer dans la vidéo",
     fullscreenLabel: "Plein écran",
     exitFullscreenLabel: "Quitter le plein écran",
-    introPromptCta: "Organiser dans l'app",
+    introPromptCta: "Organiser dans l'application",
     introGuideTitle: "Continuez votre récapitulatif dans MomentBook",
     introGuideLead:
-      "Après l'introduction, ouvrez l'app pour importer vos photos en lot et organiser les moments par temps et lieu.",
+      "Après l'introduction, ouvrez l'application pour importer vos photos en lot et organiser les moments par temps et lieu.",
   },
   th: {
     metaTitle: "MomentBook — จดจำทุกช่วงเวลาของคุณ",
@@ -242,7 +242,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   vi: {
     metaTitle: "MomentBook — Ghi nhớ khoảnh khắc của bạn",
     metaDescription:
-      "Lưu khoảnh khắc chuyến đi trong một lần tải lên, rồi xem lại lâu hơn trên timeline và bản đồ.",
+      "Lưu khoảnh khắc chuyến đi trong một lần tải lên, rồi xem lại lâu hơn trên dòng thời gian và bản đồ.",
     heroTitle: "Ghi nhớ khoảnh khắc của bạn",
     heroLead:
       "Sau mỗi chuyến đi, tải lên một lần để các khoảnh khắc tự sắp theo thời gian và địa điểm, để bạn quay lại bất cứ lúc nào.",
@@ -259,10 +259,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Tua video",
     fullscreenLabel: "Toàn màn hình",
     exitFullscreenLabel: "Thoát toàn màn hình",
-    introPromptCta: "Thử sắp xếp trong app",
+    introPromptCta: "Thử sắp xếp trong ứng dụng",
     introGuideTitle: "Tiếp tục phần tóm tắt trong MomentBook",
     introGuideLead:
-      "Sau phần mở đầu, mở app để tải ảnh theo lô và sắp xếp khoảnh khắc theo thời gian và địa điểm.",
+      "Sau phần mở đầu, mở ứng dụng để tải ảnh theo lô và sắp xếp khoảnh khắc theo thời gian và địa điểm.",
   },
 };
 

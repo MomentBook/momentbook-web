@@ -41,27 +41,27 @@ const installMetadataByLanguage: Record<Language, { title: string; description: 
   es: {
     title: "Instalar MomentBook",
     description:
-      "Landing móvil de instalación de MomentBook para tráfico desde shorts. Puedes ver la interfaz de la app, un flujo de viaje de ejemplo y los enlaces oficiales de las tiendas.",
+      "Landing móvil de instalación de MomentBook para tráfico desde videos cortos. Puedes ver la interfaz de la aplicación, un flujo de viaje de ejemplo y los enlaces oficiales de las tiendas.",
   },
   pt: {
     title: "Instalar MomentBook",
     description:
-      "Página mobile de instalação do MomentBook para tráfego vindo de shorts. Veja a interface do app, um fluxo de viagem de exemplo e os links oficiais das lojas.",
+      "Página mobile de instalação do MomentBook para tráfego vindo de vídeos curtos. Veja a interface do aplicativo, um fluxo de viagem de exemplo e os links oficiais das lojas.",
   },
   fr: {
     title: "Installer MomentBook",
     description:
-      "Page mobile d'installation de MomentBook pour le trafic venant des shorts. Consultez l'interface de l'app, un exemple de parcours de voyage et les liens officiels des stores.",
+      "Page mobile d'installation de MomentBook pour le trafic venant de vidéos courtes. Consultez l'interface de l'application, un exemple de parcours de voyage et les liens officiels des boutiques.",
   },
   th: {
     title: "ติดตั้ง MomentBook",
     description:
-      "หน้าแลนดิงติดตั้งบนมือถือของ MomentBook สำหรับผู้ใช้ที่มาจากช็อตส์ ดู UI ของแอป ลำดับทริปตัวอย่าง และลิงก์สโตร์ทางการได้ทันที",
+      "หน้าแลนดิงติดตั้งบนมือถือของ MomentBook สำหรับผู้ใช้ที่มาจากวิดีโอสั้น ดู UI ของแอป ลำดับทริปตัวอย่าง และลิงก์สโตร์ทางการได้ทันที",
   },
   vi: {
     title: "Cài MomentBook",
     description:
-      "Trang đích cài đặt di động của MomentBook dành cho lưu lượng từ short. Bạn có thể xem giao diện ứng dụng, luồng chuyến đi mẫu và các liên kết cửa hàng chính thức ngay tại đây.",
+      "Trang đích cài đặt di động của MomentBook dành cho lưu lượng từ video ngắn. Bạn có thể xem giao diện ứng dụng, luồng chuyến đi mẫu và các liên kết cửa hàng chính thức ngay tại đây.",
   },
 };
 

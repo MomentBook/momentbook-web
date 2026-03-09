@@ -58,7 +58,7 @@ export const es: Dictionary = {
     },
     sections: {
       product: "Producto",
-      download: "Obtener la app",
+      download: "Obtener la aplicación",
       support: "Soporte",
       legal: "Legal",
     },

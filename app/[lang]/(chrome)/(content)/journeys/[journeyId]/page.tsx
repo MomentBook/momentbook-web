@@ -26,9 +26,7 @@ import { serializeJsonLd } from "@/lib/seo/json-ld";
 
 export const revalidate = 60;
 
-const hiddenNoticeByLanguage: Partial<Record<Language, { title: string; message: string }>> & {
-    en: { title: string; message: string };
-} = {
+const hiddenNoticeByLanguage: Record<Language, { title: string; message: string }> = {
     en: {
         title: "This journey is hidden",
         message: "This post has been hidden due to accumulated reports.",

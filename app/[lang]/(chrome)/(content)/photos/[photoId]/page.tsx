@@ -31,9 +31,7 @@ type PhotoPageCopy = {
     metadataDescriptionWithoutLocationTemplate: string;
 };
 
-const photoCopy: Partial<Record<Language, PhotoPageCopy>> & {
-    en: PhotoPageCopy;
-} = {
+const photoCopy: Record<Language, PhotoPageCopy> = {
     en: {
         eyebrow: "Photo",
         backToJourney: "Back to journey",

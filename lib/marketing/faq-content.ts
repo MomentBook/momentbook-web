@@ -243,9 +243,9 @@ const faqContent: Record<Language, FAQContent> = {
         description: "Funcionamiento base desde el fin del viaje hasta el repaso.",
         items: [
           {
-            question: "¿Qué tipo de app es MomentBook?",
+            question: "¿Qué tipo de aplicación es MomentBook?",
             answer:
-              "Es una app que organiza fotos de viaje dispersas en una sola línea de tiempo y un repaso en mapa.",
+              "Es una aplicación que organiza fotos de viaje dispersas en una sola línea de tiempo y un repaso en mapa.",
           },
           {
             question: "¿Debo subir las fotos una por una?",
@@ -297,9 +297,9 @@ const faqContent: Record<Language, FAQContent> = {
         description: "Comportamento básico do fim da viagem até a revisão.",
         items: [
           {
-            question: "Que tipo de app é o MomentBook?",
+            question: "Que tipo de aplicativo é o MomentBook?",
             answer:
-              "É um app que organiza fotos de viagem dispersas em uma timeline única e uma revisão no mapa.",
+              "É um aplicativo que organiza fotos de viagem dispersas em uma linha do tempo única e uma revisão no mapa.",
           },
           {
             question: "Preciso enviar fotos uma por uma?",
@@ -353,7 +353,7 @@ const faqContent: Record<Language, FAQContent> = {
           {
             question: "Quel type d'application est MomentBook ?",
             answer:
-              "C'est une application qui organise les photos de voyage dispersées en une timeline unique et un rappel sur carte.",
+              "C'est une application qui organise les photos de voyage dispersées en une chronologie unique et un rappel sur carte.",
           },
           {
             question: "Dois-je importer les photos une par une ?",
@@ -458,7 +458,7 @@ const faqContent: Record<Language, FAQContent> = {
         items: [
           {
             question: "MomentBook là ứng dụng gì?",
-            answer: "Đây là ứng dụng sắp xếp ảnh du lịch rời rạc thành một timeline và phần hồi tưởng trên bản đồ.",
+            answer: "Đây là ứng dụng sắp xếp ảnh du lịch rời rạc thành một dòng thời gian và phần hồi tưởng trên bản đồ.",
           },
           {
             question: "Tôi phải tải ảnh từng tấm không?",
