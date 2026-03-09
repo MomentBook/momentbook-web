@@ -37,7 +37,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
 - shared footer는 브랜드 CTA 카드와 채널/스토어 카드로 재구성되어 있으며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(데스크톱 QR modal + 모바일 앱/스토어 launch)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
-`/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing을 휴대폰에서 이어 열 수 있도록 QR handoff 카드를 함께 노출한다.
+`/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing 안에서 QR handoff 카드를 노출한다.
+`/{lang}/install/redirect`는 QR 전용 redirect route로, 모바일에서는 감지된 플랫폼 스토어로 즉시 이동시키고 데스크톱에서는 `/{lang}/install` 랜딩으로 되돌린다.
 이 경로는 `app/[lang]/install/*`에서 독립적으로 렌더링되고, 나머지 공개 페이지의 공통 chrome은 `app/[lang]/(chrome)/layout.tsx`가 담당한다.
 
 1. 여행 종료
@@ -72,11 +73,13 @@ MomentBook Web은 다음 역할만 수행한다.
 ### 4.2 Acquisition Landing (Noindex)
 
 - `/{lang}/install`
-- 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`, `handoff`
+- `/{lang}/install/redirect`
+- `/{lang}/install` 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`
+- `/{lang}/install/redirect` 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`
 - `dest`는 hero/sample copy와 sample section을 config 기반으로 전환한다.
 - query 해석과 UA 기반 플랫폼 힌트는 서버에서 처리하고, client는 CTA 상호작용과 analytics만 담당한다.
-- `handoff=qr`로 진입한 모바일 요청은 감지된 플랫폼(iOS/Android)에 맞는 공식 스토어 URL로 즉시 redirect된다.
-- 데스크톱에서는 현재 query를 유지한 install handoff URL을 QR로 다시 열 수 있다.
+- QR은 현재 query를 유지한 `/{lang}/install/redirect` URL을 사용한다.
+- `/{lang}/install/redirect`의 모바일 요청은 감지된 플랫폼(iOS/Android)에 맞는 공식 스토어 URL로 즉시 redirect되고, 데스크톱 요청은 `/{lang}/install`로 redirect된다.
 - non-prefixed `/install?...` 진입은 `proxy.ts`가 언어 prefix로 정규화한다.
 
 ### 4.3 Legal Pages (Noindex)
@@ -201,7 +204,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 언어 공통 래퍼: `app/[lang]/layout.tsx`
 - 헤더/푸터 공통 레이아웃: `app/[lang]/(chrome)/layout.tsx`
 - shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus store links and the shared download CTA
-- 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 QR modal을 열고, `/{lang}/install`은 데스크톱에서 QR handoff + 공식 스토어 배지를 함께 유지한다.
+- 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, `/{lang}/install`은 데스크톱에서 QR 카드 + 공식 스토어 배지를 함께 유지한다.
 - `/{lang}/install`은 shared chrome을 타지 않는 standalone route다.
 
 ## 11) Environment Variables
