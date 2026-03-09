@@ -149,6 +149,8 @@
 }
 
 .navLink {
+    appearance: none;
+    background: transparent;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -160,6 +162,8 @@
     font-weight: 560;
     letter-spacing: 0.01em;
     border: 1px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
     transition:
         color 0.22s ease,
         border-color 0.22s ease,

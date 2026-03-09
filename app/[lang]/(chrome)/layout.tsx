@@ -9,10 +9,6 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { ScrollHeader } from "@/components/ScrollHeader";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { type Language } from "@/lib/i18n/config";
-import {
-    HOME_SECTION_IDS,
-    buildHomeSectionHref,
-} from "@/lib/marketing/home-sections";
 
 const supportEmail =
     process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -54,15 +50,12 @@ export default async function ChromeLayout({
                     </Link>
 
                     <div className={styles.desktopNav}>
-                        <Link
-                            href={buildHomeSectionHref(
-                                lang,
-                                HOME_SECTION_IDS.download,
-                            )}
+                        <DownloadActionButton
+                            lang={lang}
                             className={styles.navLink}
                         >
                             {dict.nav.download}
-                        </Link>
+                        </DownloadActionButton>
                         <Link
                             href={`/${lang}/journeys`}
                             className={styles.navLink}
