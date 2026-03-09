@@ -72,10 +72,11 @@ MomentBook Web은 다음 역할만 수행한다.
 ### 4.2 Acquisition Landing (Noindex)
 
 - `/{lang}/install`
-- 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`
+- 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`, `handoff`
 - `dest`는 hero/sample copy와 sample section을 config 기반으로 전환한다.
 - query 해석과 UA 기반 플랫폼 힌트는 서버에서 처리하고, client는 CTA 상호작용과 analytics만 담당한다.
-- 데스크톱에서는 현재 query를 유지한 동일 landing URL을 QR로 다시 열 수 있다.
+- `handoff=qr`로 진입한 모바일 요청은 감지된 플랫폼(iOS/Android)에 맞는 공식 스토어 URL로 즉시 redirect된다.
+- 데스크톱에서는 현재 query를 유지한 install handoff URL을 QR로 다시 열 수 있다.
 - non-prefixed `/install?...` 진입은 `proxy.ts`가 언어 prefix로 정규화한다.
 
 ### 4.3 Legal Pages (Noindex)

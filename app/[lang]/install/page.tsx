@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
@@ -9,13 +10,19 @@ import {
 } from "@/lib/install-campaign";
 import { getInstallLandingContent } from "@/lib/install-landing";
 import {
-  buildAbsoluteInstallLandingUrl,
+  buildAbsoluteInstallQrHandoffUrl,
   buildAppleSmartBannerContent,
+  buildStoreLink,
   getStoreLinks,
+  isQrHandoffQueryValue,
 } from "@/lib/mobile-app";
 import { buildQrCodeSvg } from "@/lib/qr-code";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 import { InstallLanding } from "./InstallLanding";
+
+type InstallSearchParams = CampaignSearchParams & {
+  handoff?: string | string[] | undefined;
+};
 
 const installMetadataByLanguage: Record<Language, { title: string; description: string }> = {
   en: {
@@ -74,7 +81,7 @@ export async function generateMetadata({
   searchParams,
 }: {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<CampaignSearchParams>;
+  searchParams: Promise<InstallSearchParams>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
   const campaign = normalizeCampaignParams(await searchParams, lang);
@@ -106,18 +113,24 @@ export default async function InstallPage({
   searchParams,
 }: {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<CampaignSearchParams>;
+  searchParams: Promise<InstallSearchParams>;
 }) {
   const { lang } = await params as { lang: Language };
-  const campaign = normalizeCampaignParams(await searchParams, lang);
+  const rawSearchParams = await searchParams;
+  const campaign = normalizeCampaignParams(rawSearchParams, lang);
   const headerStore = await headers();
   const platform = detectLandingPlatform(headerStore.get("user-agent") ?? "");
+
+  if (isQrHandoffQueryValue(rawSearchParams.handoff) && platform !== "desktop") {
+    redirect(buildStoreLink(platform, lang, campaign));
+  }
+
   const content = getInstallLandingContent(lang, {
     dest: campaign.dest,
     variant: campaign.variant,
   });
   const storeLinks = getStoreLinks(lang, campaign);
-  const qrInstallUrl = buildAbsoluteInstallLandingUrl(lang, campaign);
+  const qrInstallUrl = buildAbsoluteInstallQrHandoffUrl(lang, campaign);
   const qrSvgMarkup = await buildQrCodeSvg(qrInstallUrl);
 
   return (

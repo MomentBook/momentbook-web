@@ -3,7 +3,7 @@
 import { createPortal } from "react-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { type Language } from "@/lib/i18n/config";
-import { buildAbsoluteInstallLandingUrl } from "@/lib/mobile-app";
+import { buildAbsoluteInstallQrHandoffUrl } from "@/lib/mobile-app";
 import styles from "./DownloadQrModal.module.scss";
 
 type DownloadQrModalProps = {
@@ -78,7 +78,7 @@ export function DownloadQrModal({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const [svgMarkup, setSvgMarkup] = useState("");
   const qrInstallUrl = useMemo(
-    () => buildAbsoluteInstallLandingUrl(lang, {
+    () => buildAbsoluteInstallQrHandoffUrl(lang, {
       source: "download-cta",
       utmMedium: "desktop_qr",
       variant: "timeline",

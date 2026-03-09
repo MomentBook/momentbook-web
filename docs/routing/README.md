@@ -33,6 +33,7 @@ redirect 시 `lang` query는 제거되고 나머지 query는 유지된다.
 
 - `/{lang}/how-it-works` -> `/{lang}#overview` (`permanentRedirect`)
 - `/{lang}/download` -> `/{lang}#download` (`permanentRedirect`)
+- `/{lang}/install?handoff=qr...` -> 모바일에서 감지된 플랫폼 스토어 URL로 `redirect`, 데스크톱에서는 install landing 유지
 
 ## 3) Route Inventory
 
@@ -41,7 +42,7 @@ redirect 시 `lang` query는 제거되고 나머지 query는 유지된다.
 - `/{lang}` (intro + download sections)
 - `/{lang}/how-it-works` (redirect)
 - `/{lang}/download` (redirect)
-- `/{lang}/install` (`source`, `dest`, `lang`, `utm_*`, `variant` query 지원, noindex)
+- `/{lang}/install` (`source`, `dest`, `lang`, `utm_*`, `variant`, `handoff` query 지원, noindex)
 
 ## 3.2 Content
 

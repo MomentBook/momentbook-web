@@ -15,6 +15,7 @@ type AppLinkConfig = {
 };
 
 export type StoreLinks = Record<MobilePlatform, string>;
+export const QR_HANDOFF_VALUE = "qr";
 
 function readRequiredPublicEnv(value: string | undefined, name: string) {
   const normalized = value?.trim();
@@ -210,6 +211,20 @@ export function buildAbsoluteInstallLandingUrl(
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const baseUrl = new URL(`/${lang}/install`, siteUrl).toString();
   return appendCampaignQuery(baseUrl, campaign);
+}
+
+export function buildAbsoluteInstallQrHandoffUrl(
+  lang: Language,
+  campaign: CampaignParams = {},
+) {
+  const url = new URL(buildAbsoluteInstallLandingUrl(lang, campaign));
+  url.searchParams.set("handoff", QR_HANDOFF_VALUE);
+  return url.toString();
+}
+
+export function isQrHandoffQueryValue(value: string | string[] | undefined) {
+  const candidate = Array.isArray(value) ? value[0] : value;
+  return candidate?.trim().toLowerCase() === QR_HANDOFF_VALUE;
 }
 
 export function getStoreLinks(lang: Language, campaign: CampaignParams = {}) {
