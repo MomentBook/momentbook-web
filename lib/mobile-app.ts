@@ -203,6 +203,15 @@ export function getCanonicalStoreLinks(lang: Language) {
   } satisfies StoreLinks;
 }
 
+export function buildAbsoluteInstallLandingUrl(
+  lang: Language,
+  campaign: CampaignParams = {},
+) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const baseUrl = new URL(`/${lang}/install`, siteUrl).toString();
+  return appendCampaignQuery(baseUrl, campaign);
+}
+
 export function getStoreLinks(lang: Language, campaign: CampaignParams = {}) {
   return {
     ios: buildStoreLink("ios", lang, campaign),

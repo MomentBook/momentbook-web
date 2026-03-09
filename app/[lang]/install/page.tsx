@@ -8,7 +8,12 @@ import {
   type CampaignSearchParams,
 } from "@/lib/install-campaign";
 import { getInstallLandingContent } from "@/lib/install-landing";
-import { buildAppleSmartBannerContent, getStoreLinks } from "@/lib/mobile-app";
+import {
+  buildAbsoluteInstallLandingUrl,
+  buildAppleSmartBannerContent,
+  getStoreLinks,
+} from "@/lib/mobile-app";
+import { buildQrCodeSvg } from "@/lib/qr-code";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 import { InstallLanding } from "./InstallLanding";
 
@@ -112,6 +117,8 @@ export default async function InstallPage({
     variant: campaign.variant,
   });
   const storeLinks = getStoreLinks(lang, campaign);
+  const qrInstallUrl = buildAbsoluteInstallLandingUrl(lang, campaign);
+  const qrSvgMarkup = await buildQrCodeSvg(qrInstallUrl);
 
   return (
     <InstallLanding
@@ -120,6 +127,7 @@ export default async function InstallPage({
       platform={platform}
       content={content}
       storeLinks={storeLinks}
+      qrSvgMarkup={qrSvgMarkup}
     />
   );
 }

@@ -9,6 +9,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { DownloadQrCard } from "@/components/DownloadQrCard";
 import { DeviceMock } from "@/components/DeviceMock";
 import deviceStyles from "@/components/DeviceMock.module.scss";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
@@ -35,6 +36,7 @@ type InstallLandingProps = {
   platform: LandingPlatform;
   content: InstallLandingContent;
   storeLinks: StoreLinks;
+  qrSvgMarkup: string;
 };
 
 type StoreBadgeLinkProps = {
@@ -141,6 +143,7 @@ export function InstallLanding({
   platform,
   content,
   storeLinks,
+  qrSvgMarkup,
 }: InstallLandingProps) {
   const [installBarVisible, setInstallBarVisible] = useState(false);
   const resolvedPlatform = useSyncExternalStore(
@@ -502,22 +505,35 @@ export function InstallLanding({
             <p className={styles.sectionLead}>{content.finalLead}</p>
           </div>
 
-          <div className={styles.finalActions}>
-            <StoreBadgeLink
-              lang={lang}
-              platform="ios"
-              href={storeLinks.ios}
-              onClick={() => handleFinalStoreClick("ios")}
-            />
-            <StoreBadgeLink
-              lang={lang}
-              platform="android"
-              href={storeLinks.android}
-              onClick={() => handleFinalStoreClick("android")}
-            />
-          </div>
+          <div className={styles.finalInstallLayout}>
+            <div className={styles.finalInstallPrimary}>
+              <div className={styles.finalActions}>
+                <StoreBadgeLink
+                  lang={lang}
+                  platform="ios"
+                  href={storeLinks.ios}
+                  onClick={() => handleFinalStoreClick("ios")}
+                />
+                <StoreBadgeLink
+                  lang={lang}
+                  platform="android"
+                  href={storeLinks.android}
+                  onClick={() => handleFinalStoreClick("android")}
+                />
+              </div>
 
-          <p className={styles.finalNote}>{content.finalDesktopNote}</p>
+              <p className={styles.finalNote}>{content.finalDesktopNote}</p>
+            </div>
+
+            {resolvedPlatform === "desktop" ? (
+              <DownloadQrCard
+                className={styles.finalQrPanel}
+                title={content.desktopQrTitle}
+                description={content.desktopQrLead}
+                svgMarkup={qrSvgMarkup}
+              />
+            ) : null}
+          </div>
         </section>
       </div>
 

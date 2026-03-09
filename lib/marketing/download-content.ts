@@ -5,6 +5,8 @@ export type DownloadCopy = {
   metaDescription: string;
   title: string;
   availability: string;
+  desktopQrTitle: string;
+  desktopQrLead: string;
   iosName: string;
   androidName: string;
   iosRequirements: string;
@@ -19,6 +21,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "Install MomentBook on iOS and Android, then keep one post-trip flow from batch upload to timeline and map recap.",
     title: "Remember every travel moment now",
     availability: "Available on App Store and Google Play.",
+    desktopQrTitle: "Scan to continue on your phone",
+    desktopQrLead:
+      "This opens the official MomentBook install page on your phone with the right store path for your device.",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "iOS 15.1+ on iPhone and iPad (arm64)",
@@ -32,6 +37,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "iOS와 Android에서 MomentBook을 설치하고, 여행 후 일괄 업로드부터 타임라인/지도 회상까지 같은 흐름으로 사용하세요.",
     title: "지금, 여행의 순간을 기억하세요",
     availability: "App Store와 Google Play에서 이용할 수 있습니다.",
+    desktopQrTitle: "휴대폰으로 이어서 설치하기",
+    desktopQrLead:
+      "코드를 스캔하면 휴대폰에서 기기에 맞는 MomentBook 공식 설치 페이지가 열립니다.",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "iPhone/iPad arm64 기준 iOS 15.1 이상",
@@ -45,6 +53,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "iOS と Android で MomentBook をインストールし、旅行後は一括アップロードからタイムライン/地図回想まで同じ流れで使えます。",
     title: "今、旅の瞬間を記憶に残してください",
     availability: "App Store と Google Play で利用できます。",
+    desktopQrTitle: "スマートフォンで続ける",
+    desktopQrLead:
+      "コードを読み取ると、端末に合った MomentBook の公式インストールページがスマートフォンで開きます。",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "iPhone / iPad arm64 で iOS 15.1 以上",
@@ -58,6 +69,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "在 iOS 和 Android 上安装 MomentBook，并在每次旅行后按同一流程完成批量上传、时间线与地图回想。",
     title: "此刻，请记住旅行的每个瞬间",
     availability: "可在 App Store 与 Google Play 使用。",
+    desktopQrTitle: "在手机上继续",
+    desktopQrLead:
+      "扫描二维码后，手机会打开适合你设备的 MomentBook 官方安装页面。",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "适用于 iPhone / iPad arm64，需 iOS 15.1 及以上",
@@ -71,6 +85,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "Instala MomentBook en iOS y Android y usa el mismo flujo después del viaje: carga por lotes, línea de tiempo y repaso en mapa.",
     title: "Recuerda ahora cada momento de tu viaje",
     availability: "Disponible en App Store y Google Play.",
+    desktopQrTitle: "Escanea y sigue en tu teléfono",
+    desktopQrLead:
+      "El código abre en tu teléfono la página oficial de instalación de MomentBook con la tienda adecuada para tu dispositivo.",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "iOS 15.1+ en iPhone y iPad (arm64)",
@@ -84,6 +101,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "Instale o MomentBook no iOS e Android e use o mesmo fluxo após a viagem: envio em lote, linha do tempo e revisão no mapa.",
     title: "Lembre agora cada momento da sua viagem",
     availability: "Disponível na App Store e no Google Play.",
+    desktopQrTitle: "Escaneie e continue no celular",
+    desktopQrLead:
+      "O código abre no seu celular a página oficial de instalação do MomentBook com a loja certa para o seu dispositivo.",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "iOS 15.1+ em iPhone e iPad (arm64)",
@@ -97,6 +117,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "Installez MomentBook sur iOS et Android et utilisez le même flux après le voyage : import en lot, timeline et rappel sur carte.",
     title: "Gardez maintenant chaque moment de votre voyage",
     availability: "Disponible sur App Store et Google Play.",
+    desktopQrTitle: "Scannez pour continuer sur votre téléphone",
+    desktopQrLead:
+      "Ce code ouvre sur votre téléphone la page officielle d'installation de MomentBook avec le bon store pour votre appareil.",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "iOS 15.1+ sur iPhone et iPad (arm64)",
@@ -110,6 +133,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "ติดตั้ง MomentBook บน iOS และ Android แล้วใช้โฟลว์เดิมหลังทริป ตั้งแต่อัปโหลดแบบชุดเดียวจนถึงไทม์ไลน์และการย้อนดูบนแผนที่",
     title: "จดจำทุกช่วงเวลาการเดินทางของคุณตอนนี้",
     availability: "ใช้งานได้บน App Store และ Google Play",
+    desktopQrTitle: "สแกนแล้วทำต่อบนโทรศัพท์",
+    desktopQrLead:
+      "เมื่อสแกนโค้ด โทรศัพท์ของคุณจะเปิดหน้า install อย่างเป็นทางการของ MomentBook ที่ตรงกับอุปกรณ์นี้",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "iOS 15.1+ บน iPhone และ iPad (arm64)",
@@ -123,6 +149,9 @@ const downloadCopy: Record<Language, DownloadCopy> = {
       "Cài MomentBook trên iOS và Android rồi dùng cùng một luồng sau chuyến đi: tải theo lô, timeline và hồi tưởng trên bản đồ.",
     title: "Ghi nhớ ngay từng khoảnh khắc chuyến đi của bạn",
     availability: "Có trên App Store và Google Play.",
+    desktopQrTitle: "Quét mã để tiếp tục trên điện thoại",
+    desktopQrLead:
+      "Mã này mở trang cài đặt MomentBook chính thức trên điện thoại với đường dẫn cửa hàng phù hợp cho thiết bị của bạn.",
     iosName: "App Store",
     androidName: "Google Play",
     iosRequirements: "iOS 15.1+ trên iPhone và iPad (arm64)",

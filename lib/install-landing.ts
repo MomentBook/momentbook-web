@@ -52,6 +52,8 @@ type LandingCopy = {
   finalTitle: LocalizedText;
   finalLead: LocalizedText;
   finalDesktopNote: LocalizedText;
+  desktopQrTitle: LocalizedText;
+  desktopQrLead: LocalizedText;
   openInAppLabel: LocalizedText;
   installBarLead: LocalizedText;
   installBarAction: LocalizedText;
@@ -94,6 +96,8 @@ export type InstallLandingContent = {
   finalTitle: string;
   finalLead: string;
   finalDesktopNote: string;
+  desktopQrTitle: string;
+  desktopQrLead: string;
   openInAppLabel: string;
   installBarLead: string;
   installBarAction: string;
@@ -486,15 +490,37 @@ const LANDING_COPY: LandingCopy = {
     vi: "Hãy dùng các liên kết cửa hàng chính thức bên dưới. Trên di động, nếu deep link đã được cấu hình, trang có thể thử mở ứng dụng trước.",
   },
   finalDesktopNote: {
-    en: "On desktop, use either store link and continue on your phone.",
-    ko: "데스크톱에서는 스토어 링크를 선택한 뒤 휴대폰에서 이어서 진행하세요.",
-    ja: "デスクトップではストアリンクを選んでから、スマートフォンで続けてください。",
-    zh: "在桌面端请选择商店链接，然后到手机上继续。",
-    es: "En escritorio, elige uno de los enlaces de la tienda y continúa en tu teléfono.",
-    pt: "No desktop, escolha um dos links da loja e continue no celular.",
-    fr: "Sur ordinateur, choisissez l'un des liens du store puis continuez sur votre téléphone.",
-    th: "บนเดสก์ท็อป ให้เลือกลิงก์สโตร์แล้วไปทำต่อบนโทรศัพท์ของคุณ",
-    vi: "Trên máy tính, hãy chọn một liên kết cửa hàng rồi tiếp tục trên điện thoại của bạn.",
+    en: "On desktop, scan the code or use a store link, then continue on your phone.",
+    ko: "데스크톱에서는 QR 코드를 스캔하거나 스토어 링크를 선택한 뒤 휴대폰에서 이어서 진행하세요.",
+    ja: "デスクトップでは QR コードを読み取るかストアリンクを選んでから、スマートフォンで続けてください。",
+    zh: "在桌面端，请扫描二维码或选择商店链接，然后到手机上继续。",
+    es: "En escritorio, escanea el código o elige un enlace de la tienda y continúa en tu teléfono.",
+    pt: "No desktop, escaneie o código ou escolha um link da loja e continue no celular.",
+    fr: "Sur ordinateur, scannez le code ou choisissez un lien du store, puis continuez sur votre téléphone.",
+    th: "บนเดสก์ท็อป ให้สแกนโค้ดหรือเลือกลิงก์สโตร์ แล้วไปทำต่อบนโทรศัพท์ของคุณ",
+    vi: "Trên máy tính, hãy quét mã hoặc chọn một liên kết cửa hàng rồi tiếp tục trên điện thoại của bạn.",
+  },
+  desktopQrTitle: {
+    en: "Scan to continue on your phone",
+    ko: "휴대폰으로 이어서 설치하기",
+    ja: "スマートフォンで続ける",
+    zh: "在手机上继续",
+    es: "Escanea y sigue en tu teléfono",
+    pt: "Escaneie e continue no celular",
+    fr: "Scannez pour continuer sur votre téléphone",
+    th: "สแกนแล้วทำต่อบนโทรศัพท์",
+    vi: "Quét mã để tiếp tục trên điện thoại",
+  },
+  desktopQrLead: {
+    en: "This opens the same MomentBook install page on your phone so you can keep going with the right store path.",
+    ko: "코드를 스캔하면 휴대폰에서 같은 MomentBook 설치 페이지가 열려 기기에 맞는 스토어 경로로 이어집니다.",
+    ja: "コードを読み取ると同じ MomentBook インストールページがスマートフォンで開き、端末に合ったストア導線で続けられます。",
+    zh: "扫描二维码后，手机会打开同一 MomentBook 安装页，并继续进入适合你设备的商店路径。",
+    es: "El código abre la misma página de instalación de MomentBook en tu teléfono para que continúes con la tienda adecuada.",
+    pt: "O código abre a mesma página de instalação do MomentBook no seu celular para você continuar com a loja adequada.",
+    fr: "Ce code ouvre la même page d'installation de MomentBook sur votre téléphone afin de poursuivre avec le bon store.",
+    th: "เมื่อสแกนโค้ด โทรศัพท์ของคุณจะเปิดหน้า install เดียวกันของ MomentBook เพื่อไปต่อยังสโตร์ที่เหมาะกับอุปกรณ์",
+    vi: "Mã này mở cùng trang cài đặt MomentBook trên điện thoại để bạn tiếp tục với đường dẫn cửa hàng phù hợp.",
   },
   openInAppLabel: {
     en: "Open in app",
@@ -1145,6 +1171,8 @@ export function getInstallLandingContent(
     finalTitle: readText(lang, LANDING_COPY.finalTitle),
     finalLead: readText(lang, LANDING_COPY.finalLead),
     finalDesktopNote: readText(lang, LANDING_COPY.finalDesktopNote),
+    desktopQrTitle: readText(lang, LANDING_COPY.desktopQrTitle),
+    desktopQrLead: readText(lang, LANDING_COPY.desktopQrLead),
     openInAppLabel: readText(lang, LANDING_COPY.openInAppLabel),
     installBarLead: readText(lang, LANDING_COPY.installBarLead),
     installBarAction: readText(lang, LANDING_COPY.installBarAction),

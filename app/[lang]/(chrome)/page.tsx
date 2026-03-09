@@ -4,7 +4,12 @@ import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { getDownloadCopy } from "@/lib/marketing/download-content";
 import { MARKETING_CHANNEL_URLS } from "@/lib/marketing/social-channels";
-import { getCanonicalStoreLinks } from "@/lib/mobile-app";
+import {
+  buildAbsoluteInstallLandingUrl,
+  buildAppleSmartBannerContent,
+  getCanonicalStoreLinks,
+} from "@/lib/mobile-app";
+import { buildQrCodeSvg } from "@/lib/qr-code";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
 import { HashTargetFocus } from "./HashTargetFocus";
@@ -299,6 +304,9 @@ export async function generateMetadata(
       title: content.metaTitle,
       description: content.metaDescription,
     },
+    other: {
+      "apple-itunes-app": buildAppleSmartBannerContent(lang),
+    },
   };
 }
 
@@ -310,6 +318,12 @@ export default async function Home({
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
   const downloadContent = getDownloadCopy(lang);
+  const installQrUrl = buildAbsoluteInstallLandingUrl(lang, {
+    source: "home-download",
+    utmMedium: "desktop_qr",
+    variant: "timeline",
+  });
+  const installQrSvgMarkup = await buildQrCodeSvg(installQrUrl);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -380,7 +394,11 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={content} />
-      <HomeDownloadSection lang={lang} content={downloadContent} />
+      <HomeDownloadSection
+        lang={lang}
+        content={downloadContent}
+        qrSvgMarkup={installQrSvgMarkup}
+      />
     </div>
   );
 }

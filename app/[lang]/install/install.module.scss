@@ -184,6 +184,20 @@
   gap: 0.72rem;
 }
 
+.finalInstallLayout {
+  display: grid;
+  gap: 1rem;
+}
+
+.finalInstallPrimary {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.finalQrPanel {
+  display: none;
+}
+
 .primaryActionButton,
 .installBarButton {
   display: inline-flex;
@@ -549,6 +563,17 @@
   .sampleLayout {
     grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
     align-items: start;
+  }
+}
+
+@media (min-width: 980px) {
+  .finalInstallLayout {
+    grid-template-columns: minmax(0, 1fr) minmax(16.8rem, 0.86fr);
+    align-items: start;
+  }
+
+  .finalQrPanel {
+    display: grid;
   }
 }
 

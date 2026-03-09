@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { DownloadQrCard } from "@/components/DownloadQrCard";
 import { FadeIn } from "@/components/FadeIn";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
@@ -9,9 +10,14 @@ import styles from "./page.module.scss";
 type HomeDownloadSectionProps = {
   lang: Language;
   content: DownloadCopy;
+  qrSvgMarkup: string;
 };
 
-export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps) {
+export function HomeDownloadSection({
+  lang,
+  content,
+  qrSvgMarkup,
+}: HomeDownloadSectionProps) {
   const storeLinks = getCanonicalStoreLinks(lang);
 
   return (
@@ -22,8 +28,8 @@ export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps)
       aria-labelledby="download-title"
     >
       <div className={styles.downloadHeroInner}>
-        <FadeIn delay={120}>
-          <div className={styles.downloadHeroCopy}>
+        <FadeIn delay={120} className={styles.downloadHeroCopy}>
+          <div>
             <h2 id="download-title" className={styles.downloadHeroTitle}>
               {content.title}
             </h2>
@@ -63,6 +69,14 @@ export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps)
 
             <p className={styles.downloadAvailability}>{content.availability}</p>
           </div>
+        </FadeIn>
+
+        <FadeIn delay={180} className={styles.downloadQrPanel}>
+          <DownloadQrCard
+            title={content.desktopQrTitle}
+            description={content.desktopQrLead}
+            svgMarkup={qrSvgMarkup}
+          />
         </FadeIn>
       </div>
     </section>
