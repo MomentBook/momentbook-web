@@ -25,14 +25,14 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: `app/[lang]` + `proxy.ts` 기반 언어 prefix 라우팅, query/cookie/Accept-Language redirect, hreflang alternates
 
 2. [ADR 0002: Legal Document Internationalization](./0002-legal-document-internationalization.md)
-- Date: 2025-01-04 (updated: 2026-02-12)
+- Date: 2025-01-04 (updated: 2026-03-12)
 - Status: Accepted
-- Summary: 법적 문서 component 분기, core locale 원문 유지, extended locale 본문 영어 fallback, legal noindex
+- Summary: 정책 문서 core locale 본문 유지 + extended locale 영어 fallback, support 9개 언어 copy, legal noindex
 
 3. [ADR 0003: Static Generation + Revalidation Strategy](./0003-static-site-generation-strategy.md)
 - Date: 2025-01-04 (updated: 2026-03-12)
 - Status: Accepted
-- Summary: 정적 중심 + route별 revalidate(60/3600) + root layout Dynamic API 제한 + null-safe fetch 실패 처리
+- Summary: 정적 중심 + route별 revalidate(60/3600) + localized time SSR/hydration 분리 + root layout Dynamic API 제한
 
 4. [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)
 - Date: 2025-01-04 (updated: 2026-03-12)

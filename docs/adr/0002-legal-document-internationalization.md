@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-02-12)
+2025-01-04 (updated: 2026-03-12)
 
 ## Context
 
@@ -32,9 +32,10 @@ MomentBook 웹은 아래 문서를 언어 라우트 하에 제공한다.
 
 ### 2) 언어 커버리지 정책
 
-- 본문 authored locale: `en`, `ko`, `ja`, `zh`
-- 기타 locale (`es`, `pt`, `fr`, `th`, `vi`)는 본문을 영어 fallback으로 노출
-- 단, `generateMetadata` title/description은 locale별 문자열을 제공한다.
+- 정책 문서(`privacy`, `terms`, `community-guidelines`, `marketing-consent`) 본문 authored locale: `en`, `ko`, `ja`, `zh`
+- 위 정책 문서의 기타 locale (`es`, `pt`, `fr`, `th`, `vi`)는 본문을 영어 fallback으로 노출
+- 단, 위 정책 문서의 `generateMetadata` title/description은 locale별 문자열을 제공한다.
+- `support` 페이지는 9개 언어별 copy를 직접 제공한다.
 
 ### 3) Indexing 정책
 
@@ -73,11 +74,11 @@ Rejected: 법적 문구 정확성/검수 통제 어려움
 
 ## Implementation Files
 
-- `app/[lang]/(legal)/terms/page.tsx`
-- `app/[lang]/(legal)/privacy/page.tsx`
-- `app/[lang]/(legal)/community-guidelines/page.tsx`
-- `app/[lang]/(legal)/marketing-consent/page.tsx`
-- `app/[lang]/(legal)/support/page.tsx`
+- `app/[lang]/(chrome)/(legal)/terms/page.tsx`
+- `app/[lang]/(chrome)/(legal)/privacy/page.tsx`
+- `app/[lang]/(chrome)/(legal)/community-guidelines/page.tsx`
+- `app/[lang]/(chrome)/(legal)/marketing-consent/page.tsx`
+- `app/[lang]/(chrome)/(legal)/support/page.tsx`
 
 ## Related Decisions
 

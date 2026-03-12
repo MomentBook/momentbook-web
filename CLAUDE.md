@@ -47,6 +47,11 @@
 - Shared shell: public pages use `app/[lang]/(chrome)/layout.tsx`
 - Standalone acquisition landing: `app/[lang]/install/*` renders outside shared chrome
 - Header nav: desktop/mobile 모두 `Download`, `Journeys` 중심
+- Public query surface: `/{lang}/journeys?page=`, `/{lang}/users?q=`, `/{lang}/users/[userId]?page=`
+- Users search: `/{lang}/users`는 최근 공개 프로필 최대 100개를 불러와 서버에서 이름/소개 텍스트 기준 필터링
+- Download CTA behavior: desktop은 QR handoff, mobile은 현재 공식 스토어 링크로 이동 (open-in-app deep link helper는 미설정)
+- Legal body coverage: policy 문서는 `en/ko/ja/zh` 본문 + extended locale 영어 fallback, support는 9개 언어 copy 제공
+- Time rendering: `LocalizedDate`/`LocalizedDateRange`/`LocalizedDateTimeRange`는 SSR UTC 스냅샷 후 hydrate, photo detail `LocalizedDateTime`는 client-only
 - Public data runtime: `lib/public-api.ts`, `lib/public-users.ts`, `lib/published-journey.ts`
 - Legacy residue: `lib/public-content.ts`, `lib/content.ts`, `lib/published-photo.ts` are not used by main public routes
 - Sitemap: route handlers (`/sitemap.xml` + segmented sub-sitemaps)

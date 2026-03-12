@@ -32,10 +32,10 @@ MomentBook Web은 다음 역할만 수행한다.
 현재 홈(`/`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
 
 - Hero 섹션: 핵심 소개 문구 + CTA(튜토리얼 보기, intro video 카드로 smooth scroll) + 우측 DeviceMock 프리뷰
-- Intro video 섹션: hero와 동일 폭 카드에서 landscape 인트로 영상 재생(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%), 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환 제공, 영상 종료 시 전체화면은 자동 해제되고 컨트롤은 숨김 처리되며 재생은 우측 안내 패널의 "인트로 다시 보기" 버튼으로만 가능, 종료 후 "앱에서 정리해보기" CTA 노출 및 약 2초 후 자동 전개(수동 클릭도 가능), 전개 시 영상 축소 + 우측 안내/다운로드 액션 노출, 데스크톱의 다운로드 버튼은 QR modal을 열고 모바일에서는 플랫폼별 앱 열기 또는 스토어 fallback을 시도
+- Intro video 섹션: hero와 동일 폭 카드에서 landscape 인트로 영상 재생(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%), 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환 제공, 영상 종료 시 전체화면은 자동 해제되고 컨트롤은 숨김 처리되며 재생은 우측 안내 패널의 "인트로 다시 보기" 버튼으로만 가능, 종료 후 "앱에서 정리해보기" CTA 노출 및 약 2초 후 자동 전개(수동 클릭도 가능), 전개 시 영상 축소 + 우측 안내/다운로드 액션 노출, 데스크톱의 다운로드 버튼은 QR modal을 열고 모바일에서는 다운로드 섹션 정렬 후 플랫폼별 공식 스토어 링크로 이동한다. 현재 open-in-app deep link는 구성되어 있지 않다.
 - Download 섹션: App Store / Google Play CTA와 가용성 안내 문구를 중심으로 노출
 - 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
-- shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(데스크톱 QR modal + 모바일 앱/스토어 launch)를 사용한다.
+- shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(데스크톱 QR modal + 모바일 공식 스토어 이동)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
 `/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing 안에서 QR handoff 카드를 노출한다.
 `/{lang}/install/redirect`는 QR 전용 redirect route로, 모바일에서는 감지된 플랫폼 스토어로 즉시 이동시키고 데스크톱에서는 `/{lang}/install` 랜딩으로 되돌린다.
@@ -64,11 +64,18 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/download` (`/{lang}#download`로 `permanentRedirect`)
 - `/{lang}/faq`
 - `/{lang}/journeys`
+- `/{lang}/journeys` 지원 query: `page`
 - `/{lang}/journeys/[journeyId]`
 - `/{lang}/journeys/[journeyId]/moments/[clusterId]`
 - `/{lang}/users`
+- `/{lang}/users` 지원 query: `q`
 - `/{lang}/users/[userId]`
+- `/{lang}/users/[userId]` 지원 query: `page`
 - `/{lang}/photos/[photoId]`
+
+현재 query 동작:
+- `/{lang}/journeys?page=`와 `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.
+- `/{lang}/users?q=`는 최근 공개 프로필 최대 100개를 불러온 뒤 이름/biography 텍스트 기준으로 서버에서 필터링한다.
 
 ### 4.2 Acquisition Landing (Noindex)
 
@@ -89,6 +96,11 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/community-guidelines`
 - `/{lang}/marketing-consent`
 - `/{lang}/support`
+
+현재 언어 커버리지:
+- `privacy`, `terms`, `community-guidelines`, `marketing-consent` 본문은 `en`, `ko`, `ja`, `zh` authored copy를 사용한다.
+- `es`, `pt`, `fr`, `th`, `vi`에서는 위 정책 문서 본문을 영어 fallback으로 노출하고, metadata title/description만 locale별 문자열을 사용한다.
+- `support` 페이지 copy는 9개 언어에 대해 별도 문자열을 제공한다.
 
 ### 4.4 SEO Infrastructure Routes
 
@@ -142,6 +154,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - 웹 로그인/Auth UI 및 `/api/auth/*` 라우트는 제공하지 않는다.
 - 여정 상세의 신고 버튼/신고 제출 플로우는 제거되어 있다.
+- 신고 누적으로 hidden 상태가 된 공개 여정 상세는 숨김 안내와 noindex metadata를 렌더링한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 
 ## 7) i18n / Preference Behavior
@@ -149,8 +162,9 @@ MomentBook Web은 다음 역할만 수행한다.
 - 라우팅 언어 유효성: `lib/i18n/config.ts`
 - 언어 감지 순서(redirect): cookie -> `Accept-Language` -> default(`en`)
 - 클라이언트 선호 언어 상태: Jotai `languageAtom`
-- `LanguageSyncProvider`가 localStorage/cookie/path language 동기화
-- `LocalizedTime` 계열은 SSR에서 UTC 스냅샷을 출력하고 hydration 후 viewer locale/timezone 기준으로 갱신
+- `LanguageSyncProvider`가 Jotai/localStorage/cookie/path language를 동기화하고, 저장값이 없으면 legacy `preferredLanguage` 또는 브라우저 언어를 사용한다.
+- `LocalizedDate`, `LocalizedDateRange`, `LocalizedDateTimeRange`는 SSR에서 UTC 스냅샷을 출력하고 hydration 후 viewer locale/timezone 기준으로 갱신한다.
+- photo detail의 `LocalizedDateTime`은 SSR 출력을 만들지 않고 hydration 후 client locale/timezone 기준 문자열을 렌더링한다.
 
 ## 8) Metadata / SEO / AEO
 
@@ -167,7 +181,9 @@ MomentBook Web은 다음 역할만 수행한다.
 - Public content/marketing pages: index/follow
 - `/{lang}/install`: noindex/nofollow
 - Legal pages: noindex/nofollow
+- `/{lang}/journeys?page=...`와 `/{lang}/users/[userId]?page=...`는 page-specific canonical/alternates를 유지한 index/follow 페이지다.
 - `/users?q=...` 검색 파라미터 페이지: noindex/follow + canonical(`/{lang}/users`)
+- hidden journey detail metadata: noindex/nofollow
 - No aggressive googlebot `max-*` overrides
 
 ## 8.3 Structured Data
@@ -204,7 +220,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 언어 공통 래퍼: `app/[lang]/layout.tsx`
 - 헤더/푸터 공통 레이아웃: `app/[lang]/(chrome)/layout.tsx`
 - shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus shared download/support CTA and Product/Support/Legal link groups
-- 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, `/{lang}/install`은 데스크톱에서 QR 카드 + 공식 스토어 배지를 함께 유지한다.
+- 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, 모바일에서는 현재 플랫폼별 공식 스토어 링크로 이동한다. `/{lang}/install`은 데스크톱에서 QR 카드 + 공식 스토어 배지를 함께 유지한다.
 - `/{lang}/install`은 shared chrome을 타지 않는 standalone route다.
 
 ## 11) Environment Variables

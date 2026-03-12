@@ -37,10 +37,11 @@ MomentBook 웹은 SEO 우선 공개 웹이며, 서버 부하를 낮추면서도 
 ### 3) 클라이언트 로컬 시간 표시
 
 시간 표시는 hydration 이후 viewer locale/timezone 기준으로 렌더링한다.
-초기 SSR 스냅샷은 UTC 기준 문자열을 출력해 비어 있는 fallback 마크업을 피한다.
+`LocalizedDate` 계열은 초기 SSR에서 UTC 기준 문자열을 출력해 비어 있는 fallback 마크업을 피한다.
+photo detail의 `LocalizedDateTime`은 SSR 마크업을 비우고 hydration 이후에만 렌더링한다.
 
-- `LocalizedDateTime`
-- `LocalizedDate`, `LocalizedDateTimeRange`
+- `LocalizedDate`, `LocalizedDateRange`, `LocalizedDateTimeRange`
+- `app/[lang]/(chrome)/(content)/photos/[photoId]/LocalizedDateTime.tsx`
 
 ### 4) 다국어 정적 라우팅
 
