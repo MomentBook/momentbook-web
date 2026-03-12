@@ -35,7 +35,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Intro video 섹션: hero와 동일 폭 카드에서 landscape 인트로 영상 재생(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%), 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환 제공, 영상 종료 시 전체화면은 자동 해제되고 컨트롤은 숨김 처리되며 재생은 우측 안내 패널의 "인트로 다시 보기" 버튼으로만 가능, 종료 후 "앱에서 정리해보기" CTA 노출 및 약 2초 후 자동 전개(수동 클릭도 가능), 전개 시 영상 축소 + 우측 안내/다운로드 액션 노출, 데스크톱의 다운로드 버튼은 QR modal을 열고 모바일에서는 플랫폼별 앱 열기 또는 스토어 fallback을 시도
 - Download 섹션: App Store / Google Play CTA와 가용성 안내 문구를 중심으로 노출
 - 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
-- shared footer는 브랜드 CTA 카드와 채널/스토어 카드로 재구성되어 있으며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(데스크톱 QR modal + 모바일 앱/스토어 launch)를 사용한다.
+- shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(데스크톱 QR modal + 모바일 앱/스토어 launch)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
 `/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing 안에서 QR handoff 카드를 노출한다.
 `/{lang}/install/redirect`는 QR 전용 redirect route로, 모바일에서는 감지된 플랫폼 스토어로 즉시 이동시키고 데스크톱에서는 `/{lang}/install` 랜딩으로 되돌린다.
@@ -203,7 +203,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 저장: Jotai `themeAtom` (`localStorage`)
 - 언어 공통 래퍼: `app/[lang]/layout.tsx`
 - 헤더/푸터 공통 레이아웃: `app/[lang]/(chrome)/layout.tsx`
-- shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus store links and the shared download CTA
+- shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus shared download/support CTA and Product/Support/Legal link groups
 - 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, `/{lang}/install`은 데스크톱에서 QR 카드 + 공식 스토어 배지를 함께 유지한다.
 - `/{lang}/install`은 shared chrome을 타지 않는 standalone route다.
 

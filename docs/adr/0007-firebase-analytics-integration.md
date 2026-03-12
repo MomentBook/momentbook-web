@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-02-06 (updated: 2026-02-12)
+2026-02-06 (updated: 2026-03-12)
 
 ## Context
 
@@ -33,7 +33,6 @@ Accepted
 
 - `lib/firebase/client.ts`
 - `lib/firebase/analytics.ts`
-- `lib/firebase/auth.ts`
 
 현재 주요 웹 트래킹은 GA4 컴포넌트 + route tracker 조합이 담당하고,
 Firebase helper는 확장 대비용으로 남겨둔다.
@@ -72,7 +71,6 @@ Rejected: 운영 지표 관찰 불가
 - `src/configs/env.server.ts`
 - `lib/firebase/client.ts`
 - `lib/firebase/analytics.ts`
-- `lib/firebase/auth.ts`
 
 ## Related Decisions
 

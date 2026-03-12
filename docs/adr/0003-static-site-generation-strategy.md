@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-03-04)
+2025-01-04 (updated: 2026-03-12)
 
 ## Context
 
@@ -81,16 +81,16 @@ Rejected: 공개 콘텐츠 최신성 부족
 
 ## Implementation Files
 
-- `app/[lang]/(content)/journeys/page.tsx`
-- `app/[lang]/(content)/journeys/[journeyId]/page.tsx`
-- `app/[lang]/(content)/journeys/[journeyId]/moments/[clusterId]/page.tsx`
-- `app/[lang]/(content)/users/page.tsx`
-- `app/[lang]/(content)/users/[userId]/page.tsx`
-- `app/[lang]/(content)/photos/[photoId]/page.tsx`
+- `app/[lang]/(chrome)/(content)/journeys/page.tsx`
+- `app/[lang]/(chrome)/(content)/journeys/[journeyId]/page.tsx`
+- `app/[lang]/(chrome)/(content)/journeys/[journeyId]/moments/[clusterId]/page.tsx`
+- `app/[lang]/(chrome)/(content)/users/page.tsx`
+- `app/[lang]/(chrome)/(content)/users/[userId]/page.tsx`
+- `app/[lang]/(chrome)/(content)/photos/[photoId]/page.tsx`
 - `app/layout.tsx`
 - `proxy.ts`
 - `components/LocalizedTime.tsx`
-- `app/[lang]/(content)/photos/[photoId]/LocalizedDateTime.tsx`
+- `app/[lang]/(chrome)/(content)/photos/[photoId]/LocalizedDateTime.tsx`
 
 ## Related Decisions
 

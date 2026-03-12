@@ -12,7 +12,9 @@
 1. `CLAUDE.md`
 2. `docs/PRODUCT.md`
 3. `docs/adr/README.md`
-4. `docs/routing/README.md`
+
+별도 `docs/routing/*`, `docs/ai/*` quick reference는 유지하지 않는다.
+라우팅/인덱싱/공개 표면 규칙은 `docs/PRODUCT.md`와 ADR 문서를 기준으로 확인한다.
 
 ## 2) Hard Constraints
 
@@ -53,6 +55,9 @@
 
 ### 4.2 Code + PRODUCT.md
 - 사용자에게 보이는 라우트/기능/동작 변경
+- 신규 route 추가/제거
+- redirect/rewrites 변경
+- indexing 대상(route-level) 변경
 - 메타데이터/robots/indexing 정책 변경
 - 환경변수 사용 추가/삭제
 
@@ -60,11 +65,6 @@
 - 캐싱/데이터소스/인증/SEO 구조 의사결정 변경
 - 다국어 라우팅 규칙 변경
 - 사이트맵 구조 변경
-
-### 4.4 Code + Routing README
-- 신규 route 추가/제거
-- redirect/rewrites 변경
-- indexing 대상(route-level) 변경
 
 ## 5) Validation Protocol
 

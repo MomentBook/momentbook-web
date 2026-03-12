@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-03-01)
+2025-01-04 (updated: 2026-03-12)
 
 ## Context
 
@@ -20,17 +20,18 @@ Footer는 모든 페이지 하단의 공통 탐색 영역이다.
 
 ### 1) Footer 레이아웃
 
-상단 2블록 구조:
+상단 lead block + 하단 link grid 구조:
 
-- Brand block: 로고 + 요약 + CTA 버튼 2개
-- Link grid: Product / Download / Support / Legal
+- Lead block: 로고 + 요약 + CTA 버튼 2개(`Download`, `Support`) + 소셜 채널 아이콘
+- Link grid: Product / Support / Legal
 
 ### 2) 링크 구성 (Current)
 
-- Product: `faq`
-- Download: `download`, App Store, Google Play
+- Product: `journeys`, `faq`
 - Support: `support`, support email
 - Legal: `privacy`, `terms`, `community-guidelines`, `marketing-consent`
+
+다운로드는 별도 컬럼이 아니라 lead block의 primary CTA로 제공한다.
 
 ### 3) 다국어 번역 키 관리
 
@@ -63,8 +64,8 @@ Rejected: 법적 링크 접근 단계 증가
 
 ## Implementation Files
 
-- `app/[lang]/layout.tsx`
-- `app/[lang]/layout.module.scss`
+- `app/[lang]/(chrome)/layout.tsx`
+- `app/[lang]/(chrome)/layout.module.scss`
 - `lib/i18n/dictionaries/*`
 
 ## Related Decisions

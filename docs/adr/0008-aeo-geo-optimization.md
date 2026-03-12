@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-02-09 (updated: 2026-03-06)
+2026-02-09 (updated: 2026-03-12)
 
 ## Context
 
@@ -71,8 +71,8 @@ Rejected: 정보 중복 및 유지보수 복잡도 증가
 
 ## Implementation Files
 
-- `app/[lang]/page.tsx`
 - `app/[lang]/(chrome)/page.tsx`
+- `app/[lang]/(chrome)/layout.tsx`
 - `app/[lang]/(chrome)/HomeHero.tsx`
 - `app/[lang]/(chrome)/HomeDownloadSection.tsx`
 - `lib/marketing/download-content.ts`
@@ -80,6 +80,7 @@ Rejected: 정보 중복 및 유지보수 복잡도 증가
 - `lib/marketing/home-sections.ts`
 - `app/[lang]/(chrome)/(marketing)/download/page.tsx`
 - `app/[lang]/(chrome)/(content)/faq/page.tsx`
+- `app/[lang]/(chrome)/(legal)/support/page.tsx`
 - `app/[lang]/(chrome)/(content)/faq/faq.module.scss`
 - `public/llms.txt`
 

@@ -43,6 +43,12 @@
 - Analytics: GA4 (`@next/third-parties/google`) + route page_view tracking
 - i18n: 9개 언어 (`en/ko/ja/zh/es/pt/fr/th/vi`)
 - Routing guard: `proxy.ts` (non-prefixed path -> language-prefixed redirect)
+- Root redirect: `/` -> client-side language redirect in `app/page.tsx`
+- Shared shell: public pages use `app/[lang]/(chrome)/layout.tsx`
+- Standalone acquisition landing: `app/[lang]/install/*` renders outside shared chrome
+- Header nav: desktop/mobile 모두 `Download`, `Journeys` 중심
+- Public data runtime: `lib/public-api.ts`, `lib/public-users.ts`, `lib/published-journey.ts`
+- Legacy residue: `lib/public-content.ts`, `lib/content.ts`, `lib/published-photo.ts` are not used by main public routes
 - Sitemap: route handlers (`/sitemap.xml` + segmented sub-sitemaps)
 
 ## 5) Working Rules For AI Agents
@@ -52,7 +58,9 @@
 - `AGENTS.md`
 - `docs/PRODUCT.md`
 - `docs/adr/README.md`
-- `docs/routing/README.md`
+
+별도 `docs/routing/*`, `docs/ai/*` quick reference는 유지하지 않는다.
+라우팅/인덱싱/표면 규칙은 `docs/PRODUCT.md`와 ADR 문서에서 직접 확인한다.
 
 2. 구현 전 확인한다.
 - 요청이 기존 ADR 범위인지

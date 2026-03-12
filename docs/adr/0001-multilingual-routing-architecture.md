@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-02-12)
+2025-01-04 (updated: 2026-03-12)
 
 ## Context
 
@@ -30,9 +30,10 @@ MomentBook 웹은 9개 언어를 URL prefix 기반으로 제공한다.
 
 - Next.js 16의 `proxy.ts`를 사용한다.
 - 언어 prefix가 없는 요청은 다음 우선순위로 `/{lang}`로 리다이렉트한다.
-  1. `preferredLanguage` cookie
-  2. `Accept-Language`
-  3. default language (`en`)
+  1. query `lang`
+  2. `preferredLanguage` cookie
+  3. `Accept-Language`
+  4. default language (`en`)
 
 ### 3) 클라이언트 선호 언어 동기화
 

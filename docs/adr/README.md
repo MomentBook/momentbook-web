@@ -20,9 +20,9 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 ### Current ADRs
 
 1. [ADR 0001: Multilingual Routing Architecture](./0001-multilingual-routing-architecture.md)
-- Date: 2025-01-04 (updated: 2026-02-12)
+- Date: 2025-01-04 (updated: 2026-03-12)
 - Status: Accepted
-- Summary: `app/[lang]` + `proxy.ts` 기반 언어 prefix 라우팅, cookie/Accept-Language redirect, hreflang alternates
+- Summary: `app/[lang]` + `proxy.ts` 기반 언어 prefix 라우팅, query/cookie/Accept-Language redirect, hreflang alternates
 
 2. [ADR 0002: Legal Document Internationalization](./0002-legal-document-internationalization.md)
 - Date: 2025-01-04 (updated: 2026-02-12)
@@ -30,14 +30,14 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: 법적 문서 component 분기, core locale 원문 유지, extended locale 본문 영어 fallback, legal noindex
 
 3. [ADR 0003: Static Generation + Revalidation Strategy](./0003-static-site-generation-strategy.md)
-- Date: 2025-01-04 (updated: 2026-03-04)
+- Date: 2025-01-04 (updated: 2026-03-12)
 - Status: Accepted
 - Summary: 정적 중심 + route별 revalidate(60/3600) + root layout Dynamic API 제한 + null-safe fetch 실패 처리
 
 4. [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)
-- Date: 2025-01-04 (updated: 2026-02-12)
+- Date: 2025-01-04 (updated: 2026-03-12)
 - Status: Accepted
-- Summary: 브랜드 블록 + Product/Download/Support/Legal 컬럼 구조
+- Summary: lead block(브랜드/CTA/소셜) + Product/Support/Legal link grid 구조
 
 5. [ADR 0005: Public API Integration for Published Content](./0005-public-api-integration.md)
 - Date: 2026-01-29 (updated: 2026-02-12)
@@ -50,12 +50,12 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: `/sitemap.xml` index + 리소스 분할 sitemap route handlers + home/faq/journeys/users 중심 static sitemap
 
 7. [ADR 0007: Web Analytics Integration (GA4 + Firebase-ready modules)](./0007-firebase-analytics-integration.md)
-- Date: 2026-02-06 (updated: 2026-02-12)
+- Date: 2026-02-06 (updated: 2026-03-12)
 - Status: Accepted
 - Summary: production GA4 script + route page_view tracker, Firebase helper 모듈 준비 상태 유지
 
 8. [ADR 0008: AEO/GEO Optimization](./0008-aeo-geo-optimization.md)
-- Date: 2026-02-09 (updated: 2026-03-06)
+- Date: 2026-02-09 (updated: 2026-03-12)
 - Status: Accepted
 - Summary: 홈 intro/download + 독립 FAQ answer-ready page + Home/FAQ JSON-LD + `llms.txt` 제공
 
@@ -65,7 +65,7 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: NextAuth 기반 웹 인증/신고 플로우(현재는 superseded)
 
 10. [ADR 0010: Remove Web Authentication Surface](./0010-remove-web-authentication-surface.md)
-- Date: 2026-03-01
+- Date: 2026-03-01 (updated: 2026-03-12)
 - Status: Accepted
 - Summary: 웹 로그인/API auth/report UI 제거, 공개 읽기 전용 표면으로 단순화
 
