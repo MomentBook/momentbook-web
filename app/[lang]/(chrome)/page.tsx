@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { FadeIn } from "@/components/FadeIn";
+import { LocalizedDate } from "@/components/LocalizedTime";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
 import { type Language } from "@/lib/i18n/config";
@@ -41,6 +43,62 @@ type HomePageCopy = {
   introGuideTitle: string;
   introGuideLead: string;
 };
+
+type HomeEditorialCopy = {
+  heroEyebrow: string;
+  heroExploreCta: string;
+  heroJourneyLabel: string;
+  featuredEyebrow: string;
+  featuredTitle: string;
+  featuredLead: string;
+  featuredArchiveCta: string;
+  featuredReadOnlyLabel: string;
+  photoCountLabel: string;
+};
+
+type CuratedFeaturedJourney = {
+  id: string;
+  title: string;
+  description: string;
+  author: string;
+  photoCount: number;
+  publishedAt: string;
+  coverSrc: string;
+};
+
+const curatedFeaturedJourneys: CuratedFeaturedJourney[] = [
+  {
+    id: "CMUOlbU-SEkd",
+    title: "Happy Barcelona tour",
+    description: "Honey moon #10",
+    author: "한솔",
+    photoCount: 20,
+    publishedAt: "2026-02-08T04:02:19.916Z",
+    coverSrc:
+      "https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/688a0f347ef4afb3a6f8eabf/42b0515b-f92e-4601-8ad5-79b2661a47d8/1770523338554-7CUn8lGJiP.jpg",
+  },
+  {
+    id: "nlgxvJcYJ6AA",
+    title: "Bye 2025, Hello 2026 !",
+    description: "연말 홈파티와 새해 맞이 노을 공원",
+    author: "김재원",
+    photoCount: 30,
+    publishedAt: "2026-02-10T15:49:54.824Z",
+    coverSrc:
+      "https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/688a28a47ef4afb3a6f8eb5e/b8541f06-4513-47c0-b5ff-3d26b4d1382a/1770738593180-lyiqBtx9nx.jpg",
+  },
+  {
+    id: "r2zQmFOGtKj2",
+    title: "Happy honeymoon #7",
+    description:
+      "Sending tour from Seville to Granada (We stopped by Setenil and Ronda along the way, and it was a very interesting tour.)",
+    author: "한솔",
+    photoCount: 25,
+    publishedAt: "2026-02-11T05:14:24.735Z",
+    coverSrc:
+      "https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/688a0f347ef4afb3a6f8eabf/1e3eccda-9a51-46cc-916b-aa8fd5b5b853/1770786861866-kSMOKA1OoT.jpg",
+  },
+];
 
 const homePageCopy: Record<Language, HomePageCopy> = {
   en: {
@@ -270,6 +328,117 @@ const homePageCopy: Record<Language, HomePageCopy> = {
   },
 };
 
+const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
+  en: {
+    heroEyebrow: "Read-only travel archive",
+    heroExploreCta: "Explore journeys",
+    heroJourneyLabel: "Featured journey",
+    featuredEyebrow: "Selected works",
+    featuredTitle: "Featured journeys",
+    featuredLead:
+      "A few published journeys, kept on the home screen as quiet editorial previews instead of a moving recent feed.",
+    featuredArchiveCta: "View archive",
+    featuredReadOnlyLabel: "Read only",
+    photoCountLabel: "photos",
+  },
+  ko: {
+    heroEyebrow: "읽기 전용 여행 아카이브",
+    heroExploreCta: "여정 둘러보기",
+    heroJourneyLabel: "고정 여정",
+    featuredEyebrow: "선별된 여정",
+    featuredTitle: "고정된 여정",
+    featuredLead:
+      "최근 목록 대신, 공개된 여정 몇 개를 홈에서 조용한 에디토리얼 카드로 고정해 보여줍니다.",
+    featuredArchiveCta: "전체 여정 보기",
+    featuredReadOnlyLabel: "읽기 전용",
+    photoCountLabel: "장의 사진",
+  },
+  ja: {
+    heroEyebrow: "読み取り専用の旅アーカイブ",
+    heroExploreCta: "旅を見てみる",
+    heroJourneyLabel: "注目の旅",
+    featuredEyebrow: "選ばれた旅",
+    featuredTitle: "注目の旅",
+    featuredLead:
+      "最近の一覧ではなく、公開された旅を静かなエディトリアルカードとしてホームに固定表示します。",
+    featuredArchiveCta: "アーカイブを見る",
+    featuredReadOnlyLabel: "閲覧専用",
+    photoCountLabel: "枚の写真",
+  },
+  zh: {
+    heroEyebrow: "只读旅行档案",
+    heroExploreCta: "查看旅程",
+    heroJourneyLabel: "精选旅程",
+    featuredEyebrow: "精选内容",
+    featuredTitle: "精选旅程",
+    featuredLead:
+      "不展示不断刷新的最近列表，而是在首页固定几段公开旅程，作为安静的编辑式预览。",
+    featuredArchiveCta: "查看归档",
+    featuredReadOnlyLabel: "只读",
+    photoCountLabel: "张照片",
+  },
+  es: {
+    heroEyebrow: "Archivo de viajes de solo lectura",
+    heroExploreCta: "Explorar viajes",
+    heroJourneyLabel: "Viaje destacado",
+    featuredEyebrow: "Trabajos seleccionados",
+    featuredTitle: "Viajes destacados",
+    featuredLead:
+      "En lugar de un feed reciente en movimiento, la portada fija algunos viajes publicados como vistas editoriales serenas.",
+    featuredArchiveCta: "Ver archivo",
+    featuredReadOnlyLabel: "Solo lectura",
+    photoCountLabel: "fotos",
+  },
+  pt: {
+    heroEyebrow: "Arquivo de viagens somente leitura",
+    heroExploreCta: "Explorar jornadas",
+    heroJourneyLabel: "Jornada em destaque",
+    featuredEyebrow: "Selecao curada",
+    featuredTitle: "Jornadas em destaque",
+    featuredLead:
+      "Em vez de uma lista recente em movimento, a home fixa algumas jornadas publicadas como prévias editoriais silenciosas.",
+    featuredArchiveCta: "Ver arquivo",
+    featuredReadOnlyLabel: "Somente leitura",
+    photoCountLabel: "fotos",
+  },
+  fr: {
+    heroEyebrow: "Archive de voyage en lecture seule",
+    heroExploreCta: "Explorer les voyages",
+    heroJourneyLabel: "Voyage mis en avant",
+    featuredEyebrow: "Selection choisie",
+    featuredTitle: "Voyages mis en avant",
+    featuredLead:
+      "Au lieu d'un flux récent en mouvement, l'accueil fixe quelques voyages publiés comme aperçus éditoriaux calmes.",
+    featuredArchiveCta: "Voir l'archive",
+    featuredReadOnlyLabel: "Lecture seule",
+    photoCountLabel: "photos",
+  },
+  th: {
+    heroEyebrow: "คลังการเดินทางแบบอ่านอย่างเดียว",
+    heroExploreCta: "สำรวจทริป",
+    heroJourneyLabel: "ทริปแนะนำ",
+    featuredEyebrow: "คัดสรรแล้ว",
+    featuredTitle: "ทริปแนะนำ",
+    featuredLead:
+      "แทนที่จะเป็นฟีดล่าสุดที่เปลี่ยนไปตลอด หน้าแรกจะตรึงทริปสาธารณะบางรายการไว้เป็นพรีวิวเชิงบรรณาธิการแบบสงบ",
+    featuredArchiveCta: "ดูคลังทั้งหมด",
+    featuredReadOnlyLabel: "อ่านอย่างเดียว",
+    photoCountLabel: "ภาพ",
+  },
+  vi: {
+    heroEyebrow: "Kho luu tru hanh trinh chi doc",
+    heroExploreCta: "Xem hanh trinh",
+    heroJourneyLabel: "Hanh trinh noi bat",
+    featuredEyebrow: "Tuyen chon",
+    featuredTitle: "Hanh trinh noi bat",
+    featuredLead:
+      "Thay vi mot danh sach gan day luon thay doi, trang chu co dinh mot vai hanh trinh cong khai nhu cac the bien tap tinh lang.",
+    featuredArchiveCta: "Xem kho luu tru",
+    featuredReadOnlyLabel: "Chi doc",
+    photoCountLabel: "anh",
+  },
+};
+
 const contactTypeByLanguage: Record<Language, string> = {
   en: "Customer Support",
   ko: "고객 지원",
@@ -284,6 +453,10 @@ const contactTypeByLanguage: Record<Language, string> = {
 
 function getHomePageCopy(lang: Language): HomePageCopy {
   return homePageCopy[lang] ?? homePageCopy.en;
+}
+
+function getHomeEditorialCopy(lang: Language): HomeEditorialCopy {
+  return homeEditorialCopy[lang] ?? homeEditorialCopy.en;
 }
 
 export async function generateMetadata(
@@ -319,46 +492,24 @@ export default async function Home({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
+  const editorialContent = getHomeEditorialCopy(lang);
   const dict = await getDictionary(lang);
   const downloadContent = getDownloadCopy(lang);
+  const featuredJourneys = curatedFeaturedJourneys.map((journey) => ({
+    ...journey,
+    href: `/${lang}/journeys/${journey.id}`,
+  }));
+  const leadJourney = featuredJourneys[0];
   const heroContent = {
     ...content,
-    heroEyebrow: dict.home.hero.deviceText,
-    heroHighlights: [
-      dict.home.flow.photo.deviceText,
-      dict.home.flow.moment.deviceText,
-      dict.home.flow.memory.deviceText,
-    ],
-    heroAmbientNote: dict.home.privacy.text,
-    heroPrimaryPreviewSrc: "/images/home/hero-misty-mountain-road.jpg",
-    heroSecondaryPreviewSrc: "/images/home/hero-forest-road.jpg",
+    ...editorialContent,
+    heroFootnote: dict.home.privacy.text,
+    heroJourneyTitle: leadJourney.title,
+    heroJourneyMeta: `${leadJourney.author} · ${leadJourney.photoCount} ${editorialContent.photoCountLabel}`,
+    heroPrimaryPreviewSrc: featuredJourneys[1]?.coverSrc ?? leadJourney.coverSrc,
+    heroSecondaryPreviewSrc: featuredJourneys[2]?.coverSrc ?? leadJourney.coverSrc,
+    heroDeviceScreenSrc: getLocalizedScreenshotPath(lang, "tracking"),
   };
-  const flowCards = [
-    {
-      key: "photos",
-      index: "01",
-      title: dict.home.flow.photo.deviceText,
-      body: dict.home.flow.photo.text,
-      imageSrc: getLocalizedScreenshotPath(lang, "photos"),
-      imageAlt: dict.home.flow.photo.deviceText,
-    },
-    {
-      key: "timeline",
-      index: "02",
-      title: dict.home.flow.moment.deviceText,
-      body: dict.home.flow.moment.text,
-      imageSrc: getLocalizedScreenshotPath(lang, "timeline"),
-      imageAlt: dict.home.flow.moment.deviceText,
-    },
-    {
-      key: "tracking",
-      index: "03",
-      title: dict.home.flow.memory.deviceText,
-      body: dict.home.flow.memory.text,
-      imageSrc: getLocalizedScreenshotPath(lang, "tracking"),
-      imageAlt: dict.home.flow.memory.deviceText,
-    },
-  ];
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -429,49 +580,60 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={heroContent} />
-      <section className={`${styles.homeSection} ${styles.flowSection}`} aria-labelledby="home-flow-title">
-        <div className={styles.flowHeader}>
-          <FadeIn delay={80}>
-            <p className={styles.sectionEyebrow}>{heroContent.heroEyebrow}</p>
-          </FadeIn>
-          <FadeIn delay={120}>
-            <h2 id="home-flow-title" className={styles.sectionTitle}>
-              {content.introGuideTitle}
-            </h2>
-          </FadeIn>
-          <FadeIn delay={160}>
-            <p className={styles.sectionLead}>{content.introGuideLead}</p>
+      <section className={styles.featuredSection} aria-labelledby="home-featured-title">
+        <div className={styles.sectionHeader}>
+          <div className={styles.sectionHeaderCopy}>
+            <FadeIn delay={80}>
+              <p className={styles.sectionEyebrow}>{editorialContent.featuredEyebrow}</p>
+            </FadeIn>
+            <FadeIn delay={120}>
+              <h2 id="home-featured-title" className={styles.sectionTitle}>
+                {editorialContent.featuredTitle}
+              </h2>
+            </FadeIn>
+            <FadeIn delay={160}>
+              <p className={styles.sectionLead}>{editorialContent.featuredLead}</p>
+            </FadeIn>
+          </div>
+          <FadeIn delay={200}>
+            <Link href={`/${lang}/journeys`} className={styles.archiveLink}>
+              {editorialContent.featuredArchiveCta}
+            </Link>
           </FadeIn>
         </div>
 
-        <div className={styles.flowGrid}>
-          {flowCards.map((card, index) => (
-            <FadeIn key={card.key} delay={200 + (index * 60)} className={styles.flowCard}>
-              <div className={styles.flowCardMedia}>
-                <span className={styles.flowCardIndex}>{card.index}</span>
-                <Image
-                  src={card.imageSrc}
-                  alt={card.imageAlt}
-                  fill
-                  sizes="(max-width: 979px) 100vw, 24rem"
-                  className={styles.flowCardImage}
-                />
-              </div>
-              <div className={styles.flowCardBody}>
-                <h3 className={styles.flowCardTitle}>{card.title}</h3>
-                <p className={styles.flowCardText}>{card.body}</p>
-              </div>
+        <div className={styles.featuredGrid}>
+          {featuredJourneys.map((journey, index) => (
+            <FadeIn
+              key={journey.id}
+              delay={240 + (index * 80)}
+              className={`${styles.featuredCard} ${index === 0 ? styles.featuredCardLarge : ""}`}
+            >
+              <Link href={journey.href} className={styles.featuredCardLink}>
+                <div className={styles.featuredCardMedia}>
+                  <Image
+                    src={journey.coverSrc}
+                    alt={journey.title}
+                    fill
+                    sizes="(max-width: 979px) 100vw, (max-width: 1279px) 50vw, 40vw"
+                    className={styles.featuredCardImage}
+                  />
+                  <span className={styles.featuredBadge}>{editorialContent.featuredReadOnlyLabel}</span>
+                </div>
+                <div className={styles.featuredCardBody}>
+                  <div className={styles.featuredCardMeta}>
+                    <span>{journey.author}</span>
+                    <span>{journey.photoCount} {editorialContent.photoCountLabel}</span>
+                  </div>
+                  <h3 className={styles.featuredCardTitle}>{journey.title}</h3>
+                  <p className={styles.featuredCardDescription}>{journey.description}</p>
+                  <div className={styles.featuredCardFooter}>
+                    <LocalizedDate lang={lang} timestamp={Date.parse(journey.publishedAt)} />
+                  </div>
+                </div>
+              </Link>
             </FadeIn>
           ))}
-        </div>
-
-        <div className={styles.flowNotes}>
-          <FadeIn delay={380} className={styles.flowNote}>
-            <p>{dict.home.pause.text}</p>
-          </FadeIn>
-          <FadeIn delay={440} className={`${styles.flowNote} ${styles.flowNoteStrong}`}>
-            <p>{dict.home.privacy.text}</p>
-          </FadeIn>
         </div>
       </section>
       <HomeDownloadSection lang={lang} content={downloadContent} />

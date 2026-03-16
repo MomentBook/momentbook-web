@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { DownloadActionButton } from "@/components/DownloadActionButton";
 import { FadeIn } from "@/components/FadeIn";
@@ -19,13 +20,17 @@ export type HomeHeroContent = {
   heroEyebrow: string;
   heroTitle: string;
   heroLead: string;
+  heroExploreCta: string;
   heroTutorialCta: string;
-  primaryCta: string;
+  heroFootnote: string;
   deviceAlt: string;
-  heroHighlights: string[];
-  heroAmbientNote: string;
+  heroJourneyLabel: string;
+  heroJourneyTitle: string;
+  heroJourneyMeta: string;
   heroPrimaryPreviewSrc: string;
   heroSecondaryPreviewSrc: string;
+  heroDeviceScreenSrc: string;
+  primaryCta: string;
   replayLabel: string;
   playWithSoundLabel: string;
   playLabel: string;
@@ -89,24 +94,30 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
             </FadeIn>
             <FadeIn delay={200} className={styles.heroActionsWrap}>
               <div className={styles.heroActions}>
-                <button type="button" className={styles.primaryButton} onClick={scrollToIntroSection}>
+                <Link href={`/${lang}/journeys`} className={styles.primaryButton}>
+                  {content.heroExploreCta}
+                </Link>
+                <button
+                  type="button"
+                  className={styles.secondaryButton}
+                  onClick={scrollToIntroSection}
+                >
                   {content.heroTutorialCta}
                 </button>
               </div>
             </FadeIn>
             <FadeIn delay={240}>
-              <ul className={styles.heroHighlights} aria-label={content.heroEyebrow}>
-                {content.heroHighlights.map((highlight) => (
-                  <li key={highlight} className={styles.heroHighlight}>
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
+              <p className={styles.heroFootnote}>{content.heroFootnote}</p>
             </FadeIn>
           </div>
 
           <FadeIn delay={120} className={styles.heroMediaWrap}>
             <div className={styles.heroScene}>
+              <div className={styles.heroJourneyCard}>
+                <span className={styles.heroJourneyLabel}>{content.heroJourneyLabel}</span>
+                <p className={styles.heroJourneyTitle}>{content.heroJourneyTitle}</p>
+                <p className={styles.heroJourneyMeta}>{content.heroJourneyMeta}</p>
+              </div>
               <div
                 className={`${styles.heroPreviewCard} ${styles.heroPreviewCardPrimary}`}
                 aria-hidden="true"
@@ -134,7 +145,7 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
 
               <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
                 <Image
-                  src="/device-mocks/home.new.en.webp"
+                  src={content.heroDeviceScreenSrc}
                   alt={content.deviceAlt}
                   fill
                   priority
@@ -142,9 +153,6 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                   className={deviceStyles.screenImage}
                 />
               </DeviceMock>
-            </div>
-            <div className={styles.heroAmbientCard}>
-              <p>{content.heroAmbientNote}</p>
             </div>
           </FadeIn>
         </div>
@@ -157,9 +165,19 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
         className={`${styles.introSection} ${isIntroExpanded ? styles.introSectionExpanded : ""}`}
         aria-labelledby="overview-title"
       >
-        <h2 id="overview-title" className={styles.srOnly}>
-          {content.heroTutorialCta}
-        </h2>
+        <div className={styles.introHeader}>
+          <FadeIn delay={100}>
+            <p className={styles.sectionEyebrow}>{content.heroTutorialCta}</p>
+          </FadeIn>
+          <FadeIn delay={140}>
+            <h2 id="overview-title" className={styles.introSectionTitle}>
+              {content.introGuideTitle}
+            </h2>
+          </FadeIn>
+          <FadeIn delay={180}>
+            <p className={styles.introSectionLead}>{content.introGuideLead}</p>
+          </FadeIn>
+        </div>
         <FadeIn delay={140} className={styles.introStageWrap}>
           <div className={styles.introStage}>
             <div className={styles.introMediaPane}>

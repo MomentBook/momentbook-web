@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { DeviceMock } from "@/components/DeviceMock";
+import deviceStyles from "@/components/DeviceMock.module.scss";
 import { FadeIn } from "@/components/FadeIn";
 import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
@@ -15,6 +17,7 @@ type HomeDownloadSectionProps = {
 export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps) {
   const storeLinks = getCanonicalStoreLinks(lang);
   const introScreenshot = getLocalizedScreenshotPath(lang, "intro");
+  const photosScreenshot = getLocalizedScreenshotPath(lang, "photos");
   const timelineScreenshot = getLocalizedScreenshotPath(lang, "timeline");
 
   return (
@@ -26,10 +29,12 @@ export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps)
     >
       <div className={styles.downloadHeroInner}>
         <FadeIn delay={120} className={styles.downloadHeroCopy}>
-          <div>
+          <div className={styles.downloadCopyBlock}>
+            <p className={styles.downloadKicker}>{content.desktopQrTitle}</p>
             <h2 id="download-title" className={styles.downloadHeroTitle}>
               {content.title}
             </h2>
+            <p className={styles.downloadHeroLead}>{content.desktopQrLead}</p>
 
             <div className={styles.downloadStoreButtons}>
               <a
@@ -69,22 +74,31 @@ export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps)
         </FadeIn>
 
         <FadeIn delay={180} className={styles.downloadVisual}>
-          <div className={styles.downloadVisualCanvas} aria-hidden="true">
+          <div className={styles.downloadScene} aria-hidden="true">
             <div className={`${styles.downloadVisualCard} ${styles.downloadVisualPrimary}`}>
+              <Image
+                src={photosScreenshot}
+                alt=""
+                fill
+                sizes="(max-width: 979px) 10rem, 13rem"
+                className={styles.downloadVisualImage}
+              />
+            </div>
+            <DeviceMock className={styles.downloadDevice} screenClassName={deviceStyles.screenMedia}>
               <Image
                 src={introScreenshot}
                 alt=""
                 fill
-                sizes="(max-width: 979px) 12rem, 15rem"
-                className={styles.downloadVisualImage}
+                sizes="(max-width: 979px) min(100vw, 14rem), 16rem"
+                className={deviceStyles.screenImage}
               />
-            </div>
+            </DeviceMock>
             <div className={`${styles.downloadVisualCard} ${styles.downloadVisualSecondary}`}>
               <Image
                 src={timelineScreenshot}
                 alt=""
                 fill
-                sizes="(max-width: 979px) 10rem, 13rem"
+                sizes="(max-width: 979px) 9.5rem, 12rem"
                 className={styles.downloadVisualImage}
               />
             </div>
