@@ -1,12 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
 import { FadeIn } from "@/components/FadeIn";
-import {
-  ScrollActivatedVideo,
-  type ScrollActivatedVideoHandle,
-} from "@/components/ScrollActivatedVideo";
+import { ScrollActivatedVideo } from "@/components/ScrollActivatedVideo";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
@@ -32,20 +28,6 @@ type HomeTutorialSectionProps = {
 };
 
 export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
-  const introVideoRef = useRef<ScrollActivatedVideoHandle>(null);
-  const [hasIntroStarted, setHasIntroStarted] = useState(false);
-  const [hasIntroEnded, setHasIntroEnded] = useState(false);
-
-  const handlePrimaryVideoAction = () => {
-    if (hasIntroEnded) {
-      setHasIntroEnded(false);
-      void introVideoRef.current?.replay({ forceUnmute: true });
-      return;
-    }
-
-    void introVideoRef.current?.play({ forceUnmute: true });
-  };
-
   return (
     <section
       id={HOME_SECTION_IDS.overview}
@@ -65,23 +47,11 @@ export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
         <FadeIn delay={180}>
           <p className={styles.introSectionLead}>{content.introGuideLead}</p>
         </FadeIn>
-        {!hasIntroStarted || hasIntroEnded ? (
-          <FadeIn delay={220} className={styles.introHeaderActions}>
-            <button
-              type="button"
-              className={styles.primaryButton}
-              onClick={handlePrimaryVideoAction}
-            >
-              {hasIntroEnded ? content.replayLabel : content.playLabel}
-            </button>
-          </FadeIn>
-        ) : null}
       </div>
       <FadeIn delay={140} className={styles.introStageWrap}>
         <div className={styles.introStage}>
           <div className={styles.introMediaPane}>
             <ScrollActivatedVideo
-              ref={introVideoRef}
               className={styles.introVideo}
               src="/media/intro.mp4"
               poster="/media/intro-poster.jpg"
@@ -96,17 +66,10 @@ export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
               seekLabel={content.seekLabel}
               fullscreenLabel={content.fullscreenLabel}
               exitFullscreenLabel={content.exitFullscreenLabel}
-              allowReplayFromControls={false}
+              allowReplayFromControls
               autoplay={false}
               showReplayButton={false}
               showCenterPlayOverlay={false}
-              onPlaybackStart={() => {
-                setHasIntroStarted(true);
-                setHasIntroEnded(false);
-              }}
-              onPlaybackEnd={() => {
-                setHasIntroEnded(true);
-              }}
               fallback={(
                 <div className={styles.introFallback} role="img" aria-label={content.deviceAlt}>
                   <Image

@@ -60,7 +60,6 @@ type HomeEditorialCopy = {
   featuredTitle: string;
   featuredLead: string;
   featuredArchiveCta: string;
-  featuredReadOnlyLabel: string;
   photoCountLabel: string;
   untitledJourney: string;
   unknownUser: string;
@@ -102,7 +101,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
     metaDescription:
       "여행 사진을 한 번에 올리면 시간과 장소 기준 타임라인으로 정리하고, 정리된 아카이브를 클라우드 드라이브에 자동 동기화합니다.",
-    heroTitle: "당신의 여행을 기록하세요",
+    heroTitle: "당신의 여행을 기억하세요",
     heroLead:
       "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
     heroTutorialCta: "튜토리얼 보기",
@@ -300,7 +299,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "See the result",
     featuredLead: "Recent public trips from MomentBook.",
     featuredArchiveCta: "All journeys",
-    featuredReadOnlyLabel: "Read only",
     photoCountLabel: "photos",
     untitledJourney: "Untitled journey",
     unknownUser: "Unknown user",
@@ -313,7 +311,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "정리된 결과 보기",
     featuredLead: "최근 공개된 여행입니다.",
     featuredArchiveCta: "전체 보기",
-    featuredReadOnlyLabel: "읽기 전용",
     photoCountLabel: "장의 사진",
     untitledJourney: "제목 없는 여정",
     unknownUser: "알 수 없는 사용자",
@@ -326,7 +323,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "最近の旅",
     featuredLead: "MomentBookで最近公開された旅です。",
     featuredArchiveCta: "アーカイブを見る",
-    featuredReadOnlyLabel: "閲覧専用",
     photoCountLabel: "枚の写真",
     untitledJourney: "タイトル未設定の旅",
     unknownUser: "不明なユーザー",
@@ -339,7 +335,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "最近旅程",
     featuredLead: "MomentBook 中最近公开的旅程。",
     featuredArchiveCta: "查看归档",
-    featuredReadOnlyLabel: "只读",
     photoCountLabel: "张照片",
     untitledJourney: "未命名旅程",
     unknownUser: "未知用户",
@@ -352,7 +347,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "Viajes recientes",
     featuredLead: "Los viajes públicos publicados más recientemente en MomentBook.",
     featuredArchiveCta: "Ver archivo",
-    featuredReadOnlyLabel: "Solo lectura",
     photoCountLabel: "fotos",
     untitledJourney: "Viaje sin título",
     unknownUser: "Usuario desconocido",
@@ -365,7 +359,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "Jornadas recentes",
     featuredLead: "As jornadas públicas publicadas mais recentemente no MomentBook.",
     featuredArchiveCta: "Ver arquivo",
-    featuredReadOnlyLabel: "Somente leitura",
     photoCountLabel: "fotos",
     untitledJourney: "Jornada sem título",
     unknownUser: "Usuário desconhecido",
@@ -378,7 +371,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "Voyages récents",
     featuredLead: "Les voyages publics publiés le plus récemment sur MomentBook.",
     featuredArchiveCta: "Voir l'archive",
-    featuredReadOnlyLabel: "Lecture seule",
     photoCountLabel: "photos",
     untitledJourney: "Voyage sans titre",
     unknownUser: "Utilisateur inconnu",
@@ -391,7 +383,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "ทริปล่าสุด",
     featuredLead: "ทริปสาธารณะที่เผยแพร่ล่าสุดบน MomentBook",
     featuredArchiveCta: "ดูคลังทั้งหมด",
-    featuredReadOnlyLabel: "อ่านอย่างเดียว",
     photoCountLabel: "ภาพ",
     untitledJourney: "ทริปไม่มีชื่อ",
     unknownUser: "ผู้ใช้ไม่ทราบชื่อ",
@@ -404,7 +395,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "Hanh trinh gan day",
     featuredLead: "Nhung hanh trinh cong khai moi duoc dang tren MomentBook.",
     featuredArchiveCta: "Xem kho luu tru",
-    featuredReadOnlyLabel: "Chi doc",
     photoCountLabel: "anh",
     untitledJourney: "Hanh trinh chua dat ten",
     unknownUser: "Nguoi dung khong ro",
@@ -761,7 +751,6 @@ export default async function Home({
                       sizes="(max-width: 739px) 100vw, (max-width: 1099px) 50vw, 33vw"
                       className={styles.featuredCardImage}
                     />
-                    <span className={styles.featuredBadge}>{editorialContent.featuredReadOnlyLabel}</span>
                   </div>
                   <div className={styles.featuredCardBody}>
                     <div className={styles.featuredCardMeta}>

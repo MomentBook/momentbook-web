@@ -308,14 +308,6 @@
   font-size: 0.88rem;
   line-height: 1.68;
 }
-.featuredBadge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.64rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
 
 .introSection {
   padding: clamp(2.8rem, 5vw, 4rem) clamp(1.3rem, 3vw, 2rem);
@@ -330,12 +322,6 @@
   max-width: 40rem;
   margin: 0 auto clamp(2.1rem, 4vw, 2.9rem);
   text-align: center;
-}
-
-.introHeaderActions {
-  display: flex;
-  justify-content: center;
-  margin-top: 0.1rem;
 }
 
 .introHeader .sectionEyebrow {
@@ -441,8 +427,24 @@
 }
 
 .featuredCardLink {
-  display: block;
+  display: grid;
+  gap: 0;
   height: 100%;
+  padding: 0.85rem;
+  border: 1px solid var(--home-border);
+  border-radius: 1.75rem;
+  background: color-mix(in srgb, var(--home-paper) 94%, transparent);
+  box-shadow: var(--home-shadow-soft);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.featuredCardLink:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--home-accent) 24%, var(--home-border-strong));
+  box-shadow: 0 22px 42px rgba(17, 33, 22, 0.12);
 }
 
 .featuredCardMedia {
@@ -451,7 +453,6 @@
   aspect-ratio: 16 / 10;
   border-radius: 1.45rem;
   background: #dce6df;
-  box-shadow: var(--home-shadow-soft);
 }
 
 .featuredCardImage,
@@ -461,17 +462,6 @@
   display: block;
   object-fit: cover;
   object-position: center;
-}
-
-.featuredBadge {
-  position: absolute;
-  top: 0.85rem;
-  left: 0.85rem;
-  z-index: 1;
-  padding: 0.3rem 0.58rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.88);
-  color: var(--home-text);
 }
 
 .featuredCardBody {
@@ -636,6 +626,11 @@
 
   .featuredGrid {
     grid-template-columns: 1fr;
+  }
+
+  .featuredCardLink {
+    padding: 0.75rem;
+    border-radius: 1.5rem;
   }
 
   .downloadStoreButton {
