@@ -59,7 +59,7 @@ export default async function ChromeLayout({
                         </Link>
                         <DownloadActionButton
                             lang={lang}
-                            className={`${styles.navLink} ${styles.navLinkAccent}`}
+                            className={styles.navAction}
                         >
                             {dict.nav.download}
                         </DownloadActionButton>

@@ -31,7 +31,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 현재 홈(`/`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
 
-- Hero 섹션: 소개 카피와 2개 CTA(`/{lang}/journeys` 진입, intro video 섹션으로 smooth scroll)를 좌측에 두고, 우측에는 tracking 앱 스크린샷을 단순한 phone frame 안에 배치하며, 현재 환경에서 가장 최근에 공개된 여정 1개의 메타 카드를 상단에 함께 보여준다.
+- Hero 섹션: 소개 카피를 단일 컬럼으로 중앙 정렬해 노출하며, 1차 CTA는 다운로드 액션(데스크톱 QR modal + 모바일 스토어 이동), 2차 CTA는 `/{lang}/journeys` 진입, 보조 텍스트 CTA는 intro video 섹션으로 smooth scroll 한다.
 - Intro video 섹션: 진한 forest 톤 밴드 안에서 landscape 인트로 영상을 재생한다(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%). 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환을 제공하고, 영상 종료 시 전체화면은 자동 해제되며 컨트롤은 숨김 처리된다. 종료 후 "앱에서 정리해보기" CTA가 노출되고 약 2초 뒤 우측 안내 패널이 자동 전개되며(수동 클릭 가능), 패널에서는 "인트로 다시 보기"와 다운로드 액션을 제공한다. 데스크톱의 다운로드 버튼은 QR modal을 열고 모바일에서는 다운로드 섹션 정렬 후 플랫폼별 공식 스토어 링크로 이동한다. 현재 open-in-app deep link는 구성되어 있지 않다.
 - Recent journeys 섹션: intro 아래에 현재 환경(API base URL 기준)에서 최근 공개된 여정 3개를 카드로 노출한다. 각 카드는 cover image, title, description, author, photo count, published date를 포함하며 해당 공개 상세로 이동한다.
 - Download 섹션: warm sand 배경 안에서 App Store / Google Play CTA와 가용성 안내 문구를 중앙 정렬로 노출한다.

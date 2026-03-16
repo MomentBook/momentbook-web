@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Nunito } from "next/font/google";
+import { Manrope, Playfair_Display } from "next/font/google";
 import "./globals.scss";
 import LanguageSyncProvider from "./components/LanguageSyncProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -22,9 +22,19 @@ const HTML_LANG_BY_CODE = Object.fromEntries(
 const DEFAULT_HTML_LANG = HTML_LANG_BY_CODE[defaultLanguage];
 const HTML_LANG_MAP_JSON = JSON.stringify(HTML_LANG_BY_CODE);
 
-const nunito = Nunito({
+const manrope = Manrope({
     variable: "--font-rounded",
-    weight: ["400", "500", "600", "700"],
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700", "800"],
+    display: "swap",
+});
+
+const playfairDisplay = Playfair_Display({
+    variable: "--font-editorial",
+    subsets: ["latin"],
+    style: ["normal", "italic"],
+    weight: ["500", "600", "700", "800"],
+    display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -73,7 +83,7 @@ export default async function RootLayout({
           `}
                 </Script>
             </head>
-            <body className={nunito.variable}>
+            <body className={`${manrope.variable} ${playfairDisplay.variable}`}>
                 <LanguageSyncProvider />
                 {process.env.NODE_ENV === "production" ? (
                     <>

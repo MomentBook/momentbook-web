@@ -1,15 +1,30 @@
-/* ============================================
-   MomentBook Web - Liquid Glass Design System
-   Inspired by modern layered translucent UI
-   ============================================ */
-
 :root {
   --font-sans:
     var(--font-rounded),
-    "Arial Rounded MT Bold",
     var(--font-suit),
-    "Noto Sans",
+    "Noto Sans KR",
+    "Noto Sans JP",
+    "Noto Sans SC",
+    "Noto Sans TC",
+    "Noto Sans Thai",
+    "Apple SD Gothic Neo",
+    "Pretendard",
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
     sans-serif;
+  --font-display:
+    var(--font-editorial),
+    "Iowan Old Style",
+    "Palatino Linotype",
+    "Book Antiqua",
+    "Libre Baskerville",
+    Georgia,
+    "Noto Serif",
+    serif;
 
   --spacing-xs: 0.625rem;
   --spacing-sm: 1.25rem;

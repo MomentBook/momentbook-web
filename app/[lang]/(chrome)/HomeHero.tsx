@@ -22,10 +22,6 @@ export type HomeHeroContent = {
   heroTutorialCta: string;
   heroFootnote: string;
   deviceAlt: string;
-  heroJourneyLabel: string;
-  heroJourneyTitle: string;
-  heroJourneyMeta: string;
-  heroDeviceScreenSrc: string;
   primaryCta: string;
   replayLabel: string;
   playWithSoundLabel: string;
@@ -90,44 +86,28 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
             </FadeIn>
             <FadeIn delay={200} className={styles.heroActionsWrap}>
               <div className={styles.heroActions}>
-                <Link href={`/${lang}/journeys`} className={styles.primaryButton}>
+                <DownloadActionButton
+                  lang={lang}
+                  className={styles.primaryButton}
+                >
+                  {content.primaryCta}
+                </DownloadActionButton>
+                <Link href={`/${lang}/journeys`} className={styles.secondaryButton}>
                   {content.heroExploreCta}
                 </Link>
-                <button
-                  type="button"
-                  className={styles.secondaryButton}
-                  onClick={scrollToIntroSection}
-                >
-                  {content.heroTutorialCta}
-                </button>
               </div>
+              <button
+                type="button"
+                className={styles.tertiaryButton}
+                onClick={scrollToIntroSection}
+              >
+                {content.heroTutorialCta}
+              </button>
             </FadeIn>
             <FadeIn delay={240}>
               <p className={styles.heroFootnote}>{content.heroFootnote}</p>
             </FadeIn>
           </div>
-
-          <FadeIn delay={120} className={styles.heroMediaWrap}>
-            <div className={styles.heroScene}>
-              <div className={styles.heroPhone}>
-                <div className={styles.heroPhoneInner}>
-                  <div className={styles.heroJourneyCard}>
-                    <span className={styles.heroJourneyLabel}>{content.heroJourneyLabel}</span>
-                    <p className={styles.heroJourneyTitle}>{content.heroJourneyTitle}</p>
-                    <p className={styles.heroJourneyMeta}>{content.heroJourneyMeta}</p>
-                  </div>
-                  <Image
-                    src={content.heroDeviceScreenSrc}
-                    alt={content.deviceAlt}
-                    fill
-                    priority
-                    sizes="(max-width: 979px) min(100vw, 18rem), 23rem"
-                    className={styles.heroPhoneImage}
-                  />
-                </div>
-              </div>
-            </div>
-          </FadeIn>
         </div>
       </section>
 

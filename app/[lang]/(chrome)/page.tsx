@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { FadeIn } from "@/components/FadeIn";
 import { LocalizedDate } from "@/components/LocalizedTime";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
-import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
 import { type Language } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
@@ -49,7 +48,6 @@ type HomePageCopy = {
 type HomeEditorialCopy = {
   heroEyebrow: string;
   heroExploreCta: string;
-  heroJourneyLabel: string;
   featuredEyebrow: string;
   featuredTitle: string;
   featuredLead: string;
@@ -293,7 +291,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   en: {
     heroEyebrow: "Read-only travel archive",
     heroExploreCta: "Explore journeys",
-    heroJourneyLabel: "Latest journey",
     featuredEyebrow: "Latest public journeys",
     featuredTitle: "Recent journeys",
     featuredLead: "The latest public journeys published in MomentBook.",
@@ -307,7 +304,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   ko: {
     heroEyebrow: "읽기 전용 여행 아카이브",
     heroExploreCta: "여정 둘러보기",
-    heroJourneyLabel: "최신 여정",
     featuredEyebrow: "최근 공개된 여정",
     featuredTitle: "최근 여정",
     featuredLead: "MomentBook에 최근 공개된 여정입니다.",
@@ -321,7 +317,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   ja: {
     heroEyebrow: "読み取り専用の旅アーカイブ",
     heroExploreCta: "旅を見てみる",
-    heroJourneyLabel: "最新の旅",
     featuredEyebrow: "最新の公開された旅",
     featuredTitle: "最近の旅",
     featuredLead: "MomentBookで最近公開された旅です。",
@@ -335,7 +330,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   zh: {
     heroEyebrow: "只读旅行档案",
     heroExploreCta: "查看旅程",
-    heroJourneyLabel: "最新旅程",
     featuredEyebrow: "最新公开旅程",
     featuredTitle: "最近旅程",
     featuredLead: "MomentBook 中最近公开的旅程。",
@@ -349,7 +343,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   es: {
     heroEyebrow: "Archivo de viajes de solo lectura",
     heroExploreCta: "Explorar viajes",
-    heroJourneyLabel: "Viaje reciente",
     featuredEyebrow: "Viajes públicos recientes",
     featuredTitle: "Viajes recientes",
     featuredLead: "Los viajes públicos publicados más recientemente en MomentBook.",
@@ -363,7 +356,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   pt: {
     heroEyebrow: "Arquivo de viagens somente leitura",
     heroExploreCta: "Explorar jornadas",
-    heroJourneyLabel: "Jornada recente",
     featuredEyebrow: "Jornadas públicas recentes",
     featuredTitle: "Jornadas recentes",
     featuredLead: "As jornadas públicas publicadas mais recentemente no MomentBook.",
@@ -377,7 +369,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   fr: {
     heroEyebrow: "Archive de voyage en lecture seule",
     heroExploreCta: "Explorer les voyages",
-    heroJourneyLabel: "Voyage récent",
     featuredEyebrow: "Voyages publics récents",
     featuredTitle: "Voyages récents",
     featuredLead: "Les voyages publics publiés le plus récemment sur MomentBook.",
@@ -391,7 +382,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   th: {
     heroEyebrow: "คลังการเดินทางแบบอ่านอย่างเดียว",
     heroExploreCta: "สำรวจทริป",
-    heroJourneyLabel: "ทริปล่าสุด",
     featuredEyebrow: "ทริปสาธารณะล่าสุด",
     featuredTitle: "ทริปล่าสุด",
     featuredLead: "ทริปสาธารณะที่เผยแพร่ล่าสุดบน MomentBook",
@@ -405,7 +395,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   vi: {
     heroEyebrow: "Kho luu tru hanh trinh chi doc",
     heroExploreCta: "Xem hanh trinh",
-    heroJourneyLabel: "Hanh trinh moi nhat",
     featuredEyebrow: "Hanh trinh cong khai moi nhat",
     featuredTitle: "Hanh trinh gan day",
     featuredLead: "Nhung hanh trinh cong khai moi duoc dang tren MomentBook.",
@@ -553,16 +542,10 @@ export default async function Home({
       coverUrl: readText(journey.thumbnailUrl) ?? meta.thumbnailUri ?? null,
     };
   });
-  const leadJourney = featuredJourneys[0];
   const heroContent = {
     ...content,
     ...editorialContent,
     heroFootnote: dict.home.privacy.text,
-    heroJourneyTitle: leadJourney?.title ?? editorialContent.untitledJourney,
-    heroJourneyMeta: leadJourney
-      ? `${leadJourney.authorName}${leadJourney.photoCount > 0 ? ` · ${leadJourney.photoCount} ${editorialContent.photoCountLabel}` : ""}`
-      : editorialContent.emptyJourneys,
-    heroDeviceScreenSrc: getLocalizedScreenshotPath(lang, "tracking"),
   };
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
