@@ -46,22 +46,23 @@ export default async function ChromeLayout({
                             className={styles.logoMark}
                             iconClassName={styles.logoIcon}
                             wordmarkClassName={styles.logoWordmark}
+                            hideIcon
                         />
                     </Link>
 
                     <div className={styles.desktopNav}>
-                        <DownloadActionButton
-                            lang={lang}
-                            className={styles.navLink}
-                        >
-                            {dict.nav.download}
-                        </DownloadActionButton>
                         <Link
                             href={`/${lang}/journeys`}
                             className={styles.navLink}
                         >
                             {journeysNavLabel}
                         </Link>
+                        <DownloadActionButton
+                            lang={lang}
+                            className={`${styles.navLink} ${styles.navLinkAccent}`}
+                        >
+                            {dict.nav.download}
+                        </DownloadActionButton>
                     </div>
 
                     <div className={styles.controls}>
@@ -95,6 +96,7 @@ export default async function ChromeLayout({
                                     className={styles.logoMark}
                                     iconClassName={styles.logoIcon}
                                     wordmarkClassName={styles.logoWordmark}
+                                    hideIcon
                                 />
                             </Link>
 

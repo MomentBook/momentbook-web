@@ -506,8 +506,6 @@ export default async function Home({
     heroFootnote: dict.home.privacy.text,
     heroJourneyTitle: leadJourney.title,
     heroJourneyMeta: `${leadJourney.author} · ${leadJourney.photoCount} ${editorialContent.photoCountLabel}`,
-    heroPrimaryPreviewSrc: featuredJourneys[1]?.coverSrc ?? leadJourney.coverSrc,
-    heroSecondaryPreviewSrc: featuredJourneys[2]?.coverSrc ?? leadJourney.coverSrc,
     heroDeviceScreenSrc: getLocalizedScreenshotPath(lang, "tracking"),
   };
 
@@ -607,7 +605,7 @@ export default async function Home({
             <FadeIn
               key={journey.id}
               delay={240 + (index * 80)}
-              className={`${styles.featuredCard} ${index === 0 ? styles.featuredCardLarge : ""}`}
+              className={styles.featuredCard}
             >
               <Link href={journey.href} className={styles.featuredCardLink}>
                 <div className={styles.featuredCardMedia}>
@@ -615,20 +613,20 @@ export default async function Home({
                     src={journey.coverSrc}
                     alt={journey.title}
                     fill
-                    sizes="(max-width: 979px) 100vw, (max-width: 1279px) 50vw, 40vw"
+                    sizes="(max-width: 739px) 100vw, (max-width: 1099px) 50vw, 33vw"
                     className={styles.featuredCardImage}
                   />
                   <span className={styles.featuredBadge}>{editorialContent.featuredReadOnlyLabel}</span>
                 </div>
                 <div className={styles.featuredCardBody}>
                   <div className={styles.featuredCardMeta}>
+                    <LocalizedDate lang={lang} timestamp={Date.parse(journey.publishedAt)} />
                     <span>{journey.author}</span>
-                    <span>{journey.photoCount} {editorialContent.photoCountLabel}</span>
                   </div>
                   <h3 className={styles.featuredCardTitle}>{journey.title}</h3>
                   <p className={styles.featuredCardDescription}>{journey.description}</p>
                   <div className={styles.featuredCardFooter}>
-                    <LocalizedDate lang={lang} timestamp={Date.parse(journey.publishedAt)} />
+                    <span>{journey.photoCount} {editorialContent.photoCountLabel}</span>
                   </div>
                 </div>
               </Link>

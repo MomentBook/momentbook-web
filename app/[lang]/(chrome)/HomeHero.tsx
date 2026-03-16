@@ -27,8 +27,6 @@ export type HomeHeroContent = {
   heroJourneyLabel: string;
   heroJourneyTitle: string;
   heroJourneyMeta: string;
-  heroPrimaryPreviewSrc: string;
-  heroSecondaryPreviewSrc: string;
   heroDeviceScreenSrc: string;
   primaryCta: string;
   replayLabel: string;
@@ -118,31 +116,6 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
                 <p className={styles.heroJourneyTitle}>{content.heroJourneyTitle}</p>
                 <p className={styles.heroJourneyMeta}>{content.heroJourneyMeta}</p>
               </div>
-              <div
-                className={`${styles.heroPreviewCard} ${styles.heroPreviewCardPrimary}`}
-                aria-hidden="true"
-              >
-                <Image
-                  src={content.heroPrimaryPreviewSrc}
-                  alt=""
-                  fill
-                  sizes="(max-width: 979px) 9rem, 13rem"
-                  className={styles.heroPreviewImage}
-                />
-              </div>
-              <div
-                className={`${styles.heroPreviewCard} ${styles.heroPreviewCardSecondary}`}
-                aria-hidden="true"
-              >
-                <Image
-                  src={content.heroSecondaryPreviewSrc}
-                  alt=""
-                  fill
-                  sizes="(max-width: 979px) 8rem, 11rem"
-                  className={styles.heroPreviewImage}
-                />
-              </div>
-
               <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
                 <Image
                   src={content.heroDeviceScreenSrc}

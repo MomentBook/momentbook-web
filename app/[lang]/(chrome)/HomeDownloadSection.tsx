@@ -1,8 +1,5 @@
 import Image from "next/image";
-import { DeviceMock } from "@/components/DeviceMock";
-import deviceStyles from "@/components/DeviceMock.module.scss";
 import { FadeIn } from "@/components/FadeIn";
-import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import { type DownloadCopy } from "@/lib/marketing/download-content";
@@ -16,9 +13,6 @@ type HomeDownloadSectionProps = {
 
 export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps) {
   const storeLinks = getCanonicalStoreLinks(lang);
-  const introScreenshot = getLocalizedScreenshotPath(lang, "intro");
-  const photosScreenshot = getLocalizedScreenshotPath(lang, "photos");
-  const timelineScreenshot = getLocalizedScreenshotPath(lang, "timeline");
 
   return (
     <section
@@ -70,38 +64,6 @@ export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps)
             </div>
 
             <p className={styles.downloadAvailability}>{content.availability}</p>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={180} className={styles.downloadVisual}>
-          <div className={styles.downloadScene} aria-hidden="true">
-            <div className={`${styles.downloadVisualCard} ${styles.downloadVisualPrimary}`}>
-              <Image
-                src={photosScreenshot}
-                alt=""
-                fill
-                sizes="(max-width: 979px) 10rem, 13rem"
-                className={styles.downloadVisualImage}
-              />
-            </div>
-            <DeviceMock className={styles.downloadDevice} screenClassName={deviceStyles.screenMedia}>
-              <Image
-                src={introScreenshot}
-                alt=""
-                fill
-                sizes="(max-width: 979px) min(100vw, 14rem), 16rem"
-                className={deviceStyles.screenImage}
-              />
-            </DeviceMock>
-            <div className={`${styles.downloadVisualCard} ${styles.downloadVisualSecondary}`}>
-              <Image
-                src={timelineScreenshot}
-                alt=""
-                fill
-                sizes="(max-width: 979px) 9.5rem, 12rem"
-                className={styles.downloadVisualImage}
-              />
-            </div>
           </div>
         </FadeIn>
       </div>
