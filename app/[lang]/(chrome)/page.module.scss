@@ -23,6 +23,17 @@
   padding: 0 var(--spacing-md) calc(var(--spacing-xl) * 0.92);
 }
 
+:global(body) {
+  background:
+    radial-gradient(circle at top, rgba(23, 207, 84, 0.06), transparent 24%),
+    linear-gradient(180deg, #f6f8f6 0%, #f7f8f4 58%, #fdf5e6 100%);
+}
+
+:global(body)::before,
+:global(body)::after {
+  opacity: 0.08;
+}
+
 :global([data-theme="dark"]) .page {
   --home-bg: #0f1712;
   --home-paper: #151f19;
@@ -36,6 +47,12 @@
   --home-border-strong: rgba(255, 255, 255, 0.14);
   --home-shadow-soft: 0 18px 42px rgba(0, 0, 0, 0.28);
   --home-shadow-strong: 0 28px 72px rgba(0, 0, 0, 0.38);
+}
+
+:global([data-theme="dark"] body) {
+  background:
+    radial-gradient(circle at top, rgba(106, 226, 133, 0.08), transparent 24%),
+    linear-gradient(180deg, #111813 0%, #131c16 58%, #221d15 100%);
 }
 
 .hero,
