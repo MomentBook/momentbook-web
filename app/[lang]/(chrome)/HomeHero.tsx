@@ -10,7 +10,6 @@ import {
   type ScrollActivatedVideoHandle,
 } from "@/components/ScrollActivatedVideo";
 import { type Language } from "@/lib/i18n/config";
-import { scrollHomeSectionIntoView } from "@/lib/marketing/home-scroll";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
@@ -79,12 +78,6 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
     };
   }, [isIntroExpanded, showIntroPrompt]);
 
-  const scrollToIntroSection = () => {
-    if (introSectionRef.current) {
-      scrollHomeSectionIntoView(introSectionRef.current);
-    }
-  };
-
   return (
     <>
       <section className={styles.hero}>
@@ -111,17 +104,12 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
                   {content.heroExploreCta}
                 </Link>
               </div>
-              <button
-                type="button"
-                className={styles.tertiaryButton}
-                onClick={scrollToIntroSection}
-              >
-                {content.heroTutorialCta}
-              </button>
             </FadeIn>
-            <FadeIn delay={240}>
-              <p className={styles.heroFootnote}>{content.heroFootnote}</p>
-            </FadeIn>
+            {content.heroFootnote ? (
+              <FadeIn delay={240}>
+                <p className={styles.heroFootnote}>{content.heroFootnote}</p>
+              </FadeIn>
+            ) : null}
           </div>
         </div>
       </section>

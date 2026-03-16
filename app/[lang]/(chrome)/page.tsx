@@ -5,7 +5,6 @@ import { FadeIn } from "@/components/FadeIn";
 import { LocalizedDate } from "@/components/LocalizedTime";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
-import { getDictionary } from "@/lib/i18n/dictionaries";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { getDownloadCopy } from "@/lib/marketing/download-content";
 import { MARKETING_CHANNEL_URLS } from "@/lib/marketing/social-channels";
@@ -110,7 +109,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
     metaDescription:
       "여행 사진을 한 번에 올리면 시간과 장소 기준 타임라인으로 정리하고, 정리된 아카이브를 클라우드 드라이브에 자동 동기화합니다.",
-    heroTitle: "한 번 올리면 정리 끝",
+    heroTitle: "당신의 여행을 기록하세요",
     heroLead:
       "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
     heroTutorialCta: "작동 보기",
@@ -653,7 +652,6 @@ export default async function Home({
   const content = getHomePageCopy(lang);
   const editorialContent = getHomeEditorialCopy(lang);
   const messageContent = getHomeMessageCopy(lang);
-  const dict = await getDictionary(lang);
   const downloadContent = getDownloadCopy(lang);
   const latestJourneys = await fetchPublishedJourneys({
     page: 1,
@@ -686,7 +684,7 @@ export default async function Home({
   const heroContent = {
     ...content,
     ...editorialContent,
-    heroFootnote: dict.home.privacy.text,
+    heroFootnote: "",
   };
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
