@@ -5,8 +5,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { DownloadActionButton } from "@/components/DownloadActionButton";
 import { FadeIn } from "@/components/FadeIn";
-import { DeviceMock } from "@/components/DeviceMock";
-import deviceStyles from "@/components/DeviceMock.module.scss";
 import {
   ScrollActivatedVideo,
   type ScrollActivatedVideoHandle,
@@ -111,21 +109,23 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
 
           <FadeIn delay={120} className={styles.heroMediaWrap}>
             <div className={styles.heroScene}>
-              <div className={styles.heroJourneyCard}>
-                <span className={styles.heroJourneyLabel}>{content.heroJourneyLabel}</span>
-                <p className={styles.heroJourneyTitle}>{content.heroJourneyTitle}</p>
-                <p className={styles.heroJourneyMeta}>{content.heroJourneyMeta}</p>
+              <div className={styles.heroPhone}>
+                <div className={styles.heroPhoneInner}>
+                  <div className={styles.heroJourneyCard}>
+                    <span className={styles.heroJourneyLabel}>{content.heroJourneyLabel}</span>
+                    <p className={styles.heroJourneyTitle}>{content.heroJourneyTitle}</p>
+                    <p className={styles.heroJourneyMeta}>{content.heroJourneyMeta}</p>
+                  </div>
+                  <Image
+                    src={content.heroDeviceScreenSrc}
+                    alt={content.deviceAlt}
+                    fill
+                    priority
+                    sizes="(max-width: 979px) min(100vw, 18rem), 23rem"
+                    className={styles.heroPhoneImage}
+                  />
+                </div>
               </div>
-              <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
-                <Image
-                  src={content.heroDeviceScreenSrc}
-                  alt={content.deviceAlt}
-                  fill
-                  priority
-                  sizes="(max-width: 979px) min(100vw, 14.2rem), 18rem"
-                  className={deviceStyles.screenImage}
-                />
-              </DeviceMock>
             </div>
           </FadeIn>
         </div>

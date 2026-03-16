@@ -14,6 +14,8 @@ import {
   buildAppleSmartBannerContent,
   getCanonicalStoreLinks,
 } from "@/lib/mobile-app";
+import { fetchPublishedJourneys, type PublishedJourneyListItemApi } from "@/lib/published-journey";
+import { fetchPublicUser } from "@/lib/public-users";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
 import { HashTargetFocus } from "./HashTargetFocus";
@@ -54,51 +56,10 @@ type HomeEditorialCopy = {
   featuredArchiveCta: string;
   featuredReadOnlyLabel: string;
   photoCountLabel: string;
+  untitledJourney: string;
+  unknownUser: string;
+  emptyJourneys: string;
 };
-
-type CuratedFeaturedJourney = {
-  id: string;
-  title: string;
-  description: string;
-  author: string;
-  photoCount: number;
-  publishedAt: string;
-  coverSrc: string;
-};
-
-const curatedFeaturedJourneys: CuratedFeaturedJourney[] = [
-  {
-    id: "CMUOlbU-SEkd",
-    title: "Happy Barcelona tour",
-    description: "Honey moon #10",
-    author: "한솔",
-    photoCount: 20,
-    publishedAt: "2026-02-08T04:02:19.916Z",
-    coverSrc:
-      "https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/688a0f347ef4afb3a6f8eabf/42b0515b-f92e-4601-8ad5-79b2661a47d8/1770523338554-7CUn8lGJiP.jpg",
-  },
-  {
-    id: "nlgxvJcYJ6AA",
-    title: "Bye 2025, Hello 2026 !",
-    description: "연말 홈파티와 새해 맞이 노을 공원",
-    author: "김재원",
-    photoCount: 30,
-    publishedAt: "2026-02-10T15:49:54.824Z",
-    coverSrc:
-      "https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/688a28a47ef4afb3a6f8eb5e/b8541f06-4513-47c0-b5ff-3d26b4d1382a/1770738593180-lyiqBtx9nx.jpg",
-  },
-  {
-    id: "r2zQmFOGtKj2",
-    title: "Happy honeymoon #7",
-    description:
-      "Sending tour from Seville to Granada (We stopped by Setenil and Ronda along the way, and it was a very interesting tour.)",
-    author: "한솔",
-    photoCount: 25,
-    publishedAt: "2026-02-11T05:14:24.735Z",
-    coverSrc:
-      "https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/688a0f347ef4afb3a6f8eabf/1e3eccda-9a51-46cc-916b-aa8fd5b5b853/1770786861866-kSMOKA1OoT.jpg",
-  },
-];
 
 const homePageCopy: Record<Language, HomePageCopy> = {
   en: {
@@ -332,110 +293,128 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   en: {
     heroEyebrow: "Read-only travel archive",
     heroExploreCta: "Explore journeys",
-    heroJourneyLabel: "Featured journey",
-    featuredEyebrow: "Selected works",
-    featuredTitle: "Featured journeys",
-    featuredLead:
-      "A few published journeys, kept on the home screen as quiet editorial previews instead of a moving recent feed.",
+    heroJourneyLabel: "Latest journey",
+    featuredEyebrow: "Latest public journeys",
+    featuredTitle: "Recent journeys",
+    featuredLead: "The latest public journeys published in MomentBook.",
     featuredArchiveCta: "View archive",
     featuredReadOnlyLabel: "Read only",
     photoCountLabel: "photos",
+    untitledJourney: "Untitled journey",
+    unknownUser: "Unknown user",
+    emptyJourneys: "No public journeys yet.",
   },
   ko: {
     heroEyebrow: "읽기 전용 여행 아카이브",
     heroExploreCta: "여정 둘러보기",
-    heroJourneyLabel: "고정 여정",
-    featuredEyebrow: "선별된 여정",
-    featuredTitle: "고정된 여정",
-    featuredLead:
-      "최근 목록 대신, 공개된 여정 몇 개를 홈에서 조용한 에디토리얼 카드로 고정해 보여줍니다.",
+    heroJourneyLabel: "최신 여정",
+    featuredEyebrow: "최근 공개된 여정",
+    featuredTitle: "최근 여정",
+    featuredLead: "MomentBook에 최근 공개된 여정입니다.",
     featuredArchiveCta: "전체 여정 보기",
     featuredReadOnlyLabel: "읽기 전용",
     photoCountLabel: "장의 사진",
+    untitledJourney: "제목 없는 여정",
+    unknownUser: "알 수 없는 사용자",
+    emptyJourneys: "아직 공개된 여정이 없습니다.",
   },
   ja: {
     heroEyebrow: "読み取り専用の旅アーカイブ",
     heroExploreCta: "旅を見てみる",
-    heroJourneyLabel: "注目の旅",
-    featuredEyebrow: "選ばれた旅",
-    featuredTitle: "注目の旅",
-    featuredLead:
-      "最近の一覧ではなく、公開された旅を静かなエディトリアルカードとしてホームに固定表示します。",
+    heroJourneyLabel: "最新の旅",
+    featuredEyebrow: "最新の公開された旅",
+    featuredTitle: "最近の旅",
+    featuredLead: "MomentBookで最近公開された旅です。",
     featuredArchiveCta: "アーカイブを見る",
     featuredReadOnlyLabel: "閲覧専用",
     photoCountLabel: "枚の写真",
+    untitledJourney: "タイトル未設定の旅",
+    unknownUser: "不明なユーザー",
+    emptyJourneys: "公開された旅はまだありません。",
   },
   zh: {
     heroEyebrow: "只读旅行档案",
     heroExploreCta: "查看旅程",
-    heroJourneyLabel: "精选旅程",
-    featuredEyebrow: "精选内容",
-    featuredTitle: "精选旅程",
-    featuredLead:
-      "不展示不断刷新的最近列表，而是在首页固定几段公开旅程，作为安静的编辑式预览。",
+    heroJourneyLabel: "最新旅程",
+    featuredEyebrow: "最新公开旅程",
+    featuredTitle: "最近旅程",
+    featuredLead: "MomentBook 中最近公开的旅程。",
     featuredArchiveCta: "查看归档",
     featuredReadOnlyLabel: "只读",
     photoCountLabel: "张照片",
+    untitledJourney: "未命名旅程",
+    unknownUser: "未知用户",
+    emptyJourneys: "暂无公开旅程。",
   },
   es: {
     heroEyebrow: "Archivo de viajes de solo lectura",
     heroExploreCta: "Explorar viajes",
-    heroJourneyLabel: "Viaje destacado",
-    featuredEyebrow: "Trabajos seleccionados",
-    featuredTitle: "Viajes destacados",
-    featuredLead:
-      "En lugar de un feed reciente en movimiento, la portada fija algunos viajes publicados como vistas editoriales serenas.",
+    heroJourneyLabel: "Viaje reciente",
+    featuredEyebrow: "Viajes públicos recientes",
+    featuredTitle: "Viajes recientes",
+    featuredLead: "Los viajes públicos publicados más recientemente en MomentBook.",
     featuredArchiveCta: "Ver archivo",
     featuredReadOnlyLabel: "Solo lectura",
     photoCountLabel: "fotos",
+    untitledJourney: "Viaje sin título",
+    unknownUser: "Usuario desconocido",
+    emptyJourneys: "Aún no hay viajes públicos.",
   },
   pt: {
     heroEyebrow: "Arquivo de viagens somente leitura",
     heroExploreCta: "Explorar jornadas",
-    heroJourneyLabel: "Jornada em destaque",
-    featuredEyebrow: "Selecao curada",
-    featuredTitle: "Jornadas em destaque",
-    featuredLead:
-      "Em vez de uma lista recente em movimento, a home fixa algumas jornadas publicadas como prévias editoriais silenciosas.",
+    heroJourneyLabel: "Jornada recente",
+    featuredEyebrow: "Jornadas públicas recentes",
+    featuredTitle: "Jornadas recentes",
+    featuredLead: "As jornadas públicas publicadas mais recentemente no MomentBook.",
     featuredArchiveCta: "Ver arquivo",
     featuredReadOnlyLabel: "Somente leitura",
     photoCountLabel: "fotos",
+    untitledJourney: "Jornada sem título",
+    unknownUser: "Usuário desconhecido",
+    emptyJourneys: "Ainda não há jornadas públicas.",
   },
   fr: {
     heroEyebrow: "Archive de voyage en lecture seule",
     heroExploreCta: "Explorer les voyages",
-    heroJourneyLabel: "Voyage mis en avant",
-    featuredEyebrow: "Selection choisie",
-    featuredTitle: "Voyages mis en avant",
-    featuredLead:
-      "Au lieu d'un flux récent en mouvement, l'accueil fixe quelques voyages publiés comme aperçus éditoriaux calmes.",
+    heroJourneyLabel: "Voyage récent",
+    featuredEyebrow: "Voyages publics récents",
+    featuredTitle: "Voyages récents",
+    featuredLead: "Les voyages publics publiés le plus récemment sur MomentBook.",
     featuredArchiveCta: "Voir l'archive",
     featuredReadOnlyLabel: "Lecture seule",
     photoCountLabel: "photos",
+    untitledJourney: "Voyage sans titre",
+    unknownUser: "Utilisateur inconnu",
+    emptyJourneys: "Aucun voyage public pour le moment.",
   },
   th: {
     heroEyebrow: "คลังการเดินทางแบบอ่านอย่างเดียว",
     heroExploreCta: "สำรวจทริป",
-    heroJourneyLabel: "ทริปแนะนำ",
-    featuredEyebrow: "คัดสรรแล้ว",
-    featuredTitle: "ทริปแนะนำ",
-    featuredLead:
-      "แทนที่จะเป็นฟีดล่าสุดที่เปลี่ยนไปตลอด หน้าแรกจะตรึงทริปสาธารณะบางรายการไว้เป็นพรีวิวเชิงบรรณาธิการแบบสงบ",
+    heroJourneyLabel: "ทริปล่าสุด",
+    featuredEyebrow: "ทริปสาธารณะล่าสุด",
+    featuredTitle: "ทริปล่าสุด",
+    featuredLead: "ทริปสาธารณะที่เผยแพร่ล่าสุดบน MomentBook",
     featuredArchiveCta: "ดูคลังทั้งหมด",
     featuredReadOnlyLabel: "อ่านอย่างเดียว",
     photoCountLabel: "ภาพ",
+    untitledJourney: "ทริปไม่มีชื่อ",
+    unknownUser: "ผู้ใช้ไม่ทราบชื่อ",
+    emptyJourneys: "ยังไม่มีทริปสาธารณะ",
   },
   vi: {
     heroEyebrow: "Kho luu tru hanh trinh chi doc",
     heroExploreCta: "Xem hanh trinh",
-    heroJourneyLabel: "Hanh trinh noi bat",
-    featuredEyebrow: "Tuyen chon",
-    featuredTitle: "Hanh trinh noi bat",
-    featuredLead:
-      "Thay vi mot danh sach gan day luon thay doi, trang chu co dinh mot vai hanh trinh cong khai nhu cac the bien tap tinh lang.",
+    heroJourneyLabel: "Hanh trinh moi nhat",
+    featuredEyebrow: "Hanh trinh cong khai moi nhat",
+    featuredTitle: "Hanh trinh gan day",
+    featuredLead: "Nhung hanh trinh cong khai moi duoc dang tren MomentBook.",
     featuredArchiveCta: "Xem kho luu tru",
     featuredReadOnlyLabel: "Chi doc",
     photoCountLabel: "anh",
+    untitledJourney: "Hanh trinh chua dat ten",
+    unknownUser: "Nguoi dung khong ro",
+    emptyJourneys: "Chua co hanh trinh cong khai.",
   },
 };
 
@@ -450,6 +429,57 @@ const contactTypeByLanguage: Record<Language, string> = {
   th: "ฝ่ายสนับสนุนลูกค้า",
   vi: "Hỗ trợ khách hàng",
 };
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === "object" ? (value as Record<string, unknown>) : null;
+}
+
+function readText(value: unknown): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+function readCount(value: unknown): number | null {
+  if (typeof value === "number" && Number.isFinite(value) && value >= 0) {
+    return Math.floor(value);
+  }
+
+  if (typeof value === "string") {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed) && parsed >= 0) {
+      return Math.floor(parsed);
+    }
+  }
+
+  return null;
+}
+
+function resolvePhotoCount(...values: unknown[]): number {
+  let maxCount = 0;
+
+  for (const value of values) {
+    const count = readCount(value);
+    if (count !== null && count > maxCount) {
+      maxCount = count;
+    }
+  }
+
+  return maxCount;
+}
+
+function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
+  const metadata = asRecord(journey.metadata);
+
+  return {
+    title: readText(metadata?.title),
+    description: readText(metadata?.description),
+    thumbnailUri: readText(metadata?.thumbnailUri),
+  };
+}
 
 function getHomePageCopy(lang: Language): HomePageCopy {
   return homePageCopy[lang] ?? homePageCopy.en;
@@ -495,17 +525,43 @@ export default async function Home({
   const editorialContent = getHomeEditorialCopy(lang);
   const dict = await getDictionary(lang);
   const downloadContent = getDownloadCopy(lang);
-  const featuredJourneys = curatedFeaturedJourneys.map((journey) => ({
-    ...journey,
-    href: `/${lang}/journeys/${journey.id}`,
-  }));
+  const latestJourneys = await fetchPublishedJourneys({
+    page: 1,
+    limit: 3,
+    sort: "recent",
+  });
+  const journeyItems = latestJourneys?.journeys ?? [];
+  const uniqueUserIds = [...new Set(journeyItems.map((journey) => journey.userId).filter(Boolean))];
+  const users = await Promise.all(
+    uniqueUserIds.map(async (userId) => [userId, await fetchPublicUser(userId)] as const),
+  );
+  const userMap = new Map(users);
+  const featuredJourneys = journeyItems.map((journey) => {
+    const meta = resolveJourneyMetadata(journey);
+    const authorName = readText(userMap.get(journey.userId)?.name) ?? editorialContent.unknownUser;
+    const photoCount = resolvePhotoCount(journey.photoCount, journey.imageCount);
+    const publishedAt = readText(journey.publishedAt) ?? readText(journey.createdAt);
+
+    return {
+      publicId: journey.publicId,
+      href: `/${lang}/journeys/${journey.publicId}`,
+      title: readText(journey.title) ?? meta.title ?? editorialContent.untitledJourney,
+      description: readText(journey.description) ?? meta.description ?? null,
+      authorName,
+      photoCount,
+      publishedAt,
+      coverUrl: readText(journey.thumbnailUrl) ?? meta.thumbnailUri ?? null,
+    };
+  });
   const leadJourney = featuredJourneys[0];
   const heroContent = {
     ...content,
     ...editorialContent,
     heroFootnote: dict.home.privacy.text,
-    heroJourneyTitle: leadJourney.title,
-    heroJourneyMeta: `${leadJourney.author} · ${leadJourney.photoCount} ${editorialContent.photoCountLabel}`,
+    heroJourneyTitle: leadJourney?.title ?? editorialContent.untitledJourney,
+    heroJourneyMeta: leadJourney
+      ? `${leadJourney.authorName}${leadJourney.photoCount > 0 ? ` · ${leadJourney.photoCount} ${editorialContent.photoCountLabel}` : ""}`
+      : editorialContent.emptyJourneys,
     heroDeviceScreenSrc: getLocalizedScreenshotPath(lang, "tracking"),
   };
 
@@ -600,17 +656,18 @@ export default async function Home({
           </FadeIn>
         </div>
 
-        <div className={styles.featuredGrid}>
-          {featuredJourneys.map((journey, index) => (
+        {featuredJourneys.length > 0 ? (
+          <div className={styles.featuredGrid}>
+            {featuredJourneys.map((journey, index) => (
             <FadeIn
-              key={journey.id}
+              key={journey.publicId}
               delay={240 + (index * 80)}
               className={styles.featuredCard}
             >
               <Link href={journey.href} className={styles.featuredCardLink}>
                 <div className={styles.featuredCardMedia}>
                   <Image
-                    src={journey.coverSrc}
+                    src={journey.coverUrl || "/images/placeholders/journey-cover-fallback.svg"}
                     alt={journey.title}
                     fill
                     sizes="(max-width: 739px) 100vw, (max-width: 1099px) 50vw, 33vw"
@@ -620,8 +677,10 @@ export default async function Home({
                 </div>
                 <div className={styles.featuredCardBody}>
                   <div className={styles.featuredCardMeta}>
-                    <LocalizedDate lang={lang} timestamp={Date.parse(journey.publishedAt)} />
-                    <span>{journey.author}</span>
+                    {journey.publishedAt ? (
+                      <LocalizedDate lang={lang} timestamp={Date.parse(journey.publishedAt)} />
+                    ) : null}
+                    <span>{journey.authorName}</span>
                   </div>
                   <h3 className={styles.featuredCardTitle}>{journey.title}</h3>
                   <p className={styles.featuredCardDescription}>{journey.description}</p>
@@ -631,8 +690,13 @@ export default async function Home({
                 </div>
               </Link>
             </FadeIn>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <FadeIn delay={240}>
+            <p className={styles.featuredEmpty}>{editorialContent.emptyJourneys}</p>
+          </FadeIn>
+        )}
       </section>
       <HomeDownloadSection lang={lang} content={downloadContent} />
     </div>
