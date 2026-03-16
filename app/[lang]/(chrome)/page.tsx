@@ -21,6 +21,7 @@ import {
   HomeDownloadSection,
   type HomeDownloadNarrativeContent,
 } from "./HomeDownloadSection";
+import { HomeIntroSection } from "./HomeIntroSection";
 import {
   HomeHero,
   type HomeHeroProcessContent,
@@ -64,18 +65,8 @@ type HomeEditorialCopy = {
   emptyJourneys: string;
 };
 
-type HomeSyncCopy = {
-  syncEyebrow: string;
-  syncTitle: string;
-  syncLead: string;
-  syncHighlights: string[];
-  syncListTitle: string;
-  syncList: string[];
-};
-
 type HomeMessageCopy = {
   process: HomeHeroProcessContent;
-  sync: HomeSyncCopy;
   download: HomeDownloadNarrativeContent;
 };
 
@@ -89,8 +80,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
       "MomentBook sorts trip photos by time and place, then syncs the archive to your cloud drive.",
     heroTutorialCta: "See how",
     primaryCta: "Install app",
-    deviceAlt: "MomentBook timeline recap demo",
-    replayLabel: "Replay intro",
+    deviceAlt: "MomentBook tutorial video",
+    replayLabel: "Replay video",
     playWithSoundLabel: "Play with sound",
     playLabel: "Play",
     pauseLabel: "Pause",
@@ -100,10 +91,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Seek video",
     fullscreenLabel: "Full screen",
     exitFullscreenLabel: "Exit full screen",
-    introPromptCta: "Open recap",
-    introGuideTitle: "Sorted by time and place",
+    introPromptCta: "Open guide",
+    introGuideTitle: "See how MomentBook works",
     introGuideLead:
-      "Your trip becomes a timeline in the order it happened.",
+      "Watch the flow from upload to organization and drive sync.",
   },
   ko: {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
@@ -114,8 +105,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
       "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
     heroTutorialCta: "작동 보기",
     primaryCta: "앱 설치",
-    deviceAlt: "MomentBook 타임라인 리캡 데모",
-    replayLabel: "인트로 다시 보기",
+    deviceAlt: "MomentBook 튜토리얼 영상",
+    replayLabel: "영상 다시 보기",
     playWithSoundLabel: "소리와 함께 재생",
     playLabel: "재생",
     pauseLabel: "일시정지",
@@ -125,10 +116,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "영상 탐색",
     fullscreenLabel: "전체 화면",
     exitFullscreenLabel: "전체 화면 종료",
-    introPromptCta: "리캡 열기",
-    introGuideTitle: "시간과 장소 순서로 정리됩니다",
+    introPromptCta: "가이드 열기",
+    introGuideTitle: "MomentBook 작동 보기",
     introGuideLead:
-      "사진이 찍힌 순서대로 여행 리캡 타임라인을 만듭니다.",
+      "업로드부터 자동 정리, 드라이브 동기화까지 영상으로 확인하세요.",
   },
   ja: {
     metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
@@ -430,7 +421,7 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
 const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
   en: {
     process: {
-      introEyebrow: "Timeline organization",
+      introEyebrow: "Tutorial video",
       processEyebrow: "3 steps",
       processTitle: "Upload. Sort. Sync.",
       processLead:
@@ -456,23 +447,6 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
         },
       ],
     },
-    sync: {
-      syncEyebrow: "Cloud archive",
-      syncTitle: "Ready for your cloud drive",
-      syncLead:
-        "No manual folders. No second pass before backup.",
-      syncHighlights: [
-        "Upload once",
-        "Timeline ready",
-        "Drive sync",
-      ],
-      syncListTitle: "No more",
-      syncList: [
-        "Day-by-day trip folders",
-        "Location-based re-sorting",
-        "Cleanup before cloud backup",
-      ],
-    },
     download: {
       title: "Ready for your cloud drive",
       lead:
@@ -486,7 +460,7 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
   },
   ko: {
     process: {
-      introEyebrow: "자동 정리",
+      introEyebrow: "튜토리얼 영상",
       processEyebrow: "3단계",
       processTitle: "올리고, 정리하고, 동기화",
       processLead:
@@ -510,23 +484,6 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
           description:
             "정리된 아카이브가 드라이브로 이어집니다.",
         },
-      ],
-    },
-    sync: {
-      syncEyebrow: "클라우드 아카이브",
-      syncTitle: "드라이브에 올릴 준비까지 끝납니다",
-      syncLead:
-        "여행 후 폴더를 다시 나누지 않아도 됩니다.",
-      syncHighlights: [
-        "한 번 업로드",
-        "자동 타임라인",
-        "드라이브 동기화",
-      ],
-      syncListTitle: "대신 해주는 일",
-      syncList: [
-        "날짜별 폴더 나누기",
-        "장소별 재정리",
-        "업로드 전 정리",
       ],
     },
     download: {
@@ -756,42 +713,6 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
-      <section className={`${styles.homeSection} ${styles.syncSection}`} aria-labelledby="home-sync-title">
-        <div className={styles.syncGrid}>
-          <div className={styles.syncCopy}>
-            <FadeIn delay={100}>
-              <p className={styles.sectionEyebrow}>{messageContent.sync.syncEyebrow}</p>
-            </FadeIn>
-            <FadeIn delay={140}>
-              <h2 id="home-sync-title" className={styles.syncTitle}>
-                {messageContent.sync.syncTitle}
-              </h2>
-            </FadeIn>
-            <FadeIn delay={180}>
-              <p className={styles.syncLead}>{messageContent.sync.syncLead}</p>
-            </FadeIn>
-            <FadeIn delay={220}>
-              <div className={styles.syncHighlightRow}>
-                {messageContent.sync.syncHighlights.map((highlight) => (
-                  <span key={highlight} className={styles.syncHighlightChip}>
-                    {highlight}
-                  </span>
-                ))}
-              </div>
-            </FadeIn>
-          </div>
-          <FadeIn delay={240} className={styles.syncPanel}>
-            <p className={styles.syncPanelEyebrow}>{messageContent.sync.syncListTitle}</p>
-            <ul className={styles.syncChecklist}>
-              {messageContent.sync.syncList.map((item) => (
-                <li key={item} className={styles.syncChecklistItem}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </FadeIn>
-        </div>
-      </section>
       <section className={styles.featuredSection} aria-labelledby="home-featured-title">
         <div className={styles.sectionHeader}>
           <div className={styles.sectionHeaderCopy}>
@@ -817,37 +738,37 @@ export default async function Home({
         {featuredJourneys.length > 0 ? (
           <div className={styles.featuredGrid}>
             {featuredJourneys.map((journey, index) => (
-            <FadeIn
-              key={journey.publicId}
-              delay={240 + (index * 80)}
-              className={styles.featuredCard}
-            >
-              <Link href={journey.href} className={styles.featuredCardLink}>
-                <div className={styles.featuredCardMedia}>
-                  <Image
-                    src={journey.coverUrl || "/images/placeholders/journey-cover-fallback.svg"}
-                    alt={journey.title}
-                    fill
-                    sizes="(max-width: 739px) 100vw, (max-width: 1099px) 50vw, 33vw"
-                    className={styles.featuredCardImage}
-                  />
-                  <span className={styles.featuredBadge}>{editorialContent.featuredReadOnlyLabel}</span>
-                </div>
-                <div className={styles.featuredCardBody}>
-                  <div className={styles.featuredCardMeta}>
-                    {journey.publishedAt ? (
-                      <LocalizedDate lang={lang} timestamp={Date.parse(journey.publishedAt)} />
-                    ) : null}
-                    <span>{journey.authorName}</span>
+              <FadeIn
+                key={journey.publicId}
+                delay={240 + (index * 80)}
+                className={styles.featuredCard}
+              >
+                <Link href={journey.href} className={styles.featuredCardLink}>
+                  <div className={styles.featuredCardMedia}>
+                    <Image
+                      src={journey.coverUrl || "/images/placeholders/journey-cover-fallback.svg"}
+                      alt={journey.title}
+                      fill
+                      sizes="(max-width: 739px) 100vw, (max-width: 1099px) 50vw, 33vw"
+                      className={styles.featuredCardImage}
+                    />
+                    <span className={styles.featuredBadge}>{editorialContent.featuredReadOnlyLabel}</span>
                   </div>
-                  <h3 className={styles.featuredCardTitle}>{journey.title}</h3>
-                  <p className={styles.featuredCardDescription}>{journey.description}</p>
-                  <div className={styles.featuredCardFooter}>
-                    <span>{journey.photoCount} {editorialContent.photoCountLabel}</span>
+                  <div className={styles.featuredCardBody}>
+                    <div className={styles.featuredCardMeta}>
+                      {journey.publishedAt ? (
+                        <LocalizedDate lang={lang} timestamp={Date.parse(journey.publishedAt)} />
+                      ) : null}
+                      <span>{journey.authorName}</span>
+                    </div>
+                    <h3 className={styles.featuredCardTitle}>{journey.title}</h3>
+                    <p className={styles.featuredCardDescription}>{journey.description}</p>
+                    <div className={styles.featuredCardFooter}>
+                      <span>{journey.photoCount} {editorialContent.photoCountLabel}</span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </FadeIn>
+                </Link>
+              </FadeIn>
             ))}
           </div>
         ) : (
@@ -856,6 +777,11 @@ export default async function Home({
           </FadeIn>
         )}
       </section>
+      <HomeIntroSection
+        lang={lang}
+        content={heroContent}
+        introEyebrow={messageContent.process.introEyebrow}
+      />
       <HomeDownloadSection
         lang={lang}
         content={downloadContent}

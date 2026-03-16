@@ -55,22 +55,13 @@
 }
 
 :global([data-theme="dark"]) .workflowCard,
-:global([data-theme="dark"]) .syncPanel,
-:global([data-theme="dark"]) .syncHighlightChip,
 :global([data-theme="dark"]) .downloadHighlightChip {
   background: rgba(21, 31, 25, 0.82);
-}
-
-:global([data-theme="dark"]) .syncSection {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
-    rgba(21, 31, 25, 0.78);
 }
 
 .hero,
 .workflowSection,
 .introSection,
-.syncSection,
 .featuredSection,
 .homeSection {
   position: relative;
@@ -113,7 +104,6 @@
 .heroTitle,
 .workflowTitle,
 .sectionTitle,
-.syncTitle,
 .introSectionTitle,
 .downloadHeroTitle {
   margin: 0;
@@ -140,13 +130,9 @@
 :global(html[lang^="th"]) .heroTitle,
 :global(html[lang^="th"]) .workflowTitle,
 :global(html[lang^="ko"]) .sectionTitle,
-:global(html[lang^="ko"]) .syncTitle,
 :global(html[lang^="ja"]) .sectionTitle,
-:global(html[lang^="ja"]) .syncTitle,
 :global(html[lang^="zh"]) .sectionTitle,
-:global(html[lang^="zh"]) .syncTitle,
 :global(html[lang^="th"]) .sectionTitle,
-:global(html[lang^="th"]) .syncTitle,
 :global(html[lang^="ko"]) .introSectionTitle,
 :global(html[lang^="ja"]) .introSectionTitle,
 :global(html[lang^="zh"]) .introSectionTitle,
@@ -480,48 +466,12 @@
   padding-block: clamp(2.6rem, 6vw, 4rem);
 }
 
-.syncSection {
-  padding: clamp(2rem, 4vw, 2.8rem);
-  border: 1px solid var(--home-border);
-  border-radius: 2.1rem;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.18)),
-    rgba(251, 252, 248, 0.88);
-}
-
-.syncGrid {
-  display: grid;
-  gap: 1.4rem;
-}
-
-.syncCopy {
-  display: grid;
-  gap: 0.9rem;
-  align-content: start;
-}
-
-.syncTitle {
-  color: var(--home-forest);
-  font-size: clamp(1.85rem, 3.4vw, 2.45rem);
-  line-height: 1.14;
-}
-
-.syncLead {
-  margin: 0;
-  max-width: 33rem;
-  color: var(--home-text-muted);
-  font-size: 0.93rem;
-  line-height: 1.78;
-}
-
-.syncHighlightRow,
 .downloadHighlightRow {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
 }
 
-.syncHighlightChip,
 .downloadHighlightChip {
   display: inline-flex;
   align-items: center;
@@ -533,51 +483,6 @@
   color: var(--home-text);
   font-size: 0.78rem;
   font-weight: 700;
-}
-
-.syncPanel {
-  display: grid;
-  gap: 1rem;
-  padding: 1.3rem;
-  border-radius: 1.5rem;
-  border: 1px solid var(--home-border);
-  background: color-mix(in srgb, var(--home-paper) 94%, transparent);
-}
-
-.syncPanelEyebrow {
-  margin: 0;
-  color: var(--home-forest-soft);
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.syncChecklist {
-  list-style: none;
-  display: grid;
-  gap: 0.75rem;
-  padding: 0;
-  margin: 0;
-}
-
-.syncChecklistItem {
-  position: relative;
-  padding-left: 1rem;
-  color: var(--home-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.66;
-}
-
-.syncChecklistItem::before {
-  content: "";
-  position: absolute;
-  top: 0.7rem;
-  left: 0;
-  width: 0.38rem;
-  height: 0.38rem;
-  border-radius: 999px;
-  background: var(--home-accent);
 }
 
 .sectionHeader {
@@ -781,11 +686,6 @@
 @media (min-width: 960px) {
   .workflowGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .syncGrid {
-    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
-    align-items: start;
   }
 
   .sectionHeader {
