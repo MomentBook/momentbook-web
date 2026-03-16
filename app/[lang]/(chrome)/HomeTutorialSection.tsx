@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { DownloadActionButton } from "@/components/DownloadActionButton";
 import { FadeIn } from "@/components/FadeIn";
 import {
@@ -26,7 +26,6 @@ export type HomeTutorialContent = {
   seekLabel: string;
   fullscreenLabel: string;
   exitFullscreenLabel: string;
-  introPromptCta: string;
   introGuideTitle: string;
   introGuideLead: string;
 };
@@ -38,32 +37,12 @@ type HomeTutorialSectionProps = {
 
 export function HomeTutorialSection({ lang, content }: HomeTutorialSectionProps) {
   const introVideoRef = useRef<ScrollActivatedVideoHandle>(null);
-  const [showIntroPrompt, setShowIntroPrompt] = useState(false);
-  const [isIntroExpanded, setIsIntroExpanded] = useState(false);
   const [hasIntroStarted, setHasIntroStarted] = useState(false);
   const [hasIntroEnded, setHasIntroEnded] = useState(false);
 
-  useEffect(() => {
-    if (!showIntroPrompt || isIntroExpanded) {
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setIsIntroExpanded(true);
-      setShowIntroPrompt(false);
-    }, 2000);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [isIntroExpanded, showIntroPrompt]);
-
   const handlePrimaryVideoAction = () => {
-    setShowIntroPrompt(false);
-
     if (hasIntroEnded) {
       setHasIntroEnded(false);
-      setIsIntroExpanded(false);
       void introVideoRef.current?.replay({ forceUnmute: true });
       return;
     }
@@ -75,7 +54,7 @@ export function HomeTutorialSection({ lang, content }: HomeTutorialSectionProps)
     <section
       id={HOME_SECTION_IDS.overview}
       tabIndex={-1}
-      className={`${styles.introSection} ${isIntroExpanded ? styles.introSectionExpanded : ""}`}
+      className={styles.introSection}
       aria-labelledby="overview-title"
     >
       <div className={styles.introHeader}>
@@ -128,11 +107,9 @@ export function HomeTutorialSection({ lang, content }: HomeTutorialSectionProps)
               onPlaybackStart={() => {
                 setHasIntroStarted(true);
                 setHasIntroEnded(false);
-                setShowIntroPrompt(false);
               }}
               onPlaybackEnd={() => {
                 setHasIntroEnded(true);
-                setShowIntroPrompt(true);
               }}
               fallback={(
                 <div className={styles.introFallback} role="img" aria-label={content.deviceAlt}>
@@ -147,25 +124,9 @@ export function HomeTutorialSection({ lang, content }: HomeTutorialSectionProps)
                 </div>
               )}
             />
-
-            {!isIntroExpanded && showIntroPrompt ? (
-              <button
-                type="button"
-                className={styles.introPromptButton}
-                onClick={() => {
-                  setIsIntroExpanded(true);
-                  setShowIntroPrompt(false);
-                }}
-              >
-                {content.introPromptCta}
-              </button>
-            ) : null}
           </div>
 
-          <aside
-            className={`${styles.introGuidePane} ${isIntroExpanded ? styles.introGuidePaneVisible : ""}`}
-            aria-hidden={!isIntroExpanded}
-          >
+          <aside className={styles.introGuidePane}>
             <h2 className={styles.introGuideTitle}>{content.introGuideTitle}</h2>
             <p className={styles.introGuideLead}>{content.introGuideLead}</p>
             <div className={styles.introGuideActions}>
@@ -174,8 +135,6 @@ export function HomeTutorialSection({ lang, content }: HomeTutorialSectionProps)
                 className={styles.introGuideReplayButton}
                 onClick={() => {
                   setHasIntroEnded(false);
-                  setIsIntroExpanded(false);
-                  setShowIntroPrompt(false);
                   void introVideoRef.current?.replay({ forceUnmute: true });
                 }}
               >

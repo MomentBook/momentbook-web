@@ -49,7 +49,6 @@ type HomePageCopy = {
   seekLabel: string;
   fullscreenLabel: string;
   exitFullscreenLabel: string;
-  introPromptCta: string;
   introGuideTitle: string;
   introGuideLead: string;
 };
@@ -95,7 +94,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Seek video",
     fullscreenLabel: "Full screen",
     exitFullscreenLabel: "Exit full screen",
-    introPromptCta: "Open guide",
     introGuideTitle: "See how MomentBook works",
     introGuideLead:
       "Watch the flow from upload to organization and drive sync.",
@@ -120,7 +118,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "영상 탐색",
     fullscreenLabel: "전체 화면",
     exitFullscreenLabel: "전체 화면 종료",
-    introPromptCta: "가이드 열기",
     introGuideTitle: "MomentBook 작동 보기",
     introGuideLead:
       "업로드부터 자동 정리, 드라이브 동기화까지 영상으로 확인하세요.",
@@ -145,7 +142,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "動画シーク",
     fullscreenLabel: "全画面",
     exitFullscreenLabel: "全画面を終了",
-    introPromptCta: "アプリで整理してみる",
     introGuideTitle: "MomentBookで旅の記録を続ける",
     introGuideLead:
       "イントロのあと、アプリで写真をまとめてアップロードし、時間と場所の流れで瞬間を整理できます。",
@@ -170,7 +166,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "调整播放进度",
     fullscreenLabel: "全屏",
     exitFullscreenLabel: "退出全屏",
-    introPromptCta: "在应用中整理看看",
     introGuideTitle: "在 MomentBook 继续整理旅程",
     introGuideLead:
       "看完介绍后，在应用里一次上传照片，按时间与地点把旅行瞬间整理好。",
@@ -195,7 +190,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Buscar en el video",
     fullscreenLabel: "Pantalla completa",
     exitFullscreenLabel: "Salir de pantalla completa",
-    introPromptCta: "Organizar en la aplicación",
     introGuideTitle: "Continúa tu repaso en MomentBook",
     introGuideLead:
       "Después de la introducción, abre la aplicación para subir fotos en lote y ordenar momentos por tiempo y lugar.",
@@ -220,7 +214,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Buscar no vídeo",
     fullscreenLabel: "Tela cheia",
     exitFullscreenLabel: "Sair da tela cheia",
-    introPromptCta: "Organizar no aplicativo",
     introGuideTitle: "Continue seu resumo no MomentBook",
     introGuideLead:
       "Depois da introdução, abra o aplicativo para enviar fotos em lote e organizar momentos por tempo e lugar.",
@@ -245,7 +238,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Avancer dans la vidéo",
     fullscreenLabel: "Plein écran",
     exitFullscreenLabel: "Quitter le plein écran",
-    introPromptCta: "Organiser dans l'application",
     introGuideTitle: "Continuez votre récapitulatif dans MomentBook",
     introGuideLead:
       "Après l'introduction, ouvrez l'application pour importer vos photos en lot et organiser les moments par temps et lieu.",
@@ -270,7 +262,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "เลื่อนตำแหน่งวิดีโอ",
     fullscreenLabel: "เต็มหน้าจอ",
     exitFullscreenLabel: "ออกจากโหมดเต็มหน้าจอ",
-    introPromptCta: "ลองจัดในแอป",
     introGuideTitle: "จัดทริปต่อใน MomentBook",
     introGuideLead:
       "หลังดูอินโทรแล้ว เปิดแอปเพื่ออัปโหลดรูปแบบชุดและจัดช่วงเวลาตามเวลาและสถานที่",
@@ -295,7 +286,6 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Tua video",
     fullscreenLabel: "Toàn màn hình",
     exitFullscreenLabel: "Thoát toàn màn hình",
-    introPromptCta: "Thử sắp xếp trong ứng dụng",
     introGuideTitle: "Tiếp tục phần tóm tắt trong MomentBook",
     introGuideLead:
       "Sau phần mở đầu, mở ứng dụng để tải ảnh theo lô và sắp xếp khoảnh khắc theo thời gian và địa điểm.",
@@ -659,7 +649,6 @@ export default async function Home({
     seekLabel: content.seekLabel,
     fullscreenLabel: content.fullscreenLabel,
     exitFullscreenLabel: content.exitFullscreenLabel,
-    introPromptCta: content.introPromptCta,
     introGuideTitle: content.introGuideTitle,
     introGuideLead: content.introGuideLead,
   };
