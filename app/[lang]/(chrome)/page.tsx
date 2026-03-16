@@ -22,6 +22,10 @@ import {
   type HomeDownloadNarrativeContent,
 } from "./HomeDownloadSection";
 import {
+  HomeTutorialSection,
+  type HomeTutorialContent,
+} from "./HomeTutorialSection";
+import {
   HomeHero,
   type HomeHeroProcessContent,
 } from "./HomeHero";
@@ -66,6 +70,7 @@ type HomeEditorialCopy = {
 
 type HomeMessageCopy = {
   process: HomeHeroProcessContent;
+  tutorial: Pick<HomeTutorialContent, "introEyebrow">;
   download: HomeDownloadNarrativeContent;
 };
 
@@ -420,7 +425,6 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
 const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
   en: {
     process: {
-      introEyebrow: "Tutorial video",
       processEyebrow: "3 steps",
       processTitle: "Upload. Sort. Sync.",
       processLead:
@@ -446,6 +450,9 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
         },
       ],
     },
+    tutorial: {
+      introEyebrow: "Tutorial video",
+    },
     download: {
       title: "Download now",
       lead:
@@ -454,7 +461,6 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
   },
   ko: {
     process: {
-      introEyebrow: "튜토리얼 영상",
       processEyebrow: "3단계",
       processTitle: "올리고, 정리하고, 동기화",
       processLead:
@@ -479,6 +485,9 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
             "정리된 아카이브가 드라이브로 이어집니다.",
         },
       ],
+    },
+    tutorial: {
+      introEyebrow: "튜토리얼 영상",
     },
     download: {
       title: "지금 바로 다운로드하세요",
@@ -628,9 +637,31 @@ export default async function Home({
     };
   });
   const heroContent = {
-    ...content,
-    ...editorialContent,
+    heroEyebrow: editorialContent.heroEyebrow,
+    heroTitle: content.heroTitle,
+    heroLead: content.heroLead,
+    heroExploreCta: editorialContent.heroExploreCta,
+    heroTutorialCta: content.heroTutorialCta,
+    primaryCta: content.primaryCta,
     heroFootnote: "",
+  };
+  const tutorialContent: HomeTutorialContent = {
+    introEyebrow: messageContent.tutorial.introEyebrow,
+    deviceAlt: content.deviceAlt,
+    primaryCta: content.primaryCta,
+    replayLabel: content.replayLabel,
+    playWithSoundLabel: content.playWithSoundLabel,
+    playLabel: content.playLabel,
+    pauseLabel: content.pauseLabel,
+    muteLabel: content.muteLabel,
+    unmuteLabel: content.unmuteLabel,
+    volumeLabel: content.volumeLabel,
+    seekLabel: content.seekLabel,
+    fullscreenLabel: content.fullscreenLabel,
+    exitFullscreenLabel: content.exitFullscreenLabel,
+    introPromptCta: content.introPromptCta,
+    introGuideTitle: content.introGuideTitle,
+    introGuideLead: content.introGuideLead,
   };
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
@@ -702,6 +733,7 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
+      <HomeTutorialSection lang={lang} content={tutorialContent} />
       <section className={styles.featuredSection} aria-labelledby="home-featured-title">
         <div className={styles.sectionHeader}>
           <div className={styles.sectionHeaderCopy}>
