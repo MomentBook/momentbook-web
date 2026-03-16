@@ -14,6 +14,8 @@
   --font-home-sans: var(--font-sans);
   --font-editorial-serif: var(--font-display);
   --home-section-gap: clamp(4.5rem, 8vw, 7rem);
+  --home-header-offset: 4.5rem;
+  --home-section-min-height: calc(100svh - var(--home-header-offset));
   max-width: 78rem;
   margin: 0 auto;
   padding: 0 clamp(1.1rem, 3vw, 2rem) calc(var(--spacing-xl) * 1.04);
@@ -66,9 +68,15 @@
 }
 
 .hero,
+.workflowSection,
 .introSection,
+.syncSection,
+.featuredSection,
 .homeSection {
   position: relative;
+  min-height: var(--home-section-min-height);
+  display: grid;
+  align-content: center;
 }
 
 .hero {
@@ -261,7 +269,7 @@
 }
 
 .workflowSection {
-  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+  padding-block: clamp(2.6rem, 6vw, 4rem);
 }
 
 .workflowIntro {
@@ -334,7 +342,6 @@
 }
 
 .introSection {
-  margin-top: var(--home-section-gap);
   padding: clamp(2.8rem, 5vw, 4rem) clamp(1.3rem, 3vw, 2rem);
   border-radius: 2.3rem;
   background: #112116;
@@ -470,7 +477,7 @@
 }
 
 .featuredSection {
-  margin-top: var(--home-section-gap);
+  padding-block: clamp(2.6rem, 6vw, 4rem);
 }
 
 .syncSection {
@@ -699,7 +706,7 @@
 }
 
 .homeSection {
-  margin-top: var(--home-section-gap);
+  margin-top: 0;
 }
 
 .downloadSection {
@@ -834,6 +841,10 @@
 }
 
 @media (max-width: 739px) {
+  .page {
+    --home-header-offset: 4rem;
+  }
+
   .page {
     padding-inline: 1rem;
   }
