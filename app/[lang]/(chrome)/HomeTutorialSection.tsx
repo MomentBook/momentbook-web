@@ -2,20 +2,17 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { DownloadActionButton } from "@/components/DownloadActionButton";
 import { FadeIn } from "@/components/FadeIn";
 import {
   ScrollActivatedVideo,
   type ScrollActivatedVideoHandle,
 } from "@/components/ScrollActivatedVideo";
-import { type Language } from "@/lib/i18n/config";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
 export type HomeTutorialContent = {
   introEyebrow: string;
   deviceAlt: string;
-  primaryCta: string;
   replayLabel: string;
   playWithSoundLabel: string;
   playLabel: string;
@@ -31,11 +28,10 @@ export type HomeTutorialContent = {
 };
 
 type HomeTutorialSectionProps = {
-  lang: Language;
   content: HomeTutorialContent;
 };
 
-export function HomeTutorialSection({ lang, content }: HomeTutorialSectionProps) {
+export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
   const introVideoRef = useRef<ScrollActivatedVideoHandle>(null);
   const [hasIntroStarted, setHasIntroStarted] = useState(false);
   const [hasIntroEnded, setHasIntroEnded] = useState(false);
@@ -125,29 +121,6 @@ export function HomeTutorialSection({ lang, content }: HomeTutorialSectionProps)
               )}
             />
           </div>
-
-          <aside className={styles.introGuidePane}>
-            <h2 className={styles.introGuideTitle}>{content.introGuideTitle}</h2>
-            <p className={styles.introGuideLead}>{content.introGuideLead}</p>
-            <div className={styles.introGuideActions}>
-              <button
-                type="button"
-                className={styles.introGuideReplayButton}
-                onClick={() => {
-                  setHasIntroEnded(false);
-                  void introVideoRef.current?.replay({ forceUnmute: true });
-                }}
-              >
-                {content.replayLabel}
-              </button>
-              <DownloadActionButton
-                lang={lang}
-                className={styles.primaryButton}
-              >
-                {content.primaryCta}
-              </DownloadActionButton>
-            </div>
-          </aside>
         </div>
       </FadeIn>
     </section>

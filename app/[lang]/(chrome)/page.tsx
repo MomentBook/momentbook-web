@@ -638,7 +638,6 @@ export default async function Home({
   const tutorialContent: HomeTutorialContent = {
     introEyebrow: messageContent.tutorial.introEyebrow,
     deviceAlt: content.deviceAlt,
-    primaryCta: content.primaryCta,
     replayLabel: content.replayLabel,
     playWithSoundLabel: content.playWithSoundLabel,
     playLabel: content.playLabel,
@@ -722,7 +721,7 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
-      <HomeTutorialSection lang={lang} content={tutorialContent} />
+      <HomeTutorialSection content={tutorialContent} />
       <section className={styles.featuredSection} aria-labelledby="home-featured-title">
         <div className={styles.sectionHeader}>
           <div className={styles.sectionHeaderCopy}>

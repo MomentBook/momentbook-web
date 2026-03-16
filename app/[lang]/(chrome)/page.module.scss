@@ -142,11 +142,7 @@
 :global(html[lang^="ko"]) .featuredCardTitle,
 :global(html[lang^="ja"]) .featuredCardTitle,
 :global(html[lang^="zh"]) .featuredCardTitle,
-:global(html[lang^="th"]) .featuredCardTitle,
-:global(html[lang^="ko"]) .introGuideTitle,
-:global(html[lang^="ja"]) .introGuideTitle,
-:global(html[lang^="zh"]) .introGuideTitle,
-:global(html[lang^="th"]) .introGuideTitle {
+:global(html[lang^="th"]) .featuredCardTitle {
   font-family: var(--font-home-sans);
   font-style: normal;
   letter-spacing: -0.03em;
@@ -169,8 +165,7 @@
 }
 
 .heroActions,
-.downloadStoreButtons,
-.introGuideActions {
+.downloadStoreButtons {
   display: flex;
   flex-wrap: wrap;
   gap: 0.85rem;
@@ -183,7 +178,7 @@
 .primaryButton,
 .secondaryButton,
 .tertiaryButton,
-.introGuideReplayButton {
+.secondaryButton {
   min-height: 3rem;
   display: inline-flex;
   align-items: center;
@@ -217,8 +212,7 @@
   font-weight: 700;
 }
 
-.tertiaryButton,
-.introGuideReplayButton {
+.tertiaryButton {
   min-height: auto;
   padding: 0;
   color: var(--home-forest-soft);
@@ -229,7 +223,6 @@
 
 .primaryButton:hover,
 .secondaryButton:hover,
-.introGuideReplayButton:hover,
 .downloadStoreButton:hover {
   transform: translateY(-1px);
 }
@@ -239,8 +232,7 @@
   background: color-mix(in srgb, var(--home-paper) 98%, transparent);
 }
 
-.tertiaryButton:hover,
-.introGuideReplayButton:hover {
+.tertiaryButton:hover {
   border-bottom-color: rgba(23, 207, 84, 0.3);
 }
 
@@ -356,8 +348,7 @@
   line-height: 1.12;
 }
 
-.introSectionLead,
-.introGuideLead {
+.introSectionLead {
   margin: 0;
   color: rgba(235, 242, 236, 0.7);
   font-size: 0.94rem;
@@ -365,13 +356,13 @@
 }
 
 .introStageWrap {
-  max-width: 72rem;
+  max-width: 62rem;
   margin: 0 auto;
 }
 
 .introStage {
   display: grid;
-  gap: 1rem;
+  gap: 0;
   align-items: stretch;
 }
 
@@ -389,23 +380,6 @@
 .introVideo {
   width: 100%;
   height: 100%;
-}
-
-.introGuidePane {
-  display: grid;
-  align-content: center;
-  gap: 1.1rem;
-  padding: clamp(1.35rem, 3vw, 1.85rem);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.55rem;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.introGuideTitle {
-  margin: 0;
-  color: #f8fbf8;
-  font-size: clamp(1.2rem, 1.85vw, 1.55rem);
-  line-height: 1.22;
 }
 
 .introFallback {
@@ -617,10 +591,6 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .introStage {
-    grid-template-columns: minmax(0, 1.5fr) minmax(18rem, 0.9fr);
-  }
-
   .sectionHeader {
     flex-direction: row;
     align-items: flex-end;
@@ -633,9 +603,6 @@
 }
 
 @media (max-width: 979px) {
-  .introGuidePane {
-    display: grid;
-  }
 }
 
 @media (max-width: 739px) {
