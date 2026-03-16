@@ -21,7 +21,6 @@ import {
   HomeDownloadSection,
   type HomeDownloadNarrativeContent,
 } from "./HomeDownloadSection";
-import { HomeIntroSection } from "./HomeIntroSection";
 import {
   HomeHero,
   type HomeHeroProcessContent,
@@ -777,11 +776,6 @@ export default async function Home({
           </FadeIn>
         )}
       </section>
-      <HomeIntroSection
-        lang={lang}
-        content={heroContent}
-        introEyebrow={messageContent.process.introEyebrow}
-      />
       <HomeDownloadSection
         lang={lang}
         content={downloadContent}
