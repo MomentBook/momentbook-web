@@ -366,7 +366,15 @@ export const ScrollActivatedVideo = forwardRef<
     try {
       await video.play();
     } catch {
-      setRequiresUserPlay(true);
+      // If the browser blocks audible playback, retry muted so the video still starts.
+      video.muted = true;
+      setIsMuted(true);
+
+      try {
+        await video.play();
+      } catch {
+        setRequiresUserPlay(true);
+      }
     }
   };
 
