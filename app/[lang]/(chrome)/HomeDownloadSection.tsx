@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FadeIn } from "@/components/FadeIn";
+import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import { type DownloadCopy } from "@/lib/marketing/download-content";
@@ -13,6 +14,8 @@ type HomeDownloadSectionProps = {
 
 export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps) {
   const storeLinks = getCanonicalStoreLinks(lang);
+  const introScreenshot = getLocalizedScreenshotPath(lang, "intro");
+  const timelineScreenshot = getLocalizedScreenshotPath(lang, "timeline");
 
   return (
     <section
@@ -62,6 +65,29 @@ export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps)
             </div>
 
             <p className={styles.downloadAvailability}>{content.availability}</p>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={180} className={styles.downloadVisual}>
+          <div className={styles.downloadVisualCanvas} aria-hidden="true">
+            <div className={`${styles.downloadVisualCard} ${styles.downloadVisualPrimary}`}>
+              <Image
+                src={introScreenshot}
+                alt=""
+                fill
+                sizes="(max-width: 979px) 12rem, 15rem"
+                className={styles.downloadVisualImage}
+              />
+            </div>
+            <div className={`${styles.downloadVisualCard} ${styles.downloadVisualSecondary}`}>
+              <Image
+                src={timelineScreenshot}
+                alt=""
+                fill
+                sizes="(max-width: 979px) 10rem, 13rem"
+                className={styles.downloadVisualImage}
+              />
+            </div>
           </div>
         </FadeIn>
       </div>

@@ -1,6 +1,10 @@
+import Image from "next/image";
 import type { Metadata } from "next";
+import { FadeIn } from "@/components/FadeIn";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
+import { getLocalizedScreenshotPath } from "@/lib/app-screenshots";
 import { type Language } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { getDownloadCopy } from "@/lib/marketing/download-content";
 import { MARKETING_CHANNEL_URLS } from "@/lib/marketing/social-channels";
@@ -315,7 +319,46 @@ export default async function Home({
 }) {
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
+  const dict = await getDictionary(lang);
   const downloadContent = getDownloadCopy(lang);
+  const heroContent = {
+    ...content,
+    heroEyebrow: dict.home.hero.deviceText,
+    heroHighlights: [
+      dict.home.flow.photo.deviceText,
+      dict.home.flow.moment.deviceText,
+      dict.home.flow.memory.deviceText,
+    ],
+    heroAmbientNote: dict.home.privacy.text,
+    heroPrimaryPreviewSrc: "/images/home/hero-misty-mountain-road.jpg",
+    heroSecondaryPreviewSrc: "/images/home/hero-forest-road.jpg",
+  };
+  const flowCards = [
+    {
+      key: "photos",
+      index: "01",
+      title: dict.home.flow.photo.deviceText,
+      body: dict.home.flow.photo.text,
+      imageSrc: getLocalizedScreenshotPath(lang, "photos"),
+      imageAlt: dict.home.flow.photo.deviceText,
+    },
+    {
+      key: "timeline",
+      index: "02",
+      title: dict.home.flow.moment.deviceText,
+      body: dict.home.flow.moment.text,
+      imageSrc: getLocalizedScreenshotPath(lang, "timeline"),
+      imageAlt: dict.home.flow.moment.deviceText,
+    },
+    {
+      key: "tracking",
+      index: "03",
+      title: dict.home.flow.memory.deviceText,
+      body: dict.home.flow.memory.text,
+      imageSrc: getLocalizedScreenshotPath(lang, "tracking"),
+      imageAlt: dict.home.flow.memory.deviceText,
+    },
+  ];
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
@@ -385,7 +428,52 @@ export default async function Home({
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(softwareApplicationSchema) }}
       />
 
-      <HomeHero lang={lang} content={content} />
+      <HomeHero lang={lang} content={heroContent} />
+      <section className={`${styles.homeSection} ${styles.flowSection}`} aria-labelledby="home-flow-title">
+        <div className={styles.flowHeader}>
+          <FadeIn delay={80}>
+            <p className={styles.sectionEyebrow}>{heroContent.heroEyebrow}</p>
+          </FadeIn>
+          <FadeIn delay={120}>
+            <h2 id="home-flow-title" className={styles.sectionTitle}>
+              {content.introGuideTitle}
+            </h2>
+          </FadeIn>
+          <FadeIn delay={160}>
+            <p className={styles.sectionLead}>{content.introGuideLead}</p>
+          </FadeIn>
+        </div>
+
+        <div className={styles.flowGrid}>
+          {flowCards.map((card, index) => (
+            <FadeIn key={card.key} delay={200 + (index * 60)} className={styles.flowCard}>
+              <div className={styles.flowCardMedia}>
+                <span className={styles.flowCardIndex}>{card.index}</span>
+                <Image
+                  src={card.imageSrc}
+                  alt={card.imageAlt}
+                  fill
+                  sizes="(max-width: 979px) 100vw, 24rem"
+                  className={styles.flowCardImage}
+                />
+              </div>
+              <div className={styles.flowCardBody}>
+                <h3 className={styles.flowCardTitle}>{card.title}</h3>
+                <p className={styles.flowCardText}>{card.body}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+
+        <div className={styles.flowNotes}>
+          <FadeIn delay={380} className={styles.flowNote}>
+            <p>{dict.home.pause.text}</p>
+          </FadeIn>
+          <FadeIn delay={440} className={`${styles.flowNote} ${styles.flowNoteStrong}`}>
+            <p>{dict.home.privacy.text}</p>
+          </FadeIn>
+        </div>
+      </section>
       <HomeDownloadSection lang={lang} content={downloadContent} />
     </div>
   );

@@ -16,11 +16,16 @@ import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
 export type HomeHeroContent = {
+  heroEyebrow: string;
   heroTitle: string;
   heroLead: string;
   heroTutorialCta: string;
   primaryCta: string;
   deviceAlt: string;
+  heroHighlights: string[];
+  heroAmbientNote: string;
+  heroPrimaryPreviewSrc: string;
+  heroSecondaryPreviewSrc: string;
   replayLabel: string;
   playWithSoundLabel: string;
   playLabel: string;
@@ -74,31 +79,73 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
             <FadeIn delay={80}>
-              <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
+              <p className={styles.heroEyebrow}>{content.heroEyebrow}</p>
             </FadeIn>
             <FadeIn delay={120}>
+              <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
+            </FadeIn>
+            <FadeIn delay={160}>
               <p className={styles.heroLead}>{content.heroLead}</p>
             </FadeIn>
-            <FadeIn delay={160} className={styles.heroActionsWrap}>
+            <FadeIn delay={200} className={styles.heroActionsWrap}>
               <div className={styles.heroActions}>
                 <button type="button" className={styles.primaryButton} onClick={scrollToIntroSection}>
                   {content.heroTutorialCta}
                 </button>
               </div>
             </FadeIn>
+            <FadeIn delay={240}>
+              <ul className={styles.heroHighlights} aria-label={content.heroEyebrow}>
+                {content.heroHighlights.map((highlight) => (
+                  <li key={highlight} className={styles.heroHighlight}>
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            </FadeIn>
           </div>
 
           <FadeIn delay={120} className={styles.heroMediaWrap}>
-            <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
-              <Image
-                src="/device-mocks/home.new.en.webp"
-                alt={content.deviceAlt}
-                fill
-                priority
-                sizes="(max-width: 979px) min(100vw, 14.2rem), 14.2rem"
-                className={deviceStyles.screenImage}
-              />
-            </DeviceMock>
+            <div className={styles.heroScene}>
+              <div
+                className={`${styles.heroPreviewCard} ${styles.heroPreviewCardPrimary}`}
+                aria-hidden="true"
+              >
+                <Image
+                  src={content.heroPrimaryPreviewSrc}
+                  alt=""
+                  fill
+                  sizes="(max-width: 979px) 9rem, 13rem"
+                  className={styles.heroPreviewImage}
+                />
+              </div>
+              <div
+                className={`${styles.heroPreviewCard} ${styles.heroPreviewCardSecondary}`}
+                aria-hidden="true"
+              >
+                <Image
+                  src={content.heroSecondaryPreviewSrc}
+                  alt=""
+                  fill
+                  sizes="(max-width: 979px) 8rem, 11rem"
+                  className={styles.heroPreviewImage}
+                />
+              </div>
+
+              <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
+                <Image
+                  src="/device-mocks/home.new.en.webp"
+                  alt={content.deviceAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 979px) min(100vw, 14.2rem), 18rem"
+                  className={deviceStyles.screenImage}
+                />
+              </DeviceMock>
+            </div>
+            <div className={styles.heroAmbientCard}>
+              <p>{content.heroAmbientNote}</p>
+            </div>
           </FadeIn>
         </div>
       </section>

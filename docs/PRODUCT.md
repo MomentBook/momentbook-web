@@ -31,9 +31,10 @@ MomentBook Web은 다음 역할만 수행한다.
 
 현재 홈(`/`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
 
-- Hero 섹션: 핵심 소개 문구 + CTA(튜토리얼 보기, intro video 카드로 smooth scroll) + 우측 DeviceMock 프리뷰
+- Hero 섹션: 핵심 소개 문구 + CTA(튜토리얼 보기, intro video 카드로 smooth scroll) + 우측 DeviceMock 프리뷰를 기본으로 하며, 데스크톱에서는 지도/경로 텍스처 배경과 겹쳐진 에디토리얼 사진 카드 레이어를 함께 노출한다.
 - Intro video 섹션: hero와 동일 폭 카드에서 landscape 인트로 영상 재생(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%), 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환 제공, 영상 종료 시 전체화면은 자동 해제되고 컨트롤은 숨김 처리되며 재생은 우측 안내 패널의 "인트로 다시 보기" 버튼으로만 가능, 종료 후 "앱에서 정리해보기" CTA 노출 및 약 2초 후 자동 전개(수동 클릭도 가능), 전개 시 영상 축소 + 우측 안내/다운로드 액션 노출, 데스크톱의 다운로드 버튼은 QR modal을 열고 모바일에서는 다운로드 섹션 정렬 후 플랫폼별 공식 스토어 링크로 이동한다. 현재 open-in-app deep link는 구성되어 있지 않다.
-- Download 섹션: App Store / Google Play CTA와 가용성 안내 문구를 중심으로 노출
+- Flow preview 섹션: intro 아래에 photo / timeline / map 흐름을 설명하는 3장의 앱 스크린샷 카드와 pause / privacy note 카드를 노출한다.
+- Download 섹션: App Store / Google Play CTA와 가용성 안내 문구를 중심으로 노출하며, 데스크톱에서는 앱 스크린샷 콜라주를 함께 보여준다.
 - 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
 - shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(데스크톱 QR modal + 모바일 공식 스토어 이동)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
