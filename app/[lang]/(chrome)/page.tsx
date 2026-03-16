@@ -85,11 +85,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     metaTitle: "MomentBook — Upload once, organize and sync",
     metaDescription:
       "Upload trip photos once, organize them by time and place, and let MomentBook sync the archive to your cloud drive.",
-    heroTitle: "Upload once. Organized all the way to your cloud drive.",
+    heroTitle: "Upload once. Sorted for you.",
     heroLead:
-      "After a trip, stop sorting photos into Google Drive folders by hand. Upload your travel photos once in MomentBook, and the app organizes them into a timeline by time and place before syncing the archive to your subscribed cloud drive.",
-    heroTutorialCta: "See timeline demo",
-    primaryCta: "Download MomentBook",
+      "MomentBook sorts trip photos by time and place, then syncs the archive to your cloud drive.",
+    heroTutorialCta: "See how",
+    primaryCta: "Install app",
     deviceAlt: "MomentBook timeline recap demo",
     replayLabel: "Replay intro",
     playWithSoundLabel: "Play with sound",
@@ -101,20 +101,20 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Seek video",
     fullscreenLabel: "Full screen",
     exitFullscreenLabel: "Exit full screen",
-    introPromptCta: "Open the organized recap",
-    introGuideTitle: "Watch the trip become a timeline by time and place",
+    introPromptCta: "Open recap",
+    introGuideTitle: "Sorted by time and place",
     introGuideLead:
-      "The recap view groups the photos you shot during a trip into the order you actually moved through, so the archive is ready before it syncs onward.",
+      "Your trip becomes a timeline in the order it happened.",
   },
   ko: {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
     metaDescription:
       "여행 사진을 한 번에 올리면 시간과 장소 기준 타임라인으로 정리하고, 정리된 아카이브를 클라우드 드라이브에 자동 동기화합니다.",
-    heroTitle: "여행 사진, 한 번 올리면 드라이브까지 정리됩니다",
+    heroTitle: "한 번 올리면 정리 끝",
     heroLead:
-      "여행 후 Google Drive 폴더를 손으로 나눌 필요 없이, 여행 중 찍은 사진을 MomentBook에 한 번만 올리세요. 앱이 시간과 장소 기준의 타임라인으로 정리하고, 정리된 아카이브를 구독 중인 클라우드 드라이브로 자동 동기화합니다.",
-    heroTutorialCta: "타임라인 데모 보기",
-    primaryCta: "MomentBook 다운로드",
+      "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
+    heroTutorialCta: "작동 보기",
+    primaryCta: "앱 설치",
     deviceAlt: "MomentBook 타임라인 리캡 데모",
     replayLabel: "인트로 다시 보기",
     playWithSoundLabel: "소리와 함께 재생",
@@ -126,10 +126,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "영상 탐색",
     fullscreenLabel: "전체 화면",
     exitFullscreenLabel: "전체 화면 종료",
-    introPromptCta: "정리된 리캡 열기",
-    introGuideTitle: "시간과 장소 순서대로 정리되는 리캡을 확인하세요",
+    introPromptCta: "리캡 열기",
+    introGuideTitle: "시간과 장소 순서로 정리됩니다",
     introGuideLead:
-      "여행 중 찍은 사진이 이동한 순서대로 묶여, 손으로 폴더를 나누기 전에 이미 정리된 아카이브가 준비됩니다.",
+      "사진이 찍힌 순서대로 여행 리캡 타임라인을 만듭니다.",
   },
   ja: {
     metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
@@ -311,11 +311,11 @@ const homePageCopy: Record<Language, HomePageCopy> = {
 const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   en: {
     heroEyebrow: "Travel photo organizer",
-    heroExploreCta: "See public archives",
-    featuredEyebrow: "Public trip archives",
-    featuredTitle: "See the organized result",
-    featuredLead: "Recent public journeys published from MomentBook.",
-    featuredArchiveCta: "Browse all archives",
+    heroExploreCta: "See journeys",
+    featuredEyebrow: "Public archives",
+    featuredTitle: "See the result",
+    featuredLead: "Recent public trips from MomentBook.",
+    featuredArchiveCta: "All journeys",
     featuredReadOnlyLabel: "Read only",
     photoCountLabel: "photos",
     untitledJourney: "Untitled journey",
@@ -324,11 +324,11 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   },
   ko: {
     heroEyebrow: "여행 사진 정리 앱",
-    heroExploreCta: "공개 여정 보기",
-    featuredEyebrow: "공개된 여행 아카이브",
-    featuredTitle: "정리된 결과 둘러보기",
-    featuredLead: "MomentBook에서 공개된 여행 결과를 미리 볼 수 있습니다.",
-    featuredArchiveCta: "전체 아카이브 보기",
+    heroExploreCta: "공개 여정",
+    featuredEyebrow: "공개 아카이브",
+    featuredTitle: "정리된 결과 보기",
+    featuredLead: "최근 공개된 여행입니다.",
+    featuredArchiveCta: "전체 보기",
     featuredReadOnlyLabel: "읽기 전용",
     photoCountLabel: "장의 사진",
     untitledJourney: "제목 없는 여정",
@@ -432,111 +432,111 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
   en: {
     process: {
       introEyebrow: "Timeline organization",
-      processEyebrow: "One upload, three steps",
-      processTitle: "Upload, organize, sync",
+      processEyebrow: "3 steps",
+      processTitle: "Upload. Sort. Sync.",
       processLead:
-        "MomentBook removes the tedious folder work after a trip.",
+        "Skip the folder cleanup.",
       processSteps: [
         {
           stepLabel: "01",
-          title: "Upload once",
+          title: "Upload",
           description:
-            "Bring in the photos you shot during the trip in a single batch.",
+            "Add trip photos in one batch.",
         },
         {
           stepLabel: "02",
-          title: "Organize by time and place",
+          title: "Sort by time and place",
           description:
-            "MomentBook sorts the trip into a recap timeline that follows when and where each photo happened.",
+            "Your timeline is built automatically.",
         },
         {
           stepLabel: "03",
-          title: "Sync to your cloud drive",
+          title: "Sync to drive",
           description:
-            "The organized archive moves to the cloud storage you already subscribe to.",
+            "The archive is ready for cloud storage.",
         },
       ],
     },
     sync: {
       syncEyebrow: "Cloud archive",
-      syncTitle: "The archive is ready before the backup work starts",
+      syncTitle: "Ready for your cloud drive",
       syncLead:
-        "Instead of cleaning folders by hand after every trip, let MomentBook hand off an organized archive to your subscribed cloud drive.",
+        "No manual folders. No second pass before backup.",
       syncHighlights: [
-        "One batch upload",
-        "Time + place timeline",
-        "Automatic archive sync",
+        "Upload once",
+        "Timeline ready",
+        "Drive sync",
       ],
-      syncListTitle: "What this replaces",
+      syncListTitle: "No more",
       syncList: [
-        "No manual day-by-day folders after a trip",
-        "No re-sorting by location before backup",
-        "No second pass before moving everything into cloud storage",
+        "Day-by-day trip folders",
+        "Location-based re-sorting",
+        "Cleanup before cloud backup",
       ],
     },
     download: {
-      title: "Move the organized archive straight into the cloud",
+      title: "Ready for your cloud drive",
       lead:
-        "Install MomentBook to start with one upload, a ready-made timeline, and an archive that is prepared for cloud syncing.",
+        "Install MomentBook to sort trip photos and keep the archive synced.",
       highlights: [
         "Upload once",
-        "Timeline ready",
-        "Cloud archive",
+        "Sort automatically",
+        "Sync to drive",
       ],
     },
   },
   ko: {
     process: {
-      introEyebrow: "시간과 장소 정리",
-      processEyebrow: "한 번 올리면, 세 단계로 끝납니다",
-      processTitle: "업로드, 정리, 동기화",
+      introEyebrow: "자동 정리",
+      processEyebrow: "3단계",
+      processTitle: "올리고, 정리하고, 동기화",
       processLead:
-        "MomentBook는 여행 후 폴더를 손으로 나누는 일을 줄입니다.",
+        "폴더 정리를 줄입니다.",
       processSteps: [
         {
           stepLabel: "01",
-          title: "여행 사진 한 번에 업로드",
+          title: "업로드",
           description:
-            "여행 중 찍은 사진을 한 번에 가져옵니다.",
+            "여행 사진을 한 번에 올립니다.",
         },
         {
           stepLabel: "02",
-          title: "시간과 장소 기준 타임라인 정리",
+          title: "시간·장소 정리",
           description:
-            "언제 어디서 찍혔는지 흐름대로 리캡 타임라인이 만들어집니다.",
+            "타임라인이 자동으로 만들어집니다.",
         },
         {
           stepLabel: "03",
-          title: "구독 중인 드라이브로 자동 동기화",
+          title: "드라이브 동기화",
           description:
-            "정리된 여행 아카이브가 클라우드 드라이브 보관 흐름으로 이어집니다.",
+            "정리된 아카이브가 드라이브로 이어집니다.",
         },
       ],
     },
     sync: {
       syncEyebrow: "클라우드 아카이브",
-      syncTitle: "백업 전에 이미 정리된 여행 아카이브가 준비됩니다",
+      syncTitle: "드라이브에 올릴 준비까지 끝납니다",
       syncLead:
-        "여행마다 Google Drive 폴더를 다시 만드는 대신, MomentBook가 정리된 아카이브를 구독 중인 클라우드 드라이브로 이어줍니다.",
+        "여행 후 폴더를 다시 나누지 않아도 됩니다.",
       syncHighlights: [
-        "일괄 업로드 한 번",
-        "시간 + 장소 타임라인",
-        "아카이브 자동 동기화",
+        "한 번 업로드",
+        "자동 타임라인",
+        "드라이브 동기화",
       ],
-      syncListTitle: "이런 수고를 줄입니다",
+      syncListTitle: "대신 해주는 일",
       syncList: [
-        "여행 후 날짜별 폴더를 다시 만드는 작업",
-        "장소 기준으로 사진을 한 번 더 나누는 작업",
-        "클라우드 업로드 전에 다시 정리하는 작업",
+        "날짜별 폴더 나누기",
+        "장소별 재정리",
+        "업로드 전 정리",
       ],
     },
     download: {
-      title: "정리된 여행 사진을 드라이브까지 이어서 보관하세요",
+      title: "드라이브까지 바로 이어집니다",
       lead:
-        "MomentBook를 설치하면 여행 사진 한 번 업로드, 시간·장소 기준 정리, 클라우드 드라이브 동기화까지 같은 흐름으로 이어집니다.",
+        "MomentBook로 여행 사진 정리를 한 번에 끝내세요.",
       highlights: [
         "한 번 업로드",
-        "자동 타임라인",
+        "자동 정리",
         "드라이브 동기화",
       ],
     },
