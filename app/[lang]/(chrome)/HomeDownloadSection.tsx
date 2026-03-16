@@ -6,12 +6,19 @@ import { type DownloadCopy } from "@/lib/marketing/download-content";
 import { type Language } from "@/lib/i18n/config";
 import styles from "./page.module.scss";
 
+export type HomeDownloadNarrativeContent = {
+  title: string;
+  lead: string;
+  highlights: string[];
+};
+
 type HomeDownloadSectionProps = {
   lang: Language;
   content: DownloadCopy;
+  narrative: HomeDownloadNarrativeContent;
 };
 
-export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps) {
+export function HomeDownloadSection({ lang, content, narrative }: HomeDownloadSectionProps) {
   const storeLinks = getCanonicalStoreLinks(lang);
 
   return (
@@ -26,9 +33,17 @@ export function HomeDownloadSection({ lang, content }: HomeDownloadSectionProps)
           <div className={styles.downloadCopyBlock}>
             <p className={styles.downloadKicker}>{content.desktopQrTitle}</p>
             <h2 id="download-title" className={styles.downloadHeroTitle}>
-              {content.title}
+              {narrative.title}
             </h2>
-            <p className={styles.downloadHeroLead}>{content.desktopQrLead}</p>
+            <p className={styles.downloadHeroLead}>{narrative.lead}</p>
+
+            <div className={styles.downloadHighlightRow}>
+              {narrative.highlights.map((highlight) => (
+                <span key={highlight} className={styles.downloadHighlightChip}>
+                  {highlight}
+                </span>
+              ))}
+            </div>
 
             <div className={styles.downloadStoreButtons}>
               <a

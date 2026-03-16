@@ -18,8 +18,14 @@ import { fetchPublicUser } from "@/lib/public-users";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { buildPublicRobots } from "@/lib/seo/public-metadata";
 import { HashTargetFocus } from "./HashTargetFocus";
-import { HomeDownloadSection } from "./HomeDownloadSection";
-import { HomeHero } from "./HomeHero";
+import {
+  HomeDownloadSection,
+  type HomeDownloadNarrativeContent,
+} from "./HomeDownloadSection";
+import {
+  HomeHero,
+  type HomeHeroProcessContent,
+} from "./HomeHero";
 import styles from "./page.module.scss";
 
 type HomePageCopy = {
@@ -59,17 +65,32 @@ type HomeEditorialCopy = {
   emptyJourneys: string;
 };
 
+type HomeSyncCopy = {
+  syncEyebrow: string;
+  syncTitle: string;
+  syncLead: string;
+  syncHighlights: string[];
+  syncListTitle: string;
+  syncList: string[];
+};
+
+type HomeMessageCopy = {
+  process: HomeHeroProcessContent;
+  sync: HomeSyncCopy;
+  download: HomeDownloadNarrativeContent;
+};
+
 const homePageCopy: Record<Language, HomePageCopy> = {
   en: {
-    metaTitle: "MomentBook — Memorize your moments",
+    metaTitle: "MomentBook — Upload once, organize and sync",
     metaDescription:
-      "Capture your travel moments in one upload, and remember them longer on your timeline and map.",
-    heroTitle: "Memorize your moments",
+      "Upload trip photos once, organize them by time and place, and let MomentBook sync the archive to your cloud drive.",
+    heroTitle: "Upload once. Organized all the way to your cloud drive.",
     heroLead:
-      "After each trip, upload once and let moments gather by time and place so you can revisit them anytime.",
-    heroTutorialCta: "Watch tutorial",
+      "After a trip, stop sorting photos into Google Drive folders by hand. Upload your travel photos once in MomentBook, and the app organizes them into a timeline by time and place before syncing the archive to your subscribed cloud drive.",
+    heroTutorialCta: "See timeline demo",
     primaryCta: "Download MomentBook",
-    deviceAlt: "MomentBook splash screen",
+    deviceAlt: "MomentBook timeline recap demo",
     replayLabel: "Replay intro",
     playWithSoundLabel: "Play with sound",
     playLabel: "Play",
@@ -80,21 +101,21 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Seek video",
     fullscreenLabel: "Full screen",
     exitFullscreenLabel: "Exit full screen",
-    introPromptCta: "Try organizing in the app",
-    introGuideTitle: "Continue your trip recap in MomentBook",
+    introPromptCta: "Open the organized recap",
+    introGuideTitle: "Watch the trip become a timeline by time and place",
     introGuideLead:
-      "After the intro, open the app to upload your photos at once and arrange moments by time and place.",
+      "The recap view groups the photos you shot during a trip into the order you actually moved through, so the archive is ready before it syncs onward.",
   },
   ko: {
-    metaTitle: "MomentBook — 여행의 순간을 기억하세요",
+    metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
     metaDescription:
-      "MomentBook로 여행의 순간을 한 번에 담고, 타임라인과 지도에서 오래 기억하세요.",
-    heroTitle: "여행의 순간을 기억하세요",
+      "여행 사진을 한 번에 올리면 시간과 장소 기준 타임라인으로 정리하고, 정리된 아카이브를 클라우드 드라이브에 자동 동기화합니다.",
+    heroTitle: "여행 사진, 한 번 올리면 드라이브까지 정리됩니다",
     heroLead:
-      "여행이 끝난 뒤 사진을 한 번에 올리면, 시간과 장소의 흐름대로 순간이 모여 언제든 다시 기억할 수 있어요.",
-    heroTutorialCta: "튜토리얼 보기",
+      "여행 후 Google Drive 폴더를 손으로 나눌 필요 없이, 여행 중 찍은 사진을 MomentBook에 한 번만 올리세요. 앱이 시간과 장소 기준의 타임라인으로 정리하고, 정리된 아카이브를 구독 중인 클라우드 드라이브로 자동 동기화합니다.",
+    heroTutorialCta: "타임라인 데모 보기",
     primaryCta: "MomentBook 다운로드",
-    deviceAlt: "MomentBook 스플래시 화면",
+    deviceAlt: "MomentBook 타임라인 리캡 데모",
     replayLabel: "인트로 다시 보기",
     playWithSoundLabel: "소리와 함께 재생",
     playLabel: "재생",
@@ -105,10 +126,10 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "영상 탐색",
     fullscreenLabel: "전체 화면",
     exitFullscreenLabel: "전체 화면 종료",
-    introPromptCta: "앱에서 정리해보기",
-    introGuideTitle: "MomentBook에서 여행을 정리해보세요",
+    introPromptCta: "정리된 리캡 열기",
+    introGuideTitle: "시간과 장소 순서대로 정리되는 리캡을 확인하세요",
     introGuideLead:
-      "인트로를 본 뒤 앱에서 사진을 한 번에 올리고, 시간과 장소 흐름으로 순간을 정리해보세요.",
+      "여행 중 찍은 사진이 이동한 순서대로 묶여, 손으로 폴더를 나누기 전에 이미 정리된 아카이브가 준비됩니다.",
   },
   ja: {
     metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
@@ -289,12 +310,12 @@ const homePageCopy: Record<Language, HomePageCopy> = {
 
 const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   en: {
-    heroEyebrow: "Read-only travel archive",
-    heroExploreCta: "Explore journeys",
-    featuredEyebrow: "Latest public journeys",
-    featuredTitle: "Recent journeys",
-    featuredLead: "The latest public journeys published in MomentBook.",
-    featuredArchiveCta: "View archive",
+    heroEyebrow: "Travel photo organizer",
+    heroExploreCta: "See public archives",
+    featuredEyebrow: "Public trip archives",
+    featuredTitle: "See the organized result",
+    featuredLead: "Recent public journeys published from MomentBook.",
+    featuredArchiveCta: "Browse all archives",
     featuredReadOnlyLabel: "Read only",
     photoCountLabel: "photos",
     untitledJourney: "Untitled journey",
@@ -302,12 +323,12 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     emptyJourneys: "No public journeys yet.",
   },
   ko: {
-    heroEyebrow: "읽기 전용 여행 아카이브",
-    heroExploreCta: "여정 둘러보기",
-    featuredEyebrow: "최근 공개된 여정",
-    featuredTitle: "최근 여정",
-    featuredLead: "MomentBook에 최근 공개된 여정입니다.",
-    featuredArchiveCta: "전체 여정 보기",
+    heroEyebrow: "여행 사진 정리 앱",
+    heroExploreCta: "공개 여정 보기",
+    featuredEyebrow: "공개된 여행 아카이브",
+    featuredTitle: "정리된 결과 둘러보기",
+    featuredLead: "MomentBook에서 공개된 여행 결과를 미리 볼 수 있습니다.",
+    featuredArchiveCta: "전체 아카이브 보기",
     featuredReadOnlyLabel: "읽기 전용",
     photoCountLabel: "장의 사진",
     untitledJourney: "제목 없는 여정",
@@ -407,6 +428,121 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   },
 };
 
+const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
+  en: {
+    process: {
+      introEyebrow: "Timeline organization",
+      processEyebrow: "One upload, three steps",
+      processTitle: "Upload, organize, sync",
+      processLead:
+        "MomentBook removes the tedious folder work after a trip.",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "Upload once",
+          description:
+            "Bring in the photos you shot during the trip in a single batch.",
+        },
+        {
+          stepLabel: "02",
+          title: "Organize by time and place",
+          description:
+            "MomentBook sorts the trip into a recap timeline that follows when and where each photo happened.",
+        },
+        {
+          stepLabel: "03",
+          title: "Sync to your cloud drive",
+          description:
+            "The organized archive moves to the cloud storage you already subscribe to.",
+        },
+      ],
+    },
+    sync: {
+      syncEyebrow: "Cloud archive",
+      syncTitle: "The archive is ready before the backup work starts",
+      syncLead:
+        "Instead of cleaning folders by hand after every trip, let MomentBook hand off an organized archive to your subscribed cloud drive.",
+      syncHighlights: [
+        "One batch upload",
+        "Time + place timeline",
+        "Automatic archive sync",
+      ],
+      syncListTitle: "What this replaces",
+      syncList: [
+        "No manual day-by-day folders after a trip",
+        "No re-sorting by location before backup",
+        "No second pass before moving everything into cloud storage",
+      ],
+    },
+    download: {
+      title: "Move the organized archive straight into the cloud",
+      lead:
+        "Install MomentBook to start with one upload, a ready-made timeline, and an archive that is prepared for cloud syncing.",
+      highlights: [
+        "Upload once",
+        "Timeline ready",
+        "Cloud archive",
+      ],
+    },
+  },
+  ko: {
+    process: {
+      introEyebrow: "시간과 장소 정리",
+      processEyebrow: "한 번 올리면, 세 단계로 끝납니다",
+      processTitle: "업로드, 정리, 동기화",
+      processLead:
+        "MomentBook는 여행 후 폴더를 손으로 나누는 일을 줄입니다.",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "여행 사진 한 번에 업로드",
+          description:
+            "여행 중 찍은 사진을 한 번에 가져옵니다.",
+        },
+        {
+          stepLabel: "02",
+          title: "시간과 장소 기준 타임라인 정리",
+          description:
+            "언제 어디서 찍혔는지 흐름대로 리캡 타임라인이 만들어집니다.",
+        },
+        {
+          stepLabel: "03",
+          title: "구독 중인 드라이브로 자동 동기화",
+          description:
+            "정리된 여행 아카이브가 클라우드 드라이브 보관 흐름으로 이어집니다.",
+        },
+      ],
+    },
+    sync: {
+      syncEyebrow: "클라우드 아카이브",
+      syncTitle: "백업 전에 이미 정리된 여행 아카이브가 준비됩니다",
+      syncLead:
+        "여행마다 Google Drive 폴더를 다시 만드는 대신, MomentBook가 정리된 아카이브를 구독 중인 클라우드 드라이브로 이어줍니다.",
+      syncHighlights: [
+        "일괄 업로드 한 번",
+        "시간 + 장소 타임라인",
+        "아카이브 자동 동기화",
+      ],
+      syncListTitle: "이런 수고를 줄입니다",
+      syncList: [
+        "여행 후 날짜별 폴더를 다시 만드는 작업",
+        "장소 기준으로 사진을 한 번 더 나누는 작업",
+        "클라우드 업로드 전에 다시 정리하는 작업",
+      ],
+    },
+    download: {
+      title: "정리된 여행 사진을 드라이브까지 이어서 보관하세요",
+      lead:
+        "MomentBook를 설치하면 여행 사진 한 번 업로드, 시간·장소 기준 정리, 클라우드 드라이브 동기화까지 같은 흐름으로 이어집니다.",
+      highlights: [
+        "한 번 업로드",
+        "자동 타임라인",
+        "드라이브 동기화",
+      ],
+    },
+  },
+};
+
 const contactTypeByLanguage: Record<Language, string> = {
   en: "Customer Support",
   ko: "고객 지원",
@@ -478,6 +614,10 @@ function getHomeEditorialCopy(lang: Language): HomeEditorialCopy {
   return homeEditorialCopy[lang] ?? homeEditorialCopy.en;
 }
 
+function getHomeMessageCopy(lang: Language): HomeMessageCopy {
+  return homeMessageCopy[lang] ?? homeMessageCopy.en!;
+}
+
 export async function generateMetadata(
   { params }: { params: Promise<{ lang: string }> },
 ): Promise<Metadata> {
@@ -512,6 +652,7 @@ export default async function Home({
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
   const editorialContent = getHomeEditorialCopy(lang);
+  const messageContent = getHomeMessageCopy(lang);
   const dict = await getDictionary(lang);
   const downloadContent = getDownloadCopy(lang);
   const latestJourneys = await fetchPublishedJourneys({
@@ -579,7 +720,7 @@ export default async function Home({
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "MomentBook",
-    description: downloadContent.metaDescription,
+    description: content.metaDescription,
     applicationCategory: "LifestyleApplication",
     operatingSystem: "iOS, Android",
     softwareRequirements: downloadContent.softwareRequirements,
@@ -616,7 +757,43 @@ export default async function Home({
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(softwareApplicationSchema) }}
       />
 
-      <HomeHero lang={lang} content={heroContent} />
+      <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
+      <section className={`${styles.homeSection} ${styles.syncSection}`} aria-labelledby="home-sync-title">
+        <div className={styles.syncGrid}>
+          <div className={styles.syncCopy}>
+            <FadeIn delay={100}>
+              <p className={styles.sectionEyebrow}>{messageContent.sync.syncEyebrow}</p>
+            </FadeIn>
+            <FadeIn delay={140}>
+              <h2 id="home-sync-title" className={styles.syncTitle}>
+                {messageContent.sync.syncTitle}
+              </h2>
+            </FadeIn>
+            <FadeIn delay={180}>
+              <p className={styles.syncLead}>{messageContent.sync.syncLead}</p>
+            </FadeIn>
+            <FadeIn delay={220}>
+              <div className={styles.syncHighlightRow}>
+                {messageContent.sync.syncHighlights.map((highlight) => (
+                  <span key={highlight} className={styles.syncHighlightChip}>
+                    {highlight}
+                  </span>
+                ))}
+              </div>
+            </FadeIn>
+          </div>
+          <FadeIn delay={240} className={styles.syncPanel}>
+            <p className={styles.syncPanelEyebrow}>{messageContent.sync.syncListTitle}</p>
+            <ul className={styles.syncChecklist}>
+              {messageContent.sync.syncList.map((item) => (
+                <li key={item} className={styles.syncChecklistItem}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </FadeIn>
+        </div>
+      </section>
       <section className={styles.featuredSection} aria-labelledby="home-featured-title">
         <div className={styles.sectionHeader}>
           <div className={styles.sectionHeaderCopy}>
@@ -681,7 +858,11 @@ export default async function Home({
           </FadeIn>
         )}
       </section>
-      <HomeDownloadSection lang={lang} content={downloadContent} />
+      <HomeDownloadSection
+        lang={lang}
+        content={downloadContent}
+        narrative={messageContent.download}
+      />
     </div>
   );
 }

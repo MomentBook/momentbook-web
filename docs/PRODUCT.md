@@ -31,10 +31,12 @@ MomentBook Web은 다음 역할만 수행한다.
 
 현재 홈(`/`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
 
-- Hero 섹션: 소개 카피를 단일 컬럼으로 중앙 정렬해 노출하며, 1차 CTA는 다운로드 액션(데스크톱 QR modal + 모바일 스토어 이동), 2차 CTA는 `/{lang}/journeys` 진입, 보조 텍스트 CTA는 intro video 섹션으로 smooth scroll 한다.
-- Intro video 섹션: 진한 forest 톤 밴드 안에서 landscape 인트로 영상을 재생한다(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%). 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환을 제공하고, 영상 종료 시 전체화면은 자동 해제되며 컨트롤은 숨김 처리된다. 종료 후 "앱에서 정리해보기" CTA가 노출되고 약 2초 뒤 우측 안내 패널이 자동 전개되며(수동 클릭 가능), 패널에서는 "인트로 다시 보기"와 다운로드 액션을 제공한다. 데스크톱의 다운로드 버튼은 QR modal을 열고 모바일에서는 다운로드 섹션 정렬 후 플랫폼별 공식 스토어 링크로 이동한다. 현재 open-in-app deep link는 구성되어 있지 않다.
-- Recent journeys 섹션: intro 아래에 현재 환경(API base URL 기준)에서 최근 공개된 여정 3개를 카드로 노출한다. 각 카드는 cover image, title, description, author, photo count, published date를 포함하며 해당 공개 상세로 이동한다.
-- Download 섹션: warm sand 배경 안에서 App Store / Google Play CTA와 가용성 안내 문구를 중앙 정렬로 노출한다.
+- Hero 섹션: 여행 사진을 한 번 올리면 시간·장소 기준으로 정리되고 클라우드 드라이브 동기화까지 이어진다는 메시지를 단일 컬럼으로 중앙 정렬해 노출한다. 1차 CTA는 다운로드 액션(데스크톱 QR modal + 모바일 스토어 이동), 2차 CTA는 `/{lang}/journeys` 진입, 보조 텍스트 CTA는 intro video 섹션으로 smooth scroll 한다.
+- 3-step explainer 섹션: hero 아래에서 `Upload -> Organize -> Sync` 3단 카드를 노출해 앱의 핵심 흐름을 요약한다.
+- Intro video 섹션: 진한 forest 톤 밴드 안에서 landscape 인트로 영상을 재생한다(자동재생 없이 중앙 재생 버튼, 재생 시 소리 on, 기본 볼륨 50%). 카피는 사진이 시간과 장소 순서대로 리캡 타임라인으로 정리되는 흐름을 설명한다. 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환을 제공하고, 영상 종료 시 전체화면은 자동 해제되며 컨트롤은 숨김 처리된다. 종료 후 CTA가 노출되고 약 2초 뒤 우측 안내 패널이 자동 전개되며(수동 클릭 가능), 패널에서는 "인트로 다시 보기"와 다운로드 액션을 제공한다. 데스크톱의 다운로드 버튼은 QR modal을 열고 모바일에서는 다운로드 섹션 정렬 후 플랫폼별 공식 스토어 링크로 이동한다. 현재 open-in-app deep link는 구성되어 있지 않다.
+- Cloud sync 섹션: intro 아래에서 정리된 여행 아카이브가 사용 중인 클라우드 드라이브 보관 흐름으로 이어진다는 메시지와, 수동 폴더 정리 부담을 줄이는 요점을 설명한다.
+- Recent journeys 섹션: cloud sync 설명 아래에 현재 환경(API base URL 기준)에서 최근 공개된 여정 3개를 카드로 노출한다. 각 카드는 cover image, title, description, author, photo count, published date를 포함하며 해당 공개 상세로 이동한다.
+- Download 섹션: warm sand 배경 안에서 설치 후 한 번 업로드, 자동 타임라인 정리, 클라우드 아카이브 흐름을 요약한 chip과 App Store / Google Play CTA를 중앙 정렬로 노출한다.
 - 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
 - shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 intro guide의 다운로드 버튼과 동일한 client-side download flow(데스크톱 QR modal + 모바일 공식 스토어 이동)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
