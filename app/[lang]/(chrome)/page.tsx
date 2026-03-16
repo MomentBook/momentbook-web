@@ -447,14 +447,9 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
       ],
     },
     download: {
-      title: "Ready for your cloud drive",
+      title: "Download now",
       lead:
-        "Install MomentBook to sort trip photos and keep the archive synced.",
-      highlights: [
-        "Upload once",
-        "Sort automatically",
-        "Sync to drive",
-      ],
+        "Install MomentBook and start organizing trip photos.",
     },
   },
   ko: {
@@ -486,14 +481,9 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
       ],
     },
     download: {
-      title: "드라이브까지 바로 이어집니다",
+      title: "지금 바로 다운로드하세요",
       lead:
-        "MomentBook로 여행 사진 정리를 한 번에 끝내세요.",
-      highlights: [
-        "한 번 업로드",
-        "자동 정리",
-        "드라이브 동기화",
-      ],
+        "지금 설치하고 여행 사진 정리를 시작하세요.",
     },
   },
 };

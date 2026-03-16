@@ -9,7 +9,6 @@ import styles from "./page.module.scss";
 export type HomeDownloadNarrativeContent = {
   title: string;
   lead: string;
-  highlights: string[];
 };
 
 type HomeDownloadSectionProps = {
@@ -31,19 +30,10 @@ export function HomeDownloadSection({ lang, content, narrative }: HomeDownloadSe
       <div className={styles.downloadHeroInner}>
         <FadeIn delay={120} className={styles.downloadHeroCopy}>
           <div className={styles.downloadCopyBlock}>
-            <p className={styles.downloadKicker}>{content.desktopQrTitle}</p>
             <h2 id="download-title" className={styles.downloadHeroTitle}>
               {narrative.title}
             </h2>
             <p className={styles.downloadHeroLead}>{narrative.lead}</p>
-
-            <div className={styles.downloadHighlightRow}>
-              {narrative.highlights.map((highlight) => (
-                <span key={highlight} className={styles.downloadHighlightChip}>
-                  {highlight}
-                </span>
-              ))}
-            </div>
 
             <div className={styles.downloadStoreButtons}>
               <a

@@ -54,8 +54,7 @@
     linear-gradient(180deg, #111813 0%, #131c16 58%, #221d15 100%);
 }
 
-:global([data-theme="dark"]) .workflowCard,
-:global([data-theme="dark"]) .downloadHighlightChip {
+:global([data-theme="dark"]) .workflowCard {
   background: rgba(21, 31, 25, 0.82);
 }
 
@@ -91,8 +90,7 @@
 }
 
 .heroEyebrow,
-.sectionEyebrow,
-.downloadKicker {
+.sectionEyebrow {
   margin: 0;
   color: var(--home-forest-soft);
   font-size: 0.68rem;
@@ -466,25 +464,6 @@
   padding-block: clamp(2.6rem, 6vw, 4rem);
 }
 
-.downloadHighlightRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-}
-
-.downloadHighlightChip {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2rem;
-  padding: 0.45rem 0.8rem;
-  border-radius: 999px;
-  border: 1px solid var(--home-border-strong);
-  background: rgba(255, 255, 255, 0.76);
-  color: var(--home-text);
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
 .sectionHeader {
   display: flex;
   flex-direction: column;
@@ -640,7 +619,7 @@
 
 .downloadCopyBlock {
   display: grid;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .downloadHeroTitle {
@@ -657,14 +636,9 @@
   line-height: 1.78;
 }
 
-.downloadHighlightRow {
-  justify-content: center;
-  margin-top: 0.15rem;
-}
-
 .downloadStoreButtons {
   justify-content: center;
-  margin-top: 0.65rem;
+  margin-top: 0.15rem;
 }
 
 .downloadStoreButton {
