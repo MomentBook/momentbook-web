@@ -30,6 +30,7 @@ type ScrollActivatedVideoProps = {
   allowReplayFromControls?: boolean;
   autoplay?: boolean;
   showReplayButton?: boolean;
+  showCenterPlayOverlay?: boolean;
   showSoundToggle?: boolean;
   fallback: ReactNode;
   onPlaybackStart?: () => void;
@@ -37,6 +38,7 @@ type ScrollActivatedVideoProps = {
 };
 
 export type ScrollActivatedVideoHandle = {
+  play: (options?: { forceUnmute?: boolean }) => Promise<void>;
   replay: (options?: { forceUnmute?: boolean }) => Promise<void>;
 };
 
@@ -132,6 +134,7 @@ export const ScrollActivatedVideo = forwardRef<
     allowReplayFromControls = true,
     autoplay = true,
     showReplayButton = true,
+    showCenterPlayOverlay = true,
     showSoundToggle = true,
     fallback,
     onPlaybackStart,
@@ -161,10 +164,18 @@ export const ScrollActivatedVideo = forwardRef<
   const safeCurrentTime = Math.min(currentTime, safeDuration || currentTime);
   const seekPercent = safeDuration > 0 ? (safeCurrentTime / safeDuration) * 100 : 0;
   const timeline = `${formatDuration(safeCurrentTime)} / ${formatDuration(safeDuration)}`;
-  const showCenterPlayButton = requiresUserPlay || (!isPlaying && !hasEnded);
+  const showCenterPlayButton =
+    showCenterPlayOverlay &&
+    (requiresUserPlay || (!isPlaying && !hasEnded) || (hasEnded && !showReplayButton));
   const showControls = !hasEnded && (!isPlaying || isPointerActive);
   const isVideoInteractionLocked = hasEnded && !allowReplayFromControls;
   const shouldHideCursor = isPointerInside && !isPointerActive && isPlaying && !hasEnded;
+  const centerButtonLabel = hasEnded ? replayLabel : playLabel;
+  const centerButtonAriaLabel = hasEnded
+    ? replayLabel
+    : requiresUserPlay
+      ? playWithSoundLabel
+      : playLabel;
 
   const syncTimelineState = () => {
     const video = videoRef.current;
@@ -556,6 +567,11 @@ export const ScrollActivatedVideo = forwardRef<
   useImperativeHandle(
     ref,
     () => ({
+      play: async (options) => {
+        await playVideo({
+          forceUnmute: options?.forceUnmute ?? false,
+        });
+      },
       replay: async (options) => {
         await playVideo({
           restart: true,
@@ -684,8 +700,13 @@ export const ScrollActivatedVideo = forwardRef<
           <button
             type="button"
             className={styles.playWithSoundButton}
-            aria-label={playWithSoundLabel}
+            aria-label={centerButtonAriaLabel}
             onClick={() => {
+              if (hasEnded) {
+                void playVideo({ restart: true });
+                return;
+              }
+
               if (requiresUserPlay) {
                 void handleUserPlayWithSound();
                 return;
@@ -699,7 +720,7 @@ export const ScrollActivatedVideo = forwardRef<
                 <path d="M8 5v14l11-7z" fill="currentColor" />
               </svg>
             </span>
-            <span className={styles.visuallyHidden}>{playWithSoundLabel}</span>
+            <span className={styles.playButtonLabel}>{centerButtonLabel}</span>
           </button>
         </>
       ) : null}

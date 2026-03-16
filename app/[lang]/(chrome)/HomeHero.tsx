@@ -63,6 +63,8 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
   const introVideoRef = useRef<ScrollActivatedVideoHandle>(null);
   const [showIntroPrompt, setShowIntroPrompt] = useState(false);
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
+  const [hasIntroStarted, setHasIntroStarted] = useState(false);
+  const [hasIntroEnded, setHasIntroEnded] = useState(false);
 
   useEffect(() => {
     if (!showIntroPrompt || isIntroExpanded) {
@@ -199,10 +201,14 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
                 allowReplayFromControls={false}
                 autoplay={false}
                 showReplayButton={false}
+                showCenterPlayOverlay={false}
                 onPlaybackStart={() => {
+                  setHasIntroStarted(true);
+                  setHasIntroEnded(false);
                   setShowIntroPrompt(false);
                 }}
                 onPlaybackEnd={() => {
+                  setHasIntroEnded(true);
                   setShowIntroPrompt(true);
                 }}
                 fallback={(
@@ -218,6 +224,30 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
                   </div>
                 )}
               />
+
+              {!hasIntroStarted || hasIntroEnded ? (
+                <button
+                  type="button"
+                  className={styles.introOverlayAction}
+                  onClick={() => {
+                    if (hasIntroEnded) {
+                      setHasIntroEnded(false);
+                      setShowIntroPrompt(false);
+                      void introVideoRef.current?.replay({ forceUnmute: true });
+                      return;
+                    }
+
+                    void introVideoRef.current?.play({ forceUnmute: true });
+                  }}
+                >
+                  <span className={styles.introOverlayActionIcon} aria-hidden="true">
+                    <svg viewBox="0 0 24 24" className={styles.introOverlayActionSvg}>
+                      <path d="M8 5v14l11-7z" fill="currentColor" />
+                    </svg>
+                  </span>
+                  <span>{hasIntroEnded ? content.replayLabel : content.playLabel}</span>
+                </button>
+              ) : null}
 
               {!isIntroExpanded && showIntroPrompt ? (
                 <button
