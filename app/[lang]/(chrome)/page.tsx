@@ -81,7 +81,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Upload once. Sorted for you.",
     heroLead:
       "MomentBook sorts trip photos by time and place, then syncs the archive to your cloud drive.",
-    heroTutorialCta: "See how",
+    heroTutorialCta: "Watch tutorial",
     primaryCta: "Install app",
     deviceAlt: "MomentBook tutorial video",
     replayLabel: "Replay video",
@@ -94,7 +94,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Seek video",
     fullscreenLabel: "Full screen",
     exitFullscreenLabel: "Exit full screen",
-    introGuideTitle: "See how MomentBook works",
+    introGuideTitle: "MomentBook tutorial video",
     introGuideLead:
       "Watch the flow from upload to organization and drive sync.",
   },
@@ -105,7 +105,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "당신의 여행을 기록하세요",
     heroLead:
       "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
-    heroTutorialCta: "작동 보기",
+    heroTutorialCta: "튜토리얼 보기",
     primaryCta: "앱 설치",
     deviceAlt: "MomentBook 튜토리얼 영상",
     replayLabel: "영상 다시 보기",
@@ -118,7 +118,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "영상 탐색",
     fullscreenLabel: "전체 화면",
     exitFullscreenLabel: "전체 화면 종료",
-    introGuideTitle: "MomentBook 작동 보기",
+    introGuideTitle: "MomentBook 튜토리얼 영상",
     introGuideLead:
       "업로드부터 자동 정리, 드라이브 동기화까지 영상으로 확인하세요.",
   },
