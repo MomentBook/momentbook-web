@@ -80,17 +80,36 @@ export default async function CommunityGuidelinesPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const content =
-    lang === "ko" ? <KoreanGuidelines /> :
-    lang === "ja" ? <JapaneseGuidelines /> :
-    lang === "zh" ? <ChineseGuidelines /> :
-    <EnglishGuidelines />;
+  const content = getGuidelinesContent(lang);
 
   return (
     <div className={styles.container}>
       <article className={styles.content}>{content}</article>
     </div>
   );
+}
+
+function getGuidelinesContent(lang: Language) {
+  switch (lang) {
+    case "ko":
+      return <KoreanGuidelines />;
+    case "ja":
+      return <JapaneseGuidelines />;
+    case "zh":
+      return <ChineseGuidelines />;
+    case "es":
+      return <SpanishGuidelines />;
+    case "pt":
+      return <PortugueseGuidelines />;
+    case "fr":
+      return <FrenchGuidelines />;
+    case "th":
+      return <ThaiGuidelines />;
+    case "vi":
+      return <VietnameseGuidelines />;
+    default:
+      return <EnglishGuidelines />;
+  }
 }
 
 function EnglishGuidelines() {
@@ -335,6 +354,316 @@ function ChineseGuidelines() {
         <section>
           <h2>6. 其他</h2>
           <p>- 本准则与<strong>服务条款（EULA）</strong>和<strong>隐私政策</strong>一起适用。如有冲突，适用法律和服务条款优先。</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function SpanishGuidelines() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Normas de la comunidad de MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Versión:</strong> 1.0.0</p>
+          <p><strong>Fecha de entrada en vigor:</strong> 25 de agosto de 2025</p>
+          <p><strong>Última actualización:</strong> 25 de agosto de 2025</p>
+          <p><strong>Contacto:</strong> Reportes / consultas — en la app <strong>Ajustes → Reportar / Contacto</strong>, correo <strong>yoondev3434@gmail.com</strong></p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Principios básicos</h2>
+          <p>
+            MomentBook busca ser un espacio seguro y respetuoso. Aplicamos una <strong>política de tolerancia cero frente a contenido y conductas ofensivas o abusivas</strong>.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Ejemplos de contenido prohibido (no exhaustivos)</h2>
+          <p>- Actividades ilegales, contenido de autolesión o suicidio, incitación a la violencia o al terrorismo</p>
+          <p>- Pornografía o contenido sexual explícito, contenido perjudicial para menores</p>
+          <p>- Discurso de odio o discriminación, bullying, acoso o stalking</p>
+          <p>- Exposición de información personal (doxxing), suplantación de identidad, desinformación</p>
+          <p>- Infracción de propiedad intelectual (copyright, marcas, etc.)</p>
+          <p>- Spam, estafas, phishing, publicidad fraudulenta</p>
+          <p>- Abuso técnico del servicio (bots, scraping, explotación de vulnerabilidades, etc.)</p>
+        </section>
+
+        <section>
+          <h2>3. Funciones de protección del usuario</h2>
+          <p><strong>Reportar:</strong> Reporta de inmediato publicaciones, comentarios o perfiles</p>
+          <p><strong>Bloquear:</strong> Bloquea a usuarios concretos para ocultarlos de tu feed y notificaciones</p>
+          <p><strong>Eliminar mis publicaciones:</strong> Los usuarios pueden eliminar de inmediato sus propias publicaciones</p>
+          <p><strong>Filtrado por palabras clave:</strong> Filtrado automático de palabras prohibidas e insultos, con mejora continua</p>
+        </section>
+
+        <section>
+          <h2>4. Criterios de revisión y plazo</h2>
+          <p>- Los elementos reportados se revisan y se procesan <strong>dentro de 24 horas hábiles</strong></p>
+          <p>- Según la gravedad de la infracción: advertencia → eliminación del contenido → suspensión temporal → <strong>bloqueo permanente</strong></p>
+          <p>- Los asuntos graves, como sospechas de actividad delictiva, pueden reportarse a las autoridades competentes</p>
+        </section>
+
+        <section>
+          <h2>5. Apelaciones y restitución</h2>
+          <p>- Si no estás de acuerdo con una medida, puedes solicitar una revisión a través del contacto dentro de la app</p>
+          <p>- El contenido o la cuenta se restaurarán si se confirma que hubo un error claro en la aplicación de la medida</p>
+        </section>
+
+        <section>
+          <h2>6. Otros</h2>
+          <p>- Estas normas se aplican junto con los <strong>Términos de servicio (EULA)</strong> y la <strong>Política de privacidad</strong>. En caso de conflicto, prevalecerán la legislación aplicable y los Términos de servicio.</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function PortugueseGuidelines() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Diretrizes da comunidade do MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Versão:</strong> 1.0.0</p>
+          <p><strong>Data de vigência:</strong> 25 de agosto de 2025</p>
+          <p><strong>Última atualização:</strong> 25 de agosto de 2025</p>
+          <p><strong>Contato:</strong> Denúncias / dúvidas — no app <strong>Configurações → Denunciar / Contato</strong>, e-mail <strong>yoondev3434@gmail.com</strong></p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Princípios básicos</h2>
+          <p>
+            O MomentBook busca ser um espaço seguro e respeitoso. Aplicamos uma <strong>política de tolerância zero para conteúdo e comportamentos ofensivos ou abusivos</strong>.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Exemplos de conteúdo proibido (lista não exaustiva)</h2>
+          <p>- Atividades ilegais, conteúdo de automutilação ou suicídio, incitação à violência ou ao terrorismo</p>
+          <p>- Pornografia ou conteúdo sexual explícito, conteúdo prejudicial a menores</p>
+          <p>- Discurso de ódio ou discriminação, bullying, assédio ou stalking</p>
+          <p>- Exposição de informações pessoais (doxxing), falsidade ideológica, desinformação</p>
+          <p>- Violação de propriedade intelectual (direitos autorais, marcas etc.)</p>
+          <p>- Spam, golpes, phishing, publicidade fraudulenta</p>
+          <p>- Abuso técnico do serviço (bots, scraping, exploração de vulnerabilidades etc.)</p>
+        </section>
+
+        <section>
+          <h2>3. Recursos de proteção ao usuário</h2>
+          <p><strong>Denunciar:</strong> Denuncie imediatamente posts, comentários ou perfis</p>
+          <p><strong>Bloquear:</strong> Bloqueie usuários específicos para ocultá-los do seu feed e notificações</p>
+          <p><strong>Excluir minhas publicações:</strong> Os usuários podem excluir imediatamente as próprias publicações</p>
+          <p><strong>Filtro por palavras-chave:</strong> Filtragem automática de palavras proibidas e palavrões, com melhoria contínua</p>
+        </section>
+
+        <section>
+          <h2>4. Critérios de revisão e prazo</h2>
+          <p>- Os itens denunciados são analisados e tratados <strong>dentro de 24 horas úteis</strong></p>
+          <p>- Conforme a gravidade da violação: aviso → remoção do conteúdo → suspensão temporária → <strong>banimento permanente</strong></p>
+          <p>- Questões graves, como suspeita de atividade criminosa, podem ser reportadas às autoridades competentes</p>
+        </section>
+
+        <section>
+          <h2>5. Recursos e restauração</h2>
+          <p>- Se você discordar de uma medida aplicada, pode solicitar uma revisão pelo contato dentro do app</p>
+          <p>- O conteúdo ou a conta serão restaurados se ficar confirmado que houve erro claro na aplicação da medida</p>
+        </section>
+
+        <section>
+          <h2>6. Outros</h2>
+          <p>- Estas diretrizes se aplicam junto com os <strong>Termos de uso (EULA)</strong> e a <strong>Política de privacidade</strong>. Em caso de conflito, prevalecem a legislação aplicável e os Termos de uso.</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function FrenchGuidelines() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Règles de la communauté MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Version :</strong> 1.0.0</p>
+          <p><strong>Date d’entrée en vigueur :</strong> 25 août 2025</p>
+          <p><strong>Dernière mise à jour :</strong> 25 août 2025</p>
+          <p><strong>Contact :</strong> Signalement / demande — dans l’application <strong>Réglages → Signaler / Contact</strong>, e-mail <strong>yoondev3434@gmail.com</strong></p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Principes de base</h2>
+          <p>
+            MomentBook vise à être un espace sûr et respectueux. Nous appliquons une <strong>politique de tolérance zéro à l’égard des contenus et comportements offensants ou abusifs</strong>.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Exemples de contenus interdits (liste non exhaustive)</h2>
+          <p>- Activités illégales, contenu d’automutilation ou de suicide, incitation à la violence ou au terrorisme</p>
+          <p>- Pornographie ou contenu sexuel explicite, contenu préjudiciable aux mineurs</p>
+          <p>- Discours haineux ou discrimination, intimidation, harcèlement ou stalking</p>
+          <p>- Divulgation d’informations personnelles (doxxing), usurpation d’identité, désinformation</p>
+          <p>- Atteinte à la propriété intellectuelle (droits d’auteur, marques, etc.)</p>
+          <p>- Spam, escroqueries, phishing, publicité frauduleuse</p>
+          <p>- Abus technique du service (bots, scraping, exploitation de failles, etc.)</p>
+        </section>
+
+        <section>
+          <h2>3. Outils de protection des utilisateurs</h2>
+          <p><strong>Signaler :</strong> Signalez immédiatement des publications, commentaires ou profils</p>
+          <p><strong>Bloquer :</strong> Bloquez des utilisateurs spécifiques afin de les masquer de votre fil et de vos notifications</p>
+          <p><strong>Supprimer mes publications :</strong> Les utilisateurs peuvent supprimer immédiatement leurs propres publications</p>
+          <p><strong>Filtrage par mots-clés :</strong> Filtrage automatique des mots interdits et grossiers, avec amélioration continue</p>
+        </section>
+
+        <section>
+          <h2>4. Critères d’examen et délai</h2>
+          <p>- Les éléments signalés sont examinés et traités <strong>dans un délai de 24 heures ouvrées</strong></p>
+          <p>- Selon la gravité de la violation : avertissement → suppression du contenu → suspension temporaire → <strong>bannissement permanent</strong></p>
+          <p>- Les cas graves, comme une suspicion d’activité criminelle, peuvent être signalés aux autorités compétentes</p>
+        </section>
+
+        <section>
+          <h2>5. Recours et rétablissement</h2>
+          <p>- Si vous n’êtes pas d’accord avec une mesure, vous pouvez demander un réexamen via le contact dans l’application</p>
+          <p>- Le contenu ou le compte sera rétabli s’il est confirmé qu’il s’agissait clairement d’une erreur d’application</p>
+        </section>
+
+        <section>
+          <h2>6. Autres</h2>
+          <p>- Ces règles s’appliquent conjointement avec les <strong>Conditions d’utilisation (EULA)</strong> et la <strong>Politique de confidentialité</strong>. En cas de conflit, le droit applicable et les Conditions d’utilisation prévalent.</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function ThaiGuidelines() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>แนวทางชุมชนของ MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>เวอร์ชัน:</strong> 1.0.0</p>
+          <p><strong>วันที่มีผลบังคับใช้:</strong> 25 สิงหาคม 2025</p>
+          <p><strong>อัปเดตล่าสุด:</strong> 25 สิงหาคม 2025</p>
+          <p><strong>ติดต่อ:</strong> รายงาน / สอบถาม — ในแอป <strong>การตั้งค่า → รายงาน / ติดต่อ</strong>, อีเมล <strong>yoondev3434@gmail.com</strong></p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. หลักการพื้นฐาน</h2>
+          <p>
+            MomentBook มุ่งเป็นพื้นที่ที่ปลอดภัยและให้ความเคารพซึ่งกันและกัน เราใช้นโยบาย <strong>ไม่ยอมรับโดยเด็ดขาดต่อเนื้อหาและพฤติกรรมที่ล่วงละเมิดหรือไม่เหมาะสม</strong>
+          </p>
+        </section>
+
+        <section>
+          <h2>2. ตัวอย่างเนื้อหาต้องห้าม (ไม่ใช่รายการทั้งหมด)</h2>
+          <p>- กิจกรรมผิดกฎหมาย เนื้อหาการทำร้ายตนเองหรือการฆ่าตัวตาย การปลุกปั่นความรุนแรงหรือการก่อการร้าย</p>
+          <p>- สื่อลามกหรือเนื้อหาทางเพศอย่างโจ่งแจ้ง เนื้อหาที่เป็นอันตรายต่อเยาวชน</p>
+          <p>- คำพูดแสดงความเกลียดชังหรือการเลือกปฏิบัติ การกลั่นแกล้ง การคุกคาม หรือ stalking</p>
+          <p>- การเปิดเผยข้อมูลส่วนบุคคล (doxxing) การสวมรอย การเผยแพร่ข้อมูลเท็จ</p>
+          <p>- การละเมิดทรัพย์สินทางปัญญา (ลิขสิทธิ์ เครื่องหมายการค้า ฯลฯ)</p>
+          <p>- สแปม กลโกง ฟิชชิง โฆษณาหลอกลวง</p>
+          <p>- การใช้บริการในทางเทคนิคที่ไม่เหมาะสม (บอต scraping การใช้ช่องโหว่ ฯลฯ)</p>
+        </section>
+
+        <section>
+          <h2>3. ฟีเจอร์คุ้มครองผู้ใช้</h2>
+          <p><strong>รายงาน:</strong> รายงานโพสต์ ความคิดเห็น หรือโปรไฟล์ได้ทันที</p>
+          <p><strong>บล็อก:</strong> บล็อกผู้ใช้เฉพาะรายเพื่อซ่อนจากฟีดและการแจ้งเตือน</p>
+          <p><strong>ลบโพสต์ของฉัน:</strong> ผู้ใช้สามารถลบโพสต์ของตนเองได้ทันที</p>
+          <p><strong>กรองคำสำคัญ:</strong> กรองคำต้องห้ามและคำหยาบแบบอัตโนมัติ พร้อมปรับปรุงอย่างต่อเนื่อง</p>
+        </section>
+
+        <section>
+          <h2>4. เกณฑ์การตรวจสอบและระยะเวลา</h2>
+          <p>- รายการที่ถูกรายงานจะได้รับการตรวจสอบและดำเนินการ <strong>ภายใน 24 ชั่วโมงทำการ</strong></p>
+          <p>- ตามระดับความรุนแรงของการละเมิด: เตือน → ลบเนื้อหา → ระงับชั่วคราว → <strong>แบนถาวร</strong></p>
+          <p>- กรณีร้ายแรง เช่น สงสัยว่ามีกิจกรรมผิดกฎหมาย อาจถูกรายงานต่อหน่วยงานที่เกี่ยวข้อง</p>
+        </section>
+
+        <section>
+          <h2>5. การอุทธรณ์และการกู้คืน</h2>
+          <p>- หากคุณไม่เห็นด้วยกับมาตรการที่ถูกใช้ คุณสามารถขอให้มีการทบทวนผ่านช่องทางติดต่อในแอป</p>
+          <p>- เนื้อหาหรือบัญชีจะถูกกู้คืนหากยืนยันได้ว่าเป็นความผิดพลาดในการบังคับใช้มาตรการอย่างชัดเจน</p>
+        </section>
+
+        <section>
+          <h2>6. อื่น ๆ</h2>
+          <p>- แนวทางนี้ใช้ร่วมกับ <strong>ข้อกำหนดการใช้งาน (EULA)</strong> และ <strong>นโยบายความเป็นส่วนตัว</strong> หากมีความขัดแย้ง ให้กฎหมายที่เกี่ยวข้องและข้อกำหนดการใช้งานมีผลเหนือกว่า</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function VietnameseGuidelines() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Hướng dẫn cộng đồng MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Phiên bản:</strong> 1.0.0</p>
+          <p><strong>Ngày có hiệu lực:</strong> 25 tháng 8, 2025</p>
+          <p><strong>Cập nhật lần cuối:</strong> 25 tháng 8, 2025</p>
+          <p><strong>Liên hệ:</strong> Báo cáo / hỏi đáp — trong ứng dụng <strong>Cài đặt → Báo cáo / Liên hệ</strong>, email <strong>yoondev3434@gmail.com</strong></p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Nguyên tắc cơ bản</h2>
+          <p>
+            MomentBook hướng tới một không gian an toàn và tôn trọng lẫn nhau. Chúng tôi áp dụng <strong>chính sách không khoan nhượng với nội dung và hành vi xúc phạm hoặc lạm dụng</strong>.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Ví dụ về nội dung bị cấm (không giới hạn)</h2>
+          <p>- Hoạt động bất hợp pháp, nội dung tự làm hại bản thân hoặc tự tử, kích động bạo lực hay khủng bố</p>
+          <p>- Nội dung khiêu dâm hoặc tình dục rõ ràng, nội dung gây hại cho trẻ vị thành niên</p>
+          <p>- Phát ngôn thù ghét hoặc phân biệt đối xử, bắt nạt, quấy rối hoặc stalking</p>
+          <p>- Tiết lộ thông tin cá nhân (doxxing), mạo danh, phát tán thông tin sai lệch</p>
+          <p>- Xâm phạm quyền sở hữu trí tuệ (bản quyền, nhãn hiệu, v.v.)</p>
+          <p>- Spam, lừa đảo, phishing, quảng cáo gian dối</p>
+          <p>- Lạm dụng kỹ thuật đối với dịch vụ (bot, scraping, khai thác lỗ hổng, v.v.)</p>
+        </section>
+
+        <section>
+          <h2>3. Tính năng bảo vệ người dùng</h2>
+          <p><strong>Báo cáo:</strong> Báo cáo ngay bài đăng, bình luận hoặc hồ sơ</p>
+          <p><strong>Chặn:</strong> Chặn người dùng cụ thể để ẩn họ khỏi bảng tin và thông báo</p>
+          <p><strong>Xóa bài đăng của tôi:</strong> Người dùng có thể xóa ngay các bài đăng của chính mình</p>
+          <p><strong>Lọc từ khóa:</strong> Tự động lọc từ cấm và lời lẽ thô tục, được cải thiện liên tục</p>
+        </section>
+
+        <section>
+          <h2>4. Tiêu chuẩn xem xét và thời hạn</h2>
+          <p>- Nội dung bị báo cáo sẽ được xem xét và xử lý <strong>trong vòng 24 giờ làm việc</strong></p>
+          <p>- Tùy theo mức độ vi phạm: cảnh báo → xóa nội dung → đình chỉ tạm thời → <strong>cấm vĩnh viễn</strong></p>
+          <p>- Những vụ việc nghiêm trọng, như nghi ngờ có hoạt động phạm tội, có thể được báo cho cơ quan chức năng liên quan</p>
+        </section>
+
+        <section>
+          <h2>5. Khiếu nại và khôi phục</h2>
+          <p>- Nếu không đồng ý với biện pháp đã áp dụng, bạn có thể yêu cầu xem xét lại qua liên hệ trong ứng dụng</p>
+          <p>- Nội dung hoặc tài khoản sẽ được khôi phục nếu được xác nhận là lỗi xử lý rõ ràng</p>
+        </section>
+
+        <section>
+          <h2>6. Khác</h2>
+          <p>- Hướng dẫn này được áp dụng cùng với <strong>Điều khoản sử dụng (EULA)</strong> và <strong>Chính sách quyền riêng tư</strong>. Nếu có xung đột, pháp luật hiện hành và Điều khoản sử dụng sẽ được ưu tiên.</p>
         </section>
       </div>
     </>

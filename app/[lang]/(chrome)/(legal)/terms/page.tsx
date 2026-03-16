@@ -81,17 +81,36 @@ export default async function TermsPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const content =
-    lang === "ko" ? <KoreanTerms /> :
-    lang === "ja" ? <JapaneseTerms /> :
-    lang === "zh" ? <ChineseTerms /> :
-    <EnglishTerms />;
+  const content = getTermsContent(lang);
 
   return (
     <div className={styles.container}>
       <article className={styles.content}>{content}</article>
     </div>
   );
+}
+
+function getTermsContent(lang: Language) {
+  switch (lang) {
+    case "ko":
+      return <KoreanTerms />;
+    case "ja":
+      return <JapaneseTerms />;
+    case "zh":
+      return <ChineseTerms />;
+    case "es":
+      return <SpanishTerms />;
+    case "pt":
+      return <PortugueseTerms />;
+    case "fr":
+      return <FrenchTerms />;
+    case "th":
+      return <ThaiTerms />;
+    case "vi":
+      return <VietnameseTerms />;
+    default:
+      return <EnglishTerms />;
+  }
 }
 
 function EnglishTerms() {
@@ -468,6 +487,481 @@ function ChineseTerms() {
         <section>
           <h2>12. 适用法律及争议解决</h2>
           <p>本条款适用大韩民国法律，争议可向有管辖权的法院提起诉讼。</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function SpanishTerms() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Términos de servicio de MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Versión:</strong> 1.0.1</p>
+          <p><strong>Fecha de entrada en vigor:</strong> 4 de enero de 2025</p>
+          <p><strong>Última actualización:</strong> 4 de enero de 2025</p>
+          <p><strong>Nombre del servicio:</strong> MomentBook</p>
+          <p><strong>Operador:</strong> Hansol Yoon</p>
+          <p><strong>Contacto:</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Finalidad</h2>
+          <p>Estos Términos de servicio establecen los derechos, obligaciones y responsabilidades entre el Servicio y los Usuarios en relación con el uso de MomentBook (en adelante, el "Servicio").</p>
+        </section>
+
+        <section>
+          <h2>2. Vigencia y modificación de los términos</h2>
+          <p>- Estos términos entran en vigor cuando se notifican dentro del Servicio o mediante un enlace.</p>
+          <p>- La empresa podrá modificar estos términos siempre que no infrinjan la legislación aplicable. En caso de modificación, la fecha de entrada en vigor y el motivo del cambio se notificarán al menos con 7 días de antelación.</p>
+          <p>- Si continúas usando el Servicio después del aviso y antes de la fecha de entrada en vigor, se considerará que aceptas los términos modificados.</p>
+        </section>
+
+        <section>
+          <h2>3. Requisito de edad</h2>
+          <p>El Servicio está disponible solo para usuarios <strong>mayores de 14 años</strong> (clasificación 13+ en App Store). Al registrarte, aceptas que cumples este requisito.</p>
+        </section>
+
+        <section>
+          <h2>4. Cuenta y autenticación</h2>
+          <p>- Los usuarios deben proporcionar información exacta y actualizada.</p>
+          <p>- Los usuarios son responsables de la seguridad de sus cuentas (incluidas las cuentas de inicio de sesión social).</p>
+          <p>- Las cuentas que se detecten como fraudulentas o comprometidas podrán ser restringidas o canceladas.</p>
+        </section>
+
+        <section>
+          <h2>5. Contenido generado por el usuario (UGC) y derechos</h2>
+          <p>- El copyright del texto, imágenes y metadatos subidos por los usuarios (en adelante, "UGC") pertenece, por regla general, al usuario.</p>
+          <p>- Los usuarios otorgan a la empresa una licencia <strong>no exclusiva, mundial, gratuita y sublicenciable</strong> para usar el UGC con el fin de prestar, operar y promocionar el Servicio (incluyendo mostrar, almacenar, respaldar y transmitir dentro del Servicio).</p>
+          <p>- Si eliges publicar un viaje, ese contenido pasará a estar accesible públicamente en la web.</p>
+          <p>- Los usuarios solo pueden subir UGC que no infrinja derechos de terceros.</p>
+        </section>
+
+        <section>
+          <h2>6. Conductas prohibidas</h2>
+          <p>Se prohíben los siguientes contenidos y conductas. Para ejemplos detallados, consulta las <strong>Normas de la comunidad (política de tolerancia cero)</strong>:</p>
+          <p>Contenido ilegal, dañino, obsceno o perjudicial para menores; contenido que fomente autolesiones o suicidio; incitación a la violencia o al terrorismo; discursos de odio o discriminación; acoso o stalking; divulgación de información personal; fraude o spam; infracción de propiedad intelectual; abuso del Servicio, etc.</p>
+        </section>
+
+        <section>
+          <h2>7. Reportes, bloqueo, eliminación y sanciones</h2>
+          <p>- Los usuarios pueden <strong>reportar o bloquear</strong> contenido u otros usuarios.</p>
+          <p>- Los usuarios pueden <strong>eliminar de inmediato</strong> sus propias publicaciones.</p>
+          <p>- La empresa revisará los reportes y tomará medidas (eliminación, restricción, cancelación, etc.) <strong>dentro de 24 horas hábiles</strong> desde su recepción.</p>
+          <p>- Las infracciones repetidas pueden dar lugar a una restricción permanente y a acciones legales.</p>
+        </section>
+
+        <section>
+          <h2>8. Cambios y suspensión del servicio</h2>
+          <p>El Servicio (o determinadas funciones) puede cambiar o suspenderse por motivos operativos, de seguridad o legales, con aviso previo o posterior cuando corresponda.</p>
+        </section>
+
+        <section>
+          <h2>9. Limitación de responsabilidad</h2>
+          <p>- La empresa no será responsable de los daños causados por fuerza mayor, incluidos desastres naturales o fallos de servicios de terceros, en la medida permitida por la ley aplicable.</p>
+          <p>- La responsabilidad por daños indirectos, especiales o consecuentes queda limitada en la medida permitida por la ley aplicable.</p>
+        </section>
+
+        <section>
+          <h2>10. Servicios de terceros</h2>
+          <p>Cuando se integren inicio de sesión social, analíticas o notificaciones (como Firebase), podrán aplicarse los términos y políticas de los respectivos proveedores. Consulta la <strong>Política de privacidad</strong> para más detalles.</p>
+        </section>
+
+        <section>
+          <h2>11. Terminación y eliminación de la cuenta</h2>
+          <p>Los usuarios pueden eliminar su cuenta en cualquier momento mediante el flujo dentro de la app:</p>
+          <p><strong>Ajustes → Cuenta → Eliminar cuenta</strong> (solicitud inmediata de eliminación tras volver a autenticarse)</p>
+          <p>O solicitar la eliminación por correo: <strong>yoondev3434@gmail.com</strong></p>
+          <p>Si existe una obligación legal de conservación, la eliminación completa se realizará una vez finalizado ese período.</p>
+        </section>
+
+        <section>
+          <h2>12. Ley aplicable y resolución de disputas</h2>
+          <p>Estos términos se rigen por las leyes de la República de Corea, y las disputas podrán someterse al tribunal competente.</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function PortugueseTerms() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Termos de uso do MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Versão:</strong> 1.0.1</p>
+          <p><strong>Data de vigência:</strong> 4 de janeiro de 2025</p>
+          <p><strong>Última atualização:</strong> 4 de janeiro de 2025</p>
+          <p><strong>Nome do serviço:</strong> MomentBook</p>
+          <p><strong>Operador:</strong> Hansol Yoon</p>
+          <p><strong>Contato:</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Finalidade</h2>
+          <p>Estes Termos de uso estabelecem os direitos, obrigações e responsabilidades entre o Serviço e os Usuários em relação ao uso do MomentBook (doravante, o "Serviço").</p>
+        </section>
+
+        <section>
+          <h2>2. Vigência e alteração dos termos</h2>
+          <p>- Estes Termos entram em vigor quando forem informados dentro do Serviço ou por meio de um link.</p>
+          <p>- A empresa poderá alterar estes Termos desde que isso não viole a legislação aplicável. Em caso de alteração, a data de vigência e o motivo da revisão serão informados com pelo menos 7 dias de antecedência.</p>
+          <p>- A continuidade de uso do Serviço após o aviso e antes da data de vigência será considerada como aceitação dos Termos alterados.</p>
+        </section>
+
+        <section>
+          <h2>3. Requisito de idade</h2>
+          <p>O Serviço está disponível apenas para usuários <strong>com 14 anos ou mais</strong> (classificação 13+ na App Store). Ao se cadastrar, o usuário concorda que atende ao requisito de idade.</p>
+        </section>
+
+        <section>
+          <h2>4. Conta e autenticação</h2>
+          <p>- Os usuários devem fornecer informações corretas e atualizadas.</p>
+          <p>- Os usuários são responsáveis pela segurança de suas contas (incluindo contas de login social).</p>
+          <p>- Contas identificadas como fraudulentas ou comprometidas podem ser restringidas ou encerradas.</p>
+        </section>
+
+        <section>
+          <h2>5. Conteúdo gerado pelo usuário (UGC) e direitos</h2>
+          <p>- Os direitos autorais de textos, imagens e metadados enviados pelos usuários (doravante, "UGC") pertencem, em princípio, ao usuário.</p>
+          <p>- Os usuários concedem à empresa uma licença <strong>não exclusiva, mundial, gratuita e sublicenciável</strong> para usar o UGC com a finalidade de fornecer, operar e promover o Serviço (incluindo exibição, armazenamento, backup e transmissão dentro do Serviço).</p>
+          <p>- Se você optar por publicar uma jornada, esse conteúdo ficará acessível publicamente na web.</p>
+          <p>- Os usuários só podem enviar UGC que não viole direitos de terceiros.</p>
+        </section>
+
+        <section>
+          <h2>6. Condutas proibidas</h2>
+          <p>Os seguintes conteúdos e condutas são proibidos. Para exemplos detalhados, consulte as <strong>Diretrizes da comunidade (política de tolerância zero)</strong>:</p>
+          <p>Conteúdo ilegal, nocivo, obsceno ou prejudicial a menores; conteúdo que incentive automutilação ou suicídio; incitação à violência ou ao terrorismo; discurso de ódio ou discriminação; assédio ou stalking; divulgação de informações pessoais; fraude ou spam; violação de propriedade intelectual; abuso do Serviço etc.</p>
+        </section>
+
+        <section>
+          <h2>7. Denúncia, bloqueio, exclusão e sanções</h2>
+          <p>- Os usuários podem <strong>denunciar ou bloquear</strong> conteúdo ou outros usuários.</p>
+          <p>- Os usuários podem <strong>excluir imediatamente</strong> suas próprias publicações.</p>
+          <p>- A empresa revisará as denúncias e tomará medidas (exclusão, restrição, encerramento etc.) <strong>dentro de 24 horas úteis</strong> a partir do recebimento.</p>
+          <p>- Violações repetidas podem resultar em restrição permanente e medidas legais.</p>
+        </section>
+
+        <section>
+          <h2>8. Alterações e suspensão do serviço</h2>
+          <p>O Serviço (ou determinados recursos) pode ser alterado ou suspenso por motivos operacionais, de segurança ou legais, com aviso prévio ou posterior quando necessário.</p>
+        </section>
+
+        <section>
+          <h2>9. Limitação de responsabilidade</h2>
+          <p>- A empresa não será responsável por danos causados por força maior, incluindo desastres naturais ou falhas de serviços de terceiros, na medida permitida pela legislação aplicável.</p>
+          <p>- A responsabilidade por danos indiretos, especiais ou consequenciais é limitada na medida permitida pela legislação aplicável.</p>
+        </section>
+
+        <section>
+          <h2>10. Serviços de terceiros</h2>
+          <p>Quando houver integração com login social, analytics ou notificações (como Firebase), os termos e políticas dos respectivos provedores poderão ser aplicados. Consulte a <strong>Política de privacidade</strong> para mais detalhes.</p>
+        </section>
+
+        <section>
+          <h2>11. Rescisão e exclusão de conta</h2>
+          <p>Os usuários podem excluir suas contas a qualquer momento pelo fluxo dentro do app:</p>
+          <p><strong>Configurações → Conta → Excluir conta</strong> (solicitação imediata de exclusão após nova autenticação)</p>
+          <p>Ou solicitar a exclusão por e-mail: <strong>yoondev3434@gmail.com</strong></p>
+          <p>Se houver obrigação legal de retenção, a exclusão completa ocorrerá após o término do período exigido.</p>
+        </section>
+
+        <section>
+          <h2>12. Lei aplicável e resolução de disputas</h2>
+          <p>Estes Termos são regidos pelas leis da República da Coreia, e eventuais disputas podem ser submetidas ao tribunal competente.</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function FrenchTerms() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Conditions d’utilisation de MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Version :</strong> 1.0.1</p>
+          <p><strong>Date d’entrée en vigueur :</strong> 4 janvier 2025</p>
+          <p><strong>Dernière mise à jour :</strong> 4 janvier 2025</p>
+          <p><strong>Nom du service :</strong> MomentBook</p>
+          <p><strong>Exploitant :</strong> Hansol Yoon</p>
+          <p><strong>Contact :</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Objet</h2>
+          <p>Les présentes conditions d’utilisation définissent les droits, obligations et responsabilités entre le Service et les Utilisateurs dans le cadre de l’utilisation de MomentBook (ci-après le « Service »).</p>
+        </section>
+
+        <section>
+          <h2>2. Entrée en vigueur et modification des conditions</h2>
+          <p>- Les présentes conditions prennent effet lorsqu’elles sont annoncées dans le Service ou fournies via un lien.</p>
+          <p>- La société peut modifier ces conditions dans la mesure où ces modifications ne contreviennent pas au droit applicable. En cas de modification, la date d’entrée en vigueur et le motif de la révision seront annoncés au moins 7 jours à l’avance.</p>
+          <p>- La poursuite de l’utilisation du Service après l’avis et avant la date d’entrée en vigueur vaut acceptation des conditions modifiées.</p>
+        </section>
+
+        <section>
+          <h2>3. Condition d’âge</h2>
+          <p>Le Service est accessible uniquement aux utilisateurs <strong>âgés de 14 ans et plus</strong> (classification 13+ sur l’App Store). En s’inscrivant, l’utilisateur confirme qu’il remplit cette condition.</p>
+        </section>
+
+        <section>
+          <h2>4. Compte et authentification</h2>
+          <p>- Les utilisateurs doivent fournir des informations exactes et à jour.</p>
+          <p>- Les utilisateurs sont responsables de la sécurité de leurs comptes (y compris les comptes de connexion sociale).</p>
+          <p>- Les comptes identifiés comme frauduleux ou compromis peuvent être restreints ou résiliés.</p>
+        </section>
+
+        <section>
+          <h2>5. Contenu généré par l’utilisateur (UGC) et droits</h2>
+          <p>- Les droits d’auteur sur les textes, images et métadonnées téléchargés par les utilisateurs (ci-après « UGC ») appartiennent en principe à l’utilisateur.</p>
+          <p>- Les utilisateurs accordent à la société une licence <strong>non exclusive, mondiale, gratuite et sous-licenciable</strong> pour utiliser l’UGC aux fins de fourniture, d’exploitation et de promotion du Service (y compris l’affichage, le stockage, la sauvegarde et la transmission au sein du Service).</p>
+          <p>- Si vous choisissez de publier un voyage, ce contenu devient accessible publiquement sur le web.</p>
+          <p>- Les utilisateurs ne peuvent télécharger que des UGC qui ne portent pas atteinte aux droits d’autrui.</p>
+        </section>
+
+        <section>
+          <h2>6. Comportements interdits</h2>
+          <p>Les contenus et comportements suivants sont interdits. Pour des exemples détaillés, veuillez consulter les <strong>Règles de la communauté (politique de tolérance zéro)</strong> :</p>
+          <p>Contenu illégal, nuisible, obscène ou préjudiciable aux mineurs ; contenu encourageant l’automutilation ou le suicide ; incitation à la violence ou au terrorisme ; discours haineux ou discrimination ; harcèlement ou stalking ; divulgation d’informations personnelles ; fraude ou spam ; atteinte à la propriété intellectuelle ; abus du Service, etc.</p>
+        </section>
+
+        <section>
+          <h2>7. Signalement, blocage, suppression et sanctions</h2>
+          <p>- Les utilisateurs peuvent <strong>signaler ou bloquer</strong> des contenus ou d’autres utilisateurs.</p>
+          <p>- Les utilisateurs peuvent <strong>supprimer immédiatement</strong> leurs propres publications.</p>
+          <p>- La société examinera les signalements et prendra des mesures (suppression, restriction, résiliation, etc.) <strong>dans un délai de 24 heures ouvrées</strong> à compter de leur réception.</p>
+          <p>- Les violations répétées peuvent entraîner une restriction permanente et des actions en justice.</p>
+        </section>
+
+        <section>
+          <h2>8. Modifications et suspension du service</h2>
+          <p>Le Service (ou certaines fonctionnalités) peut être modifié ou suspendu pour des raisons opérationnelles, de sécurité ou juridiques, avec notification préalable ou ultérieure selon les besoins.</p>
+        </section>
+
+        <section>
+          <h2>9. Limitation de responsabilité</h2>
+          <p>- La société n’est pas responsable des dommages causés par un cas de force majeure, y compris les catastrophes naturelles ou les défaillances de services tiers, dans la mesure permise par le droit applicable.</p>
+          <p>- La responsabilité pour les dommages indirects, spéciaux ou consécutifs est limitée dans la mesure permise par le droit applicable.</p>
+        </section>
+
+        <section>
+          <h2>10. Services tiers</h2>
+          <p>En cas d’intégration d’une connexion sociale, d’outils d’analyse ou de notifications (tels que Firebase), les conditions et politiques des fournisseurs concernés peuvent s’appliquer. Veuillez consulter la <strong>Politique de confidentialité</strong> pour plus de détails.</p>
+        </section>
+
+        <section>
+          <h2>11. Résiliation et suppression du compte</h2>
+          <p>Les utilisateurs peuvent supprimer leur compte à tout moment via le parcours prévu dans l’application :</p>
+          <p><strong>Réglages → Compte → Supprimer le compte</strong> (demande de suppression immédiate après nouvelle authentification)</p>
+          <p>Ou demander la suppression par e-mail : <strong>yoondev3434@gmail.com</strong></p>
+          <p>S’il existe une obligation légale de conservation, la suppression complète interviendra après l’expiration de la durée requise.</p>
+        </section>
+
+        <section>
+          <h2>12. Droit applicable et règlement des litiges</h2>
+          <p>Les présentes conditions sont régies par le droit de la République de Corée, et les litiges peuvent être portés devant la juridiction compétente.</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function ThaiTerms() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>ข้อกำหนดการใช้งาน MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>เวอร์ชัน:</strong> 1.0.1</p>
+          <p><strong>วันที่มีผลบังคับใช้:</strong> 4 มกราคม 2025</p>
+          <p><strong>อัปเดตล่าสุด:</strong> 4 มกราคม 2025</p>
+          <p><strong>ชื่อบริการ:</strong> MomentBook</p>
+          <p><strong>ผู้ให้บริการ:</strong> Hansol Yoon</p>
+          <p><strong>ติดต่อ:</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. วัตถุประสงค์</h2>
+          <p>ข้อกำหนดการใช้งานนี้กำหนดสิทธิ หน้าที่ และความรับผิดชอบระหว่างบริการและผู้ใช้ในการใช้ MomentBook (ต่อไปนี้เรียกว่า "บริการ")</p>
+        </section>
+
+        <section>
+          <h2>2. การมีผลใช้บังคับและการแก้ไขข้อกำหนด</h2>
+          <p>- ข้อกำหนดนี้มีผลเมื่อมีการประกาศภายในบริการหรือให้ผ่านลิงก์</p>
+          <p>- บริษัทอาจแก้ไขข้อกำหนดนี้ได้ตราบเท่าที่ไม่ขัดต่อกฎหมายที่เกี่ยวข้อง หากมีการแก้ไข จะประกาศวันที่มีผลใช้บังคับและเหตุผลของการแก้ไขล่วงหน้าอย่างน้อย 7 วัน</p>
+          <p>- การใช้งานบริการต่อหลังการแจ้งและก่อนวันที่มีผลใช้บังคับ ถือว่าเป็นการยอมรับข้อกำหนดที่แก้ไขแล้ว</p>
+        </section>
+
+        <section>
+          <h2>3. ข้อกำหนดด้านอายุ</h2>
+          <p>บริการนี้เปิดให้เฉพาะผู้ใช้ <strong>อายุ 14 ปีขึ้นไป</strong> (เรต 13+ บน App Store) เท่านั้น เมื่อสมัครใช้งาน ผู้ใช้ตกลงว่าตนมีคุณสมบัติตามข้อกำหนดด้านอายุ</p>
+        </section>
+
+        <section>
+          <h2>4. บัญชีและการยืนยันตัวตน</h2>
+          <p>- ผู้ใช้ต้องให้ข้อมูลที่ถูกต้องและเป็นปัจจุบัน</p>
+          <p>- ผู้ใช้รับผิดชอบต่อความปลอดภัยของบัญชีของตนเอง (รวมถึงบัญชีโซเชียลล็อกอิน)</p>
+          <p>- บัญชีที่พบว่ามีการใช้งานโดยมิชอบหรือถูกยึดครองอาจถูกจำกัดหรือยกเลิกการใช้งาน</p>
+        </section>
+
+        <section>
+          <h2>5. เนื้อหาที่ผู้ใช้สร้างขึ้น (UGC) และสิทธิ</h2>
+          <p>- ลิขสิทธิ์ของข้อความ รูปภาพ และเมทาดาทาที่ผู้ใช้อัปโหลด (ต่อไปนี้เรียกว่า "UGC") โดยหลักการแล้วเป็นของผู้ใช้</p>
+          <p>- ผู้ใช้มอบสิทธิการใช้งานแบบ <strong>ไม่ผูกขาด ทั่วโลก ไม่คิดค่าลิขสิทธิ์ และสามารถให้สิทธิช่วงต่อได้</strong> แก่บริษัทเพื่อใช้ UGC ในการให้บริการ ดำเนินงาน และโปรโมตบริการ (รวมถึงการแสดงผล การจัดเก็บ การสำรองข้อมูล และการส่งต่อภายในบริการ)</p>
+          <p>- หากคุณเลือกเผยแพร่ทริป เนื้อหานั้นจะเข้าถึงได้แบบสาธารณะบนเว็บ</p>
+          <p>- ผู้ใช้สามารถอัปโหลดได้เฉพาะ UGC ที่ไม่ละเมิดสิทธิของผู้อื่นเท่านั้น</p>
+        </section>
+
+        <section>
+          <h2>6. พฤติกรรมต้องห้าม</h2>
+          <p>เนื้อหาและพฤติกรรมต่อไปนี้เป็นสิ่งต้องห้าม สำหรับตัวอย่างโดยละเอียด โปรดดู <strong>แนวทางชุมชน (นโยบายไม่ยอมรับโดยเด็ดขาด)</strong>:</p>
+          <p>เนื้อหาที่ผิดกฎหมาย เป็นอันตราย ลามก หรือเป็นอันตรายต่อเยาวชน เนื้อหาที่ส่งเสริมการทำร้ายตนเองหรือการฆ่าตัวตาย การปลุกปั่นความรุนแรงหรือก่อการร้าย คำพูดแสดงความเกลียดชังหรือการเลือกปฏิบัติ การคุกคามหรือสะกดรอย การเปิดเผยข้อมูลส่วนบุคคล การฉ้อโกงหรือสแปม การละเมิดทรัพย์สินทางปัญญา การใช้บริการในทางที่ผิด เป็นต้น</p>
+        </section>
+
+        <section>
+          <h2>7. การรายงาน การบล็อก การลบ และบทลงโทษ</h2>
+          <p>- ผู้ใช้สามารถ <strong>รายงานหรือบล็อก</strong> เนื้อหาหรือผู้ใช้อื่นได้</p>
+          <p>- ผู้ใช้สามารถ <strong>ลบโพสต์ของตนเองได้ทันที</strong></p>
+          <p>- บริษัทจะตรวจสอบรายงานและดำเนินมาตรการ (ลบ จำกัด ยกเลิกการใช้งาน ฯลฯ) <strong>ภายใน 24 ชั่วโมงทำการ</strong> หลังได้รับรายงาน</p>
+          <p>- การละเมิดซ้ำอาจนำไปสู่การจำกัดแบบถาวรและการดำเนินคดีทางกฎหมาย</p>
+        </section>
+
+        <section>
+          <h2>8. การเปลี่ยนแปลงและการระงับบริการ</h2>
+          <p>บริการ (หรือบางฟีเจอร์) อาจมีการเปลี่ยนแปลงหรือระงับด้วยเหตุผลด้านการดำเนินงาน ความปลอดภัย หรือกฎหมาย โดยจะแจ้งให้ทราบล่วงหน้าหรือภายหลังตามความเหมาะสม</p>
+        </section>
+
+        <section>
+          <h2>9. ข้อจำกัดความรับผิด</h2>
+          <p>- บริษัทจะไม่รับผิดชอบต่อความเสียหายที่เกิดจากเหตุสุดวิสัย รวมถึงภัยธรรมชาติหรือความล้มเหลวของบริการของบุคคลที่สาม ภายในขอบเขตที่กฎหมายอนุญาต</p>
+          <p>- ความรับผิดสำหรับความเสียหายทางอ้อม ความเสียหายพิเศษ หรือความเสียหายสืบเนื่อง ถูกจำกัดภายในขอบเขตที่กฎหมายอนุญาต</p>
+        </section>
+
+        <section>
+          <h2>10. บริการของบุคคลที่สาม</h2>
+          <p>เมื่อมีการเชื่อมต่อกับโซเชียลล็อกอิน ระบบวิเคราะห์ หรือการแจ้งเตือน (เช่น Firebase) อาจมีการใช้ข้อกำหนดและนโยบายของผู้ให้บริการที่เกี่ยวข้อง โปรดดู <strong>นโยบายความเป็นส่วนตัว</strong> สำหรับรายละเอียดเพิ่มเติม</p>
+        </section>
+
+        <section>
+          <h2>11. การยกเลิกสัญญาและการลบบัญชี</h2>
+          <p>ผู้ใช้สามารถลบบัญชีได้ทุกเมื่อผ่านขั้นตอนภายในแอป:</p>
+          <p><strong>การตั้งค่า → บัญชี → ลบบัญชี</strong> (ส่งคำขอลบทันทีหลังยืนยันตัวตนอีกครั้ง)</p>
+          <p>หรือขอลบผ่านอีเมล: <strong>yoondev3434@gmail.com</strong></p>
+          <p>หากมีกฎหมายกำหนดให้ต้องเก็บข้อมูลไว้ การลบทั้งหมดจะเกิดขึ้นหลังจากสิ้นสุดระยะเวลาที่กำหนด</p>
+        </section>
+
+        <section>
+          <h2>12. กฎหมายที่ใช้บังคับและการระงับข้อพิพาท</h2>
+          <p>ข้อกำหนดนี้อยู่ภายใต้กฎหมายของสาธารณรัฐเกาหลี และข้อพิพาทสามารถยื่นต่อศาลที่มีเขตอำนาจได้</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function VietnameseTerms() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Điều khoản sử dụng MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Phiên bản:</strong> 1.0.1</p>
+          <p><strong>Ngày có hiệu lực:</strong> 4 tháng 1, 2025</p>
+          <p><strong>Cập nhật lần cuối:</strong> 4 tháng 1, 2025</p>
+          <p><strong>Tên dịch vụ:</strong> MomentBook</p>
+          <p><strong>Đơn vị vận hành:</strong> Hansol Yoon</p>
+          <p><strong>Liên hệ:</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Mục đích</h2>
+          <p>Các Điều khoản sử dụng này quy định quyền, nghĩa vụ và trách nhiệm giữa Dịch vụ và Người dùng liên quan đến việc sử dụng MomentBook (sau đây gọi là "Dịch vụ").</p>
+        </section>
+
+        <section>
+          <h2>2. Hiệu lực và sửa đổi điều khoản</h2>
+          <p>- Các điều khoản này có hiệu lực khi được thông báo trong Dịch vụ hoặc cung cấp qua liên kết.</p>
+          <p>- Công ty có thể sửa đổi các điều khoản này trong phạm vi không vi phạm pháp luật hiện hành. Khi sửa đổi, ngày có hiệu lực và lý do sửa đổi sẽ được thông báo trước ít nhất 7 ngày.</p>
+          <p>- Việc tiếp tục sử dụng Dịch vụ sau khi có thông báo và trước ngày có hiệu lực được xem là chấp nhận các điều khoản đã sửa đổi.</p>
+        </section>
+
+        <section>
+          <h2>3. Yêu cầu về độ tuổi</h2>
+          <p>Dịch vụ chỉ dành cho người dùng <strong>từ 14 tuổi trở lên</strong> (xếp hạng 13+ trên App Store). Khi đăng ký, người dùng đồng ý rằng mình đáp ứng yêu cầu về độ tuổi.</p>
+        </section>
+
+        <section>
+          <h2>4. Tài khoản và xác thực</h2>
+          <p>- Người dùng phải cung cấp thông tin chính xác và cập nhật.</p>
+          <p>- Người dùng chịu trách nhiệm về bảo mật tài khoản của mình (bao gồm cả tài khoản đăng nhập xã hội).</p>
+          <p>- Các tài khoản bị phát hiện sử dụng gian lận hoặc bị xâm phạm có thể bị hạn chế hoặc chấm dứt.</p>
+        </section>
+
+        <section>
+          <h2>5. Nội dung do người dùng tạo (UGC) và quyền</h2>
+          <p>- Quyền tác giả đối với văn bản, hình ảnh và siêu dữ liệu do người dùng tải lên (sau đây gọi là "UGC") về nguyên tắc thuộc về người dùng.</p>
+          <p>- Người dùng cấp cho công ty giấy phép <strong>không độc quyền, toàn cầu, miễn phí bản quyền và có thể cấp phép lại</strong> để sử dụng UGC nhằm cung cấp, vận hành và quảng bá Dịch vụ (bao gồm hiển thị, lưu trữ, sao lưu và truyền tải trong Dịch vụ).</p>
+          <p>- Nếu bạn chọn công khai một hành trình, nội dung đó sẽ được truy cập công khai trên web.</p>
+          <p>- Người dùng chỉ được tải lên UGC không xâm phạm quyền của người khác.</p>
+        </section>
+
+        <section>
+          <h2>6. Hành vi bị cấm</h2>
+          <p>Các nội dung và hành vi sau bị cấm. Để xem ví dụ chi tiết, vui lòng tham khảo <strong>Hướng dẫn cộng đồng (chính sách không khoan nhượng)</strong>:</p>
+          <p>Nội dung bất hợp pháp, có hại, khiêu dâm hoặc gây hại cho thanh thiếu niên; nội dung khuyến khích tự làm hại bản thân hoặc tự tử; kích động bạo lực hoặc khủng bố; phát ngôn thù ghét hoặc phân biệt đối xử; quấy rối hoặc stalking; tiết lộ thông tin cá nhân; lừa đảo hoặc spam; xâm phạm quyền sở hữu trí tuệ; lạm dụng Dịch vụ, v.v.</p>
+        </section>
+
+        <section>
+          <h2>7. Báo cáo, chặn, xóa và xử lý vi phạm</h2>
+          <p>- Người dùng có thể <strong>báo cáo hoặc chặn</strong> nội dung hay người dùng khác.</p>
+          <p>- Người dùng có thể <strong>xóa ngay</strong> các bài đăng của chính mình.</p>
+          <p>- Công ty sẽ xem xét báo cáo và áp dụng biện pháp (xóa, hạn chế, chấm dứt, v.v.) <strong>trong vòng 24 giờ làm việc</strong> kể từ khi nhận được.</p>
+          <p>- Vi phạm lặp lại có thể dẫn đến hạn chế vĩnh viễn và hành động pháp lý.</p>
+        </section>
+
+        <section>
+          <h2>8. Thay đổi và tạm ngưng dịch vụ</h2>
+          <p>Dịch vụ (hoặc một số tính năng) có thể được thay đổi hoặc tạm ngưng vì lý do vận hành, bảo mật hoặc pháp lý, với thông báo trước hoặc sau khi cần thiết.</p>
+        </section>
+
+        <section>
+          <h2>9. Giới hạn trách nhiệm</h2>
+          <p>- Công ty không chịu trách nhiệm cho thiệt hại do sự kiện bất khả kháng, bao gồm thiên tai hoặc lỗi từ dịch vụ của bên thứ ba, trong phạm vi pháp luật cho phép.</p>
+          <p>- Trách nhiệm đối với thiệt hại gián tiếp, đặc biệt hoặc hệ quả được giới hạn trong phạm vi pháp luật cho phép.</p>
+        </section>
+
+        <section>
+          <h2>10. Dịch vụ bên thứ ba</h2>
+          <p>Khi tích hợp đăng nhập xã hội, công cụ phân tích hoặc thông báo (như Firebase), điều khoản và chính sách của nhà cung cấp tương ứng có thể được áp dụng. Vui lòng tham khảo <strong>Chính sách quyền riêng tư</strong> để biết chi tiết.</p>
+        </section>
+
+        <section>
+          <h2>11. Chấm dứt và xóa tài khoản</h2>
+          <p>Người dùng có thể xóa tài khoản của mình bất cứ lúc nào qua luồng trong ứng dụng:</p>
+          <p><strong>Cài đặt → Tài khoản → Xóa tài khoản</strong> (gửi yêu cầu xóa ngay sau khi xác thực lại)</p>
+          <p>Hoặc yêu cầu xóa qua email: <strong>yoondev3434@gmail.com</strong></p>
+          <p>Nếu có nghĩa vụ lưu giữ theo pháp luật, việc xóa hoàn toàn sẽ diễn ra sau khi hết thời hạn lưu giữ bắt buộc.</p>
+        </section>
+
+        <section>
+          <h2>12. Luật áp dụng và giải quyết tranh chấp</h2>
+          <p>Các điều khoản này được điều chỉnh theo pháp luật của Đại Hàn Dân Quốc, và tranh chấp có thể được đưa ra tòa án có thẩm quyền.</p>
         </section>
       </div>
     </>

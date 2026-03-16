@@ -80,17 +80,36 @@ export default async function MarketingConsentPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const content =
-    lang === "ko" ? <KoreanConsent /> :
-    lang === "ja" ? <JapaneseConsent /> :
-    lang === "zh" ? <ChineseConsent /> :
-    <EnglishConsent />;
+  const content = getMarketingConsentContent(lang);
 
   return (
     <div className={styles.container}>
       <article className={styles.content}>{content}</article>
     </div>
   );
+}
+
+function getMarketingConsentContent(lang: Language) {
+  switch (lang) {
+    case "ko":
+      return <KoreanConsent />;
+    case "ja":
+      return <JapaneseConsent />;
+    case "zh":
+      return <ChineseConsent />;
+    case "es":
+      return <SpanishConsent />;
+    case "pt":
+      return <PortugueseConsent />;
+    case "fr":
+      return <FrenchConsent />;
+    case "th":
+      return <ThaiConsent />;
+    case "vi":
+      return <VietnameseConsent />;
+    default:
+      return <EnglishConsent />;
+  }
 }
 
 function EnglishConsent() {
@@ -287,6 +306,256 @@ function ChineseConsent() {
           <h2>5. 注意事项</h2>
           <p>- 不同意也不会限制必要服务的使用。</p>
           <p>- 撤回同意后可能无法收到促销/优惠通知。</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function SpanishConsent() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Consentimiento de información de marketing de MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Versión:</strong> 1.0.1</p>
+          <p><strong>Fecha de entrada en vigor:</strong> 4 de enero de 2025</p>
+          <p><strong>Última actualización:</strong> 4 de enero de 2025</p>
+          <p><strong>Contacto:</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Alcance del consentimiento</h2>
+          <p><strong>Información recopilada:</strong> Dirección de correo electrónico, token de notificaciones push (dispositivo)</p>
+          <p><strong>Canales de comunicación:</strong> Correo electrónico, notificaciones push dentro de la app</p>
+          <p><strong>Tipos de contenido:</strong> Novedades del servicio, nuevas funciones y eventos, promociones y beneficios, invitaciones a encuestas</p>
+        </section>
+
+        <section>
+          <h2>2. Finalidad y período de conservación</h2>
+          <p><strong>Finalidad:</strong> Proporcionar información personalizada, gestionar eventos, comunicarse con el cliente</p>
+          <p><strong>Conservación:</strong> Se mantiene hasta retirar el consentimiento o hasta cumplir la finalidad, y luego se elimina (salvo obligación legal de conservación)</p>
+        </section>
+
+        <section>
+          <h2>3. Tratamiento por terceros y transferencia internacional</h2>
+          <p>- Pueden utilizarse servicios externos como Firebase para el envío y el análisis, dentro del alcance necesario</p>
+          <p>- Los destinatarios concretos y los detalles de transferencia siguen lo indicado en la Política de privacidad</p>
+        </section>
+
+        <section>
+          <h2>4. Retirada del consentimiento (opt-out)</h2>
+          <p>- Puede cambiarse en cualquier momento en la app mediante <strong>Ajustes → Notificaciones / Preferencias de marketing</strong></p>
+          <p>- Puede cancelarse de inmediato mediante el botón <strong>Cancelar suscripción</strong> al final de los correos</p>
+          <p>- También pueden bloquearse las notificaciones push desde los ajustes del sistema operativo (iOS / Android)</p>
+        </section>
+
+        <section>
+          <h2>5. Avisos importantes</h2>
+          <p>- No dar el consentimiento no limita el acceso a los servicios esenciales</p>
+          <p>- Tras retirar el consentimiento, es posible que no se envíen promociones ni beneficios</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function PortugueseConsent() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Consentimento de informações de marketing do MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Versão:</strong> 1.0.1</p>
+          <p><strong>Data de vigência:</strong> 4 de janeiro de 2025</p>
+          <p><strong>Última atualização:</strong> 4 de janeiro de 2025</p>
+          <p><strong>Contato:</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Escopo do consentimento</h2>
+          <p><strong>Informações coletadas:</strong> Endereço de e-mail, token de push (dispositivo)</p>
+          <p><strong>Canais de comunicação:</strong> E-mail, notificações push no app</p>
+          <p><strong>Tipos de conteúdo:</strong> Atualizações do serviço, novos recursos e eventos, promoções e benefícios, convites para pesquisas</p>
+        </section>
+
+        <section>
+          <h2>2. Finalidade e período de retenção</h2>
+          <p><strong>Finalidade:</strong> Fornecer informações personalizadas, operar eventos, comunicação com o cliente</p>
+          <p><strong>Retenção:</strong> Mantido até a retirada do consentimento ou até o cumprimento da finalidade, depois excluído (exceto quando houver retenção legal obrigatória)</p>
+        </section>
+
+        <section>
+          <h2>3. Tratamento por terceiros e transferência internacional</h2>
+          <p>- Serviços externos, como Firebase, podem ser usados para entrega e análise, dentro do escopo necessário</p>
+          <p>- Os destinatários específicos e os detalhes de transferência seguem a Política de privacidade</p>
+        </section>
+
+        <section>
+          <h2>4. Retirada do consentimento (opt-out)</h2>
+          <p>- Pode ser alterado a qualquer momento no app em <strong>Configurações → Notificações / Preferências de marketing</strong></p>
+          <p>- Pode ser cancelado imediatamente pelo botão <strong>Cancelar inscrição</strong> no fim dos e-mails</p>
+          <p>- As notificações push também podem ser bloqueadas nas configurações do sistema (iOS / Android)</p>
+        </section>
+
+        <section>
+          <h2>5. Observações importantes</h2>
+          <p>- O acesso aos serviços essenciais não é restrito sem consentimento</p>
+          <p>- Após a retirada do consentimento, promoções e benefícios podem deixar de ser enviados</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function FrenchConsent() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Consentement marketing de MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Version :</strong> 1.0.1</p>
+          <p><strong>Date d’entrée en vigueur :</strong> 4 janvier 2025</p>
+          <p><strong>Dernière mise à jour :</strong> 4 janvier 2025</p>
+          <p><strong>Contact :</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Champ du consentement</h2>
+          <p><strong>Informations collectées :</strong> Adresse e-mail, jeton de notification push (appareil)</p>
+          <p><strong>Canaux de communication :</strong> E-mail, notifications push dans l’application</p>
+          <p><strong>Types de contenu :</strong> Actualités du service, nouvelles fonctionnalités et événements, promotions et avantages, invitations à des enquêtes</p>
+        </section>
+
+        <section>
+          <h2>2. Finalité et durée de conservation</h2>
+          <p><strong>Finalité :</strong> Fournir des informations personnalisées, organiser des événements, communiquer avec les clients</p>
+          <p><strong>Conservation :</strong> Conservé jusqu’au retrait du consentement ou jusqu’à l’accomplissement de la finalité, puis supprimé (sauf obligation légale de conservation)</p>
+        </section>
+
+        <section>
+          <h2>3. Traitement par des tiers et transfert international</h2>
+          <p>- Des services externes tels que Firebase peuvent être utilisés pour l’envoi et l’analyse, dans la mesure nécessaire</p>
+          <p>- Les destinataires précis et les détails de transfert suivent la Politique de confidentialité</p>
+        </section>
+
+        <section>
+          <h2>4. Retrait du consentement (opt-out)</h2>
+          <p>- Vous pouvez modifier ce choix à tout moment dans l’application via <strong>Réglages → Notifications / Préférences marketing</strong></p>
+          <p>- Vous pouvez vous désabonner immédiatement via le bouton <strong>Se désabonner</strong> en bas des e-mails</p>
+          <p>- Les notifications push peuvent aussi être bloquées depuis les réglages du système (iOS / Android)</p>
+        </section>
+
+        <section>
+          <h2>5. Remarques importantes</h2>
+          <p>- Le refus de consentement ne restreint pas l’accès aux services essentiels</p>
+          <p>- Après le retrait du consentement, les promotions et avantages peuvent ne plus être envoyés</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function ThaiConsent() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>ความยินยอมรับข้อมูลการตลาดของ MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>เวอร์ชัน:</strong> 1.0.1</p>
+          <p><strong>วันที่มีผลบังคับใช้:</strong> 4 มกราคม 2025</p>
+          <p><strong>อัปเดตล่าสุด:</strong> 4 มกราคม 2025</p>
+          <p><strong>ติดต่อ:</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. ขอบเขตของความยินยอม</h2>
+          <p><strong>ข้อมูลที่เก็บ:</strong> อีเมล, โทเคนแจ้งเตือนแบบพุช (อุปกรณ์)</p>
+          <p><strong>ช่องทางการสื่อสาร:</strong> อีเมล, การแจ้งเตือนแบบพุชในแอป</p>
+          <p><strong>ประเภทเนื้อหา:</strong> ข่าวสารบริการ, ฟีเจอร์ใหม่และกิจกรรม, โปรโมชั่นและสิทธิประโยชน์, คำเชิญทำแบบสอบถาม</p>
+        </section>
+
+        <section>
+          <h2>2. วัตถุประสงค์และระยะเวลาการเก็บรักษา</h2>
+          <p><strong>วัตถุประสงค์:</strong> ให้ข้อมูลเฉพาะบุคคล, ดำเนินกิจกรรม, สื่อสารกับลูกค้า</p>
+          <p><strong>การเก็บรักษา:</strong> เก็บไว้จนกว่าจะถอนความยินยอมหรือบรรลุวัตถุประสงค์ จากนั้นจึงลบ (ยกเว้นกรณีที่กฎหมายกำหนดให้ต้องเก็บ)</p>
+        </section>
+
+        <section>
+          <h2>3. การประมวลผลโดยบุคคลที่สามและการโอนข้อมูลข้ามประเทศ</h2>
+          <p>- อาจใช้บริการภายนอก เช่น Firebase สำหรับการส่งและการวิเคราะห์ ภายในขอบเขตที่จำเป็น</p>
+          <p>- ผู้รับข้อมูลและรายละเอียดการโอนข้อมูลเป็นไปตามนโยบายความเป็นส่วนตัว</p>
+        </section>
+
+        <section>
+          <h2>4. การถอนความยินยอม (Opt-out)</h2>
+          <p>- สามารถเปลี่ยนแปลงได้ทุกเมื่อในแอปที่ <strong>การตั้งค่า → การแจ้งเตือน / การตั้งค่าการตลาด</strong></p>
+          <p>- สามารถยกเลิกได้ทันทีผ่านปุ่ม <strong>ยกเลิกการรับข่าวสาร</strong> ที่ท้ายอีเมล</p>
+          <p>- สามารถบล็อกการแจ้งเตือนแบบพุชได้จากการตั้งค่าระบบปฏิบัติการ (iOS / Android)</p>
+        </section>
+
+        <section>
+          <h2>5. หมายเหตุสำคัญ</h2>
+          <p>- การไม่ให้ความยินยอมจะไม่จำกัดการเข้าถึงบริการที่จำเป็น</p>
+          <p>- หลังถอนความยินยอม อาจไม่ได้รับโปรโมชั่นหรือสิทธิประโยชน์อีกต่อไป</p>
+        </section>
+      </div>
+    </>
+  );
+}
+
+function VietnameseConsent() {
+  return (
+    <>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Đồng ý nhận thông tin tiếp thị MomentBook</h1>
+        <div className={styles.meta}>
+          <p><strong>Phiên bản:</strong> 1.0.1</p>
+          <p><strong>Ngày có hiệu lực:</strong> 4 tháng 1, 2025</p>
+          <p><strong>Cập nhật lần cuối:</strong> 4 tháng 1, 2025</p>
+          <p><strong>Liên hệ:</strong> yoondev3434@gmail.com</p>
+        </div>
+      </header>
+
+      <div className={styles.body}>
+        <section>
+          <h2>1. Phạm vi đồng ý</h2>
+          <p><strong>Thông tin thu thập:</strong> Địa chỉ email, mã thông báo push (thiết bị)</p>
+          <p><strong>Kênh liên lạc:</strong> Email, thông báo đẩy trong ứng dụng</p>
+          <p><strong>Loại nội dung:</strong> Cập nhật dịch vụ, tính năng mới và sự kiện, khuyến mãi và ưu đãi, lời mời khảo sát</p>
+        </section>
+
+        <section>
+          <h2>2. Mục đích và thời gian lưu giữ</h2>
+          <p><strong>Mục đích:</strong> Cung cấp thông tin cá nhân hóa, vận hành sự kiện, giao tiếp với khách hàng</p>
+          <p><strong>Lưu giữ:</strong> Được lưu cho đến khi rút lại đồng ý hoặc đạt được mục đích, sau đó sẽ xóa (trừ trường hợp pháp luật yêu cầu lưu giữ)</p>
+        </section>
+
+        <section>
+          <h2>3. Xử lý bởi bên thứ ba và chuyển dữ liệu quốc tế</h2>
+          <p>- Các dịch vụ bên ngoài như Firebase có thể được dùng cho việc gửi và phân tích, trong phạm vi cần thiết</p>
+          <p>- Bên nhận cụ thể và chi tiết chuyển dữ liệu tuân theo Chính sách quyền riêng tư</p>
+        </section>
+
+        <section>
+          <h2>4. Rút lại đồng ý (opt-out)</h2>
+          <p>- Có thể thay đổi bất cứ lúc nào trong ứng dụng tại <strong>Cài đặt → Thông báo / Tùy chọn tiếp thị</strong></p>
+          <p>- Có thể hủy đăng ký ngay qua nút <strong>Hủy đăng ký</strong> ở cuối email</p>
+          <p>- Cũng có thể chặn thông báo đẩy qua cài đặt hệ điều hành (iOS / Android)</p>
+        </section>
+
+        <section>
+          <h2>5. Lưu ý quan trọng</h2>
+          <p>- Việc không đồng ý sẽ không hạn chế quyền sử dụng các dịch vụ thiết yếu</p>
+          <p>- Sau khi rút lại đồng ý, các ưu đãi và khuyến mãi có thể sẽ không còn được gửi nữa</p>
         </section>
       </div>
     </>

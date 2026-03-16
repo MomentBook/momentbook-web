@@ -389,20 +389,20 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     emptyJourneys: "ยังไม่มีทริปสาธารณะ",
   },
   vi: {
-    heroEyebrow: "Kho luu tru hanh trinh chi doc",
-    heroExploreCta: "Xem hanh trinh",
-    featuredEyebrow: "Hanh trinh cong khai moi nhat",
-    featuredTitle: "Hanh trinh gan day",
-    featuredLead: "Nhung hanh trinh cong khai moi duoc dang tren MomentBook.",
-    featuredArchiveCta: "Xem kho luu tru",
-    photoCountLabel: "anh",
-    untitledJourney: "Hanh trinh chua dat ten",
-    unknownUser: "Nguoi dung khong ro",
-    emptyJourneys: "Chua co hanh trinh cong khai.",
+    heroEyebrow: "Kho lưu trữ hành trình chỉ đọc",
+    heroExploreCta: "Xem hành trình",
+    featuredEyebrow: "Hành trình công khai mới nhất",
+    featuredTitle: "Hành trình gần đây",
+    featuredLead: "Những hành trình công khai mới được đăng trên MomentBook.",
+    featuredArchiveCta: "Xem kho lưu trữ",
+    photoCountLabel: "ảnh",
+    untitledJourney: "Hành trình chưa đặt tên",
+    unknownUser: "Người dùng không rõ",
+    emptyJourneys: "Chưa có hành trình công khai.",
   },
 };
 
-const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
+const homeMessageCopy: Record<Language, HomeMessageCopy> = {
   en: {
     process: {
       processEyebrow: "3 steps",
@@ -473,6 +473,258 @@ const homeMessageCopy: Partial<Record<Language, HomeMessageCopy>> = {
       title: "지금 바로 다운로드하세요",
       lead:
         "지금 설치하고 여행 사진 정리를 시작하세요.",
+    },
+  },
+  ja: {
+    process: {
+      processEyebrow: "3ステップ",
+      processTitle: "アップロード、整理、同期",
+      processLead:
+        "フォルダ整理の手間を減らします。",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "アップロード",
+          description:
+            "旅行写真をまとめて追加します。",
+        },
+        {
+          stepLabel: "02",
+          title: "時間・場所で整理",
+          description:
+            "タイムラインが自動で作られます。",
+        },
+        {
+          stepLabel: "03",
+          title: "ドライブに同期",
+          description:
+            "整理されたアーカイブがクラウドに保存されます。",
+        },
+      ],
+    },
+    tutorial: {
+      introEyebrow: "チュートリアル動画",
+    },
+    download: {
+      title: "今すぐダウンロード",
+      lead:
+        "インストールして旅行写真の整理を始めましょう。",
+    },
+  },
+  zh: {
+    process: {
+      processEyebrow: "3 个步骤",
+      processTitle: "上传、整理、同步",
+      processLead:
+        "少做文件夹整理。",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "上传",
+          description:
+            "一次上传整趟旅行的照片。",
+        },
+        {
+          stepLabel: "02",
+          title: "按时间和地点整理",
+          description:
+            "时间线会自动生成。",
+        },
+        {
+          stepLabel: "03",
+          title: "同步到云盘",
+          description:
+            "整理好的档案会同步到云端。",
+        },
+      ],
+    },
+    tutorial: {
+      introEyebrow: "教程视频",
+    },
+    download: {
+      title: "立即下载",
+      lead:
+        "安装 MomentBook，开始整理旅行照片。",
+    },
+  },
+  es: {
+    process: {
+      processEyebrow: "3 pasos",
+      processTitle: "Sube. Ordena. Sincroniza.",
+      processLead:
+        "Evita ordenar carpetas a mano.",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "Subir",
+          description:
+            "Añade las fotos del viaje en un solo lote.",
+        },
+        {
+          stepLabel: "02",
+          title: "Ordenar por tiempo y lugar",
+          description:
+            "La línea de tiempo se crea automáticamente.",
+        },
+        {
+          stepLabel: "03",
+          title: "Sincronizar con tu drive",
+          description:
+            "El archivo queda listo para la nube.",
+        },
+      ],
+    },
+    tutorial: {
+      introEyebrow: "Video tutorial",
+    },
+    download: {
+      title: "Descarga ahora",
+      lead:
+        "Instala MomentBook y empieza a organizar tus fotos de viaje.",
+    },
+  },
+  pt: {
+    process: {
+      processEyebrow: "3 etapas",
+      processTitle: "Envie. Organize. Sincronize.",
+      processLead:
+        "Menos limpeza manual de pastas.",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "Enviar",
+          description:
+            "Adicione as fotos da viagem em um único lote.",
+        },
+        {
+          stepLabel: "02",
+          title: "Organizar por tempo e lugar",
+          description:
+            "A linha do tempo é criada automaticamente.",
+        },
+        {
+          stepLabel: "03",
+          title: "Sincronizar com seu drive",
+          description:
+            "O arquivo fica pronto para a nuvem.",
+        },
+      ],
+    },
+    tutorial: {
+      introEyebrow: "Vídeo tutorial",
+    },
+    download: {
+      title: "Baixe agora",
+      lead:
+        "Instale o MomentBook e comece a organizar suas fotos de viagem.",
+    },
+  },
+  fr: {
+    process: {
+      processEyebrow: "3 étapes",
+      processTitle: "Importez. Triez. Synchronisez.",
+      processLead:
+        "Moins de tri manuel dans les dossiers.",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "Importer",
+          description:
+            "Ajoutez les photos du voyage en un seul lot.",
+        },
+        {
+          stepLabel: "02",
+          title: "Trier par date et lieu",
+          description:
+            "La chronologie se crée automatiquement.",
+        },
+        {
+          stepLabel: "03",
+          title: "Synchroniser vers le drive",
+          description:
+            "L’archive est prête pour le cloud.",
+        },
+      ],
+    },
+    tutorial: {
+      introEyebrow: "Vidéo tutorielle",
+    },
+    download: {
+      title: "Téléchargez maintenant",
+      lead:
+        "Installez MomentBook et commencez à organiser vos photos de voyage.",
+    },
+  },
+  th: {
+    process: {
+      processEyebrow: "3 ขั้นตอน",
+      processTitle: "อัปโหลด จัดระเบียบ ซิงก์",
+      processLead:
+        "ลดเวลาจัดโฟลเดอร์ด้วยตัวเอง",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "อัปโหลด",
+          description:
+            "เพิ่มรูปทริปทั้งหมดในครั้งเดียว",
+        },
+        {
+          stepLabel: "02",
+          title: "จัดตามเวลาและสถานที่",
+          description:
+            "ไทม์ไลน์ถูกสร้างให้อัตโนมัติ",
+        },
+        {
+          stepLabel: "03",
+          title: "ซิงก์เข้าไดรฟ์",
+          description:
+            "คลังรูปที่จัดแล้วพร้อมส่งต่อขึ้นคลาวด์",
+        },
+      ],
+    },
+    tutorial: {
+      introEyebrow: "วิดีโอทิวโทเรียล",
+    },
+    download: {
+      title: "ดาวน์โหลดตอนนี้",
+      lead:
+        "ติดตั้ง MomentBook แล้วเริ่มจัดรูปทริปของคุณ",
+    },
+  },
+  vi: {
+    process: {
+      processEyebrow: "3 bước",
+      processTitle: "Tải lên. Sắp xếp. Đồng bộ.",
+      processLead:
+        "Bớt dọn thư mục thủ công.",
+      processSteps: [
+        {
+          stepLabel: "01",
+          title: "Tải lên",
+          description:
+            "Thêm ảnh chuyến đi trong một lần.",
+        },
+        {
+          stepLabel: "02",
+          title: "Sắp theo thời gian và địa điểm",
+          description:
+            "Dòng thời gian được tạo tự động.",
+        },
+        {
+          stepLabel: "03",
+          title: "Đồng bộ lên drive",
+          description:
+            "Kho lưu trữ đã sẵn sàng cho cloud.",
+        },
+      ],
+    },
+    tutorial: {
+      introEyebrow: "Video hướng dẫn",
+    },
+    download: {
+      title: "Tải ngay",
+      lead:
+        "Cài MomentBook và bắt đầu sắp xếp ảnh chuyến đi của bạn.",
     },
   },
 };
@@ -549,7 +801,7 @@ function getHomeEditorialCopy(lang: Language): HomeEditorialCopy {
 }
 
 function getHomeMessageCopy(lang: Language): HomeMessageCopy {
-  return homeMessageCopy[lang] ?? homeMessageCopy.en!;
+  return homeMessageCopy[lang] ?? homeMessageCopy.en;
 }
 
 export async function generateMetadata(

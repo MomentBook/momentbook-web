@@ -100,8 +100,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/support`
 
 현재 언어 커버리지:
-- `privacy`, `terms`, `community-guidelines`, `marketing-consent` 본문은 `en`, `ko`, `ja`, `zh` authored copy를 사용한다.
-- `es`, `pt`, `fr`, `th`, `vi`에서는 위 정책 문서 본문을 영어 fallback으로 노출하고, metadata title/description만 locale별 문자열을 사용한다.
+- `privacy`, `terms`, `community-guidelines`, `marketing-consent` 본문은 9개 지원 언어(`en`, `ko`, `ja`, `zh`, `es`, `pt`, `fr`, `th`, `vi`)에 대해 authored copy를 사용한다.
 - `support` 페이지 copy는 9개 언어에 대해 별도 문자열을 제공한다.
 
 ### 4.4 SEO Infrastructure Routes
