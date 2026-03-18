@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
@@ -7,7 +6,6 @@ import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourneyResult } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
-import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import { resolveJourneyPeriodRange } from "@/lib/journey-period";
 import JourneyContent from "./components/JourneyContent";
 import {
@@ -15,9 +13,8 @@ import {
     buildJourneyDescription,
 } from "./labels";
 import {
-    formatDuration,
-    getUniqueLocations,
-    buildImageUrlToPhotoIdMap,
+    getUniqueJourneyLocations,
+    buildPhotoIdToImageUrlMap,
 } from "./utils";
 import {
     buildPublicRobots,
@@ -126,7 +123,7 @@ export async function generateMetadata({
 
     const path = `/journeys/${journey.publicId}`;
     const url = buildOpenGraphUrl(lang, path);
-    const locations = getUniqueLocations(journey.clusters);
+    const locations = getUniqueJourneyLocations(journey);
     const description =
         journey.description ||
         buildJourneyDescription(lang, locations, journey.photoCount);
@@ -193,7 +190,7 @@ export default async function JourneyPage({
 
     const labels = journeyLabels[lang] ?? journeyLabels.en;
     const user = await fetchPublicUser(journey.userId);
-    const locations = getUniqueLocations(journey.clusters);
+    const locations = getUniqueJourneyLocations(journey);
     const totalDuration = journey.clusters.reduce(
         (sum, cluster) => sum + cluster.time.durationMs,
         0,
@@ -203,13 +200,18 @@ export default async function JourneyPage({
         endedAt: journey.endedAt,
         photoSources: [journey.images, journey.clusters],
     });
-    const imageMap = buildImageUrlToPhotoIdMap(journey);
+    const photoImageMap = buildPhotoIdToImageUrlMap(journey);
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
     const pageUrl = new URL(
         buildOpenGraphUrl(lang, `/journeys/${journey.publicId}`),
         siteUrl,
     ).toString();
+    const publishedTimestamp = Number.isFinite(Date.parse(journey.publishedAt))
+        ? Date.parse(journey.publishedAt)
+        : Number.isFinite(Date.parse(journey.createdAt))
+            ? Date.parse(journey.createdAt)
+            : null;
     const description =
         journey.description ||
         buildJourneyDescription(lang, locations, journey.photoCount);
@@ -249,49 +251,16 @@ export default async function JourneyPage({
                 dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
             />
 
-            <header className={styles.hero}>
-                <div className={styles.heroMain}>
-                    <p className={styles.eyebrow}>{labels.eyebrow}</p>
-                    <h1 className={styles.title}>{journey.title}</h1>
-                    {journey.description && (
-                        <p className={styles.subtitle}>
-                            {journey.description}
-                        </p>
-                    )}
-                </div>
-
-                <div className={styles.metaRow}>
-                    <Link
-                        href={`/${lang}/users/${journey.userId}`}
-                        className={styles.metaAuthor}
-                    >
-                        {user?.name ?? labels.profileLinkLabel}
-                    </Link>
-                    <span>
-                        <LocalizedDateTimeRange
-                            lang={lang}
-                            start={periodRange.start}
-                            end={periodRange.end}
-                        />
-                    </span>
-                    <span>
-                        {journey.photoCount} {labels.photoCount}
-                    </span>
-                    <span>
-                        {locations.length} {labels.locationCount}
-                    </span>
-                    {totalDuration > 0 && (
-                        <span>
-                            {formatDuration(totalDuration, labels.hours)}
-                        </span>
-                    )}
-                </div>
-            </header>
-
             <JourneyContent
                 journey={journey}
-                imageMap={imageMap}
+                photoImageMap={photoImageMap}
                 lang={lang}
+                authorName={user?.name || journeyAuthorFallbackByLanguage[lang]}
+                publishedTimestamp={publishedTimestamp}
+                periodStart={periodRange.start}
+                periodEnd={periodRange.end}
+                totalDuration={totalDuration}
+                locationCount={locations.length}
                 labels={labels}
             />
         </div>

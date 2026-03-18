@@ -156,6 +156,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - 웹 로그인/Auth UI 및 `/api/auth/*` 라우트는 제공하지 않는다.
 - 여정 상세의 신고 버튼/신고 제출 플로우는 제거되어 있다.
+- `/{lang}/journeys/[journeyId]`는 cover-led editorial summary를 기본으로 렌더링한다. 클러스터가 있는 여정은 hero summary + 우측 journey map/jump navigation/visited places 보조 패널 + 순간 카드 목록을 노출하고, 클러스터가 없는 여정은 같은 hero summary 아래를 촬영 시각 기준 photo archive grid로 대체한다.
 - 신고 누적으로 hidden 상태가 된 공개 여정 상세는 숨김 안내와 noindex metadata를 렌더링한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 

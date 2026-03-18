@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { Language } from "@/lib/i18n/config";
 import type { JourneyMode, PublishedJourneyCluster } from "@/lib/published-journey";
 
 const JourneyMap = dynamic(() => import("./JourneyMap"), {
@@ -12,7 +13,7 @@ type ClientMapProps = {
   mode: JourneyMode;
   locationFallback: string;
   photoLabel: string;
-  lang: string;
+  lang: Language;
   journeyPublicId: string;
 };
 
