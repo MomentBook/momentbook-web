@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -15,8 +16,7 @@ import {
 } from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
-import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
-import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
+import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
 import {
   fetchPublicUsers,
   fetchPublicUser,
@@ -31,12 +31,15 @@ import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 
 export const revalidate = 3600;
 
+const FALLBACK_COVER_SRC = "/images/placeholders/journey-cover-fallback.svg";
+const JOURNEYS_PER_PAGE = 16;
+
 type UserPageLabels = {
   profileEyebrow: string;
+  profileNote: string;
   journeys: string;
   photos: string;
   period: string;
-  byLabel: string;
   publishedLabel: string;
   unknownDateLabel: string;
   previousPage: string;
@@ -45,17 +48,16 @@ type UserPageLabels = {
   untitledJourney: string;
   periodUnknown: string;
   emptyJourneys: string;
+  pageStatus: string;
 };
-
-const JOURNEYS_PER_PAGE = 16;
 
 const userLabels: Record<Language, UserPageLabels> = {
   en: {
     profileEyebrow: "Profile",
-    journeys: "Journeys",
+    profileNote: "Public archive of journeys shared on MomentBook.",
+    journeys: "Collected journeys",
     photos: "photos",
-    period: "Period",
-    byLabel: "by",
+    period: "Travel period",
     publishedLabel: "Published",
     unknownDateLabel: "Date unavailable",
     previousPage: "Previous",
@@ -64,13 +66,14 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "Untitled journey",
     periodUnknown: "Time not available",
     emptyJourneys: "No published journeys yet.",
+    pageStatus: "Page {current} of {total}",
   },
   ko: {
     profileEyebrow: "프로필",
-    journeys: "여정",
+    profileNote: "MomentBook에서 공개한 여정을 읽기 전용으로 모아둔 아카이브입니다.",
+    journeys: "기록된 여정",
     photos: "사진",
-    period: "기간",
-    byLabel: "작성자",
+    period: "여행 기간",
     publishedLabel: "게시일",
     unknownDateLabel: "날짜 정보 없음",
     previousPage: "이전",
@@ -79,13 +82,14 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "제목 없는 여정",
     periodUnknown: "시간 정보 없음",
     emptyJourneys: "아직 공개된 여정이 없습니다.",
+    pageStatus: "{total}페이지 중 {current}페이지",
   },
   ja: {
     profileEyebrow: "プロフィール",
-    journeys: "旅",
+    profileNote: "MomentBook で公開された旅を読み取り専用でまとめたアーカイブです。",
+    journeys: "記録された旅",
     photos: "写真",
-    period: "期間",
-    byLabel: "投稿者",
+    period: "旅の期間",
     publishedLabel: "公開日",
     unknownDateLabel: "日付情報なし",
     previousPage: "前へ",
@@ -94,13 +98,14 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "タイトル未設定の旅",
     periodUnknown: "時間情報なし",
     emptyJourneys: "公開された旅はまだありません。",
+    pageStatus: "{total}ページ中 {current}ページ",
   },
   zh: {
     profileEyebrow: "个人资料",
-    journeys: "旅程",
+    profileNote: "这里是一个只读公开档案，收录了在 MomentBook 分享的旅程。",
+    journeys: "已记录的旅程",
     photos: "照片",
-    period: "时间",
-    byLabel: "作者",
+    period: "旅行时间",
     publishedLabel: "发布日期",
     unknownDateLabel: "暂无日期信息",
     previousPage: "上一页",
@@ -109,13 +114,14 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "未命名旅程",
     periodUnknown: "暂无时间信息",
     emptyJourneys: "还没有公开旅程。",
+    pageStatus: "第 {current} / {total} 页",
   },
   es: {
     profileEyebrow: "Perfil",
-    journeys: "Viajes",
+    profileNote: "Archivo público de solo lectura con los viajes compartidos en MomentBook.",
+    journeys: "Viajes reunidos",
     photos: "fotos",
-    period: "Período",
-    byLabel: "por",
+    period: "Período del viaje",
     publishedLabel: "Publicado",
     unknownDateLabel: "Fecha no disponible",
     previousPage: "Anterior",
@@ -124,13 +130,14 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "Viaje sin título",
     periodUnknown: "Horario no disponible",
     emptyJourneys: "Aún no hay viajes publicados.",
+    pageStatus: "Página {current} de {total}",
   },
   pt: {
     profileEyebrow: "Perfil",
-    journeys: "Viagens",
+    profileNote: "Arquivo público somente leitura com as viagens compartilhadas no MomentBook.",
+    journeys: "Viagens reunidas",
     photos: "fotos",
-    period: "Período",
-    byLabel: "por",
+    period: "Período da viagem",
     publishedLabel: "Publicado em",
     unknownDateLabel: "Data indisponível",
     previousPage: "Anterior",
@@ -139,13 +146,14 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "Viagem sem título",
     periodUnknown: "Horário indisponível",
     emptyJourneys: "Ainda não há viagens publicadas.",
+    pageStatus: "Página {current} de {total}",
   },
   fr: {
     profileEyebrow: "Profil",
-    journeys: "Voyages",
+    profileNote: "Archive public en lecture seule des voyages partagés sur MomentBook.",
+    journeys: "Voyages rassemblés",
     photos: "photos",
-    period: "Période",
-    byLabel: "par",
+    period: "Période du voyage",
     publishedLabel: "Publié",
     unknownDateLabel: "Date indisponible",
     previousPage: "Précédent",
@@ -154,13 +162,14 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "Voyage sans titre",
     periodUnknown: "Horaire indisponible",
     emptyJourneys: "Aucun voyage publié pour le moment.",
+    pageStatus: "Page {current} sur {total}",
   },
   th: {
     profileEyebrow: "โปรไฟล์",
-    journeys: "ทริป",
+    profileNote: "คลังทริปสาธารณะสำหรับการอ่านเท่านั้นที่แชร์บน MomentBook",
+    journeys: "ทริปที่บันทึกไว้",
     photos: "รูป",
-    period: "ช่วงเวลา",
-    byLabel: "โดย",
+    period: "ช่วงเวลาเดินทาง",
     publishedLabel: "วันที่เผยแพร่",
     unknownDateLabel: "ไม่มีข้อมูลวันที่",
     previousPage: "ก่อนหน้า",
@@ -169,13 +178,14 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "ทริปไม่มีชื่อ",
     periodUnknown: "ไม่มีข้อมูลเวลา",
     emptyJourneys: "ยังไม่มีทริปที่เผยแพร่",
+    pageStatus: "หน้า {current} จาก {total}",
   },
   vi: {
     profileEyebrow: "Hồ sơ",
-    journeys: "Hành trình",
+    profileNote: "Kho lưu trữ công khai chỉ đọc gồm các hành trình đã chia sẻ trên MomentBook.",
+    journeys: "Hành trình đã lưu",
     photos: "ảnh",
-    period: "Thời gian",
-    byLabel: "bởi",
+    period: "Thời gian chuyến đi",
     publishedLabel: "Đã đăng",
     unknownDateLabel: "Không có ngày",
     previousPage: "Trước",
@@ -184,6 +194,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     untitledJourney: "Hành trình chưa đặt tên",
     periodUnknown: "Không có thông tin thời gian",
     emptyJourneys: "Chưa có hành trình đã đăng.",
+    pageStatus: "Trang {current} trên {total}",
   },
 };
 
@@ -317,6 +328,87 @@ function buildUserAlternates(lang: Language, userId: string, page: number) {
   };
 }
 
+function formatTemplate(
+  template: string,
+  values: Record<string, string | number>,
+): string {
+  return Object.entries(values).reduce(
+    (result, [key, value]) => result.replace(`{${key}}`, String(value)),
+    template,
+  );
+}
+
+type UserJourneyCardProps = {
+  journey: UserJourneyApi;
+  lang: Language;
+  labels: UserPageLabels;
+};
+
+function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps) {
+  const meta = resolveJourneyMetadata(journey);
+  const journeyTitle = meta.title ?? readText(journey.title) ?? labels.untitledJourney;
+  const journeyDescription = meta.description ?? readText(journey.description);
+  const coverUrl = getJourneyCoverUrl(journey, meta.thumbnailUri);
+  const photoCount = getJourneyPhotoCount(journey);
+  const periodRange = getJourneyPeriodRange(journey);
+  const publishedAt = readTimestamp(journey.publishedAt);
+
+  return (
+    <Link
+      href={`/${lang}/journeys/${journey.publicId}`}
+      className={styles.journeyCard}
+      aria-label={journeyTitle}
+    >
+      <div className={styles.journeyCover}>
+        <Image
+          src={coverUrl ?? FALLBACK_COVER_SRC}
+          alt={coverUrl ? journeyTitle : ""}
+          aria-hidden={coverUrl ? undefined : true}
+          fill
+          sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
+          className={styles.journeyImage}
+        />
+        {photoCount > 0 ? (
+          <span className={styles.photoBadge}>
+            {photoCount} {labels.photos}
+          </span>
+        ) : null}
+      </div>
+
+      <div className={styles.cardBody}>
+        <div className={styles.cardHeading}>
+          <h3 className={styles.cardTitle}>{journeyTitle}</h3>
+          <p className={styles.cardDescription}>
+            {journeyDescription ?? "\u00A0"}
+          </p>
+        </div>
+
+        <div className={styles.cardMeta}>
+          <div className={styles.cardMetaRow}>
+            <span className={styles.cardMetaLabel}>{labels.period}</span>
+            <LocalizedDateRange
+              lang={lang}
+              start={periodRange.start}
+              end={periodRange.end}
+              fallback={labels.periodUnknown}
+              className={styles.cardMetaValue}
+            />
+          </div>
+          <div className={styles.cardMetaRow}>
+            <span className={styles.cardMetaLabel}>{labels.publishedLabel}</span>
+            <LocalizedDate
+              lang={lang}
+              timestamp={publishedAt}
+              fallback={labels.unknownDateLabel}
+              className={styles.cardMetaValueAccent}
+            />
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 export async function generateStaticParams() {
   const response = await fetchPublicUsers({ limit: 1000, sort: "recent" });
   const users = response?.data?.users ?? [];
@@ -425,10 +517,13 @@ export default async function UserPage({
   const hasPreviousPage = safeCurrentPage > 1;
   const hasNextPage = safeCurrentPage < totalPages;
   const labels = userLabels[lang] ?? userLabels.en;
-  const sharedCountText = labels.sharedCount.replace(
-    "{count}",
-    String(user.publishedJourneyCount),
-  );
+  const sharedCountText = formatTemplate(labels.sharedCount, {
+    count: user.publishedJourneyCount,
+  });
+  const pageStatusText = formatTemplate(labels.pageStatus, {
+    current: safeCurrentPage,
+    total: totalPages,
+  });
   const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages, {
     includeSinglePage: false,
   });
@@ -436,17 +531,12 @@ export default async function UserPage({
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const profilePath = buildOpenGraphUrl(lang, `/users/${user.userId}`);
-  const pagePath = safeCurrentPage > 1
-    ? `${profilePath}?page=${safeCurrentPage}`
-    : profilePath;
-  const profileUrl = new URL(
-    profilePath,
-    siteUrl,
-  ).toString();
-  const pageUrl = new URL(
-    pagePath,
-    siteUrl,
-  ).toString();
+  const pagePath =
+    safeCurrentPage > 1
+      ? `${profilePath}?page=${safeCurrentPage}`
+      : profilePath;
+  const profileUrl = new URL(profilePath, siteUrl).toString();
+  const pageUrl = new URL(pagePath, siteUrl).toString();
   const description =
     user.biography?.trim() ||
     (userDescriptionTemplates[lang] ?? userDescriptionTemplates.en).replace(
@@ -475,132 +565,121 @@ export default async function UserPage({
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
 
-      <header className={styles.header}>
-        <div className={styles.avatarFrame}>
-          <ProfileAvatar name={user.name} picture={profileImageUrl} size="profile" />
-        </div>
+      <header className={styles.hero}>
+        <div className={styles.heroInner}>
+          <div className={styles.avatarHalo}>
+            <div className={styles.avatarFrame}>
+              <ProfileAvatar
+                name={user.name}
+                picture={profileImageUrl}
+                size="profile"
+              />
+            </div>
+          </div>
 
-        <div className={styles.profileBody}>
-          <p className={styles.eyebrow}>{labels.profileEyebrow}</p>
-          <h1 className={styles.name}>{user.name}</h1>
-          <p className={styles.sharedCount}>{sharedCountText}</p>
-          {user.biography && <p className={styles.bio}>{user.biography}</p>}
+          <div className={styles.heroText}>
+            <p className={styles.eyebrow}>{labels.profileEyebrow}</p>
+            <h1 className={styles.name}>{user.name}</h1>
+
+            <div className={styles.heroMeta}>
+              <span className={styles.countBadge}>{sharedCountText}</span>
+              <span className={styles.noteBadge}>{labels.profileNote}</span>
+            </div>
+
+            {user.biography ? (
+              <p className={styles.bio}>{user.biography}</p>
+            ) : null}
+          </div>
         </div>
       </header>
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>{labels.journeys}</h2>
-          <p className={styles.sectionCount}>{totalJourneys}</p>
+          <div className={styles.sectionHeadingGroup}>
+            <p className={styles.sectionEyebrow}>{labels.profileEyebrow}</p>
+            <h2 className={styles.sectionTitle}>{labels.journeys}</h2>
+          </div>
+
+          <div className={styles.sectionSummary}>
+            <p className={styles.sectionCount}>{sharedCountText}</p>
+            {totalPages > 1 ? (
+              <p className={styles.pageStatus}>{pageStatusText}</p>
+            ) : null}
+          </div>
         </div>
 
         {journeys.length === 0 ? (
-          <div className={styles.emptyState}>{labels.emptyJourneys}</div>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyDivider} />
+            <p className={styles.emptyTitle}>{labels.emptyJourneys}</p>
+            <p className={styles.emptyBody}>{labels.profileNote}</p>
+            <div className={styles.emptyDivider} />
+          </div>
         ) : (
           <>
             <div className={styles.journeyGrid}>
-              {journeys.map((journey) => {
-                const meta = resolveJourneyMetadata(journey);
-                const journeyTitle = meta.title ?? readText(journey.title) ?? labels.untitledJourney;
-                const journeyDescription = meta.description ?? readText(journey.description);
-                const coverUrl = getJourneyCoverUrl(journey, meta.thumbnailUri);
-                const photoCount = getJourneyPhotoCount(journey);
-                const periodRange = getJourneyPeriodRange(journey);
-                const publishedAt = readTimestamp(journey.publishedAt);
-
-                return (
-                  <JourneyPreviewCard
-                    key={journey.publicId}
-                    href={`/${lang}/journeys/${journey.publicId}`}
-                    title={journeyTitle}
-                    description={journeyDescription}
-                    coverUrl={coverUrl}
-                    topMeta={(
-                      <>
-                        {labels.publishedLabel} ·{" "}
-                        <LocalizedDate
-                          lang={lang}
-                          timestamp={publishedAt}
-                          fallback={labels.unknownDateLabel}
-                        />
-                      </>
-                    )}
-                    metaItems={[
-                      { label: labels.photos, value: photoCount },
-                      {
-                        label: labels.period,
-                        value: (
-                          <LocalizedDateTimeRange
-                            lang={lang}
-                            start={periodRange.start}
-                            end={periodRange.end}
-                            fallback={labels.periodUnknown}
-                          />
-                        ),
-                      },
-                    ]}
-                    authorText={`${labels.byLabel} ${user.name}`}
-                  />
-                );
-              })}
+              {journeys.map((journey) => (
+                <UserJourneyCard
+                  key={journey.publicId}
+                  journey={journey}
+                  lang={lang}
+                  labels={labels}
+                />
+              ))}
             </div>
 
             {totalPages > 1 ? (
-              <nav className={styles.pagination} aria-label="Journey list pagination">
+              <nav className={styles.pagination} aria-label={labels.journeys}>
                 {hasPreviousPage ? (
                   <Link
+                    href={buildPageHref(lang, userId, safeCurrentPage - 1)}
                     className={styles.pageButton}
-                    href={buildPageHref(lang, user.userId, safeCurrentPage - 1)}
                   >
                     {labels.previousPage}
                   </Link>
                 ) : (
-                  <span className={styles.pageButtonDisabled}>{labels.previousPage}</span>
+                  <span className={styles.pageButtonDisabled}>
+                    {labels.previousPage}
+                  </span>
                 )}
 
                 <div className={styles.pageNumbers}>
-                  {paginationEntries.map((entry) => {
-                    if (entry.type === "ellipsis") {
-                      return (
-                        <span key={entry.key} className={styles.pageEllipsis} aria-hidden="true">
-                          ...
-                        </span>
-                      );
-                    }
-
-                    if (entry.page === safeCurrentPage) {
-                      return (
-                        <span
-                          key={`page-${entry.page}`}
-                          className={styles.pageNumberCurrent}
-                          aria-current="page"
-                        >
-                          {entry.page}
-                        </span>
-                      );
-                    }
-
-                    return (
+                  {paginationEntries.map((entry) =>
+                    entry.type === "ellipsis" ? (
+                      <span key={entry.key} className={styles.pageEllipsis}>
+                        ...
+                      </span>
+                    ) : entry.page === safeCurrentPage ? (
+                      <span
+                        key={entry.page}
+                        className={styles.pageNumberCurrent}
+                        aria-current="page"
+                      >
+                        {entry.page}
+                      </span>
+                    ) : (
                       <Link
-                        key={`page-${entry.page}`}
+                        key={entry.page}
+                        href={buildPageHref(lang, userId, entry.page)}
                         className={styles.pageNumber}
-                        href={buildPageHref(lang, user.userId, entry.page)}
                       >
                         {entry.page}
                       </Link>
-                    );
-                  })}
+                    ),
+                  )}
                 </div>
 
                 {hasNextPage ? (
                   <Link
+                    href={buildPageHref(lang, userId, safeCurrentPage + 1)}
                     className={styles.pageButton}
-                    href={buildPageHref(lang, user.userId, safeCurrentPage + 1)}
                   >
                     {labels.nextPage}
                   </Link>
                 ) : (
-                  <span className={styles.pageButtonDisabled}>{labels.nextPage}</span>
+                  <span className={styles.pageButtonDisabled}>
+                    {labels.nextPage}
+                  </span>
                 )}
               </nav>
             ) : null}
