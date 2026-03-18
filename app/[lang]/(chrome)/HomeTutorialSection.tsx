@@ -7,7 +7,6 @@ import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
 export type HomeTutorialContent = {
-  introEyebrow: string;
   deviceAlt: string;
   replayLabel: string;
   playWithSoundLabel: string;
@@ -41,7 +40,6 @@ export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
         distance={8}
         className={styles.introHeader}
       >
-        <p className={styles.sectionEyebrow}>{content.introEyebrow}</p>
         <h2 id="overview-title" className={styles.introSectionTitle}>
           {content.introGuideTitle}
         </h2>

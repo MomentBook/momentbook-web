@@ -68,7 +68,6 @@ type HomeEditorialCopy = {
 
 type HomeMessageCopy = {
   process: HomeHeroProcessContent;
-  tutorial: Pick<HomeTutorialContent, "introEyebrow">;
   download: HomeDownloadNarrativeContent;
 };
 
@@ -104,9 +103,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "당신의 여행을 기억하세요",
     heroLead:
       "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
-    heroTutorialCta: "튜토리얼 보기",
+    heroTutorialCta: "영상 보기",
     primaryCta: "앱 설치",
-    deviceAlt: "MomentBook 튜토리얼 영상",
+    deviceAlt: "제주 여행 영상",
     replayLabel: "영상 다시 보기",
     playWithSoundLabel: "소리와 함께 재생",
     playLabel: "재생",
@@ -117,9 +116,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "영상 탐색",
     fullscreenLabel: "전체 화면",
     exitFullscreenLabel: "전체 화면 종료",
-    introGuideTitle: "MomentBook 튜토리얼 영상",
+    introGuideTitle: "튜토리얼 영상",
     introGuideLead:
-      "업로드부터 자동 정리, 드라이브 동기화까지 영상으로 확인하세요.",
+      "제주를 여행하는 커플의 순간을 영상으로 만나보세요.",
   },
   ja: {
     metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
@@ -430,9 +429,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
         },
       ],
     },
-    tutorial: {
-      introEyebrow: "Tutorial video",
-    },
     download: {
       title: "Download now",
       lead:
@@ -465,9 +461,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
             "정리된 아카이브가 드라이브로 이어집니다.",
         },
       ],
-    },
-    tutorial: {
-      introEyebrow: "튜토리얼 영상",
     },
     download: {
       title: "지금 바로 다운로드하세요",
@@ -502,9 +495,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
         },
       ],
     },
-    tutorial: {
-      introEyebrow: "チュートリアル動画",
-    },
     download: {
       title: "今すぐダウンロード",
       lead:
@@ -537,9 +527,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
             "整理好的档案会同步到云端。",
         },
       ],
-    },
-    tutorial: {
-      introEyebrow: "教程视频",
     },
     download: {
       title: "立即下载",
@@ -574,9 +561,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
         },
       ],
     },
-    tutorial: {
-      introEyebrow: "Video tutorial",
-    },
     download: {
       title: "Descarga ahora",
       lead:
@@ -609,9 +593,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
             "O arquivo fica pronto para a nuvem.",
         },
       ],
-    },
-    tutorial: {
-      introEyebrow: "Vídeo tutorial",
     },
     download: {
       title: "Baixe agora",
@@ -646,9 +627,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
         },
       ],
     },
-    tutorial: {
-      introEyebrow: "Vidéo tutorielle",
-    },
     download: {
       title: "Téléchargez maintenant",
       lead:
@@ -682,9 +660,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
         },
       ],
     },
-    tutorial: {
-      introEyebrow: "วิดีโอทิวโทเรียล",
-    },
     download: {
       title: "ดาวน์โหลดตอนนี้",
       lead:
@@ -717,9 +692,6 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
             "Kho lưu trữ đã sẵn sàng cho cloud.",
         },
       ],
-    },
-    tutorial: {
-      introEyebrow: "Video hướng dẫn",
     },
     download: {
       title: "Tải ngay",
@@ -878,7 +850,6 @@ export default async function Home({
     heroFootnote: "",
   };
   const tutorialContent: HomeTutorialContent = {
-    introEyebrow: messageContent.tutorial.introEyebrow,
     deviceAlt: content.deviceAlt,
     replayLabel: content.replayLabel,
     playWithSoundLabel: content.playWithSoundLabel,
