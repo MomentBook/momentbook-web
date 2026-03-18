@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FadeIn } from "@/components/FadeIn";
+import { Reveal } from "@/components/Reveal";
 import { ScrollActivatedVideo } from "@/components/ScrollActivatedVideo";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
@@ -36,19 +36,24 @@ export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
       aria-labelledby="overview-title"
     >
       <div className={styles.introHeader}>
-        <FadeIn delay={100}>
+        <Reveal delay={0}>
           <p className={styles.sectionEyebrow}>{content.introEyebrow}</p>
-        </FadeIn>
-        <FadeIn delay={140}>
+        </Reveal>
+        <Reveal delay={60}>
           <h2 id="overview-title" className={styles.introSectionTitle}>
             {content.introGuideTitle}
           </h2>
-        </FadeIn>
-        <FadeIn delay={180}>
+        </Reveal>
+        <Reveal delay={120}>
           <p className={styles.introSectionLead}>{content.introGuideLead}</p>
-        </FadeIn>
+        </Reveal>
       </div>
-      <FadeIn delay={140} className={styles.introStageWrap}>
+      <Reveal
+        delay={160}
+        duration={600}
+        distance={12}
+        className={styles.introStageWrap}
+      >
         <div className={styles.introStage}>
           <div className={styles.introMediaPane}>
             <ScrollActivatedVideo
@@ -85,7 +90,7 @@ export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
             />
           </div>
         </div>
-      </FadeIn>
+      </Reveal>
     </section>
   );
 }

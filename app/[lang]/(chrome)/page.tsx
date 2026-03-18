@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { FadeIn } from "@/components/FadeIn";
 import { LocalizedDate } from "@/components/LocalizedTime";
+import { Reveal } from "@/components/Reveal";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
@@ -967,31 +967,33 @@ export default async function Home({
       <section className={styles.featuredSection} aria-labelledby="home-featured-title">
         <div className={styles.sectionHeader}>
           <div className={styles.sectionHeaderCopy}>
-            <FadeIn delay={80}>
+            <Reveal delay={0}>
               <p className={styles.sectionEyebrow}>{editorialContent.featuredEyebrow}</p>
-            </FadeIn>
-            <FadeIn delay={120}>
+            </Reveal>
+            <Reveal delay={60}>
               <h2 id="home-featured-title" className={styles.sectionTitle}>
                 {editorialContent.featuredTitle}
               </h2>
-            </FadeIn>
-            <FadeIn delay={160}>
+            </Reveal>
+            <Reveal delay={120}>
               <p className={styles.sectionLead}>{editorialContent.featuredLead}</p>
-            </FadeIn>
+            </Reveal>
           </div>
-          <FadeIn delay={200}>
+          <Reveal delay={160}>
             <Link href={`/${lang}/journeys`} className={styles.archiveLink}>
               {editorialContent.featuredArchiveCta}
             </Link>
-          </FadeIn>
+          </Reveal>
         </div>
 
         {featuredJourneys.length > 0 ? (
           <div className={styles.featuredGrid}>
             {featuredJourneys.map((journey, index) => (
-              <FadeIn
+              <Reveal
                 key={journey.publicId}
-                delay={240 + (index * 80)}
+                delay={180 + (index * 60)}
+                duration={580}
+                distance={12}
                 className={styles.featuredCard}
               >
                 <Link href={journey.href} className={styles.featuredCardLink}>
@@ -1018,13 +1020,13 @@ export default async function Home({
                     </div>
                   </div>
                 </Link>
-              </FadeIn>
+              </Reveal>
             ))}
           </div>
         ) : (
-          <FadeIn delay={240}>
+          <Reveal delay={200}>
             <p className={styles.featuredEmpty}>{editorialContent.emptyJourneys}</p>
-          </FadeIn>
+          </Reveal>
         )}
       </section>
       <HomeDownloadSection

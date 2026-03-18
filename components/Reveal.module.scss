@@ -1,0 +1,32 @@
+.root {
+  --reveal-delay: 0ms;
+  --reveal-duration: 480ms;
+  --reveal-distance: 20px;
+  --reveal-scale: 0.985;
+  transform-origin: center top;
+}
+
+.root[data-reveal-played="true"] {
+  animation: reveal-rise var(--reveal-duration) cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+  animation-delay: var(--reveal-delay);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root[data-reveal-played="true"] {
+    animation: none;
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0.001;
+    transform: translate3d(0, var(--reveal-distance), 0)
+      scale(var(--reveal-scale));
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}

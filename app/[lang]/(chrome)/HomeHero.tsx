@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { DownloadActionButton } from "@/components/DownloadActionButton";
-import { FadeIn } from "@/components/FadeIn";
+import { Reveal } from "@/components/Reveal";
 import { type Language } from "@/lib/i18n/config";
 import { scrollHomeSectionIntoView } from "@/lib/marketing/home-scroll";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
@@ -51,16 +51,16 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
       <section className={styles.hero}>
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
-            <FadeIn delay={80}>
+            <Reveal delay={0}>
               <p className={styles.heroEyebrow}>{content.heroEyebrow}</p>
-            </FadeIn>
-            <FadeIn delay={120}>
+            </Reveal>
+            <Reveal delay={60}>
               <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
-            </FadeIn>
-            <FadeIn delay={160}>
+            </Reveal>
+            <Reveal delay={120}>
               <p className={styles.heroLead}>{content.heroLead}</p>
-            </FadeIn>
-            <FadeIn delay={200} className={styles.heroActionsWrap}>
+            </Reveal>
+            <Reveal delay={180} className={styles.heroActionsWrap}>
               <div className={styles.heroActions}>
                 <DownloadActionButton
                   lang={lang}
@@ -79,11 +79,11 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
               >
                 {content.heroTutorialCta}
               </button>
-            </FadeIn>
+            </Reveal>
             {content.heroFootnote ? (
-              <FadeIn delay={240}>
+              <Reveal delay={240}>
                 <p className={styles.heroFootnote}>{content.heroFootnote}</p>
-              </FadeIn>
+              </Reveal>
             ) : null}
           </div>
         </div>
@@ -91,29 +91,31 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
 
       <section className={styles.workflowSection} aria-labelledby="home-process-title">
         <div className={styles.workflowIntro}>
-          <FadeIn delay={100}>
+          <Reveal delay={0}>
             <p className={styles.sectionEyebrow}>{process.processEyebrow}</p>
-          </FadeIn>
-          <FadeIn delay={140}>
+          </Reveal>
+          <Reveal delay={60}>
             <h2 id="home-process-title" className={styles.workflowTitle}>
               {process.processTitle}
             </h2>
-          </FadeIn>
-          <FadeIn delay={180}>
+          </Reveal>
+          <Reveal delay={120}>
             <p className={styles.workflowLead}>{process.processLead}</p>
-          </FadeIn>
+          </Reveal>
         </div>
         <div className={styles.workflowGrid}>
           {process.processSteps.map((step, index) => (
-            <FadeIn
+            <Reveal
               key={`${step.stepLabel}-${step.title}`}
-              delay={220 + (index * 80)}
+              delay={160 + (index * 60)}
+              distance={12}
+              duration={580}
               className={styles.workflowCard}
             >
               <p className={styles.workflowStepLabel}>{step.stepLabel}</p>
               <h3 className={styles.workflowStepTitle}>{step.title}</h3>
               <p className={styles.workflowStepDescription}>{step.description}</p>
-            </FadeIn>
+            </Reveal>
           ))}
         </div>
       </section>
