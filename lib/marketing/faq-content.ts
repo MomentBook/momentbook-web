@@ -222,7 +222,7 @@ const faqContent: Record<Language, FAQContent> = {
           },
           {
             question: "网页端提供什么？",
-            answer: "网页端提供公开行程、时刻、照片与个人资料的只读页面。",
+            answer: "网页端提供公开旅程、时刻、照片与个人资料的只读页面。",
           },
         ],
       },
@@ -330,7 +330,7 @@ const faqContent: Record<Language, FAQContent> = {
           {
             question: "O que o site oferece?",
             answer:
-              "O site oferece jornadas, momentos, fotos e perfis publicados em páginas de leitura.",
+              "O site oferece viagens, momentos, fotos e perfis publicados em páginas somente leitura.",
           },
         ],
       },

@@ -26,13 +26,13 @@ const suit = localFont({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 const siteDescriptionByLanguage: Record<Language, string> = {
-  en: "An app that quietly remembers your day.",
+  en: "An app that quietly remembers the moments of your day.",
   ko: "하루의 순간을 조용히 기억하는 앱.",
-  ja: "一日の瞬間を静かに記憶するアプリ。",
-  zh: "安静记录你一天瞬间的应用。",
+  ja: "一日の瞬間を静かに覚えておくアプリ。",
+  zh: "安静记住你一天瞬间的应用。",
   es: "Una aplicación que recuerda en silencio los momentos de tu día.",
   pt: "Um aplicativo que guarda em silêncio os momentos do seu dia.",
-  fr: "Une application qui garde en mémoire, en douceur, les moments de votre journée.",
+  fr: "Une application qui garde en douceur les moments de votre journée.",
   th: "แอปที่จดจำช่วงเวลาของวันคุณอย่างเงียบๆ",
   vi: "Ứng dụng lặng lẽ ghi nhớ những khoảnh khắc trong ngày của bạn.",
 };

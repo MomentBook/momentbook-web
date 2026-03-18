@@ -73,15 +73,15 @@ type HomeMessageCopy = {
 
 const homePageCopy: Record<Language, HomePageCopy> = {
   en: {
-    metaTitle: "MomentBook — Upload once, organize and sync",
+    metaTitle: "MomentBook — Upload once, organized all the way to your drive",
     metaDescription:
-      "Upload trip photos once, organize them by time and place, and let MomentBook sync the archive to your cloud drive.",
-    heroTitle: "Upload once. Sorted for you.",
+      "Upload trip photos in one batch. MomentBook organizes them into a timeline by time and place, then automatically syncs the archive to your cloud drive.",
+    heroTitle: "Remember your trip",
     heroLead:
-      "MomentBook sorts trip photos by time and place, then syncs the archive to your cloud drive.",
-    heroTutorialCta: "Watch tutorial",
+      "Upload trip photos and MomentBook organizes them by time and place, then automatically syncs them to your drive.",
+    heroTutorialCta: "Watch video",
     primaryCta: "Install app",
-    deviceAlt: "MomentBook tutorial video",
+    deviceAlt: "Jeju travel video",
     replayLabel: "Replay video",
     playWithSoundLabel: "Play with sound",
     playLabel: "Play",
@@ -92,9 +92,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Seek video",
     fullscreenLabel: "Full screen",
     exitFullscreenLabel: "Exit full screen",
-    introGuideTitle: "MomentBook tutorial video",
+    introGuideTitle: "Tutorial video",
     introGuideLead:
-      "Watch the flow from upload to organization and drive sync.",
+      "See a couple's moments from a trip to Jeju in this video.",
   },
   ko: {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
@@ -121,16 +121,16 @@ const homePageCopy: Record<Language, HomePageCopy> = {
       "제주를 여행하는 커플의 순간을 영상으로 만나보세요.",
   },
   ja: {
-    metaTitle: "MomentBook — 旅の瞬間を、ずっと記憶に",
+    metaTitle: "MomentBook — 一度アップロードすると、ドライブまで整理されます",
     metaDescription:
-      "旅の瞬間をまとめて取り込み、タイムラインと地図で長く思い出せます。",
-    heroTitle: "旅の瞬間を、ずっと記憶に",
+      "旅行写真をまとめてアップロードすると、時間と場所の流れでタイムラインに整理し、整理されたアーカイブをクラウドドライブに自動同期します。",
+    heroTitle: "あなたの旅を記憶に残しましょう",
     heroLead:
-      "旅が終わったら一度にアップロード。時間と場所の流れで瞬間がまとまり、いつでも振り返れます。",
-    heroTutorialCta: "チュートリアルを見る",
-    primaryCta: "MomentBookをダウンロード",
-    deviceAlt: "MomentBook スプラッシュ画面",
-    replayLabel: "イントロを再生",
+      "旅行写真をアップロードすると、時間と場所で整理され、ドライブまで自動で同期されます。",
+    heroTutorialCta: "動画を見る",
+    primaryCta: "アプリをインストール",
+    deviceAlt: "済州旅行の動画",
+    replayLabel: "動画をもう一度見る",
     playWithSoundLabel: "音声付きで再生",
     playLabel: "再生",
     pauseLabel: "一時停止",
@@ -140,21 +140,21 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "動画シーク",
     fullscreenLabel: "全画面",
     exitFullscreenLabel: "全画面を終了",
-    introGuideTitle: "MomentBookで旅の記録を続ける",
+    introGuideTitle: "チュートリアル動画",
     introGuideLead:
-      "イントロのあと、アプリで写真をまとめてアップロードし、時間と場所の流れで瞬間を整理できます。",
+      "済州を旅するカップルの瞬間を映像でご覧ください。",
   },
   zh: {
-    metaTitle: "MomentBook — 记住每个旅行瞬间",
+    metaTitle: "MomentBook — 一次上传，连云盘都会整理好",
     metaDescription:
-      "一次上传旅行瞬间，在时间线与地图中长久回想。",
-    heroTitle: "记住每个旅行瞬间",
+      "一次上传旅行照片后，MomentBook 会按时间和地点整理成时间线，并将整理好的档案自动同步到云盘。",
+    heroTitle: "记住你的旅行",
     heroLead:
-      "旅行结束后一次上传，瞬间会按时间与地点自然汇聚，随时都能再回看。",
-    heroTutorialCta: "查看教程",
-    primaryCta: "下载 MomentBook",
-    deviceAlt: "MomentBook 启动画面",
-    replayLabel: "重播介绍",
+      "上传旅行照片后，MomentBook 会按时间和地点整理，并自动同步到云盘。",
+    heroTutorialCta: "查看视频",
+    primaryCta: "安装应用",
+    deviceAlt: "济州旅行视频",
+    replayLabel: "重新观看视频",
     playWithSoundLabel: "开启声音播放",
     playLabel: "播放",
     pauseLabel: "暂停",
@@ -164,21 +164,21 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "调整播放进度",
     fullscreenLabel: "全屏",
     exitFullscreenLabel: "退出全屏",
-    introGuideTitle: "在 MomentBook 继续整理旅程",
+    introGuideTitle: "教程视频",
     introGuideLead:
-      "看完介绍后，在应用里一次上传照片，按时间与地点把旅行瞬间整理好。",
+      "在这段视频里看看一对情侣在济州旅行的瞬间。",
   },
   es: {
-    metaTitle: "MomentBook — Memoriza tus momentos",
+    metaTitle: "MomentBook — Súbelo una vez y se ordena hasta tu drive",
     metaDescription:
-      "Guarda tus momentos de viaje en una sola carga y recuérdalos por más tiempo en la línea de tiempo y el mapa.",
-    heroTitle: "Memoriza tus momentos",
+      "Sube las fotos del viaje de una vez. MomentBook las ordena en una línea de tiempo por fecha y lugar, y sincroniza automáticamente el archivo con tu nube.",
+    heroTitle: "Recuerda tu viaje",
     heroLead:
-      "Al terminar el viaje, sube todo una vez y deja que los momentos se ordenen por tiempo y lugar para volver a ellos cuando quieras.",
-    heroTutorialCta: "Ver tutorial",
-    primaryCta: "Descargar MomentBook",
-    deviceAlt: "Pantalla de inicio de MomentBook",
-    replayLabel: "Volver a ver la introducción",
+      "Sube las fotos del viaje y MomentBook las ordena por fecha y lugar, y después las sincroniza automáticamente con tu drive.",
+    heroTutorialCta: "Ver video",
+    primaryCta: "Instalar app",
+    deviceAlt: "Video de viaje en Jeju",
+    replayLabel: "Volver a ver el video",
     playWithSoundLabel: "Reproducir con sonido",
     playLabel: "Reproducir",
     pauseLabel: "Pausar",
@@ -188,21 +188,21 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Buscar en el video",
     fullscreenLabel: "Pantalla completa",
     exitFullscreenLabel: "Salir de pantalla completa",
-    introGuideTitle: "Continúa tu repaso en MomentBook",
+    introGuideTitle: "Video tutorial",
     introGuideLead:
-      "Después de la introducción, abre la aplicación para subir fotos en lote y ordenar momentos por tiempo y lugar.",
+      "Conoce en video los momentos de una pareja que viaja por Jeju.",
   },
   pt: {
-    metaTitle: "MomentBook — Guarde seus momentos",
+    metaTitle: "MomentBook — Envie uma vez e tudo segue organizado até o drive",
     metaDescription:
-      "Guarde seus momentos de viagem em um único envio e reviva-os por mais tempo na linha do tempo e no mapa.",
-    heroTitle: "Guarde seus momentos",
+      "Envie as fotos da viagem de uma vez. O MomentBook organiza tudo em uma linha do tempo por data e lugar e sincroniza automaticamente o arquivo com seu drive na nuvem.",
+    heroTitle: "Guarde sua viagem",
     heroLead:
-      "Quando a viagem terminar, envie tudo de uma vez e deixe os momentos se organizarem por tempo e lugar para revisitar quando quiser.",
-    heroTutorialCta: "Ver tutorial",
-    primaryCta: "Baixar MomentBook",
-    deviceAlt: "Tela de abertura do MomentBook",
-    replayLabel: "Rever a introdução",
+      "Envie as fotos da viagem e o MomentBook organiza tudo por data e lugar, depois sincroniza automaticamente com o seu drive.",
+    heroTutorialCta: "Ver vídeo",
+    primaryCta: "Instalar app",
+    deviceAlt: "Vídeo de viagem em Jeju",
+    replayLabel: "Ver o vídeo novamente",
     playWithSoundLabel: "Reproduzir com som",
     playLabel: "Reproduzir",
     pauseLabel: "Pausar",
@@ -212,21 +212,21 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Buscar no vídeo",
     fullscreenLabel: "Tela cheia",
     exitFullscreenLabel: "Sair da tela cheia",
-    introGuideTitle: "Continue seu resumo no MomentBook",
+    introGuideTitle: "Vídeo tutorial",
     introGuideLead:
-      "Depois da introdução, abra o aplicativo para enviar fotos em lote e organizar momentos por tempo e lugar.",
+      "Veja em vídeo os momentos de um casal viajando por Jeju.",
   },
   fr: {
-    metaTitle: "MomentBook — Memorisez vos moments",
+    metaTitle: "MomentBook — Importez une fois, l'organisation va jusqu'au drive",
     metaDescription:
-      "Gardez vos moments de voyage en un seul envoi et retrouvez-les plus longtemps sur la chronologie et la carte.",
-    heroTitle: "Memorisez vos moments",
+      "Importez les photos du voyage en une fois. MomentBook les range dans une chronologie par date et lieu, puis synchronise automatiquement l'archive avec votre espace cloud.",
+    heroTitle: "Gardez votre voyage en mémoire",
     heroLead:
-      "À la fin du voyage, importez tout en une fois et laissez les moments se ranger par temps et lieu pour y revenir quand vous voulez.",
-    heroTutorialCta: "Voir le tutoriel",
-    primaryCta: "Télécharger MomentBook",
-    deviceAlt: "Écran de démarrage MomentBook",
-    replayLabel: "Revoir l'introduction",
+      "Importez les photos du voyage et MomentBook les organise par date et lieu, puis les synchronise automatiquement avec votre espace cloud.",
+    heroTutorialCta: "Voir la vidéo",
+    primaryCta: "Installer l'app",
+    deviceAlt: "Vidéo de voyage à Jeju",
+    replayLabel: "Revoir la vidéo",
     playWithSoundLabel: "Lire avec le son",
     playLabel: "Lire",
     pauseLabel: "Pause",
@@ -236,21 +236,21 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Avancer dans la vidéo",
     fullscreenLabel: "Plein écran",
     exitFullscreenLabel: "Quitter le plein écran",
-    introGuideTitle: "Continuez votre récapitulatif dans MomentBook",
+    introGuideTitle: "Vidéo tutorielle",
     introGuideLead:
-      "Après l'introduction, ouvrez l'application pour importer vos photos en lot et organiser les moments par temps et lieu.",
+      "Découvrez en vidéo les moments d'un couple qui voyage à Jeju.",
   },
   th: {
-    metaTitle: "MomentBook — จดจำทุกช่วงเวลาของคุณ",
+    metaTitle: "MomentBook — อัปโหลดครั้งเดียว แล้วจัดไปถึงไดรฟ์",
     metaDescription:
-      "เก็บทุกช่วงเวลาการเดินทางในครั้งเดียว แล้วกลับมาจดจำได้ยาวนานบนไทม์ไลน์และแผนที่",
-    heroTitle: "จดจำทุกช่วงเวลาของคุณ",
+      "อัปโหลดรูปทริปครั้งเดียว MomentBook จะจัดเป็นไทม์ไลน์ตามเวลาและสถานที่ พร้อมซิงก์คลังที่จัดแล้วไปยังคลาวด์ไดรฟ์โดยอัตโนมัติ",
+    heroTitle: "จดจำการเดินทางของคุณ",
     heroLead:
-      "เมื่อทริปจบ อัปโหลดครั้งเดียว แล้วช่วงเวลาจะเรียงตามเวลาและสถานที่ ให้คุณย้อนกลับมาดูได้ทุกเมื่อ",
-    heroTutorialCta: "ดูทิวโทเรียล",
-    primaryCta: "ดาวน์โหลด MomentBook",
-    deviceAlt: "หน้าสแปลชของ MomentBook",
-    replayLabel: "เล่นอินโทรอีกครั้ง",
+      "เมื่ออัปโหลดรูปทริป MomentBook จะจัดตามเวลาและสถานที่ แล้วซิงก์ไปยังไดรฟ์ของคุณโดยอัตโนมัติ",
+    heroTutorialCta: "ดูวิดีโอ",
+    primaryCta: "ติดตั้งแอป",
+    deviceAlt: "วิดีโอทริปที่เชจู",
+    replayLabel: "ดูวิดีโออีกครั้ง",
     playWithSoundLabel: "เล่นพร้อมเสียง",
     playLabel: "เล่น",
     pauseLabel: "หยุดชั่วคราว",
@@ -260,21 +260,21 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "เลื่อนตำแหน่งวิดีโอ",
     fullscreenLabel: "เต็มหน้าจอ",
     exitFullscreenLabel: "ออกจากโหมดเต็มหน้าจอ",
-    introGuideTitle: "จัดทริปต่อใน MomentBook",
+    introGuideTitle: "วิดีโอแนะนำ",
     introGuideLead:
-      "หลังดูอินโทรแล้ว เปิดแอปเพื่ออัปโหลดรูปแบบชุดและจัดช่วงเวลาตามเวลาและสถานที่",
+      "ชมช่วงเวลาของคู่รักที่เดินทางในเชจูผ่านวิดีโอนี้",
   },
   vi: {
-    metaTitle: "MomentBook — Ghi nhớ khoảnh khắc của bạn",
+    metaTitle: "MomentBook — Tải lên một lần, sắp xếp tới tận drive",
     metaDescription:
-      "Lưu khoảnh khắc chuyến đi trong một lần tải lên, rồi xem lại lâu hơn trên dòng thời gian và bản đồ.",
-    heroTitle: "Ghi nhớ khoảnh khắc của bạn",
+      "Tải ảnh chuyến đi lên một lần. MomentBook sắp thành dòng thời gian theo thời gian và địa điểm, rồi tự động đồng bộ kho lưu trữ đã sắp xếp lên cloud drive.",
+    heroTitle: "Ghi nhớ chuyến đi của bạn",
     heroLead:
-      "Sau mỗi chuyến đi, tải lên một lần để các khoảnh khắc tự sắp theo thời gian và địa điểm, để bạn quay lại bất cứ lúc nào.",
-    heroTutorialCta: "Xem hướng dẫn",
-    primaryCta: "Tải MomentBook",
-    deviceAlt: "Màn hình splash MomentBook",
-    replayLabel: "Xem lại phần mở đầu",
+      "Tải ảnh chuyến đi lên và MomentBook sẽ sắp xếp theo thời gian, địa điểm rồi tự động đồng bộ lên drive của bạn.",
+    heroTutorialCta: "Xem video",
+    primaryCta: "Cài ứng dụng",
+    deviceAlt: "Video du lịch Jeju",
+    replayLabel: "Xem lại video",
     playWithSoundLabel: "Phát kèm âm thanh",
     playLabel: "Phát",
     pauseLabel: "Tạm dừng",
@@ -284,20 +284,20 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Tua video",
     fullscreenLabel: "Toàn màn hình",
     exitFullscreenLabel: "Thoát toàn màn hình",
-    introGuideTitle: "Tiếp tục phần tóm tắt trong MomentBook",
+    introGuideTitle: "Video hướng dẫn",
     introGuideLead:
-      "Sau phần mở đầu, mở ứng dụng để tải ảnh theo lô và sắp xếp khoảnh khắc theo thời gian và địa điểm.",
+      "Xem trong video những khoảnh khắc của một cặp đôi đang du lịch ở Jeju.",
   },
 };
 
 const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   en: {
     heroEyebrow: "Travel photo organizer",
-    heroExploreCta: "See journeys",
-    featuredEyebrow: "Public archives",
-    featuredTitle: "See the result",
-    featuredLead: "Recent public trips from MomentBook.",
-    featuredArchiveCta: "All journeys",
+    heroExploreCta: "Public journeys",
+    featuredEyebrow: "Public archive",
+    featuredTitle: "See the organized result",
+    featuredLead: "Recently published trips.",
+    featuredArchiveCta: "View all",
     photoCountLabel: "photos",
     untitledJourney: "Untitled journey",
     unknownUser: "Unknown user",
@@ -316,84 +316,84 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     emptyJourneys: "아직 공개된 여정이 없습니다.",
   },
   ja: {
-    heroEyebrow: "読み取り専用の旅アーカイブ",
-    heroExploreCta: "旅を見てみる",
-    featuredEyebrow: "最新の公開された旅",
-    featuredTitle: "最近の旅",
-    featuredLead: "MomentBookで最近公開された旅です。",
-    featuredArchiveCta: "アーカイブを見る",
+    heroEyebrow: "旅行写真整理アプリ",
+    heroExploreCta: "公開された旅",
+    featuredEyebrow: "公開アーカイブ",
+    featuredTitle: "整理された結果を見る",
+    featuredLead: "最近公開された旅行です。",
+    featuredArchiveCta: "すべて見る",
     photoCountLabel: "枚の写真",
     untitledJourney: "タイトル未設定の旅",
     unknownUser: "不明なユーザー",
     emptyJourneys: "公開された旅はまだありません。",
   },
   zh: {
-    heroEyebrow: "只读旅行档案",
-    heroExploreCta: "查看旅程",
-    featuredEyebrow: "最新公开旅程",
-    featuredTitle: "最近旅程",
-    featuredLead: "MomentBook 中最近公开的旅程。",
-    featuredArchiveCta: "查看归档",
+    heroEyebrow: "旅行照片整理应用",
+    heroExploreCta: "公开旅程",
+    featuredEyebrow: "公开档案",
+    featuredTitle: "查看整理结果",
+    featuredLead: "最近公开的旅程。",
+    featuredArchiveCta: "查看全部",
     photoCountLabel: "张照片",
     untitledJourney: "未命名旅程",
     unknownUser: "未知用户",
-    emptyJourneys: "暂无公开旅程。",
+    emptyJourneys: "还没有公开旅程。",
   },
   es: {
-    heroEyebrow: "Archivo de viajes de solo lectura",
-    heroExploreCta: "Explorar viajes",
-    featuredEyebrow: "Viajes públicos recientes",
-    featuredTitle: "Viajes recientes",
-    featuredLead: "Los viajes públicos publicados más recientemente en MomentBook.",
-    featuredArchiveCta: "Ver archivo",
+    heroEyebrow: "App para organizar fotos de viaje",
+    heroExploreCta: "Viajes públicos",
+    featuredEyebrow: "Archivo público",
+    featuredTitle: "Ver el resultado organizado",
+    featuredLead: "Viajes publicados recientemente.",
+    featuredArchiveCta: "Ver todo",
     photoCountLabel: "fotos",
     untitledJourney: "Viaje sin título",
     unknownUser: "Usuario desconocido",
     emptyJourneys: "Aún no hay viajes públicos.",
   },
   pt: {
-    heroEyebrow: "Arquivo de viagens somente leitura",
-    heroExploreCta: "Explorar jornadas",
-    featuredEyebrow: "Jornadas públicas recentes",
-    featuredTitle: "Jornadas recentes",
-    featuredLead: "As jornadas públicas publicadas mais recentemente no MomentBook.",
-    featuredArchiveCta: "Ver arquivo",
+    heroEyebrow: "App para organizar fotos de viagem",
+    heroExploreCta: "Viagens publicadas",
+    featuredEyebrow: "Arquivo público",
+    featuredTitle: "Ver o resultado organizado",
+    featuredLead: "Viagens publicadas recentemente.",
+    featuredArchiveCta: "Ver tudo",
     photoCountLabel: "fotos",
-    untitledJourney: "Jornada sem título",
+    untitledJourney: "Viagem sem título",
     unknownUser: "Usuário desconhecido",
-    emptyJourneys: "Ainda não há jornadas públicas.",
+    emptyJourneys: "Ainda não há viagens publicadas.",
   },
   fr: {
-    heroEyebrow: "Archive de voyage en lecture seule",
-    heroExploreCta: "Explorer les voyages",
-    featuredEyebrow: "Voyages publics récents",
-    featuredTitle: "Voyages récents",
-    featuredLead: "Les voyages publics publiés le plus récemment sur MomentBook.",
-    featuredArchiveCta: "Voir l'archive",
+    heroEyebrow: "App d'organisation de photos de voyage",
+    heroExploreCta: "Voyages publics",
+    featuredEyebrow: "Archive publique",
+    featuredTitle: "Voir le résultat organisé",
+    featuredLead: "Voyages publiés récemment.",
+    featuredArchiveCta: "Voir tout",
     photoCountLabel: "photos",
     untitledJourney: "Voyage sans titre",
     unknownUser: "Utilisateur inconnu",
     emptyJourneys: "Aucun voyage public pour le moment.",
   },
   th: {
-    heroEyebrow: "คลังการเดินทางแบบอ่านอย่างเดียว",
-    heroExploreCta: "สำรวจทริป",
-    featuredEyebrow: "ทริปสาธารณะล่าสุด",
-    featuredTitle: "ทริปล่าสุด",
-    featuredLead: "ทริปสาธารณะที่เผยแพร่ล่าสุดบน MomentBook",
-    featuredArchiveCta: "ดูคลังทั้งหมด",
+    heroEyebrow: "แอปจัดรูปทริป",
+    heroExploreCta: "ทริปสาธารณะ",
+    featuredEyebrow: "คลังสาธารณะ",
+    featuredTitle: "ดูผลลัพธ์ที่จัดแล้ว",
+    featuredLead: "ทริปที่เพิ่งเผยแพร่ล่าสุด",
+    featuredArchiveCta: "ดูทั้งหมด",
     photoCountLabel: "ภาพ",
     untitledJourney: "ทริปไม่มีชื่อ",
     unknownUser: "ผู้ใช้ไม่ทราบชื่อ",
     emptyJourneys: "ยังไม่มีทริปสาธารณะ",
   },
   vi: {
-    heroEyebrow: "Kho lưu trữ hành trình chỉ đọc",
-    heroExploreCta: "Xem hành trình",
-    featuredEyebrow: "Hành trình công khai mới nhất",
-    featuredTitle: "Hành trình gần đây",
-    featuredLead: "Những hành trình công khai mới được đăng trên MomentBook.",
-    featuredArchiveCta: "Xem kho lưu trữ",
+    heroEyebrow: "Ứng dụng sắp xếp ảnh du lịch",
+    heroExploreCta: "Hành trình công khai",
+    featuredEyebrow: "Kho lưu trữ công khai",
+    featuredTitle: "Xem kết quả đã sắp xếp",
+    featuredLead: "Những hành trình vừa được công khai.",
+    featuredArchiveCta: "Xem tất cả",
     photoCountLabel: "ảnh",
     untitledJourney: "Hành trình chưa đặt tên",
     unknownUser: "Người dùng không rõ",
@@ -405,15 +405,15 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
   en: {
     process: {
       processEyebrow: "3 steps",
-      processTitle: "Upload. Sort. Sync.",
+      processTitle: "Upload, organize, sync",
       processLead:
-        "Skip the folder cleanup.",
+        "Spend less time cleaning up folders.",
       processSteps: [
         {
           stepLabel: "01",
           title: "Upload",
           description:
-            "Add trip photos in one batch.",
+            "Upload trip photos in one batch.",
         },
         {
           stepLabel: "02",
@@ -425,14 +425,14 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
           stepLabel: "03",
           title: "Sync to drive",
           description:
-            "The archive is ready for cloud storage.",
+            "The organized archive continues to your drive.",
         },
       ],
     },
     download: {
       title: "Download now",
       lead:
-        "Install MomentBook and start organizing trip photos.",
+        "Install now and start organizing trip photos.",
     },
   },
   ko: {
@@ -537,9 +537,9 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
   es: {
     process: {
       processEyebrow: "3 pasos",
-      processTitle: "Sube. Ordena. Sincroniza.",
+      processTitle: "Sube, ordena y sincroniza",
       processLead:
-        "Evita ordenar carpetas a mano.",
+        "Reduce el orden manual de carpetas.",
       processSteps: [
         {
           stepLabel: "01",
@@ -557,7 +557,7 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
           stepLabel: "03",
           title: "Sincronizar con tu drive",
           description:
-            "El archivo queda listo para la nube.",
+            "El archivo organizado se sincroniza con tu drive.",
         },
       ],
     },
@@ -570,7 +570,7 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
   pt: {
     process: {
       processEyebrow: "3 etapas",
-      processTitle: "Envie. Organize. Sincronize.",
+      processTitle: "Envie, organize e sincronize",
       processLead:
         "Menos limpeza manual de pastas.",
       processSteps: [
@@ -590,22 +590,22 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
           stepLabel: "03",
           title: "Sincronizar com seu drive",
           description:
-            "O arquivo fica pronto para a nuvem.",
+            "O arquivo organizado é sincronizado com o seu drive.",
         },
       ],
     },
     download: {
       title: "Baixe agora",
       lead:
-        "Instale o MomentBook e comece a organizar suas fotos de viagem.",
+        "Instale agora e comece a organizar as fotos da sua viagem.",
     },
   },
   fr: {
     process: {
       processEyebrow: "3 étapes",
-      processTitle: "Importez. Triez. Synchronisez.",
+      processTitle: "Importez, triez et synchronisez",
       processLead:
-        "Moins de tri manuel dans les dossiers.",
+        "Réduisez le rangement manuel des dossiers.",
       processSteps: [
         {
           stepLabel: "01",
@@ -623,14 +623,14 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
           stepLabel: "03",
           title: "Synchroniser vers le drive",
           description:
-            "L’archive est prête pour le cloud.",
+            "L'archive organisée est synchronisée avec votre espace cloud.",
         },
       ],
     },
     download: {
       title: "Téléchargez maintenant",
       lead:
-        "Installez MomentBook et commencez à organiser vos photos de voyage.",
+        "Installez-le maintenant et commencez à organiser vos photos de voyage.",
     },
   },
   th: {
@@ -638,7 +638,7 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
       processEyebrow: "3 ขั้นตอน",
       processTitle: "อัปโหลด จัดระเบียบ ซิงก์",
       processLead:
-        "ลดเวลาจัดโฟลเดอร์ด้วยตัวเอง",
+        "ลดการจัดโฟลเดอร์ด้วยตัวเอง",
       processSteps: [
         {
           stepLabel: "01",
@@ -656,22 +656,22 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
           stepLabel: "03",
           title: "ซิงก์เข้าไดรฟ์",
           description:
-            "คลังรูปที่จัดแล้วพร้อมส่งต่อขึ้นคลาวด์",
+            "คลังรูปที่จัดแล้วจะซิงก์ต่อไปยังไดรฟ์",
         },
       ],
     },
     download: {
       title: "ดาวน์โหลดตอนนี้",
       lead:
-        "ติดตั้ง MomentBook แล้วเริ่มจัดรูปทริปของคุณ",
+        "ติดตั้งตอนนี้แล้วเริ่มจัดรูปทริปของคุณ",
     },
   },
   vi: {
     process: {
       processEyebrow: "3 bước",
-      processTitle: "Tải lên. Sắp xếp. Đồng bộ.",
+      processTitle: "Tải lên, sắp xếp, đồng bộ",
       processLead:
-        "Bớt dọn thư mục thủ công.",
+        "Giảm việc tự dọn thư mục.",
       processSteps: [
         {
           stepLabel: "01",
@@ -689,14 +689,14 @@ const homeMessageCopy: Record<Language, HomeMessageCopy> = {
           stepLabel: "03",
           title: "Đồng bộ lên drive",
           description:
-            "Kho lưu trữ đã sẵn sàng cho cloud.",
+            "Kho lưu trữ đã sắp xếp sẽ đồng bộ lên drive.",
         },
       ],
     },
     download: {
       title: "Tải ngay",
       lead:
-        "Cài MomentBook và bắt đầu sắp xếp ảnh chuyến đi của bạn.",
+        "Cài ngay và bắt đầu sắp xếp ảnh chuyến đi của bạn.",
     },
   },
 };

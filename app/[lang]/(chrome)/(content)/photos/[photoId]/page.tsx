@@ -79,13 +79,13 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     },
     zh: {
         eyebrow: "照片",
-        backToJourney: "返回行程",
+        backToJourney: "返回旅程",
         detailsTitle: "照片信息",
-        journeyLabel: "行程",
+        journeyLabel: "旅程",
         takenAt: "记录时间",
         location: "地点",
         coordinates: "坐标",
-        journeyFallback: "行程",
+        journeyFallback: "旅程",
         metadataTitleTemplate: "{journey} 的照片",
         metadataDescriptionWithLocationTemplate:
             "在 {location} 拍摄的 {journey} 照片。",
@@ -109,13 +109,13 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     },
     pt: {
         eyebrow: "Foto",
-        backToJourney: "Voltar para jornada",
+        backToJourney: "Voltar para a viagem",
         detailsTitle: "Detalhes da foto",
-        journeyLabel: "Jornada",
+        journeyLabel: "Viagem",
         takenAt: "Registrado em",
         location: "Local",
         coordinates: "Coordenadas",
-        journeyFallback: "Jornada",
+        journeyFallback: "Viagem",
         metadataTitleTemplate: "Foto de {journey}",
         metadataDescriptionWithLocationTemplate:
             "Uma foto de {journey} tirada em {location}.",

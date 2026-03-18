@@ -26,7 +26,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
         routeTitle: "Journey map",
         mapEmpty: "There is no map data for this journey.",
         locationFallback: "Location",
-        profileLinkLabel: "Published profile",
+        profileLinkLabel: "Public profile",
     },
     ko: {
         eyebrow: "여정",
@@ -55,17 +55,17 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
         profileLinkLabel: "公開プロフィール",
     },
     zh: {
-        eyebrow: "行程",
+        eyebrow: "旅程",
         photoCount: "张照片",
         locationCount: "个地点",
         duration: "持续时间",
         places: "到访地点",
         gallery: "照片画廊",
         hours: "小时",
-        routeTitle: "行程地图",
-        mapEmpty: "此行程没有地图信息。",
+        routeTitle: "旅程地图",
+        mapEmpty: "这段旅程没有地图信息。",
         locationFallback: "地点",
-        profileLinkLabel: "公开资料",
+        profileLinkLabel: "公开个人资料",
     },
     es: {
         eyebrow: "Viaje",
@@ -78,20 +78,20 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
         routeTitle: "Mapa del viaje",
         mapEmpty: "No hay datos de mapa para este viaje.",
         locationFallback: "Lugar",
-        profileLinkLabel: "Perfil publicado",
+        profileLinkLabel: "Perfil público",
     },
     pt: {
-        eyebrow: "Jornada",
+        eyebrow: "Viagem",
         photoCount: "fotos",
         locationCount: "locais",
         duration: "duração",
         places: "Locais visitados",
         gallery: "Galeria de fotos",
         hours: "h",
-        routeTitle: "Mapa da jornada",
-        mapEmpty: "Não há dados de mapa para esta jornada.",
+        routeTitle: "Mapa da viagem",
+        mapEmpty: "Não há dados de mapa para esta viagem.",
         locationFallback: "Local",
-        profileLinkLabel: "Perfil publicado",
+        profileLinkLabel: "Perfil público",
     },
     fr: {
         eyebrow: "Voyage",
@@ -155,8 +155,8 @@ export function buildJourneyDescription(
 
     if (lang === "zh") {
         return locationText
-            ? `${locationText} 的行程，${photoCount} 张照片。`
-            : `包含 ${photoCount} 张照片的公开行程。`;
+            ? `${locationText} 的旅程，${photoCount} 张照片。`
+            : `一段公开的旅程，包含 ${photoCount} 张照片。`;
     }
 
     if (lang === "es") {
@@ -167,8 +167,8 @@ export function buildJourneyDescription(
 
     if (lang === "pt") {
         return locationText
-            ? `Jornada por ${locationText} com ${photoCount} fotos.`
-            : `Uma jornada publicada com ${photoCount} fotos.`;
+            ? `Viagem por ${locationText} com ${photoCount} fotos.`
+            : `Uma viagem publicada com ${photoCount} fotos.`;
     }
 
     if (lang === "fr") {

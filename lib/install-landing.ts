@@ -155,7 +155,7 @@ const HERO_HEADLINE_OPTIONS: HeroHeadlineOption[] = [
       ja: "旅行写真がひとつの旅として整理されます。",
       zh: "旅行照片会整理成一段旅程。",
       es: "Tus fotos de viaje se ordenan en un solo recorrido.",
-      pt: "Suas fotos de viagem se organizam em uma só jornada.",
+      pt: "Suas fotos de viagem se organizam em uma só viagem.",
       fr: "Vos photos de voyage s'organisent en un seul voyage.",
       th: "รูปทริปของคุณจะถูกรวมเป็นทริปเดียว",
       vi: "Ảnh chuyến đi của bạn được sắp thành một hành trình.",
@@ -277,15 +277,15 @@ const BENEFIT_CARDS: BenefitCardConfig[] = [
 
 const LANDING_COPY: LandingCopy = {
   eyebrow: {
-    en: "MomentBook · Memorize your moments",
+    en: "MomentBook · Remember the moments of your trip",
     ko: "MomentBook · 여행의 순간을 기억하세요",
-    ja: "MomentBook · 旅の瞬間を記憶に",
-    zh: "MomentBook · 记住旅行的每个瞬间",
-    es: "MomentBook · Recuerda cada momento de tu viaje",
-    pt: "MomentBook · Guarde cada momento da sua viagem",
-    fr: "MomentBook · Gardez chaque moment du voyage en mémoire",
-    th: "MomentBook · จดจำทุกช่วงเวลาของการเดินทาง",
-    vi: "MomentBook · Ghi nhớ từng khoảnh khắc chuyến đi",
+    ja: "MomentBook · 旅の瞬間を記憶に残しましょう",
+    zh: "MomentBook · 记住旅途中的每个瞬间",
+    es: "MomentBook · Recuerda los momentos de tu viaje",
+    pt: "MomentBook · Guarde os momentos da sua viagem",
+    fr: "MomentBook · Gardez les moments de votre voyage",
+    th: "MomentBook · จดจำช่วงเวลาของการเดินทาง",
+    vi: "MomentBook · Ghi nhớ những khoảnh khắc trong chuyến đi",
   },
   heroSubheadline: {
     en: "Upload your trip and get a clean travel timeline from the photos you already took.",

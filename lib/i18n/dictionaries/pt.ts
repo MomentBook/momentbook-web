@@ -29,7 +29,7 @@ export const pt: Dictionary = {
       },
     },
     pause: {
-      text: "Sem sequências.\n\nDetecção de deslocamento e lembrete de fim da jornada quando você precisar.",
+      text: "Sem sequências.\n\nDetecção de deslocamento e lembrete de fim da viagem quando você precisar.",
     },
     privacy: {
       text: "Privado por padrão. Só fica público quando você escolhe publicar.",
