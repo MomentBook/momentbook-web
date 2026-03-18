@@ -26,9 +26,8 @@ type JourneyContentProps = {
     periodEnd: number | null;
 };
 
-type MomentPhoto = {
+type DisplayImage = {
     key: string;
-    photoId: string | null;
     url: string;
     alt: string;
 };
@@ -45,17 +44,16 @@ type ArchivePhoto = {
 type ClusterSection = {
     cluster: PublishedJourneyCluster;
     href: string;
-    photos: MomentPhoto[];
+    coverPhoto: DisplayImage;
 };
 
 const journeyFallbackImage = "/images/placeholders/journey-cover-fallback.svg";
 
-function buildHeroImage(images: PublishedJourneyImage[], title: string): MomentPhoto {
+function buildHeroImage(images: PublishedJourneyImage[], title: string): DisplayImage {
     const firstImage = images[0];
     if (!firstImage) {
         return {
             key: "fallback-cover",
-            photoId: null,
             url: journeyFallbackImage,
             alt: title,
         };
@@ -63,7 +61,6 @@ function buildHeroImage(images: PublishedJourneyImage[], title: string): MomentP
 
     return {
         key: firstImage.photoId || firstImage.url,
-        photoId: firstImage.photoId || null,
         url: firstImage.url,
         alt: firstImage.locationName || title,
     };
@@ -84,6 +81,24 @@ function buildArchivePhotos(
     }));
 }
 
+function buildClusterCoverPhoto(
+    cluster: PublishedJourneyCluster,
+    photoImageMap: Map<string, string>,
+    title: string,
+    locationFallback: string,
+): DisplayImage {
+    const firstPhotoId = cluster.photoIds.find((photoId) => photoImageMap.has(photoId));
+    const url = firstPhotoId ? photoImageMap.get(firstPhotoId) : null;
+
+    return {
+        key: firstPhotoId
+            ? `${cluster.clusterId}-${firstPhotoId}`
+            : `${cluster.clusterId}-fallback`,
+        url: url || journeyFallbackImage,
+        alt: cluster.locationName || locationFallback || title,
+    };
+}
+
 function buildClusterSections(
     journey: PublishedJourneyApi,
     photoImageMap: Map<string, string>,
@@ -93,106 +108,19 @@ function buildClusterSections(
     const encodedJourneyId = encodeURIComponent(journey.publicId);
 
     return sortJourneyClustersByTimeline(journey.clusters)
-        .map<ClusterSection | null>((cluster) => {
+        .map<ClusterSection>((cluster) => {
             const href = `/${lang}/journeys/${encodedJourneyId}/moments/${encodeURIComponent(cluster.clusterId)}`;
-            const photos = cluster.photoIds
-                .map<MomentPhoto | null>((photoId, index) => {
-                    const url = photoImageMap.get(photoId);
-                    if (!url) {
-                        return null;
-                    }
-
-                    return {
-                        key: `${cluster.clusterId}-${photoId}-${index}`,
-                        photoId,
-                        url,
-                        alt: cluster.locationName || locationFallback,
-                    };
-                })
-                .filter((photo): photo is MomentPhoto => Boolean(photo));
-
-            if (photos.length === 0) {
-                return null;
-            }
-
             return {
                 cluster,
                 href,
-                photos,
-            };
-        })
-        .filter((section): section is ClusterSection => Boolean(section));
-}
-
-function renderMomentPhotoLink(
-    lang: Language,
-    photo: MomentPhoto,
-    className: string,
-    sizes: string,
-    overflowCount = 0,
-) {
-    const frame = (
-        <div className={className}>
-            <Image
-                src={photo.url}
-                alt={photo.alt}
-                fill
-                sizes={sizes}
-                className={styles.photoImage}
-            />
-            {overflowCount > 0 ? (
-                <span className={styles.photoOverflow}>+{overflowCount}</span>
-            ) : null}
-        </div>
-    );
-
-    if (!photo.photoId) {
-        return <div key={photo.key}>{frame}</div>;
-    }
-
-    return (
-        <Link
-            key={photo.key}
-            href={`/${lang}/photos/${encodeURIComponent(photo.photoId)}`}
-        >
-            {frame}
-        </Link>
-    );
-}
-
-function renderMomentGallery(lang: Language, photos: MomentPhoto[]) {
-    const previewPhotos = photos.slice(0, 4);
-    const overflowCount = Math.max(0, photos.length - previewPhotos.length);
-    const sizes =
-        previewPhotos.length === 1
-            ? "(max-width: 739px) 100vw, (max-width: 1099px) 88vw, 38rem"
-            : "(max-width: 739px) 50vw, (max-width: 1099px) 44vw, 18rem";
-
-    if (previewPhotos.length === 0) {
-        return null;
-    }
-
-    return (
-        <div
-            className={`${styles.photoShowcase} ${
-                previewPhotos.length === 1
-                    ? styles.photoShowcaseSingle
-                    : styles.photoShowcaseGrid
-            }`}
-        >
-            {previewPhotos.map((photo, index) =>
-                renderMomentPhotoLink(
-                    lang,
-                    photo,
-                    previewPhotos.length === 1
-                        ? styles.showcaseHero
-                        : styles.showcaseTile,
-                    sizes,
-                    index === previewPhotos.length - 1 ? overflowCount : 0,
+                coverPhoto: buildClusterCoverPhoto(
+                    cluster,
+                    photoImageMap,
+                    journey.title,
+                    locationFallback,
                 ),
-            )}
-        </div>
-    );
+            };
+        });
 }
 
 function renderArchivePhotoCard(
@@ -331,45 +259,74 @@ export default function JourneyContent({
             </header>
 
             {hasClusters ? (
-                <section className={styles.momentsSection}>
-                    {clusterSections.map((section, index) => (
-                        <section
-                            key={section.cluster.clusterId}
-                            className={styles.momentSection}
+                <section
+                    className={styles.momentsSection}
+                    aria-labelledby="journey-moments-title"
+                >
+                    <div className={styles.sectionIntro}>
+                        <h2
+                            id="journey-moments-title"
+                            className={styles.sectionTitle}
                         >
-                            <div className={styles.momentHeader}>
-                                <span className={styles.momentIndex}>
-                                    {String(index + 1).padStart(2, "0")}
-                                </span>
+                            {labels.momentsTitle}
+                        </h2>
+                    </div>
 
-                                <div className={styles.momentCopy}>
-                                    <h2 className={styles.momentTitle}>
-                                        <Link
-                                            href={section.href}
-                                            className={styles.momentTitleLink}
-                                        >
+                    <ol className={styles.momentList}>
+                        {clusterSections.map((section, index) => (
+                            <li
+                                key={section.cluster.clusterId}
+                                className={styles.momentListItem}
+                            >
+                                <Link
+                                    href={section.href}
+                                    className={styles.momentCard}
+                                >
+                                    <div className={styles.momentThumb}>
+                                        <Image
+                                            src={section.coverPhoto.url}
+                                            alt={section.coverPhoto.alt}
+                                            fill
+                                            sizes="(max-width: 739px) 100vw, (max-width: 1099px) 88vw, 16rem"
+                                            className={styles.photoImage}
+                                        />
+                                    </div>
+
+                                    <div className={styles.momentCardBody}>
+                                        <div className={styles.momentCardTop}>
+                                            <span className={styles.momentIndex}>
+                                                {String(index + 1).padStart(2, "0")}
+                                            </span>
+                                            <span
+                                                className={styles.momentChevron}
+                                                aria-hidden="true"
+                                            >
+                                                →
+                                            </span>
+                                        </div>
+
+                                        <h3 className={styles.momentTitle}>
                                             {section.cluster.locationName ||
                                                 labels.locationFallback}
-                                        </Link>
-                                    </h2>
-                                    <div className={styles.momentMeta}>
-                                        <LocalizedDateTimeRange
-                                            lang={lang}
-                                            start={section.cluster.time.startAt}
-                                            end={section.cluster.time.endAt}
-                                            fallback="—"
-                                        />
-                                        <span>
-                                            {section.cluster.photoIds.length}{" "}
-                                            {labels.photoCount}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                                        </h3>
 
-                            {renderMomentGallery(lang, section.photos)}
-                        </section>
-                    ))}
+                                        <div className={styles.momentMeta}>
+                                            <LocalizedDateTimeRange
+                                                lang={lang}
+                                                start={section.cluster.time.startAt}
+                                                end={section.cluster.time.endAt}
+                                                fallback="—"
+                                            />
+                                            <span>
+                                                {section.cluster.photoIds.length}{" "}
+                                                {labels.photoCount}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </li>
+                        ))}
+                    </ol>
                 </section>
             ) : (
                 <section className={styles.archiveSection}>

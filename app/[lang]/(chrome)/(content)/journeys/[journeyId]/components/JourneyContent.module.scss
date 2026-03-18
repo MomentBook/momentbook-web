@@ -10,8 +10,7 @@
 }
 
 .heroFrame,
-.showcaseHero,
-.showcaseTile,
+.momentThumb,
 .archivePhotoFrame {
   position: relative;
   overflow: hidden;
@@ -104,7 +103,7 @@
 }
 
 .authorLink,
-.momentTitleLink,
+.momentCard,
 .archivePhotoCard {
   transition: color 0.2s ease, transform 0.24s ease, opacity 0.2s ease;
 }
@@ -119,7 +118,7 @@
 }
 
 .authorLink:focus-visible,
-.momentTitleLink:focus-visible,
+.momentCard:focus-visible,
 .archivePhotoCard:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--color-accent) 66%, #fff);
   outline-offset: 3px;
@@ -128,53 +127,93 @@
 .momentsSection,
 .archiveSection {
   display: grid;
-  gap: clamp(1.6rem, 4vw, 2.6rem);
+  gap: clamp(1.2rem, 3vw, 1.9rem);
 }
 
-.momentSection {
+.momentList {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.momentListItem {
+  margin: 0;
+}
+
+.momentCard {
   display: grid;
   gap: 1rem;
-  padding-top: clamp(1.6rem, 4vw, 2.2rem);
-  border-top: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
-}
+  padding: clamp(0.95rem, 2.2vw, 1.15rem);
+  border: 1px solid color-mix(in srgb, var(--glass-border) 80%, transparent);
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--surface-glass-soft) 90%, #fff);
+  box-shadow: 0 14px 30px rgba(15, 35, 42, 0.08);
+  color: inherit;
+  text-decoration: none;
 
-.momentSection:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
+  @media (min-width: 740px) {
+    grid-template-columns: clamp(7rem, 18vw, 10rem) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+  }
 
-.momentHeader {
-  display: grid;
-  gap: 0.75rem;
+  &:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--color-accent-soft) 55%, var(--glass-border));
+  }
 
-  @media (min-width: 640px) {
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: start;
+  &:hover .momentTitle {
+    color: var(--color-accent);
+  }
+
+  &:hover .momentChevron {
+    transform: translateX(2px);
   }
 }
 
 .momentIndex {
-  color: var(--color-text-tertiary);
-  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.72rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent-soft) 28%, #fff);
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.18em;
 }
 
-.momentCopy {
+.momentThumb {
+  aspect-ratio: 4 / 3;
+  border-radius: 1rem;
+}
+
+.momentCardBody {
   display: grid;
-  gap: 0.34rem;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.momentCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .momentTitle {
   margin: 0;
   color: var(--color-text-primary);
-  font-size: clamp(1.14rem, 2vw, 1.42rem);
+  font-size: clamp(1.08rem, 2vw, 1.32rem);
   font-weight: 620;
   line-height: 1.25;
-}
-
-.momentTitleLink:hover {
-  color: var(--color-accent);
+  text-wrap: balance;
 }
 
 .momentMeta {
@@ -185,52 +224,14 @@
   font-size: 0.9rem;
 }
 
-.photoShowcase {
-  display: grid;
-  gap: 0.7rem;
-
-  @media (min-width: 1100px) {
-    max-width: 38rem;
-  }
-}
-
-.photoShowcaseSingle {
-  grid-template-columns: 1fr;
-}
-
-.photoShowcaseGrid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-
-  @media (min-width: 1100px) {
-    grid-template-columns: repeat(2, minmax(0, 18rem));
-    justify-content: start;
-  }
-}
-
-.showcaseHero {
-  aspect-ratio: 16 / 9;
-  border-radius: 1rem;
-}
-
-.showcaseTile {
-  aspect-ratio: 1 / 1;
-  border-radius: 1rem;
-}
-
-.photoOverflow {
-  position: absolute;
-  right: 0.8rem;
-  bottom: 0.8rem;
-  min-width: 2.8rem;
-  min-height: 2.1rem;
-  padding: 0.4rem 0.72rem;
-  border-radius: 999px;
-  background: rgba(20, 26, 31, 0.68);
-  color: #fff;
-  font-size: 0.82rem;
-  font-weight: 700;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+.momentChevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-tertiary);
+  font-size: 1rem;
+  line-height: 1;
+  transition: transform 0.24s ease, color 0.2s ease;
 }
 
 .sectionIntro {
@@ -297,4 +298,12 @@
   color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.68;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .momentCard,
+  .archivePhotoCard,
+  .momentChevron {
+    transition: none;
+  }
 }
