@@ -23,7 +23,6 @@ type PhotoPageCopy = {
     location: string;
     coordinates: string;
     journeyFallback: string;
-    publishedBadge: string;
     archiveNoteLabel: string;
     archiveNoteBody: string;
     metadataTitleTemplate: string;
@@ -40,7 +39,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "Place",
         coordinates: "Coordinates",
         journeyFallback: "Journey",
-        publishedBadge: "Published",
         archiveNoteLabel: "Archive note",
         archiveNoteBody:
             "Shown as part of a published journey archive on MomentBook.",
@@ -58,7 +56,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "장소",
         coordinates: "좌표",
         journeyFallback: "여정",
-        publishedBadge: "공개됨",
         archiveNoteLabel: "아카이브 노트",
         archiveNoteBody:
             "MomentBook의 공개 여정 아카이브 일부로 노출되는 사진입니다.",
@@ -76,7 +73,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "場所",
         coordinates: "座標",
         journeyFallback: "旅",
-        publishedBadge: "公開済み",
         archiveNoteLabel: "アーカイブノート",
         archiveNoteBody:
             "MomentBook の公開旅アーカイブの一部として表示される写真です。",
@@ -94,7 +90,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "地点",
         coordinates: "坐标",
         journeyFallback: "旅程",
-        publishedBadge: "已发布",
         archiveNoteLabel: "归档说明",
         archiveNoteBody:
             "这张照片作为 MomentBook 公开旅程档案的一部分展示。",
@@ -112,7 +107,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "Lugar",
         coordinates: "Coordenadas",
         journeyFallback: "Viaje",
-        publishedBadge: "Publicada",
         archiveNoteLabel: "Nota de archivo",
         archiveNoteBody:
             "Se muestra como parte de un archivo de viaje publicado en MomentBook.",
@@ -130,7 +124,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "Local",
         coordinates: "Coordenadas",
         journeyFallback: "Viagem",
-        publishedBadge: "Publicada",
         archiveNoteLabel: "Nota de arquivo",
         archiveNoteBody:
             "Exibida como parte de um arquivo de viagem publicado no MomentBook.",
@@ -148,7 +141,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "Lieu",
         coordinates: "Coordonnées",
         journeyFallback: "Voyage",
-        publishedBadge: "Publiée",
         archiveNoteLabel: "Note d'archive",
         archiveNoteBody:
             "Affichée comme partie d'une archive de voyage publiée sur MomentBook.",
@@ -166,7 +158,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "สถานที่",
         coordinates: "พิกัด",
         journeyFallback: "ทริป",
-        publishedBadge: "เผยแพร่แล้ว",
         archiveNoteLabel: "หมายเหตุคลัง",
         archiveNoteBody:
             "รูปนี้แสดงเป็นส่วนหนึ่งของคลังทริปสาธารณะบน MomentBook",
@@ -184,7 +175,6 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         location: "Địa điểm",
         coordinates: "Tọa độ",
         journeyFallback: "Hành trình",
-        publishedBadge: "Đã đăng",
         archiveNoteLabel: "Ghi chú lưu trữ",
         archiveNoteBody:
             "Ảnh này được hiển thị như một phần của kho lưu trữ hành trình công khai trên MomentBook.",
@@ -402,85 +392,79 @@ export default async function PhotoPage({
                     <span aria-hidden="true">←</span>
                     {copy.backToJourney}
                 </Link>
-                <p className={styles.brandMark}>MomentBook</p>
             </header>
 
-            <div className={styles.layout}>
-                <section className={styles.mediaSection}>
-                    <figure className={styles.mediaFrame}>
-                        <Image
-                            src={photo.url}
-                            alt={title || photoId}
-                            fill
-                            priority
-                            className={styles.image}
-                            sizes="(max-width: 767px) 100vw, (max-width: 1080px) 92vw, 760px"
-                        />
-                        <div className={styles.imageBadge}>
-                            {copy.publishedBadge}
-                        </div>
-                    </figure>
-                </section>
+            <section className={styles.hero}>
+                <figure className={styles.mediaFrame}>
+                    <Image
+                        src={photo.url}
+                        alt={title || photoId}
+                        fill
+                        priority
+                        className={styles.image}
+                        sizes="(max-width: 767px) 100vw, (max-width: 1279px) 92vw, 1120px"
+                    />
+                </figure>
+            </section>
 
-                <section className={styles.contentSection}>
-                    <p className={styles.eyebrow}>{copy.eyebrow}</p>
-                    <h1 className={styles.title}>{title}</h1>
-                    <p className={styles.partOfLine}>
-                        {copy.partOfLabel}{" "}
-                        <Link
-                            href={`/${lang}/journeys/${photo.journey.publicId}`}
-                            className={styles.journeyLink}
-                        >
-                            {journeyTitle}
-                        </Link>
-                    </p>
+            <section className={styles.contentSection}>
+                <p className={styles.eyebrow}>{copy.eyebrow}</p>
+                <h1 className={styles.title}>{title}</h1>
+                <p className={styles.partOfLine}>
+                    {copy.partOfLabel}{" "}
+                    <Link
+                        href={`/${lang}/journeys/${photo.journey.publicId}`}
+                        className={styles.journeyLink}
+                    >
+                        {journeyTitle}
+                    </Link>
+                </p>
 
-                    {hasTakenAt || locationName || location ? (
-                        <dl className={styles.metaGrid}>
-                            {hasTakenAt ? (
-                                <div className={styles.metaItem}>
-                                    <dt className={styles.metaLabel}>
-                                        {copy.takenAt}
-                                    </dt>
-                                    <dd className={styles.metaValue}>
-                                        <LocalizedDateTime
-                                            lang={lang}
-                                            timestamp={photo.takenAt}
-                                        />
-                                    </dd>
-                                </div>
-                            ) : null}
+                {hasTakenAt || locationName || location ? (
+                    <dl className={styles.metaGrid}>
+                        {hasTakenAt ? (
+                            <div className={styles.metaItem}>
+                                <dt className={styles.metaLabel}>
+                                    {copy.takenAt}
+                                </dt>
+                                <dd className={styles.metaValue}>
+                                    <LocalizedDateTime
+                                        lang={lang}
+                                        timestamp={photo.takenAt}
+                                    />
+                                </dd>
+                            </div>
+                        ) : null}
 
-                            {locationName ? (
-                                <div className={styles.metaItem}>
-                                    <dt className={styles.metaLabel}>
-                                        {copy.location}
-                                    </dt>
-                                    <dd className={styles.metaValue}>
-                                        {locationName}
-                                    </dd>
-                                </div>
-                            ) : null}
+                        {locationName ? (
+                            <div className={styles.metaItem}>
+                                <dt className={styles.metaLabel}>
+                                    {copy.location}
+                                </dt>
+                                <dd className={styles.metaValue}>
+                                    {locationName}
+                                </dd>
+                            </div>
+                        ) : null}
 
-                            {location ? (
-                                <div className={`${styles.metaItem} ${styles.metaWide}`}>
-                                    <dt className={styles.metaLabel}>
-                                        {copy.coordinates}
-                                    </dt>
-                                    <dd className={`${styles.metaValue} ${styles.metaMono}`}>
-                                        {formatCoordinates(location.lat, location.lng)}
-                                    </dd>
-                                </div>
-                            ) : null}
-                        </dl>
-                    ) : null}
+                        {location ? (
+                            <div className={`${styles.metaItem} ${styles.metaWide}`}>
+                                <dt className={styles.metaLabel}>
+                                    {copy.coordinates}
+                                </dt>
+                                <dd className={`${styles.metaValue} ${styles.metaMono}`}>
+                                    {formatCoordinates(location.lat, location.lng)}
+                                </dd>
+                            </div>
+                        ) : null}
+                    </dl>
+                ) : null}
 
-                    <section className={styles.note}>
-                        <p className={styles.noteLabel}>{copy.archiveNoteLabel}</p>
-                        <p className={styles.noteBody}>{copy.archiveNoteBody}</p>
-                    </section>
-                </section>
-            </div>
+                <p className={styles.note}>
+                    <span className={styles.noteLabel}>{copy.archiveNoteLabel}</span>
+                    <span className={styles.noteBody}>{copy.archiveNoteBody}</span>
+                </p>
+            </section>
         </div>
     );
 }

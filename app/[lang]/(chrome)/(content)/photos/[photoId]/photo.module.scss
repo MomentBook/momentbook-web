@@ -1,15 +1,13 @@
 .page {
-  max-width: 74rem;
+  max-width: 80rem;
   margin: 0 auto;
-  padding: 1rem var(--spacing-md) calc(var(--spacing-xl) * 0.85);
+  padding: 1rem var(--spacing-md) calc(var(--spacing-xl) * 0.82);
 }
 
 .topBar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
 }
 
 .backLink {
@@ -27,30 +25,15 @@
   }
 }
 
-.brandMark {
-  margin: 0;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-text-tertiary) 72%, transparent);
-}
-
-.layout {
-  display: grid;
-  gap: 1.6rem;
-}
-
-.mediaSection {
-  position: relative;
+.hero {
+  margin-bottom: 1.35rem;
 }
 
 .mediaFrame {
   position: relative;
   margin: 0;
   overflow: hidden;
-  aspect-ratio: 4 / 5;
-  min-height: 20rem;
+  height: clamp(20rem, 68vh, 46rem);
   border-radius: calc(var(--radius-lg) + 0.15rem);
   background:
     radial-gradient(
@@ -63,28 +46,13 @@
 }
 
 .image {
-  object-fit: cover;
-}
-
-.imageBadge {
-  position: absolute;
-  left: 0.95rem;
-  bottom: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.85rem;
-  padding: 0.25rem 0.8rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--color-accent) 96%, white 4%);
-  color: white;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  object-fit: contain;
+  padding: clamp(0.5rem, 1vw, 0.8rem);
 }
 
 .contentSection {
-  max-width: 28rem;
+  max-width: 40rem;
+  margin: 0 auto;
 }
 
 .eyebrow {
@@ -129,8 +97,8 @@
   margin: 1.4rem 0 0;
   padding: 1.25rem 0 0;
   display: grid;
-  gap: 1.1rem 1.25rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   border-top: 1px solid color-mix(in srgb, var(--color-border) 74%, transparent);
 }
 
@@ -165,10 +133,10 @@
 
 .note {
   margin-top: 1.4rem;
-  padding: 0.95rem 1rem;
-  border-radius: var(--radius-md);
-  border: 1px solid color-mix(in srgb, var(--glass-border) 72%, rgba(255, 255, 255, 0.74));
-  background: color-mix(in srgb, var(--surface-glass-soft) 88%, transparent);
+  display: grid;
+  gap: 0.28rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-border) 68%, transparent);
 }
 
 .noteLabel {
@@ -181,7 +149,7 @@
 }
 
 .noteBody {
-  margin: 0.38rem 0 0;
+  margin: 0;
   font-size: 0.9rem;
   line-height: 1.62;
   color: var(--color-text-secondary);
@@ -193,7 +161,7 @@
   }
 
   .mediaFrame {
-    min-height: 17rem;
+    height: 17rem;
   }
 }
 
@@ -208,20 +176,7 @@
 }
 
 @media (min-width: 960px) {
-  .layout {
-    grid-template-columns: minmax(0, 1.18fr) minmax(18rem, 0.72fr);
-    align-items: start;
-  }
-
-  .topBar {
-    margin-bottom: 1.2rem;
-  }
-
   .mediaFrame {
-    min-height: 34rem;
-  }
-
-  .contentSection {
-    padding-top: 1rem;
+    height: clamp(28rem, 70vh, 48rem);
   }
 }
