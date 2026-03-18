@@ -18,16 +18,14 @@ export const revalidate = 3600;
 type PhotoPageCopy = {
     eyebrow: string;
     backToJourney: string;
-    journeyLabel: string;
+    partOfLabel: string;
     takenAt: string;
     location: string;
     coordinates: string;
     journeyFallback: string;
     publishedBadge: string;
-    archiveEyebrow: string;
-    archiveTitle: string;
-    archiveBody: string;
-    archiveCta: string;
+    archiveNoteLabel: string;
+    archiveNoteBody: string;
     metadataTitleTemplate: string;
     metadataDescriptionWithLocationTemplate: string;
     metadataDescriptionWithoutLocationTemplate: string;
@@ -37,17 +35,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     en: {
         eyebrow: "Photo",
         backToJourney: "Back to journey",
-        journeyLabel: "Journey",
-        takenAt: "Captured at",
+        partOfLabel: "part of",
+        takenAt: "Captured",
         location: "Place",
         coordinates: "Coordinates",
         journeyFallback: "Journey",
-        publishedBadge: "Published photo",
-        archiveEyebrow: "Published journey archive",
-        archiveTitle: "Stored as part of a public journey",
-        archiveBody:
-            "This photo belongs to a published journey archive on MomentBook. Open the journey to view this moment in context.",
-        archiveCta: "View journey",
+        publishedBadge: "Published",
+        archiveNoteLabel: "Archive note",
+        archiveNoteBody:
+            "Shown as part of a published journey archive on MomentBook.",
         metadataTitleTemplate: "Photo from {journey}",
         metadataDescriptionWithLocationTemplate:
             "A photo from {journey} taken at {location}.",
@@ -57,17 +53,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     ko: {
         eyebrow: "사진",
         backToJourney: "여정으로 돌아가기",
-        journeyLabel: "여정",
+        partOfLabel: "다음 여정의 일부",
         takenAt: "기록 시각",
         location: "장소",
         coordinates: "좌표",
         journeyFallback: "여정",
-        publishedBadge: "게시된 사진",
-        archiveEyebrow: "공개 여정 아카이브",
-        archiveTitle: "공개된 여정의 일부로 보관된 사진",
-        archiveBody:
-            "이 사진은 MomentBook의 공개 여정 아카이브에 포함되어 있습니다. 사진이 놓인 맥락은 여정 페이지에서 볼 수 있습니다.",
-        archiveCta: "여정 보기",
+        publishedBadge: "공개됨",
+        archiveNoteLabel: "아카이브 노트",
+        archiveNoteBody:
+            "MomentBook의 공개 여정 아카이브 일부로 노출되는 사진입니다.",
         metadataTitleTemplate: "{journey}의 사진",
         metadataDescriptionWithLocationTemplate:
             "{location}에서 촬영된 {journey}의 사진입니다.",
@@ -77,17 +71,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     ja: {
         eyebrow: "写真",
         backToJourney: "旅に戻る",
-        journeyLabel: "旅",
+        partOfLabel: "次の旅の一部",
         takenAt: "記録時刻",
         location: "場所",
         coordinates: "座標",
         journeyFallback: "旅",
-        publishedBadge: "公開写真",
-        archiveEyebrow: "公開旅アーカイブ",
-        archiveTitle: "公開された旅の一部として保管された写真",
-        archiveBody:
-            "この写真は MomentBook の公開旅アーカイブに含まれています。どの文脈にあるかは旅ページで確認できます。",
-        archiveCta: "旅を見る",
+        publishedBadge: "公開済み",
+        archiveNoteLabel: "アーカイブノート",
+        archiveNoteBody:
+            "MomentBook の公開旅アーカイブの一部として表示される写真です。",
         metadataTitleTemplate: "{journey}の写真",
         metadataDescriptionWithLocationTemplate:
             "{location}で撮影された{journey}の写真です。",
@@ -97,17 +89,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     zh: {
         eyebrow: "照片",
         backToJourney: "返回旅程",
-        journeyLabel: "旅程",
+        partOfLabel: "属于以下旅程",
         takenAt: "记录时间",
         location: "地点",
         coordinates: "坐标",
         journeyFallback: "旅程",
-        publishedBadge: "已发布照片",
-        archiveEyebrow: "公开旅程档案",
-        archiveTitle: "作为公开旅程一部分保存的照片",
-        archiveBody:
-            "这张照片属于 MomentBook 的公开旅程档案。你可以在旅程页面中查看它所处的上下文。",
-        archiveCta: "查看旅程",
+        publishedBadge: "已发布",
+        archiveNoteLabel: "归档说明",
+        archiveNoteBody:
+            "这张照片作为 MomentBook 公开旅程档案的一部分展示。",
         metadataTitleTemplate: "{journey} 的照片",
         metadataDescriptionWithLocationTemplate:
             "在 {location} 拍摄的 {journey} 照片。",
@@ -117,17 +107,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     es: {
         eyebrow: "Foto",
         backToJourney: "Volver al viaje",
-        journeyLabel: "Viaje",
-        takenAt: "Capturada en",
+        partOfLabel: "parte de",
+        takenAt: "Capturada",
         location: "Lugar",
         coordinates: "Coordenadas",
         journeyFallback: "Viaje",
-        publishedBadge: "Foto publicada",
-        archiveEyebrow: "Archivo de viaje publicado",
-        archiveTitle: "Guardada como parte de un viaje público",
-        archiveBody:
-            "Esta foto pertenece a un archivo de viaje publicado en MomentBook. Abre el viaje para ver este momento en contexto.",
-        archiveCta: "Ver viaje",
+        publishedBadge: "Publicada",
+        archiveNoteLabel: "Nota de archivo",
+        archiveNoteBody:
+            "Se muestra como parte de un archivo de viaje publicado en MomentBook.",
         metadataTitleTemplate: "Foto de {journey}",
         metadataDescriptionWithLocationTemplate:
             "Una foto de {journey} tomada en {location}.",
@@ -137,17 +125,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     pt: {
         eyebrow: "Foto",
         backToJourney: "Voltar para a viagem",
-        journeyLabel: "Viagem",
-        takenAt: "Registrado em",
+        partOfLabel: "parte de",
+        takenAt: "Registrada",
         location: "Local",
         coordinates: "Coordenadas",
         journeyFallback: "Viagem",
-        publishedBadge: "Foto publicada",
-        archiveEyebrow: "Arquivo de viagem publicado",
-        archiveTitle: "Guardada como parte de uma viagem pública",
-        archiveBody:
-            "Esta foto pertence a um arquivo de viagem publicado no MomentBook. Abra a viagem para ver este momento em contexto.",
-        archiveCta: "Ver viagem",
+        publishedBadge: "Publicada",
+        archiveNoteLabel: "Nota de arquivo",
+        archiveNoteBody:
+            "Exibida como parte de um arquivo de viagem publicado no MomentBook.",
         metadataTitleTemplate: "Foto de {journey}",
         metadataDescriptionWithLocationTemplate:
             "Uma foto de {journey} tirada em {location}.",
@@ -157,17 +143,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     fr: {
         eyebrow: "Photo",
         backToJourney: "Retour au voyage",
-        journeyLabel: "Voyage",
+        partOfLabel: "partie de",
         takenAt: "Prise le",
         location: "Lieu",
         coordinates: "Coordonnées",
         journeyFallback: "Voyage",
-        publishedBadge: "Photo publiée",
-        archiveEyebrow: "Archive de voyage publiée",
-        archiveTitle: "Conservée comme partie d'un voyage public",
-        archiveBody:
-            "Cette photo appartient à une archive de voyage publiée sur MomentBook. Ouvrez le voyage pour voir ce moment dans son contexte.",
-        archiveCta: "Voir le voyage",
+        publishedBadge: "Publiée",
+        archiveNoteLabel: "Note d'archive",
+        archiveNoteBody:
+            "Affichée comme partie d'une archive de voyage publiée sur MomentBook.",
         metadataTitleTemplate: "Photo de {journey}",
         metadataDescriptionWithLocationTemplate:
             "Une photo de {journey} prise à {location}.",
@@ -177,17 +161,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     th: {
         eyebrow: "รูปภาพ",
         backToJourney: "กลับไปที่ทริป",
-        journeyLabel: "ทริป",
-        takenAt: "บันทึกเวลา",
+        partOfLabel: "เป็นส่วนหนึ่งของ",
+        takenAt: "เวลาที่บันทึก",
         location: "สถานที่",
         coordinates: "พิกัด",
         journeyFallback: "ทริป",
-        publishedBadge: "รูปที่เผยแพร่",
-        archiveEyebrow: "คลังทริปสาธารณะ",
-        archiveTitle: "เก็บไว้เป็นส่วนหนึ่งของทริปสาธารณะ",
-        archiveBody:
-            "รูปนี้เป็นส่วนหนึ่งของคลังทริปสาธารณะบน MomentBook เปิดหน้าทริปเพื่อดูรูปนี้ในบริบทของการเดินทาง",
-        archiveCta: "ดูทริป",
+        publishedBadge: "เผยแพร่แล้ว",
+        archiveNoteLabel: "หมายเหตุคลัง",
+        archiveNoteBody:
+            "รูปนี้แสดงเป็นส่วนหนึ่งของคลังทริปสาธารณะบน MomentBook",
         metadataTitleTemplate: "รูปจาก {journey}",
         metadataDescriptionWithLocationTemplate:
             "รูปจาก {journey} ที่ถ่ายที่ {location}",
@@ -197,17 +179,15 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
     vi: {
         eyebrow: "Ảnh",
         backToJourney: "Quay lại hành trình",
-        journeyLabel: "Hành trình",
+        partOfLabel: "thuộc về",
         takenAt: "Thời điểm ghi",
         location: "Địa điểm",
         coordinates: "Tọa độ",
         journeyFallback: "Hành trình",
-        publishedBadge: "Ảnh đã đăng",
-        archiveEyebrow: "Kho lưu trữ hành trình công khai",
-        archiveTitle: "Được lưu như một phần của hành trình công khai",
-        archiveBody:
-            "Ảnh này thuộc kho lưu trữ hành trình công khai trên MomentBook. Mở hành trình để xem khoảnh khắc này trong đúng bối cảnh.",
-        archiveCta: "Xem hành trình",
+        publishedBadge: "Đã đăng",
+        archiveNoteLabel: "Ghi chú lưu trữ",
+        archiveNoteBody:
+            "Ảnh này được hiển thị như một phần của kho lưu trữ hành trình công khai trên MomentBook.",
         metadataTitleTemplate: "Ảnh từ {journey}",
         metadataDescriptionWithLocationTemplate:
             "Ảnh từ {journey} chụp tại {location}.",
@@ -262,7 +242,7 @@ function formatCoordinates(lat: number, lng: number): string {
     const latDirection = lat >= 0 ? "N" : "S";
     const lngDirection = lng >= 0 ? "E" : "W";
 
-    return `${Math.abs(lat).toFixed(5)}° ${latDirection} · ${Math.abs(lng).toFixed(5)}° ${lngDirection}`;
+    return `${Math.abs(lat).toFixed(5)}° ${latDirection}, ${Math.abs(lng).toFixed(5)}° ${lngDirection}`;
 }
 
 function buildSeoText(
@@ -365,7 +345,6 @@ export default async function PhotoPage({
     const takenAt = hasValidTimestamp(photo.takenAt) ? photo.takenAt : null;
     const hasTakenAt = takenAt !== null;
     const location = hasValidCoordinates(photo.location) ? photo.location : null;
-    const hasCoordinates = location !== null;
     const locationName = readText(photo.locationName);
     const journeyTitle =
         readText(photo.journey.title) ?? copy.journeyFallback;
@@ -415,21 +394,19 @@ export default async function PhotoPage({
                 dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
             />
 
-            <div className={styles.topBar}>
+            <header className={styles.topBar}>
                 <Link
                     href={`/${lang}/journeys/${photo.journey.publicId}`}
                     className={styles.backLink}
                 >
-                    <span className={styles.backIcon} aria-hidden="true">
-                        ←
-                    </span>
+                    <span aria-hidden="true">←</span>
                     {copy.backToJourney}
                 </Link>
                 <p className={styles.brandMark}>MomentBook</p>
-            </div>
+            </header>
 
             <div className={styles.layout}>
-                <section className={styles.mediaColumn}>
+                <section className={styles.mediaSection}>
                     <figure className={styles.mediaFrame}>
                         <Image
                             src={photo.url}
@@ -437,7 +414,7 @@ export default async function PhotoPage({
                             fill
                             priority
                             className={styles.image}
-                            sizes="(max-width: 767px) 100vw, (max-width: 1279px) 58vw, 880px"
+                            sizes="(max-width: 767px) 100vw, (max-width: 1080px) 92vw, 760px"
                         />
                         <div className={styles.imageBadge}>
                             {copy.publishedBadge}
@@ -445,31 +422,27 @@ export default async function PhotoPage({
                     </figure>
                 </section>
 
-                <section className={styles.infoPanel}>
-                    <header className={styles.storyHeader}>
-                        <p className={styles.eyebrow}>{copy.eyebrow}</p>
-                        <h1 className={styles.title}>{title}</h1>
-                        <div className={styles.journeyCard}>
-                            <p className={styles.journeyCardLabel}>
-                                {copy.journeyLabel}
-                            </p>
-                            <Link
-                                href={`/${lang}/journeys/${photo.journey.publicId}`}
-                                className={styles.journeyLink}
-                            >
-                                {journeyTitle}
-                            </Link>
-                        </div>
-                    </header>
+                <section className={styles.contentSection}>
+                    <p className={styles.eyebrow}>{copy.eyebrow}</p>
+                    <h1 className={styles.title}>{title}</h1>
+                    <p className={styles.partOfLine}>
+                        {copy.partOfLabel}{" "}
+                        <Link
+                            href={`/${lang}/journeys/${photo.journey.publicId}`}
+                            className={styles.journeyLink}
+                        >
+                            {journeyTitle}
+                        </Link>
+                    </p>
 
-                    {hasTakenAt || locationName || hasCoordinates ? (
-                        <dl className={styles.detailsGrid}>
+                    {hasTakenAt || locationName || location ? (
+                        <dl className={styles.metaGrid}>
                             {hasTakenAt ? (
-                                <div className={styles.detailCard}>
-                                    <dt className={styles.detailLabel}>
+                                <div className={styles.metaItem}>
+                                    <dt className={styles.metaLabel}>
                                         {copy.takenAt}
                                     </dt>
-                                    <dd className={styles.detailValue}>
+                                    <dd className={styles.metaValue}>
                                         <LocalizedDateTime
                                             lang={lang}
                                             timestamp={photo.takenAt}
@@ -479,22 +452,22 @@ export default async function PhotoPage({
                             ) : null}
 
                             {locationName ? (
-                                <div className={styles.detailCard}>
-                                    <dt className={styles.detailLabel}>
+                                <div className={styles.metaItem}>
+                                    <dt className={styles.metaLabel}>
                                         {copy.location}
                                     </dt>
-                                    <dd className={styles.detailValue}>
+                                    <dd className={styles.metaValue}>
                                         {locationName}
                                     </dd>
                                 </div>
                             ) : null}
 
-                            {hasCoordinates ? (
-                                <div className={`${styles.detailCard} ${styles.detailCardWide}`}>
-                                    <dt className={styles.detailLabel}>
+                            {location ? (
+                                <div className={`${styles.metaItem} ${styles.metaWide}`}>
+                                    <dt className={styles.metaLabel}>
                                         {copy.coordinates}
                                     </dt>
-                                    <dd className={`${styles.detailValue} ${styles.detailValueMono}`}>
+                                    <dd className={`${styles.metaValue} ${styles.metaMono}`}>
                                         {formatCoordinates(location.lat, location.lng)}
                                     </dd>
                                 </div>
@@ -502,22 +475,9 @@ export default async function PhotoPage({
                         </dl>
                     ) : null}
 
-                    <section className={styles.archiveCard}>
-                        <p className={styles.archiveEyebrow}>
-                            {copy.archiveEyebrow}
-                        </p>
-                        <h2 className={styles.archiveTitle}>
-                            {copy.archiveTitle}
-                        </h2>
-                        <p className={styles.archiveBody}>
-                            {copy.archiveBody}
-                        </p>
-                        <Link
-                            href={`/${lang}/journeys/${photo.journey.publicId}`}
-                            className={styles.archiveLink}
-                        >
-                            {copy.archiveCta}
-                        </Link>
+                    <section className={styles.note}>
+                        <p className={styles.noteLabel}>{copy.archiveNoteLabel}</p>
+                        <p className={styles.noteBody}>{copy.archiveNoteBody}</p>
                     </section>
                 </section>
             </div>
