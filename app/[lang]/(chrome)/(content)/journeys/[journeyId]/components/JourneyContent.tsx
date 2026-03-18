@@ -165,8 +165,8 @@ function renderMomentGallery(lang: Language, photos: MomentPhoto[]) {
     const overflowCount = Math.max(0, photos.length - previewPhotos.length);
     const sizes =
         previewPhotos.length === 1
-            ? "(max-width: 739px) 100vw, (max-width: 1099px) 88vw, 72vw"
-            : "(max-width: 739px) 50vw, (max-width: 1099px) 44vw, 36vw";
+            ? "(max-width: 739px) 100vw, (max-width: 1099px) 88vw, 38rem"
+            : "(max-width: 739px) 50vw, (max-width: 1099px) 44vw, 18rem";
 
     if (previewPhotos.length === 0) {
         return null;
