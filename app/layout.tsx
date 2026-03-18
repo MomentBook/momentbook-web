@@ -82,6 +82,11 @@ export default async function RootLayout({
             })();
           `}
                 </Script>
+                <Script id="js-ready-script" strategy="beforeInteractive">
+                    {`
+            document.documentElement.setAttribute('data-js', 'true');
+          `}
+                </Script>
             </head>
             <body className={`${manrope.variable} ${playfairDisplay.variable}`}>
                 <LanguageSyncProvider />

@@ -35,23 +35,22 @@ export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
       className={styles.introSection}
       aria-labelledby="overview-title"
     >
-      <div className={styles.introHeader}>
-        <Reveal delay={0}>
-          <p className={styles.sectionEyebrow}>{content.introEyebrow}</p>
-        </Reveal>
-        <Reveal delay={60}>
-          <h2 id="overview-title" className={styles.introSectionTitle}>
-            {content.introGuideTitle}
-          </h2>
-        </Reveal>
-        <Reveal delay={120}>
-          <p className={styles.introSectionLead}>{content.introGuideLead}</p>
-        </Reveal>
-      </div>
       <Reveal
-        delay={160}
-        duration={600}
-        distance={12}
+        delay={0}
+        duration={760}
+        distance={8}
+        className={styles.introHeader}
+      >
+        <p className={styles.sectionEyebrow}>{content.introEyebrow}</p>
+        <h2 id="overview-title" className={styles.introSectionTitle}>
+          {content.introGuideTitle}
+        </h2>
+        <p className={styles.introSectionLead}>{content.introGuideLead}</p>
+      </Reveal>
+      <Reveal
+        delay={80}
+        duration={820}
+        distance={8}
         className={styles.introStageWrap}
       >
         <div className={styles.introStage}>

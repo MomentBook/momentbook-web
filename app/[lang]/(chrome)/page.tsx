@@ -965,35 +965,32 @@ export default async function Home({
       <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
       <HomeTutorialSection content={tutorialContent} />
       <section className={styles.featuredSection} aria-labelledby="home-featured-title">
-        <div className={styles.sectionHeader}>
+        <Reveal
+          delay={0}
+          duration={760}
+          distance={8}
+          className={styles.sectionHeader}
+        >
           <div className={styles.sectionHeaderCopy}>
-            <Reveal delay={0}>
-              <p className={styles.sectionEyebrow}>{editorialContent.featuredEyebrow}</p>
-            </Reveal>
-            <Reveal delay={60}>
-              <h2 id="home-featured-title" className={styles.sectionTitle}>
-                {editorialContent.featuredTitle}
-              </h2>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className={styles.sectionLead}>{editorialContent.featuredLead}</p>
-            </Reveal>
+            <p className={styles.sectionEyebrow}>{editorialContent.featuredEyebrow}</p>
+            <h2 id="home-featured-title" className={styles.sectionTitle}>
+              {editorialContent.featuredTitle}
+            </h2>
+            <p className={styles.sectionLead}>{editorialContent.featuredLead}</p>
           </div>
-          <Reveal delay={160}>
-            <Link href={`/${lang}/journeys`} className={styles.archiveLink}>
-              {editorialContent.featuredArchiveCta}
-            </Link>
-          </Reveal>
-        </div>
+          <Link href={`/${lang}/journeys`} className={styles.archiveLink}>
+            {editorialContent.featuredArchiveCta}
+          </Link>
+        </Reveal>
 
         {featuredJourneys.length > 0 ? (
           <div className={styles.featuredGrid}>
             {featuredJourneys.map((journey, index) => (
               <Reveal
                 key={journey.publicId}
-                delay={180 + (index * 60)}
-                duration={580}
-                distance={12}
+                delay={index * 70}
+                duration={820}
+                distance={8}
                 className={styles.featuredCard}
               >
                 <Link href={journey.href} className={styles.featuredCardLink}>
@@ -1024,7 +1021,7 @@ export default async function Home({
             ))}
           </div>
         ) : (
-          <Reveal delay={200}>
+          <Reveal delay={80} duration={760} distance={8}>
             <p className={styles.featuredEmpty}>{editorialContent.emptyJourneys}</p>
           </Reveal>
         )}

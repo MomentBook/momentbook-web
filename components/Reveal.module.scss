@@ -1,32 +1,31 @@
 .root {
   --reveal-delay: 0ms;
-  --reveal-duration: 480ms;
-  --reveal-distance: 20px;
-  --reveal-scale: 0.985;
+  --reveal-duration: 720ms;
+  --reveal-distance: 8px;
   transform-origin: center top;
+  transition:
+    opacity var(--reveal-duration) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay),
+    transform calc(var(--reveal-duration) + 120ms) cubic-bezier(0.18, 1, 0.32, 1)
+      var(--reveal-delay);
 }
 
-.root[data-reveal-played="true"] {
-  animation: reveal-rise var(--reveal-duration) cubic-bezier(0.22, 1, 0.36, 1)
-    both;
-  animation-delay: var(--reveal-delay);
+:global(html[data-js="true"]) .root[data-reveal-state="hidden"] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-distance), 0);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+:global(html[data-js="true"]) .root[data-reveal-state="visible"] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .root[data-reveal-played="true"] {
-    animation: none;
-  }
-}
-
-@keyframes reveal-rise {
-  from {
-    opacity: 0.001;
-    transform: translate3d(0, var(--reveal-distance), 0)
-      scale(var(--reveal-scale));
-  }
-
-  to {
+  :global(html[data-js="true"]) .root {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: none;
+    transition: none;
+    pointer-events: auto;
   }
 }

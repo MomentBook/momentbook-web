@@ -51,16 +51,10 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
       <section className={styles.hero}>
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
-            <Reveal delay={0}>
-              <p className={styles.heroEyebrow}>{content.heroEyebrow}</p>
-            </Reveal>
-            <Reveal delay={60}>
-              <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
-            </Reveal>
-            <Reveal delay={120}>
-              <p className={styles.heroLead}>{content.heroLead}</p>
-            </Reveal>
-            <Reveal delay={180} className={styles.heroActionsWrap}>
+            <p className={styles.heroEyebrow}>{content.heroEyebrow}</p>
+            <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
+            <p className={styles.heroLead}>{content.heroLead}</p>
+            <div className={styles.heroActionsWrap}>
               <div className={styles.heroActions}>
                 <DownloadActionButton
                   lang={lang}
@@ -79,37 +73,34 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
               >
                 {content.heroTutorialCta}
               </button>
-            </Reveal>
+            </div>
             {content.heroFootnote ? (
-              <Reveal delay={240}>
-                <p className={styles.heroFootnote}>{content.heroFootnote}</p>
-              </Reveal>
+              <p className={styles.heroFootnote}>{content.heroFootnote}</p>
             ) : null}
           </div>
         </div>
       </section>
 
       <section className={styles.workflowSection} aria-labelledby="home-process-title">
-        <div className={styles.workflowIntro}>
-          <Reveal delay={0}>
-            <p className={styles.sectionEyebrow}>{process.processEyebrow}</p>
-          </Reveal>
-          <Reveal delay={60}>
-            <h2 id="home-process-title" className={styles.workflowTitle}>
-              {process.processTitle}
-            </h2>
-          </Reveal>
-          <Reveal delay={120}>
-            <p className={styles.workflowLead}>{process.processLead}</p>
-          </Reveal>
-        </div>
+        <Reveal
+          delay={0}
+          duration={760}
+          distance={8}
+          className={styles.workflowIntro}
+        >
+          <p className={styles.sectionEyebrow}>{process.processEyebrow}</p>
+          <h2 id="home-process-title" className={styles.workflowTitle}>
+            {process.processTitle}
+          </h2>
+          <p className={styles.workflowLead}>{process.processLead}</p>
+        </Reveal>
         <div className={styles.workflowGrid}>
           {process.processSteps.map((step, index) => (
             <Reveal
               key={`${step.stepLabel}-${step.title}`}
-              delay={160 + (index * 60)}
-              distance={12}
-              duration={580}
+              delay={index * 70}
+              distance={8}
+              duration={760}
               className={styles.workflowCard}
             >
               <p className={styles.workflowStepLabel}>{step.stepLabel}</p>

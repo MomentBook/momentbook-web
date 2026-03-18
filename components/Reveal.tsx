@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Reveal.module.scss";
 
 type RevealProps = {
@@ -9,15 +9,13 @@ type RevealProps = {
   delay?: number;
   duration?: number;
   distance?: number;
-  scale?: number;
+  threshold?: number;
   className?: string;
 };
 
-const DEFAULT_DURATION_MS = 560;
-const DEFAULT_DISTANCE_PX = 10;
-const DEFAULT_SCALE = 0.996;
-const REVEAL_THRESHOLD = 0.18;
-const INITIAL_REVEAL_VIEWPORT_RATIO = 0.88;
+const DEFAULT_DURATION_MS = 720;
+const DEFAULT_DISTANCE_PX = 8;
+const DEFAULT_THRESHOLD = 0.14;
 
 function clampNumber(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -28,55 +26,44 @@ export function Reveal({
   delay = 0,
   duration = DEFAULT_DURATION_MS,
   distance = DEFAULT_DISTANCE_PX,
-  scale = DEFAULT_SCALE,
+  threshold = DEFAULT_THRESHOLD,
   className = "",
 }: RevealProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const safeDelay = Number.isFinite(delay) ? Math.max(0, delay) : 0;
   const safeDuration = Number.isFinite(duration)
-    ? clampNumber(duration, 220, 900)
+    ? clampNumber(duration, 280, 1100)
     : DEFAULT_DURATION_MS;
   const safeDistance = Number.isFinite(distance)
-    ? clampNumber(distance, 0, 20)
+    ? clampNumber(distance, 0, 16)
     : DEFAULT_DISTANCE_PX;
-  const safeScale = Number.isFinite(scale)
-    ? clampNumber(scale, 0.985, 1)
-    : DEFAULT_SCALE;
+  const safeThreshold = Number.isFinite(threshold)
+    ? clampNumber(threshold, 0, 1)
+    : DEFAULT_THRESHOLD;
 
-  useLayoutEffect(() => {
-    const node = rootRef.current;
+  useEffect(() => {
+    const rootNode = rootRef.current;
 
-    if (!node || typeof window === "undefined") {
+    if (!rootNode || typeof window === "undefined") {
       return;
     }
 
-    const playReveal = () => {
-      node.setAttribute("data-reveal-played", "true");
-    };
-
-    if (node.getAttribute("data-reveal-played") === "true") {
+    if (isVisible) {
       return;
     }
 
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const revealImmediately = () => {
+      setIsVisible(true);
+    };
 
     if (mediaQuery.matches || typeof IntersectionObserver === "undefined") {
+      revealImmediately();
       return;
     }
 
-    const viewportHeight =
-      window.innerHeight || document.documentElement.clientHeight;
-    const rect = node.getBoundingClientRect();
-    const initialTriggerLine =
-      viewportHeight * INITIAL_REVEAL_VIEWPORT_RATIO;
-
-    if (rect.top <= initialTriggerLine && rect.bottom >= 0) {
-      playReveal();
-      return;
-    }
-
-    let frameId: number | null = null;
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
@@ -85,39 +72,51 @@ export function Reveal({
           return;
         }
 
-        frameId = window.requestAnimationFrame(() => {
-          playReveal();
-        });
+        revealImmediately();
         observer.disconnect();
       },
       {
-        threshold: REVEAL_THRESHOLD,
-        rootMargin: "0px 0px -12% 0px",
+        threshold: safeThreshold,
+        rootMargin: "0px 0px -8% 0px",
       },
     );
 
-    observer.observe(node);
+    observer.observe(rootNode);
+
+    const handlePreferenceChange = () => {
+      if (mediaQuery.matches) {
+        revealImmediately();
+        observer.disconnect();
+      }
+    };
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", handlePreferenceChange);
+    } else {
+      mediaQuery.addListener(handlePreferenceChange);
+    }
 
     return () => {
       observer.disconnect();
-
-      if (frameId !== null) {
-        window.cancelAnimationFrame(frameId);
+      if (typeof mediaQuery.removeEventListener === "function") {
+        mediaQuery.removeEventListener("change", handlePreferenceChange);
+      } else {
+        mediaQuery.removeListener(handlePreferenceChange);
       }
     };
-  }, []);
+  }, [isVisible, safeThreshold]);
 
   const style = {
     "--reveal-delay": `${safeDelay}ms`,
     "--reveal-duration": `${safeDuration}ms`,
     "--reveal-distance": `${safeDistance}px`,
-    "--reveal-scale": `${safeScale}`,
   } as CSSProperties;
 
   return (
     <div
       ref={rootRef}
       className={[styles.root, className].filter(Boolean).join(" ")}
+      data-reveal-state={isVisible ? "visible" : "hidden"}
       style={style}
     >
       {children}
