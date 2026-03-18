@@ -1,5 +1,5 @@
 .page {
-  width: min(82rem, calc(100% - 2rem));
+  width: min(84rem, calc(100% - 2rem));
   margin: 0 auto;
   padding: calc(var(--spacing-xl) * 0.68) 0 var(--spacing-xl);
   display: flex;
@@ -18,15 +18,15 @@
   border-radius: calc(var(--radius-xl) + 0.4rem);
   border: 1px solid color-mix(in srgb, var(--glass-border) 86%, rgba(255, 255, 255, 0.74));
   background:
-    radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--color-accent-soft) 72%, transparent) 0%, transparent 30%),
-    radial-gradient(circle at 82% 28%, color-mix(in srgb, var(--color-accent-secondary-soft) 68%, transparent) 0%, transparent 34%),
+    radial-gradient(circle at 18% 22%, color-mix(in srgb, var(--color-accent-soft) 34%, transparent) 0%, transparent 28%),
+    radial-gradient(circle at 82% 28%, color-mix(in srgb, var(--color-accent-secondary-soft) 28%, transparent) 0%, transparent 32%),
     linear-gradient(
       145deg,
-      color-mix(in srgb, var(--surface-glass-strong) 94%, rgba(255, 255, 255, 0.7)) 0%,
-      color-mix(in srgb, var(--surface-glass) 90%, rgba(255, 255, 255, 0.64)) 56%,
-      color-mix(in srgb, var(--surface-glass-soft) 86%, rgba(255, 255, 255, 0.72)) 100%
+      color-mix(in srgb, var(--surface-glass-strong) 90%, rgba(255, 255, 255, 0.58)) 0%,
+      color-mix(in srgb, var(--surface-glass) 84%, rgba(255, 255, 255, 0.52)) 56%,
+      color-mix(in srgb, var(--surface-glass-soft) 80%, rgba(255, 255, 255, 0.58)) 100%
     );
-  box-shadow: var(--shadow-glass-lg);
+  box-shadow: var(--shadow-glass-md);
   backdrop-filter: blur(calc(var(--glass-blur) * 1.15)) saturate(var(--glass-saturate));
   -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.15)) saturate(var(--glass-saturate));
   isolation: isolate;
@@ -47,7 +47,7 @@
   left: -8%;
   top: -10%;
   background: color-mix(in srgb, var(--color-accent-soft) 44%, transparent);
-  opacity: 0.78;
+  opacity: 0.34;
 }
 
 .hero::after {
@@ -56,14 +56,14 @@
   right: -6%;
   bottom: -14%;
   background: color-mix(in srgb, var(--color-accent-secondary-soft) 44%, transparent);
-  opacity: 0.72;
+  opacity: 0.28;
 }
 
 .heroInner {
   position: relative;
   z-index: 1;
-  min-height: clamp(24rem, 42vw, 31rem);
-  padding: clamp(2.4rem, 5vw, 4.5rem) clamp(1.4rem, 5vw, 4rem);
+  min-height: clamp(18rem, 28vw, 23rem);
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.4rem, 4vw, 3rem);
   display: grid;
   justify-items: center;
   align-content: center;
@@ -72,7 +72,7 @@
 }
 
 .avatarHalo {
-  width: clamp(8.8rem, 18vw, 12rem);
+  width: clamp(7rem, 12vw, 8.6rem);
   aspect-ratio: 1;
   padding: 0.42rem;
   border-radius: 999px;
@@ -98,7 +98,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.95rem;
+  gap: 0.72rem;
   max-width: min(42rem, 100%);
 }
 
@@ -112,7 +112,7 @@
 
 .name {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 4.8vw, 4.6rem);
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
   font-weight: 420;
   line-height: 0.98;
   color: var(--color-text-primary);
@@ -123,15 +123,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.7rem;
+  gap: 0.55rem;
 }
 
-.countBadge,
-.noteBadge {
+.countBadge {
   display: inline-flex;
   align-items: center;
-  min-height: 2.2rem;
-  padding: 0.5rem 0.88rem;
+  min-height: 2rem;
+  padding: 0.42rem 0.78rem;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--glass-border) 74%, rgba(255, 255, 255, 0.86));
   background: color-mix(in srgb, var(--surface-glass-soft) 88%, rgba(255, 255, 255, 0.64));
@@ -139,25 +138,17 @@
 }
 
 .countBadge {
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
-.noteBadge {
-  max-width: min(34rem, 100%);
-  justify-content: center;
-  font-size: 0.88rem;
-  color: var(--color-text-secondary);
-  line-height: 1.45;
-}
-
 .bio {
   max-width: min(38rem, 100%);
   color: var(--color-text-secondary);
-  font-size: clamp(1rem, 1.75vw, 1.16rem);
-  line-height: 1.78;
+  font-size: clamp(0.96rem, 1.2vw, 1.06rem);
+  line-height: 1.68;
 }
 
 .section {
@@ -222,8 +213,12 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1040px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1380px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -279,6 +274,12 @@
     );
 }
 
+@media (min-width: 1040px) {
+  .journeyCover {
+    aspect-ratio: 4 / 3;
+  }
+}
+
 .journeyImage {
   object-fit: cover;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
@@ -291,19 +292,19 @@
 
 .photoBadge {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.8rem;
+  right: 0.8rem;
   z-index: 1;
   display: inline-flex;
   align-items: center;
-  min-height: 2rem;
-  padding: 0.34rem 0.72rem;
+  min-height: 1.8rem;
+  padding: 0.28rem 0.62rem;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--glass-border) 76%, rgba(255, 255, 255, 0.86));
   background: color-mix(in srgb, var(--surface-glass-soft) 90%, rgba(255, 255, 255, 0.74));
   color: var(--color-text-secondary);
   box-shadow: var(--shadow-glass-sm);
-  font-size: 0.73rem;
+  font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -311,20 +312,20 @@
 .cardBody {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1.2rem 1.2rem 1.35rem;
+  gap: 0.8rem;
+  padding: 0.95rem 0.95rem 1.05rem;
   flex: 1;
 }
 
 .cardHeading {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 0.42rem;
 }
 
 .cardTitle {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.1vw, 2rem);
+  font-size: clamp(1.28rem, 1.4vw, 1.6rem);
   font-weight: 420;
   line-height: 1.06;
   color: var(--color-text-primary);
@@ -336,21 +337,21 @@
 }
 
 .cardDescription {
-  min-height: 3.5rem;
+  min-height: 2.8rem;
   color: var(--color-text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.65;
+  font-size: 0.88rem;
+  line-height: 1.55;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
 .cardMeta {
   display: flex;
   flex-direction: column;
-  gap: 0.72rem;
-  padding-top: 0.85rem;
+  gap: 0.58rem;
+  padding-top: 0.72rem;
   border-top: 1px solid color-mix(in srgb, var(--glass-border) 82%, rgba(255, 255, 255, 0.7));
 }
 
@@ -366,7 +367,7 @@
 }
 
 .cardMetaLabel {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-text-tertiary);
@@ -374,7 +375,7 @@
 
 .cardMetaValue,
 .cardMetaValueAccent {
-  font-size: 0.92rem;
+  font-size: 0.84rem;
   line-height: 1.45;
 }
 
@@ -414,11 +415,6 @@
   font-family: var(--font-display);
   font-size: clamp(1.6rem, 2.8vw, 2.1rem);
   color: var(--color-text-primary);
-}
-
-.emptyBody {
-  max-width: 34rem;
-  color: var(--color-text-secondary);
 }
 
 .pagination {

@@ -36,7 +36,6 @@ const JOURNEYS_PER_PAGE = 16;
 
 type UserPageLabels = {
   profileEyebrow: string;
-  profileNote: string;
   journeys: string;
   photos: string;
   period: string;
@@ -54,7 +53,6 @@ type UserPageLabels = {
 const userLabels: Record<Language, UserPageLabels> = {
   en: {
     profileEyebrow: "Profile",
-    profileNote: "Public archive of journeys shared on MomentBook.",
     journeys: "Collected journeys",
     photos: "photos",
     period: "Travel period",
@@ -70,7 +68,6 @@ const userLabels: Record<Language, UserPageLabels> = {
   },
   ko: {
     profileEyebrow: "프로필",
-    profileNote: "MomentBook에서 공개한 여정을 읽기 전용으로 모아둔 아카이브입니다.",
     journeys: "기록된 여정",
     photos: "사진",
     period: "여행 기간",
@@ -86,7 +83,6 @@ const userLabels: Record<Language, UserPageLabels> = {
   },
   ja: {
     profileEyebrow: "プロフィール",
-    profileNote: "MomentBook で公開された旅を読み取り専用でまとめたアーカイブです。",
     journeys: "記録された旅",
     photos: "写真",
     period: "旅の期間",
@@ -102,7 +98,6 @@ const userLabels: Record<Language, UserPageLabels> = {
   },
   zh: {
     profileEyebrow: "个人资料",
-    profileNote: "这里是一个只读公开档案，收录了在 MomentBook 分享的旅程。",
     journeys: "已记录的旅程",
     photos: "照片",
     period: "旅行时间",
@@ -118,7 +113,6 @@ const userLabels: Record<Language, UserPageLabels> = {
   },
   es: {
     profileEyebrow: "Perfil",
-    profileNote: "Archivo público de solo lectura con los viajes compartidos en MomentBook.",
     journeys: "Viajes reunidos",
     photos: "fotos",
     period: "Período del viaje",
@@ -134,7 +128,6 @@ const userLabels: Record<Language, UserPageLabels> = {
   },
   pt: {
     profileEyebrow: "Perfil",
-    profileNote: "Arquivo público somente leitura com as viagens compartilhadas no MomentBook.",
     journeys: "Viagens reunidas",
     photos: "fotos",
     period: "Período da viagem",
@@ -150,7 +143,6 @@ const userLabels: Record<Language, UserPageLabels> = {
   },
   fr: {
     profileEyebrow: "Profil",
-    profileNote: "Archive public en lecture seule des voyages partagés sur MomentBook.",
     journeys: "Voyages rassemblés",
     photos: "photos",
     period: "Période du voyage",
@@ -166,7 +158,6 @@ const userLabels: Record<Language, UserPageLabels> = {
   },
   th: {
     profileEyebrow: "โปรไฟล์",
-    profileNote: "คลังทริปสาธารณะสำหรับการอ่านเท่านั้นที่แชร์บน MomentBook",
     journeys: "ทริปที่บันทึกไว้",
     photos: "รูป",
     period: "ช่วงเวลาเดินทาง",
@@ -182,7 +173,6 @@ const userLabels: Record<Language, UserPageLabels> = {
   },
   vi: {
     profileEyebrow: "Hồ sơ",
-    profileNote: "Kho lưu trữ công khai chỉ đọc gồm các hành trình đã chia sẻ trên MomentBook.",
     journeys: "Hành trình đã lưu",
     photos: "ảnh",
     period: "Thời gian chuyến đi",
@@ -583,7 +573,6 @@ export default async function UserPage({
 
             <div className={styles.heroMeta}>
               <span className={styles.countBadge}>{sharedCountText}</span>
-              <span className={styles.noteBadge}>{labels.profileNote}</span>
             </div>
 
             {user.biography ? (
@@ -612,7 +601,6 @@ export default async function UserPage({
           <div className={styles.emptyState}>
             <div className={styles.emptyDivider} />
             <p className={styles.emptyTitle}>{labels.emptyJourneys}</p>
-            <p className={styles.emptyBody}>{labels.profileNote}</p>
             <div className={styles.emptyDivider} />
           </div>
         ) : (
