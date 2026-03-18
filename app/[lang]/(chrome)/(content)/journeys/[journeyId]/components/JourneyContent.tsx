@@ -13,14 +13,7 @@ import type {
 } from "@/lib/published-journey";
 import type { JourneyLabels } from "../labels";
 import styles from "./JourneyContent.module.scss";
-import ClientMap from "./ClientMap";
-import {
-    buildJourneyLocationSummaries,
-    buildMomentAnchorId,
-    formatDuration,
-    sortJourneyClustersByTimeline,
-    sortJourneyImagesByCaptureTime,
-} from "../utils";
+import { sortJourneyClustersByTimeline, sortJourneyImagesByCaptureTime } from "../utils";
 
 type JourneyContentProps = {
     journey: PublishedJourneyApi;
@@ -31,8 +24,6 @@ type JourneyContentProps = {
     publishedTimestamp: number | null;
     periodStart: number | null;
     periodEnd: number | null;
-    totalDuration: number;
-    locationCount: number;
 };
 
 type MomentPhoto = {
@@ -53,31 +44,29 @@ type ArchivePhoto = {
 
 type ClusterSection = {
     cluster: PublishedJourneyCluster;
-    anchorId: string;
     href: string;
     photos: MomentPhoto[];
 };
 
 const journeyFallbackImage = "/images/placeholders/journey-cover-fallback.svg";
 
-function buildHeroImages(images: PublishedJourneyImage[], title: string): MomentPhoto[] {
-    if (images.length === 0) {
-        return [
-            {
-                key: "fallback-cover",
-                photoId: null,
-                url: journeyFallbackImage,
-                alt: title,
-            },
-        ];
+function buildHeroImage(images: PublishedJourneyImage[], title: string): MomentPhoto {
+    const firstImage = images[0];
+    if (!firstImage) {
+        return {
+            key: "fallback-cover",
+            photoId: null,
+            url: journeyFallbackImage,
+            alt: title,
+        };
     }
 
-    return images.slice(0, 3).map((image, index) => ({
-        key: image.photoId || `${index}-${image.url}`,
-        photoId: image.photoId || null,
-        url: image.url,
-        alt: image.locationName || title,
-    }));
+    return {
+        key: firstImage.photoId || firstImage.url,
+        photoId: firstImage.photoId || null,
+        url: firstImage.url,
+        alt: firstImage.locationName || title,
+    };
 }
 
 function buildArchivePhotos(
@@ -128,7 +117,6 @@ function buildClusterSections(
 
             return {
                 cluster,
-                anchorId: buildMomentAnchorId(cluster.clusterId),
                 href,
                 photos,
             };
@@ -175,7 +163,7 @@ function renderMomentPhotoLink(
 function renderMomentGallery(lang: Language, photos: MomentPhoto[]) {
     const previewPhotos = photos.slice(0, 3);
     const overflowCount = Math.max(0, photos.length - previewPhotos.length);
-    const sizes = "(max-width: 739px) 100vw, (max-width: 1099px) 64vw, 40vw";
+    const sizes = "(max-width: 739px) 100vw, (max-width: 1099px) 88vw, 72vw";
 
     if (previewPhotos.length === 1) {
         const photo = previewPhotos[0];
@@ -226,7 +214,6 @@ function renderMomentGallery(lang: Language, photos: MomentPhoto[]) {
 function renderArchivePhotoCard(
     lang: Language,
     photo: ArchivePhoto,
-    labels: JourneyLabels,
 ) {
     const media = (
         <div className={styles.archivePhotoFrame}>
@@ -234,7 +221,7 @@ function renderArchivePhotoCard(
                 src={photo.url}
                 alt={photo.alt}
                 fill
-                sizes="(max-width: 739px) 100vw, (max-width: 1099px) 50vw, 33vw"
+                sizes="(max-width: 739px) 50vw, (max-width: 1099px) 33vw, 24vw"
                 className={styles.photoImage}
             />
         </div>
@@ -245,7 +232,6 @@ function renderArchivePhotoCard(
             <p className={styles.archivePhotoLocation}>{photo.locationName}</p>
             {photo.takenAt ? (
                 <div className={styles.archivePhotoMeta}>
-                    <span>{labels.capturedAtLabel}</span>
                     <LocalizedDate lang={lang} timestamp={photo.takenAt} fallback="—" />
                 </div>
             ) : null}
@@ -282,10 +268,8 @@ export default function JourneyContent({
     publishedTimestamp,
     periodStart,
     periodEnd,
-    totalDuration,
-    locationCount,
 }: JourneyContentProps) {
-    const heroImages = buildHeroImages(journey.images, journey.title);
+    const heroImage = buildHeroImage(journey.images, journey.title);
     const archivePhotos = buildArchivePhotos(
         journey.images,
         journey.title,
@@ -300,80 +284,40 @@ export default function JourneyContent({
     const hasClusters = clusterSections.length > 0;
     const photoCount = journey.photoCount > 0 ? journey.photoCount : journey.images.length;
     const encodedUserId = encodeURIComponent(journey.userId);
-    const locationSummaries = buildJourneyLocationSummaries(journey).slice(0, 6);
-    const contentGridClassName = [
-        styles.contentGrid,
-        !hasClusters && locationSummaries.length === 0 ? styles.contentGridSingle : "",
-    ]
-        .filter(Boolean)
-        .join(" ");
+    const hasTripPeriod = periodStart !== null || periodEnd !== null;
 
     return (
         <article className={styles.shell}>
             <header className={styles.hero}>
-                <div className={styles.heroMedia}>
-                    <div className={styles.heroPrimaryFrame}>
-                        <Image
-                            src={heroImages[0]?.url ?? journeyFallbackImage}
-                            alt={heroImages[0]?.alt ?? journey.title}
-                            fill
-                            priority
-                            sizes="(max-width: 1099px) 100vw, 58vw"
-                            className={styles.heroImage}
-                        />
-                    </div>
-
-                    {heroImages.length > 1 ? (
-                        <div className={styles.heroSecondaryStack}>
-                            {heroImages.slice(1).map((photo) => (
-                                <div key={photo.key} className={styles.heroSecondaryFrame}>
-                                    <Image
-                                        src={photo.url}
-                                        alt={photo.alt}
-                                        fill
-                                        sizes="(max-width: 1099px) 50vw, 18vw"
-                                        className={styles.heroImage}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    ) : null}
+                <div className={styles.heroFrame}>
+                    <Image
+                        src={heroImage.url}
+                        alt={heroImage.alt}
+                        fill
+                        priority
+                        sizes="(max-width: 1099px) 100vw, 78rem"
+                        className={styles.heroImage}
+                    />
                 </div>
 
-                <div className={styles.heroContent}>
-                    <div className={styles.heroIntro}>
-                        <p className={styles.eyebrow}>{labels.eyebrow}</p>
-                        <h1 className={styles.title}>{journey.title}</h1>
-                        {journey.description ? (
-                            <p className={styles.description}>{journey.description}</p>
-                        ) : null}
-                    </div>
+                <div className={styles.heroBody}>
+                    <p className={styles.eyebrow}>{labels.eyebrow}</p>
+                    <h1 className={styles.title}>{journey.title}</h1>
+                    {journey.description ? (
+                        <p className={styles.description}>{journey.description}</p>
+                    ) : null}
 
-                    <div className={styles.heroMetaLine}>
+                    <div className={styles.metaRow}>
                         <Link
                             href={`/${lang}/users/${encodedUserId}`}
                             className={styles.authorLink}
                         >
                             {authorName}
                         </Link>
-                        {publishedTimestamp ? (
-                            <span className={styles.heroMetaInline}>
-                                <span className={styles.heroMetaInlineLabel}>
-                                    {labels.publishedLabel}
-                                </span>
-                                <LocalizedDate
-                                    lang={lang}
-                                    timestamp={publishedTimestamp}
-                                    fallback="—"
-                                />
-                            </span>
-                        ) : null}
-                    </div>
 
-                    <div className={styles.heroMetaGrid}>
-                        <div className={styles.metaCard}>
-                            <span className={styles.metaLabel}>{labels.periodLabel}</span>
-                            <span className={styles.metaValue}>
+                        {hasTripPeriod ? (
+                            <span className={styles.metaItem}>
+                                <span className={styles.metaKey}>{labels.periodLabel}</span>
                                 <LocalizedDateRange
                                     lang={lang}
                                     start={periodStart}
@@ -381,215 +325,88 @@ export default function JourneyContent({
                                     fallback="—"
                                 />
                             </span>
-                        </div>
+                        ) : publishedTimestamp ? (
+                            <span className={styles.metaItem}>
+                                <span className={styles.metaKey}>{labels.publishedLabel}</span>
+                                <LocalizedDate
+                                    lang={lang}
+                                    timestamp={publishedTimestamp}
+                                    fallback="—"
+                                />
+                            </span>
+                        ) : null}
 
-                        <div className={styles.metaCard}>
-                            <span className={styles.metaLabel}>{labels.photosStat}</span>
-                            <span className={styles.metaValue}>
+                        <span className={styles.metaItem}>
+                            <span className={styles.metaKey}>{labels.photosStat}</span>
+                            <span>
                                 {photoCount} {labels.photoCount}
                             </span>
-                        </div>
-
-                        <div className={styles.metaCard}>
-                            <span className={styles.metaLabel}>{labels.placesStat}</span>
-                            <span className={styles.metaValue}>
-                                {locationCount} {labels.locationCount}
-                            </span>
-                        </div>
-
-                        <div className={styles.metaCard}>
-                            <span className={styles.metaLabel}>{labels.durationStat}</span>
-                            <span className={styles.metaValue}>
-                                {totalDuration > 0
-                                    ? formatDuration(
-                                          totalDuration,
-                                          labels.hours,
-                                          labels.minutes,
-                                      )
-                                    : "—"}
-                            </span>
-                        </div>
+                        </span>
                     </div>
-
-                    {locationSummaries.length > 0 ? (
-                        <div className={styles.locationChips}>
-                            {locationSummaries.map((location) => (
-                                <span key={location.name} className={styles.locationChip}>
-                                    {location.name}
-                                </span>
-                            ))}
-                        </div>
-                    ) : null}
                 </div>
             </header>
 
-            <div className={contentGridClassName}>
-                {(hasClusters || locationSummaries.length > 0) ? (
-                    <aside className={styles.sidebar}>
-                        <div className={styles.sidebarStack}>
-                            {hasClusters ? (
-                                <section className={styles.sidebarCard}>
-                                    <div className={styles.sidebarHeader}>
-                                        <h2 className={styles.sidebarTitle}>
-                                            {labels.routeTitle}
-                                        </h2>
-                                    </div>
-                                    <ClientMap
-                                        clusters={clusterSections.map((section) => section.cluster)}
-                                        mode={journey.mode}
-                                        locationFallback={labels.locationFallback}
-                                        photoLabel={labels.photoCount}
-                                        lang={lang}
-                                        journeyPublicId={journey.publicId}
-                                    />
-                                </section>
-                            ) : null}
+            {hasClusters ? (
+                <section className={styles.momentsSection}>
+                    {clusterSections.map((section, index) => (
+                        <section
+                            key={section.cluster.clusterId}
+                            className={styles.momentSection}
+                        >
+                            <div className={styles.momentHeader}>
+                                <span className={styles.momentIndex}>
+                                    {String(index + 1).padStart(2, "0")}
+                                </span>
 
-                            {clusterSections.length > 1 ? (
-                                <nav className={styles.sidebarCard} aria-label={labels.jumpTitle}>
-                                    <div className={styles.sidebarHeader}>
-                                        <h2 className={styles.sidebarTitle}>
-                                            {labels.jumpTitle}
-                                        </h2>
+                                <div className={styles.momentCopy}>
+                                    <h2 className={styles.momentTitle}>
+                                        <Link
+                                            href={section.href}
+                                            className={styles.momentTitleLink}
+                                        >
+                                            {section.cluster.locationName ||
+                                                labels.locationFallback}
+                                        </Link>
+                                    </h2>
+                                    <div className={styles.momentMeta}>
+                                        <LocalizedDateTimeRange
+                                            lang={lang}
+                                            start={section.cluster.time.startAt}
+                                            end={section.cluster.time.endAt}
+                                            fallback="—"
+                                        />
+                                        <span>
+                                            {section.cluster.photoIds.length}{" "}
+                                            {labels.photoCount}
+                                        </span>
                                     </div>
-                                    <div className={styles.jumpList}>
-                                        {clusterSections.map((section, index) => (
-                                            <a
-                                                key={section.cluster.clusterId}
-                                                href={`#${section.anchorId}`}
-                                                className={styles.jumpLink}
-                                            >
-                                                <span className={styles.jumpIndex}>
-                                                    {String(index + 1).padStart(2, "0")}
-                                                </span>
-                                                <span className={styles.jumpLabel}>
-                                                    {section.cluster.locationName ||
-                                                        labels.locationFallback}
-                                                </span>
-                                            </a>
-                                        ))}
-                                    </div>
-                                </nav>
-                            ) : null}
-
-                            {locationSummaries.length > 0 ? (
-                                <section className={styles.sidebarCard}>
-                                    <div className={styles.sidebarHeader}>
-                                        <h2 className={styles.sidebarTitle}>{labels.places}</h2>
-                                    </div>
-                                    <div className={styles.placeList}>
-                                        {locationSummaries.map((location) => (
-                                            <div
-                                                key={location.name}
-                                                className={styles.placeRow}
-                                            >
-                                                <span className={styles.placeName}>
-                                                    {location.name}
-                                                </span>
-                                                <span className={styles.placeCount}>
-                                                    {location.count}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </section>
-                            ) : null}
-                        </div>
-                    </aside>
-                ) : null}
-
-                <main className={styles.mainColumn}>
-                    {hasClusters ? (
-                        <section className={styles.sectionCard}>
-                            <div className={styles.sectionHeader}>
-                                <h2 className={styles.sectionTitle}>{labels.momentsTitle}</h2>
+                                </div>
                             </div>
 
-                            <div className={styles.momentList}>
-                                {clusterSections.map((section, index) => (
-                                    <section
-                                        key={section.cluster.clusterId}
-                                        id={section.anchorId}
-                                        className={styles.momentCard}
-                                    >
-                                        <div className={styles.momentHeader}>
-                                            <span className={styles.momentSequence}>
-                                                {String(index + 1).padStart(2, "0")}
-                                            </span>
-
-                                            <div className={styles.momentIntro}>
-                                                <div className={styles.momentTitleRow}>
-                                                    <div className={styles.momentCopy}>
-                                                        <h3 className={styles.momentTitle}>
-                                                            {section.cluster.locationName ||
-                                                                labels.locationFallback}
-                                                        </h3>
-                                                        <div className={styles.momentMeta}>
-                                                            <LocalizedDateTimeRange
-                                                                lang={lang}
-                                                                start={
-                                                                    section.cluster.time.startAt
-                                                                }
-                                                                end={section.cluster.time.endAt}
-                                                                fallback="—"
-                                                            />
-                                                            {section.cluster.time.durationMs > 0 ? (
-                                                                <span>
-                                                                    {formatDuration(
-                                                                        section.cluster.time.durationMs,
-                                                                        labels.hours,
-                                                                        labels.minutes,
-                                                                    )}
-                                                                </span>
-                                                            ) : null}
-                                                            <span>
-                                                                {section.cluster.photoIds.length}{" "}
-                                                                {labels.photoCount}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <Link
-                                                        href={section.href}
-                                                        className={styles.momentCta}
-                                                    >
-                                                        {labels.momentCta}
-                                                    </Link>
-                                                </div>
-
-                                                {renderMomentGallery(lang, section.photos)}
-                                            </div>
-                                        </div>
-                                    </section>
-                                ))}
-                            </div>
+                            {renderMomentGallery(lang, section.photos)}
                         </section>
-                    ) : (
-                        <section className={styles.sectionCard}>
-                            <div className={styles.sectionHeader}>
-                                <h2 className={styles.sectionTitle}>
-                                    {labels.photoArchiveTitle}
-                                </h2>
-                                <p className={styles.sectionLead}>
-                                    {labels.photoArchiveLead}
-                                </p>
-                            </div>
+                    ))}
+                </section>
+            ) : (
+                <section className={styles.archiveSection}>
+                    <div className={styles.sectionIntro}>
+                        <h2 className={styles.sectionTitle}>{labels.photoArchiveTitle}</h2>
+                        <p className={styles.sectionLead}>{labels.photoArchiveLead}</p>
+                    </div>
 
-                            {archivePhotos.length > 0 ? (
-                                <div className={styles.archiveGrid}>
-                                    {archivePhotos.map((photo) =>
-                                        renderArchivePhotoCard(lang, photo, labels),
-                                    )}
-                                </div>
-                            ) : (
-                                <div className={styles.emptyState}>
-                                    {labels.photoArchiveEmpty}
-                                </div>
+                    {archivePhotos.length > 0 ? (
+                        <div className={styles.archiveGrid}>
+                            {archivePhotos.map((photo) =>
+                                renderArchivePhotoCard(lang, photo),
                             )}
-                        </section>
+                        </div>
+                    ) : (
+                        <div className={styles.emptyState}>
+                            {labels.photoArchiveEmpty}
+                        </div>
                     )}
-                </main>
-            </div>
+                </section>
+            )}
         </article>
     );
 }

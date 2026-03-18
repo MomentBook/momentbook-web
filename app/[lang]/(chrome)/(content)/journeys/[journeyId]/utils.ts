@@ -4,25 +4,6 @@ import type {
     PublishedJourneyImage,
 } from "@/lib/published-journey";
 
-export type JourneyLocationSummary = {
-    name: string;
-    count: number;
-};
-
-export function formatDuration(
-    ms: number,
-    hoursLabel: string,
-    minutesLabel: string,
-) {
-    const hours = Math.round(ms / (1000 * 60 * 60));
-    if (hours < 1) {
-        const minutes = Math.round(ms / (1000 * 60));
-        return `${minutes}${minutesLabel}`;
-    }
-
-    return `${hours}${hoursLabel}`;
-}
-
 export function sortJourneyClustersByTimeline(
     clusters: PublishedJourneyCluster[],
 ): PublishedJourneyCluster[] {
@@ -75,41 +56,6 @@ export function getUniqueJourneyLocations(
     return Array.from(locationSet);
 }
 
-export function buildJourneyLocationSummaries(
-    journey: Pick<PublishedJourneyApi, "clusters" | "images">,
-): JourneyLocationSummary[] {
-    const counts = new Map<string, number>();
-
-    const addLocation = (name: string | undefined, count: number) => {
-        const normalized = name?.trim();
-        if (!normalized) {
-            return;
-        }
-
-        counts.set(normalized, (counts.get(normalized) ?? 0) + Math.max(count, 1));
-    };
-
-    if (journey.clusters.length > 0) {
-        for (const cluster of journey.clusters) {
-            addLocation(cluster.locationName, cluster.photoIds.length);
-        }
-    } else {
-        for (const image of journey.images) {
-            addLocation(image.locationName, 1);
-        }
-    }
-
-    return [...counts.entries()]
-        .map(([name, count]) => ({ name, count }))
-        .sort((a, b) => {
-            if (b.count !== a.count) {
-                return b.count - a.count;
-            }
-
-            return a.name.localeCompare(b.name);
-        });
-}
-
 export function buildPhotoIdToImageUrlMap(
     journey: PublishedJourneyApi,
 ): Map<string, string> {
@@ -120,8 +66,4 @@ export function buildPhotoIdToImageUrlMap(
     });
 
     return map;
-}
-
-export function buildMomentAnchorId(clusterId: string) {
-    return `moment-${clusterId.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
 }

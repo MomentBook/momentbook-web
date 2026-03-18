@@ -191,10 +191,6 @@ export default async function JourneyPage({
     const labels = journeyLabels[lang] ?? journeyLabels.en;
     const user = await fetchPublicUser(journey.userId);
     const locations = getUniqueJourneyLocations(journey);
-    const totalDuration = journey.clusters.reduce(
-        (sum, cluster) => sum + cluster.time.durationMs,
-        0,
-    );
     const periodRange = resolveJourneyPeriodRange({
         startedAt: journey.startedAt,
         endedAt: journey.endedAt,
@@ -259,8 +255,6 @@ export default async function JourneyPage({
                 publishedTimestamp={publishedTimestamp}
                 periodStart={periodRange.start}
                 periodEnd={periodRange.end}
-                totalDuration={totalDuration}
-                locationCount={locations.length}
                 labels={labels}
             />
         </div>
