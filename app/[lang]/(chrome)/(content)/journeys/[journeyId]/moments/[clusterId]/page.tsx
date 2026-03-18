@@ -5,12 +5,8 @@ import { notFound } from "next/navigation";
 import styles from "./moment.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import {
-  fetchPublishedJourney,
-} from "@/lib/published-journey";
-import {
-  buildPublicRobots,
-} from "@/lib/seo/public-metadata";
+import { fetchPublishedJourney } from "@/lib/published-journey";
+import { buildPublicRobots } from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import ClientMap from "../../components/ClientMap";
@@ -22,10 +18,10 @@ type MomentLabels = {
   backToJourney: string;
   timeLabel: string;
   photosLabel: string;
-  journeyLabel: string;
   mapTitle: string;
   emptyPhotos: string;
   locationFallback: string;
+  galleryTitle: string;
 };
 
 const momentNotFoundTitleByLanguage: Record<Language, string> = {
@@ -59,93 +55,93 @@ function fillTemplate(template: string, values: Record<string, string>): string 
 const momentLabels: Record<Language, MomentLabels> = {
   en: {
     eyebrow: "Moment",
-    backToJourney: "Back to Journey",
+    backToJourney: "Back to journey",
     timeLabel: "Time",
-    photosLabel: "photos",
-    journeyLabel: "Journey",
-    mapTitle: "Place on the map",
+    photosLabel: "Photos",
+    mapTitle: "Map",
     emptyPhotos: "No photos in this moment.",
     locationFallback: "Location",
+    galleryTitle: "Visual story",
   },
   ko: {
     eyebrow: "순간",
     backToJourney: "여정으로 돌아가기",
     timeLabel: "시간",
-    photosLabel: "장",
-    journeyLabel: "여정",
-    mapTitle: "지도에서 보기",
+    photosLabel: "사진",
+    mapTitle: "지도",
     emptyPhotos: "이 순간에는 사진이 없습니다.",
     locationFallback: "장소",
+    galleryTitle: "사진 흐름",
   },
   ja: {
     eyebrow: "瞬間",
     backToJourney: "旅に戻る",
     timeLabel: "時間",
-    photosLabel: "枚",
-    journeyLabel: "旅",
-    mapTitle: "地図で見る",
+    photosLabel: "写真",
+    mapTitle: "地図",
     emptyPhotos: "この瞬間には写真がありません。",
     locationFallback: "場所",
+    galleryTitle: "ビジュアルストーリー",
   },
   zh: {
     eyebrow: "瞬间",
     backToJourney: "返回旅程",
     timeLabel: "时间",
-    photosLabel: "张",
-    journeyLabel: "旅程",
-    mapTitle: "在地图上查看",
+    photosLabel: "照片",
+    mapTitle: "地图",
     emptyPhotos: "此瞬间没有照片。",
     locationFallback: "地点",
+    galleryTitle: "画面记录",
   },
   es: {
     eyebrow: "Momento",
     backToJourney: "Volver al viaje",
     timeLabel: "Hora",
-    photosLabel: "fotos",
-    journeyLabel: "Viaje",
-    mapTitle: "Lugar en el mapa",
+    photosLabel: "Fotos",
+    mapTitle: "Mapa",
     emptyPhotos: "No hay fotos en este momento.",
     locationFallback: "Lugar",
+    galleryTitle: "Relato visual",
   },
   pt: {
     eyebrow: "Momento",
     backToJourney: "Voltar para a viagem",
     timeLabel: "Horário",
-    photosLabel: "fotos",
-    journeyLabel: "Viagem",
-    mapTitle: "Local no mapa",
+    photosLabel: "Fotos",
+    mapTitle: "Mapa",
     emptyPhotos: "Não há fotos neste momento.",
     locationFallback: "Local",
+    galleryTitle: "História visual",
   },
   fr: {
     eyebrow: "Moment",
     backToJourney: "Retour au voyage",
     timeLabel: "Heure",
-    photosLabel: "photos",
-    journeyLabel: "Voyage",
-    mapTitle: "Lieu sur la carte",
+    photosLabel: "Photos",
+    mapTitle: "Carte",
     emptyPhotos: "Aucune photo dans ce moment.",
     locationFallback: "Lieu",
+    galleryTitle: "Récit visuel",
   },
   th: {
     eyebrow: "ช่วงเวลา",
     backToJourney: "กลับไปที่ทริป",
     timeLabel: "เวลา",
     photosLabel: "รูป",
-    journeyLabel: "ทริป",
-    mapTitle: "ตำแหน่งบนแผนที่",
+    mapTitle: "แผนที่",
     emptyPhotos: "ไม่มีรูปในช่วงเวลานี้",
     locationFallback: "สถานที่",
+    galleryTitle: "เรื่องราวผ่านภาพ",
   },
   vi: {
     eyebrow: "Khoảnh khắc",
     backToJourney: "Quay lại hành trình",
     timeLabel: "Thời gian",
-    photosLabel: "ảnh",
-    journeyLabel: "Hành trình",
-    mapTitle: "Địa điểm trên bản đồ",
+    photosLabel: "Ảnh",
+    mapTitle: "Bản đồ",
     emptyPhotos: "Không có ảnh trong khoảnh khắc này.",
     locationFallback: "Địa điểm",
+    galleryTitle: "Câu chuyện hình ảnh",
   },
 };
 
@@ -292,47 +288,64 @@ export default async function JourneyMomentPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
+
       <header className={styles.header}>
         <Link
           href={`/${lang}/journeys/${journey.publicId}`}
           className={styles.backLink}
         >
-          ← {labels.backToJourney}
+          <span className={styles.backIcon} aria-hidden="true">
+            ←
+          </span>
+          <span className={styles.backCopy}>
+            <span className={styles.backEyebrow}>{labels.eyebrow}</span>
+            <span className={styles.backJourney}>{journey.title}</span>
+          </span>
         </Link>
-        <p className={styles.eyebrow}>{labels.eyebrow}</p>
-        <h1 className={styles.title}>{locationName}</h1>
-        <p className={styles.subtitle}>
-          {labels.journeyLabel}: {journey.title}
-        </p>
-        <div className={styles.metaRow}>
-          <span>
-            <LocalizedDateTimeRange
-              lang={lang}
-              start={cluster.time.startAt}
-              end={cluster.time.endAt}
-            />
-          </span>
-          <span>
-            {clusterPhotos.length} {labels.photosLabel}
-          </span>
-        </div>
       </header>
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>{labels.mapTitle}</h2>
-        <ClientMap
-          clusters={[cluster]}
-          mode={journey.mode}
-          locationFallback={labels.locationFallback}
-          photoLabel={labels.photosLabel}
-          lang={lang}
-          journeyPublicId={journey.publicId}
-        />
+      <section className={styles.hero}>
+        <p className={styles.journeyEyebrow}>{journey.title}</p>
+        <h1 className={styles.title}>{locationName}</h1>
+        <dl className={styles.metaList}>
+          <div className={styles.metaItem}>
+            <dt className={styles.metaLabel}>{labels.timeLabel}</dt>
+            <dd className={styles.metaValue}>
+              <LocalizedDateTimeRange
+                lang={lang}
+                start={cluster.time.startAt}
+                end={cluster.time.endAt}
+              />
+            </dd>
+          </div>
+          <div className={styles.metaItem}>
+            <dt className={styles.metaLabel}>{labels.photosLabel}</dt>
+            <dd className={styles.metaValue}>
+              {clusterPhotos.length}
+            </dd>
+          </div>
+        </dl>
       </section>
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          {clusterPhotos.length} {labels.photosLabel}
+      <section className={styles.mapSection} aria-labelledby="moment-map-title">
+        <h2 id="moment-map-title" className={styles.visuallyHidden}>
+          {labels.mapTitle}
+        </h2>
+        <div className={styles.mapFrame}>
+          <ClientMap
+            clusters={[cluster]}
+            mode={journey.mode}
+            locationFallback={labels.locationFallback}
+            photoLabel={labels.photosLabel}
+            lang={lang}
+            journeyPublicId={journey.publicId}
+          />
+        </div>
+      </section>
+
+      <section className={styles.gallerySection} aria-labelledby="moment-gallery-title">
+        <h2 id="moment-gallery-title" className={styles.galleryTitle}>
+          {labels.galleryTitle}
         </h2>
         {clusterPhotos.length > 0 ? (
           <div className={styles.photoGrid}>
@@ -347,7 +360,7 @@ export default async function JourneyMomentPage({
                     src={photo.url as string}
                     alt={locationName}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 767px) 50vw, (max-width: 1279px) 33vw, 22vw"
                     className={styles.photoImage}
                   />
                 </div>
