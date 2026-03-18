@@ -15,7 +15,10 @@ import {
 import { fetchPublishedJourneys, type PublishedJourneyListItemApi } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
-import { buildPublicRobots } from "@/lib/seo/public-metadata";
+import {
+  buildAbsoluteTitle,
+  buildPublicRobots,
+} from "@/lib/seo/public-metadata";
 import { HashTargetFocus } from "./HashTargetFocus";
 import {
   HomeDownloadSection,
@@ -783,7 +786,7 @@ export async function generateMetadata(
   const content = getHomePageCopy(lang);
 
   return {
-    title: content.metaTitle,
+    title: buildAbsoluteTitle(content.metaTitle),
     description: content.metaDescription,
     robots: buildPublicRobots(),
     alternates: buildAlternates(lang, "/"),

@@ -120,6 +120,12 @@ export function buildOpenGraphArticleTags(keywords: string[]): string[] {
   return keywords.filter((keyword) => keyword.length <= 50).slice(0, 10);
 }
 
+export function buildAbsoluteTitle(title: string): Metadata["title"] {
+  return {
+    absolute: title,
+  };
+}
+
 export function buildPublicRobots(): Metadata["robots"] {
   return {
     index: true,

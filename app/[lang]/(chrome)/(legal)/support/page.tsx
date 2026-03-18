@@ -3,7 +3,10 @@ import Link from "next/link";
 import styles from "./support.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
+import {
+  buildAbsoluteTitle,
+  buildNoIndexRobots,
+} from "@/lib/seo/public-metadata";
 
 type SupportContent = {
   metaTitle: string;
@@ -156,7 +159,7 @@ export async function generateMetadata({
   const path = "/support";
 
   return {
-    title: content.metaTitle,
+    title: buildAbsoluteTitle(content.metaTitle),
     description: content.metaDescription,
     robots: buildNoIndexRobots(),
     alternates: buildAlternates(lang, path),

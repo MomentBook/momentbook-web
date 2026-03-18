@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import styles from "./community-guidelines.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
-import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
+import {
+  buildAbsoluteTitle,
+  buildNoIndexRobots,
+} from "@/lib/seo/public-metadata";
 
 export async function generateMetadata({
   params,
@@ -57,7 +60,7 @@ export async function generateMetadata({
   const url = buildOpenGraphUrl(lang, path);
 
   return {
-    title,
+    title: buildAbsoluteTitle(title),
     description,
     robots: buildNoIndexRobots(),
     alternates: buildAlternates(lang, path),

@@ -14,7 +14,10 @@ import {
   getStoreLinks,
 } from "@/lib/mobile-app";
 import { buildQrCodeSvg } from "@/lib/qr-code";
-import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
+import {
+  buildAbsoluteTitle,
+  buildNoIndexRobots,
+} from "@/lib/seo/public-metadata";
 import { InstallLanding } from "./InstallLanding";
 
 const installMetadataByLanguage: Record<Language, { title: string; description: string }> = {
@@ -82,7 +85,7 @@ export async function generateMetadata({
   const path = "/install";
 
   return {
-    title: content.title,
+    title: buildAbsoluteTitle(content.title),
     description: content.description,
     robots: buildNoIndexRobots(),
     alternates: buildAlternates(lang, path),

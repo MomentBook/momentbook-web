@@ -187,6 +187,7 @@ export default async function UsersPage({
   const countText = labels.countLabel.replace("{count}", String(filteredUsers.length));
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
   const pageUrl = new URL(buildOpenGraphUrl(lang, "/users"), siteUrl).toString();
+  const shouldExposeStructuredData = query.length === 0;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -195,6 +196,7 @@ export default async function UsersPage({
     url: pageUrl,
     mainEntity: {
       "@type": "ItemList",
+      numberOfItems: filteredUsers.length,
       itemListElement: filteredUsers.map((user, index) => ({
         "@type": "ListItem",
         position: index + 1,
@@ -209,10 +211,12 @@ export default async function UsersPage({
 
   return (
     <div className={styles.page}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
-      />
+      {shouldExposeStructuredData ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
+        />
+      ) : null}
       <header className={styles.header}>
         <h1 className={styles.title}>{labels.title}</h1>
         <p className={styles.subtitle}>{labels.subtitle}</p>

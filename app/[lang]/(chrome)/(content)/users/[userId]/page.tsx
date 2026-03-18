@@ -10,6 +10,7 @@ import {
 } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
+  buildAbsoluteTitle,
   buildPublicRobots,
 } from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
@@ -357,7 +358,7 @@ export async function generateMetadata({
   const urlBase = buildOpenGraphUrl(lang, path);
   const url = currentPage > 1 ? `${urlBase}?page=${currentPage}` : urlBase;
   return {
-    title: `${user.name} · MomentBook`,
+    title: buildAbsoluteTitle(`${user.name} · MomentBook`),
     description,
     robots: buildPublicRobots(),
     alternates: buildUserAlternates(lang, userId, currentPage),
@@ -438,6 +439,10 @@ export default async function UserPage({
   const pagePath = safeCurrentPage > 1
     ? `${profilePath}?page=${safeCurrentPage}`
     : profilePath;
+  const profileUrl = new URL(
+    profilePath,
+    siteUrl,
+  ).toString();
   const pageUrl = new URL(
     pagePath,
     siteUrl,
@@ -458,8 +463,8 @@ export default async function UserPage({
       name: user.name,
       identifier: user.userId,
       description,
-      image: user.picture ?? "",
-      url: pageUrl,
+      ...(profileImageUrl ? { image: profileImageUrl } : {}),
+      url: profileUrl,
     },
   };
 
