@@ -106,7 +106,7 @@
 .downloadHeroTitle {
   margin: 0;
   font-family: var(--font-editorial-serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 600;
   letter-spacing: -0.04em;
 }
@@ -144,7 +144,6 @@
 :global(html[lang^="zh"]) .featuredCardTitle,
 :global(html[lang^="th"]) .featuredCardTitle {
   font-family: var(--font-home-sans);
-  font-style: normal;
   letter-spacing: -0.03em;
 }
 
@@ -480,7 +479,7 @@
   margin: 0;
   color: var(--home-forest);
   font-family: var(--font-editorial-serif);
-  font-style: italic;
+  font-style: normal;
   font-weight: 600;
   font-size: clamp(1.04rem, 1.55vw, 1.26rem);
   line-height: 1.22;

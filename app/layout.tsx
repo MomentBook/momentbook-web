@@ -24,14 +24,14 @@ const HTML_LANG_MAP_JSON = JSON.stringify(HTML_LANG_BY_CODE);
 
 const manrope = Manrope({
     variable: "--font-rounded",
-    subsets: ["latin"],
+    subsets: ["latin", "latin-ext"],
     weight: ["400", "500", "600", "700", "800"],
     display: "swap",
 });
 
 const playfairDisplay = Playfair_Display({
     variable: "--font-editorial",
-    subsets: ["latin"],
+    subsets: ["latin", "latin-ext"],
     style: ["normal", "italic"],
     weight: ["500", "600", "700", "800"],
     display: "swap",
