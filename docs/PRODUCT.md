@@ -55,7 +55,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - `en`, `ko`, `ja`, `zh`, `es`, `pt`, `fr`, `th`, `vi` (총 9개)
 - 라우트 프리픽스: `/{lang}/...`
-- 루트(`/`)는 클라이언트에서 `?lang=` -> 선호 언어 상태 -> 브라우저 언어 순서로 언어를 정한 뒤 리다이렉트
+- 루트(`/`)는 클라이언트에서 `?lang=` -> 선호 언어 상태(Jotai/localStorage) -> cookie -> 브라우저 언어 순서로 언어를 정한 뒤 리다이렉트
 - 언어 없는 경로는 `proxy.ts`에서 `?lang=` -> cookie -> `Accept-Language` -> `en` 순서로 언어 프리픽스로 리다이렉트
 
 ## 4) Route Surface
@@ -163,9 +163,9 @@ MomentBook Web은 다음 역할만 수행한다.
 ## 7) i18n / Preference Behavior
 
 - 라우팅 언어 유효성: `lib/i18n/config.ts`
-- 언어 감지 순서(redirect): cookie -> `Accept-Language` -> default(`en`)
+- `proxy.ts` 언어 감지 순서(redirect): cookie -> `Accept-Language` -> default(`en`)
 - 클라이언트 선호 언어 상태: Jotai `languageAtom`
-- `LanguageSyncProvider`가 Jotai/localStorage/cookie/path language를 동기화하고, 저장값이 없으면 legacy `preferredLanguage` 또는 브라우저 언어를 사용한다.
+- `LanguageSyncProvider`가 Jotai/localStorage/cookie/path language를 동기화하고, 현재 저장값이 비어 있으면 localStorage `language` -> legacy `preferredLanguage` -> cookie -> 브라우저 언어 순서로 복원한다.
 - `LocalizedDate`, `LocalizedDateRange`, `LocalizedDateTimeRange`는 SSR에서 UTC 스냅샷을 출력하고 hydration 후 viewer locale/timezone 기준으로 갱신한다.
 - photo detail의 `LocalizedDateTime`은 SSR 출력을 만들지 않고 hydration 후 client locale/timezone 기준 문자열을 렌더링한다.
 

@@ -7,9 +7,15 @@ import {
   detectLanguageFromAcceptLanguage,
   isValidLanguage,
 } from "@/lib/i18n/config";
-import { languageAtom, normalizeLanguage } from "@/lib/state/preferences";
+import {
+  LANGUAGE_STORAGE_KEY,
+  LEGACY_LANGUAGE_STORAGE_KEY,
+  PREFERRED_LANGUAGE_COOKIE_NAME,
+  languageAtom,
+  normalizeLanguage,
+  normalizeStoredLanguageValue,
+} from "@/lib/state/preferences";
 
-const COOKIE_NAME = "preferredLanguage";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 function readCookie(name: string): string | null {
@@ -23,18 +29,6 @@ function readCookie(name: string): string | null {
 
 function writeCookie(name: string, value: string) {
   document.cookie = `${name}=${value}; path=/; max-age=${COOKIE_MAX_AGE}`;
-}
-
-function parseStoredLanguage(raw: string | null): string | null {
-  if (!raw) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return raw;
-  }
 }
 
 function detectDeviceLanguage(): string {
@@ -71,12 +65,14 @@ export default function LanguageSyncProvider() {
       }
       targetLang = pathLang;
     } else if (!normalizedStored) {
-      const legacyRaw = localStorage.getItem("preferredLanguage");
-      const legacy = normalizeLanguage(parseStoredLanguage(legacyRaw));
+      const persistedLanguage =
+        normalizeStoredLanguageValue(localStorage.getItem(LANGUAGE_STORAGE_KEY)) ||
+        normalizeStoredLanguageValue(localStorage.getItem(LEGACY_LANGUAGE_STORAGE_KEY)) ||
+        normalizeLanguage(readCookie(PREFERRED_LANGUAGE_COOKIE_NAME));
 
-      if (legacy) {
-        setPreferredLanguage(legacy);
-        targetLang = legacy;
+      if (persistedLanguage) {
+        setPreferredLanguage(persistedLanguage);
+        targetLang = persistedLanguage;
       } else {
         const deviceLang = normalizeLanguage(detectDeviceLanguage());
         if (deviceLang) {
@@ -87,9 +83,9 @@ export default function LanguageSyncProvider() {
     }
 
     if (targetLang) {
-      const cookieLang = readCookie(COOKIE_NAME);
+      const cookieLang = readCookie(PREFERRED_LANGUAGE_COOKIE_NAME);
       if (cookieLang !== targetLang) {
-        writeCookie(COOKIE_NAME, targetLang);
+        writeCookie(PREFERRED_LANGUAGE_COOKIE_NAME, targetLang);
       }
     }
   }, [pathname, preferredLanguage, setPreferredLanguage]);
