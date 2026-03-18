@@ -7,9 +7,11 @@ import styles from "./users.module.scss";
 export function UserSearchForm({
   lang,
   placeholder,
+  submitLabel,
 }: {
   lang: string;
   placeholder: string;
+  submitLabel: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -33,7 +35,6 @@ export function UserSearchForm({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    // Debounced auto-search (optional)
     if (value.trim() === "") {
       startTransition(() => {
         router.push(`/${lang}/users`);
@@ -43,18 +44,43 @@ export function UserSearchForm({
 
   return (
     <form onSubmit={handleSubmit} className={styles.searchForm}>
-      <input
-        key={defaultQuery}
-        ref={inputRef}
-        type="search"
-        name="q"
-        defaultValue={defaultQuery}
-        onChange={handleChange}
-        placeholder={placeholder}
-        aria-label={placeholder}
-        className={styles.searchInput}
+      <div className={styles.searchField}>
+        <svg
+          className={styles.searchIcon}
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0a7 7 0 0 1 14 0Z"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.8"
+          />
+        </svg>
+
+        <input
+          key={defaultQuery}
+          ref={inputRef}
+          type="search"
+          name="q"
+          defaultValue={defaultQuery}
+          onChange={handleChange}
+          placeholder={placeholder}
+          aria-label={placeholder}
+          className={styles.searchInput}
+          disabled={isPending}
+        />
+      </div>
+
+      <button
+        type="submit"
+        className={`${styles.searchButton} ${isPending ? styles.searchButtonPending : ""}`.trim()}
         disabled={isPending}
-      />
+      >
+        {submitLabel}
+      </button>
     </form>
   );
 }
