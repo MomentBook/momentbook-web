@@ -287,7 +287,7 @@ export default function JourneyContent({
                                             src={section.coverPhoto.url}
                                             alt={section.coverPhoto.alt}
                                             fill
-                                            sizes="(max-width: 739px) 100vw, (max-width: 1099px) 88vw, 16rem"
+                                            sizes="(max-width: 739px) 5.25rem, 7rem"
                                             className={styles.photoImage}
                                         />
                                     </div>
