@@ -161,52 +161,36 @@ function renderMomentPhotoLink(
 }
 
 function renderMomentGallery(lang: Language, photos: MomentPhoto[]) {
-    const previewPhotos = photos.slice(0, 3);
+    const previewPhotos = photos.slice(0, 4);
     const overflowCount = Math.max(0, photos.length - previewPhotos.length);
-    const sizes = "(max-width: 739px) 100vw, (max-width: 1099px) 88vw, 72vw";
+    const sizes =
+        previewPhotos.length === 1
+            ? "(max-width: 739px) 100vw, (max-width: 1099px) 88vw, 72vw"
+            : "(max-width: 739px) 50vw, (max-width: 1099px) 44vw, 36vw";
 
-    if (previewPhotos.length === 1) {
-        const photo = previewPhotos[0];
-        if (!photo) {
-            return null;
-        }
-
-        return (
-            <div className={`${styles.photoShowcase} ${styles.photoShowcaseSingle}`}>
-                {renderMomentPhotoLink(lang, photo, styles.showcasePrimary, sizes)}
-            </div>
-        );
-    }
-
-    if (previewPhotos.length === 2) {
-        return (
-            <div className={`${styles.photoShowcase} ${styles.photoShowcasePair}`}>
-                {previewPhotos.map((photo) =>
-                    renderMomentPhotoLink(lang, photo, styles.showcaseCell, sizes),
-                )}
-            </div>
-        );
-    }
-
-    const [firstPhoto, secondPhoto, thirdPhoto] = previewPhotos;
-
-    if (!firstPhoto || !secondPhoto || !thirdPhoto) {
+    if (previewPhotos.length === 0) {
         return null;
     }
 
     return (
-        <div className={`${styles.photoShowcase} ${styles.photoShowcaseTriptych}`}>
-            {renderMomentPhotoLink(lang, firstPhoto, styles.showcasePrimary, sizes)}
-            <div className={styles.showcaseStack}>
-                {renderMomentPhotoLink(lang, secondPhoto, styles.showcaseCell, sizes)}
-                {renderMomentPhotoLink(
+        <div
+            className={`${styles.photoShowcase} ${
+                previewPhotos.length === 1
+                    ? styles.photoShowcaseSingle
+                    : styles.photoShowcaseGrid
+            }`}
+        >
+            {previewPhotos.map((photo, index) =>
+                renderMomentPhotoLink(
                     lang,
-                    thirdPhoto,
-                    styles.showcaseCell,
+                    photo,
+                    previewPhotos.length === 1
+                        ? styles.showcaseHero
+                        : styles.showcaseTile,
                     sizes,
-                    overflowCount,
-                )}
-            </div>
+                    index === previewPhotos.length - 1 ? overflowCount : 0,
+                ),
+            )}
         </div>
     );
 }

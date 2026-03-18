@@ -10,8 +10,8 @@
 }
 
 .heroFrame,
-.showcasePrimary,
-.showcaseCell,
+.showcaseHero,
+.showcaseTile,
 .archivePhotoFrame {
   position: relative;
   overflow: hidden;
@@ -194,27 +194,18 @@
   grid-template-columns: 1fr;
 }
 
-.photoShowcasePair {
+.photoShowcaseGrid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.photoShowcaseTriptych {
-  grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.92fr);
-}
-
-.showcasePrimary {
+.showcaseHero {
   aspect-ratio: 16 / 10;
   border-radius: 1rem;
 }
 
-.showcaseCell {
+.showcaseTile {
   aspect-ratio: 4 / 3;
   border-radius: 1rem;
-}
-
-.showcaseStack {
-  display: grid;
-  gap: 0.7rem;
 }
 
 .photoOverflow {
