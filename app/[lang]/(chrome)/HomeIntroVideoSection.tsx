@@ -6,7 +6,7 @@ import { ScrollActivatedVideo } from "@/components/ScrollActivatedVideo";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
-export type HomeTutorialContent = {
+export type HomeIntroVideoContent = {
   deviceAlt: string;
   replayLabel: string;
   playWithSoundLabel: string;
@@ -18,15 +18,15 @@ export type HomeTutorialContent = {
   seekLabel: string;
   fullscreenLabel: string;
   exitFullscreenLabel: string;
-  introGuideTitle: string;
-  introGuideLead: string;
+  introVideoTitle: string;
+  introVideoLead: string;
 };
 
-type HomeTutorialSectionProps = {
-  content: HomeTutorialContent;
+type HomeIntroVideoSectionProps = {
+  content: HomeIntroVideoContent;
 };
 
-export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
+export function HomeIntroVideoSection({ content }: HomeIntroVideoSectionProps) {
   return (
     <section
       id={HOME_SECTION_IDS.overview}
@@ -41,9 +41,9 @@ export function HomeTutorialSection({ content }: HomeTutorialSectionProps) {
         className={styles.introHeader}
       >
         <h2 id="overview-title" className={styles.introSectionTitle}>
-          {content.introGuideTitle}
+          {content.introVideoTitle}
         </h2>
-        <p className={styles.introSectionLead}>{content.introGuideLead}</p>
+        <p className={styles.introSectionLead}>{content.introVideoLead}</p>
       </Reveal>
       <Reveal
         delay={80}

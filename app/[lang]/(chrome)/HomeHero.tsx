@@ -13,7 +13,7 @@ export type HomeHeroContent = {
   heroTitle: string;
   heroLead: string;
   heroExploreCta: string;
-  heroTutorialCta: string;
+  heroVideoCta: string;
   heroFootnote: string;
   primaryCta: string;
 };
@@ -71,7 +71,7 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
                 className={styles.tertiaryButton}
                 onClick={scrollToIntroSection}
               >
-                {content.heroTutorialCta}
+                {content.heroVideoCta}
               </button>
             </div>
             {content.heroFootnote ? (

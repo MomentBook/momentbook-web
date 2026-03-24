@@ -25,9 +25,9 @@ import {
   type HomeDownloadNarrativeContent,
 } from "./HomeDownloadSection";
 import {
-  HomeTutorialSection,
-  type HomeTutorialContent,
-} from "./HomeTutorialSection";
+  HomeIntroVideoSection,
+  type HomeIntroVideoContent,
+} from "./HomeIntroVideoSection";
 import {
   HomeHero,
   type HomeHeroProcessContent,
@@ -39,7 +39,7 @@ type HomePageCopy = {
   metaDescription: string;
   heroTitle: string;
   heroLead: string;
-  heroTutorialCta: string;
+  heroVideoCta: string;
   primaryCta: string;
   deviceAlt: string;
   replayLabel: string;
@@ -52,8 +52,8 @@ type HomePageCopy = {
   seekLabel: string;
   fullscreenLabel: string;
   exitFullscreenLabel: string;
-  introGuideTitle: string;
-  introGuideLead: string;
+  introVideoTitle: string;
+  introVideoLead: string;
 };
 
 type HomeEditorialCopy = {
@@ -82,7 +82,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Remember your trip",
     heroLead:
       "Upload trip photos and MomentBook organizes them by time and place, then automatically syncs them to your drive.",
-    heroTutorialCta: "Watch video",
+    heroVideoCta: "Watch video",
     primaryCta: "Install app",
     deviceAlt: "Jeju travel video",
     replayLabel: "Replay video",
@@ -95,8 +95,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Seek video",
     fullscreenLabel: "Full screen",
     exitFullscreenLabel: "Exit full screen",
-    introGuideTitle: "Tutorial video",
-    introGuideLead:
+    introVideoTitle: "Intro video",
+    introVideoLead:
       "See a couple's moments from a trip to Jeju in this video.",
   },
   ko: {
@@ -106,7 +106,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "당신의 여행을 기억하세요",
     heroLead:
       "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
-    heroTutorialCta: "영상 보기",
+    heroVideoCta: "영상 보기",
     primaryCta: "앱 설치",
     deviceAlt: "제주 여행 영상",
     replayLabel: "영상 다시 보기",
@@ -119,8 +119,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "영상 탐색",
     fullscreenLabel: "전체 화면",
     exitFullscreenLabel: "전체 화면 종료",
-    introGuideTitle: "튜토리얼 영상",
-    introGuideLead:
+    introVideoTitle: "소개 영상",
+    introVideoLead:
       "제주를 여행하는 커플의 순간을 영상으로 만나보세요.",
   },
   ja: {
@@ -130,7 +130,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "あなたの旅を記憶に残しましょう",
     heroLead:
       "旅行写真をアップロードすると、時間と場所で整理され、ドライブまで自動で同期されます。",
-    heroTutorialCta: "動画を見る",
+    heroVideoCta: "動画を見る",
     primaryCta: "アプリをインストール",
     deviceAlt: "済州旅行の動画",
     replayLabel: "動画をもう一度見る",
@@ -143,8 +143,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "動画シーク",
     fullscreenLabel: "全画面",
     exitFullscreenLabel: "全画面を終了",
-    introGuideTitle: "チュートリアル動画",
-    introGuideLead:
+    introVideoTitle: "紹介動画",
+    introVideoLead:
       "済州を旅するカップルの瞬間を映像でご覧ください。",
   },
   zh: {
@@ -154,7 +154,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "记住你的旅行",
     heroLead:
       "上传旅行照片后，MomentBook 会按时间和地点整理，并自动同步到云盘。",
-    heroTutorialCta: "查看视频",
+    heroVideoCta: "查看视频",
     primaryCta: "安装应用",
     deviceAlt: "济州旅行视频",
     replayLabel: "重新观看视频",
@@ -167,8 +167,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "调整播放进度",
     fullscreenLabel: "全屏",
     exitFullscreenLabel: "退出全屏",
-    introGuideTitle: "教程视频",
-    introGuideLead:
+    introVideoTitle: "介绍视频",
+    introVideoLead:
       "在这段视频里看看一对情侣在济州旅行的瞬间。",
   },
   es: {
@@ -178,7 +178,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Recuerda tu viaje",
     heroLead:
       "Sube las fotos del viaje y MomentBook las ordena por fecha y lugar, y después las sincroniza automáticamente con tu drive.",
-    heroTutorialCta: "Ver video",
+    heroVideoCta: "Ver video",
     primaryCta: "Instalar app",
     deviceAlt: "Video de viaje en Jeju",
     replayLabel: "Volver a ver el video",
@@ -191,8 +191,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Buscar en el video",
     fullscreenLabel: "Pantalla completa",
     exitFullscreenLabel: "Salir de pantalla completa",
-    introGuideTitle: "Video tutorial",
-    introGuideLead:
+    introVideoTitle: "Video de introducción",
+    introVideoLead:
       "Conoce en video los momentos de una pareja que viaja por Jeju.",
   },
   pt: {
@@ -202,7 +202,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Guarde sua viagem",
     heroLead:
       "Envie as fotos da viagem e o MomentBook organiza tudo por data e lugar, depois sincroniza automaticamente com o seu drive.",
-    heroTutorialCta: "Ver vídeo",
+    heroVideoCta: "Ver vídeo",
     primaryCta: "Instalar app",
     deviceAlt: "Vídeo de viagem em Jeju",
     replayLabel: "Ver o vídeo novamente",
@@ -215,8 +215,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Buscar no vídeo",
     fullscreenLabel: "Tela cheia",
     exitFullscreenLabel: "Sair da tela cheia",
-    introGuideTitle: "Vídeo tutorial",
-    introGuideLead:
+    introVideoTitle: "Vídeo de introdução",
+    introVideoLead:
       "Veja em vídeo os momentos de um casal viajando por Jeju.",
   },
   fr: {
@@ -226,7 +226,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Gardez votre voyage en mémoire",
     heroLead:
       "Importez les photos du voyage et MomentBook les organise par date et lieu, puis les synchronise automatiquement avec votre espace cloud.",
-    heroTutorialCta: "Voir la vidéo",
+    heroVideoCta: "Voir la vidéo",
     primaryCta: "Installer l'app",
     deviceAlt: "Vidéo de voyage à Jeju",
     replayLabel: "Revoir la vidéo",
@@ -239,8 +239,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Avancer dans la vidéo",
     fullscreenLabel: "Plein écran",
     exitFullscreenLabel: "Quitter le plein écran",
-    introGuideTitle: "Vidéo tutorielle",
-    introGuideLead:
+    introVideoTitle: "Vidéo d'introduction",
+    introVideoLead:
       "Découvrez en vidéo les moments d'un couple qui voyage à Jeju.",
   },
   th: {
@@ -250,7 +250,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "จดจำการเดินทางของคุณ",
     heroLead:
       "เมื่ออัปโหลดรูปทริป MomentBook จะจัดตามเวลาและสถานที่ แล้วซิงก์ไปยังไดรฟ์ของคุณโดยอัตโนมัติ",
-    heroTutorialCta: "ดูวิดีโอ",
+    heroVideoCta: "ดูวิดีโอ",
     primaryCta: "ติดตั้งแอป",
     deviceAlt: "วิดีโอทริปที่เชจู",
     replayLabel: "ดูวิดีโออีกครั้ง",
@@ -263,8 +263,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "เลื่อนตำแหน่งวิดีโอ",
     fullscreenLabel: "เต็มหน้าจอ",
     exitFullscreenLabel: "ออกจากโหมดเต็มหน้าจอ",
-    introGuideTitle: "วิดีโอแนะนำ",
-    introGuideLead:
+    introVideoTitle: "วิดีโอแนะนำ",
+    introVideoLead:
       "ชมช่วงเวลาของคู่รักที่เดินทางในเชจูผ่านวิดีโอนี้",
   },
   vi: {
@@ -274,7 +274,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Ghi nhớ chuyến đi của bạn",
     heroLead:
       "Tải ảnh chuyến đi lên và MomentBook sẽ sắp xếp theo thời gian, địa điểm rồi tự động đồng bộ lên drive của bạn.",
-    heroTutorialCta: "Xem video",
+    heroVideoCta: "Xem video",
     primaryCta: "Cài ứng dụng",
     deviceAlt: "Video du lịch Jeju",
     replayLabel: "Xem lại video",
@@ -287,8 +287,8 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     seekLabel: "Tua video",
     fullscreenLabel: "Toàn màn hình",
     exitFullscreenLabel: "Thoát toàn màn hình",
-    introGuideTitle: "Video hướng dẫn",
-    introGuideLead:
+    introVideoTitle: "Video giới thiệu",
+    introVideoLead:
       "Xem trong video những khoảnh khắc của một cặp đôi đang du lịch ở Jeju.",
   },
 };
@@ -848,11 +848,11 @@ export default async function Home({
     heroTitle: content.heroTitle,
     heroLead: content.heroLead,
     heroExploreCta: editorialContent.heroExploreCta,
-    heroTutorialCta: content.heroTutorialCta,
+    heroVideoCta: content.heroVideoCta,
     primaryCta: content.primaryCta,
     heroFootnote: "",
   };
-  const tutorialContent: HomeTutorialContent = {
+  const introVideoContent: HomeIntroVideoContent = {
     deviceAlt: content.deviceAlt,
     replayLabel: content.replayLabel,
     playWithSoundLabel: content.playWithSoundLabel,
@@ -864,8 +864,8 @@ export default async function Home({
     seekLabel: content.seekLabel,
     fullscreenLabel: content.fullscreenLabel,
     exitFullscreenLabel: content.exitFullscreenLabel,
-    introGuideTitle: content.introGuideTitle,
-    introGuideLead: content.introGuideLead,
+    introVideoTitle: content.introVideoTitle,
+    introVideoLead: content.introVideoLead,
   };
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
@@ -937,7 +937,7 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
-      <HomeTutorialSection content={tutorialContent} />
+      <HomeIntroVideoSection content={introVideoContent} />
       <section className={styles.featuredSection} aria-labelledby="home-featured-title">
         <Reveal
           delay={0}
