@@ -22,8 +22,8 @@ Accepted
 
 핵심 랜딩 경험은 홈과 FAQ 페이지를 분리해 유지한다.
 
-- Home: intro, download 섹션 중심 단일 스크롤 구조
-- `/{lang}/how-it-works`, `/{lang}/download`는 홈 anchor로 redirect
+- Home: hero, process, recent journeys, download 섹션 중심 단일 스크롤 구조
+- `/{lang}/how-it-works`는 홈 루트로, `/{lang}/download`는 홈 download anchor로 redirect
 - `/{lang}/faq`는 독립 answer-ready FAQ 페이지로 제공
 - FAQ answer는 FAQ 본문에, store CTA는 홈 본문에 실제로 노출된 상태를 유지
 

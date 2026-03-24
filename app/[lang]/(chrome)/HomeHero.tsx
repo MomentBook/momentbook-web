@@ -4,8 +4,6 @@ import Link from "next/link";
 import { DownloadActionButton } from "@/components/DownloadActionButton";
 import { Reveal } from "@/components/Reveal";
 import { type Language } from "@/lib/i18n/config";
-import { scrollHomeSectionIntoView } from "@/lib/marketing/home-scroll";
-import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
 
 export type HomeHeroContent = {
@@ -13,7 +11,6 @@ export type HomeHeroContent = {
   heroTitle: string;
   heroLead: string;
   heroExploreCta: string;
-  heroVideoCta: string;
   heroFootnote: string;
   primaryCta: string;
 };
@@ -38,14 +35,6 @@ type HomeHeroProps = {
 };
 
 export function HomeHero({ lang, content, process }: HomeHeroProps) {
-  const scrollToIntroSection = () => {
-    const target = document.getElementById(HOME_SECTION_IDS.overview);
-
-    if (target instanceof HTMLElement) {
-      scrollHomeSectionIntoView(target);
-    }
-  };
-
   return (
     <>
       <section className={styles.hero}>
@@ -66,13 +55,6 @@ export function HomeHero({ lang, content, process }: HomeHeroProps) {
                   {content.heroExploreCta}
                 </Link>
               </div>
-              <button
-                type="button"
-                className={styles.tertiaryButton}
-                onClick={scrollToIntroSection}
-              >
-                {content.heroVideoCta}
-              </button>
             </div>
             {content.heroFootnote ? (
               <p className={styles.heroFootnote}>{content.heroFootnote}</p>

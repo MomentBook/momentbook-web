@@ -33,11 +33,10 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - Hero 섹션: 여행 사진을 한 번 올리면 시간·장소 기준으로 정리되고 클라우드 드라이브 동기화까지 이어진다는 메시지를 단일 컬럼으로 중앙 정렬해 노출한다. 1차 CTA는 다운로드 액션(데스크톱 QR modal + 모바일 스토어 이동), 2차 CTA는 `/{lang}/journeys` 진입이다.
 - 3-step explainer 섹션: hero 아래에서 `Upload -> Organize -> Sync` 3단 카드를 노출해 앱의 핵심 흐름을 요약한다.
-- Intro video 섹션: 3-step explainer 바로 아래에서 진한 forest 톤 밴드 안에 landscape 인트로 영상을 노출한다. hero의 보조 CTA는 이 섹션으로 스크롤한다. 자동재생은 하지 않으며, 사용자가 비디오 영역을 클릭해 재생을 시작한다. 재생은 우선 소리 on, 기본 볼륨 50%로 시도하고, 브라우저 정책에 막히면 음소거 재생으로 폴백한다. 영상은 고정된 media card 안에서 렌더링되며, 별도 우측 가이드 카드는 없다. 재생 중 하단 컨트롤 바에서 재생/일시정지·탐색(시크)·현재/전체 시간·음소거/볼륨·전체화면 전환을 제공하고, 영상 종료 시 전체화면은 자동 해제되며 컨트롤은 숨김 처리된다. 종료 후에도 비디오 영역 클릭으로 다시 재생할 수 있다.
-- Recent journeys 섹션: intro video 아래에 현재 환경(API base URL 기준)에서 최근 공개된 여정 3개를 카드로 노출한다. 각 카드는 cover image, title, description, author, photo count, published date를 포함하며 해당 공개 상세로 이동한다.
+- Recent journeys 섹션: 3-step explainer 아래에 현재 환경(API base URL 기준)에서 최근 공개된 여정 3개를 카드로 노출한다. 각 카드는 cover image, title, description, author, photo count, published date를 포함하며 해당 공개 상세로 이동한다.
 - Download 섹션: warm sand 배경 안에서 짧은 설치 유도 카피와 App Store / Google Play CTA를 중앙 정렬로 노출한다.
 - 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
-- 홈의 process/intro video/recent journeys/download 섹션 텍스트·카드·미디어 블록은 뷰포트 진입 시 1회성의 미세한 reveal motion(opacity + small upward translate)으로 나타나며, `prefers-reduced-motion`에서는 해당 모션을 줄인다.
+- 홈의 process/recent journeys/download 섹션 텍스트·카드·미디어 블록은 뷰포트 진입 시 1회성의 미세한 reveal motion(opacity + small upward translate)으로 나타나며, `prefers-reduced-motion`에서는 해당 모션을 줄인다.
 - shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 홈의 다른 다운로드 액션과 동일한 client-side download flow(데스크톱 QR modal + 모바일 공식 스토어 이동)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
 `/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing 안에서 QR handoff 카드를 노출한다.
@@ -62,8 +61,8 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 4.1 Public Pages
 
-- `/{lang}` (hero + 3-step explainer + intro video + latest public journeys + download section)
-- `/{lang}/how-it-works` (`/{lang}#overview`로 `permanentRedirect`)
+- `/{lang}` (hero + 3-step explainer + latest public journeys + download section)
+- `/{lang}/how-it-works` (`/{lang}`로 `permanentRedirect`)
 - `/{lang}/download` (`/{lang}#download`로 `permanentRedirect`)
 - `/{lang}/faq`
 - `/{lang}/journeys`

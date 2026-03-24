@@ -25,10 +25,6 @@ import {
   type HomeDownloadNarrativeContent,
 } from "./HomeDownloadSection";
 import {
-  HomeIntroVideoSection,
-  type HomeIntroVideoContent,
-} from "./HomeIntroVideoSection";
-import {
   HomeHero,
   type HomeHeroProcessContent,
 } from "./HomeHero";
@@ -39,21 +35,7 @@ type HomePageCopy = {
   metaDescription: string;
   heroTitle: string;
   heroLead: string;
-  heroVideoCta: string;
   primaryCta: string;
-  deviceAlt: string;
-  replayLabel: string;
-  playWithSoundLabel: string;
-  playLabel: string;
-  pauseLabel: string;
-  muteLabel: string;
-  unmuteLabel: string;
-  volumeLabel: string;
-  seekLabel: string;
-  fullscreenLabel: string;
-  exitFullscreenLabel: string;
-  introVideoTitle: string;
-  introVideoLead: string;
 };
 
 type HomeEditorialCopy = {
@@ -82,22 +64,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Remember your trip",
     heroLead:
       "Upload trip photos and MomentBook organizes them by time and place, then automatically syncs them to your drive.",
-    heroVideoCta: "Watch video",
     primaryCta: "Install app",
-    deviceAlt: "Jeju travel video",
-    replayLabel: "Replay video",
-    playWithSoundLabel: "Play with sound",
-    playLabel: "Play",
-    pauseLabel: "Pause",
-    muteLabel: "Mute",
-    unmuteLabel: "Unmute",
-    volumeLabel: "Volume",
-    seekLabel: "Seek video",
-    fullscreenLabel: "Full screen",
-    exitFullscreenLabel: "Exit full screen",
-    introVideoTitle: "Intro video",
-    introVideoLead:
-      "See a couple's moments from a trip to Jeju in this video.",
   },
   ko: {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
@@ -106,22 +73,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "당신의 여행을 기억하세요",
     heroLead:
       "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
-    heroVideoCta: "영상 보기",
     primaryCta: "앱 설치",
-    deviceAlt: "제주 여행 영상",
-    replayLabel: "영상 다시 보기",
-    playWithSoundLabel: "소리와 함께 재생",
-    playLabel: "재생",
-    pauseLabel: "일시정지",
-    muteLabel: "음소거",
-    unmuteLabel: "음소거 해제",
-    volumeLabel: "볼륨",
-    seekLabel: "영상 탐색",
-    fullscreenLabel: "전체 화면",
-    exitFullscreenLabel: "전체 화면 종료",
-    introVideoTitle: "소개 영상",
-    introVideoLead:
-      "제주를 여행하는 커플의 순간을 영상으로 만나보세요.",
   },
   ja: {
     metaTitle: "MomentBook — 一度アップロードすると、ドライブまで整理されます",
@@ -130,22 +82,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "あなたの旅を記憶に残しましょう",
     heroLead:
       "旅行写真をアップロードすると、時間と場所で整理され、ドライブまで自動で同期されます。",
-    heroVideoCta: "動画を見る",
     primaryCta: "アプリをインストール",
-    deviceAlt: "済州旅行の動画",
-    replayLabel: "動画をもう一度見る",
-    playWithSoundLabel: "音声付きで再生",
-    playLabel: "再生",
-    pauseLabel: "一時停止",
-    muteLabel: "ミュート",
-    unmuteLabel: "ミュート解除",
-    volumeLabel: "音量",
-    seekLabel: "動画シーク",
-    fullscreenLabel: "全画面",
-    exitFullscreenLabel: "全画面を終了",
-    introVideoTitle: "紹介動画",
-    introVideoLead:
-      "済州を旅するカップルの瞬間を映像でご覧ください。",
   },
   zh: {
     metaTitle: "MomentBook — 一次上传，连云盘都会整理好",
@@ -154,22 +91,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "记住你的旅行",
     heroLead:
       "上传旅行照片后，MomentBook 会按时间和地点整理，并自动同步到云盘。",
-    heroVideoCta: "查看视频",
     primaryCta: "安装应用",
-    deviceAlt: "济州旅行视频",
-    replayLabel: "重新观看视频",
-    playWithSoundLabel: "开启声音播放",
-    playLabel: "播放",
-    pauseLabel: "暂停",
-    muteLabel: "静音",
-    unmuteLabel: "取消静音",
-    volumeLabel: "音量",
-    seekLabel: "调整播放进度",
-    fullscreenLabel: "全屏",
-    exitFullscreenLabel: "退出全屏",
-    introVideoTitle: "介绍视频",
-    introVideoLead:
-      "在这段视频里看看一对情侣在济州旅行的瞬间。",
   },
   es: {
     metaTitle: "MomentBook — Súbelo una vez y se ordena hasta tu drive",
@@ -178,22 +100,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Recuerda tu viaje",
     heroLead:
       "Sube las fotos del viaje y MomentBook las ordena por fecha y lugar, y después las sincroniza automáticamente con tu drive.",
-    heroVideoCta: "Ver video",
     primaryCta: "Instalar app",
-    deviceAlt: "Video de viaje en Jeju",
-    replayLabel: "Volver a ver el video",
-    playWithSoundLabel: "Reproducir con sonido",
-    playLabel: "Reproducir",
-    pauseLabel: "Pausar",
-    muteLabel: "Silenciar",
-    unmuteLabel: "Activar sonido",
-    volumeLabel: "Volumen",
-    seekLabel: "Buscar en el video",
-    fullscreenLabel: "Pantalla completa",
-    exitFullscreenLabel: "Salir de pantalla completa",
-    introVideoTitle: "Video de introducción",
-    introVideoLead:
-      "Conoce en video los momentos de una pareja que viaja por Jeju.",
   },
   pt: {
     metaTitle: "MomentBook — Envie uma vez e tudo segue organizado até o drive",
@@ -202,22 +109,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Guarde sua viagem",
     heroLead:
       "Envie as fotos da viagem e o MomentBook organiza tudo por data e lugar, depois sincroniza automaticamente com o seu drive.",
-    heroVideoCta: "Ver vídeo",
     primaryCta: "Instalar app",
-    deviceAlt: "Vídeo de viagem em Jeju",
-    replayLabel: "Ver o vídeo novamente",
-    playWithSoundLabel: "Reproduzir com som",
-    playLabel: "Reproduzir",
-    pauseLabel: "Pausar",
-    muteLabel: "Silenciar",
-    unmuteLabel: "Ativar som",
-    volumeLabel: "Volume",
-    seekLabel: "Buscar no vídeo",
-    fullscreenLabel: "Tela cheia",
-    exitFullscreenLabel: "Sair da tela cheia",
-    introVideoTitle: "Vídeo de introdução",
-    introVideoLead:
-      "Veja em vídeo os momentos de um casal viajando por Jeju.",
   },
   fr: {
     metaTitle: "MomentBook — Importez une fois, l'organisation va jusqu'au drive",
@@ -226,22 +118,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Gardez votre voyage en mémoire",
     heroLead:
       "Importez les photos du voyage et MomentBook les organise par date et lieu, puis les synchronise automatiquement avec votre espace cloud.",
-    heroVideoCta: "Voir la vidéo",
     primaryCta: "Installer l'app",
-    deviceAlt: "Vidéo de voyage à Jeju",
-    replayLabel: "Revoir la vidéo",
-    playWithSoundLabel: "Lire avec le son",
-    playLabel: "Lire",
-    pauseLabel: "Pause",
-    muteLabel: "Couper le son",
-    unmuteLabel: "Activer le son",
-    volumeLabel: "Volume",
-    seekLabel: "Avancer dans la vidéo",
-    fullscreenLabel: "Plein écran",
-    exitFullscreenLabel: "Quitter le plein écran",
-    introVideoTitle: "Vidéo d'introduction",
-    introVideoLead:
-      "Découvrez en vidéo les moments d'un couple qui voyage à Jeju.",
   },
   th: {
     metaTitle: "MomentBook — อัปโหลดครั้งเดียว แล้วจัดไปถึงไดรฟ์",
@@ -250,22 +127,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "จดจำการเดินทางของคุณ",
     heroLead:
       "เมื่ออัปโหลดรูปทริป MomentBook จะจัดตามเวลาและสถานที่ แล้วซิงก์ไปยังไดรฟ์ของคุณโดยอัตโนมัติ",
-    heroVideoCta: "ดูวิดีโอ",
     primaryCta: "ติดตั้งแอป",
-    deviceAlt: "วิดีโอทริปที่เชจู",
-    replayLabel: "ดูวิดีโออีกครั้ง",
-    playWithSoundLabel: "เล่นพร้อมเสียง",
-    playLabel: "เล่น",
-    pauseLabel: "หยุดชั่วคราว",
-    muteLabel: "ปิดเสียง",
-    unmuteLabel: "เปิดเสียง",
-    volumeLabel: "ระดับเสียง",
-    seekLabel: "เลื่อนตำแหน่งวิดีโอ",
-    fullscreenLabel: "เต็มหน้าจอ",
-    exitFullscreenLabel: "ออกจากโหมดเต็มหน้าจอ",
-    introVideoTitle: "วิดีโอแนะนำ",
-    introVideoLead:
-      "ชมช่วงเวลาของคู่รักที่เดินทางในเชจูผ่านวิดีโอนี้",
   },
   vi: {
     metaTitle: "MomentBook — Tải lên một lần, sắp xếp tới tận drive",
@@ -274,22 +136,7 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     heroTitle: "Ghi nhớ chuyến đi của bạn",
     heroLead:
       "Tải ảnh chuyến đi lên và MomentBook sẽ sắp xếp theo thời gian, địa điểm rồi tự động đồng bộ lên drive của bạn.",
-    heroVideoCta: "Xem video",
     primaryCta: "Cài ứng dụng",
-    deviceAlt: "Video du lịch Jeju",
-    replayLabel: "Xem lại video",
-    playWithSoundLabel: "Phát kèm âm thanh",
-    playLabel: "Phát",
-    pauseLabel: "Tạm dừng",
-    muteLabel: "Tắt tiếng",
-    unmuteLabel: "Bật tiếng",
-    volumeLabel: "Âm lượng",
-    seekLabel: "Tua video",
-    fullscreenLabel: "Toàn màn hình",
-    exitFullscreenLabel: "Thoát toàn màn hình",
-    introVideoTitle: "Video giới thiệu",
-    introVideoLead:
-      "Xem trong video những khoảnh khắc của một cặp đôi đang du lịch ở Jeju.",
   },
 };
 
@@ -848,24 +695,8 @@ export default async function Home({
     heroTitle: content.heroTitle,
     heroLead: content.heroLead,
     heroExploreCta: editorialContent.heroExploreCta,
-    heroVideoCta: content.heroVideoCta,
     primaryCta: content.primaryCta,
     heroFootnote: "",
-  };
-  const introVideoContent: HomeIntroVideoContent = {
-    deviceAlt: content.deviceAlt,
-    replayLabel: content.replayLabel,
-    playWithSoundLabel: content.playWithSoundLabel,
-    playLabel: content.playLabel,
-    pauseLabel: content.pauseLabel,
-    muteLabel: content.muteLabel,
-    unmuteLabel: content.unmuteLabel,
-    volumeLabel: content.volumeLabel,
-    seekLabel: content.seekLabel,
-    fullscreenLabel: content.fullscreenLabel,
-    exitFullscreenLabel: content.exitFullscreenLabel,
-    introVideoTitle: content.introVideoTitle,
-    introVideoLead: content.introVideoLead,
   };
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
@@ -937,7 +768,6 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
-      <HomeIntroVideoSection content={introVideoContent} />
       <section className={styles.featuredSection} aria-labelledby="home-featured-title">
         <Reveal
           delay={0}

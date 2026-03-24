@@ -10,9 +10,9 @@ import {
   useRef,
   useState,
 } from "react";
-import styles from "./ScrollActivatedVideo.module.scss";
+import styles from "./VideoPlayer.module.scss";
 
-type ScrollActivatedVideoProps = {
+export type VideoPlayerProps = {
   className?: string;
   src?: string | null;
   poster?: string;
@@ -37,7 +37,7 @@ type ScrollActivatedVideoProps = {
   onPlaybackEnd?: () => void;
 };
 
-export type ScrollActivatedVideoHandle = {
+export type VideoPlayerHandle = {
   play: (options?: { forceUnmute?: boolean }) => Promise<void>;
   replay: (options?: { forceUnmute?: boolean }) => Promise<void>;
 };
@@ -112,10 +112,10 @@ function blurActiveElement() {
   }
 }
 
-export const ScrollActivatedVideo = forwardRef<
-  ScrollActivatedVideoHandle,
-  ScrollActivatedVideoProps
->(function ScrollActivatedVideo(
+export const VideoPlayer = forwardRef<
+  VideoPlayerHandle,
+  VideoPlayerProps
+>(function VideoPlayer(
   {
     className,
     src,
