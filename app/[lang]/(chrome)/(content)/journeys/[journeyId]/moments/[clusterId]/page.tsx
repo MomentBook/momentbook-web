@@ -9,6 +9,8 @@ import { fetchPublishedJourney } from "@/lib/published-journey";
 import {
   buildOpenGraphBase,
   buildPublicRobots,
+  compactSocialImages,
+  resolveTwitterCard,
   buildSeoDescription,
 } from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
@@ -230,14 +232,16 @@ export async function generateMetadata({
   ]);
   const path = `/journeys/${journey.publicId}/moments/${cluster.clusterId}`;
   const imageMap = buildImageUrlToPhotoIdMap(journey.images);
-  const clusterImages = cluster.photoIds
-    .map((photoId) => imageMap.get(photoId))
-    .filter(Boolean)
-    .slice(0, 6)
-    .map((imgUrl) => ({
-      url: imgUrl as string,
-      alt: title,
-    }));
+  const clusterImages = compactSocialImages(
+    cluster.photoIds
+      .map((photoId) => imageMap.get(photoId))
+      .filter(Boolean)
+      .slice(0, 6)
+      .map((imgUrl) => ({
+        url: imgUrl as string,
+        alt: title,
+      })),
+  );
 
   return {
     title,
@@ -252,17 +256,17 @@ export async function generateMetadata({
       title,
       description,
       type: "article",
-      images: clusterImages.length > 0 ? clusterImages : undefined,
+      images: clusterImages,
       publishedTime: journey.publishedAt,
       modifiedTime: journey.publishedAt,
       section: labels.eyebrow,
       tags: cluster.locationName ? [journey.title, cluster.locationName] : [journey.title],
     },
     twitter: {
-      card: "summary_large_image",
+      card: resolveTwitterCard(clusterImages),
       title,
       description,
-      images: clusterImages.map((img) => img.url),
+      images: clusterImages?.map((img) => img.url),
     },
   };
 }

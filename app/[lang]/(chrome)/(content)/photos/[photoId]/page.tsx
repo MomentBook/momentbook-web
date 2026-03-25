@@ -13,6 +13,8 @@ import {
 import {
     buildOpenGraphBase,
     buildPublicRobots,
+    compactSocialImages,
+    resolveTwitterCard,
     buildSeoDescription,
 } from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
@@ -292,6 +294,12 @@ export async function generateMetadata({
         takenAt !== null
             ? new Date(takenAt).toISOString()
             : undefined;
+    const socialImages = compactSocialImages([
+        {
+            url: photo.url,
+            alt: title,
+        },
+    ]);
 
     return {
         title,
@@ -306,19 +314,14 @@ export async function generateMetadata({
             title,
             description,
             type: "article",
-            images: [
-                {
-                    url: photo.url,
-                    alt: title,
-                },
-            ],
+            images: socialImages,
             publishedTime,
         },
         twitter: {
-            card: "summary_large_image",
+            card: resolveTwitterCard(socialImages),
             title,
             description,
-            images: [photo.url],
+            images: socialImages?.map((image) => image.url),
         },
     };
 }

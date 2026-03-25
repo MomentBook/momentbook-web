@@ -59,6 +59,30 @@ export function buildAlternates(lang: Language, path: string) {
   };
 }
 
+export function buildPaginatedAlternates(
+  lang: Language,
+  path: string,
+  page: number,
+) {
+  if (page <= 1) {
+    return buildAlternates(lang, path);
+  }
+
+  const normalizedPath = normalizePath(path);
+  const languages = Object.fromEntries([
+    ...languageList.map((code) => [
+      toHreflang(code),
+      `/${code}${normalizedPath}?page=${page}`,
+    ]),
+    ["x-default", `/${defaultLanguage}${normalizedPath}?page=${page}`],
+  ]) as Record<string, string>;
+
+  return {
+    canonical: `/${lang}${normalizedPath}?page=${page}`,
+    languages,
+  };
+}
+
 /**
  * Builds OpenGraph URL for the current language variant.
  *

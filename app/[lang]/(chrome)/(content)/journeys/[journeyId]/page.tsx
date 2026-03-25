@@ -20,6 +20,8 @@ import {
     buildNoIndexRobots,
     buildOpenGraphBase,
     buildPublicRobots,
+    compactSocialImages,
+    resolveTwitterCard,
     buildSeoDescription,
 } from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
@@ -129,12 +131,14 @@ export async function generateMetadata({
         journey.description,
         buildJourneyDescription(lang, locations, journey.photoCount),
     ]);
-    const images = journey.images.slice(0, 6).map((img) => ({
-        url: img.url,
-        alt: journey.title,
-        width: img.width,
-        height: img.height,
-    }));
+    const images = compactSocialImages(
+        journey.images.slice(0, 6).map((img) => ({
+            url: img.url,
+            alt: journey.title,
+            width: img.width,
+            height: img.height,
+        })),
+    );
 
     return {
         title: journey.title,
@@ -163,10 +167,10 @@ export async function generateMetadata({
             tags: locations.slice(0, 6),
         },
         twitter: {
-            card: "summary_large_image",
+            card: resolveTwitterCard(images),
             title: journey.title,
             description,
-            images: images.map((img) => img.url),
+            images: images?.map((img) => img.url),
         },
     };
 }

@@ -168,6 +168,24 @@ export function buildOpenGraphBase(lang: Language, path: string) {
   };
 }
 
+export function compactSocialImages<T>(
+  images: Array<T | null | undefined | false>,
+): T[] | undefined {
+  const filtered = images.filter(Boolean) as T[];
+  return filtered.length > 0 ? filtered : undefined;
+}
+
+export function resolveTwitterCard(
+  images: Array<unknown> | undefined,
+  fallback: "summary" | "summary_large_image" = "summary",
+) {
+  if (!images || images.length === 0) {
+    return fallback;
+  }
+
+  return "summary_large_image";
+}
+
 export function buildPublicRobots(): Metadata["robots"] {
   return {
     index: true,

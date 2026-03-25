@@ -3,12 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import styles from "./journeys.module.scss";
 import {
-    defaultLanguage,
-    languageList,
-    toHreflang,
     type Language,
 } from "@/lib/i18n/config";
-import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { buildOpenGraphUrl, buildPaginatedAlternates } from "@/lib/i18n/metadata";
 import {
     fetchPublishedJourney,
     fetchPublishedJourneys,
@@ -275,25 +272,6 @@ function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
     };
 }
 
-function buildJourneysAlternates(lang: Language, page: number) {
-    if (page <= 1) {
-        return buildAlternates(lang, "/journeys");
-    }
-
-    const languages = Object.fromEntries([
-        ...languageList.map((code) => [
-            toHreflang(code),
-            `/${code}/journeys?page=${page}`,
-        ]),
-        ["x-default", `/${defaultLanguage}/journeys?page=${page}`],
-    ]) as Record<string, string>;
-
-    return {
-        canonical: `/${lang}/journeys?page=${page}`,
-        languages,
-    };
-}
-
 export async function generateMetadata({
     params,
     searchParams,
@@ -327,7 +305,7 @@ export async function generateMetadata({
         creator: "MomentBook",
         publisher: "MomentBook",
         robots: buildPublicRobots(),
-        alternates: buildJourneysAlternates(lang, currentPage),
+        alternates: buildPaginatedAlternates(lang, path, currentPage),
         openGraph: {
             ...buildOpenGraphBase(lang, openGraphPath),
             type: "website",

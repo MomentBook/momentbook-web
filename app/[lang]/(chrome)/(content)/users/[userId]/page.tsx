@@ -3,13 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import styles from "./user.module.scss";
+import { languageList, type Language } from "@/lib/i18n/config";
 import {
-  defaultLanguage,
-  languageList,
-  toHreflang,
-  type Language,
-} from "@/lib/i18n/config";
-import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+  buildOpenGraphUrl,
+  buildPaginatedAlternates,
+} from "@/lib/i18n/metadata";
 import {
   buildOpenGraphBase,
   buildPublicRobots,
@@ -335,25 +333,6 @@ function buildPageHref(lang: Language, userId: string, page: number): string {
   return `/${lang}/users/${userId}?page=${page}`;
 }
 
-function buildUserAlternates(lang: Language, userId: string, page: number) {
-  if (page <= 1) {
-    return buildAlternates(lang, `/users/${userId}`);
-  }
-
-  const languages = Object.fromEntries([
-    ...languageList.map((code) => [
-      toHreflang(code),
-      `/${code}/users/${userId}?page=${page}`,
-    ]),
-    ["x-default", `/${defaultLanguage}/users/${userId}?page=${page}`],
-  ]) as Record<string, string>;
-
-  return {
-    canonical: `/${lang}/users/${userId}?page=${page}`,
-    languages,
-  };
-}
-
 function formatTemplate(
   template: string,
   values: Record<string, string | number>,
@@ -534,7 +513,7 @@ export async function generateMetadata({
     creator: "MomentBook",
     publisher: "MomentBook",
     robots: buildPublicRobots(),
-    alternates: buildUserAlternates(lang, userId, currentPage),
+    alternates: buildPaginatedAlternates(lang, path, currentPage),
     openGraph: {
       ...buildOpenGraphBase(lang, openGraphPath),
       title,
