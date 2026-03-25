@@ -199,16 +199,6 @@ MomentBook Web은 다음 역할만 수행한다.
 - `public/llms.txt` 제공
 - AI 엔진 탐색을 위한 사이트 요약/핵심 링크/비목표 명시
 
-## 8.5 SEO Validation
-
-- rendered metadata audit script: `scripts/audit-seo.mjs`
-- `yarn seo:audit`: 현재 실행 중인 서버를 대상으로 title/description/canonical/hreflang/robots/googlebot/JSON-LD를 점검한다.
-- 기본 샘플은 홈, FAQ, journeys, users, users search, install, legal/support를 포함한다.
-- 인자가 없고 sitemap sampling이 활성화되어 있으면 `sitemap.xml`과 detail sub-sitemap에서 journey/moment/photo/user detail 샘플을 자동 수집한다.
-- `yarn seo:audit:build`: production build -> local start -> audit까지 한 번에 수행한다.
-- `--no-sitemap-samples`: baseline metadata audit만 수행한다.
-- detail sample audit는 공개 API 응답이 필요한 경로를 포함하므로 `NEXT_PUBLIC_API_BASE_URL`이 유효할 때만 의미 있게 동작한다.
-
 ## 9) Sitemap Strategy
 
 - Index: `/sitemap.xml`
@@ -253,18 +243,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Start: `yarn start`
 - Typecheck: `npx tsc --noEmit`
 - Lint: `yarn lint`
-- SEO audit (running server): `yarn seo:audit`
-- SEO audit (production build/start): `yarn seo:audit:build`
 - API client generate: `yarn generate:api`
-
-## 12.1 CI Automation
-
-- GitHub Actions workflow: `.github/workflows/seo-audit.yml`
-- pull_request, `develop` push, manual dispatch에서 실행한다.
-- 기본 경로:
-  - install -> typecheck -> lint
-  - `NEXT_PUBLIC_API_BASE_URL` repo variable이 없으면 `yarn seo:audit:build -- --no-sitemap-samples`
-  - repo variable이 있으면 sitemap detail sample을 포함한 `yarn seo:audit:build`
 
 ## 13) Current Technical Risks / Debt
 
