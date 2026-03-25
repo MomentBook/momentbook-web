@@ -17,7 +17,12 @@ import {
     resolveTwitterCard,
     buildSeoDescription,
 } from "@/lib/seo/public-metadata";
-import { serializeJsonLd } from "@/lib/seo/json-ld";
+import {
+    buildPublisherOrganizationJsonLd,
+    buildStructuredDataUrl,
+    resolveStructuredDataSiteUrl,
+    serializeJsonLd,
+} from "@/lib/seo/json-ld";
 
 export const revalidate = 3600;
 
@@ -354,11 +359,11 @@ export default async function PhotoPage({
         fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle });
     const seoText = buildSeoText(copy, photo);
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
-    const pageUrl = new URL(
+    const siteUrl = resolveStructuredDataSiteUrl();
+    const pageUrl = buildStructuredDataUrl(
         buildOpenGraphUrl(lang, `/photos/${photo.photoId}`),
         siteUrl,
-    ).toString();
+    );
 
     const datePublished =
         hasTakenAt
@@ -378,13 +383,18 @@ export default async function PhotoPage({
             "@type": "Person",
             name: "MomentBook User",
         },
+        publisher: buildPublisherOrganizationJsonLd(siteUrl),
         isPartOf: {
             "@type": "Article",
             name: journeyTitle,
-            url: new URL(
+            url: buildStructuredDataUrl(
                 buildOpenGraphUrl(lang, `/journeys/${photo.journey.publicId}`),
                 siteUrl,
-            ).toString(),
+            ),
+        },
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": pageUrl,
         },
     };
 

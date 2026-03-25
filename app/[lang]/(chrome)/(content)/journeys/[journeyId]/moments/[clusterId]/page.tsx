@@ -6,6 +6,7 @@ import styles from "./moment.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourney } from "@/lib/published-journey";
+import { fetchPublicUser } from "@/lib/public-users";
 import {
   buildOpenGraphBase,
   buildPublicRobots,
@@ -13,7 +14,12 @@ import {
   resolveTwitterCard,
   buildSeoDescription,
 } from "@/lib/seo/public-metadata";
-import { serializeJsonLd } from "@/lib/seo/json-ld";
+import {
+  buildPublisherOrganizationJsonLd,
+  buildStructuredDataUrl,
+  resolveStructuredDataSiteUrl,
+  serializeJsonLd,
+} from "@/lib/seo/json-ld";
 import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import ClientMap from "../../components/ClientMap";
 
@@ -40,6 +46,18 @@ const momentNotFoundTitleByLanguage: Record<Language, string> = {
   fr: "Moment introuvable",
   th: "ไม่พบช่วงเวลา",
   vi: "Không tìm thấy khoảnh khắc",
+};
+
+const momentAuthorFallbackByLanguage: Record<Language, string> = {
+  en: "MomentBook User",
+  ko: "MomentBook 사용자",
+  ja: "MomentBookユーザー",
+  zh: "MomentBook 用户",
+  es: "Usuario de MomentBook",
+  pt: "Usuário de MomentBook",
+  fr: "Utilisateur MomentBook",
+  th: "ผู้ใช้ MomentBook",
+  vi: "Người dùng MomentBook",
 };
 
 const momentDescriptionWithLocationTemplateByLanguage: Record<Language, string> = {
@@ -304,34 +322,50 @@ export default async function JourneyMomentPage({
     }))
     .filter((photo) => photo.photoId && photo.url);
   const clusterImageUrls = clusterPhotos.map((photo) => photo.url as string);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
-  const pageUrl = new URL(
+  const user = await fetchPublicUser(journey.userId);
+  const authorName = user?.name || momentAuthorFallbackByLanguage[lang];
+  const siteUrl = resolveStructuredDataSiteUrl();
+  const pageUrl = buildStructuredDataUrl(
     buildOpenGraphUrl(lang, `/journeys/${journey.publicId}/moments/${cluster.clusterId}`),
     siteUrl,
-  ).toString();
+  );
+  const headline = `${locationName} · ${journey.title}`;
+  const description = buildMomentSeoDescription(
+    lang,
+    journey.title,
+    cluster.locationName ?? null,
+    cluster.photoIds.length,
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: locationName,
-    description: buildMomentSeoDescription(
-      lang,
-      journey.title,
-      cluster.locationName ?? null,
-      cluster.photoIds.length,
-    ),
+    headline,
+    description,
     image: clusterImageUrls,
     datePublished: journey.publishedAt,
     dateModified: journey.publishedAt,
+    author: {
+      "@type": "Person",
+      name: authorName,
+      url: buildStructuredDataUrl(
+        buildOpenGraphUrl(lang, `/users/${journey.userId}`),
+        siteUrl,
+      ),
+    },
+    publisher: buildPublisherOrganizationJsonLd(siteUrl),
     isPartOf: {
       "@type": "Article",
       name: journey.title,
-      url: new URL(
+      url: buildStructuredDataUrl(
         buildOpenGraphUrl(lang, `/journeys/${journey.publicId}`),
         siteUrl,
-      ).toString(),
+      ),
     },
-    mainEntityOfPage: pageUrl,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
   };
 
   return (

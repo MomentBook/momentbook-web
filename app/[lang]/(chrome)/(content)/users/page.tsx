@@ -4,7 +4,12 @@ import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublicUsers } from "@/lib/public-users";
-import { serializeJsonLd } from "@/lib/seo/json-ld";
+import {
+  buildPublisherOrganizationJsonLd,
+  buildStructuredDataUrl,
+  resolveStructuredDataSiteUrl,
+  serializeJsonLd,
+} from "@/lib/seo/json-ld";
 import {
   buildNoIndexFollowRobots,
   buildOpenGraphBase,
@@ -273,25 +278,31 @@ export default async function UsersPage({
   const countText = formatTemplate(labels.countLabel, {
     count: filteredUsers.length,
   });
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
-  const pageUrl = new URL(buildOpenGraphUrl(lang, "/users"), siteUrl).toString();
+  const siteUrl = resolveStructuredDataSiteUrl();
+  const pageUrl = buildStructuredDataUrl(buildOpenGraphUrl(lang, "/users"), siteUrl);
   const shouldExposeStructuredData = !isFiltering;
+  const description = buildSeoDescription([labels.metaDescription]);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: labels.title,
-    description: labels.subtitle,
+    description,
     url: pageUrl,
+    publisher: buildPublisherOrganizationJsonLd(siteUrl),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: filteredUsers.length,
       itemListElement: filteredUsers.map((user, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        url: new URL(
+        url: buildStructuredDataUrl(
           buildOpenGraphUrl(lang, `/users/${user.userId}`),
           siteUrl,
-        ).toString(),
+        ),
         name: user.name,
       })),
     },

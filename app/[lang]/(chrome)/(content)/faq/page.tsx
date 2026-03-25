@@ -3,7 +3,11 @@ import Link from "next/link";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { flattenFaqItems, getFaqContent } from "@/lib/marketing/faq-content";
-import { serializeJsonLd } from "@/lib/seo/json-ld";
+import {
+  buildStructuredDataUrl,
+  resolveStructuredDataSiteUrl,
+  serializeJsonLd,
+} from "@/lib/seo/json-ld";
 import {
   buildAbsoluteTitle,
   buildOpenGraphBase,
@@ -68,12 +72,22 @@ export default async function FAQPage({
   const { lang } = await params as { lang: Language };
   const content = getFaqContent(lang);
   const faqItems = flattenFaqItems(content.groups);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
-  const pageUrl = new URL(buildOpenGraphUrl(lang, "/faq"), siteUrl).toString();
+  const siteUrl = resolveStructuredDataSiteUrl();
+  const pageUrl = buildStructuredDataUrl(buildOpenGraphUrl(lang, "/faq"), siteUrl);
+  const description = buildSeoDescription([
+    content.metaDescription,
+    faqSeoContextByLanguage[lang] ?? faqSeoContextByLanguage.en,
+  ]);
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    name: content.metaTitle,
+    description,
     url: pageUrl,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
     mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,

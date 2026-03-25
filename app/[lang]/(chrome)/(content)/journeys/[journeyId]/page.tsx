@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
-import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourneyResult } from "@/lib/published-journey";
@@ -24,7 +23,12 @@ import {
     resolveTwitterCard,
     buildSeoDescription,
 } from "@/lib/seo/public-metadata";
-import { serializeJsonLd } from "@/lib/seo/json-ld";
+import {
+    buildPublisherOrganizationJsonLd,
+    buildStructuredDataUrl,
+    resolveStructuredDataSiteUrl,
+    serializeJsonLd,
+} from "@/lib/seo/json-ld";
 
 export const revalidate = 60;
 
@@ -218,19 +222,21 @@ export default async function JourneyPage({
     });
     const photoImageMap = buildPhotoIdToImageUrlMap(journey);
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
-    const pageUrl = new URL(
+    const siteUrl = resolveStructuredDataSiteUrl();
+    const pageUrl = buildStructuredDataUrl(
         buildOpenGraphUrl(lang, `/journeys/${journey.publicId}`),
         siteUrl,
-    ).toString();
+    );
     const publishedTimestamp = Number.isFinite(Date.parse(journey.publishedAt))
         ? Date.parse(journey.publishedAt)
         : Number.isFinite(Date.parse(journey.createdAt))
             ? Date.parse(journey.createdAt)
             : null;
-    const description =
-        journey.description ||
-        buildJourneyDescription(lang, locations, journey.photoCount);
+    const description = buildSeoDescription([
+        journey.description,
+        buildJourneyDescription(lang, locations, journey.photoCount),
+    ]);
+    const authorName = user?.name || journeyAuthorFallbackByLanguage[lang];
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -242,22 +248,17 @@ export default async function JourneyPage({
         dateModified: journey.publishedAt,
         author: {
             "@type": "Person",
-            name: user?.name || journeyAuthorFallbackByLanguage[lang],
-            url: new URL(
+            name: authorName,
+            url: buildStructuredDataUrl(
                 buildOpenGraphUrl(lang, `/users/${journey.userId}`),
                 siteUrl,
-            ).toString(),
+            ),
         },
-        publisher: {
-            "@type": "Organization",
-            name: "MomentBook",
-            url: siteUrl,
-            logo: {
-                "@type": "ImageObject",
-                url: buildAbsoluteAppTransparentLogoUrl(siteUrl),
-            },
+        publisher: buildPublisherOrganizationJsonLd(siteUrl),
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": pageUrl,
         },
-        mainEntityOfPage: pageUrl,
     };
 
     return (
@@ -271,7 +272,7 @@ export default async function JourneyPage({
                 journey={journey}
                 photoImageMap={photoImageMap}
                 lang={lang}
-                authorName={user?.name || journeyAuthorFallbackByLanguage[lang]}
+                authorName={authorName}
                 publishedTimestamp={publishedTimestamp}
                 periodStart={periodRange.start}
                 periodEnd={periodRange.end}

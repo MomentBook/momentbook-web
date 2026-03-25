@@ -19,7 +19,12 @@ import { fetchPublicUser } from "@/lib/public-users";
 import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
 import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
-import { serializeJsonLd } from "@/lib/seo/json-ld";
+import {
+    buildPublisherOrganizationJsonLd,
+    buildStructuredDataUrl,
+    resolveStructuredDataSiteUrl,
+    serializeJsonLd,
+} from "@/lib/seo/json-ld";
 import {
     buildOpenGraphBase,
     buildPublicRobots,
@@ -396,31 +401,43 @@ export default async function JourneysPage({
         };
     });
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+    const siteUrl = resolveStructuredDataSiteUrl();
     const pagePath = buildOpenGraphUrl(lang, "/journeys");
     const pagePathWithQuery =
         safeCurrentPage > 1 ? `${pagePath}?page=${safeCurrentPage}` : pagePath;
-    const pageUrl = new URL(
-        pagePathWithQuery,
-        siteUrl,
-    ).toString();
+    const pageUrl = buildStructuredDataUrl(pagePathWithQuery, siteUrl);
     const offset = (safeCurrentPage - 1) * JOURNEYS_PER_PAGE;
+    const pageTitle =
+        safeCurrentPage > 1
+            ? `${labels.title} · ${labels.pageLabel.replace("{page}", String(safeCurrentPage))}`
+            : labels.title;
+    const description = buildSeoDescription([
+        labels.metaDescription,
+        safeCurrentPage > 1
+            ? labels.pageLabel.replace("{page}", String(safeCurrentPage))
+            : null,
+    ]);
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
-        name: labels.title,
-        description: labels.subtitle,
+        name: pageTitle,
+        description,
         url: pageUrl,
+        publisher: buildPublisherOrganizationJsonLd(siteUrl),
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": pageUrl,
+        },
         mainEntity: {
             "@type": "ItemList",
             numberOfItems: totalJourneys,
             itemListElement: cards.map((card, index) => ({
                 "@type": "ListItem",
                 position: offset + index + 1,
-                url: new URL(
+                url: buildStructuredDataUrl(
                     buildOpenGraphUrl(lang, `/journeys/${card.publicId}`),
                     siteUrl,
-                ).toString(),
+                ),
                 name: card.title,
             })),
         },

@@ -13,7 +13,12 @@ import {
   buildPublicRobots,
   buildSeoDescription,
 } from "@/lib/seo/public-metadata";
-import { serializeJsonLd } from "@/lib/seo/json-ld";
+import {
+  buildPublisherOrganizationJsonLd,
+  buildStructuredDataUrl,
+  resolveStructuredDataSiteUrl,
+  serializeJsonLd,
+} from "@/lib/seo/json-ld";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
 import {
@@ -590,20 +595,27 @@ export default async function UserPage({
   });
   const profileImageUrl = readText(user.picture);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const siteUrl = resolveStructuredDataSiteUrl();
   const profilePath = buildOpenGraphUrl(lang, `/users/${user.userId}`);
   const pagePath =
     safeCurrentPage > 1
       ? `${profilePath}?page=${safeCurrentPage}`
       : profilePath;
-  const profileUrl = new URL(profilePath, siteUrl).toString();
-  const pageUrl = new URL(pagePath, siteUrl).toString();
+  const profileUrl = buildStructuredDataUrl(profilePath, siteUrl);
+  const pageUrl = buildStructuredDataUrl(pagePath, siteUrl);
   const description = buildUserProfileDescription(lang, user);
+  const pageDescription = buildUserMetadataDescription(lang, user, safeCurrentPage);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
     name: buildUserMetadataTitle(lang, user.name, safeCurrentPage),
+    description: pageDescription,
     url: pageUrl,
+    publisher: buildPublisherOrganizationJsonLd(siteUrl),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
     mainEntity: {
       "@type": "Person",
       name: user.name,
