@@ -24,6 +24,14 @@ const DEFAULT_TIMEOUT_MS = Number.parseInt(
   process.env.SEO_AUDIT_TIMEOUT_MS ?? "15000",
   10,
 );
+const DEFAULT_SITEMAP_SAMPLE_SIZE = Number.parseInt(
+  process.env.SEO_AUDIT_SITEMAP_SAMPLE_SIZE ?? "1",
+  10,
+);
+const DEFAULT_ROUTE_RETRY_COUNT = Number.parseInt(
+  process.env.SEO_AUDIT_ROUTE_RETRY_COUNT ?? "1",
+  10,
+);
 
 const ROBOTS_POLICIES = {
   public: {
@@ -94,25 +102,37 @@ const DEFAULT_ROUTE_SPECS = [
 
 async function main() {
   const args = process.argv.slice(2);
+  const shouldDiscoverSitemapSamples = !args.includes("--no-sitemap-samples");
+  const routeInputs = args.filter((arg) => arg !== "--no-sitemap-samples");
 
-  if (args.includes("--help") || args.includes("-h")) {
+  if (routeInputs.includes("--help") || routeInputs.includes("-h")) {
     printHelp();
     return;
   }
 
   const languageConfig = loadLanguageConfig();
-  const routeSpecs = args.length
-    ? args.map((input) =>
+  const discovery = routeInputs.length === 0 && shouldDiscoverSitemapSamples
+    ? await discoverSitemapDetailRouteSpecs(
+        languageConfig,
+        DEFAULT_FETCH_BASE_URL,
+      )
+    : { routeSpecs: [], warnings: [] };
+
+  const routeSpecs = routeInputs.length
+    ? routeInputs.map((input) =>
         deriveRouteSpec(input, languageConfig, DEFAULT_FETCH_BASE_URL),
       )
-    : DEFAULT_ROUTE_SPECS.map((spec) =>
-        completeRouteSpec(
-          spec,
-          languageConfig,
-          DEFAULT_FETCH_BASE_URL,
-          DEFAULT_SITE_URL,
+    : dedupeRouteSpecs([
+        ...DEFAULT_ROUTE_SPECS.map((spec) =>
+          completeRouteSpec(
+            spec,
+            languageConfig,
+            DEFAULT_FETCH_BASE_URL,
+            DEFAULT_SITE_URL,
+          ),
         ),
-      );
+        ...discovery.routeSpecs,
+      ]);
 
   const results = [];
 
@@ -137,6 +157,16 @@ async function main() {
     }
   }
 
+  for (const warning of discovery.warnings) {
+    console.log(`INFO ${warning}`);
+  }
+
+  if (discovery.routeSpecs.length > 0) {
+    console.log(
+      `INFO Added ${discovery.routeSpecs.length} sitemap-discovered detail sample route(s)`,
+    );
+  }
+
   console.log(
     `\n${results.length - failedResults.length}/${results.length} routes passed`,
   );
@@ -150,11 +180,14 @@ function printHelp() {
   console.log(`Usage: yarn seo:audit [route-or-url ...]
 
 Without arguments, audits the default public route sample set.
+Without --no-sitemap-samples, the script also samples detail routes from sitemap XML.
 
 Environment variables:
   SEO_AUDIT_BASE_URL  Base URL used to fetch pages (default: ${DEFAULT_FETCH_BASE_URL})
   SEO_AUDIT_SITE_URL  Expected canonical/hreflang origin (default: ${DEFAULT_SITE_URL})
   SEO_AUDIT_TIMEOUT_MS  Fetch timeout in milliseconds (default: ${DEFAULT_TIMEOUT_MS})
+  SEO_AUDIT_SITEMAP_SAMPLE_SIZE  Number of sample URLs per detail sitemap (default: ${DEFAULT_SITEMAP_SAMPLE_SIZE})
+  SEO_AUDIT_ROUTE_RETRY_COUNT  Retry count per route for transient dev responses (default: ${DEFAULT_ROUTE_RETRY_COUNT})
 `);
 }
 
@@ -226,6 +259,105 @@ function completeRouteSpec(spec, languageConfig, fetchBaseUrl, siteUrl) {
     expectedCanonicalUrl: new URL(canonicalPath, siteUrl).toString(),
     expectedAlternates: buildExpectedAlternates(canonicalPath, languageConfig, siteUrl),
   };
+}
+
+async function discoverSitemapDetailRouteSpecs(
+  languageConfig,
+  fetchBaseUrl,
+) {
+  const warnings = [];
+  const routeSpecs = [];
+  const indexUrl = new URL("/sitemap.xml", fetchBaseUrl).toString();
+  const sitemapTargets = new Map([
+    ["/sitemap-journeys.xml", "journey detail"],
+    ["/sitemap-journey-moments.xml", "moment detail"],
+    ["/sitemap-photos.xml", "photo detail"],
+    ["/sitemap-users.xml", "user detail"],
+  ]);
+
+  let indexResponse;
+  try {
+    indexResponse = fetchWithCurl(indexUrl, DEFAULT_TIMEOUT_MS);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    warnings.push(`Sitemap discovery skipped because ${indexUrl} could not be fetched: ${message}`);
+    return { routeSpecs, warnings };
+  }
+
+  if (!indexResponse.ok) {
+    warnings.push(
+      `Sitemap discovery skipped because ${indexUrl} returned HTTP ${indexResponse.status}`,
+    );
+    return { routeSpecs, warnings };
+  }
+
+  const sitemapLocs = extractXmlLocValues(indexResponse.body);
+
+  for (const [sitemapPath, label] of sitemapTargets) {
+    const sitemapUrl = sitemapLocs.find((loc) => {
+      try {
+        return new URL(loc).pathname === sitemapPath;
+      } catch {
+        return false;
+      }
+    });
+
+    if (!sitemapUrl) {
+      warnings.push(`No ${label} sitemap found in sitemap index`);
+      continue;
+    }
+
+    let sitemapResponse;
+    try {
+      sitemapResponse = fetchWithCurl(sitemapUrl, DEFAULT_TIMEOUT_MS);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      warnings.push(`Could not fetch ${label} sitemap ${sitemapUrl}: ${message}`);
+      continue;
+    }
+
+    if (!sitemapResponse.ok) {
+      warnings.push(
+        `${label} sitemap ${sitemapUrl} returned HTTP ${sitemapResponse.status}`,
+      );
+      continue;
+    }
+
+    const sampleSpecs = collectRouteSpecsFromSitemapXml(
+      sitemapResponse.body,
+      languageConfig,
+      fetchBaseUrl,
+    );
+
+    if (sampleSpecs.length === 0) {
+      warnings.push(`No ${label} sample URLs found in ${sitemapPath}`);
+      continue;
+    }
+
+    routeSpecs.push(...sampleSpecs.slice(0, DEFAULT_SITEMAP_SAMPLE_SIZE));
+  }
+
+  return {
+    routeSpecs: dedupeRouteSpecs(routeSpecs),
+    warnings,
+  };
+}
+
+function collectRouteSpecsFromSitemapXml(xml, languageConfig, fetchBaseUrl) {
+  const preferredPrefix = `/${languageConfig.defaultLanguage}/`;
+
+  return extractXmlLocValues(xml)
+    .map((loc) => {
+      try {
+        return new URL(loc);
+      } catch {
+        return null;
+      }
+    })
+    .filter((url) => url && url.pathname.startsWith(preferredPrefix))
+    .map((url) =>
+      deriveRouteSpec(`${url.pathname}${url.search}`, languageConfig, fetchBaseUrl),
+    );
 }
 
 function deriveCanonicalPath(routeUrl) {
@@ -339,7 +471,50 @@ function buildExpectedAlternates(canonicalPath, languageConfig, siteUrl) {
   return alternates;
 }
 
+function dedupeRouteSpecs(routeSpecs) {
+  const uniqueSpecs = [];
+  const seen = new Set();
+
+  for (const routeSpec of routeSpecs) {
+    if (seen.has(routeSpec.route)) {
+      continue;
+    }
+
+    seen.add(routeSpec.route);
+    uniqueSpecs.push(routeSpec);
+  }
+
+  return uniqueSpecs;
+}
+
 async function auditRoute(routeSpec, siteUrl) {
+  let lastResult = null;
+
+  for (let attempt = 1; attempt <= DEFAULT_ROUTE_RETRY_COUNT + 1; attempt += 1) {
+    const result = auditRouteOnce(routeSpec, siteUrl);
+    lastResult = result;
+
+    if (result.ok) {
+      if (attempt > 1) {
+        result.summary.unshift(`attempts: ${attempt}`);
+      }
+
+      return result;
+    }
+
+    if (attempt <= DEFAULT_ROUTE_RETRY_COUNT) {
+      await sleep(250 * attempt);
+    }
+  }
+
+  if (lastResult && DEFAULT_ROUTE_RETRY_COUNT > 0) {
+    lastResult.summary.unshift(`attempts: ${DEFAULT_ROUTE_RETRY_COUNT + 1}`);
+  }
+
+  return lastResult;
+}
+
+function auditRouteOnce(routeSpec, siteUrl) {
   const failures = [];
   const summary = [];
 
@@ -442,6 +617,12 @@ async function auditRoute(routeSpec, siteUrl) {
     summary,
     failures,
   };
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 function fetchWithCurl(url, timeoutMs) {
@@ -621,6 +802,20 @@ function extractJsonLdBlocks(headHtml) {
   return blocks;
 }
 
+function extractXmlLocValues(xml) {
+  const values = [];
+  const regex = /<loc>([\s\S]*?)<\/loc>/gi;
+
+  for (const match of xml.matchAll(regex)) {
+    const value = decodeXmlText(match[1] ?? "").trim();
+    if (value) {
+      values.push(value);
+    }
+  }
+
+  return values;
+}
+
 function collectJsonLdTypes(blocks, failures) {
   const types = new Set();
 
@@ -701,6 +896,15 @@ function splitSpaceSeparated(value) {
     .split(/\s+/)
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function decodeXmlText(value) {
+  return value
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, "\"")
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, "&");
 }
 
 main().catch((error) => {
