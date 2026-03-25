@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import styles from "./community-guidelines.module.scss";
 import { type Language } from "@/lib/i18n/config";
-import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
-  buildAbsoluteTitle,
   buildNoIndexRobots,
+  buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
 
 export async function generateMetadata({
@@ -57,24 +56,14 @@ export async function generateMetadata({
   }
 
   const path = "/community-guidelines";
-  const url = buildOpenGraphUrl(lang, path);
-
-  return {
-    title: buildAbsoluteTitle(title),
+  return buildStandardPageMetadata({
+    lang,
+    path,
+    title,
     description,
     robots: buildNoIndexRobots(),
-    alternates: buildAlternates(lang, path),
-    openGraph: {
-      title,
-      description,
-      url,
-    },
-    twitter: {
-      card: "summary",
-      title,
-      description,
-    },
-  };
+    absoluteTitle: true,
+  });
 }
 
 export default async function CommunityGuidelinesPage({

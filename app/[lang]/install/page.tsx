@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { type Language } from "@/lib/i18n/config";
-import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
   detectLandingPlatform,
   normalizeCampaignParams,
@@ -15,8 +14,8 @@ import {
 } from "@/lib/mobile-app";
 import { buildQrCodeSvg } from "@/lib/qr-code";
 import {
-  buildAbsoluteTitle,
   buildNoIndexRobots,
+  buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
 import { InstallLanding } from "./InstallLanding";
 
@@ -84,24 +83,17 @@ export async function generateMetadata({
   const content = getInstallMetadata(lang);
   const path = "/install";
 
-  return {
-    title: buildAbsoluteTitle(content.title),
+  return buildStandardPageMetadata({
+    lang,
+    path,
+    title: content.title,
     description: content.description,
     robots: buildNoIndexRobots(),
-    alternates: buildAlternates(lang, path),
-    openGraph: {
-      title: content.title,
-      description: content.description,
-      url: buildOpenGraphUrl(lang, path),
-    },
-    twitter: {
-      title: content.title,
-      description: content.description,
-    },
+    absoluteTitle: true,
     other: {
       "apple-itunes-app": buildAppleSmartBannerContent(lang, campaign),
     },
-  };
+  });
 }
 
 export default async function InstallPage({

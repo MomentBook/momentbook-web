@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "./support.module.scss";
 import { type Language } from "@/lib/i18n/config";
-import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
-  buildAbsoluteTitle,
   buildNoIndexRobots,
+  buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
 
 type SupportContent = {
@@ -158,22 +157,14 @@ export async function generateMetadata({
   const content = getSupportContent(lang);
   const path = "/support";
 
-  return {
-    title: buildAbsoluteTitle(content.metaTitle),
+  return buildStandardPageMetadata({
+    lang,
+    path,
+    title: content.metaTitle,
     description: content.metaDescription,
     robots: buildNoIndexRobots(),
-    alternates: buildAlternates(lang, path),
-    openGraph: {
-      title: content.metaTitle,
-      description: content.metaDescription,
-      url: buildOpenGraphUrl(lang, path),
-    },
-    twitter: {
-      card: "summary",
-      title: content.metaTitle,
-      description: content.metaDescription,
-    },
-  };
+    absoluteTitle: true,
+  });
 }
 
 export default async function SupportPage({

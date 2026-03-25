@@ -5,7 +5,7 @@ import { LocalizedDate } from "@/components/LocalizedTime";
 import { Reveal } from "@/components/Reveal";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
-import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { getDownloadCopy } from "@/lib/marketing/download-content";
 import { MARKETING_CHANNEL_URLS } from "@/lib/marketing/social-channels";
 import {
@@ -16,8 +16,8 @@ import { fetchPublishedJourneys, type PublishedJourneyListItemApi } from "@/lib/
 import { fetchPublicUser } from "@/lib/public-users";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import {
-  buildAbsoluteTitle,
   buildPublicRobots,
+  buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
 import { HashTargetFocus } from "./HashTargetFocus";
 import {
@@ -632,24 +632,17 @@ export async function generateMetadata(
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
 
-  return {
-    title: buildAbsoluteTitle(content.metaTitle),
+  return buildStandardPageMetadata({
+    lang,
+    path: "/",
+    title: content.metaTitle,
     description: content.metaDescription,
     robots: buildPublicRobots(),
-    alternates: buildAlternates(lang, "/"),
-    openGraph: {
-      title: content.metaTitle,
-      description: content.metaDescription,
-      url: buildOpenGraphUrl(lang, "/"),
-    },
-    twitter: {
-      title: content.metaTitle,
-      description: content.metaDescription,
-    },
+    absoluteTitle: true,
     other: {
       "apple-itunes-app": buildAppleSmartBannerContent(lang),
     },
-  };
+  });
 }
 
 export default async function Home({

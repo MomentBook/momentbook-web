@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { languageList, toOpenGraphLocale, type Language } from "@/lib/i18n/config";
-import { buildOpenGraphUrl } from "@/lib/i18n/metadata";
+import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 export type PublicMetadataKind = "journey" | "moment" | "photo" | "user";
 
@@ -165,6 +165,52 @@ export function buildOpenGraphBase(lang: Language, path: string) {
     alternateLocale: languageList
       .filter((code) => code !== lang)
       .map((code) => toOpenGraphLocale(code)),
+  };
+}
+
+type BuildStandardPageMetadataOptions = {
+  lang: Language;
+  path: string;
+  title: string;
+  description: string;
+  robots: Metadata["robots"];
+  absoluteTitle?: boolean;
+  openGraphType?: "website" | "article" | "profile";
+  twitterCard?: "summary" | "summary_large_image";
+  other?: Metadata["other"];
+};
+
+export function buildStandardPageMetadata({
+  lang,
+  path,
+  title,
+  description,
+  robots,
+  absoluteTitle = false,
+  openGraphType = "website",
+  twitterCard = "summary",
+  other,
+}: BuildStandardPageMetadataOptions): Metadata {
+  return {
+    title: absoluteTitle ? buildAbsoluteTitle(title) : title,
+    description,
+    applicationName: SITE_NAME,
+    creator: SITE_NAME,
+    publisher: SITE_NAME,
+    robots,
+    alternates: buildAlternates(lang, path),
+    openGraph: {
+      ...buildOpenGraphBase(lang, path),
+      type: openGraphType,
+      title,
+      description,
+    },
+    twitter: {
+      card: twitterCard,
+      title,
+      description,
+    },
+    ...(other ? { other } : {}),
   };
 }
 
