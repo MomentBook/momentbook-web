@@ -1,4 +1,5 @@
 const MAX_URLS_PER_SITEMAP = 50000;
+const SITEMAP_CACHE_CONTROL = "public, max-age=3600, s-maxage=3600";
 
 export type SitemapAlternate = {
   lang: string;
@@ -8,8 +9,6 @@ export type SitemapAlternate = {
 export type SitemapUrlEntry = {
   loc: string;
   lastmod?: string | null;
-  changefreq?: string;
-  priority?: number;
   alternates?: SitemapAlternate[];
 };
 
@@ -62,12 +61,6 @@ export function renderSitemapUrlset(urls: SitemapUrlEntry[]): string {
       if (url.lastmod) {
         lines.push(`    <lastmod>${xmlEscape(url.lastmod)}</lastmod>`);
       }
-      if (url.changefreq) {
-        lines.push(`    <changefreq>${xmlEscape(url.changefreq)}</changefreq>`);
-      }
-      if (typeof url.priority === "number") {
-        lines.push(`    <priority>${url.priority.toFixed(1)}</priority>`);
-      }
       if (url.alternates?.length) {
         lines.push(
           ...url.alternates.map(
@@ -112,3 +105,15 @@ ${body}
 </sitemapindex>`;
 }
 
+export function resolveSitemapSiteUrl() {
+  return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+}
+
+export function buildSitemapXmlResponse(xml: string) {
+  return new Response(xml, {
+    headers: {
+      "Content-Type": "application/xml",
+      "Cache-Control": SITEMAP_CACHE_CONTROL,
+    },
+  });
+}
