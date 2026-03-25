@@ -294,7 +294,7 @@ async function discoverSitemapDetailRouteSpecs(
   const sitemapLocs = extractXmlLocValues(indexResponse.body);
 
   for (const [sitemapPath, label] of sitemapTargets) {
-    const sitemapUrl = sitemapLocs.find((loc) => {
+    const sitemapLoc = sitemapLocs.find((loc) => {
       try {
         return new URL(loc).pathname === sitemapPath;
       } catch {
@@ -302,23 +302,31 @@ async function discoverSitemapDetailRouteSpecs(
       }
     });
 
-    if (!sitemapUrl) {
+    if (!sitemapLoc) {
       warnings.push(`No ${label} sitemap found in sitemap index`);
       continue;
     }
 
+    const sitemapUrl = new URL(sitemapLoc);
+    const sitemapFetchUrl = new URL(
+      `${sitemapUrl.pathname}${sitemapUrl.search}`,
+      fetchBaseUrl,
+    ).toString();
+
     let sitemapResponse;
     try {
-      sitemapResponse = fetchWithCurl(sitemapUrl, DEFAULT_TIMEOUT_MS);
+      sitemapResponse = fetchWithCurl(sitemapFetchUrl, DEFAULT_TIMEOUT_MS);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      warnings.push(`Could not fetch ${label} sitemap ${sitemapUrl}: ${message}`);
+      warnings.push(
+        `Could not fetch ${label} sitemap ${sitemapFetchUrl}: ${message}`,
+      );
       continue;
     }
 
     if (!sitemapResponse.ok) {
       warnings.push(
-        `${label} sitemap ${sitemapUrl} returned HTTP ${sitemapResponse.status}`,
+        `${label} sitemap ${sitemapFetchUrl} returned HTTP ${sitemapResponse.status}`,
       );
       continue;
     }

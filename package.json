@@ -9,7 +9,8 @@
         "start": "next start -p 3100",
         "lint": "eslint",
         "generate:api": "npx swagger-typescript-api@13.1.3 generate -p http://10.133.199.201:3001/api-docs-json -o ./src/apis -n client.ts -t axios",
-        "seo:audit": "node ./scripts/audit-seo.mjs"
+        "seo:audit": "node ./scripts/audit-seo.mjs",
+        "seo:audit:build": "bash ./scripts/run-seo-audit-build.sh"
     },
     "dependencies": {
         "@next/third-parties": "^16.1.6",
