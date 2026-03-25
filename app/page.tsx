@@ -4,85 +4,93 @@ import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAtomValue } from "jotai";
 import {
-  defaultLanguage,
-  detectLanguageFromAcceptLanguage,
-  isValidLanguage,
+    defaultLanguage,
+    detectLanguageFromAcceptLanguage,
+    isValidLanguage,
 } from "@/lib/i18n/config";
 import {
-  LANGUAGE_STORAGE_KEY,
-  LEGACY_LANGUAGE_STORAGE_KEY,
-  PREFERRED_LANGUAGE_COOKIE_NAME,
-  languageAtom,
-  normalizeLanguage,
-  normalizeStoredLanguageValue,
+    LANGUAGE_STORAGE_KEY,
+    LEGACY_LANGUAGE_STORAGE_KEY,
+    PREFERRED_LANGUAGE_COOKIE_NAME,
+    languageAtom,
+    normalizeLanguage,
+    normalizeStoredLanguageValue,
 } from "@/lib/state/preferences";
-
+//
 function readCookie(name: string): string | null {
-  if (typeof document === "undefined") {
-    return null;
-  }
+    if (typeof document === "undefined") {
+        return null;
+    }
 
-  const value = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith(`${name}=`))
-    ?.split("=")[1];
+    const value = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(`${name}=`))
+        ?.split("=")[1];
 
-  return value ?? null;
+    return value ?? null;
 }
 
 function detectBrowserLanguage(): string {
-  if (typeof navigator === "undefined") {
-    return "";
-  }
+    if (typeof navigator === "undefined") {
+        return "";
+    }
 
-  const candidates =
-    navigator.languages && navigator.languages.length > 0
-      ? navigator.languages
-      : [navigator.language].filter(Boolean);
+    const candidates =
+        navigator.languages && navigator.languages.length > 0
+            ? navigator.languages
+            : [navigator.language].filter(Boolean);
 
-  if (candidates.length === 0) {
-    return "";
-  }
+    if (candidates.length === 0) {
+        return "";
+    }
 
-  return detectLanguageFromAcceptLanguage(candidates.join(","));
+    return detectLanguageFromAcceptLanguage(candidates.join(","));
 }
 
 function RootRedirect() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const preferredLanguage = useAtomValue(languageAtom);
-  const searchParamsString = searchParams.toString();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const preferredLanguage = useAtomValue(languageAtom);
+    const searchParamsString = searchParams.toString();
 
-  useEffect(() => {
-    const queryLang = searchParams.get("lang");
-    let targetLanguage = defaultLanguage;
+    useEffect(() => {
+        const queryLang = searchParams.get("lang");
+        let targetLanguage = defaultLanguage;
 
-    if (queryLang && isValidLanguage(queryLang)) {
-      targetLanguage = queryLang;
-    } else {
-      targetLanguage =
-        normalizeLanguage(preferredLanguage) ||
-        normalizeStoredLanguageValue(localStorage.getItem(LANGUAGE_STORAGE_KEY)) ||
-        normalizeStoredLanguageValue(localStorage.getItem(LEGACY_LANGUAGE_STORAGE_KEY)) ||
-        normalizeLanguage(readCookie(PREFERRED_LANGUAGE_COOKIE_NAME)) ||
-        normalizeLanguage(detectBrowserLanguage()) ||
-        defaultLanguage;
-    }
+        if (queryLang && isValidLanguage(queryLang)) {
+            targetLanguage = queryLang;
+        } else {
+            targetLanguage =
+                normalizeLanguage(preferredLanguage) ||
+                normalizeStoredLanguageValue(
+                    localStorage.getItem(LANGUAGE_STORAGE_KEY),
+                ) ||
+                normalizeStoredLanguageValue(
+                    localStorage.getItem(LEGACY_LANGUAGE_STORAGE_KEY),
+                ) ||
+                normalizeLanguage(readCookie(PREFERRED_LANGUAGE_COOKIE_NAME)) ||
+                normalizeLanguage(detectBrowserLanguage()) ||
+                defaultLanguage;
+        }
 
-    const nextSearchParams = new URLSearchParams(searchParamsString);
-    nextSearchParams.delete("lang");
+        const nextSearchParams = new URLSearchParams(searchParamsString);
+        nextSearchParams.delete("lang");
 
-    const nextQuery = nextSearchParams.toString();
-    router.replace(nextQuery ? `/${targetLanguage}?${nextQuery}` : `/${targetLanguage}`);
-  }, [preferredLanguage, router, searchParams, searchParamsString]);
+        const nextQuery = nextSearchParams.toString();
+        router.replace(
+            nextQuery
+                ? `/${targetLanguage}?${nextQuery}`
+                : `/${targetLanguage}`,
+        );
+    }, [preferredLanguage, router, searchParams, searchParamsString]);
 
-  return null;
+    return null;
 }
 
 export default function RootPage() {
-  return (
-    <Suspense fallback={null}>
-      <RootRedirect />
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={null}>
+            <RootRedirect />
+        </Suspense>
+    );
 }
