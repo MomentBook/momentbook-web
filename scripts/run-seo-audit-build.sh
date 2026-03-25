@@ -10,6 +10,11 @@ READY_URL="${BASE_URL}${READY_PATH}"
 WAIT_SECONDS="${SEO_AUDIT_READY_TIMEOUT_SECONDS:-60}"
 LOG_FILE="$(mktemp -t momentbook-seo-audit-build.XXXXXX.log)"
 SERVER_PID=""
+AUDIT_ARGS=("$@")
+
+if [[ "${#AUDIT_ARGS[@]}" -gt 0 ]] && [[ "${AUDIT_ARGS[0]}" == "--" ]]; then
+  AUDIT_ARGS=("${AUDIT_ARGS[@]:1}")
+fi
 
 cleanup() {
   if [[ -n "${SERVER_PID}" ]] && kill -0 "${SERVER_PID}" >/dev/null 2>&1; then
@@ -45,4 +50,4 @@ for (( attempt=1; attempt<=WAIT_SECONDS; attempt+=1 )); do
 done
 
 echo "[seo:audit:build] Running SEO audit against ${BASE_URL}"
-SEO_AUDIT_BASE_URL="${BASE_URL}" yarn seo:audit
+SEO_AUDIT_BASE_URL="${BASE_URL}" yarn seo:audit "${AUDIT_ARGS[@]}"
