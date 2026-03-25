@@ -83,17 +83,14 @@ const journeyNotFoundTitleByLanguage: Record<Language, string> = {
     vi: "Không tìm thấy hành trình",
 };
 
-const journeyAuthorFallbackByLanguage: Record<Language, string> = {
-    en: "MomentBook User",
-    ko: "MomentBook 사용자",
-    ja: "MomentBookユーザー",
-    zh: "MomentBook 用户",
-    es: "Usuario de MomentBook",
-    pt: "Usuário do MomentBook",
-    fr: "Utilisateur MomentBook",
-    th: "ผู้ใช้ MomentBook",
-    vi: "Người dùng MomentBook",
-};
+function readAuthorName(value: string | null | undefined): string | null {
+    if (typeof value !== "string") {
+        return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+}
 
 export async function generateMetadata({
     params,
@@ -130,7 +127,7 @@ export async function generateMetadata({
     const path = `/journeys/${journey.publicId}`;
     const locations = getUniqueJourneyLocations(journey);
     const author = await fetchPublicUser(journey.userId);
-    const authorName = author?.name || journeyAuthorFallbackByLanguage[lang];
+    const authorName = readAuthorName(author?.name);
     const description = buildSeoDescription([
         journey.description,
         buildJourneyDescription(lang, locations, journey.photoCount),
@@ -148,12 +145,16 @@ export async function generateMetadata({
         title: journey.title,
         description,
         applicationName: "MomentBook",
-        authors: [
-            {
-                name: authorName,
-                url: `/${lang}/users/${journey.userId}`,
-            },
-        ],
+        ...(authorName
+            ? {
+                  authors: [
+                      {
+                          name: authorName,
+                          url: `/${lang}/users/${journey.userId}`,
+                      },
+                  ],
+              }
+            : {}),
         creator: "MomentBook",
         publisher: "MomentBook",
         robots: buildPublicRobots(),
@@ -166,7 +167,7 @@ export async function generateMetadata({
             images,
             publishedTime: journey.publishedAt,
             modifiedTime: journey.publishedAt,
-            authors: [authorName],
+            ...(authorName ? { authors: [authorName] } : {}),
             section: journeyLabels[lang]?.eyebrow ?? journeyLabels.en.eyebrow,
             tags: locations.slice(0, 6),
         },
@@ -236,7 +237,7 @@ export default async function JourneyPage({
         journey.description,
         buildJourneyDescription(lang, locations, journey.photoCount),
     ]);
-    const authorName = user?.name || journeyAuthorFallbackByLanguage[lang];
+    const authorName = readAuthorName(user?.name);
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -246,14 +247,18 @@ export default async function JourneyPage({
         image: journey.images.map((img) => img.url),
         datePublished: journey.publishedAt,
         dateModified: journey.publishedAt,
-        author: {
-            "@type": "Person",
-            name: authorName,
-            url: buildStructuredDataUrl(
-                buildOpenGraphUrl(lang, `/users/${journey.userId}`),
-                siteUrl,
-            ),
-        },
+        ...(authorName
+            ? {
+                  author: {
+                      "@type": "Person",
+                      name: authorName,
+                      url: buildStructuredDataUrl(
+                          buildOpenGraphUrl(lang, `/users/${journey.userId}`),
+                          siteUrl,
+                      ),
+                  },
+              }
+            : {}),
         publisher: buildPublisherOrganizationJsonLd(siteUrl),
         mainEntityOfPage: {
             "@type": "WebPage",

@@ -48,18 +48,6 @@ const momentNotFoundTitleByLanguage: Record<Language, string> = {
   vi: "Không tìm thấy khoảnh khắc",
 };
 
-const momentAuthorFallbackByLanguage: Record<Language, string> = {
-  en: "MomentBook User",
-  ko: "MomentBook 사용자",
-  ja: "MomentBookユーザー",
-  zh: "MomentBook 用户",
-  es: "Usuario de MomentBook",
-  pt: "Usuário de MomentBook",
-  fr: "Utilisateur MomentBook",
-  th: "ผู้ใช้ MomentBook",
-  vi: "Người dùng MomentBook",
-};
-
 const momentDescriptionWithLocationTemplateByLanguage: Record<Language, string> = {
   en: "Published moment from {journey} in {location} with {count} travel photos on MomentBook.",
   ko: "{journey}의 {location} 순간으로, MomentBook에 공개된 여행 사진 {count}장이 포함되어 있습니다.",
@@ -86,6 +74,19 @@ const momentDescriptionWithoutLocationTemplateByLanguage: Record<Language, strin
 
 function fillTemplate(template: string, values: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
+}
+
+function readOptionalText(value: string | null | undefined): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+function buildMomentSeoTitle(journeyTitle: string, locationName: string | null): string {
+  return locationName ? `${locationName} · ${journeyTitle}` : journeyTitle;
 }
 
 const momentLabels: Record<Language, MomentLabels> = {
@@ -238,8 +239,8 @@ export async function generateMetadata({
   }
 
   const labels = momentLabels[lang] ?? momentLabels.en;
-  const locationName = cluster.locationName || labels.locationFallback;
-  const title = `${locationName} · ${journey.title}`;
+  const locationName = readOptionalText(cluster.locationName);
+  const title = buildMomentSeoTitle(journey.title, locationName);
   const description = buildSeoDescription([
     buildMomentSeoDescription(
       lang,
@@ -313,7 +314,8 @@ export default async function JourneyMomentPage({
   }
 
   const labels = momentLabels[lang] ?? momentLabels.en;
-  const locationName = cluster.locationName || labels.locationFallback;
+  const locationName = readOptionalText(cluster.locationName);
+  const displayLocationName = locationName ?? labels.locationFallback;
   const imageMap = buildImageUrlToPhotoIdMap(journey.images);
   const clusterPhotos = cluster.photoIds
     .map((photoId) => ({
@@ -323,13 +325,13 @@ export default async function JourneyMomentPage({
     .filter((photo) => photo.photoId && photo.url);
   const clusterImageUrls = clusterPhotos.map((photo) => photo.url as string);
   const user = await fetchPublicUser(journey.userId);
-  const authorName = user?.name || momentAuthorFallbackByLanguage[lang];
+  const authorName = readOptionalText(user?.name);
   const siteUrl = resolveStructuredDataSiteUrl();
   const pageUrl = buildStructuredDataUrl(
     buildOpenGraphUrl(lang, `/journeys/${journey.publicId}/moments/${cluster.clusterId}`),
     siteUrl,
   );
-  const headline = `${locationName} · ${journey.title}`;
+  const headline = buildMomentSeoTitle(journey.title, locationName);
   const description = buildMomentSeoDescription(
     lang,
     journey.title,
@@ -345,14 +347,18 @@ export default async function JourneyMomentPage({
     image: clusterImageUrls,
     datePublished: journey.publishedAt,
     dateModified: journey.publishedAt,
-    author: {
-      "@type": "Person",
-      name: authorName,
-      url: buildStructuredDataUrl(
-        buildOpenGraphUrl(lang, `/users/${journey.userId}`),
-        siteUrl,
-      ),
-    },
+    ...(authorName
+      ? {
+          author: {
+            "@type": "Person",
+            name: authorName,
+            url: buildStructuredDataUrl(
+              buildOpenGraphUrl(lang, `/users/${journey.userId}`),
+              siteUrl,
+            ),
+          },
+        }
+      : {}),
     publisher: buildPublisherOrganizationJsonLd(siteUrl),
     isPartOf: {
       "@type": "Article",
@@ -392,7 +398,7 @@ export default async function JourneyMomentPage({
 
       <section className={styles.hero}>
         <p className={styles.journeyEyebrow}>{journey.title}</p>
-        <h1 className={styles.title}>{locationName}</h1>
+        <h1 className={styles.title}>{displayLocationName}</h1>
         <dl className={styles.metaList}>
           <div className={styles.metaItem}>
             <dt className={styles.metaLabel}>{labels.timeLabel}</dt>
@@ -444,7 +450,7 @@ export default async function JourneyMomentPage({
                 <div className={styles.photoFrame}>
                   <Image
                     src={photo.url as string}
-                    alt={locationName}
+                    alt={displayLocationName}
                     fill
                     sizes="(max-width: 767px) 50vw, (max-width: 1279px) 33vw, 22vw"
                     className={styles.photoImage}

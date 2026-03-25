@@ -171,6 +171,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `buildOpenGraphUrl(lang, path)`
 - `buildPublicRobots()` / `buildNoIndexRobots()`
 - Public pages use lean metadata: title/description/canonical/alternates + basic OpenGraph/Twitter
+- Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - Home(`/`)과 `/{lang}/install`은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
 
 ## 8.2 Robots Policy

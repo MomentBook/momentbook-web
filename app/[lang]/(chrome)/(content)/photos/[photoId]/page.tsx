@@ -33,10 +33,10 @@ type PhotoPageCopy = {
     takenAt: string;
     location: string;
     coordinates: string;
-    journeyFallback: string;
     archiveNoteLabel: string;
     archiveNoteBody: string;
     metadataTitleTemplate: string;
+    metadataDescriptionLocationOnlyTemplate: string;
     metadataDescriptionWithLocationTemplate: string;
     metadataDescriptionWithoutLocationTemplate: string;
 };
@@ -49,11 +49,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "Captured",
         location: "Place",
         coordinates: "Coordinates",
-        journeyFallback: "Journey",
         archiveNoteLabel: "Archive note",
         archiveNoteBody:
             "Shown as part of a published journey archive on MomentBook.",
         metadataTitleTemplate: "Photo from {journey}",
+        metadataDescriptionLocationOnlyTemplate:
+            "Published travel photo captured at {location}, shown in the MomentBook web archive.",
         metadataDescriptionWithLocationTemplate:
             "Published travel photo from {journey}, captured at {location} and shown in the MomentBook web archive.",
         metadataDescriptionWithoutLocationTemplate:
@@ -66,11 +67,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "기록 시각",
         location: "장소",
         coordinates: "좌표",
-        journeyFallback: "여정",
         archiveNoteLabel: "아카이브 노트",
         archiveNoteBody:
             "MomentBook의 공개 여정 아카이브 일부로 노출되는 사진입니다.",
         metadataTitleTemplate: "{journey}의 사진",
+        metadataDescriptionLocationOnlyTemplate:
+            "{location}에서 촬영되어 MomentBook 공개 웹 아카이브에 노출되는 여행 사진입니다.",
         metadataDescriptionWithLocationTemplate:
             "{location}에서 촬영되었고 MomentBook 공개 웹 아카이브에 노출되는 {journey}의 여행 사진입니다.",
         metadataDescriptionWithoutLocationTemplate:
@@ -83,11 +85,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "記録時刻",
         location: "場所",
         coordinates: "座標",
-        journeyFallback: "旅",
         archiveNoteLabel: "アーカイブノート",
         archiveNoteBody:
             "MomentBook の公開旅アーカイブの一部として表示される写真です。",
         metadataTitleTemplate: "{journey}の写真",
+        metadataDescriptionLocationOnlyTemplate:
+            "{location}で撮影され、MomentBook の公開 Web アーカイブに表示される旅行写真です。",
         metadataDescriptionWithLocationTemplate:
             "{location}で撮影され、MomentBook の公開 Web アーカイブに表示される{journey}の旅行写真です。",
         metadataDescriptionWithoutLocationTemplate:
@@ -100,11 +103,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "记录时间",
         location: "地点",
         coordinates: "坐标",
-        journeyFallback: "旅程",
         archiveNoteLabel: "归档说明",
         archiveNoteBody:
             "这张照片作为 MomentBook 公开旅程档案的一部分展示。",
         metadataTitleTemplate: "{journey} 的照片",
+        metadataDescriptionLocationOnlyTemplate:
+            "这是一张拍摄于 {location}、展示在 MomentBook 网页公开档案中的旅行照片。",
         metadataDescriptionWithLocationTemplate:
             "这是一张来自 {journey}、拍摄于 {location}，并展示在 MomentBook 网页公开档案中的旅行照片。",
         metadataDescriptionWithoutLocationTemplate:
@@ -117,11 +121,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "Capturada",
         location: "Lugar",
         coordinates: "Coordenadas",
-        journeyFallback: "Viaje",
         archiveNoteLabel: "Nota de archivo",
         archiveNoteBody:
             "Se muestra como parte de un archivo de viaje publicado en MomentBook.",
         metadataTitleTemplate: "Foto de {journey}",
+        metadataDescriptionLocationOnlyTemplate:
+            "Foto de viaje publicada, tomada en {location} y mostrada en el archivo web de MomentBook.",
         metadataDescriptionWithLocationTemplate:
             "Foto de viaje publicada de {journey}, tomada en {location} y mostrada en el archivo web de MomentBook.",
         metadataDescriptionWithoutLocationTemplate:
@@ -134,11 +139,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "Registrada",
         location: "Local",
         coordinates: "Coordenadas",
-        journeyFallback: "Viagem",
         archiveNoteLabel: "Nota de arquivo",
         archiveNoteBody:
             "Exibida como parte de um arquivo de viagem publicado no MomentBook.",
         metadataTitleTemplate: "Foto de {journey}",
+        metadataDescriptionLocationOnlyTemplate:
+            "Foto de viagem publicada, tirada em {location} e exibida no arquivo web do MomentBook.",
         metadataDescriptionWithLocationTemplate:
             "Foto de viagem publicada de {journey}, tirada em {location} e exibida no arquivo web do MomentBook.",
         metadataDescriptionWithoutLocationTemplate:
@@ -151,11 +157,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "Prise le",
         location: "Lieu",
         coordinates: "Coordonnées",
-        journeyFallback: "Voyage",
         archiveNoteLabel: "Note d'archive",
         archiveNoteBody:
             "Affichée comme partie d'une archive de voyage publiée sur MomentBook.",
         metadataTitleTemplate: "Photo de {journey}",
+        metadataDescriptionLocationOnlyTemplate:
+            "Photo de voyage publiée, prise à {location} et affichée dans l'archive web de MomentBook.",
         metadataDescriptionWithLocationTemplate:
             "Photo de voyage publiée de {journey}, prise à {location} et affichée dans l'archive web de MomentBook.",
         metadataDescriptionWithoutLocationTemplate:
@@ -168,11 +175,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "เวลาที่บันทึก",
         location: "สถานที่",
         coordinates: "พิกัด",
-        journeyFallback: "ทริป",
         archiveNoteLabel: "หมายเหตุคลัง",
         archiveNoteBody:
             "รูปนี้แสดงเป็นส่วนหนึ่งของคลังทริปสาธารณะบน MomentBook",
         metadataTitleTemplate: "รูปจาก {journey}",
+        metadataDescriptionLocationOnlyTemplate:
+            "รูปท่องเที่ยวที่ถ่ายที่ {location} และแสดงในคลังเว็บสาธารณะของ MomentBook",
         metadataDescriptionWithLocationTemplate:
             "รูปท่องเที่ยวจาก {journey} ที่ถ่ายที่ {location} และแสดงในคลังเว็บสาธารณะของ MomentBook",
         metadataDescriptionWithoutLocationTemplate:
@@ -185,11 +193,12 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
         takenAt: "Thời điểm ghi",
         location: "Địa điểm",
         coordinates: "Tọa độ",
-        journeyFallback: "Hành trình",
         archiveNoteLabel: "Ghi chú lưu trữ",
         archiveNoteBody:
             "Ảnh này được hiển thị như một phần của kho lưu trữ hành trình công khai trên MomentBook.",
         metadataTitleTemplate: "Ảnh từ {journey}",
+        metadataDescriptionLocationOnlyTemplate:
+            "Ảnh du lịch đã đăng, chụp tại {location} và hiển thị trong kho lưu trữ web của MomentBook.",
         metadataDescriptionWithLocationTemplate:
             "Ảnh du lịch đã đăng từ {journey}, chụp tại {location} và hiển thị trong kho lưu trữ web của MomentBook.",
         metadataDescriptionWithoutLocationTemplate:
@@ -250,25 +259,32 @@ function buildSeoText(
     copy: PhotoPageCopy,
     photo: PublishedPhotoApi,
 ): { title: string; description: string } {
-    const journeyTitle =
-        readText(photo.journey.title) ?? copy.journeyFallback;
+    const journeyTitle = readText(photo.journey.title);
     const caption = readText(photo.caption);
     const locationName = readText(photo.locationName);
 
     const title =
         caption ??
-        fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle });
+        (journeyTitle
+            ? fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle })
+            : copy.eyebrow);
 
     const description = buildSeoDescription([
         caption,
-        locationName
-            ? fillTemplate(copy.metadataDescriptionWithLocationTemplate, {
-                  journey: journeyTitle,
-                  location: locationName,
-              })
-            : fillTemplate(copy.metadataDescriptionWithoutLocationTemplate, {
-                  journey: journeyTitle,
-              }),
+        journeyTitle
+            ? locationName
+                ? fillTemplate(copy.metadataDescriptionWithLocationTemplate, {
+                      journey: journeyTitle,
+                      location: locationName,
+                  })
+                : fillTemplate(copy.metadataDescriptionWithoutLocationTemplate, {
+                      journey: journeyTitle,
+                  })
+            : locationName
+                ? fillTemplate(copy.metadataDescriptionLocationOnlyTemplate, {
+                      location: locationName,
+                  })
+                : copy.archiveNoteBody,
     ]);
 
     return { title, description };
@@ -351,12 +367,13 @@ export default async function PhotoPage({
     const hasTakenAt = takenAt !== null;
     const location = hasValidCoordinates(photo.location) ? photo.location : null;
     const locationName = readText(photo.locationName);
-    const journeyTitle =
-        readText(photo.journey.title) ?? copy.journeyFallback;
+    const journeyTitle = readText(photo.journey.title);
     const caption = readText(photo.caption);
     const title =
         caption ??
-        fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle });
+        (journeyTitle
+            ? fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle })
+            : copy.eyebrow);
     const seoText = buildSeoText(copy, photo);
 
     const siteUrl = resolveStructuredDataSiteUrl();
@@ -379,18 +396,14 @@ export default async function PhotoPage({
         url: pageUrl,
         caption: caption ?? undefined,
         ...(datePublished && { datePublished }),
-        author: {
-            "@type": "Person",
-            name: "MomentBook User",
-        },
         publisher: buildPublisherOrganizationJsonLd(siteUrl),
         isPartOf: {
             "@type": "Article",
-            name: journeyTitle,
             url: buildStructuredDataUrl(
                 buildOpenGraphUrl(lang, `/journeys/${photo.journey.publicId}`),
                 siteUrl,
             ),
+            ...(journeyTitle ? { name: journeyTitle } : {}),
         },
         mainEntityOfPage: {
             "@type": "WebPage",
@@ -431,15 +444,17 @@ export default async function PhotoPage({
             <section className={styles.contentSection}>
                 <p className={styles.eyebrow}>{copy.eyebrow}</p>
                 <h1 className={styles.title}>{title}</h1>
-                <p className={styles.partOfLine}>
-                    {copy.partOfLabel}{" "}
-                    <Link
-                        href={`/${lang}/journeys/${photo.journey.publicId}`}
-                        className={styles.journeyLink}
-                    >
-                        {journeyTitle}
-                    </Link>
-                </p>
+                {journeyTitle ? (
+                    <p className={styles.partOfLine}>
+                        {copy.partOfLabel}{" "}
+                        <Link
+                            href={`/${lang}/journeys/${photo.journey.publicId}`}
+                            className={styles.journeyLink}
+                        >
+                            {journeyTitle}
+                        </Link>
+                    </p>
+                ) : null}
 
                 {hasTakenAt || locationName || location ? (
                     <dl className={styles.metaGrid}>

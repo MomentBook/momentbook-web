@@ -20,7 +20,7 @@ type JourneyContentProps = {
     photoImageMap: Map<string, string>;
     lang: Language;
     labels: JourneyLabels;
-    authorName: string;
+    authorName: string | null;
     publishedTimestamp: number | null;
     periodStart: number | null;
     periodEnd: number | null;
@@ -220,12 +220,14 @@ export default function JourneyContent({
                     ) : null}
 
                     <div className={styles.metaRow}>
-                        <Link
-                            href={`/${lang}/users/${encodedUserId}`}
-                            className={styles.authorLink}
-                        >
-                            {authorName}
-                        </Link>
+                        {authorName ? (
+                            <Link
+                                href={`/${lang}/users/${encodedUserId}`}
+                                className={styles.authorLink}
+                            >
+                                {authorName}
+                            </Link>
+                        ) : null}
 
                         {hasTripPeriod ? (
                             <span className={styles.metaItem}>
