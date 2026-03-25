@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import { languageList, toOpenGraphLocale, type Language } from "@/lib/i18n/config";
+import { buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
 export type PublicMetadataKind = "journey" | "moment" | "photo" | "user";
+
+const SITE_NAME = "MomentBook";
+const SEO_DESCRIPTION_MAX_LENGTH = 180;
 
 type BuildPublicKeywordsOptions = {
   kind: PublicMetadataKind;
@@ -51,6 +56,10 @@ function readText(value: string | null | undefined): string | null {
 
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : null;
+}
+
+function collapseWhitespace(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
 }
 
 function normalizeKeyword(value: string): string | null {
@@ -126,12 +135,56 @@ export function buildAbsoluteTitle(title: string): Metadata["title"] {
   };
 }
 
+export function buildSeoDescription(
+  parts: Array<string | null | undefined>,
+  maxLength = SEO_DESCRIPTION_MAX_LENGTH,
+): string {
+  const joined = collapseWhitespace(
+    parts
+      .map((part) => readText(part))
+      .filter((part): part is string => Boolean(part))
+      .join(" "),
+  );
+
+  if (joined.length <= maxLength) {
+    return joined;
+  }
+
+  const truncated = joined.slice(0, maxLength);
+  const boundary = truncated.lastIndexOf(" ");
+  const safeBoundary = boundary > 0 ? boundary : maxLength;
+
+  return `${truncated.slice(0, safeBoundary).trim()}...`;
+}
+
+export function buildOpenGraphBase(lang: Language, path: string) {
+  return {
+    url: buildOpenGraphUrl(lang, path),
+    siteName: SITE_NAME,
+    locale: toOpenGraphLocale(lang),
+    alternateLocale: languageList
+      .filter((code) => code !== lang)
+      .map((code) => toOpenGraphLocale(code)),
+  };
+}
+
 export function buildPublicRobots(): Metadata["robots"] {
   return {
     index: true,
     follow: true,
     googleBot: {
       index: true,
+      follow: true,
+    },
+  };
+}
+
+export function buildNoIndexFollowRobots(): Metadata["robots"] {
+  return {
+    index: false,
+    follow: true,
+    googleBot: {
+      index: false,
       follow: true,
     },
   };

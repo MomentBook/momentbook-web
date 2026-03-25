@@ -6,7 +6,11 @@ import styles from "./moment.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourney } from "@/lib/published-journey";
-import { buildPublicRobots } from "@/lib/seo/public-metadata";
+import {
+  buildOpenGraphBase,
+  buildPublicRobots,
+  buildSeoDescription,
+} from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import ClientMap from "../../components/ClientMap";
@@ -36,16 +40,28 @@ const momentNotFoundTitleByLanguage: Record<Language, string> = {
   vi: "Không tìm thấy khoảnh khắc",
 };
 
-const momentDescriptionTemplateByLanguage: Record<Language, string> = {
-  en: "A moment from {journey}",
-  ko: "{journey}의 한 순간입니다",
-  ja: "{journey}のひとつの瞬間です",
-  zh: "来自 {journey} 的一个瞬间",
-  es: "Un momento de {journey}",
-  pt: "Um momento de {journey}",
-  fr: "Un moment de {journey}",
-  th: "ช่วงเวลาหนึ่งจาก {journey}",
-  vi: "Một khoảnh khắc từ {journey}",
+const momentDescriptionWithLocationTemplateByLanguage: Record<Language, string> = {
+  en: "Published moment from {journey} in {location} with {count} travel photos on MomentBook.",
+  ko: "{journey}의 {location} 순간으로, MomentBook에 공개된 여행 사진 {count}장이 포함되어 있습니다.",
+  ja: "{journey}の{location}の瞬間で、MomentBook に公開された旅行写真{count}枚が含まれています。",
+  zh: "这是 {journey} 中位于 {location} 的公开瞬间，包含 {count} 张旅行照片。",
+  es: "Momento publicado de {journey} en {location} con {count} fotos de viaje en MomentBook.",
+  pt: "Momento publicado de {journey} em {location} com {count} fotos de viagem no MomentBook.",
+  fr: "Moment publié de {journey} à {location} avec {count} photos de voyage sur MomentBook.",
+  th: "ช่วงเวลาจาก {journey} ที่ {location} พร้อมรูปท่องเที่ยว {count} รูปที่เผยแพร่บน MomentBook",
+  vi: "Khoảnh khắc công khai từ {journey} tại {location} với {count} ảnh du lịch trên MomentBook.",
+};
+
+const momentDescriptionWithoutLocationTemplateByLanguage: Record<Language, string> = {
+  en: "Published moment from {journey} with {count} travel photos on MomentBook.",
+  ko: "{journey}의 공개 순간이며 MomentBook에 공개된 여행 사진 {count}장이 포함되어 있습니다.",
+  ja: "{journey}の公開された瞬間で、MomentBook に旅行写真{count}枚が含まれています。",
+  zh: "这是 {journey} 中公开的一个瞬间，包含 {count} 张旅行照片。",
+  es: "Momento publicado de {journey} con {count} fotos de viaje en MomentBook.",
+  pt: "Momento publicado de {journey} com {count} fotos de viagem no MomentBook.",
+  fr: "Moment publié de {journey} avec {count} photos de voyage sur MomentBook.",
+  th: "ช่วงเวลาจาก {journey} พร้อมรูปท่องเที่ยว {count} รูปที่เผยแพร่บน MomentBook",
+  vi: "Khoảnh khắc công khai từ {journey} với {count} ảnh du lịch trên MomentBook.",
 };
 
 function fillTemplate(template: string, values: Record<string, string>): string {
@@ -155,6 +171,26 @@ function buildImageUrlToPhotoIdMap(
   return map;
 }
 
+function buildMomentSeoDescription(
+  lang: Language,
+  journeyTitle: string,
+  locationName: string | null,
+  photoCount: number,
+) {
+  const values = {
+    journey: journeyTitle,
+    location: locationName ?? "",
+    count: String(photoCount),
+  };
+
+  return fillTemplate(
+    locationName
+      ? momentDescriptionWithLocationTemplateByLanguage[lang]
+      : momentDescriptionWithoutLocationTemplateByLanguage[lang],
+    values,
+  );
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -184,11 +220,15 @@ export async function generateMetadata({
   const labels = momentLabels[lang] ?? momentLabels.en;
   const locationName = cluster.locationName || labels.locationFallback;
   const title = `${locationName} · ${journey.title}`;
-  const description = fillTemplate(momentDescriptionTemplateByLanguage[lang], {
-    journey: journey.title,
-  });
+  const description = buildSeoDescription([
+    buildMomentSeoDescription(
+      lang,
+      journey.title,
+      cluster.locationName ?? null,
+      cluster.photoIds.length,
+    ),
+  ]);
   const path = `/journeys/${journey.publicId}/moments/${cluster.clusterId}`;
-  const url = buildOpenGraphUrl(lang, path);
   const imageMap = buildImageUrlToPhotoIdMap(journey.images);
   const clusterImages = cluster.photoIds
     .map((photoId) => imageMap.get(photoId))
@@ -202,16 +242,21 @@ export async function generateMetadata({
   return {
     title,
     description,
+    applicationName: "MomentBook",
+    creator: "MomentBook",
+    publisher: "MomentBook",
     robots: buildPublicRobots(),
     alternates: buildAlternates(lang, path),
     openGraph: {
+      ...buildOpenGraphBase(lang, path),
       title,
       description,
       type: "article",
-      url,
       images: clusterImages.length > 0 ? clusterImages : undefined,
       publishedTime: journey.publishedAt,
       modifiedTime: journey.publishedAt,
+      section: labels.eyebrow,
+      tags: cluster.locationName ? [journey.title, cluster.locationName] : [journey.title],
     },
     twitter: {
       card: "summary_large_image",
@@ -265,9 +310,12 @@ export default async function JourneyMomentPage({
     "@context": "https://schema.org",
     "@type": "Article",
     headline: locationName,
-    description: fillTemplate(momentDescriptionTemplateByLanguage[lang], {
-      journey: journey.title,
-    }),
+    description: buildMomentSeoDescription(
+      lang,
+      journey.title,
+      cluster.locationName ?? null,
+      cluster.photoIds.length,
+    ),
     image: clusterImageUrls,
     datePublished: journey.publishedAt,
     dateModified: journey.publishedAt,

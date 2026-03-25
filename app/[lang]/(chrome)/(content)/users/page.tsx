@@ -5,7 +5,12 @@ import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublicUsers } from "@/lib/public-users";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
-import { buildPublicRobots } from "@/lib/seo/public-metadata";
+import {
+  buildNoIndexFollowRobots,
+  buildOpenGraphBase,
+  buildPublicRobots,
+  buildSeoDescription,
+} from "@/lib/seo/public-metadata";
 import { UserSearchForm } from "./UserSearchForm";
 import styles from "./users.module.scss";
 
@@ -14,6 +19,7 @@ export const revalidate = 3600;
 type UserListLabels = {
   title: string;
   subtitle: string;
+  metaDescription: string;
   directoryEyebrow: string;
   resultsEyebrow: string;
   searchPlaceholder: string;
@@ -29,6 +35,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   en: {
     title: "Public profiles",
     subtitle: "Profiles that share public journeys on MomentBook.",
+    metaDescription:
+      "Public profiles, shared journeys, and travel photo archives published on MomentBook.",
     directoryEyebrow: "Public directory",
     resultsEyebrow: "Profiles",
     searchPlaceholder: "Search by name or biography",
@@ -42,6 +50,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   ko: {
     title: "공개 프로필",
     subtitle: "MomentBook에서 공개 여정을 공유하는 프로필입니다.",
+    metaDescription:
+      "MomentBook에 공개된 프로필, 공유 여정, 여행 사진 아카이브를 모아둔 페이지입니다.",
     directoryEyebrow: "공개 디렉터리",
     resultsEyebrow: "프로필",
     searchPlaceholder: "이름 또는 소개로 검색",
@@ -55,6 +65,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   ja: {
     title: "公開プロフィール",
     subtitle: "MomentBookで公開された旅を共有しているプロフィールです。",
+    metaDescription:
+      "MomentBook で公開されているプロフィール、共有された旅、旅行写真アーカイブをまとめたページです。",
     directoryEyebrow: "公開ディレクトリ",
     resultsEyebrow: "プロフィール",
     searchPlaceholder: "名前または紹介文で検索",
@@ -68,6 +80,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   zh: {
     title: "公开个人资料",
     subtitle: "在 MomentBook 分享公开旅程的个人资料。",
+    metaDescription:
+      "汇集了 MomentBook 上公开的个人资料、共享旅程与旅行照片档案。",
     directoryEyebrow: "公开目录",
     resultsEyebrow: "个人资料",
     searchPlaceholder: "按名称或简介搜索",
@@ -81,6 +95,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   es: {
     title: "Perfiles públicos",
     subtitle: "Perfiles que comparten viajes públicos en MomentBook.",
+    metaDescription:
+      "Página con perfiles públicos, viajes compartidos y archivos de fotos de viaje publicados en MomentBook.",
     directoryEyebrow: "Directorio público",
     resultsEyebrow: "Perfiles",
     searchPlaceholder: "Buscar por nombre o biografía",
@@ -94,6 +110,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   pt: {
     title: "Perfis públicos",
     subtitle: "Perfis que compartilham viagens públicas no MomentBook.",
+    metaDescription:
+      "Página com perfis públicos, viagens compartilhadas e arquivos de fotos de viagem publicados no MomentBook.",
     directoryEyebrow: "Diretório público",
     resultsEyebrow: "Perfis",
     searchPlaceholder: "Buscar por nome ou biografia",
@@ -107,6 +125,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   fr: {
     title: "Profils publics",
     subtitle: "Profils qui partagent des voyages publics sur MomentBook.",
+    metaDescription:
+      "Page regroupant les profils publics, voyages partagés et archives photo de voyage publiés sur MomentBook.",
     directoryEyebrow: "Répertoire public",
     resultsEyebrow: "Profils",
     searchPlaceholder: "Rechercher par nom ou biographie",
@@ -120,6 +140,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   th: {
     title: "โปรไฟล์สาธารณะ",
     subtitle: "โปรไฟล์ที่แชร์ทริปจาก MomentBook",
+    metaDescription:
+      "รวมโปรไฟล์สาธารณะ ทริปที่แชร์ และคลังรูปท่องเที่ยวที่เผยแพร่บน MomentBook",
     directoryEyebrow: "ไดเรกทอรีสาธารณะ",
     resultsEyebrow: "โปรไฟล์",
     searchPlaceholder: "ค้นหาด้วยชื่อหรือคำแนะนำตัว",
@@ -133,6 +155,8 @@ const userListLabels: Record<Language, UserListLabels> = {
   vi: {
     title: "Hồ sơ công khai",
     subtitle: "Hồ sơ chia sẻ hành trình từ MomentBook.",
+    metaDescription:
+      "Trang tổng hợp hồ sơ công khai, hành trình được chia sẻ và kho ảnh du lịch đã đăng trên MomentBook.",
     directoryEyebrow: "Danh mục công khai",
     resultsEyebrow: "Hồ sơ",
     searchPlaceholder: "Tìm theo tên hoặc tiểu sử",
@@ -190,32 +214,32 @@ export async function generateMetadata({
   const labels = userListLabels[lang] ?? userListLabels.en;
   const query = readSearchQuery(q);
   const path = "/users";
-  const url = buildOpenGraphUrl(lang, path);
   const shouldNoIndexSearchResults = query.length > 0;
+  const description = buildSeoDescription([
+    labels.metaDescription,
+    shouldNoIndexSearchResults ? query : null,
+  ]);
 
   return {
     title: labels.title,
-    description: labels.subtitle,
+    description,
+    applicationName: "MomentBook",
+    creator: "MomentBook",
+    publisher: "MomentBook",
     robots: shouldNoIndexSearchResults
-      ? {
-          index: false,
-          follow: true,
-          googleBot: {
-            index: false,
-            follow: true,
-          },
-        }
+      ? buildNoIndexFollowRobots()
       : buildPublicRobots(),
     alternates: buildAlternates(lang, path),
     openGraph: {
+      ...buildOpenGraphBase(lang, path),
+      type: "website",
       title: labels.title,
-      description: labels.subtitle,
-      url,
+      description,
     },
     twitter: {
       card: "summary",
       title: labels.title,
-      description: labels.subtitle,
+      description,
     },
   };
 }

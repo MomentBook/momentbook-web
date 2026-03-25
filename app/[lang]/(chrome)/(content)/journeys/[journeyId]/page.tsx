@@ -17,7 +17,10 @@ import {
     buildPhotoIdToImageUrlMap,
 } from "./utils";
 import {
+    buildNoIndexRobots,
+    buildOpenGraphBase,
     buildPublicRobots,
+    buildSeoDescription,
 } from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 
@@ -107,10 +110,7 @@ export async function generateMetadata({
             title: hiddenNotice.title,
             description: hiddenMessage,
             alternates: buildAlternates(lang, `/journeys/${journeyId}`),
-            robots: {
-                index: false,
-                follow: false,
-            },
+            robots: buildNoIndexRobots(),
         };
     }
 
@@ -122,29 +122,45 @@ export async function generateMetadata({
     }
 
     const path = `/journeys/${journey.publicId}`;
-    const url = buildOpenGraphUrl(lang, path);
     const locations = getUniqueJourneyLocations(journey);
-    const description =
-        journey.description ||
-        buildJourneyDescription(lang, locations, journey.photoCount);
+    const author = await fetchPublicUser(journey.userId);
+    const authorName = author?.name || journeyAuthorFallbackByLanguage[lang];
+    const description = buildSeoDescription([
+        journey.description,
+        buildJourneyDescription(lang, locations, journey.photoCount),
+    ]);
     const images = journey.images.slice(0, 6).map((img) => ({
         url: img.url,
         alt: journey.title,
+        width: img.width,
+        height: img.height,
     }));
 
     return {
         title: journey.title,
         description,
+        applicationName: "MomentBook",
+        authors: [
+            {
+                name: authorName,
+                url: `/${lang}/users/${journey.userId}`,
+            },
+        ],
+        creator: "MomentBook",
+        publisher: "MomentBook",
         robots: buildPublicRobots(),
         alternates: buildAlternates(lang, path),
         openGraph: {
+            ...buildOpenGraphBase(lang, path),
             title: journey.title,
             description,
             type: "article",
-            url,
             images,
             publishedTime: journey.publishedAt,
             modifiedTime: journey.publishedAt,
+            authors: [authorName],
+            section: journeyLabels[lang]?.eyebrow ?? journeyLabels.en.eyebrow,
+            tags: locations.slice(0, 6),
         },
         twitter: {
             card: "summary_large_image",

@@ -10,7 +10,11 @@ import {
     fetchPublishedPhoto,
     type PublishedPhotoApi,
 } from "@/lib/published-journey";
-import { buildPublicRobots } from "@/lib/seo/public-metadata";
+import {
+    buildOpenGraphBase,
+    buildPublicRobots,
+    buildSeoDescription,
+} from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 
 export const revalidate = 3600;
@@ -44,9 +48,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "Shown as part of a published journey archive on MomentBook.",
         metadataTitleTemplate: "Photo from {journey}",
         metadataDescriptionWithLocationTemplate:
-            "A photo from {journey} taken at {location}.",
+            "Published travel photo from {journey}, captured at {location} and shown in the MomentBook web archive.",
         metadataDescriptionWithoutLocationTemplate:
-            "A published photo from {journey}.",
+            "Published travel photo from {journey}, shown in the MomentBook web archive.",
     },
     ko: {
         eyebrow: "사진",
@@ -61,9 +65,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "MomentBook의 공개 여정 아카이브 일부로 노출되는 사진입니다.",
         metadataTitleTemplate: "{journey}의 사진",
         metadataDescriptionWithLocationTemplate:
-            "{location}에서 촬영된 {journey}의 사진입니다.",
+            "{location}에서 촬영되었고 MomentBook 공개 웹 아카이브에 노출되는 {journey}의 여행 사진입니다.",
         metadataDescriptionWithoutLocationTemplate:
-            "{journey}에서 공유된 사진입니다.",
+            "MomentBook 공개 웹 아카이브에 노출되는 {journey}의 여행 사진입니다.",
     },
     ja: {
         eyebrow: "写真",
@@ -78,9 +82,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "MomentBook の公開旅アーカイブの一部として表示される写真です。",
         metadataTitleTemplate: "{journey}の写真",
         metadataDescriptionWithLocationTemplate:
-            "{location}で撮影された{journey}の写真です。",
+            "{location}で撮影され、MomentBook の公開 Web アーカイブに表示される{journey}の旅行写真です。",
         metadataDescriptionWithoutLocationTemplate:
-            "{journey}で共有された写真です。",
+            "MomentBook の公開 Web アーカイブに表示される{journey}の旅行写真です。",
     },
     zh: {
         eyebrow: "照片",
@@ -95,9 +99,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "这张照片作为 MomentBook 公开旅程档案的一部分展示。",
         metadataTitleTemplate: "{journey} 的照片",
         metadataDescriptionWithLocationTemplate:
-            "在 {location} 拍摄的 {journey} 照片。",
+            "这是一张来自 {journey}、拍摄于 {location}，并展示在 MomentBook 网页公开档案中的旅行照片。",
         metadataDescriptionWithoutLocationTemplate:
-            "来自 {journey} 的公开照片。",
+            "这是一张来自 {journey}、展示在 MomentBook 网页公开档案中的旅行照片。",
     },
     es: {
         eyebrow: "Foto",
@@ -112,9 +116,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "Se muestra como parte de un archivo de viaje publicado en MomentBook.",
         metadataTitleTemplate: "Foto de {journey}",
         metadataDescriptionWithLocationTemplate:
-            "Una foto de {journey} tomada en {location}.",
+            "Foto de viaje publicada de {journey}, tomada en {location} y mostrada en el archivo web de MomentBook.",
         metadataDescriptionWithoutLocationTemplate:
-            "Una foto publicada de {journey}.",
+            "Foto de viaje publicada de {journey}, mostrada en el archivo web de MomentBook.",
     },
     pt: {
         eyebrow: "Foto",
@@ -129,9 +133,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "Exibida como parte de um arquivo de viagem publicado no MomentBook.",
         metadataTitleTemplate: "Foto de {journey}",
         metadataDescriptionWithLocationTemplate:
-            "Uma foto de {journey} tirada em {location}.",
+            "Foto de viagem publicada de {journey}, tirada em {location} e exibida no arquivo web do MomentBook.",
         metadataDescriptionWithoutLocationTemplate:
-            "Uma foto publicada de {journey}.",
+            "Foto de viagem publicada de {journey}, exibida no arquivo web do MomentBook.",
     },
     fr: {
         eyebrow: "Photo",
@@ -146,9 +150,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "Affichée comme partie d'une archive de voyage publiée sur MomentBook.",
         metadataTitleTemplate: "Photo de {journey}",
         metadataDescriptionWithLocationTemplate:
-            "Une photo de {journey} prise à {location}.",
+            "Photo de voyage publiée de {journey}, prise à {location} et affichée dans l'archive web de MomentBook.",
         metadataDescriptionWithoutLocationTemplate:
-            "Une photo publiée de {journey}.",
+            "Photo de voyage publiée de {journey}, affichée dans l'archive web de MomentBook.",
     },
     th: {
         eyebrow: "รูปภาพ",
@@ -163,9 +167,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "รูปนี้แสดงเป็นส่วนหนึ่งของคลังทริปสาธารณะบน MomentBook",
         metadataTitleTemplate: "รูปจาก {journey}",
         metadataDescriptionWithLocationTemplate:
-            "รูปจาก {journey} ที่ถ่ายที่ {location}",
+            "รูปท่องเที่ยวจาก {journey} ที่ถ่ายที่ {location} และแสดงในคลังเว็บสาธารณะของ MomentBook",
         metadataDescriptionWithoutLocationTemplate:
-            "รูปที่เผยแพร่จาก {journey}",
+            "รูปท่องเที่ยวจาก {journey} ที่แสดงในคลังเว็บสาธารณะของ MomentBook",
     },
     vi: {
         eyebrow: "Ảnh",
@@ -180,9 +184,9 @@ const photoCopy: Record<Language, PhotoPageCopy> = {
             "Ảnh này được hiển thị như một phần của kho lưu trữ hành trình công khai trên MomentBook.",
         metadataTitleTemplate: "Ảnh từ {journey}",
         metadataDescriptionWithLocationTemplate:
-            "Ảnh từ {journey} chụp tại {location}.",
+            "Ảnh du lịch đã đăng từ {journey}, chụp tại {location} và hiển thị trong kho lưu trữ web của MomentBook.",
         metadataDescriptionWithoutLocationTemplate:
-            "Ảnh đã đăng từ {journey}.",
+            "Ảnh du lịch đã đăng từ {journey}, hiển thị trong kho lưu trữ web của MomentBook.",
     },
 };
 
@@ -248,16 +252,17 @@ function buildSeoText(
         caption ??
         fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle });
 
-    const description =
-        caption ??
-        (locationName
+    const description = buildSeoDescription([
+        caption,
+        locationName
             ? fillTemplate(copy.metadataDescriptionWithLocationTemplate, {
                   journey: journeyTitle,
                   location: locationName,
               })
             : fillTemplate(copy.metadataDescriptionWithoutLocationTemplate, {
                   journey: journeyTitle,
-              }));
+              }),
+    ]);
 
     return { title, description };
 }
@@ -282,7 +287,6 @@ export async function generateMetadata({
 
     const { title, description } = buildSeoText(copy, photo);
     const path = `/photos/${photo.photoId}`;
-    const url = buildOpenGraphUrl(lang, path);
     const takenAt = hasValidTimestamp(photo.takenAt) ? photo.takenAt : null;
     const publishedTime =
         takenAt !== null
@@ -292,13 +296,16 @@ export async function generateMetadata({
     return {
         title,
         description,
+        applicationName: "MomentBook",
+        creator: "MomentBook",
+        publisher: "MomentBook",
         robots: buildPublicRobots(),
         alternates: buildAlternates(lang, path),
         openGraph: {
+            ...buildOpenGraphBase(lang, path),
             title,
             description,
             type: "article",
-            url,
             images: [
                 {
                     url: photo.url,
@@ -342,6 +349,7 @@ export default async function PhotoPage({
     const title =
         caption ??
         fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle });
+    const seoText = buildSeoText(copy, photo);
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
     const pageUrl = new URL(
@@ -358,7 +366,7 @@ export default async function PhotoPage({
         "@context": "https://schema.org",
         "@type": "ImageObject",
         name: title,
-        description: caption ?? undefined,
+        description: seoText.description,
         contentUrl: photo.url,
         url: pageUrl,
         caption: caption ?? undefined,

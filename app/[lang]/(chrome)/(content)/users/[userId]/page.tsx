@@ -11,8 +11,9 @@ import {
 } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
-  buildAbsoluteTitle,
+  buildOpenGraphBase,
   buildPublicRobots,
+  buildSeoDescription,
 } from "@/lib/seo/public-metadata";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
@@ -21,6 +22,7 @@ import {
   fetchPublicUsers,
   fetchPublicUser,
   fetchUserJourneys,
+  type PublicUserApi,
   type UserJourneyApi,
 } from "@/lib/public-users";
 import {
@@ -48,6 +50,7 @@ type UserPageLabels = {
   periodUnknown: string;
   emptyJourneys: string;
   pageStatus: string;
+  metaPageLabel: string;
 };
 
 const userLabels: Record<Language, UserPageLabels> = {
@@ -65,6 +68,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "Time not available",
     emptyJourneys: "No published journeys yet.",
     pageStatus: "Page {current} of {total}",
+    metaPageLabel: "Page {page}",
   },
   ko: {
     profileEyebrow: "프로필",
@@ -80,6 +84,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "시간 정보 없음",
     emptyJourneys: "아직 공개된 여정이 없습니다.",
     pageStatus: "{total}페이지 중 {current}페이지",
+    metaPageLabel: "{page}페이지",
   },
   ja: {
     profileEyebrow: "プロフィール",
@@ -95,6 +100,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "時間情報なし",
     emptyJourneys: "公開された旅はまだありません。",
     pageStatus: "{total}ページ中 {current}ページ",
+    metaPageLabel: "{page}ページ",
   },
   zh: {
     profileEyebrow: "个人资料",
@@ -110,6 +116,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "暂无时间信息",
     emptyJourneys: "还没有公开旅程。",
     pageStatus: "第 {current} / {total} 页",
+    metaPageLabel: "第 {page} 页",
   },
   es: {
     profileEyebrow: "Perfil",
@@ -125,6 +132,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "Horario no disponible",
     emptyJourneys: "Aún no hay viajes publicados.",
     pageStatus: "Página {current} de {total}",
+    metaPageLabel: "Página {page}",
   },
   pt: {
     profileEyebrow: "Perfil",
@@ -140,6 +148,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "Horário indisponível",
     emptyJourneys: "Ainda não há viagens publicadas.",
     pageStatus: "Página {current} de {total}",
+    metaPageLabel: "Página {page}",
   },
   fr: {
     profileEyebrow: "Profil",
@@ -155,6 +164,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "Horaire indisponible",
     emptyJourneys: "Aucun voyage publié pour le moment.",
     pageStatus: "Page {current} sur {total}",
+    metaPageLabel: "Page {page}",
   },
   th: {
     profileEyebrow: "โปรไฟล์",
@@ -170,6 +180,7 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "ไม่มีข้อมูลเวลา",
     emptyJourneys: "ยังไม่มีทริปที่เผยแพร่",
     pageStatus: "หน้า {current} จาก {total}",
+    metaPageLabel: "หน้า {page}",
   },
   vi: {
     profileEyebrow: "Hồ sơ",
@@ -185,19 +196,44 @@ const userLabels: Record<Language, UserPageLabels> = {
     periodUnknown: "Không có thông tin thời gian",
     emptyJourneys: "Chưa có hành trình đã đăng.",
     pageStatus: "Trang {current} trên {total}",
+    metaPageLabel: "Trang {page}",
   },
 };
 
 const userDescriptionTemplates: Record<Language, string> = {
-  en: "Journeys shared by {name} on MomentBook.",
-  ko: "{name}님이 MomentBook에서 공유한 여정입니다.",
-  ja: "{name}さんが MomentBook で共有した旅です。",
-  zh: "{name} 在 MomentBook 分享的旅程。",
-  es: "Viajes compartidos por {name} en MomentBook.",
-  pt: "Viagens compartilhadas por {name} no MomentBook.",
-  fr: "Voyages partagés par {name} sur MomentBook.",
-  th: "ทริปที่ {name} แชร์บน MomentBook",
-  vi: "Các hành trình được {name} chia sẻ trên MomentBook.",
+  en: "Public journeys, travel photos, and timeline archives shared by {name} on MomentBook.",
+  ko: "{name}님이 MomentBook에서 공유한 공개 여정, 여행 사진, 타임라인 아카이브입니다.",
+  ja: "{name}さんが MomentBook で共有した公開の旅、旅行写真、タイムラインアーカイブです。",
+  zh: "{name} 在 MomentBook 分享的公开旅程、旅行照片与时间线档案。",
+  es: "Viajes públicos, fotos de viaje y archivos de cronología compartidos por {name} en MomentBook.",
+  pt: "Viagens públicas, fotos de viagem e arquivos de linha do tempo compartilhados por {name} no MomentBook.",
+  fr: "Voyages publics, photos de voyage et archives de chronologie partagés par {name} sur MomentBook.",
+  th: "ทริปสาธารณะ รูปท่องเที่ยว และคลังไทม์ไลน์ที่ {name} แชร์บน MomentBook",
+  vi: "Hành trình công khai, ảnh du lịch và kho dòng thời gian do {name} chia sẻ trên MomentBook.",
+};
+
+const userTitleTemplates: Record<Language, string> = {
+  en: "{name}'s public journeys",
+  ko: "{name}님의 공개 여정",
+  ja: "{name}さんの公開された旅",
+  zh: "{name} 的公开旅程",
+  es: "Viajes públicos de {name}",
+  pt: "Viagens públicas de {name}",
+  fr: "Voyages publics de {name}",
+  th: "ทริปสาธารณะของ {name}",
+  vi: "Hành trình công khai của {name}",
+};
+
+const userJourneyCountTemplates: Record<Language, string> = {
+  en: "{count} published journeys.",
+  ko: "공개 여정 {count}개.",
+  ja: "公開された旅 {count}件。",
+  zh: "已发布旅程 {count} 段。",
+  es: "{count} viajes publicados.",
+  pt: "{count} viagens publicadas.",
+  fr: "{count} voyages publiés.",
+  th: "ทริปที่เผยแพร่ {count} ทริป",
+  vi: "{count} hành trình đã đăng.",
 };
 
 const userNotFoundTitleByLanguage: Record<Language, string> = {
@@ -328,6 +364,56 @@ function formatTemplate(
   );
 }
 
+function buildUserProfileDescription(lang: Language, user: PublicUserApi): string {
+  const biography = readText(user.biography);
+  const countSummary = formatTemplate(
+    userJourneyCountTemplates[lang] ?? userJourneyCountTemplates.en,
+    {
+      count: user.publishedJourneyCount,
+    },
+  );
+  const scopeSummary = formatTemplate(
+    userDescriptionTemplates[lang] ?? userDescriptionTemplates.en,
+    {
+      name: user.name,
+    },
+  );
+
+  return buildSeoDescription([biography, countSummary, scopeSummary]);
+}
+
+function buildUserMetadataTitle(
+  lang: Language,
+  userName: string,
+  currentPage: number,
+): string {
+  const labels = userLabels[lang] ?? userLabels.en;
+  const baseTitle = formatTemplate(
+    userTitleTemplates[lang] ?? userTitleTemplates.en,
+    { name: userName },
+  );
+
+  if (currentPage <= 1) {
+    return baseTitle;
+  }
+
+  return `${baseTitle} · ${formatTemplate(labels.metaPageLabel, { page: currentPage })}`;
+}
+
+function buildUserMetadataDescription(
+  lang: Language,
+  user: PublicUserApi,
+  currentPage: number,
+): string {
+  const labels = userLabels[lang] ?? userLabels.en;
+  return buildSeoDescription([
+    buildUserProfileDescription(lang, user),
+    currentPage > 1
+      ? formatTemplate(labels.metaPageLabel, { page: currentPage })
+      : null,
+  ]);
+}
+
 type UserJourneyCardProps = {
   journey: UserJourneyApi;
   lang: Language;
@@ -429,26 +515,32 @@ export async function generateMetadata({
     };
   }
 
-  const description =
-    user.biography?.trim() ||
-    (userDescriptionTemplates[lang] ?? userDescriptionTemplates.en).replace(
-      "{name}",
-      user.name,
-    );
-
   const path = `/users/${userId}`;
-  const urlBase = buildOpenGraphUrl(lang, path);
-  const url = currentPage > 1 ? `${urlBase}?page=${currentPage}` : urlBase;
+  const openGraphPath =
+    currentPage > 1 ? `${path}?page=${currentPage}` : path;
+  const title = buildUserMetadataTitle(lang, user.name, currentPage);
+  const description = buildUserMetadataDescription(lang, user, currentPage);
+
   return {
-    title: buildAbsoluteTitle(`${user.name} · MomentBook`),
+    title,
     description,
+    applicationName: "MomentBook",
+    authors: [
+      {
+        name: user.name,
+        url: `/${lang}/users/${user.userId}`,
+      },
+    ],
+    creator: "MomentBook",
+    publisher: "MomentBook",
     robots: buildPublicRobots(),
     alternates: buildUserAlternates(lang, userId, currentPage),
     openGraph: {
-      title: `${user.name} · MomentBook`,
+      ...buildOpenGraphBase(lang, openGraphPath),
+      title,
       description,
       type: "profile",
-      url,
+      username: user.userId,
       images: user.picture
         ? [
             {
@@ -462,7 +554,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary",
-      title: `${user.name} · MomentBook`,
+      title,
       description,
       images: user.picture ? [user.picture] : [],
     },
@@ -527,16 +619,11 @@ export default async function UserPage({
       : profilePath;
   const profileUrl = new URL(profilePath, siteUrl).toString();
   const pageUrl = new URL(pagePath, siteUrl).toString();
-  const description =
-    user.biography?.trim() ||
-    (userDescriptionTemplates[lang] ?? userDescriptionTemplates.en).replace(
-      "{name}",
-      user.name,
-    );
+  const description = buildUserProfileDescription(lang, user);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    name: `${user.name} · MomentBook`,
+    name: buildUserMetadataTitle(lang, user.name, safeCurrentPage),
     url: pageUrl,
     mainEntity: {
       "@type": "Person",

@@ -142,53 +142,53 @@ export function buildJourneyDescription(
 
     if (lang === "ko") {
         return locationText
-            ? `${locationText}의 여정, 사진 ${photoCount}장.`
-            : `사진 ${photoCount}장이 담긴 공개 여정입니다.`;
+            ? `${locationText}를 담은 공개 여정이며 사진 ${photoCount}장이 포함되어 있습니다.`
+            : `MomentBook에 공개된 여정이며 사진 ${photoCount}장이 포함되어 있습니다.`;
     }
 
     if (lang === "ja") {
         return locationText
-            ? `${locationText}の旅、写真${photoCount}枚。`
-            : `写真${photoCount}枚が含まれる公開された旅です。`;
+            ? `${locationText}を含む公開の旅で、写真${photoCount}枚が含まれています。`
+            : `MomentBook で公開されている旅で、写真${photoCount}枚が含まれています。`;
     }
 
     if (lang === "zh") {
         return locationText
-            ? `${locationText} 的旅程，${photoCount} 张照片。`
-            : `一段公开的旅程，包含 ${photoCount} 张照片。`;
+            ? `这是一段包含 ${locationText} 的公开旅程，共有 ${photoCount} 张旅行照片。`
+            : `这是 MomentBook 上公开的一段旅程，共有 ${photoCount} 张旅行照片。`;
     }
 
     if (lang === "es") {
         return locationText
-            ? `Viaje por ${locationText} con ${photoCount} fotos.`
-            : `Un viaje publicado con ${photoCount} fotos.`;
+            ? `Viaje público por ${locationText} con ${photoCount} fotos de viaje en MomentBook.`
+            : `Un viaje público en MomentBook con ${photoCount} fotos de viaje.`;
     }
 
     if (lang === "pt") {
         return locationText
-            ? `Viagem por ${locationText} com ${photoCount} fotos.`
-            : `Uma viagem publicada com ${photoCount} fotos.`;
+            ? `Viagem pública por ${locationText} com ${photoCount} fotos de viagem no MomentBook.`
+            : `Uma viagem pública no MomentBook com ${photoCount} fotos de viagem.`;
     }
 
     if (lang === "fr") {
         return locationText
-            ? `Voyage à travers ${locationText} avec ${photoCount} photos.`
-            : `Un voyage publié avec ${photoCount} photos.`;
+            ? `Voyage public à travers ${locationText} avec ${photoCount} photos de voyage sur MomentBook.`
+            : `Un voyage public sur MomentBook avec ${photoCount} photos de voyage.`;
     }
 
     if (lang === "th") {
         return locationText
-            ? `ทริปผ่าน ${locationText} พร้อมรูป ${photoCount} รูป`
-            : `ทริปสาธารณะที่มีรูป ${photoCount} รูป`;
+            ? `ทริปสาธารณะที่มี ${locationText} และรูปท่องเที่ยว ${photoCount} รูปบน MomentBook`
+            : `ทริปสาธารณะบน MomentBook ที่มีรูปท่องเที่ยว ${photoCount} รูป`;
     }
 
     if (lang === "vi") {
         return locationText
-            ? `Hành trình qua ${locationText} với ${photoCount} ảnh.`
-            : `Một hành trình đã đăng với ${photoCount} ảnh.`;
+            ? `Hành trình công khai qua ${locationText} với ${photoCount} ảnh du lịch trên MomentBook.`
+            : `Hành trình công khai trên MomentBook với ${photoCount} ảnh du lịch.`;
     }
 
     return locationText
-        ? `Journey through ${locationText} with ${photoCount} photos.`
-        : `A published journey with ${photoCount} photos.`;
+        ? `Public journey through ${locationText} with ${photoCount} travel photos on MomentBook.`
+        : `A public journey on MomentBook with ${photoCount} travel photos.`;
 }

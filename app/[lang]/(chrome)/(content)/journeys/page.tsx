@@ -23,7 +23,11 @@ import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
 import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
-import { buildPublicRobots } from "@/lib/seo/public-metadata";
+import {
+    buildOpenGraphBase,
+    buildPublicRobots,
+    buildSeoDescription,
+} from "@/lib/seo/public-metadata";
 
 export const revalidate = 60;
 
@@ -32,6 +36,7 @@ const JOURNEYS_PER_PAGE = 16;
 type JourneyPageLabels = {
     title: string;
     subtitle: string;
+    metaDescription: string;
     countLabel: string;
     empty: string;
     byLabel: string;
@@ -50,6 +55,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     en: {
         title: "Journeys",
         subtitle: "Shared journeys on MomentBook.",
+        metaDescription:
+            "Public journeys, travel timelines, and published trip photo archives shared on MomentBook.",
         countLabel: "{count} journeys",
         empty: "No published journeys yet.",
         byLabel: "by",
@@ -66,6 +73,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     ko: {
         title: "여정",
         subtitle: "MomentBook에서 공유된 여정입니다.",
+        metaDescription:
+            "MomentBook에서 공유된 공개 여정, 여행 타임라인, 사진 아카이브를 모아둔 페이지입니다.",
         countLabel: "{count}개 여정",
         empty: "아직 게시된 여정이 없습니다.",
         byLabel: "작성자",
@@ -82,6 +91,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     ja: {
         title: "旅",
         subtitle: "MomentBookで共有された旅です。",
+        metaDescription:
+            "MomentBook で共有された公開の旅、旅行タイムライン、写真アーカイブをまとめたページです。",
         countLabel: "{count}件の旅",
         empty: "公開された旅はまだありません。",
         byLabel: "投稿者",
@@ -98,6 +109,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     zh: {
         title: "旅程",
         subtitle: "在 MomentBook 上分享的公开旅程。",
+        metaDescription:
+            "汇集了 MomentBook 上分享的公开旅程、旅行时间线与照片档案。",
         countLabel: "{count} 段旅程",
         empty: "还没有已发布的旅程。",
         byLabel: "作者",
@@ -114,6 +127,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
   es: {
     title: "Viajes",
     subtitle: "Viajes compartidos en MomentBook.",
+    metaDescription:
+        "Página con viajes públicos, cronologías de viaje y archivos de fotos publicados en MomentBook.",
     countLabel: "{count} viajes",
     empty: "Aún no hay viajes publicados.",
         byLabel: "por",
@@ -130,6 +145,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
   pt: {
     title: "Viagens",
     subtitle: "Viagens compartilhadas no MomentBook.",
+    metaDescription:
+        "Página com viagens públicas, linhas do tempo de viagem e arquivos de fotos publicados no MomentBook.",
     countLabel: "{count} viagens",
     empty: "Ainda não há viagens publicadas.",
         byLabel: "por",
@@ -146,6 +163,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
   fr: {
     title: "Voyages",
     subtitle: "Voyages partagés sur MomentBook.",
+    metaDescription:
+        "Page regroupant les voyages publics, chronologies de voyage et archives photo publiés sur MomentBook.",
     countLabel: "{count} voyages",
     empty: "Aucun voyage publié pour le moment.",
     byLabel: "par",
@@ -162,6 +181,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     th: {
         title: "ทริป",
         subtitle: "ทริปที่แชร์บน MomentBook",
+        metaDescription:
+            "รวมทริปสาธารณะ ไทม์ไลน์การเดินทาง และคลังรูปที่เผยแพร่บน MomentBook",
         countLabel: "{count} ทริป",
         empty: "ยังไม่มีทริปที่เผยแพร่",
         byLabel: "โดย",
@@ -178,6 +199,8 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
   vi: {
     title: "Hành trình",
     subtitle: "Các hành trình được chia sẻ trên MomentBook.",
+    metaDescription:
+        "Trang tổng hợp hành trình công khai, dòng thời gian chuyến đi và kho ảnh đã đăng trên MomentBook.",
     countLabel: "{count} hành trình",
     empty: "Chưa có hành trình đã đăng.",
     byLabel: "bởi",
@@ -286,25 +309,35 @@ export async function generateMetadata({
         currentPage > 1
             ? ` · ${labels.pageLabel.replace("{page}", String(currentPage))}`
             : "";
+    const description = buildSeoDescription([
+        labels.metaDescription,
+        currentPage > 1
+            ? labels.pageLabel.replace("{page}", String(currentPage))
+            : null,
+    ]);
 
     const path = "/journeys";
-    const urlBase = buildOpenGraphUrl(lang, path);
-    const url = currentPage > 1 ? `${urlBase}?page=${currentPage}` : urlBase;
+    const openGraphPath =
+        currentPage > 1 ? `${path}?page=${currentPage}` : path;
 
     return {
         title: `${labels.title}${pageTitleSuffix}`,
-        description: labels.subtitle,
+        description,
+        applicationName: "MomentBook",
+        creator: "MomentBook",
+        publisher: "MomentBook",
         robots: buildPublicRobots(),
         alternates: buildJourneysAlternates(lang, currentPage),
         openGraph: {
+            ...buildOpenGraphBase(lang, openGraphPath),
+            type: "website",
             title: `${labels.title}${pageTitleSuffix}`,
-            description: labels.subtitle,
-            url,
+            description,
         },
         twitter: {
             card: "summary",
             title: `${labels.title}${pageTitleSuffix}`,
-            description: labels.subtitle,
+            description,
         },
     };
 }
