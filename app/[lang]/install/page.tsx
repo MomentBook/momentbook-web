@@ -14,6 +14,7 @@ import {
 } from "@/lib/mobile-app";
 import { buildQrCodeSvg } from "@/lib/qr-code";
 import {
+  buildLocalizedAppScreenshotImage,
   buildNoIndexRobots,
   buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
@@ -90,6 +91,10 @@ export async function generateMetadata({
     description: content.description,
     robots: buildNoIndexRobots(),
     absoluteTitle: true,
+    twitterCard: "summary_large_image",
+    socialImages: [
+      buildLocalizedAppScreenshotImage(lang, content.title),
+    ],
     other: {
       "apple-itunes-app": buildAppleSmartBannerContent(lang, campaign),
     },

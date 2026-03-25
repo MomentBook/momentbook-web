@@ -10,6 +10,7 @@ import {
 } from "@/lib/seo/json-ld";
 import {
   buildAbsoluteTitle,
+  buildLocalizedAppScreenshotImage,
   buildOpenGraphBase,
   buildPublicRobots,
   buildSeoDescription,
@@ -41,6 +42,7 @@ export async function generateMetadata({
     content.metaDescription,
     faqSeoContextByLanguage[lang] ?? faqSeoContextByLanguage.en,
   ]);
+  const socialImages = [buildLocalizedAppScreenshotImage(lang, content.metaTitle)];
 
   return {
     title,
@@ -55,11 +57,13 @@ export async function generateMetadata({
       type: "website",
       title: content.metaTitle,
       description,
+      images: socialImages,
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: content.metaTitle,
       description,
+      images: socialImages.map((image) => image.url),
     },
   };
 }

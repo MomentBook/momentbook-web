@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getLocalizedScreenshotPath, type AppScreenshotKey } from "@/lib/app-screenshots";
 import { languageList, toOpenGraphLocale, type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 
@@ -6,6 +7,8 @@ export type PublicMetadataKind = "journey" | "moment" | "photo" | "user";
 
 const SITE_NAME = "MomentBook";
 const SEO_DESCRIPTION_MAX_LENGTH = 180;
+const DEFAULT_APP_SCREENSHOT_WIDTH = 1125;
+const DEFAULT_APP_SCREENSHOT_HEIGHT = 2436;
 
 type BuildPublicKeywordsOptions = {
   kind: PublicMetadataKind;
@@ -177,6 +180,12 @@ type BuildStandardPageMetadataOptions = {
   absoluteTitle?: boolean;
   openGraphType?: "website" | "article" | "profile";
   twitterCard?: "summary" | "summary_large_image";
+  socialImages?: Array<{
+    url: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  }>;
   other?: Metadata["other"];
 };
 
@@ -189,8 +198,11 @@ export function buildStandardPageMetadata({
   absoluteTitle = false,
   openGraphType = "website",
   twitterCard = "summary",
+  socialImages,
   other,
 }: BuildStandardPageMetadataOptions): Metadata {
+  const normalizedImages = compactSocialImages(socialImages ?? []);
+
   return {
     title: absoluteTitle ? buildAbsoluteTitle(title) : title,
     description,
@@ -204,13 +216,28 @@ export function buildStandardPageMetadata({
       type: openGraphType,
       title,
       description,
+      images: normalizedImages,
     },
     twitter: {
-      card: twitterCard,
+      card: resolveTwitterCard(normalizedImages, twitterCard),
       title,
       description,
+      images: normalizedImages?.map((image) => image.url),
     },
     ...(other ? { other } : {}),
+  };
+}
+
+export function buildLocalizedAppScreenshotImage(
+  lang: Language,
+  alt: string,
+  key: AppScreenshotKey = "intro",
+) {
+  return {
+    url: getLocalizedScreenshotPath(lang, key),
+    width: DEFAULT_APP_SCREENSHOT_WIDTH,
+    height: DEFAULT_APP_SCREENSHOT_HEIGHT,
+    alt,
   };
 }
 

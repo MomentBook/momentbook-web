@@ -12,6 +12,7 @@ import {
 } from "@/lib/seo/json-ld";
 import {
   buildNoIndexFollowRobots,
+  buildLocalizedAppScreenshotImage,
   buildOpenGraphBase,
   buildPublicRobots,
   buildSeoDescription,
@@ -224,6 +225,7 @@ export async function generateMetadata({
     labels.metaDescription,
     shouldNoIndexSearchResults ? query : null,
   ]);
+  const socialImages = [buildLocalizedAppScreenshotImage(lang, labels.title)];
 
   return {
     title: labels.title,
@@ -240,11 +242,13 @@ export async function generateMetadata({
       type: "website",
       title: labels.title,
       description,
+      images: socialImages,
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: labels.title,
       description,
+      images: socialImages.map((image) => image.url),
     },
   };
 }

@@ -16,6 +16,7 @@ import { fetchPublishedJourneys, type PublishedJourneyListItemApi } from "@/lib/
 import { fetchPublicUser } from "@/lib/public-users";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import {
+  buildLocalizedAppScreenshotImage,
   buildPublicRobots,
   buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
@@ -639,6 +640,10 @@ export async function generateMetadata(
     description: content.metaDescription,
     robots: buildPublicRobots(),
     absoluteTitle: true,
+    twitterCard: "summary_large_image",
+    socialImages: [
+      buildLocalizedAppScreenshotImage(lang, content.metaTitle),
+    ],
     other: {
       "apple-itunes-app": buildAppleSmartBannerContent(lang),
     },

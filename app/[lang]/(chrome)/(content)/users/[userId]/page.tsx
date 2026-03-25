@@ -9,6 +9,7 @@ import {
   buildPaginatedAlternates,
 } from "@/lib/i18n/metadata";
 import {
+  buildLocalizedAppScreenshotImage,
   buildOpenGraphBase,
   buildPublicRobots,
   buildSeoDescription,
@@ -504,6 +505,16 @@ export async function generateMetadata({
     currentPage > 1 ? `${path}?page=${currentPage}` : path;
   const title = buildUserMetadataTitle(lang, user.name, currentPage);
   const description = buildUserMetadataDescription(lang, user, currentPage);
+  const socialImages = user.picture
+    ? [
+        {
+          url: user.picture,
+          width: 800,
+          height: 800,
+          alt: user.name,
+        },
+      ]
+    : [buildLocalizedAppScreenshotImage(lang, title)];
 
   return {
     title,
@@ -525,22 +536,13 @@ export async function generateMetadata({
       description,
       type: "profile",
       username: user.userId,
-      images: user.picture
-        ? [
-            {
-              url: user.picture,
-              width: 800,
-              height: 800,
-              alt: user.name,
-            },
-          ]
-        : [],
+      images: socialImages,
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
-      images: user.picture ? [user.picture] : [],
+      images: socialImages.map((image) => image.url),
     },
   };
 }

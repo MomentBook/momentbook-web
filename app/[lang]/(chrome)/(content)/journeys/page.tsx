@@ -26,6 +26,7 @@ import {
     serializeJsonLd,
 } from "@/lib/seo/json-ld";
 import {
+    buildLocalizedAppScreenshotImage,
     buildOpenGraphBase,
     buildPublicRobots,
     buildSeoDescription,
@@ -298,6 +299,9 @@ export async function generateMetadata({
             ? labels.pageLabel.replace("{page}", String(currentPage))
             : null,
     ]);
+    const socialImages = [
+        buildLocalizedAppScreenshotImage(lang, `${labels.title}${pageTitleSuffix}`),
+    ];
 
     const path = "/journeys";
     const openGraphPath =
@@ -316,11 +320,13 @@ export async function generateMetadata({
             type: "website",
             title: `${labels.title}${pageTitleSuffix}`,
             description,
+            images: socialImages,
         },
         twitter: {
-            card: "summary",
+            card: "summary_large_image",
             title: `${labels.title}${pageTitleSuffix}`,
             description,
+            images: socialImages.map((image) => image.url),
         },
     };
 }
