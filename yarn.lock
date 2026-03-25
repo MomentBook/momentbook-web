@@ -1627,15 +1627,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 25.3.5
-  resolution: "@types/node@npm:25.3.5"
-  dependencies:
-    undici-types: ~7.18.0
-  checksum: bc8400baaf2023c8d843526e13ac1c50f46b8416eb3c5480c9f01b3f3787ecc7c8c740110cce3568776c8f73be06eaaba7bfcb601f5946c56785589a6a3bd148
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0":
   version: 25.2.0
   resolution: "@types/node@npm:25.2.0"
@@ -1658,15 +1649,6 @@ __metadata:
   version: 15.7.15
   resolution: "@types/prop-types@npm:15.7.15"
   checksum: 31aa2f59b28f24da6fb4f1d70807dae2aedfce090ec63eaf9ea01727a9533ef6eaf017de5bff99fbccad7d1c9e644f52c6c2ba30869465dd22b1a7221c29f356
-  languageName: node
-  linkType: hard
-
-"@types/qrcode@npm:^1.5.6":
-  version: 1.5.6
-  resolution: "@types/qrcode@npm:1.5.6"
-  dependencies:
-    "@types/node": "*"
-  checksum: 7a10d298a9987dc4f0cdfdc5171dabafaf0945cc97e5daa6b609e726a57aa4a48ae0e966c68379ef390d61d3cd6621b9b04214bb16b42f5486a46349e1db254d
   languageName: node
   linkType: hard
 
@@ -4283,7 +4265,6 @@ __metadata:
     "@next/third-parties": ^16.1.6
     "@types/leaflet": ^1.9.21
     "@types/node": ^20
-    "@types/qrcode": ^1.5.6
     "@types/react": 18
     "@types/react-dom": 18
     axios: 1.13.2
@@ -5639,13 +5620,6 @@ __metadata:
   version: 7.16.0
   resolution: "undici-types@npm:7.16.0"
   checksum: 1ef68fc6c5bad200c8b6f17de8e5bc5cfdcadc164ba8d7208cd087cfa8583d922d8316a7fd76c9a658c22b4123d3ff847429185094484fbc65377d695c905857
-  languageName: node
-  linkType: hard
-
-"undici-types@npm:~7.18.0":
-  version: 7.18.2
-  resolution: "undici-types@npm:7.18.2"
-  checksum: 23da306c8366574adec305b06a8519ab5c7d09e3f5d16c1a98709a34fae17da09ec95198f30f86c00055e02efa8bfcc843e84e8aebeb9b8d6bb3e06afccae07a
   languageName: node
   linkType: hard
 
