@@ -1,11 +1,53 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import styles from "./privacy.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import {
-  buildNoIndexRobots,
-  buildStandardPageMetadata,
-} from "@/lib/seo/public-metadata";
+  buildLegalPageMetadata,
+  LegalDocumentShell,
+  type LegalPageMetadataCopy,
+  renderLegalContent,
+} from "../legal-page";
+
+const privacyMetadataByLanguage: Record<Language, LegalPageMetadataCopy> = {
+  en: {
+    title: "MomentBook Privacy Policy",
+    description: "How MomentBook handles your data.",
+  },
+  ko: {
+    title: "MomentBook 개인정보 처리방침",
+    description: "MomentBook 개인정보 처리방침을 안내합니다.",
+  },
+  ja: {
+    title: "MomentBook プライバシーポリシー",
+    description: "MomentBookのプライバシーポリシーをご案内します。",
+  },
+  zh: {
+    title: "MomentBook 隐私政策",
+    description: "了解 MomentBook 的隐私政策。",
+  },
+  es: {
+    title: "Política de privacidad de MomentBook",
+    description: "Cómo maneja MomentBook tus datos.",
+  },
+  pt: {
+    title: "Política de privacidade do MomentBook",
+    description: "Como o MomentBook trata seus dados.",
+  },
+  fr: {
+    title: "Politique de confidentialité de MomentBook",
+    description: "Comment MomentBook gère vos données.",
+  },
+  th: {
+    title: "นโยบายความเป็นส่วนตัวของ MomentBook",
+    description: "MomentBook จัดการข้อมูลของคุณอย่างไร",
+  },
+  vi: {
+    title: "Chính sách quyền riêng tư của MomentBook",
+    description: "MomentBook xử lý dữ liệu của bạn như thế nào.",
+  },
+};
 
 export async function generateMetadata({
   params,
@@ -13,58 +55,7 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
-  let title = "MomentBook Privacy Policy";
-  let description = "How MomentBook handles your data.";
-
-  if (lang === "ko") {
-    title = "MomentBook 개인정보 처리방침";
-    description = "MomentBook 개인정보 처리방침을 안내합니다.";
-  }
-
-  if (lang === "ja") {
-    title = "MomentBook プライバシーポリシー";
-    description = "MomentBookのプライバシーポリシーをご案内します。";
-  }
-
-  if (lang === "zh") {
-    title = "MomentBook 隐私政策";
-    description = "了解 MomentBook 的隐私政策。";
-  }
-
-  if (lang === "es") {
-    title = "Política de privacidad de MomentBook";
-    description = "Cómo maneja MomentBook tus datos.";
-  }
-
-  if (lang === "pt") {
-    title = "Política de privacidade do MomentBook";
-    description = "Como o MomentBook trata seus dados.";
-  }
-
-  if (lang === "fr") {
-    title = "Politique de confidentialité de MomentBook";
-    description = "Comment MomentBook gère vos données.";
-  }
-
-  if (lang === "th") {
-    title = "นโยบายความเป็นส่วนตัวของ MomentBook";
-    description = "MomentBook จัดการข้อมูลของคุณอย่างไร";
-  }
-
-  if (lang === "vi") {
-    title = "Chính sách quyền riêng tư của MomentBook";
-    description = "MomentBook xử lý dữ liệu của bạn như thế nào.";
-  }
-
-  const path = "/privacy";
-  return buildStandardPageMetadata({
-    lang,
-    path,
-    title,
-    description,
-    robots: buildNoIndexRobots(),
-    absoluteTitle: true,
-  });
+  return buildLegalPageMetadata(lang, "/privacy", privacyMetadataByLanguage);
 }
 
 export default async function PrivacyPage({
@@ -73,37 +64,25 @@ export default async function PrivacyPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const content = getPrivacyContent(lang);
-
   return (
-    <div className={styles.container}>
-      <article className={styles.content}>{content}</article>
-    </div>
+    <LegalDocumentShell
+      classNames={{ container: styles.container, content: styles.content }}
+      content={renderLegalContent(lang, privacyContentByLanguage)}
+    />
   );
 }
 
-function getPrivacyContent(lang: Language) {
-  switch (lang) {
-    case "ko":
-      return <KoreanPrivacy />;
-    case "ja":
-      return <JapanesePrivacy />;
-    case "zh":
-      return <ChinesePrivacy />;
-    case "es":
-      return <SpanishPrivacy />;
-    case "pt":
-      return <PortuguesePrivacy />;
-    case "fr":
-      return <FrenchPrivacy />;
-    case "th":
-      return <ThaiPrivacy />;
-    case "vi":
-      return <VietnamesePrivacy />;
-    default:
-      return <EnglishPrivacy />;
-  }
-}
+const privacyContentByLanguage = {
+  en: EnglishPrivacy,
+  ko: KoreanPrivacy,
+  ja: JapanesePrivacy,
+  zh: ChinesePrivacy,
+  es: SpanishPrivacy,
+  pt: PortuguesePrivacy,
+  fr: FrenchPrivacy,
+  th: ThaiPrivacy,
+  vi: VietnamesePrivacy,
+} satisfies Record<Language, () => ReactNode>;
 
 function EnglishPrivacy() {
   return (

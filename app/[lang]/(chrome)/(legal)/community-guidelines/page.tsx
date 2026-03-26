@@ -1,10 +1,52 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import styles from "./community-guidelines.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import {
-  buildNoIndexRobots,
-  buildStandardPageMetadata,
-} from "@/lib/seo/public-metadata";
+  buildLegalPageMetadata,
+  LegalDocumentShell,
+  type LegalPageMetadataCopy,
+  renderLegalContent,
+} from "../legal-page";
+
+const guidelinesMetadataByLanguage: Record<Language, LegalPageMetadataCopy> = {
+  en: {
+    title: "MomentBook Community Guidelines",
+    description: "MomentBook community guidelines and content policy.",
+  },
+  ko: {
+    title: "MomentBook 커뮤니티 가이드라인",
+    description: "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.",
+  },
+  ja: {
+    title: "MomentBook コミュニティガイドライン",
+    description: "MomentBookのコミュニティガイドラインとコンテンツポリシーです。",
+  },
+  zh: {
+    title: "MomentBook 社区指南",
+    description: "MomentBook 的社区指南与内容政策。",
+  },
+  es: {
+    title: "Normas de la comunidad de MomentBook",
+    description: "Normas de comunidad y política de contenido de MomentBook.",
+  },
+  pt: {
+    title: "Diretrizes da comunidade do MomentBook",
+    description: "Diretrizes da comunidade e política de conteúdo do MomentBook.",
+  },
+  fr: {
+    title: "Règles de la communauté MomentBook",
+    description: "Règles de communauté et politique de contenu de MomentBook.",
+  },
+  th: {
+    title: "แนวทางชุมชนของ MomentBook",
+    description: "แนวทางชุมชนและนโยบายเนื้อหาของ MomentBook",
+  },
+  vi: {
+    title: "Hướng dẫn cộng đồng MomentBook",
+    description: "Hướng dẫn cộng đồng và chính sách nội dung của MomentBook.",
+  },
+};
 
 export async function generateMetadata({
   params,
@@ -12,58 +54,11 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
-  let title = "MomentBook Community Guidelines";
-  let description = "MomentBook community guidelines and content policy.";
-
-  if (lang === "ko") {
-    title = "MomentBook 커뮤니티 가이드라인";
-    description = "MomentBook 커뮤니티 가이드라인과 콘텐츠 정책입니다.";
-  }
-
-  if (lang === "ja") {
-    title = "MomentBook コミュニティガイドライン";
-    description = "MomentBookのコミュニティガイドラインとコンテンツポリシーです。";
-  }
-
-  if (lang === "zh") {
-    title = "MomentBook 社区指南";
-    description = "MomentBook 的社区指南与内容政策。";
-  }
-
-  if (lang === "es") {
-    title = "Normas de la comunidad de MomentBook";
-    description = "Normas de comunidad y política de contenido de MomentBook.";
-  }
-
-  if (lang === "pt") {
-    title = "Diretrizes da comunidade do MomentBook";
-    description = "Diretrizes da comunidade e política de conteúdo do MomentBook.";
-  }
-
-  if (lang === "fr") {
-    title = "Règles de la communauté MomentBook";
-    description = "Règles de communauté et politique de contenu de MomentBook.";
-  }
-
-  if (lang === "th") {
-    title = "แนวทางชุมชนของ MomentBook";
-    description = "แนวทางชุมชนและนโยบายเนื้อหาของ MomentBook";
-  }
-
-  if (lang === "vi") {
-    title = "Hướng dẫn cộng đồng MomentBook";
-    description = "Hướng dẫn cộng đồng và chính sách nội dung của MomentBook.";
-  }
-
-  const path = "/community-guidelines";
-  return buildStandardPageMetadata({
+  return buildLegalPageMetadata(
     lang,
-    path,
-    title,
-    description,
-    robots: buildNoIndexRobots(),
-    absoluteTitle: true,
-  });
+    "/community-guidelines",
+    guidelinesMetadataByLanguage,
+  );
 }
 
 export default async function CommunityGuidelinesPage({
@@ -72,37 +67,25 @@ export default async function CommunityGuidelinesPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const content = getGuidelinesContent(lang);
-
   return (
-    <div className={styles.container}>
-      <article className={styles.content}>{content}</article>
-    </div>
+    <LegalDocumentShell
+      classNames={{ container: styles.container, content: styles.content }}
+      content={renderLegalContent(lang, guidelinesContentByLanguage)}
+    />
   );
 }
 
-function getGuidelinesContent(lang: Language) {
-  switch (lang) {
-    case "ko":
-      return <KoreanGuidelines />;
-    case "ja":
-      return <JapaneseGuidelines />;
-    case "zh":
-      return <ChineseGuidelines />;
-    case "es":
-      return <SpanishGuidelines />;
-    case "pt":
-      return <PortugueseGuidelines />;
-    case "fr":
-      return <FrenchGuidelines />;
-    case "th":
-      return <ThaiGuidelines />;
-    case "vi":
-      return <VietnameseGuidelines />;
-    default:
-      return <EnglishGuidelines />;
-  }
-}
+const guidelinesContentByLanguage = {
+  en: EnglishGuidelines,
+  ko: KoreanGuidelines,
+  ja: JapaneseGuidelines,
+  zh: ChineseGuidelines,
+  es: SpanishGuidelines,
+  pt: PortugueseGuidelines,
+  fr: FrenchGuidelines,
+  th: ThaiGuidelines,
+  vi: VietnameseGuidelines,
+} satisfies Record<Language, () => ReactNode>;
 
 function EnglishGuidelines() {
   return (

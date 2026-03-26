@@ -1,10 +1,52 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import styles from "./marketing-consent.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import {
-  buildNoIndexRobots,
-  buildStandardPageMetadata,
-} from "@/lib/seo/public-metadata";
+  buildLegalPageMetadata,
+  LegalDocumentShell,
+  type LegalPageMetadataCopy,
+  renderLegalContent,
+} from "../legal-page";
+
+const marketingConsentMetadataByLanguage: Record<Language, LegalPageMetadataCopy> = {
+  en: {
+    title: "MomentBook Marketing Information Consent",
+    description: "Marketing information and promotional communications consent policy.",
+  },
+  ko: {
+    title: "MomentBook 마케팅 정보 수신 동의",
+    description: "MomentBook 마케팅 수신 동의 정책입니다.",
+  },
+  ja: {
+    title: "MomentBook マーケティング情報同意",
+    description: "MomentBookのマーケティング同意ポリシーです。",
+  },
+  zh: {
+    title: "MomentBook 营销信息同意",
+    description: "MomentBook 的营销信息同意政策。",
+  },
+  es: {
+    title: "Consentimiento de información de marketing de MomentBook",
+    description: "Política de consentimiento para comunicaciones promocionales de MomentBook.",
+  },
+  pt: {
+    title: "Consentimento de informações de marketing do MomentBook",
+    description: "Política de consentimento para comunicações promocionais do MomentBook.",
+  },
+  fr: {
+    title: "Consentement marketing de MomentBook",
+    description: "Politique de consentement pour les communications promotionnelles de MomentBook.",
+  },
+  th: {
+    title: "ความยินยอมรับข้อมูลการตลาดของ MomentBook",
+    description: "นโยบายการยินยอมรับข้อมูลการตลาดและการสื่อสารโปรโมชันของ MomentBook",
+  },
+  vi: {
+    title: "Đồng ý nhận thông tin tiếp thị MomentBook",
+    description: "Chính sách đồng ý cho thông tin tiếp thị và truyền thông khuyến mại của MomentBook.",
+  },
+};
 
 export async function generateMetadata({
   params,
@@ -12,58 +54,11 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
-  let title = "MomentBook Marketing Information Consent";
-  let description = "Marketing information and promotional communications consent policy.";
-
-  if (lang === "ko") {
-    title = "MomentBook 마케팅 정보 수신 동의";
-    description = "MomentBook 마케팅 수신 동의 정책입니다.";
-  }
-
-  if (lang === "ja") {
-    title = "MomentBook マーケティング情報同意";
-    description = "MomentBookのマーケティング同意ポリシーです。";
-  }
-
-  if (lang === "zh") {
-    title = "MomentBook 营销信息同意";
-    description = "MomentBook 的营销信息同意政策。";
-  }
-
-  if (lang === "es") {
-    title = "Consentimiento de información de marketing de MomentBook";
-    description = "Política de consentimiento para comunicaciones promocionales de MomentBook.";
-  }
-
-  if (lang === "pt") {
-    title = "Consentimento de informações de marketing do MomentBook";
-    description = "Política de consentimento para comunicações promocionais do MomentBook.";
-  }
-
-  if (lang === "fr") {
-    title = "Consentement marketing de MomentBook";
-    description = "Politique de consentement pour les communications promotionnelles de MomentBook.";
-  }
-
-  if (lang === "th") {
-    title = "ความยินยอมรับข้อมูลการตลาดของ MomentBook";
-    description = "นโยบายการยินยอมรับข้อมูลการตลาดและการสื่อสารโปรโมชันของ MomentBook";
-  }
-
-  if (lang === "vi") {
-    title = "Đồng ý nhận thông tin tiếp thị MomentBook";
-    description = "Chính sách đồng ý cho thông tin tiếp thị và truyền thông khuyến mại của MomentBook.";
-  }
-
-  const path = "/marketing-consent";
-  return buildStandardPageMetadata({
+  return buildLegalPageMetadata(
     lang,
-    path,
-    title,
-    description,
-    robots: buildNoIndexRobots(),
-    absoluteTitle: true,
-  });
+    "/marketing-consent",
+    marketingConsentMetadataByLanguage,
+  );
 }
 
 export default async function MarketingConsentPage({
@@ -72,37 +67,25 @@ export default async function MarketingConsentPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const content = getMarketingConsentContent(lang);
-
   return (
-    <div className={styles.container}>
-      <article className={styles.content}>{content}</article>
-    </div>
+    <LegalDocumentShell
+      classNames={{ container: styles.container, content: styles.content }}
+      content={renderLegalContent(lang, marketingConsentContentByLanguage)}
+    />
   );
 }
 
-function getMarketingConsentContent(lang: Language) {
-  switch (lang) {
-    case "ko":
-      return <KoreanConsent />;
-    case "ja":
-      return <JapaneseConsent />;
-    case "zh":
-      return <ChineseConsent />;
-    case "es":
-      return <SpanishConsent />;
-    case "pt":
-      return <PortugueseConsent />;
-    case "fr":
-      return <FrenchConsent />;
-    case "th":
-      return <ThaiConsent />;
-    case "vi":
-      return <VietnameseConsent />;
-    default:
-      return <EnglishConsent />;
-  }
-}
+const marketingConsentContentByLanguage = {
+  en: EnglishConsent,
+  ko: KoreanConsent,
+  ja: JapaneseConsent,
+  zh: ChineseConsent,
+  es: SpanishConsent,
+  pt: PortugueseConsent,
+  fr: FrenchConsent,
+  th: ThaiConsent,
+  vi: VietnameseConsent,
+} satisfies Record<Language, () => ReactNode>;
 
 function EnglishConsent() {
   return (

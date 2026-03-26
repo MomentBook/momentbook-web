@@ -1,11 +1,53 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import styles from "./terms.module.scss";
 import { type Language } from "@/lib/i18n/config";
 import {
-  buildNoIndexRobots,
-  buildStandardPageMetadata,
-} from "@/lib/seo/public-metadata";
+  buildLegalPageMetadata,
+  LegalDocumentShell,
+  type LegalPageMetadataCopy,
+  renderLegalContent,
+} from "../legal-page";
+
+const termsMetadataByLanguage: Record<Language, LegalPageMetadataCopy> = {
+  en: {
+    title: "MomentBook Terms of Service",
+    description: "Terms of use for MomentBook.",
+  },
+  ko: {
+    title: "MomentBook 이용약관",
+    description: "MomentBook 이용약관을 안내합니다.",
+  },
+  ja: {
+    title: "MomentBook 利用規約",
+    description: "MomentBookの利用規約をご案内します。",
+  },
+  zh: {
+    title: "MomentBook 服务条款",
+    description: "了解 MomentBook 的服务条款。",
+  },
+  es: {
+    title: "Términos de servicio de MomentBook",
+    description: "Consulta los términos de uso de MomentBook.",
+  },
+  pt: {
+    title: "Termos de uso do MomentBook",
+    description: "Consulte os termos de uso do MomentBook.",
+  },
+  fr: {
+    title: "Conditions d'utilisation de MomentBook",
+    description: "Consultez les conditions d'utilisation de MomentBook.",
+  },
+  th: {
+    title: "ข้อกำหนดการใช้งาน MomentBook",
+    description: "ดูข้อกำหนดการใช้งานของ MomentBook",
+  },
+  vi: {
+    title: "Điều khoản sử dụng MomentBook",
+    description: "Xem điều khoản sử dụng của MomentBook.",
+  },
+};
 
 export async function generateMetadata({
   params,
@@ -13,58 +55,7 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params as { lang: Language };
-  let title = "MomentBook Terms of Service";
-  let description = "Terms of use for MomentBook.";
-
-  if (lang === "ko") {
-    title = "MomentBook 이용약관";
-    description = "MomentBook 이용약관을 안내합니다.";
-  }
-
-  if (lang === "ja") {
-    title = "MomentBook 利用規約";
-    description = "MomentBookの利用規約をご案内します。";
-  }
-
-  if (lang === "zh") {
-    title = "MomentBook 服务条款";
-    description = "了解 MomentBook 的服务条款。";
-  }
-
-  if (lang === "es") {
-    title = "Términos de servicio de MomentBook";
-    description = "Consulta los términos de uso de MomentBook.";
-  }
-
-  if (lang === "pt") {
-    title = "Termos de uso do MomentBook";
-    description = "Consulte os termos de uso do MomentBook.";
-  }
-
-  if (lang === "fr") {
-    title = "Conditions d'utilisation de MomentBook";
-    description = "Consultez les conditions d'utilisation de MomentBook.";
-  }
-
-  if (lang === "th") {
-    title = "ข้อกำหนดการใช้งาน MomentBook";
-    description = "ดูข้อกำหนดการใช้งานของ MomentBook";
-  }
-
-  if (lang === "vi") {
-    title = "Điều khoản sử dụng MomentBook";
-    description = "Xem điều khoản sử dụng của MomentBook.";
-  }
-
-  const path = "/terms";
-  return buildStandardPageMetadata({
-    lang,
-    path,
-    title,
-    description,
-    robots: buildNoIndexRobots(),
-    absoluteTitle: true,
-  });
+  return buildLegalPageMetadata(lang, "/terms", termsMetadataByLanguage);
 }
 
 export default async function TermsPage({
@@ -73,37 +64,25 @@ export default async function TermsPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params as { lang: Language };
-  const content = getTermsContent(lang);
-
   return (
-    <div className={styles.container}>
-      <article className={styles.content}>{content}</article>
-    </div>
+    <LegalDocumentShell
+      classNames={{ container: styles.container, content: styles.content }}
+      content={renderLegalContent(lang, termsContentByLanguage)}
+    />
   );
 }
 
-function getTermsContent(lang: Language) {
-  switch (lang) {
-    case "ko":
-      return <KoreanTerms />;
-    case "ja":
-      return <JapaneseTerms />;
-    case "zh":
-      return <ChineseTerms />;
-    case "es":
-      return <SpanishTerms />;
-    case "pt":
-      return <PortugueseTerms />;
-    case "fr":
-      return <FrenchTerms />;
-    case "th":
-      return <ThaiTerms />;
-    case "vi":
-      return <VietnameseTerms />;
-    default:
-      return <EnglishTerms />;
-  }
-}
+const termsContentByLanguage = {
+  en: EnglishTerms,
+  ko: KoreanTerms,
+  ja: JapaneseTerms,
+  zh: ChineseTerms,
+  es: SpanishTerms,
+  pt: PortugueseTerms,
+  fr: FrenchTerms,
+  th: ThaiTerms,
+  vi: VietnameseTerms,
+} satisfies Record<Language, () => ReactNode>;
 
 function EnglishTerms() {
   return (
