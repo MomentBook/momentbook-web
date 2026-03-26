@@ -5,18 +5,10 @@ import type { Language } from "@/lib/i18n/config";
 import { resolveJourneyPeriodRange } from "@/lib/journey-period";
 import type { UserJourneyApi } from "@/lib/public-users";
 import { asRecord, readText } from "@/lib/view-helpers";
+import type { UserPageLabels } from "./user-page.helpers";
 import styles from "./user.module.scss";
 
 const FALLBACK_COVER_SRC = "/images/placeholders/journey-cover-fallback.svg";
-
-type UserPageLabels = {
-  photos: string;
-  period: string;
-  publishedLabel: string;
-  unknownDateLabel: string;
-  untitledJourney: string;
-  periodUnknown: string;
-};
 
 type UserJourneyCardProps = {
   journey: UserJourneyApi;
