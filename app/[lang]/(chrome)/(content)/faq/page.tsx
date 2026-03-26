@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { flattenFaqItems, getFaqContent } from "@/lib/marketing/faq-content";
@@ -15,6 +14,7 @@ import {
   buildPublicRobots,
   buildSeoDescription,
 } from "@/lib/seo/public-metadata";
+import { FaqContentView } from "./FaqContentView";
 import styles from "./faq.module.scss";
 
 const faqSeoContextByLanguage: Record<Language, string> = {
@@ -108,45 +108,7 @@ export default async function FAQPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }}
       />
-
-      <header className={styles.header}>
-        <h1 className={styles.title}>{content.pageTitle}</h1>
-        <p className={styles.subtitle}>{content.pageSubtitle}</p>
-      </header>
-
-      <div className={styles.groups}>
-        {content.groups.map((group, groupIndex) => (
-          <section
-            key={`${group.title}-${groupIndex}`}
-            className={styles.group}
-            aria-labelledby={`faq-group-${groupIndex}`}
-          >
-            <header className={styles.groupHeader}>
-              <h2 id={`faq-group-${groupIndex}`} className={styles.groupTitle}>
-                {group.title}
-              </h2>
-              <p className={styles.groupDescription}>{group.description}</p>
-            </header>
-
-            <div className={styles.faqList}>
-              {group.items.map((faq, index) => (
-                <details key={`${faq.question}-${index}`} className={styles.faqItem}>
-                  <summary className={styles.faqQuestion}>{faq.question}</summary>
-                  <p className={styles.faqAnswer}>{faq.answer}</p>
-                </details>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
-
-      <p className={styles.callout}>
-        {content.calloutPrefix}
-        <Link href={`/${lang}/support`} className={styles.calloutLink}>
-          {content.calloutLink}
-        </Link>
-        {content.calloutSuffix}
-      </p>
+      <FaqContentView lang={lang} content={content} />
     </div>
   );
 }
