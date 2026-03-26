@@ -1,8 +1,7 @@
-import Image from "next/image";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import styles from "./user.module.scss";
+import { PaginationNav } from "@/components/PaginationNav";
 import { languageList, type Language } from "@/lib/i18n/config";
 import {
   buildOpenGraphUrl,
@@ -21,23 +20,21 @@ import {
   serializeJsonLd,
 } from "@/lib/seo/json-ld";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
-import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
 import {
   fetchPublicUsers,
   fetchPublicUser,
   fetchUserJourneys,
   type PublicUserApi,
-  type UserJourneyApi,
 } from "@/lib/public-users";
 import {
   buildPaginationEntries,
   parsePositiveIntegerPage,
 } from "@/lib/pagination";
-import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
+import { formatTemplate, readText } from "@/lib/view-helpers";
+import { UserJourneyCard } from "./UserJourneyCard";
 
 export const revalidate = 3600;
 
-const FALLBACK_COVER_SRC = "/images/placeholders/journey-cover-fallback.svg";
 const JOURNEYS_PER_PAGE = 16;
 
 type UserPageLabels = {
@@ -252,101 +249,12 @@ const userNotFoundTitleByLanguage: Record<Language, string> = {
   vi: "Không tìm thấy người dùng",
 };
 
-function readText(value: unknown): string | null {
-  if (typeof value !== "string") {
-    return null;
-  }
-
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
-}
-
-function asRecord(value: unknown): Record<string, unknown> | null {
-  return value && typeof value === "object" ? (value as Record<string, unknown>) : null;
-}
-
-function resolveJourneyMetadata(journey: UserJourneyApi) {
-  const metadata = asRecord(journey.metadata);
-
-  return {
-    title: readText(metadata?.title),
-    description: readText(metadata?.description),
-    thumbnailUri: readText(metadata?.thumbnailUri),
-  };
-}
-
-function getJourneyCoverUrl(journey: UserJourneyApi, thumbnailUri: string | null): string | null {
-  const coverCandidate =
-    readText(journey.coverUrl) ?? readText(journey.thumbnailUrl) ?? thumbnailUri;
-
-  if (coverCandidate) {
-    return coverCandidate;
-  }
-
-  if (!Array.isArray(journey.images)) {
-    return null;
-  }
-
-  for (const image of journey.images) {
-    if (typeof image === "string") {
-      const value = readText(image);
-      if (value) {
-        return value;
-      }
-      continue;
-    }
-
-    if (image && typeof image === "object") {
-      const value =
-        readText(image.url) ??
-        readText(image.imageUrl) ??
-        readText(image.src);
-
-      if (value) {
-        return value;
-      }
-    }
-  }
-
-  return null;
-}
-
-function getJourneyPeriodRange(journey: UserJourneyApi) {
-  return resolveJourneyPeriodRange({
-    startedAt: journey.startedAt,
-    endedAt: journey.endedAt,
-    photoSources: [journey.images],
-  });
-}
-
-function getJourneyPhotoCount(journey: UserJourneyApi): number {
-  if (typeof journey.photoCount === "number" && Number.isFinite(journey.photoCount)) {
-    return journey.photoCount;
-  }
-
-  if (typeof journey.imageCount === "number" && Number.isFinite(journey.imageCount)) {
-    return journey.imageCount;
-  }
-
-  return 0;
-}
-
 function buildPageHref(lang: Language, userId: string, page: number): string {
   if (page <= 1) {
     return `/${lang}/users/${userId}`;
   }
 
   return `/${lang}/users/${userId}?page=${page}`;
-}
-
-function formatTemplate(
-  template: string,
-  values: Record<string, string | number>,
-): string {
-  return Object.entries(values).reduce(
-    (result, [key, value]) => result.replace(`{${key}}`, String(value)),
-    template,
-  );
 }
 
 function buildUserProfileDescription(lang: Language, user: PublicUserApi): string {
@@ -397,77 +305,6 @@ function buildUserMetadataDescription(
       ? formatTemplate(labels.metaPageLabel, { page: currentPage })
       : null,
   ]);
-}
-
-type UserJourneyCardProps = {
-  journey: UserJourneyApi;
-  lang: Language;
-  labels: UserPageLabels;
-};
-
-function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps) {
-  const meta = resolveJourneyMetadata(journey);
-  const journeyTitle = meta.title ?? readText(journey.title) ?? labels.untitledJourney;
-  const journeyDescription = meta.description ?? readText(journey.description);
-  const coverUrl = getJourneyCoverUrl(journey, meta.thumbnailUri);
-  const photoCount = getJourneyPhotoCount(journey);
-  const periodRange = getJourneyPeriodRange(journey);
-  const publishedAt = readTimestamp(journey.publishedAt);
-
-  return (
-    <Link
-      href={`/${lang}/journeys/${journey.publicId}`}
-      className={styles.journeyCard}
-      aria-label={journeyTitle}
-    >
-      <div className={styles.journeyCover}>
-        <Image
-          src={coverUrl ?? FALLBACK_COVER_SRC}
-          alt={coverUrl ? journeyTitle : ""}
-          aria-hidden={coverUrl ? undefined : true}
-          fill
-          sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
-          className={styles.journeyImage}
-        />
-        {photoCount > 0 ? (
-          <span className={styles.photoBadge}>
-            {photoCount} {labels.photos}
-          </span>
-        ) : null}
-      </div>
-
-      <div className={styles.cardBody}>
-        <div className={styles.cardHeading}>
-          <h3 className={styles.cardTitle}>{journeyTitle}</h3>
-          <p className={styles.cardDescription}>
-            {journeyDescription ?? "\u00A0"}
-          </p>
-        </div>
-
-        <div className={styles.cardMeta}>
-          <div className={styles.cardMetaRow}>
-            <span className={styles.cardMetaLabel}>{labels.period}</span>
-            <LocalizedDateRange
-              lang={lang}
-              start={periodRange.start}
-              end={periodRange.end}
-              fallback={labels.periodUnknown}
-              className={styles.cardMetaValue}
-            />
-          </div>
-          <div className={styles.cardMetaRow}>
-            <span className={styles.cardMetaLabel}>{labels.publishedLabel}</span>
-            <LocalizedDate
-              lang={lang}
-              timestamp={publishedAt}
-              fallback={labels.unknownDateLabel}
-              className={styles.cardMetaValueAccent}
-            />
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
 }
 
 export async function generateStaticParams() {
@@ -697,59 +534,25 @@ export default async function UserPage({
             </div>
 
             {totalPages > 1 ? (
-              <nav className={styles.pagination} aria-label={labels.journeys}>
-                {hasPreviousPage ? (
-                  <Link
-                    href={buildPageHref(lang, userId, safeCurrentPage - 1)}
-                    className={styles.pageButton}
-                  >
-                    {labels.previousPage}
-                  </Link>
-                ) : (
-                  <span className={styles.pageButtonDisabled}>
-                    {labels.previousPage}
-                  </span>
-                )}
-
-                <div className={styles.pageNumbers}>
-                  {paginationEntries.map((entry) =>
-                    entry.type === "ellipsis" ? (
-                      <span key={entry.key} className={styles.pageEllipsis}>
-                        ...
-                      </span>
-                    ) : entry.page === safeCurrentPage ? (
-                      <span
-                        key={entry.page}
-                        className={styles.pageNumberCurrent}
-                        aria-current="page"
-                      >
-                        {entry.page}
-                      </span>
-                    ) : (
-                      <Link
-                        key={entry.page}
-                        href={buildPageHref(lang, userId, entry.page)}
-                        className={styles.pageNumber}
-                      >
-                        {entry.page}
-                      </Link>
-                    ),
-                  )}
-                </div>
-
-                {hasNextPage ? (
-                  <Link
-                    href={buildPageHref(lang, userId, safeCurrentPage + 1)}
-                    className={styles.pageButton}
-                  >
-                    {labels.nextPage}
-                  </Link>
-                ) : (
-                  <span className={styles.pageButtonDisabled}>
-                    {labels.nextPage}
-                  </span>
-                )}
-              </nav>
+              <PaginationNav
+                ariaLabel={labels.journeys}
+                currentPage={safeCurrentPage}
+                entries={paginationEntries}
+                hasPreviousPage={hasPreviousPage}
+                hasNextPage={hasNextPage}
+                previousLabel={labels.previousPage}
+                nextLabel={labels.nextPage}
+                buildHref={(targetPage) => buildPageHref(lang, userId, targetPage)}
+                classNames={{
+                  nav: styles.pagination,
+                  button: styles.pageButton,
+                  buttonDisabled: styles.pageButtonDisabled,
+                  numbers: styles.pageNumbers,
+                  ellipsis: styles.pageEllipsis,
+                  current: styles.pageNumberCurrent,
+                  page: styles.pageNumber,
+                }}
+              />
             ) : null}
           </>
         )}

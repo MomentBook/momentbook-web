@@ -1,21 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from "react";
-import { DownloadQrCard } from "@/components/DownloadQrCard";
-import { DeviceMock } from "@/components/DeviceMock";
-import deviceStyles from "@/components/DeviceMock.module.scss";
+import { useSyncExternalStore } from "react";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
-import { trackAnalyticsEvent } from "@/lib/analytics/gtag";
 import {
-  buildCampaignEventParams,
   detectLandingPlatform,
   type CampaignParams,
   type LandingPlatform,
@@ -28,6 +16,13 @@ import {
 } from "@/lib/mobile-app";
 import { type InstallLandingContent } from "@/lib/install-landing";
 import { type Language } from "@/lib/i18n/config";
+import { InstallBar } from "./InstallBar";
+import { InstallBenefitsSection } from "./InstallBenefitsSection";
+import { InstallFinalSection } from "./InstallFinalSection";
+import { InstallLandingHero } from "./InstallLandingHero";
+import { InstallSampleTripSection } from "./InstallSampleTripSection";
+import { useInstallBar } from "./useInstallBar";
+import { useInstallLandingAnalytics } from "./useInstallLandingAnalytics";
 import styles from "./install.module.scss";
 
 type InstallLandingProps = {
@@ -37,55 +32,6 @@ type InstallLandingProps = {
   content: InstallLandingContent;
   storeLinks: StoreLinks;
   qrSvgMarkup: string;
-};
-
-type StoreBadgeLinkProps = {
-  lang: Language;
-  platform: MobilePlatform;
-  href: string;
-  className?: string;
-  onClick?: () => void;
-};
-
-const INSTALL_BAR_SESSION_KEY = "momentbook-install-bar-dismissed";
-
-const storeBadgeLabelByLanguage: Record<Language, { ios: string; android: string }> = {
-  en: {
-    ios: "Download on the App Store",
-    android: "Get it on Google Play",
-  },
-  ko: {
-    ios: "App Store에서 다운로드",
-    android: "Google Play에서 받기",
-  },
-  ja: {
-    ios: "App Store でダウンロード",
-    android: "Google Play で入手",
-  },
-  zh: {
-    ios: "在 App Store 下载",
-    android: "在 Google Play 获取",
-  },
-  es: {
-    ios: "Descargar en App Store",
-    android: "Conseguir en Google Play",
-  },
-  pt: {
-    ios: "Baixar na App Store",
-    android: "Baixar no Google Play",
-  },
-  fr: {
-    ios: "Télécharger sur l'App Store",
-    android: "Télécharger sur Google Play",
-  },
-  th: {
-    ios: "ดาวน์โหลดบน App Store",
-    android: "รับบน Google Play",
-  },
-  vi: {
-    ios: "Tải trên App Store",
-    android: "Tải trên Google Play",
-  },
 };
 
 function subscribePlatform(onStoreChange: () => void) {
@@ -104,39 +50,6 @@ function getClientPlatformSnapshot() {
   return detectLandingPlatform(window.navigator.userAgent, window.navigator.maxTouchPoints);
 }
 
-function StoreBadgeLink({
-  lang,
-  platform,
-  href,
-  className,
-  onClick,
-}: StoreBadgeLinkProps) {
-  const isIos = platform === "ios";
-  const src = isIos
-    ? "/images/download/app-store-button.webp"
-    : "/images/download/google-play-button.webp";
-  const alt = isIos
-    ? storeBadgeLabelByLanguage[lang].ios
-    : storeBadgeLabelByLanguage[lang].android;
-
-  return (
-    <a
-      href={href}
-      className={`${styles.storeBadgeLink} ${className ?? ""}`.trim()}
-      onClick={onClick}
-      aria-label={alt}
-    >
-      <Image
-        src={src}
-        alt={alt}
-        width={isIos ? 635 : 636}
-        height={200}
-        className={styles.storeBadge}
-      />
-    </a>
-  );
-}
-
 export function InstallLanding({
   lang,
   campaign,
@@ -145,112 +58,22 @@ export function InstallLanding({
   storeLinks,
   qrSvgMarkup,
 }: InstallLandingProps) {
-  const [installBarVisible, setInstallBarVisible] = useState(false);
   const resolvedPlatform = useSyncExternalStore(
     subscribePlatform,
     getClientPlatformSnapshot,
     () => platform,
   );
-  const [installBarDismissed, setInstallBarDismissed] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return window.sessionStorage.getItem(INSTALL_BAR_SESSION_KEY) === "1";
+  const trackInstallEvent = useInstallLandingAnalytics({
+    campaign,
+    lang,
+    platform: resolvedPlatform,
+    heroHeadlineKey: content.heroHeadlineKey,
   });
-  const hasTrackedPageViewRef = useRef(false);
-  const hasTrackedHalfScrollRef = useRef(false);
-
-  const eventParams = useMemo(
-    () => buildCampaignEventParams(campaign, lang, resolvedPlatform, {
-      hero_variant: content.heroHeadlineKey,
-    }),
-    [campaign, content.heroHeadlineKey, lang, resolvedPlatform],
-  );
-
-  const trackInstallEvent = (
-    eventName: string,
-    extra: Record<string, string | number | boolean | null | undefined> = {},
-  ) => {
-    trackAnalyticsEvent(eventName, { ...eventParams, ...extra });
-  };
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    if (hasTrackedPageViewRef.current) {
-      return;
-    }
-
-    hasTrackedPageViewRef.current = true;
-    trackAnalyticsEvent("page_view_from_short", {
-      ...eventParams,
-      page_location: window.location.href,
-    });
-  }, [eventParams]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    const handleScroll = () => {
-      if (hasTrackedHalfScrollRef.current) {
-        return;
-      }
-
-      const doc = document.documentElement;
-      const progress = (window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1);
-
-      if (progress >= 0.5) {
-        hasTrackedHalfScrollRef.current = true;
-        trackAnalyticsEvent("scroll_50", eventParams);
-      }
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [eventParams]);
-
-  useEffect(() => {
-    if (resolvedPlatform !== "android" || installBarDismissed) {
-      return;
-    }
-
-    let hasShown = false;
-
-    const showInstallBar = () => {
-      if (hasShown) {
-        return;
-      }
-
-      hasShown = true;
-      setInstallBarVisible(true);
-      window.clearTimeout(timeoutId);
-      window.removeEventListener("pointerdown", showInstallBar);
-      window.removeEventListener("scroll", showInstallBar);
-      window.removeEventListener("keydown", showInstallBar);
-    };
-
-    const timeoutId = window.setTimeout(showInstallBar, 3000);
-
-    window.addEventListener("pointerdown", showInstallBar, { passive: true });
-    window.addEventListener("scroll", showInstallBar, { passive: true });
-    window.addEventListener("keydown", showInstallBar);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-      window.removeEventListener("pointerdown", showInstallBar);
-      window.removeEventListener("scroll", showInstallBar);
-      window.removeEventListener("keydown", showInstallBar);
-    };
-  }, [installBarDismissed, resolvedPlatform]);
+  const {
+    installBarVisible,
+    installBarDismissed,
+    dismissInstallBarState,
+  } = useInstallBar(resolvedPlatform);
 
   const openInAppAvailability = {
     ios: canOpenInApp("ios", lang, campaign),
@@ -299,12 +122,7 @@ export function InstallLanding({
   };
 
   const dismissInstallBar = () => {
-    if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(INSTALL_BAR_SESSION_KEY, "1");
-    }
-
-    setInstallBarDismissed(true);
-    setInstallBarVisible(false);
+    dismissInstallBarState();
     trackInstallEvent("install_banner_dismiss");
   };
 
@@ -342,222 +160,38 @@ export function InstallLanding({
           <p className={styles.brandTagline}>{content.eyebrow}</p>
         </header>
 
-        <section className={styles.hero}>
-          <div className={styles.heroCopy}>
-            <div className={styles.heroMeta}>
-              <p className={styles.heroEyebrow}>{content.eyebrow}</p>
-              {content.sample.key !== "default" ? (
-                <span className={styles.destinationChip}>{content.sample.heroLabel}</span>
-              ) : null}
-            </div>
+        <InstallLandingHero
+          lang={lang}
+          content={content}
+          showOpenAction={showOpenAction}
+          primaryOpenPlatform={primaryOpenPlatform}
+          heroStorePlatforms={heroStorePlatforms}
+          storeLinks={storeLinks}
+          highlightTimelineStep={highlightTimelineStep}
+          onHeroOpenClick={handleHeroOpenClick}
+          onHeroStoreClick={handleHeroStoreClick}
+          onSampleTripClick={handleSampleTripClick}
+        />
 
-            <h1 className={styles.heroTitle}>{content.heroHeadline}</h1>
-            <p className={styles.heroLead}>{content.heroSubheadline}</p>
-
-            <div className={styles.heroActions}>
-              {showOpenAction && primaryOpenPlatform ? (
-                <button
-                  type="button"
-                  className={styles.primaryActionButton}
-                  onClick={() => handleHeroOpenClick(primaryOpenPlatform)}
-                >
-                  {content.openInAppLabel}
-                </button>
-              ) : null}
-
-              {!showOpenAction ? (
-                <div className={styles.heroStoreActions}>
-                  {heroStorePlatforms.map((targetPlatform) => (
-                    <StoreBadgeLink
-                      key={targetPlatform}
-                      lang={lang}
-                      platform={targetPlatform}
-                      href={storeLinks[targetPlatform]}
-                      onClick={() => handleHeroStoreClick(targetPlatform)}
-                    />
-                  ))}
-                </div>
-              ) : null}
-
-              <a href="#sample-trip" className={styles.sampleTripLink} onClick={handleSampleTripClick}>
-                {content.sampleTripLink}
-              </a>
-            </div>
-
-            <ul className={styles.trustRow} role="list">
-              {content.trustItems.map((item) => (
-                <li key={item} className={styles.trustItem}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className={styles.heroMedia}>
-            <div className={styles.heroMediaCard}>
-              <DeviceMock className={styles.heroDevice} screenClassName={deviceStyles.screenMedia}>
-                <div className={styles.heroSequence}>
-                  {content.heroFrames.map((frame, index) => (
-                    <Image
-                      key={frame.key}
-                      src={frame.src}
-                      alt=""
-                      aria-hidden="true"
-                      fill
-                      priority={index === 0}
-                      sizes="(max-width: 979px) min(92vw, 20rem), 21rem"
-                      className={`${styles.heroFrame} ${styles[`heroFrame${index}` as keyof typeof styles]}`}
-                    />
-                  ))}
-                </div>
-              </DeviceMock>
-
-              <ol className={styles.heroStepRail} aria-label={content.timelineViewLabel}>
-                {content.heroSteps.map((step, index) => (
-                  <li
-                    key={`${step}-${index}`}
-                    className={`${styles.heroStep} ${highlightTimelineStep && index === 2 ? styles.heroStepStrong : ""}`}
-                  >
-                    <span className={styles.heroStepIndex} aria-hidden="true">
-                      0{index + 1}
-                    </span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <p className={styles.sectionEyebrow}>{content.sectionBenefitsLabel}</p>
-            <h2 className={styles.sectionTitle}>{content.benefitsTitle}</h2>
-            <p className={styles.sectionLead}>{content.benefitsLead}</p>
-          </div>
-
-          <div className={styles.benefitGrid}>
-            {content.benefits.map((benefit) => (
-              <article key={benefit.key} className={styles.benefitCard}>
-                <div className={styles.benefitMedia}>
-                  <Image
-                    src={benefit.screenshotSrc}
-                    alt=""
-                    aria-hidden="true"
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 819px) 100vw, 20rem"
-                    className={styles.benefitImage}
-                    style={{ objectPosition: benefit.objectPosition }}
-                  />
-                </div>
-                <div className={styles.benefitBody}>
-                  <h3 className={styles.benefitTitle}>{benefit.title}</h3>
-                  <p className={styles.benefitText}>{benefit.body}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="sample-trip" className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <p className={styles.sectionEyebrow}>{content.sectionSampleLabel}</p>
-            <h2 className={styles.sectionTitle}>{content.sample.sectionTitle}</h2>
-            <p className={styles.sectionLead}>{content.sample.sectionLead}</p>
-          </div>
-
-          <div className={styles.sampleLayout}>
-            <div className={styles.samplePreview}>
-              <div className={styles.samplePreviewHeader}>
-                <span className={styles.samplePreviewLabel}>{content.timelineViewLabel}</span>
-                <strong className={styles.samplePreviewCity}>{content.sample.city}</strong>
-              </div>
-              <div className={styles.sampleScreenshotCard}>
-                <Image
-                  src={content.sampleTimelineScreenshotSrc}
-                  alt=""
-                  aria-hidden="true"
-                  fill
-                  loading="lazy"
-                  sizes="(max-width: 819px) 100vw, 28rem"
-                  className={styles.sampleScreenshot}
-                />
-              </div>
-            </div>
-
-            <div className={styles.sampleDayList}>
-              {content.sample.days.map((day) => (
-                <article key={`${content.sample.key}-${day.dayLabel}-${day.title}`} className={styles.sampleDayCard}>
-                  <p className={styles.sampleDayLabel}>{day.dayLabel}</p>
-                  <h3 className={styles.sampleDayTitle}>{day.title}</h3>
-                  <p className={styles.sampleDayNote}>{day.note}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className={`${styles.section} ${styles.finalSection}`}>
-          <div className={styles.sectionHeader}>
-            <p className={styles.sectionEyebrow}>{content.sectionInstallLabel}</p>
-            <h2 className={styles.sectionTitle}>{content.finalTitle}</h2>
-            <p className={styles.sectionLead}>{content.finalLead}</p>
-          </div>
-
-          <div className={styles.finalInstallLayout}>
-            <div className={styles.finalInstallPrimary}>
-              <div className={styles.finalActions}>
-                <StoreBadgeLink
-                  lang={lang}
-                  platform="ios"
-                  href={storeLinks.ios}
-                  onClick={() => handleFinalStoreClick("ios")}
-                />
-                <StoreBadgeLink
-                  lang={lang}
-                  platform="android"
-                  href={storeLinks.android}
-                  onClick={() => handleFinalStoreClick("android")}
-                />
-              </div>
-
-              <p className={styles.finalNote}>{content.finalDesktopNote}</p>
-            </div>
-
-            {resolvedPlatform === "desktop" ? (
-              <DownloadQrCard
-                className={styles.finalQrPanel}
-                title={content.desktopQrTitle}
-                description={content.desktopQrLead}
-                svgMarkup={qrSvgMarkup}
-              />
-            ) : null}
-          </div>
-        </section>
+        <InstallBenefitsSection content={content} />
+        <InstallSampleTripSection content={content} />
+        <InstallFinalSection
+          lang={lang}
+          content={content}
+          platform={resolvedPlatform}
+          storeLinks={storeLinks}
+          qrSvgMarkup={qrSvgMarkup}
+          onStoreClick={handleFinalStoreClick}
+        />
       </div>
 
-      {resolvedPlatform === "android" && installBarVisible && !installBarDismissed ? (
-        <div className={styles.installBar} role="region" aria-label={content.installBarLead}>
-          <div className={styles.installBarContent}>
-            <div className={styles.installBarCopy}>
-              <strong>{content.installBarLead}</strong>
-              <span>{content.sample.heroLabel}</span>
-            </div>
-            <button type="button" className={styles.installBarButton} onClick={handleInstallBarAction}>
-              {openInAppAvailability.android ? content.openInAppLabel : content.installBarAction}
-            </button>
-            <button
-              type="button"
-              className={styles.installBarDismiss}
-              onClick={dismissInstallBar}
-              aria-label={content.dismissLabel}
-            >
-              {content.dismissLabel}
-            </button>
-          </div>
-        </div>
-      ) : null}
+      <InstallBar
+        content={content}
+        show={resolvedPlatform === "android" && installBarVisible && !installBarDismissed}
+        useOpenInAppLabel={openInAppAvailability.android}
+        onAction={handleInstallBarAction}
+        onDismiss={dismissInstallBar}
+      />
     </div>
   );
 }

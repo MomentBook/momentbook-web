@@ -1,8 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
-import { LocalizedDate } from "@/components/LocalizedTime";
-import { Reveal } from "@/components/Reveal";
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
 import { type Language } from "@/lib/i18n/config";
 import { buildOpenGraphUrl } from "@/lib/i18n/metadata";
@@ -12,7 +8,7 @@ import {
   buildAppleSmartBannerContent,
   getCanonicalStoreLinks,
 } from "@/lib/mobile-app";
-import { fetchPublishedJourneys, type PublishedJourneyListItemApi } from "@/lib/published-journey";
+import { fetchPublishedJourneys } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import {
@@ -29,6 +25,8 @@ import {
   HomeHero,
   type HomeHeroProcessContent,
 } from "./HomeHero";
+import { HomeFeaturedJourneys } from "./HomeFeaturedJourneys";
+import { buildHomeFeaturedJourneys } from "./home.helpers";
 import styles from "./page.module.scss";
 
 type HomePageCopy = {
@@ -564,57 +562,6 @@ const contactTypeByLanguage: Record<Language, string> = {
   vi: "Hỗ trợ khách hàng",
 };
 
-function asRecord(value: unknown): Record<string, unknown> | null {
-  return value && typeof value === "object" ? (value as Record<string, unknown>) : null;
-}
-
-function readText(value: unknown): string | null {
-  if (typeof value !== "string") {
-    return null;
-  }
-
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
-}
-
-function readCount(value: unknown): number | null {
-  if (typeof value === "number" && Number.isFinite(value) && value >= 0) {
-    return Math.floor(value);
-  }
-
-  if (typeof value === "string") {
-    const parsed = Number(value);
-    if (Number.isFinite(parsed) && parsed >= 0) {
-      return Math.floor(parsed);
-    }
-  }
-
-  return null;
-}
-
-function resolvePhotoCount(...values: unknown[]): number {
-  let maxCount = 0;
-
-  for (const value of values) {
-    const count = readCount(value);
-    if (count !== null && count > maxCount) {
-      maxCount = count;
-    }
-  }
-
-  return maxCount;
-}
-
-function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
-  const metadata = asRecord(journey.metadata);
-
-  return {
-    title: readText(metadata?.title),
-    description: readText(metadata?.description),
-    thumbnailUri: readText(metadata?.thumbnailUri),
-  };
-}
-
 function getHomePageCopy(lang: Language): HomePageCopy {
   return homePageCopy[lang] ?? homePageCopy.en;
 }
@@ -670,24 +617,12 @@ export default async function Home({
   const users = await Promise.all(
     uniqueUserIds.map(async (userId) => [userId, await fetchPublicUser(userId)] as const),
   );
-  const userMap = new Map(users);
-  const featuredJourneys = journeyItems.map((journey) => {
-    const meta = resolveJourneyMetadata(journey);
-    const authorName = readText(userMap.get(journey.userId)?.name) ?? editorialContent.unknownUser;
-    const photoCount = resolvePhotoCount(journey.photoCount, journey.imageCount);
-    const publishedAt = readText(journey.publishedAt) ?? readText(journey.createdAt);
-
-    return {
-      publicId: journey.publicId,
-      href: `/${lang}/journeys/${journey.publicId}`,
-      title: readText(journey.title) ?? meta.title ?? editorialContent.untitledJourney,
-      description: readText(journey.description) ?? meta.description ?? null,
-      authorName,
-      photoCount,
-      publishedAt,
-      coverUrl: readText(journey.thumbnailUrl) ?? meta.thumbnailUri ?? null,
-    };
-  });
+  const featuredJourneys = buildHomeFeaturedJourneys(
+    lang,
+    journeyItems,
+    new Map(users),
+    editorialContent,
+  );
   const heroContent = {
     heroEyebrow: editorialContent.heroEyebrow,
     heroTitle: content.heroTitle,
@@ -766,68 +701,11 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
-      <section className={styles.featuredSection} aria-labelledby="home-featured-title">
-        <Reveal
-          delay={0}
-          duration={760}
-          distance={8}
-          className={styles.sectionHeader}
-        >
-          <div className={styles.sectionHeaderCopy}>
-            <p className={styles.sectionEyebrow}>{editorialContent.featuredEyebrow}</p>
-            <h2 id="home-featured-title" className={styles.sectionTitle}>
-              {editorialContent.featuredTitle}
-            </h2>
-            <p className={styles.sectionLead}>{editorialContent.featuredLead}</p>
-          </div>
-          <Link href={`/${lang}/journeys`} className={styles.archiveLink}>
-            {editorialContent.featuredArchiveCta}
-          </Link>
-        </Reveal>
-
-        {featuredJourneys.length > 0 ? (
-          <div className={styles.featuredGrid}>
-            {featuredJourneys.map((journey, index) => (
-              <Reveal
-                key={journey.publicId}
-                delay={index * 70}
-                duration={820}
-                distance={8}
-                className={styles.featuredCard}
-              >
-                <Link href={journey.href} className={styles.featuredCardLink}>
-                  <div className={styles.featuredCardMedia}>
-                    <Image
-                      src={journey.coverUrl || "/images/placeholders/journey-cover-fallback.svg"}
-                      alt={journey.title}
-                      fill
-                      sizes="(max-width: 739px) 100vw, (max-width: 1099px) 50vw, 33vw"
-                      className={styles.featuredCardImage}
-                    />
-                  </div>
-                  <div className={styles.featuredCardBody}>
-                    <div className={styles.featuredCardMeta}>
-                      {journey.publishedAt ? (
-                        <LocalizedDate lang={lang} timestamp={Date.parse(journey.publishedAt)} />
-                      ) : null}
-                      <span>{journey.authorName}</span>
-                    </div>
-                    <h3 className={styles.featuredCardTitle}>{journey.title}</h3>
-                    <p className={styles.featuredCardDescription}>{journey.description}</p>
-                    <div className={styles.featuredCardFooter}>
-                      <span>{journey.photoCount} {editorialContent.photoCountLabel}</span>
-                    </div>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        ) : (
-          <Reveal delay={80} duration={760} distance={8}>
-            <p className={styles.featuredEmpty}>{editorialContent.emptyJourneys}</p>
-          </Reveal>
-        )}
-      </section>
+      <HomeFeaturedJourneys
+        lang={lang}
+        content={editorialContent}
+        journeys={featuredJourneys}
+      />
       <HomeDownloadSection
         lang={lang}
         content={downloadContent}

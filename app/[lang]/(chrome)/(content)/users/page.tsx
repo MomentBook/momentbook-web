@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ProfileAvatar } from "@/components/ProfileAvatar";
+import { UserDirectoryCard } from "./UserDirectoryCard";
+import { UsersEmptyState } from "./UsersEmptyState";
 import { type Language } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublicUsers } from "@/lib/public-users";
@@ -18,6 +19,7 @@ import {
   buildSeoDescription,
 } from "@/lib/seo/public-metadata";
 import { UserSearchForm } from "./UserSearchForm";
+import { buildCountLabel, filterUsersByQuery, readSearchQuery } from "./users.helpers";
 import styles from "./users.module.scss";
 
 export const revalidate = 3600;
@@ -175,39 +177,6 @@ const userListLabels: Record<Language, UserListLabels> = {
   },
 };
 
-function readSearchQuery(value: string | string[] | undefined): string {
-  if (Array.isArray(value)) {
-    for (const candidate of value) {
-      if (typeof candidate !== "string") {
-        continue;
-      }
-
-      const trimmed = candidate.trim();
-      if (trimmed.length > 0) {
-        return trimmed;
-      }
-    }
-
-    return "";
-  }
-
-  if (typeof value !== "string") {
-    return "";
-  }
-
-  return value.trim();
-}
-
-function formatTemplate(
-  template: string,
-  values: Record<string, string | number>,
-): string {
-  return Object.entries(values).reduce(
-    (result, [key, value]) => result.replace(`{${key}}`, String(value)),
-    template,
-  );
-}
-
 export async function generateMetadata({
   params,
   searchParams,
@@ -267,21 +236,10 @@ export default async function UsersPage({
   const response = await fetchPublicUsers({ limit: 100, sort: "recent" });
   const allUsers = response?.data?.users ?? [];
 
-  const query = readSearchQuery(q).toLowerCase();
+  const query = readSearchQuery(q);
   const isFiltering = query.length > 0;
-  const filteredUsers = isFiltering
-    ? allUsers.filter((user) => {
-        const searchText = [user.name, user.biography]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-        return searchText.includes(query);
-      })
-    : allUsers;
-
-  const countText = formatTemplate(labels.countLabel, {
-    count: filteredUsers.length,
-  });
+  const filteredUsers = filterUsersByQuery(allUsers, query);
+  const countText = buildCountLabel(labels.countLabel, filteredUsers.length);
   const siteUrl = resolveStructuredDataSiteUrl();
   const pageUrl = buildStructuredDataUrl(buildOpenGraphUrl(lang, "/users"), siteUrl);
   const shouldExposeStructuredData = !isFiltering;
@@ -358,91 +316,22 @@ export default async function UsersPage({
         {filteredUsers.length > 0 ? (
           <div className={styles.grid}>
             {filteredUsers.map((user) => (
-              <Link
+              <UserDirectoryCard
                 key={user.userId}
-                href={`/${lang}/users/${user.userId}`}
-                className={styles.card}
-              >
-                <div className={styles.cardTop}>
-                  <div className={styles.avatarShell}>
-                    <ProfileAvatar
-                      name={user.name}
-                      picture={user.picture}
-                      size="profile"
-                    />
-                  </div>
-
-                  <div className={styles.cardIdentity}>
-                    <p className={styles.name}>{user.name}</p>
-                  </div>
-                </div>
-
-                {user.biography ? (
-                  <p className={styles.bio}>{user.biography}</p>
-                ) : (
-                  <div className={styles.bioSpacer} aria-hidden="true" />
-                )}
-
-                <div className={styles.cardFooter}>
-                  <span className={styles.metaStat}>
-                    <svg
-                      viewBox="0 0 24 24"
-                      className={styles.metaIcon}
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.8"
-                      />
-                    </svg>
-                    {user.publishedJourneyCount} {labels.journeysLabel}
-                  </span>
-                  <span className={styles.viewLink}>
-                    {labels.viewProfile}
-                    <svg
-                      viewBox="0 0 24 24"
-                      className={styles.viewIcon}
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M9 5l7 7-7 7"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.8"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </Link>
+                lang={lang}
+                user={user}
+                journeysLabel={labels.journeysLabel}
+                viewProfileLabel={labels.viewProfile}
+              />
             ))}
           </div>
         ) : (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon} aria-hidden="true">
-              <svg viewBox="0 0 24 24" className={styles.emptyIconSvg}>
-                <path
-                  d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 1 1-14 0a7 7 0 0 1 14 0Z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.8"
-                />
-              </svg>
-            </div>
-            <p className={styles.emptyTitle}>{labels.empty}</p>
-            {isFiltering ? (
-              <Link href={`/${lang}/users`} className={styles.emptyAction}>
-                {labels.clearSearch}
-              </Link>
-            ) : null}
-          </div>
+          <UsersEmptyState
+            lang={lang}
+            message={labels.empty}
+            clearSearchLabel={labels.clearSearch}
+            showClearAction={isFiltering}
+          />
         )}
       </section>
     </div>

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { readText } from "@/lib/view-helpers";
 import styles from "./ProfileAvatar.module.scss";
 
 type ProfileAvatarProps = {
@@ -11,15 +12,6 @@ type ProfileAvatarProps = {
 };
 
 const FALLBACK_AVATAR_SRC = "/images/placeholders/profile-avatar-fallback.svg";
-
-function readText(value: unknown): string | null {
-  if (typeof value !== "string") {
-    return null;
-  }
-
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
-}
 
 export function ProfileAvatar({
   name,

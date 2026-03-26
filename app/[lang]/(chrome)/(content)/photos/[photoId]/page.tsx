@@ -23,6 +23,7 @@ import {
     resolveStructuredDataSiteUrl,
     serializeJsonLd,
 } from "@/lib/seo/json-ld";
+import { readText } from "@/lib/view-helpers";
 
 export const revalidate = 3600;
 
@@ -223,15 +224,6 @@ function fillTemplate(
     values: Record<string, string>,
 ): string {
     return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
-}
-
-function readText(value: string | undefined): string | null {
-    if (!value) {
-        return null;
-    }
-
-    const trimmed = value.trim();
-    return trimmed.length > 0 ? trimmed : null;
 }
 
 function hasValidTimestamp(value: unknown): value is number {

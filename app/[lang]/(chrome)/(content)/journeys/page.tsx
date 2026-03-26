@@ -1,24 +1,21 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import { PaginationNav } from "@/components/PaginationNav";
+import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
+import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import styles from "./journeys.module.scss";
 import {
     type Language,
 } from "@/lib/i18n/config";
 import { buildOpenGraphUrl, buildPaginatedAlternates } from "@/lib/i18n/metadata";
 import {
-    fetchPublishedJourney,
     fetchPublishedJourneys,
-    type PublishedJourneyListItemApi,
 } from "@/lib/published-journey";
 import {
     buildPaginationEntries,
     parsePositiveIntegerPage,
 } from "@/lib/pagination";
-import { fetchPublicUser } from "@/lib/public-users";
-import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
-import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
-import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
+import { LocalizedDate } from "@/components/LocalizedTime";
 import {
     buildPublisherOrganizationJsonLd,
     buildStructuredDataUrl,
@@ -31,6 +28,7 @@ import {
     buildPublicRobots,
     buildSeoDescription,
 } from "@/lib/seo/public-metadata";
+import { buildJourneyCards, buildJourneyPageHref } from "./journeys.helpers";
 
 export const revalidate = 60;
 
@@ -219,65 +217,6 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
   },
 };
 
-function asRecord(value: unknown): Record<string, unknown> | null {
-    return value && typeof value === "object" ? (value as Record<string, unknown>) : null;
-}
-
-function readText(value: unknown): string | null {
-    if (typeof value !== "string") {
-        return null;
-    }
-
-    const trimmed = value.trim();
-    return trimmed.length > 0 ? trimmed : null;
-}
-
-function readCount(value: unknown): number | null {
-    if (typeof value === "number" && Number.isFinite(value) && value >= 0) {
-        return Math.floor(value);
-    }
-
-    if (typeof value === "string") {
-        const parsed = Number(value);
-        if (Number.isFinite(parsed) && parsed >= 0) {
-            return Math.floor(parsed);
-        }
-    }
-
-    return null;
-}
-
-function resolvePhotoCount(...values: unknown[]): number {
-    let maxCount = 0;
-
-    for (const value of values) {
-        const count = readCount(value);
-        if (count !== null && count > maxCount) {
-            maxCount = count;
-        }
-    }
-
-    return maxCount;
-}
-
-function buildPageHref(lang: Language, page: number): string {
-    if (page <= 1) {
-        return `/${lang}/journeys`;
-    }
-
-    return `/${lang}/journeys?page=${page}`;
-}
-
-function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
-    const metadata = asRecord(journey.metadata);
-
-    return {
-        title: readText(metadata?.title),
-        description: readText(metadata?.description),
-        thumbnailUri: readText(metadata?.thumbnailUri),
-    };
-}
-
 export async function generateMetadata({
     params,
     searchParams,
@@ -355,57 +294,13 @@ export default async function JourneysPage({
     const safeCurrentPage = Math.min(requestedPage, totalPages);
 
     if (requestedPage !== safeCurrentPage) {
-        redirect(buildPageHref(lang, safeCurrentPage));
+        redirect(buildJourneyPageHref(lang, safeCurrentPage));
     }
-
-    const uniqueUserIds = [...new Set(journeys.map((journey) => journey.userId).filter(Boolean))];
-    const users = await Promise.all(
-        uniqueUserIds.map(async (userId) => [userId, await fetchPublicUser(userId)] as const),
-    );
-    const userMap = new Map(users);
-    const journeyDetails = await Promise.all(
-        journeys.map(async (journey) => [journey.publicId, await fetchPublishedJourney(journey.publicId)] as const),
-    );
-    const detailMap = new Map(journeyDetails);
 
     const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages);
     const hasPreviousPage = safeCurrentPage > 1;
     const hasNextPage = safeCurrentPage < totalPages;
-
-    const cards = journeys.map((journey) => {
-        const meta = resolveJourneyMetadata(journey);
-        const author = userMap.get(journey.userId);
-        const detail = detailMap.get(journey.publicId);
-        const publishedAt = readTimestamp(journey.publishedAt) ?? readTimestamp(journey.createdAt);
-        const detailCoverUrl =
-            detail?.images.find((image) => readText(image.url))?.url ?? null;
-        const coverUrl =
-            detailCoverUrl ??
-            readText(journey.thumbnailUrl) ??
-            meta.thumbnailUri;
-        const periodRange = resolveJourneyPeriodRange({
-            startedAt: detail?.startedAt ?? journey.startedAt,
-            endedAt: detail?.endedAt ?? journey.endedAt,
-            photoSources: [detail?.images, detail?.clusters, journey.metadata],
-        });
-
-        return {
-            publicId: journey.publicId,
-            userId: journey.userId,
-            title: readText(detail?.title) ?? meta.title ?? labels.untitledJourney,
-            description: readText(detail?.description) ?? meta.description ?? null,
-            imageCount: resolvePhotoCount(
-                journey.photoCount,
-                detail?.photoCount,
-                journey.imageCount,
-                Array.isArray(detail?.images) ? detail.images.length : null,
-            ),
-            coverUrl,
-            authorName: readText(author?.name) ?? labels.unknownUserLabel,
-            publishedAt,
-            periodRange,
-        };
-    });
+    const cards = await buildJourneyCards(journeys, labels);
 
     const siteUrl = resolveStructuredDataSiteUrl();
     const pagePath = buildOpenGraphUrl(lang, "/journeys");
@@ -517,67 +412,25 @@ export default async function JourneysPage({
                         </div>
                     </div>
 
-                    <nav className={styles.pagination} aria-label="Journey list pagination">
-                        {hasPreviousPage ? (
-                            <Link
-                                className={styles.pageButton}
-                                href={buildPageHref(lang, safeCurrentPage - 1)}
-                            >
-                                {labels.previousPage}
-                            </Link>
-                        ) : (
-                            <span className={styles.pageButtonDisabled}>{labels.previousPage}</span>
-                        )}
-
-                        <div className={styles.pageNumbers}>
-                            {paginationEntries.map((entry) => {
-                                if (entry.type === "ellipsis") {
-                                    return (
-                                        <span
-                                            key={entry.key}
-                                            className={styles.pageEllipsis}
-                                            aria-hidden="true"
-                                        >
-                                            ...
-                                        </span>
-                                    );
-                                }
-
-                                if (entry.page === safeCurrentPage) {
-                                    return (
-                                        <span
-                                            key={`page-${entry.page}`}
-                                            className={styles.pageNumberCurrent}
-                                            aria-current="page"
-                                        >
-                                            {entry.page}
-                                        </span>
-                                    );
-                                }
-
-                                return (
-                                    <Link
-                                        key={`page-${entry.page}`}
-                                        className={styles.pageNumber}
-                                        href={buildPageHref(lang, entry.page)}
-                                    >
-                                        {entry.page}
-                                    </Link>
-                                );
-                            })}
-                        </div>
-
-                        {hasNextPage ? (
-                            <Link
-                                className={styles.pageButton}
-                                href={buildPageHref(lang, safeCurrentPage + 1)}
-                            >
-                                {labels.nextPage}
-                            </Link>
-                        ) : (
-                            <span className={styles.pageButtonDisabled}>{labels.nextPage}</span>
-                        )}
-                    </nav>
+                    <PaginationNav
+                        ariaLabel="Journey list pagination"
+                        currentPage={safeCurrentPage}
+                        entries={paginationEntries}
+                        hasPreviousPage={hasPreviousPage}
+                        hasNextPage={hasNextPage}
+                        previousLabel={labels.previousPage}
+                        nextLabel={labels.nextPage}
+                        buildHref={(targetPage) => buildJourneyPageHref(lang, targetPage)}
+                        classNames={{
+                            nav: styles.pagination,
+                            button: styles.pageButton,
+                            buttonDisabled: styles.pageButtonDisabled,
+                            numbers: styles.pageNumbers,
+                            ellipsis: styles.pageEllipsis,
+                            current: styles.pageNumberCurrent,
+                            page: styles.pageNumber,
+                        }}
+                    />
                 </>
             )}
         </div>

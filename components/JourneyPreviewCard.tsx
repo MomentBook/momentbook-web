@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { readText } from "@/lib/view-helpers";
 import styles from "./JourneyPreviewCard.module.scss";
 
 type JourneyMetaItem = {
@@ -18,15 +19,6 @@ type JourneyPreviewCardProps = {
   authorText?: string;
   variant?: "default" | "glimmer";
 };
-
-function readText(value: unknown): string | null {
-  if (typeof value !== "string") {
-    return null;
-  }
-
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
-}
 
 const fallbackCover = "/images/placeholders/journey-cover-fallback.svg";
 

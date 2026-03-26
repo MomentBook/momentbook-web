@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
+import { StoreBadgeLink } from "@/components/StoreBadgeLink";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import { type DownloadCopy } from "@/lib/marketing/download-content";
@@ -41,36 +41,22 @@ export function HomeDownloadSection({ lang, content, narrative }: HomeDownloadSe
             <p className={styles.downloadHeroLead}>{narrative.lead}</p>
 
             <div className={styles.downloadStoreButtons}>
-              <a
+              <StoreBadgeLink
+                lang={lang}
+                platform="ios"
                 href={storeLinks.ios}
                 className={styles.downloadStoreButton}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={content.iosName}
-              >
-                <Image
-                  src="/images/download/app-store-button.webp"
-                  alt={content.iosName}
-                  width={635}
-                  height={200}
-                  className={styles.downloadStoreBadge}
-                />
-              </a>
-              <a
+                imageClassName={styles.downloadStoreBadge}
+                openInNewTab
+              />
+              <StoreBadgeLink
+                lang={lang}
+                platform="android"
                 href={storeLinks.android}
                 className={styles.downloadStoreButton}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={content.androidName}
-              >
-                <Image
-                  src="/images/download/google-play-button.webp"
-                  alt={content.androidName}
-                  width={636}
-                  height={200}
-                  className={styles.downloadStoreBadge}
-                />
-              </a>
+                imageClassName={styles.downloadStoreBadge}
+                openInNewTab
+              />
             </div>
 
             <p className={styles.downloadAvailability}>{content.availability}</p>
