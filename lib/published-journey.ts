@@ -307,12 +307,28 @@ function normalizePublishedJourneyImage(
 
     return {
         url,
-        photoId: readText(value.photoId) ?? "",
+        photoId:
+            readText(value.photoId) ??
+            readText(value.id) ??
+            readText(value.imageId) ??
+            readText(value.assetId) ??
+            readText(value.archivePath) ??
+            "",
         width: readNumber(value.width) ?? undefined,
         height: readNumber(value.height) ?? undefined,
         caption: readText(value.caption) ?? undefined,
-        takenAt: readNumber(value.takenAt) ?? undefined,
-        locationName: readText(value.locationName) ?? undefined,
+        takenAt:
+            readNumber(value.takenAt) ??
+            readNumber(value.capturedAt) ??
+            undefined,
+        locationName:
+            readText(value.locationName) ??
+            (isRecord(value.location)
+                ? readText(value.location.displayName) ??
+                  readText(value.location.name) ??
+                  readText(value.location.label)
+                : null) ??
+            undefined,
         location,
     };
 }
@@ -383,6 +399,18 @@ function normalizeJourneyMetadata(
     return isRecord(value) ? value : undefined;
 }
 
+function normalizeJourneyClusters(
+    value: unknown,
+): PublishedJourneyCluster[] {
+    if (!Array.isArray(value)) {
+        return [];
+    }
+
+    return value
+        .map((item, index) => normalizePublishedJourneyCluster(item, index))
+        .filter((item): item is PublishedJourneyCluster => Boolean(item));
+}
+
 function normalizeJourneyListItem(value: unknown): PublishedJourneyListItemApi | null {
     if (!isRecord(value)) {
         return null;
@@ -444,12 +472,16 @@ function normalizePublishedJourney(
             .map((item) => normalizePublishedJourneyImage(item))
             .filter((item): item is PublishedJourneyImage => Boolean(item))
         : [];
-
-    const clusters = Array.isArray(value.clusters)
-        ? value.clusters
-            .map((item, index) => normalizePublishedJourneyCluster(item, index))
-            .filter((item): item is PublishedJourneyCluster => Boolean(item))
-        : [];
+    const recapDraft = isRecord(value.recapDraft) ? value.recapDraft : null;
+    const normalizedClusters = normalizeJourneyClusters(value.clusters);
+    const normalizedTimeline = normalizeJourneyClusters(value.timeline);
+    const normalizedRecapTimeline = normalizeJourneyClusters(recapDraft?.timeline);
+    const clusters =
+        normalizedClusters.length > 0
+            ? normalizedClusters
+            : normalizedTimeline.length > 0
+                ? normalizedTimeline
+                : normalizedRecapTimeline;
 
     const clusterStarts = clusters.map((cluster) => cluster.time.startAt);
     const clusterEnds = clusters.map((cluster) => cluster.time.endAt);

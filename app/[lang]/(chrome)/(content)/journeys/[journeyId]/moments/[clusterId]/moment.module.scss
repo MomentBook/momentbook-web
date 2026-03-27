@@ -158,6 +158,14 @@
   gap: 0.75rem;
 }
 
+.photoGridItem {
+  height: 100%;
+}
+
+.photoGridItem:nth-child(3n + 1) {
+  grid-row: span 2;
+}
+
 .photoCard {
   display: block;
   height: 100%;
@@ -171,10 +179,6 @@
     transform: translateY(-0.14rem);
     box-shadow: 0 14px 28px rgba(18, 33, 40, 0.11);
   }
-}
-
-.photoCard:nth-child(3n + 1) {
-  grid-row: span 2;
 }
 
 .photoFrame {
@@ -238,11 +242,12 @@
     gap: 0.9rem;
   }
 
-  .photoCard {
+  .photoGridItem {
+    height: 100%;
     grid-row: span 1;
   }
 
-  .photoCard:nth-child(4n + 1) {
+  .photoGridItem:nth-child(4n + 1) {
     grid-row: span 2;
   }
 }
@@ -259,15 +264,16 @@
     grid-auto-rows: 9rem;
   }
 
-  .photoCard {
+  .photoGridItem {
+    height: 100%;
     grid-row: span 1;
   }
 
-  .photoCard:nth-child(5n + 1) {
+  .photoGridItem:nth-child(5n + 1) {
     grid-row: span 2;
   }
 
-  .photoCard:nth-child(5n + 4) {
+  .photoGridItem:nth-child(5n + 4) {
     grid-row: span 2;
   }
 }

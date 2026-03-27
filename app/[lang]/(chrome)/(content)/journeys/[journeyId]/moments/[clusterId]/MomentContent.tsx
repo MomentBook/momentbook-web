@@ -101,8 +101,10 @@ export function MomentContent({
             {clusterPhotos.map((photo, index) => (
               <SectionReveal
                 key={photo.photoId}
+                asChild
                 variant="item"
                 staggerIndex={index}
+                wrapperClassName={styles.photoGridItem}
               >
                 <Link
                   href={`/${lang}/photos/${photo.photoId}`}

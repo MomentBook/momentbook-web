@@ -1,10 +1,21 @@
 "use client";
 
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+} from "react";
+import type {
+  ComponentPropsWithoutRef,
+  ElementType,
+  ReactElement,
+  ReactNode,
+} from "react";
 import { Reveal } from "./Reveal";
 
 type SectionRevealOwnProps<T extends ElementType> = {
   as?: T;
+  asChild?: boolean;
   children: ReactNode;
   className?: string;
   wrapperClassName?: string;
@@ -27,6 +38,7 @@ const STAGGER_STEP_MS = 70;
 
 export function SectionReveal<T extends ElementType = "div">({
   as,
+  asChild = false,
   children,
   className,
   wrapperClassName,
@@ -38,6 +50,38 @@ export function SectionReveal<T extends ElementType = "div">({
   const isItem = variant === "item";
   const staggerDelay = Math.max(0, staggerIndex) * STAGGER_STEP_MS;
   const Component = (as ?? "div") as ElementType;
+  const childProps = {
+    className,
+    ...rest,
+  };
+
+  if (asChild) {
+    const childArray = Children.toArray(children);
+
+    if (childArray.length !== 1 || !isValidElement(childArray[0])) {
+      throw new Error("SectionReveal with asChild requires a single React element child.");
+    }
+
+    const child = childArray[0] as ReactElement<{ className?: string }>;
+    const mergedClassName = [child.props.className, className]
+      .filter(Boolean)
+      .join(" ");
+
+    return (
+      <Reveal
+        className={wrapperClassName}
+        delay={delay + staggerDelay}
+        duration={isItem ? ITEM_DURATION : SECTION_DURATION}
+        distance={isItem ? ITEM_DISTANCE : SECTION_DISTANCE}
+        threshold={isItem ? ITEM_THRESHOLD : SECTION_THRESHOLD}
+      >
+        {cloneElement(child, {
+          ...rest,
+          className: mergedClassName || undefined,
+        })}
+      </Reveal>
+    );
+  }
 
   return (
     <Reveal
@@ -47,7 +91,7 @@ export function SectionReveal<T extends ElementType = "div">({
       distance={isItem ? ITEM_DISTANCE : SECTION_DISTANCE}
       threshold={isItem ? ITEM_THRESHOLD : SECTION_THRESHOLD}
     >
-      <Component className={className} {...rest}>
+      <Component {...childProps}>
         {children}
       </Component>
     </Reveal>
