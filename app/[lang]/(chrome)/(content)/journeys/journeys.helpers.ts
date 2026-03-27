@@ -5,7 +5,12 @@ import {
   type PublishedJourneyListItemApi,
 } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
-import { asRecord, readText, resolveMaxCount } from "@/lib/view-helpers";
+import {
+  asRecord,
+  readText,
+  resolveJourneyListCoverUrl,
+  resolveMaxCount,
+} from "@/lib/view-helpers";
 
 type JourneyCardLabels = {
   untitledJourney: string;
@@ -32,7 +37,6 @@ function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
   return {
     title: readText(metadata?.title),
     description: readText(metadata?.description),
-    thumbnailUri: readText(metadata?.thumbnailUri),
   };
 }
 
@@ -63,12 +67,7 @@ export async function buildJourneyCards(
     const author = userMap.get(journey.userId);
     const detail = detailMap.get(journey.publicId);
     const publishedAt = readTimestamp(journey.publishedAt) ?? readTimestamp(journey.createdAt);
-    const detailCoverUrl =
-      detail?.images.find((image) => readText(image.url))?.url ?? null;
-    const coverUrl =
-      detailCoverUrl ??
-      readText(journey.thumbnailUrl) ??
-      meta.thumbnailUri;
+    const coverUrl = resolveJourneyListCoverUrl(journey);
     const periodRange = resolveJourneyPeriodRange({
       startedAt: detail?.startedAt ?? journey.startedAt,
       endedAt: detail?.endedAt ?? journey.endedAt,

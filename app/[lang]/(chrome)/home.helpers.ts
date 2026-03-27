@@ -1,6 +1,11 @@
 import type { Language } from "@/lib/i18n/config";
 import type { PublishedJourneyListItemApi } from "@/lib/published-journey";
-import { asRecord, readText, resolveMaxCount } from "@/lib/view-helpers";
+import {
+  asRecord,
+  readText,
+  resolveJourneyListCoverUrl,
+  resolveMaxCount,
+} from "@/lib/view-helpers";
 
 export type HomeFeaturedCopy = {
   featuredEyebrow: string;
@@ -30,7 +35,6 @@ function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
   return {
     title: readText(metadata?.title),
     description: readText(metadata?.description),
-    thumbnailUri: readText(metadata?.thumbnailUri),
   };
 }
 
@@ -54,7 +58,7 @@ export function buildHomeFeaturedJourneys(
       authorName,
       photoCount,
       publishedAt,
-      coverUrl: readText(journey.thumbnailUrl) ?? meta.thumbnailUri ?? null,
+      coverUrl: resolveJourneyListCoverUrl(journey),
     };
   });
 }

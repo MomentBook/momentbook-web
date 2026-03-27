@@ -11,6 +11,21 @@ export function readText(value: unknown): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
+export function resolveJourneyListCoverUrl(source: {
+  thumbnailUrl?: unknown;
+  coverUrl?: unknown;
+  metadata?: unknown;
+}): string | null {
+  const metadata = asRecord(source.metadata);
+
+  return (
+    readText(source.thumbnailUrl) ??
+    readText(source.coverUrl) ??
+    readText(metadata?.thumbnailUri) ??
+    null
+  );
+}
+
 export function readCount(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value) && value >= 0) {
     return Math.floor(value);

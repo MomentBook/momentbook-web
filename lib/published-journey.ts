@@ -7,7 +7,12 @@ import type {
 import { fetchPublicApi } from "@/lib/public-api";
 
 export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
-export type PublishedJourneyContentStatus = "available" | "reported_hidden";
+export type PublishedJourneyContentStatus =
+    | "available"
+    | "reported_hidden"
+    | "web_review_pending"
+    | "web_review_rejected";
+export type PublishedJourneyWebReviewStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 export type PublishedJourneyImage = {
     url: string;
@@ -52,6 +57,7 @@ export type PublishedJourneyApi = {
     clusters: PublishedJourneyCluster[];
     publishedAt: string;
     createdAt: string;
+    webReviewStatus?: PublishedJourneyWebReviewStatus;
     contentStatus?: PublishedJourneyContentStatus;
     notice?: string;
 };
@@ -171,19 +177,55 @@ function isHiddenJourneyMessage(message: string | null | undefined): boolean {
     return (
         message.includes("숨김") ||
         message.includes("신고가 누적") ||
+        message.includes("심사") ||
+        message.includes("검토") ||
+        message.includes("반려") ||
         normalized.includes("hidden") ||
-        normalized.includes("reported")
+        normalized.includes("reported") ||
+        normalized.includes("review") ||
+        normalized.includes("pending") ||
+        normalized.includes("rejected") ||
+        normalized.includes("not approved")
     );
 }
 
 function normalizeContentStatus(
     value: unknown,
 ): PublishedJourneyContentStatus | undefined {
-    if (value === "available" || value === "reported_hidden") {
+    if (
+        value === "available" ||
+        value === "reported_hidden" ||
+        value === "web_review_pending" ||
+        value === "web_review_rejected"
+    ) {
         return value;
     }
 
     return undefined;
+}
+
+function normalizeWebReviewStatus(
+    value: unknown,
+): PublishedJourneyWebReviewStatus | undefined {
+    if (value === "PENDING" || value === "APPROVED" || value === "REJECTED") {
+        return value;
+    }
+
+    return undefined;
+}
+
+function isUnavailableForWeb(
+    journey: Pick<PublishedJourneyApi, "contentStatus" | "webReviewStatus">,
+): boolean {
+    if (journey.contentStatus && journey.contentStatus !== "available") {
+        return true;
+    }
+
+    if (journey.webReviewStatus && journey.webReviewStatus !== "APPROVED") {
+        return true;
+    }
+
+    return false;
 }
 
 function normalizeJourneyMode(value: unknown): JourneyMode {
@@ -447,6 +489,7 @@ function normalizePublishedJourney(
         clusters,
         publishedAt,
         createdAt: readText(value.createdAt) ?? publishedAt,
+        webReviewStatus: normalizeWebReviewStatus(value.webReviewStatus),
         contentStatus: normalizeContentStatus(value.contentStatus),
         notice: readMessage(value.notice) ?? fallbackMessage,
     };
@@ -516,7 +559,7 @@ export async function fetchPublishedJourneyResult(
 ): Promise<FetchPublishedJourneyResult> {
     try {
         const response = await fetchPublicApi(
-            `/v2/journeys/public/${encodeURIComponent(publicId)}`,
+            `/v2/journeys/public/${encodeURIComponent(publicId)}/viewer?viewer=web`,
             { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
         );
 
@@ -549,7 +592,7 @@ export async function fetchPublishedJourneyResult(
                 return { status: "error", data: null, message };
             }
 
-            if (data.contentStatus === "reported_hidden") {
+            if (isUnavailableForWeb(data)) {
                 return {
                     status: "hidden",
                     data,
@@ -564,7 +607,7 @@ export async function fetchPublishedJourneyResult(
             };
         }
 
-        if (response.status === 404) {
+        if (response.status === 403 || response.status === 404) {
             if (isHiddenJourneyMessage(message)) {
                 return { status: "hidden", data: null, message };
             }

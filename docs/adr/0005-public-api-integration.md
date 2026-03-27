@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-01-29 (updated: 2026-02-12)
+2026-01-29 (updated: 2026-03-27)
 
 ## Context
 
@@ -24,7 +24,9 @@ Accepted
 공개 콘텐츠는 v2 public endpoint에서 조회한다.
 
 - users/profile/user journeys: `lib/public-users.ts`
-- journey/moment/photo: `lib/published-journey.ts`
+- public journey list seed: `GET /v2/journeys/public`
+- journey/moment web detail: `lib/published-journey.ts`가 `GET /v2/journeys/public/:publicId/viewer?viewer=web` viewer payload를 기준으로 사용한다.
+- list preview thumbnail은 list response의 server-provided preview field를 우선 사용하고 viewer `images[]`에서 재계산하지 않는다.
 
 ### 2) fetch base candidate 전략
 
@@ -39,6 +41,7 @@ Swagger 생성 타입(`@/src/apis/client`)을 기준 계약으로 사용한다.
 - helper 함수는 실패 시 `null`
 - detail 페이지는 `notFound()`
 - list 페이지는 empty state
+- viewer payload가 웹 비노출 상태(`contentStatus`, `webReviewStatus`, `notice`)를 반환하면 웹은 콘텐츠 본문 대신 안내 상태를 렌더링한다.
 
 ### 5) 레거시 샘플 데이터
 

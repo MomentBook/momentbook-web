@@ -121,7 +121,8 @@ MomentBook Web은 다음 역할만 수행한다.
 주요 공개 데이터는 API 기반으로 로드한다.
 
 - 사용자/프로필/사용자별 게시 여정: `lib/public-users.ts`
-- 게시 여정/모먼트/사진: `lib/published-journey.ts`
+- 게시 여정/모먼트/사진: `lib/published-journey.ts` (`GET /v2/journeys/public/:publicId/viewer?viewer=web` 기반 viewer payload + photo endpoint)
+- 공개 리스트 카드(`/`, `/{lang}/journeys`, `/{lang}/users/[userId]`)의 cover thumbnail은 list response가 내려주는 preview field를 우선 사용하며 viewer `images[]`에서 다시 추론하지 않는다.
 - 공통 fetch fallback candidates: `lib/public-api.ts`
 
 `lib/public-api.ts`는 다음 후보 base URL을 순차 시도한다.
@@ -151,7 +152,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 웹 로그인/Auth UI 및 `/api/auth/*` 라우트는 제공하지 않는다.
 - 여정 상세의 신고 버튼/신고 제출 플로우는 제거되어 있다.
 - `/{lang}/journeys/[journeyId]`는 cover-led summary와 moment index를 기본으로 렌더링한다. 상단에는 단일 hero image, 제목, 선택적 설명, 작성자, compact meta row(여행 기간 또는 게시일, 사진 수)만 노출한다. 클러스터가 있는 여정은 그 아래에서 각 moment를 대표 이미지 1장, 위치명, 시간 범위, 사진 수를 담은 clickable card list로 제공하고, 전체 사진 나열은 `/{lang}/journeys/[journeyId]/moments/[clusterId]` 상세에서만 보여준다. 클러스터가 없는 여정은 촬영 시각 기준 photo archive grid로 대체한다. 지도/점프 navigation/장소 요약 패널은 이 상세 화면에서 노출하지 않는다.
-- 신고 누적으로 hidden 상태가 된 공개 여정 상세는 숨김 안내와 noindex metadata를 렌더링한다.
+- 신고 누적 또는 웹 검수 상태 등으로 웹에서 비노출 처리된 공개 여정 상세는 안내 문구와 noindex metadata를 렌더링한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 
 ## 7) i18n / Preference Behavior

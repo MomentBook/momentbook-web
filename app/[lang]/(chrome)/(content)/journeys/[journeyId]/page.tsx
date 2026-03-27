@@ -32,42 +32,42 @@ import {
 
 export const revalidate = 60;
 
-const hiddenNoticeByLanguage: Record<Language, { title: string; message: string }> = {
+const unavailableNoticeByLanguage: Record<Language, { title: string; message: string }> = {
     en: {
-        title: "This journey is hidden",
-        message: "This post has been hidden due to accumulated reports.",
+        title: "This journey is unavailable",
+        message: "This journey is currently unavailable on the web.",
     },
     ko: {
-        title: "숨김 처리된 게시글입니다",
-        message: "신고가 누적되어 숨김 처리된 게시글입니다.",
+        title: "이 여정은 웹에서 볼 수 없습니다",
+        message: "이 여정은 현재 웹에서 볼 수 없습니다.",
     },
     ja: {
-        title: "非表示の投稿です",
-        message: "この投稿は通報の累積により非表示になりました。",
+        title: "この旅はウェブでは表示できません",
+        message: "この旅は現在ウェブでは表示できません。",
     },
     zh: {
-        title: "此帖子已被隐藏",
-        message: "该帖子因举报累计已被隐藏。",
+        title: "此旅程暂时无法在网页上查看",
+        message: "此旅程当前无法在网页上查看。",
     },
     es: {
-        title: "Esta publicación está oculta",
-        message: "Esta publicación fue ocultada por reportes acumulados.",
+        title: "Este viaje no está disponible en la web",
+        message: "Este viaje no está disponible actualmente en la web.",
     },
     pt: {
-        title: "Esta publicação está oculta",
-        message: "Esta publicação foi ocultada por denúncias acumuladas.",
+        title: "Esta viagem não está disponível na web",
+        message: "Esta viagem não está disponível no momento na web.",
     },
     fr: {
-        title: "Cette publication est masquée",
-        message: "Cette publication a été masquée suite à des signalements répétés.",
+        title: "Ce voyage n'est pas disponible sur le web",
+        message: "Ce voyage n'est actuellement pas disponible sur le web.",
     },
     th: {
-        title: "โพสต์นี้ถูกซ่อน",
-        message: "โพสต์นี้ถูกซ่อนเนื่องจากมีการรายงานสะสม",
+        title: "ทริปนี้ไม่สามารถดูบนเว็บได้",
+        message: "ขณะนี้ทริปนี้ไม่สามารถดูบนเว็บได้",
     },
     vi: {
-        title: "Bài đăng đã bị ẩn",
-        message: "Bài đăng này đã bị ẩn do tích lũy báo cáo.",
+        title: "Hành trình này hiện không xem được trên web",
+        message: "Hành trình này hiện không xem được trên web.",
     },
 };
 
@@ -104,7 +104,7 @@ export async function generateMetadata({
     const result = await fetchPublishedJourneyResult(journeyId);
 
     if (result.status === "hidden") {
-        const hiddenNotice = hiddenNoticeByLanguage[lang] ?? hiddenNoticeByLanguage.en;
+        const hiddenNotice = unavailableNoticeByLanguage[lang] ?? unavailableNoticeByLanguage.en;
         const hiddenMessage =
             result.data?.notice?.trim() ||
             result.message ||
@@ -190,7 +190,7 @@ export default async function JourneyPage({
         journeyId: string;
     };
     const result = await fetchPublishedJourneyResult(journeyId);
-    const hiddenNotice = hiddenNoticeByLanguage[lang] ?? hiddenNoticeByLanguage.en;
+    const hiddenNotice = unavailableNoticeByLanguage[lang] ?? unavailableNoticeByLanguage.en;
 
     if (result.status === "hidden") {
         const hiddenMessage =

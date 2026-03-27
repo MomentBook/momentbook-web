@@ -4,7 +4,11 @@ import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
 import type { Language } from "@/lib/i18n/config";
 import { resolveJourneyPeriodRange } from "@/lib/journey-period";
 import type { UserJourneyApi } from "@/lib/public-users";
-import { asRecord, readText } from "@/lib/view-helpers";
+import {
+  asRecord,
+  readText,
+  resolveJourneyListCoverUrl,
+} from "@/lib/view-helpers";
 import type { UserPageLabels } from "./user-page.helpers";
 import styles from "./user.module.scss";
 
@@ -22,44 +26,11 @@ function resolveJourneyMetadata(journey: UserJourneyApi) {
   return {
     title: readText(metadata?.title),
     description: readText(metadata?.description),
-    thumbnailUri: readText(metadata?.thumbnailUri),
   };
 }
 
-function getJourneyCoverUrl(journey: UserJourneyApi, thumbnailUri: string | null): string | null {
-  const coverCandidate =
-    readText(journey.coverUrl) ?? readText(journey.thumbnailUrl) ?? thumbnailUri;
-
-  if (coverCandidate) {
-    return coverCandidate;
-  }
-
-  if (!Array.isArray(journey.images)) {
-    return null;
-  }
-
-  for (const image of journey.images) {
-    if (typeof image === "string") {
-      const value = readText(image);
-      if (value) {
-        return value;
-      }
-      continue;
-    }
-
-    if (image && typeof image === "object") {
-      const value =
-        readText(image.url) ??
-        readText(image.imageUrl) ??
-        readText(image.src);
-
-      if (value) {
-        return value;
-      }
-    }
-  }
-
-  return null;
+function getJourneyCoverUrl(journey: UserJourneyApi): string | null {
+  return resolveJourneyListCoverUrl(journey);
 }
 
 function getJourneyPeriodRange(journey: UserJourneyApi) {
@@ -86,7 +57,7 @@ export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps)
   const meta = resolveJourneyMetadata(journey);
   const journeyTitle = meta.title ?? readText(journey.title) ?? labels.untitledJourney;
   const journeyDescription = meta.description ?? readText(journey.description);
-  const coverUrl = getJourneyCoverUrl(journey, meta.thumbnailUri);
+  const coverUrl = getJourneyCoverUrl(journey);
   const photoCount = getJourneyPhotoCount(journey);
   const periodRange = getJourneyPeriodRange(journey);
 
