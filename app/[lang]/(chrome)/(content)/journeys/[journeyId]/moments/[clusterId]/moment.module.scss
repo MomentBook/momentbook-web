@@ -160,6 +160,7 @@
 
 .photoCard {
   display: block;
+  height: 100%;
   overflow: hidden;
   border-radius: calc(var(--radius-md) - 0.1rem);
   background: white;
