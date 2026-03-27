@@ -293,21 +293,21 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
       scenes: [
         {
           sceneLabel: "장면 01",
-          title: "사진이 계속 쌓입니다",
+          title: "여행에서 찍은 사진이 쌓여 있습니다",
           description:
-            "여행 중 찍은 사진은 찍힌 순서 그대로 카메라 롤에 남습니다.",
+            "여행 중 찍은 사진은 찍힌 순서 그대로 갤러리에 남습니다.",
         },
         {
           sceneLabel: "장면 02",
-          title: "한 번에 가져옵니다",
+          title: "사진 한 묶음을 가져옵니다",
           description:
-            "사진을 한 번에 선택하면 여행 한 묶음으로 읽기 시작합니다.",
+            "사진을 업로드 하면 장소 단위로 모읍니다.",
         },
         {
           sceneLabel: "장면 03",
-          title: "타임라인이 모습을 갖춥니다",
+          title: "시간과 장소를 따라 타임라인이 정리됩니다",
           description:
-            "시간과 장소 흐름에 따라 흩어진 사진이 모먼트로 정리됩니다.",
+            "흩어진 사진이 모먼트 단위로 묶이며 다시 보기 쉬운 흐름이 생깁니다.",
         },
       ],
       value: {

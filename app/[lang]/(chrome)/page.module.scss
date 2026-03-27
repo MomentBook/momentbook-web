@@ -979,7 +979,7 @@
 .marketingSceneList {
   display: grid;
   gap: clamp(2.1rem, 5vw, 3.4rem);
-  margin-top: clamp(2.6rem, 4.5vw, 3.5rem);
+  margin-top: clamp(4.4rem, 7.5vw, 6rem);
 }
 
 .marketingScene {
@@ -989,7 +989,7 @@
 
 .marketingSceneCopy {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.8rem;
   align-content: center;
   justify-items: center;
   text-align: center;
@@ -1016,11 +1016,13 @@
 
 .marketingSceneDescription {
   margin: 0 auto;
-  color: var(--home-text-muted);
-  max-width: 32rem;
-  font-size: 0.92rem;
-  line-height: 1.76;
+  color: color-mix(in srgb, var(--home-text-muted) 92%, var(--home-paper));
+  max-width: 30rem;
+  font-size: 0.85rem;
+  line-height: 1.72;
+  letter-spacing: -0.01em;
   text-align: center;
+  text-wrap: pretty;
 }
 
 .marketingValueList {

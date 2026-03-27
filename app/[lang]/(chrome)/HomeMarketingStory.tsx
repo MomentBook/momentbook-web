@@ -1,7 +1,4 @@
-import Link from "next/link";
-import { DownloadActionButton } from "@/components/DownloadActionButton";
 import { Reveal } from "@/components/Reveal";
-import { type Language } from "@/lib/i18n/config";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import {
   getHomeMarketingImagePrompt,
@@ -46,7 +43,6 @@ export type HomeMarketingContent = {
 };
 
 type HomeMarketingStoryProps = {
-  lang: Language;
   content: HomeMarketingContent;
 };
 
@@ -77,56 +73,12 @@ function HomeMarketingVisualSlot({
 }
 
 export function HomeMarketingStory({
-  lang,
   content,
 }: HomeMarketingStoryProps) {
   return (
     <>
       <section
         id={HOME_SECTION_IDS.story}
-        className={styles.marketingShowcaseSection}
-        aria-labelledby="home-result-showcase-title"
-        tabIndex={-1}
-      >
-        <div className={styles.marketingShowcaseGrid}>
-          <Reveal
-            delay={0}
-            duration={820}
-            distance={10}
-            className={styles.marketingShowcaseCopy}
-          >
-            <h2 id="home-result-showcase-title" className={styles.sectionTitle}>
-              {content.showcase.title}
-            </h2>
-            {content.showcase.lead ? (
-              <p className={styles.sectionLead}>{content.showcase.lead}</p>
-            ) : null}
-            <div className={styles.marketingActions}>
-              <DownloadActionButton
-                lang={lang}
-                className={styles.primaryButton}
-              >
-                {content.showcase.primaryCta}
-              </DownloadActionButton>
-              <Link href="#home-story-sequence" className={styles.secondaryButton}>
-                {content.showcase.secondaryCta}
-              </Link>
-            </div>
-          </Reveal>
-
-          <Reveal
-            delay={90}
-            duration={860}
-            distance={10}
-            className={styles.marketingShowcaseVisualWrap}
-          >
-            <HomeMarketingVisualSlot promptKey="resultOverview" />
-          </Reveal>
-        </div>
-      </section>
-
-      <section
-        id="home-story-sequence"
         className={styles.marketingStorySection}
         aria-labelledby="home-story-sequence-title"
         tabIndex={-1}
@@ -167,6 +119,9 @@ export function HomeMarketingStory({
                 className={styles.marketingSceneCopy}
               >
                 <h3 className={styles.marketingSceneTitle}>{scene.title}</h3>
+                <p className={styles.marketingSceneDescription}>
+                  {scene.description}
+                </p>
               </Reveal>
             </article>
           ))}
