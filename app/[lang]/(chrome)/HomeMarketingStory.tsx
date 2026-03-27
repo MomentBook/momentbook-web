@@ -79,6 +79,12 @@ function HomeMarketingVisualSlot({
     >
       <span className={styles.visuallyHidden}>{prompt.shortHint}</span>
       <div className={styles.marketingVisualSurface}>
+        <div className={styles.marketingVisualLabel}>
+          <span className={styles.marketingVisualLabelEyebrow}>AI image slot</span>
+          <strong className={styles.marketingVisualLabelTitle}>{prompt.label}</strong>
+          <span className={styles.marketingVisualLabelHint}>{prompt.shortHint}</span>
+        </div>
+
         {variant === "resultOverview" ? (
           <>
             <div className={styles.marketingVisualToolbar} />
@@ -181,6 +187,9 @@ function HomeMarketingVisualSlot({
             </div>
           </div>
         ) : null}
+      </div>
+      <div className={styles.marketingVisualFooter}>
+        <span className={styles.marketingVisualPromptKey}>Prompt key: {promptKey}</span>
       </div>
     </div>
   );

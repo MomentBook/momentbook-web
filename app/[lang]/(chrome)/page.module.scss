@@ -469,6 +469,8 @@
 .marketingVisual {
   position: relative;
   width: 100%;
+  display: grid;
+  gap: 0.55rem;
 }
 
 .marketingVisualSurface {
@@ -489,6 +491,44 @@
   box-shadow: var(--home-shadow-soft);
 }
 
+.marketingVisualLabel {
+  position: absolute;
+  left: 1.1rem;
+  top: 1.05rem;
+  z-index: 2;
+  display: grid;
+  gap: 0.18rem;
+  max-width: min(16rem, calc(100% - 2.2rem));
+  padding: 0.8rem 0.9rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 14px 30px rgba(17, 33, 22, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.marketingVisualLabelEyebrow,
+.marketingVisualPromptKey {
+  color: var(--home-forest-soft);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.marketingVisualLabelTitle {
+  color: var(--home-forest);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.marketingVisualLabelHint {
+  color: var(--home-text-muted);
+  font-size: 0.76rem;
+  line-height: 1.52;
+}
+
 .marketingVisualSurface::before {
   content: "";
   position: absolute;
@@ -496,6 +536,20 @@
   border-radius: 1.55rem;
   border: 1px solid rgba(255, 255, 255, 0.4);
   pointer-events: none;
+}
+
+.marketingVisualFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.marketingVisualPromptKey {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.68rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--home-paper) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--home-border) 84%, white);
 }
 
 .marketingVisualToolbar {
@@ -987,6 +1041,58 @@
   line-height: 1.72;
 }
 
+:global([data-theme="dark"]) .marketingVisualSurface {
+  background:
+    radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.06), transparent 24%),
+    radial-gradient(circle at 88% 18%, rgba(106, 226, 133, 0.12), transparent 26%),
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--home-paper) 92%, #1a231d) 0%,
+      color-mix(in srgb, var(--home-bg) 94%, #101712) 48%,
+      color-mix(in srgb, var(--home-sand) 52%, #17140f) 100%
+    );
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+:global([data-theme="dark"]) .marketingVisualLabel {
+  background: rgba(18, 27, 21, 0.82);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.3);
+}
+
+:global([data-theme="dark"]) .marketingVisualPromptKey {
+  background: rgba(20, 31, 24, 0.82);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+:global([data-theme="dark"]) .resultOverviewTimeline,
+:global([data-theme="dark"]) .resultTimelineCard,
+:global([data-theme="dark"]) .timelineFormationMomentCard,
+:global([data-theme="dark"]) .organizedResultHeroCard,
+:global([data-theme="dark"]) .organizedResultRowBody {
+  background: rgba(19, 28, 22, 0.84);
+}
+
+:global([data-theme="dark"]) .resultPhotoTall,
+:global([data-theme="dark"]) .resultPhotoWide,
+:global([data-theme="dark"]) .batchImportTile,
+:global([data-theme="dark"]) .timelineFormationThumb,
+:global([data-theme="dark"]) .organizedResultStat {
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.22);
+}
+
+:global([data-theme="dark"]) .photoPileCard {
+  background: rgba(20, 30, 24, 0.88);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+}
+
+:global([data-theme="dark"]) .marketingBridgeCard {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+    color-mix(in srgb, var(--home-sand) 32%, var(--home-paper));
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
 .homeSection {
   margin-top: 0;
 }
@@ -1148,6 +1254,13 @@
   .marketingVisualSurface {
     min-height: 16.4rem;
     border-radius: 1.7rem;
+  }
+
+  .marketingVisualLabel {
+    left: 0.85rem;
+    top: 0.85rem;
+    max-width: calc(100% - 1.7rem);
+    padding: 0.72rem 0.78rem;
   }
 
   .resultOverviewGrid,
