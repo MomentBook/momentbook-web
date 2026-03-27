@@ -26,11 +26,9 @@ export function HomeFeaturedJourneys({
         className={styles.sectionHeader}
       >
         <div className={styles.sectionHeaderCopy}>
-          <p className={styles.sectionEyebrow}>{content.featuredEyebrow}</p>
           <h2 id="home-featured-title" className={styles.sectionTitle}>
             {content.featuredTitle}
           </h2>
-          <p className={styles.sectionLead}>{content.featuredLead}</p>
         </div>
         <Link href={`/${lang}/journeys`} className={styles.archiveLink}>
           {content.featuredArchiveCta}

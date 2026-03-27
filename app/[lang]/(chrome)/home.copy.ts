@@ -116,9 +116,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
 const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   en: {
     heroEyebrow: "Travel photo organizer",
-    heroExploreCta: "See how it comes together",
+    heroExploreCta: "See the flow",
     featuredEyebrow: "Public archive",
-    featuredTitle: "See the organized result",
+    featuredTitle: "Recent public journeys",
     featuredLead: "Recently published trips.",
     featuredArchiveCta: "View all",
     photoCountLabel: "photos",
@@ -128,9 +128,9 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
   },
   ko: {
     heroEyebrow: "여행 사진 정리 앱",
-    heroExploreCta: "어떻게 정리되는지 보기",
+    heroExploreCta: "정리 흐름 보기",
     featuredEyebrow: "공개 아카이브",
-    featuredTitle: "정리된 결과 보기",
+    featuredTitle: "최근 공개된 여행",
     featuredLead: "최근 공개된 여행입니다.",
     featuredArchiveCta: "전체 보기",
     photoCountLabel: "장의 사진",
@@ -231,12 +231,12 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         eyebrow: "Result first",
         title: "Your trip, arranged as a timeline",
         lead:
-          "MomentBook groups travel photos by time and place so the flow of the trip stays readable.",
+          "Travel photos group by time and place into a readable timeline.",
         primaryCta: "Install app",
-        secondaryCta: "See how it comes together",
+        secondaryCta: "See the flow",
       },
       storyEyebrow: "From photo roll to trip flow",
-      storyTitle: "Three scenes, one organized trip",
+      storyTitle: "How it comes together",
       storyLead:
         "A short walkthrough from a mixed camera roll to a timeline you can revisit.",
       scenes: [
@@ -261,8 +261,7 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
       ],
       value: {
         eyebrow: "What stays visible",
-        title:
-          "Where you were, when it happened, and what belonged together stays in view",
+        title: "The trip stays easy to revisit",
         lead:
           "The organized result keeps the route, timing, and grouped photos easy to review later.",
         bullets: [
@@ -273,8 +272,8 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
       },
     },
     download: {
-      title: "Download now",
-      lead: "Install now and start organizing trip photos.",
+      title: "Download MomentBook",
+      lead: "Install the app and organize trip photos.",
     },
   },
   ko: {
@@ -283,12 +282,12 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         eyebrow: "결과 먼저 보기",
         title: "여행 사진이, 타임라인으로 정리됩니다",
         lead:
-          "MomentBook는 여행 사진을 시간과 장소 기준으로 묶어 여행 흐름이 다시 보이도록 남깁니다.",
+          "여행 사진이 시간과 장소 기준 타임라인으로 정리됩니다.",
         primaryCta: "앱 설치",
-        secondaryCta: "어떻게 정리되는지 보기",
+        secondaryCta: "정리 흐름 보기",
       },
       storyEyebrow: "사진 묶음에서 여행 흐름까지",
-      storyTitle: "세 장면으로 보는 정리 과정",
+      storyTitle: "정리되는 과정",
       storyLead:
         "섞여 있는 카메라 롤이 다시 보기 쉬운 여행 기록으로 바뀌는 흐름입니다.",
       scenes: [
@@ -313,7 +312,7 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
       ],
       value: {
         eyebrow: "정리 후 남는 것",
-        title: "어디에 있었고, 언제였고, 무엇이 함께였는지 다시 보입니다",
+        title: "여행 흐름이 다시 보입니다",
         lead:
           "정리된 결과는 이동 흐름과 시점, 함께 묶인 사진을 나중에도 읽기 쉽게 남깁니다.",
         bullets: [
@@ -324,8 +323,8 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
       },
     },
     download: {
-      title: "지금 바로 다운로드하세요",
-      lead: "지금 설치하고 여행 사진 정리를 시작하세요.",
+      title: "MomentBook 다운로드",
+      lead: "앱을 설치하고 여행 사진을 정리하세요.",
     },
   },
   ja: {
