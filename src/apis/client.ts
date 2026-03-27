@@ -22,11 +22,6 @@ export enum OrphanClusterBasis {
   TIME_ONLY = "TIME_ONLY",
 }
 
-export enum RecapOperationBucket {
-  ROUTE = "ROUTE",
-  UNMAPPED = "UNMAPPED",
-}
-
 export enum PlaceNameSource {
   GooglePlaces = "google_places",
   ReverseGeocode = "reverse_geocode",
@@ -40,11 +35,8 @@ export enum ClusterEditType {
   SPLIT = "SPLIT",
 }
 
-/** Journey mode classification (PHOTO_ONLY deprecated, use ROUTE_NONE) */
 export enum RecapMode {
-  ROUTE_STRONG = "ROUTE_STRONG",
-  ROUTE_WEAK = "ROUTE_WEAK",
-  ROUTE_NONE = "ROUTE_NONE",
+  PHOTO_ONLY = "PHOTO_ONLY",
 }
 
 export interface HealthzResponseDto {
@@ -1134,8 +1126,11 @@ export interface PublishedJourneyItemDto {
   startedAt: number;
   /** Journey end timestamp (ms) */
   endedAt?: number;
-  /** Recap stage */
-  recapStage: string;
+  /**
+   * Recap stage at publish time. FINALIZED means recap is completed for BI/analytics.
+   * @example "FINALIZED"
+   */
+  recapStage: "NONE" | "FINALIZED";
   /** Number of published photos */
   photoCount: number;
   /**
@@ -1290,43 +1285,27 @@ export interface ValidateUserConsentsResponseDto {
   data: ConsentValidationDto;
 }
 
-export interface GpsMetricsDto {
-  sampleCount: number;
-  timeRangeMs: number;
-  coveragePercent: number;
-  avgAccuracyM: number;
-  p50AccuracyM: number;
-  p95AccuracyM: number;
-  avgSamplingIntervalMs: number;
-  maxGapMs: number;
-  samplingConsistency: number;
-  avgSpeedMps: number;
-  maxSpeedMps: number;
-  totalDistanceM: number;
-}
-
 export interface RecapInputSummaryDto {
-  journeyId: string;
+  id: string;
   timeRange: object;
-  gpsMetrics?: GpsMetricsDto;
   photoCount: number;
   photoWithGpsCount: number;
   photoWithoutGpsCount: number;
   photoGpsRatio: number;
-  photoTimeRange?: object;
+  photoTimeRange: object;
 }
 
 export interface RecapAlgorithmConfigDto {
   clustering: object;
-  photoMapping: object;
   computedAt: number;
   processingTimeMs?: number;
 }
 
 export interface RecapComputedDto {
-  route: object;
-  unmapped: object;
+  clusters: object;
   quality: object;
+  totalClusters: number;
+  totalDurationMs: number;
 }
 
 export interface PhotoAssignment {
@@ -1369,43 +1348,58 @@ export interface RecapOverrides {
   blockOrder?: string[];
 }
 
+export interface ClusterTimeDto {
+  startAt: number;
+  endAt: number;
+  durationMs: number;
+}
+
+export interface ClusterCenterDto {
+  lat: number;
+  lng: number;
+}
+
+export interface ClusterConfidenceDto {
+  score: number;
+  reasons: string[];
+}
+
+export interface PhotoClusterDto {
+  clusterId: string;
+  basis: "TIME_SPACE" | "TIME_ONLY";
+  time: ClusterTimeDto;
+  center?: ClusterCenterDto;
+  radiusM?: number;
+  locationName?: string;
+  confidence: ClusterConfidenceDto;
+  photoIds: string[];
+}
+
 export interface RecapDraftDto {
-  /**
-   * Schema version
-   * @example 1
-   */
+  /** @example 3 */
   schemaVersion: number;
-  /**
-   * Draft ID (content-based hash)
-   * @example "draft_000d77d4d4"
-   */
   draftId: string;
-  /** Journey ID (UUIDv4) */
-  journeyId: string;
-  /** Draft creation time (Unix ms) */
+  inputId: string;
   createdAt: number;
-  /** Draft last update time (Unix ms) */
   updatedAt: number;
-  /** Input data summary */
   inputSummary: RecapInputSummaryDto;
-  /** Journey mode classification (PHOTO_ONLY deprecated, use ROUTE_NONE) */
   mode: RecapMode;
-  /** Explanation of mode classification */
-  modeReason: string;
-  /** Algorithm configuration */
   algorithm: RecapAlgorithmConfigDto;
-  /** Computed results (IMMUTABLE) */
   computed: RecapComputedDto;
-  /** User overrides */
   overrides: RecapOverrides;
+  /** Legacy top-level alias of computed.clusters.photoClusters (v3 contract) */
+  photoClusters?: PhotoClusterDto[];
 }
 
 export interface JourneyRecapExportMetaDto {
   journeyId: string;
   startedAt: number;
   endedAt?: number;
-  /** @example 1240 */
-  locationSampleCount: number;
+  /**
+   * Legacy GPS sample count
+   * @example 0
+   */
+  locationSampleCount?: number;
   /** @example 128 */
   photoCount: number;
 }
@@ -1435,20 +1429,21 @@ export interface LatLng {
 }
 
 export interface PlaceInfo {
+  /** Localized place names keyed by SupportedLocale */
+  names: LocalizedNames;
   /**
-   * Display name for the current locale
+   * Legacy alias of names
+   * @deprecated
+   */
+  localizedNames?: LocalizedNames;
+  /**
+   * Resolved display label for convenience
+   * @deprecated
    * @example "Gyeongbokgung Palace"
    */
   displayName?: string;
-  /** Localized place names keyed by SupportedLocale */
-  localizedNames?: LocalizedNames;
-  /**
-   * Legacy alias of localizedNames
-   * @deprecated
-   */
-  names?: LocalizedNames;
   /** @example "google_places" */
-  source?: PlaceNameSource;
+  source: PlaceNameSource;
   /** @example "ChIJm7u-8H7raDURzR3JzA8pW4M" */
   placeId?: string;
   coordinates?: LatLng;
@@ -1456,7 +1451,7 @@ export interface PlaceInfo {
    * Unix timestamp in milliseconds
    * @example 1739412345678
    */
-  resolvedAt?: number;
+  resolvedAt: number;
 }
 
 export interface JourneyRecapExportLocationDto {
@@ -1477,7 +1472,7 @@ export interface JourneyRecapExportTimelineItemDto {
    * @format uuid
    */
   timelineId: string;
-  type: "ROUTE_STOP" | "ORPHAN_CLUSTER" | "ORPHAN_PHOTO";
+  type: "PHOTO_GROUP" | "ORPHAN_PHOTO";
   time: JourneyRecapExportTimeRangeDto;
   location?: JourneyRecapExportLocationDto;
   /** External photo IDs mapped from internal IDs */
@@ -1517,15 +1512,24 @@ export interface JourneyRecapExportDraftDto {
   photos: JourneyRecapExportPhotoDto[];
 }
 
+export interface RecapTimeRange {
+  startAt: number;
+  endAt: number;
+  durationMs: number;
+}
+
+export interface ClusterConfidence {
+  /** @example 0.92 */
+  score: number;
+  /** @example ["density_high","time_stable"] */
+  reasons: string[];
+}
+
 export interface RecapOperationFrom {
-  /** @example "UNMAPPED" */
-  bucket: RecapOperationBucket;
   clusterId?: string;
 }
 
 export interface RecapOperationTo {
-  /** @example "ROUTE" */
-  bucket: RecapOperationBucket;
   clusterId: string;
   positionIndex?: number;
 }
@@ -1584,17 +1588,22 @@ export interface ReorderTimelineBlocksOp {
   atMs: number;
 }
 
-export interface RecapTimeRange {
-  startAt: number;
-  endAt: number;
-  durationMs: number;
-}
-
-export interface ClusterConfidence {
-  /** @example 0.92 */
-  score: number;
-  /** @example ["density_high","time_stable"] */
-  reasons: string[];
+export interface PhotoGroupBlock {
+  blockId: string;
+  /** @example "PHOTO_GROUP" */
+  type: "PHOTO_GROUP";
+  time: RecapTimeRange;
+  location?: LatLng;
+  place?: PlaceInfo;
+  /**
+   * Use place.names instead
+   * @deprecated
+   */
+  placeName?: string;
+  photos: string[];
+  hiddenPhotos: string[];
+  /** @example "TIME_ONLY" */
+  basis: OrphanClusterBasis;
 }
 
 export interface OrphanCluster {
@@ -1607,13 +1616,11 @@ export interface OrphanCluster {
   radiusM?: number;
   place?: PlaceInfo;
   /**
-   * Use place.localizedNames instead
+   * Use place.names instead
    * @deprecated
    * @example "Gyeongbokgung Palace"
    */
   locationName?: string;
-  onRoute?: boolean;
-  linkedRouteClusterId?: string;
   confidence: ClusterConfidence;
   photoIds: string[];
 }
@@ -1622,6 +1629,11 @@ export interface OrphanPhoto {
   photoId: string;
   /** @example ["no_cluster_match"] */
   reasons: string[];
+}
+
+export interface RecapUnmappedLeftovers {
+  clusters: OrphanCluster[];
+  photos: OrphanPhoto[];
 }
 
 export interface UnassignedPhoto {
@@ -1643,81 +1655,20 @@ export interface RecapFinalStats {
 }
 
 export interface RecapFinal {
-  timelineBlocks: (
-    | ({
-        type: "STOP";
-      } & StopBlock)
-    | ({
-        type: "MOVE";
-      } & MoveBlock)
-    | ({
-        type: "PHOTO_GROUP";
-      } & PhotoGroupBlock)
-  )[];
-  orphanClusters: OrphanCluster[];
-  orphanPhotos: OrphanPhoto[];
+  timelineBlocks: PhotoGroupBlock[];
+  leftoverPhotos: RecapUnmappedLeftovers;
+  /**
+   * Legacy alias. Use leftoverPhotos instead
+   * @deprecated
+   */
+  unmappedLeftovers?: RecapUnmappedLeftovers;
+  /**
+   * Legacy alias. Use leftoverPhotos.photos instead
+   * @deprecated
+   */
+  orphanPhotos?: OrphanPhoto[];
   unassignedPhotos: UnassignedPhoto[];
-  stats?: RecapFinalStats;
-}
-
-export interface StopLocation {
-  lat: number;
-  lng: number;
-  radiusM: number;
-}
-
-export interface StopBlock {
-  blockId: string;
-  /** @example "STOP" */
-  type: "STOP";
-  time: RecapTimeRange;
-  location: StopLocation;
-  photos: string[];
-  hiddenPhotos: string[];
-  place?: PlaceInfo;
-  /**
-   * Use place.localizedNames instead
-   * @deprecated
-   */
-  placeName?: string;
-  /** @example 0.91 */
-  confidence: number;
-}
-
-export interface MoveEndpoint {
-  clusterId: string;
-  location: LatLng;
-}
-
-export interface MoveBlock {
-  blockId: string;
-  /** @example "MOVE" */
-  type: "MOVE";
-  time: RecapTimeRange;
-  from: MoveEndpoint;
-  to: MoveEndpoint;
-  distanceM: number;
-  polyline: LatLng[];
-  /** @example 0.84 */
-  confidence: number;
-}
-
-export interface PhotoGroupBlock {
-  blockId: string;
-  /** @example "PHOTO_GROUP" */
-  type: "PHOTO_GROUP";
-  time: RecapTimeRange;
-  location?: LatLng;
-  place?: PlaceInfo;
-  /**
-   * Use place.localizedNames instead
-   * @deprecated
-   */
-  placeName?: string;
-  photos: string[];
-  hiddenPhotos: string[];
-  /** @example "TIME_ONLY" */
-  basis: OrphanClusterBasis;
+  stats: RecapFinalStats;
 }
 
 export interface SupportedLocaleValue {
@@ -1778,7 +1729,7 @@ export interface JourneyMetadataDto {
    */
   description?: string;
   /**
-   * Selected thumbnail photo URI (from images array)
+   * Selected thumbnail photo URL. Must match one of the selected image URLs.
    * @example "https://cdn.momentbook.app/journeys/user123/thumbnail.jpg"
    */
   thumbnailUri?: string;
@@ -1797,19 +1748,19 @@ export interface PublishJourneyRequestDto {
   startedAt: number;
   /** Journey end timestamp (ms) */
   endedAt?: number;
-  /** RecapDraft payload. Supports legacy computed format and export-safe format. */
+  /** RecapDraft payload. Supports computed format and export-safe format. */
   recapDraft: RecapDraftDto | JourneyRecapExportDraftDto;
   /**
-   * Recap stage
-   * @example "USER_DONE"
+   * Recap stage. Publish requires FINALIZED. BI/analytics should treat FINALIZED as "recap completed".
+   * @example "FINALIZED"
    */
-  recapStage: "NONE" | "SYSTEM_DONE" | "USER_DONE" | "FINALIZED";
+  recapStage: "FINALIZED";
   /**
-   * Photo ID to S3 URL mapping (local uri → downloadUrl)
+   * Photo reference to published image URL mapping (client photo identifier/local URI -> downloadUrl). On PUT, unchanged photos may reuse an existing downloadUrl from the same journey instead of uploading again.
    * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
    */
   photoUrlMapping: object;
-  /** Array of selected images to publish (max 30). Client should only upload and send photos that user wants to publish, not all journey photos. */
+  /** Array of selected images to publish (max 100). Client should only upload and send photos that user wants to publish, not all journey photos. On PUT, images may mix newly uploaded URLs and existing same-journey downloadUrls. */
   images: JourneyImageDto[];
   /** Journey metadata (title, description, thumbnailUri, etc.) */
   metadata?: JourneyMetadataDto;
@@ -1829,6 +1780,21 @@ export interface PublishJourneyResponseDto {
     createdAt?: string;
     /** Publish status */
     publishStatus?: "PUBLISHING" | "PUBLISHED" | "FAILED";
+  };
+}
+
+export interface UpdatePublishedJourneyResponseDto {
+  /**
+   * Status of the request
+   * @example "success"
+   */
+  status: string;
+  /** Updated published journey data */
+  data: {
+    /** Unique public identifier for the journey */
+    publicId?: string;
+    /** ISO timestamp of the latest update */
+    updatedAt?: string;
   };
 }
 
@@ -1874,6 +1840,12 @@ export interface PublishedJourneyDetailDto {
   publicId: string;
   /** Author user ID */
   userId: string;
+  /** Public author profile (minimal) */
+  author: {
+    userId?: string;
+    name?: string | null;
+    picture?: string | null;
+  };
   /** Journey start timestamp (ms) */
   startedAt: number;
   /** Journey end timestamp (ms) */
@@ -1882,23 +1854,72 @@ export interface PublishedJourneyDetailDto {
   title?: string;
   /** Journey description */
   description?: string;
-  /** Journey mode (PHOTO_ONLY deprecated) */
-  mode: "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
+  /** Thumbnail URL for preview */
+  thumbnailUrl?: string;
+  /** Share URL for web route */
+  shareUrl?: string;
+  /** Journey mode (photo-only) */
+  mode: "PHOTO_ONLY";
   /** Total photo count */
   photoCount: number;
   /** Published images with S3 URLs */
   images: string[];
   /** Clusters for rendering (stops + orphan clusters) */
   clusters: string[];
+  /** Timeline blocks for public viewer rendering */
+  timeline: {
+    clusterId?: string;
+    type?: "STOP" | "MOVE" | "ORPHAN";
+    time?: {
+      startAt?: number;
+      endAt?: number;
+      durationMs?: number;
+    };
+    center?: {
+      lat?: number;
+      lng?: number;
+    };
+    locationName?: string;
+    photoIds?: string[];
+  }[];
+  /** Export-safe recap draft summary for public rendering */
+  recapDraft: {
+    timeline?: {
+      clusterId?: string;
+      type?: "STOP" | "MOVE" | "ORPHAN";
+      time?: {
+        startAt?: number;
+        endAt?: number;
+        durationMs?: number;
+      };
+      center?: {
+        lat?: number;
+        lng?: number;
+      };
+      locationName?: string;
+      photoIds?: string[];
+    }[];
+    photoCount?: number;
+    imageCount?: number;
+  };
   /** Published timestamp */
   publishedAt: string;
   /** Creation timestamp */
   createdAt: string;
   /**
+   * Web SEO review status
+   * @example "APPROVED"
+   */
+  webReviewStatus?: "PENDING" | "APPROVED" | "REJECTED";
+  /**
    * Content availability status for rendering
    * @example "available"
    */
-  contentStatus?: "available" | "reported_hidden";
+  contentStatus?:
+    | "available"
+    | "reported_hidden"
+    | "web_review_pending"
+    | "web_review_rejected";
   /**
    * Visibility stored in DB
    * @example "public"
@@ -1927,152 +1948,6 @@ export interface UnpublishJourneyResponseDto {
     /** Number of S3 images deleted */
     deletedImages?: number;
   };
-}
-
-export interface JourneyTitleSummaryDto {
-  /**
-   * 전체 사진 수
-   * @example 86
-   */
-  photoCountTotal: number;
-  /**
-   * 총 소요 시간(분)
-   * @example 360
-   */
-  durationMin?: number;
-  /**
-   * 총 이동 거리(km)
-   * @example 8.4
-   */
-  distanceKm?: number;
-  /**
-   * STOP(스팟) 개수
-   * @example 5
-   */
-  stopCount?: number;
-}
-
-export interface JourneyTopStopDto {
-  /**
-   * 상위 스팟 라벨 (공개면 동/구 정도로만)
-   * @example "성수동"
-   */
-  label: string;
-  /**
-   * 체류 시간(분)
-   * @example 45
-   */
-  dwellMin?: number;
-}
-
-export interface GenerateJourneyTitleRequest {
-  /**
-   * 정리 모드
-   * @example "route_strong"
-   */
-  mode: "route_strong" | "route_weak" | "route_none";
-  /**
-   * 공개 범위
-   * @example "unlisted"
-   */
-  privacyLevel: "public" | "unlisted" | "private";
-  /**
-   * 여정 날짜 (YYYY-MM-DD)
-   * @example "2026-01-07"
-   */
-  date: string;
-  /** 요약 정보 */
-  summary: JourneyTitleSummaryDto;
-  /**
-   * 제목에 반영할 하이라이트 키워드(3~8개 추천). 장소/행동/분위기 키워드 위주.
-   * @example ["산책","카페","노을","조용한 시간"]
-   */
-  highlights: string[];
-  /** 상위 스팟(있으면 1~3개). public이면 개인 위치 특정 가능한 상세 라벨 금지. */
-  topStops?: JourneyTopStopDto[];
-  /**
-   * ROUTE_WEAK일 때 신뢰도(0~1)
-   * @example 0.62
-   */
-  confidence?: number;
-  /**
-   * 사진 캡션 배열 (있을 경우 AI가 이를 참고하여 더 상세한 제목/설명 생성). 최대 20개까지만 전달 권장.
-   * @example ["카페에서 아메리카노","석양을 바라보며","친구와 함께"]
-   */
-  photoCaptions?: string[];
-}
-
-export interface GeneratedTitleData {
-  /**
-   * 추천 제목
-   * @example "노을빛 성수 산책"
-   */
-  title: string;
-  /**
-   * 대안 제목 리스트 (더 이상 생성되지 않음, 레거시 호환용)
-   * @deprecated
-   * @example []
-   */
-  alternatives?: string[];
-}
-
-export interface GenerateJourneyTitleResponseData {
-  suggestion: GeneratedTitleData;
-}
-
-export interface GenerateJourneyTitleResponse {
-  /** @example "success" */
-  status: string;
-  data: GenerateJourneyTitleResponseData;
-  /** @example "제목이 성공적으로 생성되었습니다." */
-  message: string;
-}
-
-export interface LocationItemDto {
-  /**
-   * Latitude coordinate
-   * @min -90
-   * @max 90
-   * @example 37.5665
-   */
-  lat: number;
-  /**
-   * Longitude coordinate
-   * @min -180
-   * @max 180
-   * @example 126.978
-   */
-  lng: number;
-  /**
-   * Optional client-provided reverse geocoded location name for better translation context
-   * @example "Seoul, South Korea"
-   */
-  reverseGeocodedName?: string;
-}
-
-export interface EnrichLocationsRequestDto {
-  /**
-   * Array of locations to enrich with POI data
-   * @example [{"lat":37.5665,"lng":126.978,"reverseGeocodedName":"Seoul, South Korea"},{"lat":41.4036,"lng":2.1744,"reverseGeocodedName":"Barcelona, Spain"}]
-   */
-  locations: LocationItemDto[];
-  /**
-   * Search radius in meters for nearby POIs (default: 150m)
-   * @min 10
-   * @max 500
-   * @example 150
-   */
-  radiusMeters?: number;
-  /**
-   * Language code for multilingual place names (e.g., "ko", "es", "ja", "zh"). If provided, returns both English and translated place names using OpenAI.
-   * @example "ko"
-   */
-  language?: string;
-  /**
-   * Journey ID to track enrichment status and prevent duplicate enrichment. If provided, the server will mark this journey as enriched and skip re-enrichment on subsequent calls.
-   * @example "550e8400-e29b-41d4-a716-446655440000"
-   */
-  journeyId?: string;
 }
 
 export interface RegisterFcmTokenDto {
@@ -2387,6 +2262,105 @@ export interface DeleteReportResponseDto {
   message: string;
 }
 
+export interface JourneyTitleSummaryDto {
+  /**
+   * 전체 사진 수
+   * @example 86
+   */
+  photoCountTotal: number;
+  /**
+   * 총 소요 시간(분)
+   * @example 360
+   */
+  durationMin?: number;
+  /**
+   * 총 이동 거리(km)
+   * @example 8.4
+   */
+  distanceKm?: number;
+  /**
+   * STOP(스팟) 개수
+   * @example 5
+   */
+  stopCount?: number;
+}
+
+export interface JourneyTopStopDto {
+  /**
+   * 상위 스팟 라벨 (공개면 동/구 정도로만)
+   * @example "성수동"
+   */
+  label: string;
+  /**
+   * 체류 시간(분)
+   * @example 45
+   */
+  dwellMin?: number;
+}
+
+export interface GenerateJourneyTitleRequest {
+  /**
+   * 정리 모드
+   * @example "PHOTO_ONLY"
+   */
+  mode: "PHOTO_ONLY";
+  /**
+   * 공개 범위
+   * @example "unlisted"
+   */
+  privacyLevel: "public" | "unlisted" | "private";
+  /**
+   * 여정 날짜 (YYYY-MM-DD)
+   * @example "2026-01-07"
+   */
+  date: string;
+  /** 요약 정보 */
+  summary: JourneyTitleSummaryDto;
+  /**
+   * 제목에 반영할 하이라이트 키워드(3~8개 추천). 장소/행동/분위기 키워드 위주.
+   * @example ["산책","카페","노을","조용한 시간"]
+   */
+  highlights: string[];
+  /** 상위 스팟(있으면 1~3개). public이면 개인 위치 특정 가능한 상세 라벨 금지. */
+  topStops?: JourneyTopStopDto[];
+  /**
+   * 클러스터링 결과 신뢰도(0~1)
+   * @example 0.62
+   */
+  confidence?: number;
+  /**
+   * 사진 캡션 배열 (있을 경우 AI가 이를 참고하여 더 상세한 제목/설명 생성). 최대 20개까지만 전달 권장.
+   * @example ["카페에서 아메리카노","석양을 바라보며","친구와 함께"]
+   */
+  photoCaptions?: string[];
+}
+
+export interface GeneratedTitleData {
+  /**
+   * 추천 제목
+   * @example "노을빛 성수 산책"
+   */
+  title: string;
+  /**
+   * 대안 제목 리스트 (더 이상 생성되지 않음, 레거시 호환용)
+   * @deprecated
+   * @example []
+   */
+  alternatives?: string[];
+}
+
+export interface GenerateJourneyTitleResponseData {
+  suggestion: GeneratedTitleData;
+}
+
+export interface GenerateJourneyTitleResponse {
+  /** @example "success" */
+  status: string;
+  data: GenerateJourneyTitleResponseData;
+  /** @example "제목이 성공적으로 생성되었습니다." */
+  message: string;
+}
+
 export interface CreateJourneyAiCommonRequestDto {
   /**
    * 입력 이미지 URL (presigned URL 권장)
@@ -2432,36 +2406,6 @@ export interface JourneyAiJobResponseDto {
   pollCount?: number;
 }
 
-export interface JourneyLocationSampleDto {
-  /**
-   * @min -90
-   * @max 90
-   * @example 37.5665
-   */
-  latitude: number;
-  /**
-   * @min -180
-   * @max 180
-   * @example 126.978
-   */
-  longitude: number;
-  /**
-   * Unix ms timestamp
-   * @example 1704067200000
-   */
-  timestamp: number;
-  /**
-   * GPS accuracy in meters
-   * @example 14.5
-   */
-  accuracy?: number;
-  /**
-   * Speed in m/s
-   * @example 3.2
-   */
-  speed?: number;
-}
-
 export interface JourneyRecapInputDto {
   /** @example "journey_abc123" */
   id: string;
@@ -2475,7 +2419,6 @@ export interface JourneyRecapInputDto {
    * @example 1704070800000
    */
   endedAt?: number;
-  locations: JourneyLocationSampleDto[];
 }
 
 export interface PhotoMetaInputDto {
@@ -2943,7 +2886,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.0.21
+ * @version 2.1.6
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3663,7 +3606,7 @@ export class Api<
       }),
 
     /**
-     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. **Photo Upload:** - Maximum 30 photos allowed per published journey - Client should only upload and send photos that user selected to publish - Do not upload all journey photos - only upload selected photos to save storage
+     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. **Photo Upload:** - Maximum 100 photos allowed per published journey - Client should only upload and send photos that user selected to publish - Do not upload all journey photos - only upload selected photos to save storage **Publish Stage Contract:** - recapStage must be FINALIZED
      *
      * @tags journeys
      * @name PublishJourneyControllerPublishJourney
@@ -3681,6 +3624,51 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Replace the content of an already published journey. Only the owner can update it, and the target journey must not currently be in PUBLISHING status. **Photo URL reuse:** - Unchanged photos may reuse existing published downloadUrl values from the same journey - Only newly added photos need a fresh `/v2/uploads/presign` upload - Reused and newly uploaded URLs must belong to the same user/journey S3 scope
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerUpdatePublishedJourney
+     * @summary Update a published journey
+     * @request PUT:/v2/journeys/publish/{publicId}
+     * @secure
+     */
+    publishJourneyControllerUpdatePublishedJourney: (
+      publicId: string,
+      data: PublishJourneyRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<UpdatePublishedJourneyResponseDto, void>({
+        path: `/v2/journeys/publish/${publicId}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Delete a published journey and its associated S3 images. Only the owner can unpublish.
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerUnpublishJourney
+     * @summary Unpublish a journey
+     * @request DELETE:/v2/journeys/publish/{publicId}
+     * @secure
+     */
+    publishJourneyControllerUnpublishJourney: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<UnpublishJourneyResponseDto, void>({
+        path: `/v2/journeys/publish/${publicId}`,
+        method: "DELETE",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -3781,6 +3769,30 @@ export class Api<
       }),
 
     /**
+     * @description Public endpoint to retrieve viewer payload with server-side policy branching by viewer=web|app. web returns full payload only when webReviewStatus is APPROVED; app can return immediately after publish while still respecting moderation visibility.
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetPublishedJourneyViewer
+     * @summary Get public journey viewer payload with viewer policy
+     * @request GET:/v2/journeys/public/{publicId}/viewer
+     */
+    publishJourneyControllerGetPublishedJourneyViewer: (
+      publicId: string,
+      query: {
+        /** Viewer channel policy selector */
+        viewer: "web" | "app";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<PublishedJourneyDetailResponseDto, void>({
+        path: `/v2/journeys/public/${publicId}/viewer`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Public endpoint to retrieve a published photo with its journey context
      *
      * @tags journeys
@@ -3795,149 +3807,6 @@ export class Api<
       this.request<void, void>({
         path: `/v2/journeys/public/photos/${photoId}`,
         method: "GET",
-        ...params,
-      }),
-
-    /**
-     * @description Delete a published journey and its associated S3 images. Only the owner can unpublish.
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerUnpublishJourney
-     * @summary Unpublish a journey
-     * @request DELETE:/v2/journeys/publish/{publicId}
-     * @secure
-     */
-    publishJourneyControllerUnpublishJourney: (
-      publicId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<UnpublishJourneyResponseDto, void>({
-        path: `/v2/journeys/publish/${publicId}`,
-        method: "DELETE",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description 게시 시 사용할 제목을 GPT 모델로 자동 생성합니다. Accept-Language 헤더로 언어를 지정할 수 있습니다.
-     *
-     * @tags journeys
-     * @name JourneyTitleControllerGenerateTitle
-     * @summary 게시 제목 자동 생성
-     * @request POST:/v2/journeys/{journeyId}/title/auto
-     * @secure
-     */
-    journeyTitleControllerGenerateTitle: (
-      journeyId: string,
-      data: GenerateJourneyTitleRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<GenerateJourneyTitleResponse, void>({
-        path: `/v2/journeys/${journeyId}/title/auto`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Client-side feature to load location names for photos before publishing. **Use case:** - User taps "Load Location Names" button in the app - App sends array of coordinates (lat, lng) from photos, optionally with reverse geocoded names - Optional: Specify journeyId to prevent duplicate enrichment (recommended) - Server calls Google Places Nearby API for each coordinate - AI (GPT-4o-mini) selects the most likely place the user photographed - Returns detailed POI data for each location **AI-Powered Place Selection:** - Google Places API returns nearby places sorted by distance - GPT-4o-mini intelligently selects the most likely photo subject considering: - Distance (closer is usually better) - Place type (landmarks/attractions > infrastructure like parking) - Context (museum 30m away > parking lot 5m away) - Fail-open: If GPT fails, falls back to simple distance-based selection - Complies with ADR 0011 (Fail-open policy for non-critical services) **Duplicate Enrichment Prevention:** - Provide journeyId parameter to track enrichment status - Once a journey is enriched, subsequent requests with the same journeyId will be skipped - Saves API costs and prevents unnecessary duplicate enrichment - Journey locations are final after system processing, so enrichment only needs to happen once - Check `GET /v2/journeys/publish/info/:journeyId` to see if locations are already enriched **Response includes:** - POI name, types, formatted address - Distance from query point (to the POI's actual location) - Rating and user ratings count - Confidence score - Display name (formatted as "POI name, address context") **Cache:** - POI results are cached for 30 days based on rounded coordinates (11m accuracy) - Multiple requests for the same location will use cached data **Rate limit (public):** - Per IP: 30 requests / minute, 300 requests / hour **Example:** User photographed at Sagrada Familia: - Response: "Sagrada Familia, Carrer de Mallorca, Barcelona" - Distance: 5.2m, Confidence: 0.95
-     *
-     * @tags journeys
-     * @name LocationEnrichmentControllerEnrichLocations
-     * @summary Enrich locations with POI data using AI-powered place selection
-     * @request POST:/v2/journeys/locations/enrich
-     */
-    locationEnrichmentControllerEnrichLocations: (
-      data: EnrichLocationsRequestDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          /** @example "success" */
-          status?: string;
-          data?: {
-            locations?: {
-              query?: {
-                /** @example 37.5665 */
-                lat?: number;
-                /** @example 126.978 */
-                lng?: number;
-              };
-              poi?: {
-                /** @example "Gyeongbokgung Palace" */
-                name?: string;
-                /** @example ["tourist_attraction","point_of_interest"] */
-                types?: string[];
-                /** @example "Jongno-gu, Seoul, South Korea" */
-                formattedAddress?: string;
-                location?: {
-                  lat?: number;
-                  lng?: number;
-                };
-                /** @example 45.2 */
-                distance?: number;
-                /** @example 4.6 */
-                rating?: number;
-                /** @example 12345 */
-                userRatingsTotal?: number;
-                /** @example "Gyeongbokgung Palace, Jongno-gu, Seoul" */
-                displayName?: string;
-                /** @example 0.95 */
-                confidence?: number;
-              } | null;
-              /** @example "poi" */
-              source?: "poi" | "reverse_geocoding" | "none";
-              /** @example true */
-              hasSignificantPoi?: boolean;
-            }[];
-            /** @example 10 */
-            totalQueried?: number;
-            /** @example 8 */
-            poisFound?: number;
-          };
-        },
-        void
-      >({
-        path: `/v2/journeys/locations/enrich`,
-        method: "POST",
-        body: data,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Retrieve persisted location names from a previous enrichment call. **Use case:** - User enriches locations but closes the app before the process completes - Client can call this endpoint to retrieve previously enriched location names - Returns coordinate → enriched location data mapping (same structure as POST response) **Response:** - isEnriched: boolean indicating if the journey has been enriched - locationNames: object mapping "lat,lng" → enriched location data
-     *
-     * @tags journeys
-     * @name LocationEnrichmentControllerGetLocationNames
-     * @summary Get enriched location names for a journey
-     * @request GET:/v2/journeys/locations/{journeyId}/location-names
-     */
-    locationEnrichmentControllerGetLocationNames: (
-      journeyId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          /** @example "success" */
-          status?: string;
-          data?: {
-            /** @example true */
-            isEnriched?: boolean;
-            /** @example {"41.4036,2.1744":{"name":"Sagrada Familia","displayName":"Sagrada Familia, Barcelona, Spain","types":["tourist_attraction","church","place_of_worship"],"formattedAddress":"Carrer de Mallorca, 401, Barcelona, Spain","distance":5.2,"rating":4.7,"userRatingsTotal":285432,"confidence":0.95}} */
-            locationNames?: object;
-          };
-        },
-        any
-      >({
-        path: `/v2/journeys/locations/${journeyId}/location-names`,
-        method: "GET",
-        format: "json",
         ...params,
       }),
 
@@ -4177,6 +4046,30 @@ export class Api<
       }),
 
     /**
+     * @description 게시 시 사용할 제목을 GPT 모델로 자동 생성합니다. Accept-Language 헤더로 언어를 지정할 수 있습니다.
+     *
+     * @tags journeys
+     * @name JourneyTitleControllerGenerateTitle
+     * @summary 게시 제목 자동 생성
+     * @request POST:/v2/journeys/{journeyId}/title/auto
+     * @secure
+     */
+    journeyTitleControllerGenerateTitle: (
+      journeyId: string,
+      data: GenerateJourneyTitleRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<GenerateJourneyTitleResponse, void>({
+        path: `/v2/journeys/${journeyId}/title/auto`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description momentbook-worker로 비동기 작업을 요청하고 jobId를 반환합니다.
      *
      * @tags journeys
@@ -4252,7 +4145,7 @@ export class Api<
       }),
 
     /**
-     * @description Generate recap draft from journey GPS samples and photo metadata. Returns export-safe payload only. Internal diagnostics are stored server-side.
+     * @description Generate photo-only recap draft from recap input metadata and photo EXIF metadata. Returns export-safe payload only. Internal diagnostics are stored server-side.
      *
      * @tags journeys
      * @name JourneyRecapControllerCreateDraft
