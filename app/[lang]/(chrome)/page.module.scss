@@ -1211,7 +1211,48 @@
   }
 
   .page {
-    padding-inline: 1rem;
+    padding-inline: 1.125rem;
+  }
+
+  .hero,
+  .workflowSection,
+  .featuredSection,
+  .marketingStorySection,
+  .marketingValueSection,
+  .downloadSection {
+    padding-block: 3.1rem;
+  }
+
+  .heroCopy {
+    gap: 1.3rem;
+  }
+
+  .heroActionsWrap {
+    gap: 1rem;
+  }
+
+  .sectionHeader,
+  .sectionHeaderCopy,
+  .marketingStoryIntro,
+  .marketingValueCopy {
+    gap: 1.1rem;
+  }
+
+  .marketingSceneList {
+    margin-top: 3rem;
+    gap: 2.45rem;
+  }
+
+  .marketingScene {
+    gap: 1.25rem;
+  }
+
+  .marketingSceneCopy {
+    gap: 0.95rem;
+  }
+
+  .marketingValueList {
+    gap: 1rem;
   }
 
   .heroTitle {
@@ -1236,8 +1277,18 @@
   }
 
   .featuredCardLink {
-    padding: 0.75rem;
-    border-radius: 1.5rem;
+    padding: 1rem;
+    border-radius: 1.65rem;
+  }
+
+  .featuredCardBody {
+    gap: 0.7rem;
+    padding-top: 1rem;
+  }
+
+  .featuredCardMeta,
+  .featuredCardFooter {
+    gap: 0.55rem;
   }
 
   .marketingVisualSurface {

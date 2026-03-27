@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SectionReveal } from "@/components/SectionReveal";
 import type { Language } from "@/lib/i18n/config";
 import type {
   PublishedJourneyApi,
@@ -29,7 +30,7 @@ export function MomentContent({
 }: MomentContentProps) {
   return (
     <>
-      <header className={styles.header}>
+      <SectionReveal as="header" className={styles.header}>
         <Link
           href={`/${lang}/journeys/${journey.publicId}`}
           className={styles.backLink}
@@ -42,9 +43,9 @@ export function MomentContent({
             <span className={styles.backJourney}>{journey.title}</span>
           </span>
         </Link>
-      </header>
+      </SectionReveal>
 
-      <section className={styles.hero}>
+      <SectionReveal as="section" className={styles.hero} delay={40}>
         <p className={styles.journeyEyebrow}>{journey.title}</p>
         <h1 className={styles.title}>{displayLocationName}</h1>
         <dl className={styles.metaList}>
@@ -63,9 +64,14 @@ export function MomentContent({
             <dd className={styles.metaValue}>{clusterPhotos.length}</dd>
           </div>
         </dl>
-      </section>
+      </SectionReveal>
 
-      <section className={styles.mapSection} aria-labelledby="moment-map-title">
+      <SectionReveal
+        as="section"
+        className={styles.mapSection}
+        aria-labelledby="moment-map-title"
+        delay={80}
+      >
         <h2 id="moment-map-title" className={styles.visuallyHidden}>
           {labels.mapTitle}
         </h2>
@@ -79,36 +85,46 @@ export function MomentContent({
             journeyPublicId={journey.publicId}
           />
         </div>
-      </section>
+      </SectionReveal>
 
-      <section className={styles.gallerySection} aria-labelledby="moment-gallery-title">
+      <SectionReveal
+        as="section"
+        className={styles.gallerySection}
+        aria-labelledby="moment-gallery-title"
+        delay={120}
+      >
         <h2 id="moment-gallery-title" className={styles.galleryTitle}>
           {labels.galleryTitle}
         </h2>
         {clusterPhotos.length > 0 ? (
           <div className={styles.photoGrid}>
-            {clusterPhotos.map((photo) => (
-              <Link
+            {clusterPhotos.map((photo, index) => (
+              <SectionReveal
                 key={photo.photoId}
-                href={`/${lang}/photos/${photo.photoId}`}
-                className={styles.photoCard}
+                variant="item"
+                staggerIndex={index}
               >
-                <div className={styles.photoFrame}>
-                  <Image
-                    src={photo.url}
-                    alt={displayLocationName}
-                    fill
-                    sizes="(max-width: 767px) 50vw, (max-width: 1279px) 33vw, 22vw"
-                    className={styles.photoImage}
-                  />
-                </div>
-              </Link>
+                <Link
+                  href={`/${lang}/photos/${photo.photoId}`}
+                  className={styles.photoCard}
+                >
+                  <div className={styles.photoFrame}>
+                    <Image
+                      src={photo.url}
+                      alt={displayLocationName}
+                      fill
+                      sizes="(max-width: 767px) 50vw, (max-width: 1279px) 33vw, 22vw"
+                      className={styles.photoImage}
+                    />
+                  </div>
+                </Link>
+              </SectionReveal>
             ))}
           </div>
         ) : (
           <div className={styles.emptyState}>{labels.emptyPhotos}</div>
         )}
-      </section>
+      </SectionReveal>
     </>
   );
 }

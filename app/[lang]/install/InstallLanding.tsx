@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import { MomentBookLogo } from "@/components/MomentBookLogo";
+import { SectionReveal } from "@/components/SectionReveal";
 import {
   detectLandingPlatform,
   type CampaignParams,
@@ -149,7 +150,7 @@ export function InstallLanding({
   return (
     <div className={styles.page}>
       <div className={styles.shell}>
-        <header className={styles.brandBar}>
+        <SectionReveal as="header" className={styles.brandBar}>
           <Link href={`/${lang}`} className={styles.brandLink}>
             <MomentBookLogo
               className={styles.brandLogo}
@@ -158,31 +159,39 @@ export function InstallLanding({
             />
           </Link>
           <p className={styles.brandTagline}>{content.eyebrow}</p>
-        </header>
+        </SectionReveal>
 
-        <InstallLandingHero
-          lang={lang}
-          content={content}
-          showOpenAction={showOpenAction}
-          primaryOpenPlatform={primaryOpenPlatform}
-          heroStorePlatforms={heroStorePlatforms}
-          storeLinks={storeLinks}
-          highlightTimelineStep={highlightTimelineStep}
-          onHeroOpenClick={handleHeroOpenClick}
-          onHeroStoreClick={handleHeroStoreClick}
-          onSampleTripClick={handleSampleTripClick}
-        />
+        <SectionReveal delay={40}>
+          <InstallLandingHero
+            lang={lang}
+            content={content}
+            showOpenAction={showOpenAction}
+            primaryOpenPlatform={primaryOpenPlatform}
+            heroStorePlatforms={heroStorePlatforms}
+            storeLinks={storeLinks}
+            highlightTimelineStep={highlightTimelineStep}
+            onHeroOpenClick={handleHeroOpenClick}
+            onHeroStoreClick={handleHeroStoreClick}
+            onSampleTripClick={handleSampleTripClick}
+          />
+        </SectionReveal>
 
-        <InstallBenefitsSection content={content} />
-        <InstallSampleTripSection content={content} />
-        <InstallFinalSection
-          lang={lang}
-          content={content}
-          platform={resolvedPlatform}
-          storeLinks={storeLinks}
-          qrSvgMarkup={qrSvgMarkup}
-          onStoreClick={handleFinalStoreClick}
-        />
+        <SectionReveal delay={60}>
+          <InstallBenefitsSection content={content} />
+        </SectionReveal>
+        <SectionReveal delay={80}>
+          <InstallSampleTripSection content={content} />
+        </SectionReveal>
+        <SectionReveal delay={100}>
+          <InstallFinalSection
+            lang={lang}
+            content={content}
+            platform={resolvedPlatform}
+            storeLinks={storeLinks}
+            qrSvgMarkup={qrSvgMarkup}
+            onStoreClick={handleFinalStoreClick}
+          />
+        </SectionReveal>
       </div>
 
       <InstallBar

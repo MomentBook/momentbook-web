@@ -1,5 +1,6 @@
 import { PaginationNav } from "@/components/PaginationNav";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
+import { SectionReveal } from "@/components/SectionReveal";
 import type { PaginationEntry } from "@/lib/pagination";
 import type { Language } from "@/lib/i18n/config";
 import type { PublicUserApi, UserJourneyApi } from "@/lib/public-users";
@@ -41,7 +42,7 @@ export function UserProfileContent({
 }: UserProfileContentProps) {
   return (
     <>
-      <header className={styles.hero}>
+      <SectionReveal as="header" className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.avatarHalo}>
             <div className={styles.avatarFrame}>
@@ -66,10 +67,10 @@ export function UserProfileContent({
             ) : null}
           </div>
         </div>
-      </header>
+      </SectionReveal>
 
       <section className={styles.section}>
-        <div className={styles.sectionHeader}>
+        <SectionReveal className={styles.sectionHeader}>
           <div className={styles.sectionHeadingGroup}>
             <p className={styles.sectionEyebrow}>{labels.profileEyebrow}</p>
             <h2 className={styles.sectionTitle}>{labels.journeys}</h2>
@@ -81,47 +82,54 @@ export function UserProfileContent({
               <p className={styles.pageStatus}>{pageStatusText}</p>
             ) : null}
           </div>
-        </div>
+        </SectionReveal>
 
         {journeys.length === 0 ? (
-          <div className={styles.emptyState}>
+          <SectionReveal className={styles.emptyState}>
             <div className={styles.emptyDivider} />
             <p className={styles.emptyTitle}>{labels.emptyJourneys}</p>
             <div className={styles.emptyDivider} />
-          </div>
+          </SectionReveal>
         ) : (
           <>
             <div className={styles.journeyGrid}>
-              {journeys.map((journey) => (
-                <UserJourneyCard
+              {journeys.map((journey, index) => (
+                <SectionReveal
                   key={journey.publicId}
-                  journey={journey}
-                  lang={lang}
-                  labels={labels}
-                />
+                  variant="item"
+                  staggerIndex={index}
+                >
+                  <UserJourneyCard
+                    journey={journey}
+                    lang={lang}
+                    labels={labels}
+                  />
+                </SectionReveal>
               ))}
             </div>
 
             {totalPages > 1 ? (
-              <PaginationNav
-                ariaLabel={labels.journeys}
-                currentPage={safeCurrentPage}
-                entries={paginationEntries}
-                hasPreviousPage={hasPreviousPage}
-                hasNextPage={hasNextPage}
-                previousLabel={labels.previousPage}
-                nextLabel={labels.nextPage}
-                buildHref={(targetPage) => buildUserProfilePageHref(lang, user.userId, targetPage)}
-                classNames={{
-                  nav: styles.pagination,
-                  button: styles.pageButton,
-                  buttonDisabled: styles.pageButtonDisabled,
-                  numbers: styles.pageNumbers,
-                  ellipsis: styles.pageEllipsis,
-                  current: styles.pageNumberCurrent,
-                  page: styles.pageNumber,
-                }}
-              />
+              <SectionReveal delay={120}>
+                <PaginationNav
+                  ariaLabel={labels.journeys}
+                  currentPage={safeCurrentPage}
+                  entries={paginationEntries}
+                  hasPreviousPage={hasPreviousPage}
+                  hasNextPage={hasNextPage}
+                  previousLabel={labels.previousPage}
+                  nextLabel={labels.nextPage}
+                  buildHref={(targetPage) => buildUserProfilePageHref(lang, user.userId, targetPage)}
+                  classNames={{
+                    nav: styles.pagination,
+                    button: styles.pageButton,
+                    buttonDisabled: styles.pageButtonDisabled,
+                    numbers: styles.pageNumbers,
+                    ellipsis: styles.pageEllipsis,
+                    current: styles.pageNumberCurrent,
+                    page: styles.pageNumber,
+                  }}
+                />
+              </SectionReveal>
             ) : null}
           </>
         )}

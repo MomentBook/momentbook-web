@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SectionReveal } from "@/components/SectionReveal";
 import type { Language } from "@/lib/i18n/config";
 import type { PublicUserApi } from "@/lib/public-users";
 import { UserDirectoryCard } from "./UserDirectoryCard";
@@ -30,7 +31,7 @@ export function UsersDirectoryContent({
         <div className={styles.backdropLine} />
       </div>
 
-      <header className={styles.hero}>
+      <SectionReveal as="header" className={styles.hero}>
         <p className={styles.kicker}>{labels.directoryEyebrow}</p>
         <h1 className={styles.title}>{labels.title}</h1>
         <p className={styles.subtitle}>{labels.subtitle}</p>
@@ -42,10 +43,10 @@ export function UsersDirectoryContent({
             submitLabel={labels.searchButton}
           />
         </div>
-      </header>
+      </SectionReveal>
 
       <section className={styles.contentShell}>
-        <div className={styles.sectionHeader}>
+        <SectionReveal className={styles.sectionHeader}>
           <div className={styles.sectionHeading}>
             <p className={styles.sectionEyebrow}>{labels.resultsEyebrow}</p>
             <h2 className={styles.sectionTitle}>{countText}</h2>
@@ -56,27 +57,30 @@ export function UsersDirectoryContent({
               {labels.clearSearch}
             </Link>
           ) : null}
-        </div>
+        </SectionReveal>
 
         {filteredUsers.length > 0 ? (
           <div className={styles.grid}>
-            {filteredUsers.map((user) => (
-              <UserDirectoryCard
-                key={user.userId}
-                lang={lang}
-                user={user}
-                journeysLabel={labels.journeysLabel}
-                viewProfileLabel={labels.viewProfile}
-              />
+            {filteredUsers.map((user, index) => (
+              <SectionReveal key={user.userId} variant="item" staggerIndex={index}>
+                <UserDirectoryCard
+                  lang={lang}
+                  user={user}
+                  journeysLabel={labels.journeysLabel}
+                  viewProfileLabel={labels.viewProfile}
+                />
+              </SectionReveal>
             ))}
           </div>
         ) : (
-          <UsersEmptyState
-            lang={lang}
-            message={labels.empty}
-            clearSearchLabel={labels.clearSearch}
-            showClearAction={isFiltering}
-          />
+          <SectionReveal delay={80}>
+            <UsersEmptyState
+              lang={lang}
+              message={labels.empty}
+              clearSearchLabel={labels.clearSearch}
+              showClearAction={isFiltering}
+            />
+          </SectionReveal>
         )}
       </section>
     </>

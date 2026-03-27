@@ -320,24 +320,39 @@
 
 @media (max-width: 740px) {
   .page {
-    padding-top: 0.95rem;
+    padding-top: 1rem;
+    padding-inline: 1.1rem;
+    gap: 1.12rem;
   }
 
   .hero {
-    gap: 0.5rem;
+    gap: 0.72rem;
+    padding: 1.2rem 1.1rem;
+  }
+
+  .contentShell {
+    padding: 0.92rem;
+  }
+
+  .grid {
+    gap: 1rem;
   }
 
   .pagination {
     grid-template-columns: 1fr;
+    gap: 0.78rem;
+    padding: 0.78rem;
     border-radius: 1rem;
   }
 
   .pageButton,
   .pageButtonDisabled {
     width: 100%;
+    min-height: 2.6rem;
   }
 
   .pageNumbers {
     flex-wrap: wrap;
+    gap: 0.4rem;
   }
 }

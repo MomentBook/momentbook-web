@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/Reveal";
+import { SectionReveal } from "@/components/SectionReveal";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import {
   getHomeMarketingImagePrompt,
@@ -83,16 +83,11 @@ export function HomeMarketingStory({
         aria-labelledby="home-story-sequence-title"
         tabIndex={-1}
       >
-        <Reveal
-          delay={0}
-          duration={780}
-          distance={8}
-          className={styles.marketingStoryIntro}
-        >
+        <SectionReveal className={styles.marketingStoryIntro}>
           <h2 id="home-story-sequence-title" className={styles.sectionTitle}>
             {content.storyTitle}
           </h2>
-        </Reveal>
+        </SectionReveal>
 
         <div className={styles.marketingSceneList}>
           {content.scenes.map((scene, index) => (
@@ -101,28 +96,27 @@ export function HomeMarketingStory({
               className={styles.marketingScene}
               data-reversed={index % 2 === 1}
             >
-              <Reveal
-                delay={index * 50}
-                duration={820}
-                distance={8}
+              <SectionReveal
                 className={styles.marketingSceneVisualWrap}
+                variant="item"
+                staggerIndex={index}
               >
                 <HomeMarketingVisualSlot
                   promptKey={STORY_SCENE_IDS[index] ?? "timelineFormation"}
                 />
-              </Reveal>
+              </SectionReveal>
 
-              <Reveal
-                delay={index * 50 + 60}
-                duration={760}
-                distance={8}
+              <SectionReveal
+                delay={60}
                 className={styles.marketingSceneCopy}
+                variant="item"
+                staggerIndex={index}
               >
                 <h3 className={styles.marketingSceneTitle}>{scene.title}</h3>
                 <p className={styles.marketingSceneDescription}>
                   {scene.description}
                 </p>
-              </Reveal>
+              </SectionReveal>
             </article>
           ))}
         </div>
@@ -133,12 +127,7 @@ export function HomeMarketingStory({
         aria-labelledby="home-value-title"
       >
         <div className={styles.marketingValueGrid}>
-          <Reveal
-            delay={0}
-            duration={820}
-            distance={8}
-            className={styles.marketingValueCopy}
-          >
+          <SectionReveal className={styles.marketingValueCopy}>
             <h2 id="home-value-title" className={styles.sectionTitle}>
               {content.value.title}
             </h2>
@@ -150,16 +139,11 @@ export function HomeMarketingStory({
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </SectionReveal>
 
-          <Reveal
-            delay={90}
-            duration={860}
-            distance={8}
-            className={styles.marketingValueVisualWrap}
-          >
+          <SectionReveal delay={90} className={styles.marketingValueVisualWrap}>
             <HomeMarketingVisualSlot promptKey="organizedResult" />
-          </Reveal>
+          </SectionReveal>
         </div>
       </section>
     </>

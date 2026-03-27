@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { DownloadActionButton } from "@/components/DownloadActionButton";
+import { SectionReveal } from "@/components/SectionReveal";
 import { type Language } from "@/lib/i18n/config";
 import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
 import styles from "./page.module.scss";
@@ -23,7 +24,7 @@ type HomeHeroProps = {
 export function HomeHero({ lang, content }: HomeHeroProps) {
   return (
     <section className={styles.hero}>
-      <div className={styles.heroGrid}>
+      <SectionReveal className={styles.heroGrid}>
         <div className={styles.heroCopy}>
           <p className={styles.heroEyebrow}>{content.heroEyebrow}</p>
           <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
@@ -48,7 +49,7 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
             <p className={styles.heroFootnote}>{content.heroFootnote}</p>
           ) : null}
         </div>
-      </div>
+      </SectionReveal>
     </section>
   );
 }

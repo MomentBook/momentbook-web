@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SectionReveal } from "@/components/SectionReveal";
 import type { InstallLandingContent } from "@/lib/install-landing";
 import { InstallSectionHeader } from "./InstallSectionHeader";
 import styles from "./install.module.scss";
@@ -36,12 +37,18 @@ export function InstallSampleTripSection({ content }: InstallSampleTripSectionPr
         </div>
 
         <div className={styles.sampleDayList}>
-          {content.sample.days.map((day) => (
-            <article key={`${content.sample.key}-${day.dayLabel}-${day.title}`} className={styles.sampleDayCard}>
-              <p className={styles.sampleDayLabel}>{day.dayLabel}</p>
-              <h3 className={styles.sampleDayTitle}>{day.title}</h3>
-              <p className={styles.sampleDayNote}>{day.note}</p>
-            </article>
+          {content.sample.days.map((day, index) => (
+            <SectionReveal
+              key={`${content.sample.key}-${day.dayLabel}-${day.title}`}
+              variant="item"
+              staggerIndex={index}
+            >
+              <article className={styles.sampleDayCard}>
+                <p className={styles.sampleDayLabel}>{day.dayLabel}</p>
+                <h3 className={styles.sampleDayTitle}>{day.title}</h3>
+                <p className={styles.sampleDayNote}>{day.note}</p>
+              </article>
+            </SectionReveal>
           ))}
         </div>
       </div>

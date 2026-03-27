@@ -141,7 +141,7 @@
 
 .footerLead {
   display: grid;
-  gap: 1.1rem;
+  gap: 1.25rem;
 
   @media (min-width: 960px) {
     grid-template-columns: minmax(0, 1fr) auto auto;
@@ -170,7 +170,7 @@
 .footerActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: 0.82rem;
 
   @media (max-width: 959px) {
     justify-content: center;
@@ -187,7 +187,7 @@
 
 .footerButton,
 .footerButtonGhost {
-  min-height: 2.7rem;
+  min-height: 2.9rem;
   padding: 0.8rem 1rem;
   border-radius: 999px;
   display: inline-flex;
@@ -225,8 +225,8 @@
 }
 
 .footerTop {
-  margin-top: 1.4rem;
-  padding-top: 1.2rem;
+  margin-top: 1.7rem;
+  padding-top: 1.35rem;
   border-top: 1px solid rgba(17, 33, 22, 0.08);
 }
 
@@ -237,7 +237,7 @@
 
 .footerGrid {
   display: grid;
-  gap: 1rem;
+  gap: 1.15rem;
 
   @media (min-width: 700px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -261,7 +261,7 @@
 .footerList {
   list-style: none;
   display: grid;
-  gap: 0.35rem;
+  gap: 0.48rem;
   padding: 0;
   margin: 0;
 }
@@ -304,12 +304,30 @@
 @media (max-width: 739px) {
   .nav,
   .footer {
-    padding-inline: 1rem;
+    padding-inline: 1.125rem;
+  }
+
+  .nav {
+    padding-block: 1.05rem;
+  }
+
+  .footerLead {
+    gap: 1.4rem;
+  }
+
+  .footerTop {
+    margin-top: 1.9rem;
+    padding-top: 1.5rem;
+  }
+
+  .footerGrid {
+    gap: 1.25rem;
   }
 
   .footerActions {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.9rem;
   }
 
   .footerButton,

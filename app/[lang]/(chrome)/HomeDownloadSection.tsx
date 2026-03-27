@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/Reveal";
+import { SectionReveal } from "@/components/SectionReveal";
 import { StoreBadgeLink } from "@/components/StoreBadgeLink";
 import { getCanonicalStoreLinks } from "@/lib/mobile-app";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
@@ -28,12 +28,7 @@ export function HomeDownloadSection({ lang, content, narrative }: HomeDownloadSe
       aria-labelledby="download-title"
     >
       <div className={styles.downloadHeroInner}>
-        <Reveal
-          delay={0}
-          duration={820}
-          distance={8}
-          className={styles.downloadHeroCopy}
-        >
+        <SectionReveal className={styles.downloadHeroCopy}>
           <div className={styles.downloadCopyBlock}>
             <h2 id="download-title" className={styles.downloadHeroTitle}>
               {narrative.title}
@@ -61,7 +56,7 @@ export function HomeDownloadSection({ lang, content, narrative }: HomeDownloadSe
 
             <p className={styles.downloadAvailability}>{content.availability}</p>
           </div>
-        </Reveal>
+        </SectionReveal>
       </div>
     </section>
   );

@@ -2,7 +2,7 @@
   min-height: 100vh;
   padding:
     clamp(1rem, 4vw, 1.4rem)
-    clamp(1rem, 4vw, 1.4rem)
+    clamp(1.1rem, 4.6vw, 1.4rem)
     calc(clamp(2rem, 6vw, 3rem) + env(safe-area-inset-bottom, 0px));
 }
 
@@ -11,7 +11,7 @@
   width: min(100%, 72rem);
   margin: 0 auto;
   display: grid;
-  gap: clamp(1rem, 3vw, 1.4rem);
+  gap: clamp(1.15rem, 3vw, 1.5rem);
 }
 
 .brandBar,
@@ -106,13 +106,13 @@
 
 .hero {
   display: grid;
-  gap: 1.2rem;
-  padding: clamp(1rem, 4vw, 1.5rem);
+  gap: 1.4rem;
+  padding: clamp(1.15rem, 4vw, 1.6rem);
 }
 
 .heroCopy {
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
 }
 
 .heroMeta {
@@ -167,13 +167,13 @@
 
 .heroLead {
   max-width: 34rem;
-  font-size: 0.98rem;
-  line-height: 1.68;
+  font-size: 1rem;
+  line-height: 1.72;
 }
 
 .heroActions {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.95rem;
   justify-items: start;
 }
 
@@ -181,7 +181,7 @@
 .finalActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.72rem;
+  gap: 0.82rem;
 }
 
 .finalInstallLayout {
@@ -240,7 +240,7 @@
 .trustRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.56rem;
+  gap: 0.66rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -260,8 +260,8 @@
 
 .heroMediaCard {
   display: grid;
-  gap: 0.82rem;
-  padding: clamp(0.8rem, 3vw, 1rem);
+  gap: 1rem;
+  padding: clamp(0.92rem, 3vw, 1.08rem);
   border-radius: 1.5rem;
   border: 1px solid color-mix(in srgb, var(--glass-border) 88%, var(--color-accent) 12%);
   background:
@@ -313,7 +313,7 @@
 .heroStepRail {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.58rem;
+  gap: 0.72rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -321,8 +321,9 @@
 
 .heroStep {
   display: grid;
-  gap: 0.2rem;
-  padding: 0.72rem 0.78rem;
+  gap: 0.28rem;
+  min-height: 3.2rem;
+  padding: 0.9rem 1rem;
   border-radius: 1rem;
   border: 1px solid var(--glass-border);
   background: color-mix(in srgb, var(--surface-glass-soft) 88%, #fff);
@@ -341,13 +342,13 @@
 
 .section {
   display: grid;
-  gap: 1rem;
-  padding: clamp(1rem, 4vw, 1.4rem);
+  gap: 1.15rem;
+  padding: clamp(1.1rem, 4vw, 1.5rem);
 }
 
 .sectionHeader {
   display: grid;
-  gap: 0.32rem;
+  gap: 0.48rem;
   max-width: 44rem;
 }
 
@@ -365,7 +366,7 @@
 
 .benefitGrid {
   display: grid;
-  gap: 0.82rem;
+  gap: 1rem;
 }
 
 .benefitCard {
@@ -390,8 +391,8 @@
 
 .benefitBody {
   display: grid;
-  gap: 0.34rem;
-  padding: 0.92rem;
+  gap: 0.46rem;
+  padding: 1rem;
 }
 
 .benefitTitle,
@@ -412,7 +413,7 @@
 
 .sampleLayout {
   display: grid;
-  gap: 0.92rem;
+  gap: 1rem;
 }
 
 .samplePreview,
@@ -431,7 +432,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.72rem;
-  padding: 0.9rem 0.92rem 0;
+  padding: 1rem 1rem 0;
 }
 
 .samplePreviewCity {
@@ -442,7 +443,7 @@
 .sampleScreenshotCard {
   position: relative;
   aspect-ratio: 0.84 / 1;
-  margin: 0.9rem;
+  margin: 1rem;
   overflow: hidden;
   border-radius: 1rem;
   border: 1px solid color-mix(in srgb, var(--glass-border) 86%, transparent);
@@ -456,13 +457,13 @@
 
 .sampleDayList {
   display: grid;
-  gap: 0.72rem;
+  gap: 0.85rem;
 }
 
 .sampleDayCard {
-  padding: 0.92rem;
+  padding: 1rem;
   display: grid;
-  gap: 0.32rem;
+  gap: 0.4rem;
 }
 
 .sampleDayLabel {
@@ -493,8 +494,8 @@
   bottom: max(0.8rem, env(safe-area-inset-bottom, 0px));
   z-index: 80;
   margin: 0 auto;
-  width: min(calc(100% - 2rem), 42rem);
-  padding: 0.7rem 0.82rem;
+  width: min(calc(100% - 1.6rem), 42rem);
+  padding: 0.82rem 0.9rem;
   border-radius: 1.2rem;
 }
 
@@ -502,7 +503,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: 0.72rem;
+  gap: 0.82rem;
 }
 
 .installBarCopy {
@@ -531,7 +532,7 @@
 }
 
 .installBarButton {
-  min-height: 2.7rem;
+  min-height: 2.85rem;
   padding-inline: 0.92rem;
   font-size: 0.88rem;
   white-space: nowrap;
@@ -586,6 +587,10 @@
 
   .brandTagline {
     text-align: left;
+  }
+
+  .heroStepRail {
+    grid-template-columns: 1fr;
   }
 
   .installBarContent {

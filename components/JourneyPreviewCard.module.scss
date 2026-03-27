@@ -231,3 +231,36 @@
     0 12px 28px rgba(15, 19, 24, 0.11);
   border-color: color-mix(in srgb, var(--color-accent) 54%, var(--glass-border));
 }
+
+@media (max-width: 767px) {
+  .card {
+    border-radius: 1.28rem;
+  }
+
+  .cover {
+    min-height: 10rem;
+  }
+
+  .body {
+    gap: 0.78rem;
+    padding: 0.96rem 1rem 0.92rem;
+  }
+
+  .mainSection,
+  .metaSection {
+    gap: 0.44rem;
+  }
+
+  .metaRow {
+    gap: 0.52rem 0.72rem;
+  }
+
+  .authorLink {
+    font-size: 0.9rem;
+  }
+
+  .cardGlimmer .body {
+    gap: 0.82rem;
+    padding: 1rem 1rem 0.96rem;
+  }
+}

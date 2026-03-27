@@ -1,4 +1,5 @@
 import type { Language } from "@/lib/i18n/config";
+import { SectionReveal } from "@/components/SectionReveal";
 import type { PublishedJourneyApi } from "@/lib/published-journey";
 import type { JourneyLabels } from "../labels";
 import styles from "./JourneyContent.module.scss";
@@ -49,30 +50,36 @@ export default function JourneyContent({
 
     return (
         <article className={styles.shell}>
-            <JourneyHero
-                journey={journey}
-                heroImage={heroImage}
-                lang={lang}
-                labels={labels}
-                authorName={authorName}
-                publishedTimestamp={publishedTimestamp}
-                periodStart={periodStart}
-                periodEnd={periodEnd}
-                photoCount={photoCount}
-            />
+            <SectionReveal>
+                <JourneyHero
+                    journey={journey}
+                    heroImage={heroImage}
+                    lang={lang}
+                    labels={labels}
+                    authorName={authorName}
+                    publishedTimestamp={publishedTimestamp}
+                    periodStart={periodStart}
+                    periodEnd={periodEnd}
+                    photoCount={photoCount}
+                />
+            </SectionReveal>
 
             {hasClusters ? (
-                <JourneyMomentsSection
-                    lang={lang}
-                    labels={labels}
-                    sections={clusterSections}
-                />
+                <SectionReveal delay={80}>
+                    <JourneyMomentsSection
+                        lang={lang}
+                        labels={labels}
+                        sections={clusterSections}
+                    />
+                </SectionReveal>
             ) : (
-                <JourneyArchiveSection
-                    lang={lang}
-                    labels={labels}
-                    photos={archivePhotos}
-                />
+                <SectionReveal delay={80}>
+                    <JourneyArchiveSection
+                        lang={lang}
+                        labels={labels}
+                        photos={archivePhotos}
+                    />
+                </SectionReveal>
             )}
         </article>
     );

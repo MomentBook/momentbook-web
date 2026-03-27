@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LocalizedDate } from "@/components/LocalizedTime";
-import { Reveal } from "@/components/Reveal";
+import { SectionReveal } from "@/components/SectionReveal";
 import type { Language } from "@/lib/i18n/config";
 import type { HomeFeaturedCopy, HomeFeaturedJourney } from "./home.helpers";
 import styles from "./page.module.scss";
@@ -19,12 +19,7 @@ export function HomeFeaturedJourneys({
 }: HomeFeaturedJourneysProps) {
   return (
     <section className={styles.featuredSection} aria-labelledby="home-featured-title">
-      <Reveal
-        delay={0}
-        duration={760}
-        distance={8}
-        className={styles.sectionHeader}
-      >
+      <SectionReveal className={styles.sectionHeader}>
         <div className={styles.sectionHeaderCopy}>
           <h2 id="home-featured-title" className={styles.sectionTitle}>
             {content.featuredTitle}
@@ -33,17 +28,16 @@ export function HomeFeaturedJourneys({
         <Link href={`/${lang}/journeys`} className={styles.archiveLink}>
           {content.featuredArchiveCta}
         </Link>
-      </Reveal>
+      </SectionReveal>
 
       {journeys.length > 0 ? (
         <div className={styles.featuredGrid}>
           {journeys.map((journey, index) => (
-            <Reveal
+            <SectionReveal
               key={journey.publicId}
-              delay={index * 70}
-              duration={820}
-              distance={8}
               className={styles.featuredCard}
+              variant="item"
+              staggerIndex={index}
             >
               <Link href={journey.href} className={styles.featuredCardLink}>
                 <div className={styles.featuredCardMedia}>
@@ -71,13 +65,13 @@ export function HomeFeaturedJourneys({
                   </div>
                 </div>
               </Link>
-            </Reveal>
+            </SectionReveal>
           ))}
         </div>
       ) : (
-        <Reveal delay={80} duration={760} distance={8}>
+        <SectionReveal delay={80}>
           <p className={styles.featuredEmpty}>{content.emptyJourneys}</p>
-        </Reveal>
+        </SectionReveal>
       )}
     </section>
   );
