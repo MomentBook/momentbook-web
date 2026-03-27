@@ -271,12 +271,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "Continue the organized archive to your drive.",
         ],
       },
-      bridge: {
-        title: "Ready to keep the next trip in order?",
-        lead:
-          "Install the app, then bring your next batch of travel photos in together.",
-        cta: "Go to download",
-      },
     },
     download: {
       title: "Download now",
@@ -328,11 +322,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "정리된 아카이브가 드라이브로 이어집니다.",
         ],
       },
-      bridge: {
-        title: "다음 여행도 차분하게 남길 준비가 되었나요?",
-        lead: "앱을 설치하고 다음 여행 사진도 한 번에 가져와 보세요.",
-        cta: "다운로드로 이동",
-      },
     },
     download: {
       title: "지금 바로 다운로드하세요",
@@ -383,12 +372,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "整理されたアーカイブがドライブへ続きます。",
         ],
       },
-      bridge: {
-        title: "次の旅も落ち着いて残しませんか",
-        lead:
-          "アプリをインストールして、次の旅の写真もまとめて取り込みましょう。",
-        cta: "ダウンロードへ",
-      },
     },
     download: {
       title: "今すぐダウンロード",
@@ -435,11 +418,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "同一地点的时刻会留在一起。",
           "整理好的档案会继续同步到云盘。",
         ],
-      },
-      bridge: {
-        title: "准备好把下一趟旅行也整理好吗？",
-        lead: "安装应用后，把下一批旅行照片也一次带进来。",
-        cta: "前往下载",
       },
     },
     download: {
@@ -492,12 +470,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "Continúa el archivo organizado en tu drive.",
         ],
       },
-      bridge: {
-        title: "¿Listo para mantener en orden el próximo viaje?",
-        lead:
-          "Instala la app y lleva también el siguiente lote de fotos del viaje de una sola vez.",
-        cta: "Ir a la descarga",
-      },
     },
     download: {
       title: "Descarga ahora",
@@ -548,12 +520,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "Mantenha juntos os momentos de cada lugar.",
           "Continue o arquivo organizado no seu drive.",
         ],
-      },
-      bridge: {
-        title: "Pronto para manter a próxima viagem em ordem?",
-        lead:
-          "Instale o app e leve também o próximo lote de fotos da viagem de uma só vez.",
-        cta: "Ir para o download",
       },
     },
     download: {
@@ -606,12 +572,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "Prolongez l'archive organisée jusqu'à votre drive.",
         ],
       },
-      bridge: {
-        title: "Prêt à garder le prochain voyage en ordre ?",
-        lead:
-          "Installez l'app, puis importez d'un coup le prochain lot de photos de voyage.",
-        cta: "Aller au téléchargement",
-      },
     },
     download: {
       title: "Téléchargez maintenant",
@@ -663,11 +623,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "ให้คลังที่จัดแล้วต่อเนื่องไปยังไดรฟ์ของคุณ",
         ],
       },
-      bridge: {
-        title: "พร้อมจะเก็บทริปถัดไปให้เป็นระเบียบแล้วหรือยัง",
-        lead: "ติดตั้งแอป แล้วนำเข้ารูปทริปชุดถัดไปพร้อมกันในครั้งเดียว",
-        cta: "ไปยังส่วนดาวน์โหลด",
-      },
     },
     download: {
       title: "ดาวน์โหลดตอนนี้",
@@ -718,12 +673,6 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
           "Giữ các khoảnh khắc theo địa điểm ở cùng nhau.",
           "Tiếp tục đồng bộ kho lưu trữ đã sắp xếp lên drive.",
         ],
-      },
-      bridge: {
-        title: "Sẵn sàng giữ chuyến đi tiếp theo gọn gàng hơn chưa?",
-        lead:
-          "Cài ứng dụng rồi đưa cả lô ảnh của chuyến đi tiếp theo vào cùng một lần.",
-        cta: "Đi tới phần tải xuống",
       },
     },
     download: {

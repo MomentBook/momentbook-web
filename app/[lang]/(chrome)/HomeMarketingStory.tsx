@@ -2,7 +2,7 @@ import Link from "next/link";
 import { DownloadActionButton } from "@/components/DownloadActionButton";
 import { Reveal } from "@/components/Reveal";
 import { type Language } from "@/lib/i18n/config";
-import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
+import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import {
   getHomeMarketingImagePrompt,
   type HomeMarketingImagePromptKey,
@@ -36,12 +36,6 @@ type HomeMarketingValueContent = {
   bullets: string[];
 };
 
-type HomeMarketingBridgeContent = {
-  title: string;
-  lead: string;
-  cta: string;
-};
-
 export type HomeMarketingContent = {
   showcase: HomeMarketingShowcaseContent;
   storyEyebrow: string;
@@ -49,7 +43,6 @@ export type HomeMarketingContent = {
   storyLead: string;
   scenes: HomeMarketingSceneContent[];
   value: HomeMarketingValueContent;
-  bridge: HomeMarketingBridgeContent;
 };
 
 type HomeMarketingStoryProps = {
@@ -339,28 +332,6 @@ export function HomeMarketingStory({
             />
           </Reveal>
         </div>
-      </section>
-
-      <section className={styles.marketingBridgeSection} aria-labelledby="home-bridge-title">
-        <Reveal
-          delay={0}
-          duration={760}
-          distance={8}
-          className={styles.marketingBridgeCard}
-        >
-          <div className={styles.marketingBridgeCopy}>
-            <h2 id="home-bridge-title" className={styles.marketingBridgeTitle}>
-              {content.bridge.title}
-            </h2>
-            <p className={styles.marketingBridgeLead}>{content.bridge.lead}</p>
-          </div>
-          <Link
-            href={buildHomeSectionHref(lang, HOME_SECTION_IDS.download)}
-            className={styles.secondaryButton}
-          >
-            {content.bridge.cta}
-          </Link>
-        </Reveal>
       </section>
     </>
   );
