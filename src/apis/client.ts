@@ -1371,6 +1371,8 @@ export interface PhotoClusterDto {
   center?: ClusterCenterDto;
   radiusM?: number;
   locationName?: string;
+  /** Optional user impression for this cluster */
+  impression?: string;
   confidence: ClusterConfidenceDto;
   photoIds: string[];
 }
@@ -1475,6 +1477,8 @@ export interface JourneyRecapExportTimelineItemDto {
   type: "PHOTO_GROUP" | "ORPHAN_PHOTO";
   time: JourneyRecapExportTimeRangeDto;
   location?: JourneyRecapExportLocationDto;
+  /** Optional user impression for this cluster */
+  impression?: string;
   /** External photo IDs mapped from internal IDs */
   photoIds: string[];
 }
@@ -1707,8 +1711,6 @@ export interface JourneyImageDto {
    * @example 1920
    */
   height?: number;
-  /** Optional caption provided by the user */
-  caption?: string;
   /** Photo captured time (ms) */
   takenAt?: number;
   /** Optional location coordinates */
@@ -1729,7 +1731,7 @@ export interface JourneyMetadataDto {
    */
   description?: string;
   /**
-   * Selected thumbnail photo URL. Must match one of the selected image URLs.
+   * Thumbnail photo URL. Must match one of the published image URLs.
    * @example "https://cdn.momentbook.app/journeys/user123/thumbnail.jpg"
    */
   thumbnailUri?: string;
@@ -1756,11 +1758,11 @@ export interface PublishJourneyRequestDto {
    */
   recapStage: "FINALIZED";
   /**
-   * Photo reference to published image URL mapping (client photo identifier/local URI -> downloadUrl). On PUT, unchanged photos may reuse an existing downloadUrl from the same journey instead of uploading again.
+   * Photo reference to published image URL mapping. For computed drafts, use the client photo identifier/local URI. For export-safe drafts, either photos[].archivePath or photos[].photoId may be used as the key. On PUT, unchanged photos may reuse an existing downloadUrl from the same journey instead of uploading again.
    * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
    */
   photoUrlMapping: object;
-  /** Array of selected images to publish (max 100). Client should only upload and send photos that user wants to publish, not all journey photos. On PUT, images may mix newly uploaded URLs and existing same-journey downloadUrls. */
+  /** Array of journey images to publish (max 100). Client may send the full published photo set for the journey. On PUT, images may mix newly uploaded URLs and existing same-journey downloadUrls. */
   images: JourneyImageDto[];
   /** Journey metadata (title, description, thumbnailUri, etc.) */
   metadata?: JourneyMetadataDto;
@@ -1778,8 +1780,8 @@ export interface PublishJourneyResponseDto {
     publicId?: string;
     /** ISO timestamp of creation */
     createdAt?: string;
-    /** Publish status */
-    publishStatus?: "PUBLISHING" | "PUBLISHED" | "FAILED";
+    /** Whether the journey is currently published */
+    published?: boolean;
   };
 }
 
@@ -1806,7 +1808,8 @@ export interface PublishStatusResponseDto {
   status: string;
   /** Publish status data */
   data: {
-    publishStatus?: "NOT_PUBLISHED" | "PUBLISHING" | "PUBLISHED" | "FAILED";
+    published?: boolean;
+    isPublishing?: boolean;
     publicId?: string;
     publishedUrl?: string;
   };
@@ -1820,7 +1823,8 @@ export interface PublishJourneyInfoResponseDto {
   status: string;
   /** Publish info for the journey */
   data: {
-    publishStatus?: "NOT_PUBLISHED" | "PUBLISHING" | "PUBLISHED" | "FAILED";
+    published?: boolean;
+    isPublishing?: boolean;
     publicId?: string;
     publishedUrl?: string;
     publishedAt?: string;
@@ -1880,6 +1884,7 @@ export interface PublishedJourneyDetailDto {
       lng?: number;
     };
     locationName?: string;
+    impression?: string;
     photoIds?: string[];
   }[];
   /** Export-safe recap draft summary for public rendering */
@@ -1897,6 +1902,7 @@ export interface PublishedJourneyDetailDto {
         lng?: number;
       };
       locationName?: string;
+      impression?: string;
       photoIds?: string[];
     }[];
     photoCount?: number;
@@ -2328,11 +2334,6 @@ export interface GenerateJourneyTitleRequest {
    * @example 0.62
    */
   confidence?: number;
-  /**
-   * 사진 캡션 배열 (있을 경우 AI가 이를 참고하여 더 상세한 제목/설명 생성). 최대 20개까지만 전달 권장.
-   * @example ["카페에서 아메리카노","석양을 바라보며","친구와 함께"]
-   */
-  photoCaptions?: string[];
 }
 
 export interface GeneratedTitleData {
@@ -2886,7 +2887,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.6
+ * @version 2.1.9
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3606,7 +3607,7 @@ export class Api<
       }),
 
     /**
-     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. **Photo Upload:** - Maximum 100 photos allowed per published journey - Client should only upload and send photos that user selected to publish - Do not upload all journey photos - only upload selected photos to save storage **Publish Stage Contract:** - recapStage must be FINALIZED
+     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. **Photo Upload:** - Maximum 100 photos allowed per published journey - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED
      *
      * @tags journeys
      * @name PublishJourneyControllerPublishJourney
@@ -3629,7 +3630,7 @@ export class Api<
       }),
 
     /**
-     * @description Replace the content of an already published journey. Only the owner can update it, and the target journey must not currently be in PUBLISHING status. **Photo URL reuse:** - Unchanged photos may reuse existing published downloadUrl values from the same journey - Only newly added photos need a fresh `/v2/uploads/presign` upload - Reused and newly uploaded URLs must belong to the same user/journey S3 scope
+     * @description Replace the content of an already published journey. Only the owner can update it, and the target journey must not currently hold an active publish lock. **Photo URL reuse:** - Unchanged photos may reuse existing published downloadUrl values from the same journey - Only newly added photos need a fresh `/v2/uploads/presign` upload - Reused and newly uploaded URLs must belong to the same user/journey S3 scope
      *
      * @tags journeys
      * @name PublishJourneyControllerUpdatePublishedJourney
@@ -3674,7 +3675,7 @@ export class Api<
       }),
 
     /**
-     * @description Returns NOT_PUBLISHED, PUBLISHING, PUBLISHED, or FAILED for the given journeyId
+     * @description Returns boolean publish state for the given journeyId
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishStatus
@@ -3693,7 +3694,7 @@ export class Api<
       }),
 
     /**
-     * @description Returns publish status and server-side publish metadata for the given journeyId
+     * @description Returns publish booleans and server-side publish metadata for the given journeyId
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishInfo
