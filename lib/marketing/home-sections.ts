@@ -1,6 +1,7 @@
 import { type Language } from "@/lib/i18n/config";
 
 export const HOME_SECTION_IDS = {
+  story: "story",
   download: "download",
 } as const;
 

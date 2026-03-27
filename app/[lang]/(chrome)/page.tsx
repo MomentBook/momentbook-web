@@ -15,6 +15,7 @@ import {
   buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
 import { HashTargetFocus } from "./HashTargetFocus";
+import { HomeMarketingStory } from "./HomeMarketingStory";
 import {
   HomeDownloadSection,
 } from "./HomeDownloadSection";
@@ -25,7 +26,7 @@ import {
   buildHomeHeroContent,
   getHomeContactType,
   getHomeEditorialCopy,
-  getHomeMessageCopy,
+  getHomeMarketingCopy,
   getHomePageCopy,
 } from "./home.copy";
 import { buildHomeStructuredData } from "./home.schemas";
@@ -62,7 +63,7 @@ export default async function Home({
   const { lang } = await params as { lang: Language };
   const content = getHomePageCopy(lang);
   const editorialContent = getHomeEditorialCopy(lang);
-  const messageContent = getHomeMessageCopy(lang);
+  const marketingContent = getHomeMarketingCopy(lang);
   const downloadContent = getDownloadCopy(lang);
   const latestJourneys = await fetchPublishedJourneys({
     page: 1,
@@ -116,7 +117,8 @@ export default async function Home({
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(softwareApplicationSchema) }}
       />
 
-      <HomeHero lang={lang} content={heroContent} process={messageContent.process} />
+      <HomeHero lang={lang} content={heroContent} />
+      <HomeMarketingStory lang={lang} content={marketingContent.marketing} />
       <HomeFeaturedJourneys
         lang={lang}
         content={editorialContent}
@@ -125,7 +127,7 @@ export default async function Home({
       <HomeDownloadSection
         lang={lang}
         content={downloadContent}
-        narrative={messageContent.download}
+        narrative={marketingContent.download}
       />
     </div>
   );
