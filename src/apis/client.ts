@@ -849,51 +849,6 @@ export interface UserProfileUpdateSuccessResponseDto {
   data: UserProfileDataDto;
 }
 
-export interface UsersGetResponseDataDto {
-  /** 사용자 목록 */
-  users: UserProfileDataDto[];
-}
-
-export interface PaginationDataDto {
-  /**
-   * 전체 항목 수
-   * @example 100
-   */
-  total: number;
-  /**
-   * 현재 페이지
-   * @example 1
-   */
-  page: number;
-  /**
-   * 전체 페이지 수
-   * @example 10
-   */
-  pages: number;
-  /**
-   * 페이지당 항목 수
-   * @example 10
-   */
-  limit: number;
-}
-
-export interface UsersListSuccessResponseDto {
-  /**
-   * 응답 상태
-   * @example "success"
-   */
-  status: string;
-  /**
-   * 응답 메시지
-   * @example "Users retrieved successfully"
-   */
-  message: string;
-  /** 사용자 목록 데이터 */
-  data: UsersGetResponseDataDto;
-  /** 페이지네이션 정보 */
-  paginationData: PaginationDataDto;
-}
-
 export interface BasicSuccessResponseDto {
   /**
    * 응답 상태
@@ -957,80 +912,6 @@ export interface BlockStatusResponseDto {
   /** @example "success" */
   status: string;
   data: BlockStatusResponseDataDto;
-}
-
-export interface BlockedUserDetailDto {
-  /**
-   * 사용자 ID
-   * @example "60f7b3c4e0b2c4a5d0e8f9a3"
-   */
-  _id: string;
-  /**
-   * 사용자 이름
-   * @example "차단된 사용자"
-   */
-  name: string;
-  /**
-   * 사용자 이메일
-   * @example "blocked@example.com"
-   */
-  email?: string;
-  /**
-   * 프로필 이미지 URL
-   * @example "https://example.com/profile.jpg"
-   */
-  picture?: string;
-  /**
-   * 사용자 상태
-   * @example "active"
-   */
-  status: "active" | "inactive" | "deleted";
-}
-
-export interface BlockedUserDto {
-  /**
-   * 차단 기록의 ID
-   * @example "60f7b3c4e0b2c4a5d0e8f9a1"
-   */
-  _id: string;
-  /**
-   * 차단된 사용자의 ID
-   * @example "60f7b3c4e0b2c4a5d0e8f9a3"
-   */
-  blockedUserId: string;
-  /** 차단된 사용자의 상세 정보 */
-  blockedUser?: BlockedUserDetailDto;
-  /**
-   * 차단된 시간
-   * @example "2023-01-15T10:30:00.000Z"
-   */
-  createdAt: string;
-}
-
-export interface BlockedUsersResponseDataDto {
-  /** 차단된 사용자 목록 */
-  blockedUsers: BlockedUserDto[];
-  /**
-   * 전체 차단된 사용자 수
-   * @example 5
-   */
-  total: number;
-  /**
-   * 현재 페이지 번호
-   * @example 1
-   */
-  page: number;
-  /**
-   * 전체 페이지 수
-   * @example 1
-   */
-  pages: number;
-}
-
-export interface BlockedUsersResponseDto {
-  /** @example "success" */
-  status: string;
-  data: BlockedUsersResponseDataDto;
 }
 
 export interface PublicUserItemDto {
@@ -1273,16 +1154,6 @@ export interface UpdateUserConsentsResponseDto {
   status: string;
   /** 동의 검증 결과 */
   data: UpdateUserConsentsDataDto;
-}
-
-export interface ValidateUserConsentsResponseDto {
-  /**
-   * 응답 상태
-   * @example "success"
-   */
-  status: string;
-  /** 동의 검증 데이터 */
-  data: ConsentValidationDto;
 }
 
 export interface RecapInputSummaryDto {
@@ -1763,11 +1634,11 @@ export interface PublishJourneyRequestDto {
    */
   recapStage: "FINALIZED";
   /**
-   * Photo reference to published image URL mapping. For computed drafts, use the client photo identifier/local URI. For export-safe drafts, either photos[].archivePath or photos[].photoId may be used as the key. On PUT, unchanged photos may reuse an existing downloadUrl from the same journey instead of uploading again.
+   * Photo reference to published image URL mapping. For computed drafts, use the client photo identifier/local URI. For export-safe drafts, either photos[].archivePath or photos[].photoId may be used as the key.
    * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
    */
   photoUrlMapping: object;
-  /** Array of journey images to publish (max 100). Client may send the full published photo set for the journey. On PUT, images may mix newly uploaded URLs and existing same-journey downloadUrls. */
+  /** Array of journey images to publish (max 100). Client may send the full published photo set for the journey. */
   images: JourneyImageDto[];
   /** Journey metadata (title, description, thumbnailUri, etc.) */
   metadata?: JourneyMetadataDto;
@@ -1787,36 +1658,6 @@ export interface PublishJourneyResponseDto {
     createdAt?: string;
     /** Whether the journey is currently published */
     published?: boolean;
-  };
-}
-
-export interface UpdatePublishedJourneyResponseDto {
-  /**
-   * Status of the request
-   * @example "success"
-   */
-  status: string;
-  /** Updated published journey data */
-  data: {
-    /** Unique public identifier for the journey */
-    publicId?: string;
-    /** ISO timestamp of the latest update */
-    updatedAt?: string;
-  };
-}
-
-export interface PublishStatusResponseDto {
-  /**
-   * Status of the request
-   * @example "success"
-   */
-  status: string;
-  /** Publish status data */
-  data: {
-    published?: boolean;
-    isPublishing?: boolean;
-    publicId?: string;
-    publishedUrl?: string;
   };
 }
 
@@ -2143,276 +1984,6 @@ export interface CreateReportResponseDto {
   data: ReportDataDto;
 }
 
-export interface TargetReportCountDataDto {
-  /**
-   * 신고 대상 타입
-   * @example "published_journey"
-   */
-  targetType: "user" | "published_journey";
-  /**
-   * 신고 대상 ID
-   * @example "680657032be53a7892fe5abc"
-   */
-  targetId: string;
-  /**
-   * 신고 개수
-   * @example 5
-   */
-  reportCount: number;
-}
-
-export interface GetTargetReportCountResponseDto {
-  /**
-   * 상태
-   * @example "success"
-   */
-  status: string;
-  /** 대상별 신고 개수 데이터 */
-  data: TargetReportCountDataDto;
-}
-
-export interface ReportDetailDataDto {
-  /**
-   * 신고 ID
-   * @example "680657032be53a7892fe5abc"
-   */
-  _id: string;
-  /**
-   * 신고한 사용자 ID
-   * @example "680657032be53a7892fe5ghi"
-   */
-  reporterId: string;
-  /**
-   * 신고 대상 타입
-   * @example "published_journey"
-   */
-  targetType: "user" | "published_journey";
-  /**
-   * 신고 대상 ID
-   * @example "680657032be53a7892fe5def"
-   */
-  targetId: string;
-  /**
-   * 신고 사유
-   * @example "spam"
-   */
-  reason: "spam" | "abuse" | "hate" | "sexual" | "inappropriate" | "other";
-  /**
-   * 신고 상세 설명
-   * @example "광고성 게시물입니다"
-   */
-  description?: object | null;
-  /**
-   * 신고 처리 상태
-   * @example "pending"
-   */
-  status: "pending" | "reviewed" | "resolved" | "rejected";
-  /**
-   * 관리자 메모
-   * @example "검토 중입니다"
-   */
-  adminNote?: object | null;
-  /**
-   * 처리 완료 시간
-   * @example "2023-01-01T00:00:00.000Z"
-   */
-  resolvedAt?: object | null;
-  /**
-   * 처리한 관리자 ID
-   * @example "680657032be53a7892fe5jkl"
-   */
-  resolvedBy?: object | null;
-  /**
-   * 신고 생성 시간
-   * @example "2023-01-01T00:00:00.000Z"
-   */
-  createdAt: string;
-  /**
-   * 신고 수정 시간
-   * @example "2023-01-01T00:00:00.000Z"
-   */
-  updatedAt: string;
-}
-
-export interface ReportsListDataDto {
-  /** 신고 목록 */
-  reports: ReportDetailDataDto[];
-}
-
-export interface GetReportsResponseDto {
-  /**
-   * 상태
-   * @example "success"
-   */
-  status: string;
-  /** 응답 데이터 */
-  data: ReportsListDataDto;
-  /** 페이지네이션 데이터 */
-  paginationData: PaginationDataDto;
-}
-
-export interface ReportStatsDataDto {
-  /**
-   * 전체 신고 수
-   * @example 150
-   */
-  totalReports: number;
-  /**
-   * 대기 중인 신고 수
-   * @example 20
-   */
-  pendingReports: number;
-  /**
-   * 해결된 신고 수
-   * @example 120
-   */
-  resolvedReports: number;
-  /**
-   * 거부된 신고 수
-   * @example 10
-   */
-  rejectedReports: number;
-}
-
-export interface GetReportStatsResponseDto {
-  /**
-   * 상태
-   * @example "success"
-   */
-  status: string;
-  /** 신고 통계 데이터 */
-  data: ReportStatsDataDto;
-}
-
-export interface GetReportResponseDto {
-  /**
-   * 상태
-   * @example "success"
-   */
-  status: string;
-  /** 신고 상세 데이터 */
-  data: ReportDetailDataDto;
-}
-
-export interface UpdateReportDto {
-  /**
-   * 신고 처리 상태
-   * @example "resolved"
-   */
-  status?: "pending" | "reviewed" | "resolved" | "rejected";
-  /**
-   * 관리자 메모
-   * @example "부적절한 내용으로 확인되어 처리 완료"
-   */
-  adminNote?: string | null;
-}
-
-export interface ReportUpdateDataDto {
-  /**
-   * 신고 ID
-   * @example "680657032be53a7892fe5abc"
-   */
-  _id: string;
-  /**
-   * 업데이트된 처리 상태
-   * @example "resolved"
-   */
-  status: "pending" | "reviewed" | "resolved" | "rejected";
-  /**
-   * 관리자 메모
-   * @example "부적절한 내용으로 확인되어 처리 완료"
-   */
-  adminNote?: object | null;
-  /**
-   * 처리 완료 시간
-   * @example "2023-01-01T00:00:00.000Z"
-   */
-  resolvedAt?: object | null;
-  /**
-   * 처리한 관리자 ID
-   * @example "680657032be53a7892fe5jkl"
-   */
-  resolvedBy?: object | null;
-  /**
-   * 수정 시간
-   * @example "2023-01-01T00:00:00.000Z"
-   */
-  updatedAt: string;
-}
-
-export interface UpdateReportResponseDto {
-  /**
-   * 상태
-   * @example "success"
-   */
-  status: string;
-  /**
-   * 메시지
-   * @example "신고가 성공적으로 업데이트되었습니다."
-   */
-  message: string;
-  /** 업데이트된 신고 데이터 */
-  data: ReportUpdateDataDto;
-}
-
-export interface DeleteReportResponseDto {
-  /**
-   * 상태
-   * @example "success"
-   */
-  status: string;
-  /**
-   * 메시지
-   * @example "신고가 성공적으로 삭제되었습니다."
-   */
-  message: string;
-}
-
-export interface CreateJourneyAiCommonRequestDto {
-  /**
-   * 입력 이미지 URL (presigned URL 권장)
-   * @example "https://example.com/input.jpg"
-   */
-  inputUrl: string;
-  /**
-   * 옵션(모델 파라미터 등)
-   * @example {"lang":"ko"}
-   */
-  options?: object;
-}
-
-export interface JourneyAiJobResponseDto {
-  /**
-   * 작업 ID(UUID)
-   * @example "c2b4c3b4-1d6b-4b0b-9a9d-4d5fd0e4b2c1"
-   */
-  jobId: string;
-  /**
-   * 여정 ID
-   * @example "journey_123"
-   */
-  journeyId: string;
-  /** 작업 타입 */
-  type: "pano" | "title";
-  /** 상태 */
-  status: "queued" | "running" | "done" | "failed";
-  /** 입력 이미지 URL */
-  inputUrl?: string;
-  /** 결과(JSON) */
-  result?: object;
-  /** 워커가 제공한 결과 파일 경로(내부용) */
-  resultPath?: string;
-  /** 에러 메시지 */
-  error?: string;
-  /**
-   * 마지막 폴링 시각
-   * @format date-time
-   */
-  lastPolledAt?: string;
-  /** 폴링 횟수 */
-  pollCount?: number;
-}
-
 export interface JourneyRecapInputDto {
   /** @example "journey_abc123" */
   id: string;
@@ -2608,12 +2179,6 @@ export interface PresignUploadResponseDto {
     /** S3 object key */
     key?: string;
   };
-}
-
-export interface VersionPolicyResponseDto {
-  /** @example "success" */
-  status: string;
-  data: object;
 }
 
 export interface VersionCheckDataDto {
@@ -2893,7 +2458,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.9
+ * @version 2.1.14
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3307,39 +2872,6 @@ export class Api<
       }),
 
     /**
-     * @description 시스템에 가입한 모든 활성 사용자 목록을 조회합니다. activeUser 미들웨어를 통해 사용자 상태를 확인합니다.
-     *
-     * @tags users
-     * @name UsersControllerGetAllUsers
-     * @summary 모든 사용자 목록 조회
-     * @request GET:/v2/users
-     * @secure
-     */
-    usersControllerGetAllUsers: (
-      query?: {
-        /**
-         * 페이지 번호
-         * @example 1
-         */
-        page?: number;
-        /**
-         * 페이지당 항목 수
-         * @example 10
-         */
-        limit?: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<UsersListSuccessResponseDto, void>({
-        path: `/v2/users`,
-        method: "GET",
-        query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description 특정 사용자의 프로필 정보를 조회합니다.
      *
      * @tags users
@@ -3437,39 +2969,6 @@ export class Api<
       }),
 
     /**
-     * @description 현재 사용자가 차단한 모든 사용자의 목록을 조회합니다
-     *
-     * @tags users
-     * @name UsersControllerGetBlockedUsers
-     * @summary 차단된 사용자 목록 조회
-     * @request GET:/v2/users/blocks
-     * @secure
-     */
-    usersControllerGetBlockedUsers: (
-      query?: {
-        /**
-         * 페이지 번호
-         * @example 1
-         */
-        page?: number;
-        /**
-         * 페이지당 항목 수
-         * @example 10
-         */
-        limit?: number;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<BlockedUsersResponseDto, void>({
-        path: `/v2/users/blocks`,
-        method: "GET",
-        query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description Public endpoint to retrieve a paginated list of users who have published journeys
      *
      * @tags users
@@ -3544,6 +3043,11 @@ export class Api<
         limit?: number;
         /** Sort order (default: recent) */
         sort?: "recent" | "oldest";
+        /**
+         * Optional response language for localized title/description. Accepts language code or locale: ko, en, ja, zh, es, pt, fr, th, vi, ko-KR, pt-BR, etc.
+         * @example "pt"
+         */
+        lang?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -3595,25 +3099,7 @@ export class Api<
       }),
 
     /**
-     * @description 사용자가 필수 동의 항목에 모두 동의했는지 검증합니다. 앱 실행 시 필수 동의 여부를 확인할 때 사용합니다.
-     *
-     * @tags consents
-     * @name UserConsentsControllerValidateUserConsents
-     * @summary 필수 동의 항목 검증
-     * @request GET:/v2/users/consents/validate
-     * @secure
-     */
-    userConsentsControllerValidateUserConsents: (params: RequestParams = {}) =>
-      this.request<ValidateUserConsentsResponseDto, void>({
-        path: `/v2/users/consents/validate`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. The server also generates localized title/description/hashtags and localized cluster impressions for supported locales. **Photo Upload:** - Maximum 100 photos allowed per published journey - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED
+     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. The server generates localized title/description/hashtags and localized cluster impressions for supported locales as a required part of the publish transaction. **Photo Upload:** - Maximum 100 photos allowed per published journey - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED - Publish fails if localization generation cannot be completed
      *
      * @tags journeys
      * @name PublishJourneyControllerPublishJourney
@@ -3631,70 +3117,6 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Replace the content of an already published journey. Only the owner can update it, and the target journey must not currently hold an active publish lock. The server regenerates localized title/description/hashtags and localized cluster impressions from the updated content. **Photo URL reuse:** - Unchanged photos may reuse existing published downloadUrl values from the same journey - Only newly added photos need a fresh `/v2/uploads/presign` upload - Reused and newly uploaded URLs must belong to the same user/journey S3 scope
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerUpdatePublishedJourney
-     * @summary Update a published journey
-     * @request PUT:/v2/journeys/publish/{publicId}
-     * @secure
-     */
-    publishJourneyControllerUpdatePublishedJourney: (
-      publicId: string,
-      data: PublishJourneyRequestDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<UpdatePublishedJourneyResponseDto, void>({
-        path: `/v2/journeys/publish/${publicId}`,
-        method: "PUT",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Delete a published journey and its associated S3 images. Only the owner can unpublish.
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerUnpublishJourney
-     * @summary Unpublish a journey
-     * @request DELETE:/v2/journeys/publish/{publicId}
-     * @secure
-     */
-    publishJourneyControllerUnpublishJourney: (
-      publicId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<UnpublishJourneyResponseDto, void>({
-        path: `/v2/journeys/publish/${publicId}`,
-        method: "DELETE",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Returns boolean publish state for the given journeyId
-     *
-     * @tags journeys
-     * @name PublishJourneyControllerGetPublishStatus
-     * @summary Get publish status for a journey
-     * @request GET:/v2/journeys/publish/status/{journeyId}
-     */
-    publishJourneyControllerGetPublishStatus: (
-      journeyId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<PublishStatusResponseDto, any>({
-        path: `/v2/journeys/publish/status/${journeyId}`,
-        method: "GET",
         format: "json",
         ...params,
       }),
@@ -3745,6 +3167,11 @@ export class Api<
          * @example "507f1f77bcf86cd799439011"
          */
         userId?: string;
+        /**
+         * Optional response language for localized title/description/impressions. Accepts language code or locale: ko, en, ja, zh, es, pt, fr, th, vi, ko-KR, pt-BR, etc.
+         * @example "ja"
+         */
+        lang?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -3766,11 +3193,19 @@ export class Api<
      */
     publishJourneyControllerGetPublishedJourney: (
       publicId: string,
+      query?: {
+        /**
+         * Optional response language for localized title/description/impressions. Accepts language code or locale: ko, en, ja, zh, es, pt, fr, th, vi, ko-KR, pt-BR, etc.
+         * @example "ko"
+         */
+        lang?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<PublishedJourneyDetailResponseDto, void>({
         path: `/v2/journeys/public/${publicId}`,
         method: "GET",
+        query: query,
         format: "json",
         ...params,
       }),
@@ -3788,6 +3223,11 @@ export class Api<
       query: {
         /** Viewer channel policy selector */
         viewer: "web" | "app";
+        /**
+         * Optional response language for localized title/description/impressions. Accepts language code or locale: ko, en, ja, zh, es, pt, fr, th, vi, ko-KR, pt-BR, etc.
+         * @example "fr"
+         */
+        lang?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -3809,11 +3249,40 @@ export class Api<
      */
     publishJourneyControllerGetPublishedPhoto: (
       photoId: string,
+      query?: {
+        /**
+         * Optional response language for localized title/description on the parent journey metadata. Accepts language code or locale: ko, en, ja, zh, es, pt, fr, th, vi, ko-KR, pt-BR, etc.
+         * @example "es"
+         */
+        lang?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<void, void>({
         path: `/v2/journeys/public/photos/${photoId}`,
         method: "GET",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * @description Delete a published journey and its associated S3 images. Only the owner can unpublish.
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerUnpublishJourney
+     * @summary Unpublish a journey
+     * @request DELETE:/v2/journeys/publish/{publicId}
+     * @secure
+     */
+    publishJourneyControllerUnpublishJourney: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<UnpublishJourneyResponseDto, void>({
+        path: `/v2/journeys/publish/${publicId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
         ...params,
       }),
 
@@ -3902,208 +3371,6 @@ export class Api<
       }),
 
     /**
-     * @description 특정 대상에 대한 신고 개수를 조회합니다 (인증 필요)
-     *
-     * @tags reports
-     * @name ReportsControllerGetTargetReportCount
-     * @summary 특정 대상의 신고 개수 조회
-     * @request GET:/v2/reports/target/{targetType}/{targetId}/count
-     * @secure
-     */
-    reportsControllerGetTargetReportCount: (
-      targetType: "user" | "published_journey",
-      targetId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<GetTargetReportCountResponseDto, void>({
-        path: `/v2/reports/target/${targetType}/${targetId}/count`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name AdminReportsControllerGetReports
-     * @summary 신고 목록 조회 (관리자용)
-     * @request GET:/v2/admin/reports
-     * @secure
-     */
-    adminReportsControllerGetReports: (
-      query?: {
-        /**
-         * 페이지 번호
-         * @example 1
-         */
-        page?: number;
-        /**
-         * 페이지당 항목 수
-         * @example 20
-         */
-        limit?: number;
-        /** 신고 처리 상태 필터 */
-        status?: "pending" | "reviewed" | "resolved" | "rejected";
-        /** 신고 대상 타입 필터 */
-        targetType?: "user" | "published_journey";
-        /** 신고 사유 필터 */
-        reason?:
-          | "spam"
-          | "abuse"
-          | "hate"
-          | "sexual"
-          | "inappropriate"
-          | "other";
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<GetReportsResponseDto, any>({
-        path: `/v2/admin/reports`,
-        method: "GET",
-        query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name AdminReportsControllerGetReportStats
-     * @summary 신고 통계 조회 (관리자용)
-     * @request GET:/v2/admin/reports/stats
-     * @secure
-     */
-    adminReportsControllerGetReportStats: (params: RequestParams = {}) =>
-      this.request<GetReportStatsResponseDto, any>({
-        path: `/v2/admin/reports/stats`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name AdminReportsControllerGetReport
-     * @summary 특정 신고 조회 (관리자용)
-     * @request GET:/v2/admin/reports/{reportId}
-     * @secure
-     */
-    adminReportsControllerGetReport: (
-      reportId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<GetReportResponseDto, void>({
-        path: `/v2/admin/reports/${reportId}`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name AdminReportsControllerUpdateReport
-     * @summary 신고 업데이트 (관리자용)
-     * @request PUT:/v2/admin/reports/{reportId}
-     * @secure
-     */
-    adminReportsControllerUpdateReport: (
-      reportId: string,
-      data: UpdateReportDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<UpdateReportResponseDto, void>({
-        path: `/v2/admin/reports/${reportId}`,
-        method: "PUT",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags reports
-     * @name AdminReportsControllerDeleteReport
-     * @summary 신고 삭제 (관리자용)
-     * @request DELETE:/v2/admin/reports/{reportId}
-     * @secure
-     */
-    adminReportsControllerDeleteReport: (
-      reportId: string,
-      params: RequestParams = {},
-    ) =>
-      this.request<DeleteReportResponseDto, void>({
-        path: `/v2/admin/reports/${reportId}`,
-        method: "DELETE",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description momentbook-worker로 비동기 작업을 요청하고 jobId를 반환합니다.
-     *
-     * @tags journeys
-     * @name JourneyAiControllerCreatePanoramaJob
-     * @summary 파노라마(360) 생성 작업 요청
-     * @request POST:/v2/journeys/{journeyId}/ai/panorama
-     * @secure
-     */
-    journeyAiControllerCreatePanoramaJob: (
-      journeyId: string,
-      data: CreateJourneyAiCommonRequestDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<JourneyAiJobResponseDto, any>({
-        path: `/v2/journeys/${journeyId}/ai/panorama`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description refresh=1이면 worker에서 최신 상태를 가져와 DB에 반영합니다.
-     *
-     * @tags journeys
-     * @name JourneyAiControllerGetJob
-     * @summary AI 작업 상태 조회
-     * @request GET:/v2/journeys/{journeyId}/ai/jobs/{jobId}
-     * @secure
-     */
-    journeyAiControllerGetJob: (
-      journeyId: string,
-      jobId: string,
-      query?: {
-        /** 1이면 worker에서 상태 갱신 */
-        refresh?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<JourneyAiJobResponseDto, any>({
-        path: `/v2/journeys/${journeyId}/ai/jobs/${jobId}`,
-        method: "GET",
-        query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description Generate photo-only recap draft from recap input metadata and photo EXIF metadata. Returns export-safe payload only. Internal diagnostics are stored server-side.
      *
      * @tags journeys
@@ -4146,33 +3413,6 @@ export class Api<
       }),
 
     /**
-     * @description Returns internal diagnostics for incident/debug support. Access is audited.
-     *
-     * @tags journeys-admin
-     * @name JourneyRecapAdminControllerGetDiagnostics
-     * @summary Get recap draft diagnostics (admin only)
-     * @request GET:/v2/admin/journeys/recap/diagnostics/{draftId}
-     * @secure
-     */
-    journeyRecapAdminControllerGetDiagnostics: (
-      draftId: string,
-      query: {
-        /** Access reason (required for audit logging) */
-        reason: string;
-        /** Optional journey ID filter */
-        journeyId?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<void, void>({
-        path: `/v2/admin/journeys/recap/diagnostics/${draftId}`,
-        method: "GET",
-        query: query,
-        secure: true,
-        ...params,
-      }),
-
-    /**
      * @description Returns a presigned URL that allows the client to upload files directly to S3 without exposing AWS credentials
      *
      * @tags uploads
@@ -4191,22 +3431,6 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags apps
-     * @name AppsVersionControllerGetVersionPolicy
-     * @summary Get app version policy (min supported / latest / store URL)
-     * @request GET:/v2/apps/version-policy
-     */
-    appsVersionControllerGetVersionPolicy: (params: RequestParams = {}) =>
-      this.request<VersionPolicyResponseDto, any>({
-        path: `/v2/apps/version-policy`,
-        method: "GET",
         format: "json",
         ...params,
       }),
