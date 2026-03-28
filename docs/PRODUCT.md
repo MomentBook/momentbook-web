@@ -32,12 +32,12 @@ MomentBook Web은 다음 역할만 수행한다.
 현재 홈(`/`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
 
 - Hero 섹션: 여행 사진을 한 번 올리면 시간·장소 기준으로 정리되고 클라우드 드라이브 동기화까지 이어진다는 메시지를 단일 컬럼으로 중앙 정렬해 노출한다. 1차 CTA는 다운로드 액션(데스크톱 QR modal + 모바일 스토어 이동), 2차 CTA는 홈의 `#story` 섹션으로 이동한다.
-- Story sequence 섹션: hero 아래에서 사진 적재, 일괄 가져오기, 타임라인 형성의 3개 장면을 각각 큰 비주얼 패널과 제목/보조 설명으로 교차 배치한다.
-- Value reinforcement 섹션: story sequence 아래에서 정리 후 남는 가치(여행 순서, 장소 기준 묶음, 드라이브 연속성)를 bullet list와 대형 결과 비주얼 패널로 다시 강조한다.
+- Story sequence 섹션: hero 아래에서 사진 적재, 일괄 가져오기, 타임라인 형성의 3개 장면을 각각 최적화된 로컬 루프 비디오(`public/videos/landing_00.mp4`~`landing_02.mp4`)와 제목/보조 설명으로 교차 배치한다. 비디오는 poster-first로 렌더링되고, 뷰포트 근접 시점에만 로드된다.
+- Value reinforcement 섹션: story sequence 아래에서 정리 후 남는 가치(여행 순서, 장소 기준 묶음, 드라이브 연속성)를 bullet list와 최적화된 결과 비디오(`public/videos/landing_03.mp4`)로 다시 강조한다.
 - Recent journeys 섹션: value reinforcement 아래에 현재 환경(API base URL 기준)에서 최근 공개된 여정 3개를 카드로 노출한다. 각 카드는 cover image, title, description, author, photo count, published date를 포함하며 해당 공개 상세로 이동한다.
 - Download 섹션: warm sand 배경 안에서 짧은 설치 유도 카피와 App Store / Google Play CTA를 중앙 정렬로 노출한다.
 - 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
-- 홈의 story/value/recent journeys/download 섹션 텍스트·카드·미디어 블록은 뷰포트 진입 시 1회성의 미세한 reveal motion(opacity + small upward translate)으로 나타나며, `prefers-reduced-motion`에서는 해당 모션을 줄인다.
+- 홈의 story/value/recent journeys/download 섹션 텍스트·카드·미디어 블록은 뷰포트 진입 시 1회성의 미세한 reveal motion(opacity + small upward translate)으로 나타나며, `prefers-reduced-motion`에서는 해당 모션을 줄인다. 홈의 story/value 비디오는 `prefers-reduced-motion`에서 autoplay 대신 static poster를 유지한다.
 - shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 홈의 다른 다운로드 액션과 동일한 client-side download flow(데스크톱 QR modal + 모바일 공식 스토어 이동)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
 `/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing 안에서 QR handoff 카드를 노출한다.

@@ -5,6 +5,7 @@ import {
   getHomeMarketingImagePrompt,
   type HomeMarketingImagePromptKey,
 } from "./home-image-prompts";
+import { HomeMarketingVideo } from "./HomeMarketingVideo";
 import styles from "./page.module.scss";
 
 const STORY_SCENE_IDS = [
@@ -12,6 +13,31 @@ const STORY_SCENE_IDS = [
   "batchImport",
   "timelineFormation",
 ] as const satisfies readonly HomeMarketingImagePromptKey[];
+
+const HOME_MARKETING_VIDEO_ASSETS: Record<
+  Exclude<HomeMarketingImagePromptKey, "resultOverview">,
+  {
+    videoSrc: string;
+    posterSrc: string;
+  }
+> = {
+  photoPile: {
+    videoSrc: "/videos/landing_00.mp4",
+    posterSrc: "/videos/landing_00.jpg",
+  },
+  batchImport: {
+    videoSrc: "/videos/landing_01.mp4",
+    posterSrc: "/videos/landing_01.jpg",
+  },
+  timelineFormation: {
+    videoSrc: "/videos/landing_02.mp4",
+    posterSrc: "/videos/landing_02.jpg",
+  },
+  organizedResult: {
+    videoSrc: "/videos/landing_03.mp4",
+    posterSrc: "/videos/landing_03.jpg",
+  },
+};
 
 type HomeMarketingShowcaseContent = {
   eyebrow: string;
@@ -50,7 +76,7 @@ type HomeMarketingStoryProps = {
 
 type HomeMarketingVisualSlotProps = {
   lang: Language;
-  promptKey: HomeMarketingImagePromptKey;
+  promptKey: Exclude<HomeMarketingImagePromptKey, "resultOverview">;
 };
 
 function HomeMarketingVisualSlot({
@@ -58,21 +84,14 @@ function HomeMarketingVisualSlot({
   promptKey,
 }: HomeMarketingVisualSlotProps) {
   const prompt = getHomeMarketingImagePrompt(promptKey, lang);
+  const asset = HOME_MARKETING_VIDEO_ASSETS[promptKey];
 
   return (
-    <div
-      className={styles.marketingVisual}
-      data-variant={promptKey}
-      data-prompt-key={promptKey}
-      role="img"
-      aria-label={prompt.alt}
-      title={prompt.label}
-    >
-      <span className={styles.visuallyHidden}>{prompt.label}</span>
-      <div className={styles.marketingVisualSurface}>
-        <p className={styles.marketingPromptText}>{prompt.prompt}</p>
-      </div>
-    </div>
+    <HomeMarketingVideo
+      videoSrc={asset.videoSrc}
+      posterSrc={asset.posterSrc}
+      ariaLabel={prompt.alt}
+    />
   );
 }
 
