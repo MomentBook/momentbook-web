@@ -1225,10 +1225,9 @@
 @media (max-width: 739px) {
   .page {
     --home-header-offset: 4rem;
-  }
-
-  .page {
-    padding-inline: 1.125rem;
+    --home-section-min-height: auto;
+    padding-inline: 1rem;
+    padding-bottom: calc(var(--spacing-xl) * 0.92);
   }
 
   .hero,
@@ -1237,44 +1236,80 @@
   .marketingStorySection,
   .marketingValueSection,
   .downloadSection {
-    padding-block: 3.1rem;
+    min-height: auto;
+    align-content: start;
+    padding-block: 2.75rem;
+  }
+
+  .hero {
+    padding: calc(2rem + env(safe-area-inset-top, 0px)) 0 2.6rem;
   }
 
   .heroCopy {
-    gap: 1.3rem;
+    gap: 1rem;
   }
 
   .heroActionsWrap {
-    gap: 1rem;
+    gap: 0.9rem;
   }
 
   .sectionHeader,
   .sectionHeaderCopy,
   .marketingStoryIntro,
   .marketingValueCopy {
-    gap: 1.1rem;
-  }
-
-  .marketingSceneList {
-    margin-top: 3rem;
-    gap: 2.45rem;
-  }
-
-  .marketingScene {
-    gap: 1.25rem;
-  }
-
-  .marketingSceneCopy {
-    gap: 0.95rem;
-  }
-
-  .marketingValueList {
     gap: 1rem;
   }
 
+  .marketingSceneList {
+    margin-top: 2.5rem;
+    gap: 2rem;
+  }
+
+  .marketingScene {
+    gap: 1rem;
+  }
+
+  .marketingSceneCopy {
+    gap: 0.8rem;
+  }
+
+  .marketingValueList {
+    gap: 0.95rem;
+  }
+
   .heroTitle {
+    font-size: clamp(2.1rem, 9.5vw, 2.85rem);
+    line-height: 1.02;
+  }
+
+  .sectionTitle,
+  .downloadHeroTitle {
+    font-size: clamp(1.8rem, 7.2vw, 2.2rem);
+    line-height: 1.08;
+  }
+
+  .heroLead,
+  .downloadHeroLead,
+  .sectionLead,
+  .marketingSceneDescription,
+  .featuredCardDescription {
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  .heroLead,
+  .heroFootnote,
+  .downloadHeroLead,
+  .downloadAvailability,
+  .marketingSceneDescription,
+  .featuredCardDescription {
+    text-wrap: pretty;
+  }
+
+  .heroFootnote {
     max-width: none;
-    font-size: clamp(2rem, 10vw, 2.75rem);
+    font-size: 0.79rem;
+    line-height: 1.68;
   }
 
   .heroActions,
@@ -1282,36 +1317,62 @@
   .marketingActions {
     flex-direction: column;
     align-items: stretch;
+    width: 100%;
+    gap: 0.75rem;
   }
 
   .primaryButton,
   .secondaryButton {
     width: 100%;
+    min-height: 3.15rem;
+    padding-inline: 1.15rem;
+    font-size: 0.93rem;
   }
 
   .featuredGrid {
     grid-template-columns: 1fr;
+    gap: 1.1rem;
+    margin-top: 1.5rem;
   }
 
   .featuredCardLink {
-    padding: 1rem;
-    border-radius: 1.65rem;
+    padding: 0.95rem;
+    border-radius: 1.55rem;
+  }
+
+  .featuredCardMedia {
+    aspect-ratio: 16 / 10.5;
+    border-radius: 1.25rem;
   }
 
   .featuredCardBody {
-    gap: 0.7rem;
-    padding-top: 1rem;
+    gap: 0.65rem;
+    padding-top: 0.9rem;
   }
 
   .featuredCardMeta,
   .featuredCardFooter {
-    gap: 0.55rem;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .featuredCardTitle {
+    font-size: 1.12rem;
+    line-height: 1.2;
+  }
+
+  .featuredCardDescription {
+    -webkit-line-clamp: 3;
   }
 
   .marketingVisualSurface {
     min-height: 0;
     height: 100%;
-    border-radius: 1.7rem;
+    border-radius: 1.55rem;
+  }
+
+  .marketingVisual {
+    aspect-ratio: 16 / 11.25;
   }
 
   .marketingVisualLabel {
@@ -1342,10 +1403,59 @@
   }
 
   .marketingSceneTitle {
-    font-size: 1.2rem;
+    font-size: clamp(1.18rem, 5vw, 1.36rem);
+    line-height: 1.2;
+  }
+
+  .marketingValueSection {
+    margin-top: 0;
+  }
+
+  .marketingValueGrid {
+    gap: 1.1rem;
+  }
+
+  .marketingValueCopy {
+    gap: 1rem;
+  }
+
+  .marketingValueItem {
+    gap: 0.55rem;
+    max-width: 24rem;
+    padding-inline: 0.25rem;
+    font-size: 0.9rem;
+    line-height: 1.72;
+  }
+
+  .marketingValueDot {
+    margin-top: 0;
+  }
+
+  .archiveLink {
+    min-height: 2.75rem;
+    padding-inline: 0.2rem;
+    font-size: 0.83rem;
+    text-underline-offset: 0.38rem;
   }
 
   .downloadStoreButton {
     justify-content: center;
+  }
+
+  .downloadStoreBadge {
+    height: 3.05rem;
+  }
+
+  .downloadCopyBlock {
+    gap: 1.05rem;
+  }
+}
+
+@media (max-width: 739px) and (any-pointer: coarse) {
+  .primaryButton,
+  .secondaryButton,
+  .archiveLink,
+  .downloadStoreButton {
+    min-height: 48px;
   }
 }
