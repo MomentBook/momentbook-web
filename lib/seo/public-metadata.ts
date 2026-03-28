@@ -90,6 +90,17 @@ const KEYWORDS_BY_KIND: Record<Language, Record<PublicMetadataKind, string[]>> =
 };
 
 const SEGMENTABLE_LANGUAGES = new Set<Language>(["ko", "ja", "zh", "th"]);
+const SEGMENTABLE_SCRIPT_PATTERNS: Record<Language, RegExp> = {
+  en: /$^/,
+  ko: /[\p{Script=Hangul}]/u,
+  ja: /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u,
+  zh: /[\p{Script=Han}]/u,
+  es: /$^/,
+  pt: /$^/,
+  fr: /$^/,
+  th: /[\p{Script=Thai}]/u,
+  vi: /$^/,
+};
 
 function readText(value: string | null | undefined): string | null {
   if (!value) {
@@ -162,8 +173,13 @@ function splitTopicPhrase(phrase: string, lang: Language): string[] {
 
   const locale = toLocaleTag(lang);
   const normalizedPhrase = phrase.trim();
+  const scriptPattern = SEGMENTABLE_SCRIPT_PATTERNS[lang];
 
   if (normalizedPhrase.length < 2) {
+    return [];
+  }
+
+  if (!scriptPattern.test(normalizedPhrase)) {
     return [];
   }
 
