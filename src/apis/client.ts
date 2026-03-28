@@ -2368,100 +2368,6 @@ export interface DeleteReportResponseDto {
   message: string;
 }
 
-export interface JourneyTitleSummaryDto {
-  /**
-   * 전체 사진 수
-   * @example 86
-   */
-  photoCountTotal: number;
-  /**
-   * 총 소요 시간(분)
-   * @example 360
-   */
-  durationMin?: number;
-  /**
-   * 총 이동 거리(km)
-   * @example 8.4
-   */
-  distanceKm?: number;
-  /**
-   * STOP(스팟) 개수
-   * @example 5
-   */
-  stopCount?: number;
-}
-
-export interface JourneyTopStopDto {
-  /**
-   * 상위 스팟 라벨 (공개면 동/구 정도로만)
-   * @example "성수동"
-   */
-  label: string;
-  /**
-   * 체류 시간(분)
-   * @example 45
-   */
-  dwellMin?: number;
-}
-
-export interface GenerateJourneyTitleRequest {
-  /**
-   * 정리 모드
-   * @example "PHOTO_ONLY"
-   */
-  mode: "PHOTO_ONLY";
-  /**
-   * 공개 범위
-   * @example "unlisted"
-   */
-  privacyLevel: "public" | "unlisted" | "private";
-  /**
-   * 여정 날짜 (YYYY-MM-DD)
-   * @example "2026-01-07"
-   */
-  date: string;
-  /** 요약 정보 */
-  summary: JourneyTitleSummaryDto;
-  /**
-   * 제목에 반영할 하이라이트 키워드(3~8개 추천). 장소/행동/분위기 키워드 위주.
-   * @example ["산책","카페","노을","조용한 시간"]
-   */
-  highlights: string[];
-  /** 상위 스팟(있으면 1~3개). public이면 개인 위치 특정 가능한 상세 라벨 금지. */
-  topStops?: JourneyTopStopDto[];
-  /**
-   * 클러스터링 결과 신뢰도(0~1)
-   * @example 0.62
-   */
-  confidence?: number;
-}
-
-export interface GeneratedTitleData {
-  /**
-   * 추천 제목
-   * @example "노을빛 성수 산책"
-   */
-  title: string;
-  /**
-   * 대안 제목 리스트 (더 이상 생성되지 않음, 레거시 호환용)
-   * @deprecated
-   * @example []
-   */
-  alternatives?: string[];
-}
-
-export interface GenerateJourneyTitleResponseData {
-  suggestion: GeneratedTitleData;
-}
-
-export interface GenerateJourneyTitleResponse {
-  /** @example "success" */
-  status: string;
-  data: GenerateJourneyTitleResponseData;
-  /** @example "제목이 성공적으로 생성되었습니다." */
-  message: string;
-}
-
 export interface CreateJourneyAiCommonRequestDto {
   /**
    * 입력 이미지 URL (presigned URL 권장)
@@ -4147,30 +4053,6 @@ export class Api<
       }),
 
     /**
-     * @description 게시 시 사용할 제목을 GPT 모델로 자동 생성합니다. Accept-Language 헤더로 언어를 지정할 수 있습니다.
-     *
-     * @tags journeys
-     * @name JourneyTitleControllerGenerateTitle
-     * @summary 게시 제목 자동 생성
-     * @request POST:/v2/journeys/{journeyId}/title/auto
-     * @secure
-     */
-    journeyTitleControllerGenerateTitle: (
-      journeyId: string,
-      data: GenerateJourneyTitleRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<GenerateJourneyTitleResponse, void>({
-        path: `/v2/journeys/${journeyId}/title/auto`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description momentbook-worker로 비동기 작업을 요청하고 jobId를 반환합니다.
      *
      * @tags journeys
@@ -4186,30 +4068,6 @@ export class Api<
     ) =>
       this.request<JourneyAiJobResponseDto, any>({
         path: `/v2/journeys/${journeyId}/ai/panorama`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description momentbook-worker로 비동기 작업을 요청하고 jobId를 반환합니다.
-     *
-     * @tags journeys
-     * @name JourneyAiControllerCreateTitleJob
-     * @summary 제목 생성 작업 요청
-     * @request POST:/v2/journeys/{journeyId}/ai/title
-     * @secure
-     */
-    journeyAiControllerCreateTitleJob: (
-      journeyId: string,
-      data: CreateJourneyAiCommonRequestDto,
-      params: RequestParams = {},
-    ) =>
-      this.request<JourneyAiJobResponseDto, any>({
-        path: `/v2/journeys/${journeyId}/ai/title`,
         method: "POST",
         body: data,
         secure: true,
