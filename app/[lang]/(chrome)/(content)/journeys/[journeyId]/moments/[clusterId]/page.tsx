@@ -44,7 +44,7 @@ export async function generateMetadata({
     clusterId: string;
   };
 
-  const journey = await fetchPublishedJourney(journeyId);
+  const journey = await fetchPublishedJourney(journeyId, lang);
 
   if (!journey) {
     return {
@@ -63,6 +63,7 @@ export async function generateMetadata({
   const locationName = readMomentLocationName(cluster.locationName);
   const title = buildMomentSeoTitle(journey.title, locationName);
   const description = buildSeoDescription([
+    cluster.impression,
     buildMomentSeoDescription(
       lang,
       journey.title,
@@ -98,7 +99,11 @@ export async function generateMetadata({
       publishedTime: journey.publishedAt,
       modifiedTime: journey.publishedAt,
       section: labels.eyebrow,
-      tags: cluster.locationName ? [journey.title, cluster.locationName] : [journey.title],
+      tags: [
+        ...journey.hashtags.map((tag) => tag.trim()).filter(Boolean),
+        ...(cluster.locationName ? [cluster.locationName] : []),
+        journey.title,
+      ].slice(0, 6),
     },
     twitter: {
       card: resolveTwitterCard(clusterImages),
@@ -120,7 +125,7 @@ export default async function JourneyMomentPage({
     clusterId: string;
   };
 
-  const journey = await fetchPublishedJourney(journeyId);
+  const journey = await fetchPublishedJourney(journeyId, lang);
 
   if (!journey) {
     notFound();
@@ -152,13 +157,20 @@ export default async function JourneyMomentPage({
     cluster.locationName ?? null,
     cluster.photoIds.length,
   );
+  const seoDescription = buildSeoDescription([
+    cluster.impression,
+    description,
+  ]);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline,
-    description,
+    description: seoDescription,
     image: clusterImageUrls,
+    ...(journey.hashtags.length > 0
+      ? { keywords: journey.hashtags.join(", ") }
+      : {}),
     datePublished: journey.publishedAt,
     dateModified: journey.publishedAt,
     ...(authorName

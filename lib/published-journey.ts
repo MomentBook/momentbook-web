@@ -5,6 +5,7 @@ import type {
     PublishedJourneysResponseDto,
 } from "@/src/apis/client";
 import { fetchPublicApi } from "@/lib/public-api";
+import { type Language, toLocaleTag } from "@/lib/i18n/config";
 
 export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
 export type PublishedJourneyContentStatus =
@@ -41,7 +42,38 @@ export type PublishedJourneyCluster = {
         lng: number;
     };
     locationName?: string;
+    impression?: string;
     photoIds: string[];
+};
+
+export type PublishedJourneyLocalizedEntry = {
+    locale: string;
+    languageCode: string;
+    countryCode: string;
+    languageName: string;
+    title?: string;
+    description?: string;
+    hashtags: string[];
+};
+
+export type PublishedJourneyClusterLocalization = {
+    locale: string;
+    languageCode: string;
+    countryCode: string;
+    languageName: string;
+    impression?: string;
+};
+
+export type PublishedJourneyLocalizedClusterImpressions = {
+    clusterId: string;
+    translations: PublishedJourneyClusterLocalization[];
+};
+
+export type PublishedJourneyLocalizedContent = {
+    sourceLanguage: string;
+    generatedAt: string;
+    entries: PublishedJourneyLocalizedEntry[];
+    clusterImpressions: PublishedJourneyLocalizedClusterImpressions[];
 };
 
 export type PublishedJourneyApi = {
@@ -57,6 +89,8 @@ export type PublishedJourneyApi = {
     clusters: PublishedJourneyCluster[];
     publishedAt: string;
     createdAt: string;
+    hashtags: string[];
+    localizedContent?: PublishedJourneyLocalizedContent;
     webReviewStatus?: PublishedJourneyWebReviewStatus;
     contentStatus?: PublishedJourneyContentStatus;
     notice?: string;
@@ -389,6 +423,7 @@ function normalizePublishedJourneyCluster(
         },
         center,
         locationName,
+        impression: readText(value.impression) ?? undefined,
         photoIds: singlePhotoId ? [...photoIds, singlePhotoId] : photoIds,
     };
 }
@@ -409,6 +444,167 @@ function normalizeJourneyClusters(
     return value
         .map((item, index) => normalizePublishedJourneyCluster(item, index))
         .filter((item): item is PublishedJourneyCluster => Boolean(item));
+}
+
+function normalizeHashtags(value: unknown): string[] {
+    if (!Array.isArray(value)) {
+        return [];
+    }
+
+    return value
+        .map((item) => readText(item))
+        .filter((item): item is string => Boolean(item));
+}
+
+function normalizeLocalizedJourneyEntry(
+    value: unknown,
+): PublishedJourneyLocalizedEntry | null {
+    if (!isRecord(value)) {
+        return null;
+    }
+
+    const locale = readText(value.locale);
+    const languageCode = readText(value.languageCode);
+    const countryCode = readText(value.countryCode);
+    const languageName = readText(value.languageName);
+
+    if (!locale || !languageCode || !countryCode || !languageName) {
+        return null;
+    }
+
+    return {
+        locale,
+        languageCode,
+        countryCode,
+        languageName,
+        title: readText(value.title) ?? undefined,
+        description: readText(value.description) ?? undefined,
+        hashtags: normalizeHashtags(value.hashtags),
+    };
+}
+
+function normalizeLocalizedClusterTranslation(
+    value: unknown,
+): PublishedJourneyClusterLocalization | null {
+    if (!isRecord(value)) {
+        return null;
+    }
+
+    const locale = readText(value.locale);
+    const languageCode = readText(value.languageCode);
+    const countryCode = readText(value.countryCode);
+    const languageName = readText(value.languageName);
+
+    if (!locale || !languageCode || !countryCode || !languageName) {
+        return null;
+    }
+
+    return {
+        locale,
+        languageCode,
+        countryCode,
+        languageName,
+        impression: readText(value.impression) ?? undefined,
+    };
+}
+
+function normalizeLocalizedClusterImpressions(
+    value: unknown,
+): PublishedJourneyLocalizedClusterImpressions | null {
+    if (!isRecord(value)) {
+        return null;
+    }
+
+    const clusterId = readText(value.clusterId);
+    if (!clusterId) {
+        return null;
+    }
+
+    const translations = Array.isArray(value.translations)
+        ? value.translations
+            .map((item) => normalizeLocalizedClusterTranslation(item))
+            .filter((item): item is PublishedJourneyClusterLocalization => Boolean(item))
+        : [];
+
+    return {
+        clusterId,
+        translations,
+    };
+}
+
+function normalizeLocalizedContent(
+    value: unknown,
+): PublishedJourneyLocalizedContent | undefined {
+    if (!isRecord(value)) {
+        return undefined;
+    }
+
+    const sourceLanguage = readText(value.sourceLanguage);
+    const generatedAt = readText(value.generatedAt);
+
+    if (!sourceLanguage || !generatedAt) {
+        return undefined;
+    }
+
+    const entries = Array.isArray(value.entries)
+        ? value.entries
+            .map((item) => normalizeLocalizedJourneyEntry(item))
+            .filter((item): item is PublishedJourneyLocalizedEntry => Boolean(item))
+        : [];
+
+    const clusterImpressions = Array.isArray(value.clusterImpressions)
+        ? value.clusterImpressions
+            .map((item) => normalizeLocalizedClusterImpressions(item))
+            .filter((item): item is PublishedJourneyLocalizedClusterImpressions => Boolean(item))
+        : [];
+
+    return {
+        sourceLanguage,
+        generatedAt,
+        entries,
+        clusterImpressions,
+    };
+}
+
+function findLocalizedJourneyEntry(
+    localizedContent: PublishedJourneyLocalizedContent | undefined,
+    lang?: Language,
+): PublishedJourneyLocalizedEntry | undefined {
+    if (!localizedContent || !lang) {
+        return undefined;
+    }
+
+    const localeTag = toLocaleTag(lang).toLowerCase();
+
+    return (
+        localizedContent.entries.find((entry) => entry.locale.toLowerCase() === localeTag) ??
+        localizedContent.entries.find((entry) => entry.languageCode.toLowerCase() === lang)
+    );
+}
+
+function findLocalizedClusterImpression(
+    localizedContent: PublishedJourneyLocalizedContent | undefined,
+    clusterId: string,
+    lang?: Language,
+): string | undefined {
+    if (!localizedContent || !lang) {
+        return undefined;
+    }
+
+    const clusterEntry = localizedContent.clusterImpressions.find(
+        (entry) => entry.clusterId === clusterId,
+    );
+
+    if (!clusterEntry) {
+        return undefined;
+    }
+
+    const localeTag = toLocaleTag(lang).toLowerCase();
+    const translation =
+        clusterEntry.translations.find((entry) => entry.locale.toLowerCase() === localeTag) ??
+        clusterEntry.translations.find((entry) => entry.languageCode.toLowerCase() === lang);
+
+    return translation?.impression;
 }
 
 function normalizeJourneyListItem(value: unknown): PublishedJourneyListItemApi | null {
@@ -454,6 +650,7 @@ function normalizeJourneyListItem(value: unknown): PublishedJourneyListItemApi |
 function normalizePublishedJourney(
     value: unknown,
     fallbackMessage?: string,
+    lang?: Language,
 ): PublishedJourneyApi | null {
     if (!isRecord(value)) {
         return null;
@@ -467,6 +664,8 @@ function normalizePublishedJourney(
     }
 
     const metadata = normalizeJourneyMetadata(value.metadata);
+    const localizedContent = normalizeLocalizedContent(value.localizedContent);
+    const localizedJourneyEntry = findLocalizedJourneyEntry(localizedContent, lang);
     const images = Array.isArray(value.images)
         ? value.images
             .map((item) => normalizePublishedJourneyImage(item))
@@ -482,9 +681,15 @@ function normalizePublishedJourney(
             : normalizedTimeline.length > 0
                 ? normalizedTimeline
                 : normalizedRecapTimeline;
+    const localizedClusters = clusters.map((cluster) => ({
+        ...cluster,
+        impression:
+            findLocalizedClusterImpression(localizedContent, cluster.clusterId, lang) ??
+            cluster.impression,
+    }));
 
-    const clusterStarts = clusters.map((cluster) => cluster.time.startAt);
-    const clusterEnds = clusters.map((cluster) => cluster.time.endAt);
+    const clusterStarts = localizedClusters.map((cluster) => cluster.time.startAt);
+    const clusterEnds = localizedClusters.map((cluster) => cluster.time.endAt);
 
     const publishedAt =
         readText(value.publishedAt) ??
@@ -506,11 +711,13 @@ function normalizePublishedJourney(
         startedAt,
         endedAt,
         title:
+            localizedJourneyEntry?.title ??
             readText(value.title) ??
             readText(metadata?.title) ??
             readText(metadata?.journeyTitle) ??
             "Untitled journey",
         description:
+            localizedJourneyEntry?.description ??
             readText(value.description) ??
             readText(metadata?.description) ??
             readText(metadata?.summary) ??
@@ -518,9 +725,11 @@ function normalizePublishedJourney(
         mode: normalizeJourneyMode(value.mode),
         photoCount: readNumber(value.photoCount) ?? images.length,
         images,
-        clusters,
+        clusters: localizedClusters,
         publishedAt,
         createdAt: readText(value.createdAt) ?? publishedAt,
+        hashtags: localizedJourneyEntry?.hashtags ?? [],
+        localizedContent,
         webReviewStatus: normalizeWebReviewStatus(value.webReviewStatus),
         contentStatus: normalizeContentStatus(value.contentStatus),
         notice: readMessage(value.notice) ?? fallbackMessage,
@@ -588,6 +797,7 @@ function isPublishedJourneyResponse(
 
 export async function fetchPublishedJourneyResult(
     publicId: string,
+    lang?: Language,
 ): Promise<FetchPublishedJourneyResult> {
     try {
         const response = await fetchPublicApi(
@@ -618,7 +828,7 @@ export async function fetchPublishedJourneyResult(
                 return { status: "error", data: null, message };
             }
 
-            const data = normalizePublishedJourney(payload.data, message);
+            const data = normalizePublishedJourney(payload.data, message, lang);
 
             if (!data) {
                 return { status: "error", data: null, message };
@@ -659,8 +869,9 @@ export async function fetchPublishedJourneyResult(
 
 export async function fetchPublishedJourney(
     publicId: string,
+    lang?: Language,
 ): Promise<PublishedJourneyApi | null> {
-    const result = await fetchPublishedJourneyResult(publicId);
+    const result = await fetchPublishedJourneyResult(publicId, lang);
     return result.status === "success" ? result.data : null;
 }
 

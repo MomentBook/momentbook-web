@@ -92,6 +92,11 @@ function readAuthorName(value: string | null | undefined): string | null {
     return trimmed.length > 0 ? trimmed : null;
 }
 
+function normalizeHashtagTag(value: string): string {
+    const trimmed = value.trim();
+    return trimmed.startsWith("#") ? trimmed.slice(1) : trimmed;
+}
+
 export async function generateMetadata({
     params,
 }: {
@@ -101,7 +106,7 @@ export async function generateMetadata({
         lang: Language;
         journeyId: string;
     };
-    const result = await fetchPublishedJourneyResult(journeyId);
+    const result = await fetchPublishedJourneyResult(journeyId, lang);
 
     if (result.status === "hidden") {
         const hiddenNotice = unavailableNoticeByLanguage[lang] ?? unavailableNoticeByLanguage.en;
@@ -132,6 +137,10 @@ export async function generateMetadata({
         journey.description,
         buildJourneyDescription(lang, locations, journey.photoCount),
     ]);
+    const tags = [
+        ...journey.hashtags.map((tag) => normalizeHashtagTag(tag)).filter(Boolean),
+        ...locations,
+    ].slice(0, 6);
     const images = compactSocialImages(
         journey.images.slice(0, 6).map((img) => ({
             url: img.url,
@@ -169,7 +178,7 @@ export async function generateMetadata({
             modifiedTime: journey.publishedAt,
             ...(authorName ? { authors: [authorName] } : {}),
             section: journeyLabels[lang]?.eyebrow ?? journeyLabels.en.eyebrow,
-            tags: locations.slice(0, 6),
+            tags,
         },
         twitter: {
             card: resolveTwitterCard(images),
@@ -189,7 +198,7 @@ export default async function JourneyPage({
         lang: Language;
         journeyId: string;
     };
-    const result = await fetchPublishedJourneyResult(journeyId);
+    const result = await fetchPublishedJourneyResult(journeyId, lang);
     const hiddenNotice = unavailableNoticeByLanguage[lang] ?? unavailableNoticeByLanguage.en;
 
     if (result.status === "hidden") {
@@ -245,6 +254,9 @@ export default async function JourneyPage({
         headline: journey.title,
         description,
         image: journey.images.map((img) => img.url),
+        ...(journey.hashtags.length > 0
+            ? { keywords: journey.hashtags.join(", ") }
+            : {}),
         datePublished: journey.publishedAt,
         dateModified: journey.publishedAt,
         ...(authorName
