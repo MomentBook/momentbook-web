@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-03-12)
+2025-01-04 (updated: 2026-03-28)
 
 ## Context
 
@@ -32,10 +32,8 @@ MomentBook 웹은 아래 문서를 언어 라우트 하에 제공한다.
 
 ### 2) 언어 커버리지 정책
 
-- 정책 문서(`privacy`, `terms`, `community-guidelines`, `marketing-consent`) 본문 authored locale: `en`, `ko`, `ja`, `zh`
-- 위 정책 문서의 기타 locale (`es`, `pt`, `fr`, `th`, `vi`)는 본문을 영어 fallback으로 노출
-- 단, 위 정책 문서의 `generateMetadata` title/description은 locale별 문자열을 제공한다.
-- `support` 페이지는 9개 언어별 copy를 직접 제공한다.
+- 정책 문서(`privacy`, `terms`, `community-guidelines`, `marketing-consent`)는 9개 지원 언어(`en`, `ko`, `ja`, `zh`, `es`, `pt`, `fr`, `th`, `vi`)별 본문과 metadata copy를 직접 유지한다.
+- `support` 페이지도 동일하게 9개 언어별 copy를 직접 제공한다.
 
 ### 3) Indexing 정책
 
@@ -48,18 +46,19 @@ MomentBook 웹은 아래 문서를 언어 라우트 하에 제공한다.
 ## Rationale
 
 법적 문서는 자동 번역이나 동적 조립보다 수동 검증 가능한 정적 관리가 안전하다.
-본문은 검수 완료 언어만 유지하고, 미완료 언어는 영어 fallback으로 리스크를 줄인다.
+현재 구현은 legal/support 전 경로에 대해 언어별 정적 copy를 직접 유지함으로써 라우트 언어와 본문 언어를 일치시킨다.
 
 ## Consequences
 
 ### Positive
 - ✅ 법적 문구의 통제 가능성 확보
 - ✅ 다국어 라우팅 일관성 유지
+- ✅ legal route와 본문 언어 일치
 - ✅ noindex 정책으로 검색 노출 리스크 제어
 
 ### Negative
 - ⚠️ 번역 업데이트 시 수동 동기화 비용 존재
-- ⚠️ 일부 locale에서 본문/메타 언어 불일치 가능
+- ⚠️ 9개 언어 문구를 함께 유지해야 하므로 변경 비용이 큼
 
 ### Neutral
 - 📝 변경 시 버전/시행일 표기를 함께 갱신해야 함

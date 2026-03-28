@@ -148,6 +148,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Sitemap routes: `revalidate = 3600`
 - API fetch helper 일부: `next.revalidate = 3600` 또는 60(상수)
 - `app/layout.tsx`는 request-scoped Dynamic API(`headers`, `cookies`)를 사용하지 않음
+- 단, `/{lang}/install`은 서버에서 UA 기반 플랫폼 힌트를 읽기 위해 `headers()`를 사용한다.
 
 ## 6) Interaction Constraints
 
@@ -173,10 +174,11 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - `buildAlternates(lang, path)`
 - `buildOpenGraphUrl(lang, path)`
-- `buildPublicRobots()` / `buildNoIndexRobots()`
+- `buildPublicRobots()` / `buildNoIndexFollowRobots()` / `buildNoIndexRobots()`
 - Public pages use lean metadata: title/description/canonical/alternates + basic OpenGraph/Twitter
 - Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - Home(`/`)과 `/{lang}/install`은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
+- `app/[lang]/layout.tsx`는 기본 robots를 noindex/nofollow로 설정하고, 실제 공개 색인 페이지는 각 route의 `generateMetadata()`에서 public robots를 다시 선언한다.
 
 ## 8.2 Robots Policy
 
@@ -234,9 +236,9 @@ MomentBook Web은 다음 역할만 수행한다.
 - `NEXT_PUBLIC_APP_ENV`
 - `NEXT_PUBLIC_APP_IS_LOCAL`
 - `NEXT_PUBLIC_SUPPORT_EMAIL`
-- `NEXT_PUBLIC_IOS_APP_ID`
-- `NEXT_PUBLIC_IOS_STORE_PATH`
-- `NEXT_PUBLIC_ANDROID_APP_ID`
+- `NEXT_PUBLIC_IOS_APP_ID` (`lib/mobile-app.ts`에서 required)
+- `NEXT_PUBLIC_IOS_STORE_PATH` (`lib/mobile-app.ts`에서 required)
+- `NEXT_PUBLIC_ANDROID_APP_ID` (`lib/mobile-app.ts`에서 required)
 - `NEXT_PUBLIC_SITEMAP_STATIC_LASTMOD` (optional)
 - `NEXT_PUBLIC_FIREBASE_*` (firebase config set)
 
