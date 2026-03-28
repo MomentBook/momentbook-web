@@ -43,9 +43,9 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
     metaDescription:
       "여행 사진을 한 번에 올리면 시간과 장소 기준 타임라인으로 정리하고, 정리된 아카이브를 클라우드 드라이브에 자동 동기화합니다.",
-    heroTitle: "여행의 흐름이 다시 보기 쉬운 형태로 남습니다",
+    heroTitle: "당신의 여행을 기억하세요",
     heroLead:
-      "여행 사진을 한 번에 올리면 시간과 장소 기준으로 정리되고, 정리된 아카이브가 드라이브까지 이어집니다.",
+      "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
     primaryCta: "앱 설치",
   },
   ja: {
@@ -133,7 +133,7 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "최근 공개된 여행",
     featuredLead: "최근 공개된 여행입니다.",
     featuredArchiveCta: "전체 보기",
-    photoCountLabel: "장",
+    photoCountLabel: "장의 사진",
     untitledJourney: "제목 없는 여정",
     unknownUser: "알 수 없는 사용자",
     emptyJourneys: "아직 공개된 여정이 없습니다.",
@@ -289,25 +289,25 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
       storyEyebrow: "사진 묶음에서 여행 흐름까지",
       storyTitle: "정리되는 과정",
       storyLead:
-        "섞여 있는 카메라 롤이 나중에 다시 보기 쉬운 여행 기록으로 바뀌는 흐름입니다.",
+        "섞여 있는 카메라 롤이 다시 보기 쉬운 여행 기록으로 바뀌는 흐름입니다.",
       scenes: [
         {
           sceneLabel: "장면 01",
-          title: "여행 사진이 카메라 롤에 쌓입니다",
+          title: "여행에서 찍은 사진이 쌓여 있습니다",
           description:
-            "여행 중 찍은 사진은 촬영한 순서 그대로 남아 있습니다.",
+            "여행 중 찍은 사진은 찍힌 순서 그대로 갤러리에 남습니다.",
         },
         {
           sceneLabel: "장면 02",
-          title: "한 번에 가져옵니다",
+          title: "사진 한 묶음을 가져옵니다",
           description:
-            "사진 묶음을 한 번에 선택하면, 앱이 하나의 여행으로 읽기 시작합니다.",
+            "사진을 업로드 하면 장소 단위로 모읍니다.",
         },
         {
           sceneLabel: "장면 03",
-          title: "시간과 장소를 따라 정리됩니다",
+          title: "시간과 장소를 따라 타임라인이 정리됩니다",
           description:
-            "흩어진 사진이 시간과 장소 기준의 모먼트로 묶이며 타임라인이 만들어집니다.",
+            "흩어진 사진이 모먼트 단위로 묶이며 다시 보기 쉬운 흐름이 생깁니다.",
         },
       ],
       value: {
@@ -316,15 +316,15 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         lead:
           "정리된 결과는 이동 흐름과 시점, 함께 묶인 사진을 나중에도 읽기 쉽게 남깁니다.",
         bullets: [
-          "하루 단위의 순서로 여행을 따라볼 수 있습니다.",
-          "같은 장소에서 찍은 순간이 함께 남습니다.",
+          "하루 단위의 여행 순서를 따라볼 수 있습니다.",
+          "장소 기준의 순간이 함께 남습니다.",
           "정리된 아카이브가 드라이브로 이어집니다.",
         ],
       },
     },
     download: {
       title: "MomentBook 다운로드",
-      lead: "앱을 설치하고 여행 사진 정리를 시작하세요.",
+      lead: "앱을 설치하고 여행 사진을 정리하세요.",
     },
   },
   ja: {
