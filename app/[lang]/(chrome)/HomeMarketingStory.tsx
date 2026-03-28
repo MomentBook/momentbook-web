@@ -1,4 +1,5 @@
 import { SectionReveal } from "@/components/SectionReveal";
+import type { Language } from "@/lib/i18n/config";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
 import {
   getHomeMarketingImagePrompt,
@@ -43,17 +44,20 @@ export type HomeMarketingContent = {
 };
 
 type HomeMarketingStoryProps = {
+  lang: Language;
   content: HomeMarketingContent;
 };
 
 type HomeMarketingVisualSlotProps = {
+  lang: Language;
   promptKey: HomeMarketingImagePromptKey;
 };
 
 function HomeMarketingVisualSlot({
+  lang,
   promptKey,
 }: HomeMarketingVisualSlotProps) {
-  const prompt = getHomeMarketingImagePrompt(promptKey);
+  const prompt = getHomeMarketingImagePrompt(promptKey, lang);
 
   return (
     <div
@@ -73,6 +77,7 @@ function HomeMarketingVisualSlot({
 }
 
 export function HomeMarketingStory({
+  lang,
   content,
 }: HomeMarketingStoryProps) {
   return (
@@ -102,6 +107,7 @@ export function HomeMarketingStory({
                 staggerIndex={index}
               >
                 <HomeMarketingVisualSlot
+                  lang={lang}
                   promptKey={STORY_SCENE_IDS[index] ?? "timelineFormation"}
                 />
               </SectionReveal>
@@ -142,7 +148,7 @@ export function HomeMarketingStory({
           </SectionReveal>
 
           <SectionReveal delay={90} className={styles.marketingValueVisualWrap}>
-            <HomeMarketingVisualSlot promptKey="organizedResult" />
+            <HomeMarketingVisualSlot lang={lang} promptKey="organizedResult" />
           </SectionReveal>
         </div>
       </section>

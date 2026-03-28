@@ -118,7 +118,7 @@ export default async function Home({
       />
 
       <HomeHero lang={lang} content={heroContent} />
-      <HomeMarketingStory content={marketingContent.marketing} />
+      <HomeMarketingStory lang={lang} content={marketingContent.marketing} />
       <HomeFeaturedJourneys
         lang={lang}
         content={editorialContent}

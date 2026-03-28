@@ -34,81 +34,81 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     metaTitle: "MomentBook — Upload once, organized all the way to your drive",
     metaDescription:
       "Upload trip photos in one batch. MomentBook organizes them into a timeline by time and place, then automatically syncs the archive to your cloud drive.",
-    heroTitle: "Remember your trip",
+    heroTitle: "Your trip stays in a shape you can revisit",
     heroLead:
-      "Upload trip photos and MomentBook organizes them by time and place, then automatically syncs them to your drive.",
+      "Upload trip photos in one batch and MomentBook organizes them by time and place, then carries the organized archive to your drive.",
     primaryCta: "Install app",
   },
   ko: {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
     metaDescription:
       "여행 사진을 한 번에 올리면 시간과 장소 기준 타임라인으로 정리하고, 정리된 아카이브를 클라우드 드라이브에 자동 동기화합니다.",
-    heroTitle: "당신의 여행을 기억하세요",
+    heroTitle: "여행의 흐름이 다시 보기 쉬운 형태로 남습니다",
     heroLead:
-      "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
+      "여행 사진을 한 번에 올리면 시간과 장소 기준으로 정리되고, 정리된 아카이브가 드라이브까지 이어집니다.",
     primaryCta: "앱 설치",
   },
   ja: {
     metaTitle: "MomentBook — 一度アップロードすると、ドライブまで整理されます",
     metaDescription:
       "旅行写真をまとめてアップロードすると、時間と場所の流れでタイムラインに整理し、整理されたアーカイブをクラウドドライブに自動同期します。",
-    heroTitle: "あなたの旅を記憶に残しましょう",
+    heroTitle: "旅の流れが、あとで見返しやすい形で残ります",
     heroLead:
-      "旅行写真をアップロードすると、時間と場所で整理され、ドライブまで自動で同期されます。",
+      "旅行写真をまとめてアップロードすると、時間と場所で整理され、整理されたアーカイブがドライブまでつながります。",
     primaryCta: "アプリをインストール",
   },
   zh: {
     metaTitle: "MomentBook — 一次上传，连云盘都会整理好",
     metaDescription:
       "一次上传旅行照片后，MomentBook 会按时间和地点整理成时间线，并将整理好的档案自动同步到云盘。",
-    heroTitle: "记住你的旅行",
+    heroTitle: "旅程会以更容易回看的脉络留下来",
     heroLead:
-      "上传旅行照片后，MomentBook 会按时间和地点整理，并自动同步到云盘。",
+      "一次上传旅行照片后，MomentBook 会按时间和地点整理，整理好的档案也会继续同步到云盘。",
     primaryCta: "安装应用",
   },
   es: {
     metaTitle: "MomentBook — Súbelo una vez y se ordena hasta tu drive",
     metaDescription:
       "Sube las fotos del viaje de una vez. MomentBook las ordena en una línea de tiempo por fecha y lugar, y sincroniza automáticamente el archivo con tu nube.",
-    heroTitle: "Recuerda tu viaje",
+    heroTitle: "Tu viaje queda en una forma fácil de volver a mirar",
     heroLead:
-      "Sube las fotos del viaje y MomentBook las ordena por fecha y lugar, y después las sincroniza automáticamente con tu drive.",
+      "Sube las fotos del viaje en un solo lote y MomentBook las ordena por fecha y lugar, y lleva el archivo organizado hasta tu drive.",
     primaryCta: "Instalar app",
   },
   pt: {
     metaTitle: "MomentBook — Envie uma vez e tudo segue organizado até o drive",
     metaDescription:
       "Envie as fotos da viagem de uma vez. O MomentBook organiza tudo em uma linha do tempo por data e lugar e sincroniza automaticamente o arquivo com seu drive na nuvem.",
-    heroTitle: "Guarde sua viagem",
+    heroTitle: "Sua viagem fica em uma forma fácil de revisitar",
     heroLead:
-      "Envie as fotos da viagem e o MomentBook organiza tudo por data e lugar, depois sincroniza automaticamente com o seu drive.",
+      "Envie as fotos da viagem de uma vez e o MomentBook organiza tudo por data e lugar, levando o arquivo organizado até o seu drive.",
     primaryCta: "Instalar app",
   },
   fr: {
     metaTitle: "MomentBook — Importez une fois, l'organisation va jusqu'au drive",
     metaDescription:
       "Importez les photos du voyage en une fois. MomentBook les range dans une chronologie par date et lieu, puis synchronise automatiquement l'archive avec votre espace cloud.",
-    heroTitle: "Gardez votre voyage en mémoire",
+    heroTitle: "Votre voyage reste dans une forme facile à revoir",
     heroLead:
-      "Importez les photos du voyage et MomentBook les organise par date et lieu, puis les synchronise automatiquement avec votre espace cloud.",
+      "Importez les photos du voyage en une seule fois et MomentBook les organise par date et lieu, puis prolonge l'archive organisée jusqu'à votre drive.",
     primaryCta: "Installer l'app",
   },
   th: {
     metaTitle: "MomentBook — อัปโหลดครั้งเดียว แล้วจัดไปถึงไดรฟ์",
     metaDescription:
       "อัปโหลดรูปทริปครั้งเดียว MomentBook จะจัดเป็นไทม์ไลน์ตามเวลาและสถานที่ พร้อมซิงก์คลังที่จัดแล้วไปยังคลาวด์ไดรฟ์โดยอัตโนมัติ",
-    heroTitle: "จดจำการเดินทางของคุณ",
+    heroTitle: "การเดินทางของคุณจะอยู่ในรูปแบบที่ย้อนกลับมาดูได้ง่าย",
     heroLead:
-      "เมื่ออัปโหลดรูปทริป MomentBook จะจัดตามเวลาและสถานที่ แล้วซิงก์ไปยังไดรฟ์ของคุณโดยอัตโนมัติ",
+      "เมื่ออัปโหลดรูปทริปพร้อมกันครั้งเดียว MomentBook จะจัดตามเวลาและสถานที่ แล้วให้คลังที่จัดแล้วต่อเนื่องไปยังไดรฟ์ของคุณ",
     primaryCta: "ติดตั้งแอป",
   },
   vi: {
     metaTitle: "MomentBook — Tải lên một lần, sắp xếp tới tận drive",
     metaDescription:
       "Tải ảnh chuyến đi lên một lần. MomentBook sắp thành dòng thời gian theo thời gian và địa điểm, rồi tự động đồng bộ kho lưu trữ đã sắp xếp lên cloud drive.",
-    heroTitle: "Ghi nhớ chuyến đi của bạn",
+    heroTitle: "Chuyến đi của bạn ở lại trong một mạch dễ nhìn lại",
     heroLead:
-      "Tải ảnh chuyến đi lên và MomentBook sẽ sắp xếp theo thời gian, địa điểm rồi tự động đồng bộ lên drive của bạn.",
+      "Tải toàn bộ ảnh chuyến đi lên một lần và MomentBook sẽ sắp xếp theo thời gian, địa điểm rồi đưa kho lưu trữ đã sắp xếp lên drive của bạn.",
     primaryCta: "Cài ứng dụng",
   },
 };
@@ -133,7 +133,7 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     featuredTitle: "최근 공개된 여행",
     featuredLead: "최근 공개된 여행입니다.",
     featuredArchiveCta: "전체 보기",
-    photoCountLabel: "장의 사진",
+    photoCountLabel: "장",
     untitledJourney: "제목 없는 여정",
     unknownUser: "알 수 없는 사용자",
     emptyJourneys: "아직 공개된 여정이 없습니다.",
@@ -142,10 +142,10 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     heroEyebrow: "旅行写真整理アプリ",
     heroExploreCta: "どう整理されるか見る",
     featuredEyebrow: "公開アーカイブ",
-    featuredTitle: "整理された結果を見る",
+    featuredTitle: "最近公開された旅",
     featuredLead: "最近公開された旅行です。",
     featuredArchiveCta: "すべて見る",
-    photoCountLabel: "枚の写真",
+    photoCountLabel: "枚",
     untitledJourney: "タイトル未設定の旅",
     unknownUser: "不明なユーザー",
     emptyJourneys: "公開された旅はまだありません。",
@@ -154,10 +154,10 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     heroEyebrow: "旅行照片整理应用",
     heroExploreCta: "查看如何整理",
     featuredEyebrow: "公开档案",
-    featuredTitle: "查看整理结果",
+    featuredTitle: "最近公开的旅程",
     featuredLead: "最近公开的旅程。",
     featuredArchiveCta: "查看全部",
-    photoCountLabel: "张照片",
+    photoCountLabel: "张",
     untitledJourney: "未命名旅程",
     unknownUser: "未知用户",
     emptyJourneys: "还没有公开旅程。",
@@ -166,7 +166,7 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     heroEyebrow: "App para organizar fotos de viaje",
     heroExploreCta: "Ver cómo se organiza",
     featuredEyebrow: "Archivo público",
-    featuredTitle: "Ver el resultado organizado",
+    featuredTitle: "Viajes públicos recientes",
     featuredLead: "Viajes publicados recientemente.",
     featuredArchiveCta: "Ver todo",
     photoCountLabel: "fotos",
@@ -178,7 +178,7 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     heroEyebrow: "App para organizar fotos de viagem",
     heroExploreCta: "Ver como se organiza",
     featuredEyebrow: "Arquivo público",
-    featuredTitle: "Ver o resultado organizado",
+    featuredTitle: "Viagens públicas recentes",
     featuredLead: "Viagens publicadas recentemente.",
     featuredArchiveCta: "Ver tudo",
     photoCountLabel: "fotos",
@@ -190,7 +190,7 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     heroEyebrow: "App d'organisation de photos de voyage",
     heroExploreCta: "Voir comment cela s'organise",
     featuredEyebrow: "Archive publique",
-    featuredTitle: "Voir le résultat organisé",
+    featuredTitle: "Voyages publics récents",
     featuredLead: "Voyages publiés récemment.",
     featuredArchiveCta: "Voir tout",
     photoCountLabel: "photos",
@@ -202,7 +202,7 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     heroEyebrow: "แอปจัดรูปทริป",
     heroExploreCta: "ดูว่าจัดอย่างไร",
     featuredEyebrow: "คลังสาธารณะ",
-    featuredTitle: "ดูผลลัพธ์ที่จัดแล้ว",
+    featuredTitle: "ทริปสาธารณะที่เผยแพร่ล่าสุด",
     featuredLead: "ทริปที่เพิ่งเผยแพร่ล่าสุด",
     featuredArchiveCta: "ดูทั้งหมด",
     photoCountLabel: "ภาพ",
@@ -214,7 +214,7 @@ const homeEditorialCopy: Record<Language, HomeEditorialCopy> = {
     heroEyebrow: "Ứng dụng sắp xếp ảnh du lịch",
     heroExploreCta: "Xem cách sắp xếp",
     featuredEyebrow: "Kho lưu trữ công khai",
-    featuredTitle: "Xem kết quả đã sắp xếp",
+    featuredTitle: "Những hành trình công khai gần đây",
     featuredLead: "Những hành trình vừa được công khai.",
     featuredArchiveCta: "Xem tất cả",
     photoCountLabel: "ảnh",
@@ -236,44 +236,44 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         secondaryCta: "See the flow",
       },
       storyEyebrow: "From photo roll to trip flow",
-      storyTitle: "How it comes together",
+      storyTitle: "How it gets organized",
       storyLead:
-        "A short walkthrough from a mixed camera roll to a timeline you can revisit.",
+        "A short walkthrough from a mixed camera roll to a timeline that is easier to revisit later.",
       scenes: [
         {
           sceneLabel: "Scene 01",
-          title: "Photos keep piling up",
+          title: "Trip photos keep piling up in your camera roll",
           description:
-            "The trip stays in your camera roll exactly as you captured it.",
+            "Photos from the trip stay exactly where and how you captured them.",
         },
         {
           sceneLabel: "Scene 02",
-          title: "Bring them in together",
+          title: "Bring them in all at once",
           description:
-            "Select the batch once, then let the app read the trip as one set.",
+            "Select the batch once and the app starts reading it as one trip.",
         },
         {
           sceneLabel: "Scene 03",
-          title: "The timeline takes shape",
+          title: "It gets organized by time and place",
           description:
-            "Time and place turn scattered photos into grouped moments.",
+            "Scattered photos gather into moments shaped by time and place, and the timeline takes form.",
         },
       ],
       value: {
         eyebrow: "What stays visible",
-        title: "The trip stays easy to revisit",
+        title: "The flow of the trip becomes easy to see again",
         lead:
-          "The organized result keeps the route, timing, and grouped photos easy to review later.",
+          "The organized result leaves the route, timing, and grouped photos in a form that is easier to read later.",
         bullets: [
           "Follow the trip in day-by-day order.",
-          "Keep place-based moments together.",
-          "Continue the organized archive to your drive.",
+          "Keep moments from the same place together.",
+          "Carry the organized archive through to your drive.",
         ],
       },
     },
     download: {
       title: "Download MomentBook",
-      lead: "Install the app and organize trip photos.",
+      lead: "Install the app and start organizing trip photos.",
     },
   },
   ko: {
@@ -289,25 +289,25 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
       storyEyebrow: "사진 묶음에서 여행 흐름까지",
       storyTitle: "정리되는 과정",
       storyLead:
-        "섞여 있는 카메라 롤이 다시 보기 쉬운 여행 기록으로 바뀌는 흐름입니다.",
+        "섞여 있는 카메라 롤이 나중에 다시 보기 쉬운 여행 기록으로 바뀌는 흐름입니다.",
       scenes: [
         {
           sceneLabel: "장면 01",
-          title: "여행에서 찍은 사진이 쌓여 있습니다",
+          title: "여행 사진이 카메라 롤에 쌓입니다",
           description:
-            "여행 중 찍은 사진은 찍힌 순서 그대로 갤러리에 남습니다.",
+            "여행 중 찍은 사진은 촬영한 순서 그대로 남아 있습니다.",
         },
         {
           sceneLabel: "장면 02",
-          title: "사진 한 묶음을 가져옵니다",
+          title: "한 번에 가져옵니다",
           description:
-            "사진을 업로드 하면 장소 단위로 모읍니다.",
+            "사진 묶음을 한 번에 선택하면, 앱이 하나의 여행으로 읽기 시작합니다.",
         },
         {
           sceneLabel: "장면 03",
-          title: "시간과 장소를 따라 타임라인이 정리됩니다",
+          title: "시간과 장소를 따라 정리됩니다",
           description:
-            "흩어진 사진이 모먼트 단위로 묶이며 다시 보기 쉬운 흐름이 생깁니다.",
+            "흩어진 사진이 시간과 장소 기준의 모먼트로 묶이며 타임라인이 만들어집니다.",
         },
       ],
       value: {
@@ -316,65 +316,65 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         lead:
           "정리된 결과는 이동 흐름과 시점, 함께 묶인 사진을 나중에도 읽기 쉽게 남깁니다.",
         bullets: [
-          "하루 단위의 여행 순서를 따라볼 수 있습니다.",
-          "장소 기준의 순간이 함께 남습니다.",
+          "하루 단위의 순서로 여행을 따라볼 수 있습니다.",
+          "같은 장소에서 찍은 순간이 함께 남습니다.",
           "정리된 아카이브가 드라이브로 이어집니다.",
         ],
       },
     },
     download: {
       title: "MomentBook 다운로드",
-      lead: "앱을 설치하고 여행 사진을 정리하세요.",
+      lead: "앱을 설치하고 여행 사진 정리를 시작하세요.",
     },
   },
   ja: {
     marketing: {
       showcase: {
         eyebrow: "結果を先に見る",
-        title: "旅の写真がタイムラインとして整います",
+        title: "旅行写真がタイムラインとして整います",
         lead:
-          "MomentBook は旅行写真を時間と場所でまとめ、旅の流れが読み返しやすい形で残ります。",
+          "旅行写真を時間と場所でまとめ、旅の流れがあとで見返しやすい形で残ります。",
         primaryCta: "アプリをインストール",
         secondaryCta: "どう整理されるか見る",
       },
       storyEyebrow: "写真の束から旅の流れへ",
-      storyTitle: "3つの場面で見る整理の流れ",
+      storyTitle: "整理される流れ",
       storyLead:
         "混ざったカメラロールが、あとで見返しやすい旅の記録に変わる流れです。",
       scenes: [
         {
           sceneLabel: "場面 01",
-          title: "写真がたまっていきます",
-          description: "旅先で撮った写真は、そのままカメラロールに残ります。",
+          title: "旅行写真がカメラロールにたまっていきます",
+          description: "旅先で撮った写真は、撮った順のまま残っています。",
         },
         {
           sceneLabel: "場面 02",
           title: "まとめて取り込みます",
           description:
-            "写真を一度に選ぶと、1つの旅として読み取り始めます。",
+            "写真のまとまりを一度に選ぶと、アプリがひとつの旅として読み始めます。",
         },
         {
           sceneLabel: "場面 03",
-          title: "タイムラインの形になります",
+          title: "時間と場所に沿って整います",
           description:
-            "時間と場所の流れに沿って、散らばった写真がモーメントにまとまります。",
+            "散らばった写真が時間と場所を基準にしたモーメントとしてまとまり、タイムラインになります。",
         },
       ],
       value: {
         eyebrow: "整理したあとに残るもの",
-        title: "どこにいて、いつで、何が一緒だったかが見え直します",
+        title: "旅の流れがもう一度見えやすくなります",
         lead:
           "整理された結果は、移動の流れや時点、ひとまとまりの写真をあとでも読みやすく残します。",
         bullets: [
-          "1日ごとの旅の順番を追えます。",
-          "場所ごとのモーメントをひとまとまりで残せます。",
+          "1日ごとの順番で旅をたどれます。",
+          "同じ場所で撮った瞬間をひとまとまりで残せます。",
           "整理されたアーカイブがドライブへ続きます。",
         ],
       },
     },
     download: {
-      title: "今すぐダウンロード",
-      lead: "インストールして旅行写真の整理を始めましょう。",
+      title: "MomentBook をダウンロード",
+      lead: "インストールして、旅行写真の整理を始めましょう。",
     },
   },
   zh: {
@@ -388,40 +388,40 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         secondaryCta: "查看如何整理",
       },
       storyEyebrow: "从照片堆到旅程脉络",
-      storyTitle: "用 3 个场景看整理过程",
-      storyLead: "混在一起的相册，会变成之后更容易重看的旅行记录。",
+      storyTitle: "整理过程",
+      storyLead: "混在一起的相册，会变成之后更容易回看的旅行记录。",
       scenes: [
         {
           sceneLabel: "场景 01",
-          title: "照片会一直堆着",
-          description: "旅行中拍下的照片，会原样留在相册里。",
+          title: "旅行照片会堆在相册里",
+          description: "旅行中拍下的照片，会按拍摄时的状态原样留下来。",
         },
         {
           sceneLabel: "场景 02",
           title: "一次全部导入",
-          description: "一次选好照片后，应用会把它们当作同一趟旅行来读取。",
+          description: "一次选好这一组照片后，应用会开始把它们当作同一趟旅行来读取。",
         },
         {
           sceneLabel: "场景 03",
-          title: "时间线开始成形",
-          description: "按时间和地点整理后，分散的照片会变成一个个时刻。",
+          title: "会按时间和地点整理",
+          description: "分散的照片会按时间和地点被整理成一个个时刻，时间线也随之成形。",
         },
       ],
       value: {
         eyebrow: "整理后留下的东西",
-        title: "去了哪里、发生在何时、哪些照片属于同一刻，都还能看见",
+        title: "旅程的脉络会重新变得清楚",
         lead:
           "整理后的结果会把路线、时间和成组照片保留下来，之后再看也更容易理解。",
         bullets: [
           "可以按每天的顺序回看整段旅程。",
-          "同一地点的时刻会留在一起。",
+          "同一地点拍下的时刻会留在一起。",
           "整理好的档案会继续同步到云盘。",
         ],
       },
     },
     download: {
-      title: "立即下载",
-      lead: "安装 MomentBook，开始整理旅行照片。",
+      title: "下载 MomentBook",
+      lead: "安装后，开始整理旅行照片。",
     },
   },
   es: {
@@ -430,49 +430,49 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         eyebrow: "Primero, el resultado",
         title: "Tu viaje, ordenado como una línea de tiempo",
         lead:
-          "MomentBook agrupa las fotos del viaje por fecha y lugar para que el recorrido siga siendo legible.",
+          "MomentBook agrupa las fotos del viaje por fecha y lugar para que el recorrido sea más fácil de revisar después.",
         primaryCta: "Instalar app",
         secondaryCta: "Ver cómo se organiza",
       },
       storyEyebrow: "De un carrete mezclado al flujo del viaje",
-      storyTitle: "Tres escenas para entender la organización",
+      storyTitle: "Cómo se organiza",
       storyLead:
-        "Un recorrido breve desde un carrete mezclado hasta una línea de tiempo fácil de revisar.",
+        "Un recorrido breve desde un carrete mezclado hasta un registro del viaje más fácil de volver a mirar.",
       scenes: [
         {
           sceneLabel: "Escena 01",
-          title: "Las fotos se siguen acumulando",
+          title: "Las fotos del viaje se acumulan en el carrete",
           description:
-            "Las fotos del viaje se quedan en el carrete tal como las fuiste tomando.",
+            "Las fotos del viaje se quedan tal como las fuiste tomando.",
         },
         {
           sceneLabel: "Escena 02",
-          title: "Llévalas juntas",
+          title: "Tráelas de una vez",
           description:
-            "Selecciona todo el lote una vez y la app empieza a leerlo como un solo viaje.",
+            "Elige el lote una sola vez y la app empieza a leerlo como un solo viaje.",
         },
         {
           sceneLabel: "Escena 03",
-          title: "La línea de tiempo toma forma",
+          title: "Se ordena por fecha y lugar",
           description:
-            "La fecha y el lugar convierten las fotos dispersas en momentos agrupados.",
+            "Las fotos dispersas se agrupan en momentos según la fecha y el lugar, y así toma forma la línea de tiempo.",
         },
       ],
       value: {
         eyebrow: "Lo que sigue visible",
-        title: "Dónde estuviste, cuándo pasó y qué pertenecía al mismo momento sigue a la vista",
+        title: "El recorrido del viaje vuelve a verse con claridad",
         lead:
           "El resultado organizado mantiene legible la ruta, el tiempo y los grupos de fotos para volver más tarde.",
         bullets: [
           "Sigue el viaje en orden día por día.",
-          "Mantén juntos los momentos de cada lugar.",
+          "Mantén juntos los momentos tomados en un mismo lugar.",
           "Continúa el archivo organizado en tu drive.",
         ],
       },
     },
     download: {
-      title: "Descarga ahora",
-      lead: "Instala MomentBook y empieza a organizar tus fotos de viaje.",
+      title: "Descargar MomentBook",
+      lead: "Instala la app y empieza a organizar tus fotos de viaje.",
     },
   },
   pt: {
@@ -481,20 +481,20 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         eyebrow: "Primeiro, o resultado",
         title: "Sua viagem, organizada como uma linha do tempo",
         lead:
-          "O MomentBook agrupa as fotos da viagem por tempo e lugar para que o percurso continue legível.",
+          "O MomentBook agrupa as fotos da viagem por tempo e lugar para que o percurso fique mais fácil de revisitar depois.",
         primaryCta: "Instalar app",
         secondaryCta: "Ver como se organiza",
       },
       storyEyebrow: "Do rolo de fotos ao fluxo da viagem",
-      storyTitle: "Três cenas para entender a organização",
+      storyTitle: "Como a organização acontece",
       storyLead:
-        "Um percurso curto entre um rolo misturado e uma linha do tempo fácil de revisitar.",
+        "Um percurso curto entre um rolo misturado e um registro de viagem mais fácil de revisar depois.",
       scenes: [
         {
           sceneLabel: "Cena 01",
-          title: "As fotos continuam se acumulando",
+          title: "As fotos da viagem se acumulam no rolo",
           description:
-            "As fotos da viagem ficam no rolo exatamente como foram registradas.",
+            "As fotos da viagem permanecem exatamente como foram registradas.",
         },
         {
           sceneLabel: "Cena 02",
@@ -504,26 +504,26 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         },
         {
           sceneLabel: "Cena 03",
-          title: "A linha do tempo ganha forma",
+          title: "Tudo se organiza por tempo e lugar",
           description:
-            "Tempo e lugar transformam fotos espalhadas em momentos agrupados.",
+            "Fotos espalhadas viram momentos agrupados por tempo e lugar, e a linha do tempo ganha forma.",
         },
       ],
       value: {
         eyebrow: "O que continua visível",
-        title: "Onde você esteve, quando aconteceu e o que pertencia ao mesmo momento continua à vista",
+        title: "O fluxo da viagem volta a ficar fácil de ver",
         lead:
           "O resultado organizado mantém a rota, o tempo e os grupos de fotos fáceis de revisar depois.",
         bullets: [
           "Acompanhe a viagem em ordem, dia após dia.",
-          "Mantenha juntos os momentos de cada lugar.",
+          "Mantenha juntos os momentos feitos no mesmo lugar.",
           "Continue o arquivo organizado no seu drive.",
         ],
       },
     },
     download: {
-      title: "Baixe agora",
-      lead: "Instale agora e comece a organizar as fotos da sua viagem.",
+      title: "Baixar MomentBook",
+      lead: "Instale o app e comece a organizar as fotos da sua viagem.",
     },
   },
   fr: {
@@ -532,49 +532,49 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         eyebrow: "Voir d'abord le résultat",
         title: "Votre voyage, remis en chronologie",
         lead:
-          "MomentBook regroupe les photos du voyage par date et lieu pour que le fil du trajet reste lisible.",
+          "MomentBook regroupe les photos du voyage par date et lieu pour que le fil du trajet soit plus facile à revoir ensuite.",
         primaryCta: "Installer l'app",
         secondaryCta: "Voir comment cela s'organise",
       },
       storyEyebrow: "Du rouleau photo au fil du voyage",
-      storyTitle: "Trois scènes pour comprendre l'organisation",
+      storyTitle: "Comment cela s'organise",
       storyLead:
-        "Un parcours court entre un rouleau mélangé et une chronologie plus simple à revoir.",
+        "Un parcours court entre un rouleau mélangé et un récit de voyage plus simple à revoir ensuite.",
       scenes: [
         {
           sceneLabel: "Scène 01",
-          title: "Les photos continuent de s'accumuler",
+          title: "Les photos du voyage s'accumulent dans le rouleau",
           description:
-            "Les photos du voyage restent dans le rouleau telles qu'elles ont été prises.",
+            "Les photos du voyage restent telles qu'elles ont été prises.",
         },
         {
           sceneLabel: "Scène 02",
-          title: "Rassemblez-les d'un coup",
+          title: "Importez-les en une fois",
           description:
             "Sélectionnez le lot une seule fois et l'app commence à le lire comme un seul voyage.",
         },
         {
           sceneLabel: "Scène 03",
-          title: "La chronologie prend forme",
+          title: "Le tout s'organise par date et lieu",
           description:
-            "Le temps et le lieu transforment des photos dispersées en moments regroupés.",
+            "Les photos dispersées se regroupent en moments selon le temps et le lieu, et la chronologie prend forme.",
         },
       ],
       value: {
         eyebrow: "Ce qui reste visible",
-        title: "Où vous étiez, quand cela s'est passé et ce qui appartenait au même moment reste lisible",
+        title: "Le fil du voyage redevient facile à voir",
         lead:
           "Le résultat organisé laisse la route, le temps et les groupes de photos faciles à relire plus tard.",
         bullets: [
           "Suivez le voyage jour après jour.",
-          "Gardez ensemble les moments liés à un lieu.",
+          "Gardez ensemble les moments pris au même endroit.",
           "Prolongez l'archive organisée jusqu'à votre drive.",
         ],
       },
     },
     download: {
-      title: "Téléchargez maintenant",
-      lead: "Installez-le maintenant et commencez à organiser vos photos de voyage.",
+      title: "Télécharger MomentBook",
+      lead: "Installez l'app et commencez à organiser vos photos de voyage.",
     },
   },
   th: {
@@ -583,20 +583,20 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         eyebrow: "ดูผลลัพธ์ก่อน",
         title: "รูปทริปของคุณจะถูกจัดเป็นไทม์ไลน์",
         lead:
-          "MomentBook จัดรูปทริปตามเวลาและสถานที่ เพื่อให้ลำดับของการเดินทางย้อนดูได้ง่ายขึ้น",
+          "MomentBook จัดรูปทริปตามเวลาและสถานที่ เพื่อให้ลำดับของการเดินทางย้อนกลับมาดูได้ง่ายขึ้น",
         primaryCta: "ติดตั้งแอป",
         secondaryCta: "ดูว่าจัดอย่างไร",
       },
       storyEyebrow: "จากกองรูปสู่ลำดับการเดินทาง",
-      storyTitle: "ดูขั้นตอนการจัดผ่าน 3 ฉาก",
+      storyTitle: "ขั้นตอนการจัด",
       storyLead:
         "จากแกลเลอรีที่ปะปนกัน ไปสู่บันทึกการเดินทางที่ย้อนกลับมาดูได้ง่ายขึ้น",
       scenes: [
         {
           sceneLabel: "ฉาก 01",
-          title: "รูปยังคงเพิ่มขึ้นเรื่อย ๆ",
+          title: "รูปทริปสะสมอยู่ในแกลเลอรี",
           description:
-            "รูปที่ถ่ายระหว่างทริปจะยังคงอยู่ในแกลเลอรีตามลำดับที่ถ่ายไว้",
+            "รูปที่ถ่ายระหว่างทริปจะยังคงอยู่ตามลำดับที่ถ่ายไว้",
         },
         {
           sceneLabel: "ฉาก 02",
@@ -606,26 +606,26 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         },
         {
           sceneLabel: "ฉาก 03",
-          title: "ไทม์ไลน์เริ่มเป็นรูปเป็นร่าง",
+          title: "จัดตามเวลาและสถานที่",
           description:
-            "เวลาและสถานที่จะเปลี่ยนรูปที่กระจัดกระจายให้เป็นช่วงเวลาที่จัดเป็นกลุ่ม",
+            "รูปที่กระจัดกระจายจะถูกจัดเป็นช่วงเวลาตามเวลาและสถานที่ แล้วไทม์ไลน์จึงค่อยเป็นรูปเป็นร่าง",
         },
       ],
       value: {
         eyebrow: "สิ่งที่ยังมองเห็นได้หลังจัดแล้ว",
-        title: "คุณอยู่ที่ไหน เมื่อไร และรูปไหนอยู่ในช่วงเดียวกัน ยังย้อนกลับมาดูได้",
+        title: "ลำดับของการเดินทางกลับมาดูได้ชัดขึ้นอีกครั้ง",
         lead:
           "ผลลัพธ์ที่จัดแล้วทำให้เส้นทาง เวลา และกลุ่มรูปยังอ่านได้ง่ายเมื่อต้องการกลับมาดูอีกครั้ง",
         bullets: [
           "ย้อนดูการเดินทางตามลำดับวันได้",
-          "เก็บช่วงเวลาในสถานที่เดียวกันไว้ด้วยกัน",
+          "เก็บช่วงเวลาที่ถ่ายในสถานที่เดียวกันไว้ด้วยกัน",
           "ให้คลังที่จัดแล้วต่อเนื่องไปยังไดรฟ์ของคุณ",
         ],
       },
     },
     download: {
-      title: "ดาวน์โหลดตอนนี้",
-      lead: "ติดตั้งตอนนี้แล้วเริ่มจัดรูปทริปของคุณ",
+      title: "ดาวน์โหลด MomentBook",
+      lead: "ติดตั้งแอปแล้วเริ่มจัดรูปทริปของคุณ",
     },
   },
   vi: {
@@ -634,49 +634,49 @@ const homeMarketingCopy: Record<Language, HomeMarketingCopy> = {
         eyebrow: "Xem kết quả trước",
         title: "Ảnh chuyến đi được sắp thành dòng thời gian",
         lead:
-          "MomentBook nhóm ảnh chuyến đi theo thời gian và địa điểm để mạch chuyến đi vẫn dễ nhìn lại.",
+          "MomentBook nhóm ảnh chuyến đi theo thời gian và địa điểm để mạch chuyến đi dễ nhìn lại hơn về sau.",
         primaryCta: "Cài ứng dụng",
         secondaryCta: "Xem cách sắp xếp",
       },
       storyEyebrow: "Từ cuộn ảnh đến mạch chuyến đi",
-      storyTitle: "Ba cảnh để hiểu cách sắp xếp",
+      storyTitle: "Quá trình sắp xếp",
       storyLead:
         "Một lộ trình ngắn từ cuộn ảnh lẫn lộn đến bản ghi chuyến đi dễ xem lại hơn.",
       scenes: [
         {
           sceneLabel: "Cảnh 01",
-          title: "Ảnh vẫn tiếp tục dồn lại",
+          title: "Ảnh chuyến đi dồn lại trong thư viện",
           description:
-            "Ảnh chụp trong chuyến đi vẫn nằm trong thư viện đúng như lúc bạn chụp.",
+            "Ảnh chụp trong chuyến đi vẫn nằm nguyên như lúc bạn chụp.",
         },
         {
           sceneLabel: "Cảnh 02",
-          title: "Đưa vào cùng một lần",
+          title: "Đưa vào một lần",
           description:
-            "Chọn cả lô ảnh một lần, rồi ứng dụng bắt đầu đọc chúng như một chuyến đi.",
+            "Chọn cả lô ảnh một lần và ứng dụng bắt đầu đọc chúng như một chuyến đi.",
         },
         {
           sceneLabel: "Cảnh 03",
-          title: "Dòng thời gian bắt đầu thành hình",
+          title: "Được sắp theo thời gian và địa điểm",
           description:
-            "Thời gian và địa điểm biến những ảnh rời rạc thành các khoảnh khắc được nhóm lại.",
+            "Những ảnh rời rạc được gom thành các khoảnh khắc theo thời gian và địa điểm, rồi dòng thời gian dần thành hình.",
         },
       ],
       value: {
         eyebrow: "Những gì còn nhìn thấy rõ",
-        title: "Bạn đã ở đâu, khi nào, và ảnh nào thuộc cùng một khoảnh khắc vẫn hiện rõ",
+        title: "Mạch chuyến đi lại trở nên dễ nhìn hơn",
         lead:
           "Kết quả đã sắp xếp giúp tuyến đi, thời điểm và nhóm ảnh vẫn dễ xem lại về sau.",
         bullets: [
           "Theo dõi chuyến đi theo thứ tự từng ngày.",
-          "Giữ các khoảnh khắc theo địa điểm ở cùng nhau.",
+          "Giữ các khoảnh khắc chụp ở cùng một nơi ở cùng nhau.",
           "Tiếp tục đồng bộ kho lưu trữ đã sắp xếp lên drive.",
         ],
       },
     },
     download: {
-      title: "Tải ngay",
-      lead: "Cài ngay và bắt đầu sắp xếp ảnh chuyến đi của bạn.",
+      title: "Tải MomentBook",
+      lead: "Cài ứng dụng và bắt đầu sắp xếp ảnh chuyến đi của bạn.",
     },
   },
 };
