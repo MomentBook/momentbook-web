@@ -177,6 +177,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `buildOpenGraphUrl(lang, path)`
 - `buildPublicRobots()` / `buildNoIndexFollowRobots()` / `buildNoIndexRobots()`
 - Public pages use lean metadata: title/description/canonical/alternates + basic OpenGraph/Twitter
+- journey/moment/photo/user detail의 `generateMetadata()`는 현재 route locale 기준 localized title/description을 사용하고, content-derived OpenGraph tags를 함께 생성한다.
 - Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - Home(`/`)과 `/{lang}/install`은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
 - `app/[lang]/layout.tsx`는 기본 robots를 noindex/nofollow로 설정하고, 실제 공개 색인 페이지는 각 route의 `generateMetadata()`에서 public robots를 다시 선언한다.
@@ -200,6 +201,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Journeys/Moments: Article
 - Users: ProfilePage
 - Photos: ImageObject
+- locale-specific public detail JSON-LD는 `inLanguage`를 포함하고, localized title/location/hashtags 기반의 절제된 keyword signal을 사용한다. `meta keywords` 태그는 사용하지 않는다.
 
 ## 8.4 llms.txt
 

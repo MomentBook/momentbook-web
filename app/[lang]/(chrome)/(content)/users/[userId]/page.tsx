@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import styles from "./user.module.scss";
-import { languageList, type Language } from "@/lib/i18n/config";
+import { languageList, type Language, toLocaleTag } from "@/lib/i18n/config";
 import {
   buildOpenGraphUrl,
   buildPaginatedAlternates,
@@ -9,7 +9,9 @@ import {
 import {
   buildLocalizedAppScreenshotImage,
   buildOpenGraphBase,
+  buildPublicKeywords,
   buildPublicRobots,
+  buildStructuredDataKeywordValue,
 } from "@/lib/seo/public-metadata";
 import {
   buildPublisherOrganizationJsonLd,
@@ -175,12 +177,22 @@ export default async function UserPage({
   const pageUrl = buildStructuredDataUrl(pagePath, siteUrl);
   const description = buildUserProfileDescription(lang, user);
   const pageDescription = buildUserMetadataDescription(lang, user, safeCurrentPage);
+  const keywords = buildPublicKeywords({
+    lang,
+    kind: "user",
+    title: user.name,
+    authorName: user.name,
+    extra: [labels.profileEyebrow, labels.journeys],
+  });
+  const keywordValue = buildStructuredDataKeywordValue(keywords);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
     name: buildUserMetadataTitle(lang, user.name, safeCurrentPage),
     description: pageDescription,
     url: pageUrl,
+    inLanguage: toLocaleTag(lang),
+    ...(keywordValue ? { keywords: keywordValue } : {}),
     publisher: buildPublisherOrganizationJsonLd(siteUrl),
     mainEntityOfPage: {
       "@type": "WebPage",

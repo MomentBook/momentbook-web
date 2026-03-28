@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
-import { type Language } from "@/lib/i18n/config";
+import { type Language, toLocaleTag } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourneyResult } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
@@ -17,8 +17,11 @@ import {
 } from "./utils";
 import {
     buildNoIndexRobots,
+    buildOpenGraphArticleTags,
     buildOpenGraphBase,
+    buildPublicKeywords,
     buildPublicRobots,
+    buildStructuredDataKeywordValue,
     compactSocialImages,
     resolveTwitterCard,
     buildSeoDescription,
@@ -92,11 +95,6 @@ function readAuthorName(value: string | null | undefined): string | null {
     return trimmed.length > 0 ? trimmed : null;
 }
 
-function normalizeHashtagTag(value: string): string {
-    const trimmed = value.trim();
-    return trimmed.startsWith("#") ? trimmed.slice(1) : trimmed;
-}
-
 export async function generateMetadata({
     params,
 }: {
@@ -137,10 +135,15 @@ export async function generateMetadata({
         journey.description,
         buildJourneyDescription(lang, locations, journey.photoCount),
     ]);
-    const tags = [
-        ...journey.hashtags.map((tag) => normalizeHashtagTag(tag)).filter(Boolean),
-        ...locations,
-    ].slice(0, 6);
+    const keywords = buildPublicKeywords({
+        lang,
+        kind: "journey",
+        title: journey.title,
+        locationNames: locations,
+        authorName,
+        hashtags: journey.hashtags,
+        extra: [journeyLabels[lang]?.eyebrow ?? journeyLabels.en.eyebrow],
+    });
     const images = compactSocialImages(
         journey.images.slice(0, 6).map((img) => ({
             url: img.url,
@@ -178,7 +181,7 @@ export async function generateMetadata({
             modifiedTime: journey.publishedAt,
             ...(authorName ? { authors: [authorName] } : {}),
             section: journeyLabels[lang]?.eyebrow ?? journeyLabels.en.eyebrow,
-            tags,
+            tags: buildOpenGraphArticleTags(keywords),
         },
         twitter: {
             card: resolveTwitterCard(images),
@@ -247,6 +250,16 @@ export default async function JourneyPage({
         buildJourneyDescription(lang, locations, journey.photoCount),
     ]);
     const authorName = readAuthorName(user?.name);
+    const keywords = buildPublicKeywords({
+        lang,
+        kind: "journey",
+        title: journey.title,
+        locationNames: locations,
+        authorName,
+        hashtags: journey.hashtags,
+        extra: [labels.eyebrow],
+    });
+    const keywordValue = buildStructuredDataKeywordValue(keywords);
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -254,11 +267,18 @@ export default async function JourneyPage({
         headline: journey.title,
         description,
         image: journey.images.map((img) => img.url),
-        ...(journey.hashtags.length > 0
-            ? { keywords: journey.hashtags.join(", ") }
-            : {}),
+        inLanguage: toLocaleTag(lang),
+        ...(keywordValue ? { keywords: keywordValue } : {}),
         datePublished: journey.publishedAt,
         dateModified: journey.publishedAt,
+        ...(locations.length > 0
+            ? {
+                  about: locations.slice(0, 5).map((location) => ({
+                      "@type": "Place",
+                      name: location,
+                  })),
+              }
+            : {}),
         ...(authorName
             ? {
                   author: {

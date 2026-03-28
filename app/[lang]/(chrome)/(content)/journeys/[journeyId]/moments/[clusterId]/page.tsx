@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./moment.module.scss";
-import { type Language } from "@/lib/i18n/config";
+import { type Language, toLocaleTag } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourney } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
 import {
+  buildOpenGraphArticleTags,
   buildOpenGraphBase,
+  buildPublicKeywords,
   buildPublicRobots,
+  buildStructuredDataKeywordValue,
   compactSocialImages,
   resolveTwitterCard,
   buildSeoDescription,
@@ -71,6 +74,14 @@ export async function generateMetadata({
       cluster.photoIds.length,
     ),
   ]);
+  const keywords = buildPublicKeywords({
+    lang,
+    kind: "moment",
+    title,
+    locationNames: cluster.locationName ? [cluster.locationName] : [],
+    hashtags: journey.hashtags,
+    extra: [labels.eyebrow, journey.title],
+  });
   const path = `/journeys/${journey.publicId}/moments/${cluster.clusterId}`;
   const imageUrlMap = buildMomentImageUrlMap(journey);
   const clusterImages = compactSocialImages(
@@ -99,11 +110,7 @@ export async function generateMetadata({
       publishedTime: journey.publishedAt,
       modifiedTime: journey.publishedAt,
       section: labels.eyebrow,
-      tags: [
-        ...journey.hashtags.map((tag) => tag.trim()).filter(Boolean),
-        ...(cluster.locationName ? [cluster.locationName] : []),
-        journey.title,
-      ].slice(0, 6),
+      tags: buildOpenGraphArticleTags(keywords),
     },
     twitter: {
       card: resolveTwitterCard(clusterImages),
@@ -161,6 +168,16 @@ export default async function JourneyMomentPage({
     cluster.impression,
     description,
   ]);
+  const keywords = buildPublicKeywords({
+    lang,
+    kind: "moment",
+    title: headline,
+    locationNames: cluster.locationName ? [cluster.locationName] : [],
+    authorName,
+    hashtags: journey.hashtags,
+    extra: [labels.eyebrow, journey.title],
+  });
+  const keywordValue = buildStructuredDataKeywordValue(keywords);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -168,11 +185,20 @@ export default async function JourneyMomentPage({
     headline,
     description: seoDescription,
     image: clusterImageUrls,
-    ...(journey.hashtags.length > 0
-      ? { keywords: journey.hashtags.join(", ") }
-      : {}),
+    inLanguage: toLocaleTag(lang),
+    ...(keywordValue ? { keywords: keywordValue } : {}),
     datePublished: journey.publishedAt,
     dateModified: journey.publishedAt,
+    ...(cluster.locationName
+      ? {
+          about: [
+            {
+              "@type": "Place",
+              name: cluster.locationName,
+            },
+          ],
+        }
+      : {}),
     ...(authorName
       ? {
           author: {

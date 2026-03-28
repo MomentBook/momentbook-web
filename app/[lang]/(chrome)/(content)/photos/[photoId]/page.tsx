@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./photo.module.scss";
-import { type Language } from "@/lib/i18n/config";
+import { type Language, toLocaleTag } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import {
     fetchPublishedPhoto,
 } from "@/lib/published-journey";
 import {
+    buildOpenGraphArticleTags,
     buildOpenGraphBase,
+    buildPublicKeywords,
     buildPublicRobots,
+    buildStructuredDataKeywordValue,
     compactSocialImages,
     resolveTwitterCard,
 } from "@/lib/seo/public-metadata";
@@ -54,6 +57,13 @@ export async function generateMetadata({
         takenAt !== null
             ? new Date(takenAt).toISOString()
             : undefined;
+    const keywords = buildPublicKeywords({
+        lang,
+        kind: "photo",
+        title,
+        locationNames: photo.locationName ? [photo.locationName] : [],
+        extra: [photo.journey.title],
+    });
     const socialImages = compactSocialImages([
         {
             url: photo.url,
@@ -76,6 +86,7 @@ export async function generateMetadata({
             type: "article",
             images: socialImages,
             publishedTime,
+            tags: buildOpenGraphArticleTags(keywords),
         },
         twitter: {
             card: resolveTwitterCard(socialImages),
@@ -113,6 +124,14 @@ export default async function PhotoPage({
     const datePublished = display.hasTakenAt && display.takenAt !== null
         ? new Date(display.takenAt).toISOString()
         : undefined;
+    const keywords = buildPublicKeywords({
+        lang,
+        kind: "photo",
+        title: display.title,
+        locationNames: display.locationName ? [display.locationName] : [],
+        extra: [display.journeyTitle ?? photo.journey.title],
+    });
+    const keywordValue = buildStructuredDataKeywordValue(keywords);
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -122,7 +141,17 @@ export default async function PhotoPage({
         contentUrl: photo.url,
         url: pageUrl,
         caption: display.caption ?? undefined,
+        inLanguage: toLocaleTag(lang),
+        ...(keywordValue ? { keywords: keywordValue } : {}),
         ...(datePublished && { datePublished }),
+        ...(display.locationName
+            ? {
+                  contentLocation: {
+                      "@type": "Place",
+                      name: display.locationName,
+                  },
+              }
+            : {}),
         publisher: buildPublisherOrganizationJsonLd(siteUrl),
         isPartOf: {
             "@type": "Article",
