@@ -51,6 +51,7 @@ export function buildJourneyPageHref(lang: Language, page: number): string {
 export async function buildJourneyCards(
   journeys: PublishedJourneyListItemApi[],
   labels: JourneyCardLabels,
+  lang: Language,
 ): Promise<JourneyCardViewModel[]> {
   const uniqueUserIds = [...new Set(journeys.map((journey) => journey.userId).filter(Boolean))];
   const users = await Promise.all(
@@ -58,7 +59,7 @@ export async function buildJourneyCards(
   );
   const userMap = new Map(users);
   const journeyDetails = await Promise.all(
-    journeys.map(async (journey) => [journey.publicId, await fetchPublishedJourney(journey.publicId)] as const),
+    journeys.map(async (journey) => [journey.publicId, await fetchPublishedJourney(journey.publicId, lang)] as const),
   );
   const detailMap = new Map(journeyDetails);
 

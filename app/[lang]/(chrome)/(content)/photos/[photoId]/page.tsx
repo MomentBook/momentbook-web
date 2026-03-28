@@ -38,7 +38,7 @@ export async function generateMetadata({
         lang: Language;
         photoId: string;
     };
-    const photo = await fetchPublishedPhoto(photoId);
+    const photo = await fetchPublishedPhoto(photoId, lang);
     const copy = photoCopy[lang] ?? photoCopy.en;
 
     if (!photo) {
@@ -95,7 +95,7 @@ export default async function PhotoPage({
         lang: Language;
         photoId: string;
     };
-    const photo = await fetchPublishedPhoto(photoId);
+    const photo = await fetchPublishedPhoto(photoId, lang);
 
     if (!photo) {
         notFound();

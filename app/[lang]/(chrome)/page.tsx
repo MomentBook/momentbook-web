@@ -69,6 +69,7 @@ export default async function Home({
     page: 1,
     limit: 3,
     sort: "recent",
+    lang,
   });
   const journeyItems = latestJourneys?.journeys ?? [];
   const uniqueUserIds = [...new Set(journeyItems.map((journey) => journey.userId).filter(Boolean))];

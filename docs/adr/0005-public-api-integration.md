@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-01-29 (updated: 2026-03-27)
+2026-01-29 (updated: 2026-03-28)
 
 ## Context
 
@@ -27,6 +27,8 @@ Accepted
 - public journey list seed: `GET /v2/journeys/public`
 - journey/moment web detail: `lib/published-journey.ts`가 `GET /v2/journeys/public/:publicId/viewer?viewer=web` viewer payload를 기준으로 사용한다.
 - list preview thumbnail은 list response의 server-provided preview field를 우선 사용하고 viewer `images[]`에서 재계산하지 않는다.
+- `lang` query를 지원하는 public journeys/user journeys/photo endpoint에는 현재 route locale(`en-US`, `ko-KR`, `pt-BR` 등)을 전달해 서버가 localized title/description/impression 또는 metadata field를 치환한 응답을 받는다.
+- journey/moment detail의 localized hashtags는 viewer payload의 `localizedContent`를 계속 사용하되, 서버가 치환한 top-level title/description/cluster impression보다 우선하지 않는다.
 
 ### 2) fetch base candidate 전략
 

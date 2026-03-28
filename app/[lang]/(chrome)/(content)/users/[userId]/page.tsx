@@ -139,6 +139,7 @@ export default async function UserPage({
     page: currentPage,
     limit: JOURNEYS_PER_PAGE,
     sort: "recent",
+    lang,
   });
   const journeys = journeysResponse?.data?.journeys ?? [];
   const totalJourneys =

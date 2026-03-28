@@ -1,3 +1,5 @@
+import { type Language, toLocaleTag } from "@/lib/i18n/config";
+
 type NextFetchInit = RequestInit & {
     next?: {
         revalidate?: number;
@@ -26,6 +28,17 @@ function readSiteHostname(): string | null {
     } catch {
         return null;
     }
+}
+
+export function appendPublicApiLanguage(
+    params: URLSearchParams,
+    lang?: Language,
+): void {
+    if (!lang) {
+        return;
+    }
+
+    params.set("lang", toLocaleTag(lang));
 }
 
 export function getPublicApiBaseCandidates(): string[] {

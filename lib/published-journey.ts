@@ -4,7 +4,7 @@ import type {
     PublishedJourneyItemDto,
     PublishedJourneysResponseDto,
 } from "@/src/apis/client";
-import { fetchPublicApi } from "@/lib/public-api";
+import { appendPublicApiLanguage, fetchPublicApi } from "@/lib/public-api";
 import { type Language, toLocaleTag } from "@/lib/i18n/config";
 
 export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
@@ -633,14 +633,14 @@ function normalizeJourneyListItem(value: unknown): PublishedJourneyListItemApi |
         thumbnailUrl: readText(value.thumbnailUrl) ?? undefined,
         metadata,
         title:
-            readText(value.title) ??
             readText(metadata?.title) ??
             readText(metadata?.journeyTitle) ??
+            readText(value.title) ??
             undefined,
         description:
-            readText(value.description) ??
             readText(metadata?.description) ??
             readText(metadata?.summary) ??
+            readText(value.description) ??
             undefined,
         publishedAt: readText(value.publishedAt) ?? undefined,
         createdAt: readText(value.createdAt) ?? undefined,
@@ -684,8 +684,8 @@ function normalizePublishedJourney(
     const localizedClusters = clusters.map((cluster) => ({
         ...cluster,
         impression:
-            findLocalizedClusterImpression(localizedContent, cluster.clusterId, lang) ??
-            cluster.impression,
+            cluster.impression ??
+            findLocalizedClusterImpression(localizedContent, cluster.clusterId, lang),
     }));
 
     const clusterStarts = localizedClusters.map((cluster) => cluster.time.startAt);
@@ -711,14 +711,14 @@ function normalizePublishedJourney(
         startedAt,
         endedAt,
         title:
-            localizedJourneyEntry?.title ??
             readText(value.title) ??
+            localizedJourneyEntry?.title ??
             readText(metadata?.title) ??
             readText(metadata?.journeyTitle) ??
             "Untitled journey",
         description:
-            localizedJourneyEntry?.description ??
             readText(value.description) ??
+            localizedJourneyEntry?.description ??
             readText(metadata?.description) ??
             readText(metadata?.summary) ??
             undefined,
@@ -728,7 +728,10 @@ function normalizePublishedJourney(
         clusters: localizedClusters,
         publishedAt,
         createdAt: readText(value.createdAt) ?? publishedAt,
-        hashtags: localizedJourneyEntry?.hashtags ?? [],
+        hashtags:
+            (localizedJourneyEntry?.hashtags.length ?? 0) > 0
+                ? localizedJourneyEntry?.hashtags ?? []
+                : normalizeHashtags(value.hashtags),
         localizedContent,
         webReviewStatus: normalizeWebReviewStatus(value.webReviewStatus),
         contentStatus: normalizeContentStatus(value.contentStatus),
@@ -757,10 +760,10 @@ function normalizePublishedPhoto(value: unknown): PublishedPhotoApi | null {
     }
 
     const journeyTitle =
-        readText(journeySource?.title) ??
         (isRecord(journeySource?.metadata)
             ? readText(journeySource.metadata.title)
             : null) ??
+        readText(journeySource?.title) ??
         "Journey";
 
     const locationName =
@@ -800,8 +803,10 @@ export async function fetchPublishedJourneyResult(
     lang?: Language,
 ): Promise<FetchPublishedJourneyResult> {
     try {
+        const params = new URLSearchParams({ viewer: "web" });
+        appendPublicApiLanguage(params, lang);
         const response = await fetchPublicApi(
-            `/v2/journeys/public/${encodeURIComponent(publicId)}/viewer?viewer=web`,
+            `/v2/journeys/public/${encodeURIComponent(publicId)}/viewer?${params.toString()}`,
             { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
         );
 
@@ -880,8 +885,9 @@ export async function fetchPublishedJourneys(options?: {
     limit?: number;
     sort?: "recent" | "oldest";
     userId?: string;
+    lang?: Language;
 }): Promise<PublishedJourneysListApi | null> {
-    const { page = 1, limit = 20, sort = "recent", userId } = options ?? {};
+    const { page = 1, limit = 20, sort = "recent", userId, lang } = options ?? {};
 
     try {
         const params = new URLSearchParams({
@@ -893,6 +899,7 @@ export async function fetchPublishedJourneys(options?: {
         if (userId) {
             params.set("userId", userId);
         }
+        appendPublicApiLanguage(params, lang);
 
         const response = await fetchPublicApi(
             `/v2/journeys/public?${params.toString()}`,
@@ -944,10 +951,14 @@ export async function fetchPublishedJourneys(options?: {
 
 export async function fetchPublishedPhoto(
     photoId: string,
+    lang?: Language,
 ): Promise<PublishedPhotoApi | null> {
     try {
+        const params = new URLSearchParams();
+        appendPublicApiLanguage(params, lang);
+        const query = params.toString();
         const response = await fetchPublicApi(
-            `/v2/journeys/public/photos/${encodeURIComponent(photoId)}`,
+            `/v2/journeys/public/photos/${encodeURIComponent(photoId)}${query ? `?${query}` : ""}`,
             { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
         );
 

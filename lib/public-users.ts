@@ -6,7 +6,8 @@ import type {
     PublicUsersResponseDto,
     PublishedJourneysResponseDto,
 } from "@/src/apis/client";
-import { fetchPublicApi } from "@/lib/public-api";
+import { appendPublicApiLanguage, fetchPublicApi } from "@/lib/public-api";
+import type { Language } from "@/lib/i18n/config";
 
 export type PublicUserApi = PublicUserItemDto & {
     biography?: string;
@@ -196,11 +197,13 @@ function normalizeUserJourney(value: unknown): UserJourneyApi | null {
         publishedAt: readText(value.publishedAt) ?? undefined,
         createdAt: readText(value.createdAt) ?? undefined,
         title:
+            normalizeJourneyTitleFromMetadata(metadata) ??
             readText(value.title) ??
-            normalizeJourneyTitleFromMetadata(metadata),
+            undefined,
         description:
+            normalizeJourneyDescriptionFromMetadata(metadata) ??
             readText(value.description) ??
-            normalizeJourneyDescriptionFromMetadata(metadata),
+            undefined,
         images: Array.isArray(value.images)
             ? (value.images as UserJourneyApi["images"])
             : undefined,
@@ -298,9 +301,10 @@ export async function fetchUserJourneys(
         page?: number;
         limit?: number;
         sort?: "recent" | "oldest";
+        lang?: Language;
     },
 ): Promise<PublishedJourneysResponse | null> {
-    const { page = 1, limit = 100, sort = "recent" } = options ?? {};
+    const { page = 1, limit = 100, sort = "recent", lang } = options ?? {};
 
     try {
         const params = new URLSearchParams({
@@ -308,6 +312,7 @@ export async function fetchUserJourneys(
             limit: limit.toString(),
             sort,
         });
+        appendPublicApiLanguage(params, lang);
 
         const response = await fetchPublicApi(
             `/v2/users/public/${encodeURIComponent(userId)}/journeys?${params.toString()}`,

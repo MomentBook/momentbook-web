@@ -91,6 +91,7 @@ export default async function JourneysPage({
     page: requestedPage,
     limit: JOURNEYS_PER_PAGE,
     sort: "recent",
+    lang,
   });
 
   const journeys = journeysData?.journeys ?? [];
@@ -105,7 +106,7 @@ export default async function JourneysPage({
   const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages);
   const hasPreviousPage = safeCurrentPage > 1;
   const hasNextPage = safeCurrentPage < totalPages;
-  const cards = await buildJourneyCards(journeys, labels);
+  const cards = await buildJourneyCards(journeys, labels, lang);
   const siteUrl = resolveStructuredDataSiteUrl();
   const pagePath = buildOpenGraphUrl(lang, "/journeys");
   const pagePathWithQuery =
