@@ -1731,6 +1731,11 @@ export interface JourneyMetadataDto {
    */
   description?: string;
   /**
+   * Primary language of title/description/impressions. Used as the source language for server-side localization. Supported values: ko, en, ja, zh, es, pt, fr, th, vi.
+   * @example "ko"
+   */
+  sourceLanguage?: string;
+  /**
    * Thumbnail photo URL. Must match one of the published image URLs.
    * @example "https://cdn.momentbook.app/journeys/user123/thumbnail.jpg"
    */
@@ -1836,6 +1841,99 @@ export interface PublishJourneyInfoResponseDto {
   };
 }
 
+export interface PublishedJourneyLocalizationEntryDto {
+  /**
+   * BCP 47 locale for the localized content
+   * @example "pt-BR"
+   */
+  locale: string;
+  /**
+   * Primary language code
+   * @example "pt"
+   */
+  languageCode: string;
+  /**
+   * Country code used for this localization
+   * @example "BR"
+   */
+  countryCode: string;
+  /**
+   * Human-friendly language label
+   * @example "Portuguese"
+   */
+  languageName: string;
+  /**
+   * Localized journey title
+   * @example "서울에서 보낸 봄날"
+   */
+  title?: string;
+  /**
+   * Localized journey description
+   * @example "도시의 공기와 강변의 저녁빛을 천천히 담아낸 산책 기록"
+   */
+  description?: string;
+  /**
+   * Localized hashtags derived from title, description, and impressions
+   * @example ["#서울여행","#한강산책","#봄저녁"]
+   */
+  hashtags: string[];
+}
+
+export interface PublishedJourneyClusterLocalizationEntryDto {
+  /**
+   * BCP 47 locale for the localized impression
+   * @example "ja-JP"
+   */
+  locale: string;
+  /**
+   * Primary language code
+   * @example "ja"
+   */
+  languageCode: string;
+  /**
+   * Country code used for this localization
+   * @example "JP"
+   */
+  countryCode: string;
+  /**
+   * Human-friendly language label
+   * @example "Japanese"
+   */
+  languageName: string;
+  /**
+   * Localized cluster impression
+   * @example "川沿いの空気が静かで心地よかった"
+   */
+  impression?: string;
+}
+
+export interface PublishedJourneyClusterLocalizedImpressionsDto {
+  /**
+   * Cluster ID from the published journey timeline
+   * @example "timeline-1"
+   */
+  clusterId: string;
+  /** Localized impressions for each supported locale */
+  translations: PublishedJourneyClusterLocalizationEntryDto[];
+}
+
+export interface PublishedJourneyLocalizedContentDto {
+  /**
+   * Source language used for localization generation
+   * @example "ko"
+   */
+  sourceLanguage: string;
+  /**
+   * ISO timestamp when localized content was generated
+   * @example "2026-03-28T10:15:00.000Z"
+   */
+  generatedAt: string;
+  /** Localized journey title, description, and hashtags for each supported locale: ko-KR, en-US, ja-JP, zh-CN, es-ES, pt-BR, fr-FR, th-TH, vi-VN */
+  entries: PublishedJourneyLocalizationEntryDto[];
+  /** Localized cluster impressions for each supported locale: ko-KR, en-US, ja-JP, zh-CN, es-ES, pt-BR, fr-FR, th-TH, vi-VN */
+  clusterImpressions: PublishedJourneyClusterLocalizedImpressionsDto[];
+}
+
 export interface PublishedJourneyDetailDto {
   /**
    * Public ID for sharing
@@ -1908,6 +2006,8 @@ export interface PublishedJourneyDetailDto {
     photoCount?: number;
     imageCount?: number;
   };
+  /** Server-generated localized title/description/hashtags and localized cluster impressions */
+  localizedContent?: PublishedJourneyLocalizedContentDto;
   /** Published timestamp */
   publishedAt: string;
   /** Creation timestamp */
@@ -3607,7 +3707,7 @@ export class Api<
       }),
 
     /**
-     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. **Photo Upload:** - Maximum 100 photos allowed per published journey - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED
+     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. The server also generates localized title/description/hashtags and localized cluster impressions for supported locales. **Photo Upload:** - Maximum 100 photos allowed per published journey - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED
      *
      * @tags journeys
      * @name PublishJourneyControllerPublishJourney
@@ -3630,7 +3730,7 @@ export class Api<
       }),
 
     /**
-     * @description Replace the content of an already published journey. Only the owner can update it, and the target journey must not currently hold an active publish lock. **Photo URL reuse:** - Unchanged photos may reuse existing published downloadUrl values from the same journey - Only newly added photos need a fresh `/v2/uploads/presign` upload - Reused and newly uploaded URLs must belong to the same user/journey S3 scope
+     * @description Replace the content of an already published journey. Only the owner can update it, and the target journey must not currently hold an active publish lock. The server regenerates localized title/description/hashtags and localized cluster impressions from the updated content. **Photo URL reuse:** - Unchanged photos may reuse existing published downloadUrl values from the same journey - Only newly added photos need a fresh `/v2/uploads/presign` upload - Reused and newly uploaded URLs must belong to the same user/journey S3 scope
      *
      * @tags journeys
      * @name PublishJourneyControllerUpdatePublishedJourney
