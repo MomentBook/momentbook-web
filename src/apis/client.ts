@@ -990,6 +990,29 @@ export interface PublicUserProfileResponseDto {
   data: PublicUserProfileDto;
 }
 
+export interface LocalDateTimeContextDto {
+  /**
+   * Local wall-clock datetime without an offset suffix. Null when unknown.
+   * @example "2026-03-30T18:20:00"
+   */
+  localDateTime?: object | null;
+  /**
+   * UTC offset minutes captured for this local datetime. Null when unknown or when the time is floating local time.
+   * @example 540
+   */
+  utcOffsetMinutes?: object | null;
+  /**
+   * IANA time zone identifier captured for this local datetime. Null when unknown.
+   * @example "Asia/Seoul"
+   */
+  timeZoneId?: object | null;
+  /**
+   * Whether this local datetime is offset-aware, floating local time, or completely unknown.
+   * @example "offset_aware"
+   */
+  localDateTimeType: "offset_aware" | "floating_local" | "unknown";
+}
+
 export interface PublishedJourneyItemDto {
   /**
    * Public ID
@@ -1007,6 +1030,10 @@ export interface PublishedJourneyItemDto {
   startedAt: number;
   /** Journey end timestamp (ms) */
   endedAt?: number;
+  /** Journey-local display context for startedAt. Unknown values are explicit rather than guessed. */
+  startedAtLocal: LocalDateTimeContextDto;
+  /** Journey-local display context for endedAt. Null when endedAt itself is absent. */
+  endedAtLocal?: LocalDateTimeContextDto | null;
   /**
    * Recap stage at publish time. FINALIZED means recap is completed for BI/analytics.
    * @example "FINALIZED"
@@ -1275,12 +1302,20 @@ export interface JourneyRecapExportMetaDto {
   locationSampleCount?: number;
   /** @example 128 */
   photoCount: number;
+  /** Journey-local display context for startedAt. Unknown values are returned explicitly when legacy data does not contain local-time metadata. */
+  startedAtLocal: LocalDateTimeContextDto;
+  /** Journey-local display context for endedAt. Null when endedAt itself is absent. */
+  endedAtLocal?: LocalDateTimeContextDto | null;
 }
 
 export interface JourneyRecapExportTimeRangeDto {
   startAt: number;
   endAt: number;
   durationMs: number;
+  /** Local display context for startAt. Unknown values are explicit rather than guessed. */
+  startLocal: LocalDateTimeContextDto;
+  /** Local display context for endAt. Unknown values are explicit rather than guessed. */
+  endLocal: LocalDateTimeContextDto;
 }
 
 export interface LocalizedNames {
@@ -1361,6 +1396,38 @@ export interface JourneyRecapExportPhotoLocationDto {
   lng: number;
 }
 
+export interface CaptureTimeContextDto {
+  /**
+   * Local wall-clock datetime without an offset suffix. Null when unknown.
+   * @example "2026-03-30T18:20:00"
+   */
+  localDateTime?: object | null;
+  /**
+   * UTC offset minutes captured for this local datetime. Null when unknown or when the time is floating local time.
+   * @example 540
+   */
+  utcOffsetMinutes?: object | null;
+  /**
+   * IANA time zone identifier captured for this local datetime. Null when unknown.
+   * @example "Asia/Seoul"
+   */
+  timeZoneId?: object | null;
+  /**
+   * Whether this local datetime is offset-aware, floating local time, or completely unknown.
+   * @example "offset_aware"
+   */
+  localDateTimeType: "offset_aware" | "floating_local" | "unknown";
+  /**
+   * Provenance of the time zone or offset information.
+   * @example "exif_explicit_offset"
+   */
+  timeZoneSource:
+    | "exif_explicit_offset"
+    | "gps_derived"
+    | "user_input"
+    | "unknown";
+}
+
 export interface JourneyRecapExportPhotoDto {
   /**
    * External photo ID (internal identifier is masked)
@@ -1374,6 +1441,8 @@ export interface JourneyRecapExportPhotoDto {
   location?: JourneyRecapExportPhotoLocationDto;
   width?: number;
   height?: number;
+  /** Original capture local-time context preserved from ingest. Unknown values are explicit. */
+  captureTime: CaptureTimeContextDto;
 }
 
 export interface JourneyRecapExportDraftDto {
@@ -1385,6 +1454,19 @@ export interface JourneyRecapExportDraftDto {
   journey: JourneyRecapExportMetaDto;
   timeline: JourneyRecapExportTimelineItemDto[];
   photos: JourneyRecapExportPhotoDto[];
+}
+
+export interface PublishedJourneyTimeRangeDto {
+  /** Absolute range start timestamp (ms) */
+  startAt: number;
+  /** Absolute range end timestamp (ms) */
+  endAt: number;
+  /** Absolute duration in milliseconds */
+  durationMs: number;
+  /** Journey-local display context for startAt. Unknown values are explicit rather than guessed. */
+  startLocal: LocalDateTimeContextDto;
+  /** Journey-local display context for endAt. Unknown values are explicit rather than guessed. */
+  endLocal: LocalDateTimeContextDto;
 }
 
 export interface RecapTimeRange {
@@ -1588,6 +1670,8 @@ export interface JourneyImageDto {
   location?: JourneyImageLocationDto;
   /** Optional human-friendly location label */
   locationName?: string;
+  /** Original capture local-time context preserved from ingest. Unknown values should be sent explicitly rather than guessed. */
+  captureTime?: CaptureTimeContextDto;
 }
 
 export interface JourneyMetadataDto {
@@ -1626,6 +1710,10 @@ export interface PublishJourneyRequestDto {
   startedAt: number;
   /** Journey end timestamp (ms) */
   endedAt?: number;
+  /** Optional journey-local context for startedAt. Use unknown/null rather than guessing when the local context cannot be determined. */
+  startedAtLocal?: LocalDateTimeContextDto;
+  /** Optional journey-local context for endedAt. Use unknown/null rather than guessing when the local context cannot be determined. */
+  endedAtLocal?: LocalDateTimeContextDto;
   /** RecapDraft payload. Supports computed format and export-safe format. */
   recapDraft: RecapDraftDto | JourneyRecapExportDraftDto;
   /**
@@ -1793,6 +1881,10 @@ export interface PublishedJourneyDetailDto {
   startedAt: number;
   /** Journey end timestamp (ms) */
   endedAt?: number;
+  /** Journey-local display context for startedAt. Unknown values are explicit rather than guessed. */
+  startedAtLocal: LocalDateTimeContextDto;
+  /** Journey-local display context for endedAt. Null when endedAt itself is absent. */
+  endedAtLocal?: LocalDateTimeContextDto | null;
   /** Journey title */
   title?: string;
   /** Journey description */
@@ -1813,11 +1905,7 @@ export interface PublishedJourneyDetailDto {
   timeline: {
     clusterId?: string;
     type?: "STOP" | "MOVE" | "ORPHAN";
-    time?: {
-      startAt?: number;
-      endAt?: number;
-      durationMs?: number;
-    };
+    time?: PublishedJourneyTimeRangeDto;
     center?: {
       lat?: number;
       lng?: number;
@@ -1831,11 +1919,7 @@ export interface PublishedJourneyDetailDto {
     timeline?: {
       clusterId?: string;
       type?: "STOP" | "MOVE" | "ORPHAN";
-      time?: {
-        startAt?: number;
-        endAt?: number;
-        durationMs?: number;
-      };
+      time?: PublishedJourneyTimeRangeDto;
       center?: {
         lat?: number;
         lng?: number;
@@ -1997,6 +2081,10 @@ export interface JourneyRecapInputDto {
    * @example 1704070800000
    */
   endedAt?: number;
+  /** Optional local-time context for the journey start. Use unknown/null rather than guessing when the local context cannot be determined. */
+  startedAtLocal?: LocalDateTimeContextDto;
+  /** Optional local-time context for the journey end. Use unknown/null rather than guessing when the local context cannot be determined. */
+  endedAtLocal?: LocalDateTimeContextDto;
 }
 
 export interface PhotoMetaInputDto {
@@ -2028,6 +2116,8 @@ export interface PhotoMetaInputDto {
   width?: number;
   /** @example 3024 */
   height?: number;
+  /** Optional original capture local-time context. Use this to preserve explicit offsets, IANA zones, or floating local wall-clock values from ingest. */
+  captureTime?: CaptureTimeContextDto;
 }
 
 export interface CreateJourneyRecapDraftRequestDto {
@@ -2458,7 +2548,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.14
+ * @version 2.1.18
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
