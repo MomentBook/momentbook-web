@@ -243,7 +243,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
                   <Link
                     href={homeHref}
                     className={styles.menuHome}
-                    onClick={closeMenu}
+                    onNavigate={closeMenu}
                     aria-label={labels.goHome}
                   >
                     <MomentBookLogo
@@ -287,7 +287,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
                         key={link.href}
                         href={link.href}
                         className={`${styles.menuLink} ${isActive ? styles.menuLinkActive : ""}`}
-                        onClick={closeMenu}
+                        onNavigate={closeMenu}
                         aria-current={isActive ? "page" : undefined}
                       >
                         {link.label}
