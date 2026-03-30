@@ -1,6 +1,7 @@
 import type { Language } from "@/lib/i18n/config";
 import type { LanguageDisplayInfo } from "@/lib/i18n/language-display";
 import { SectionReveal } from "@/components/SectionReveal";
+import type { LocalDateTimeContext } from "@/lib/local-time-context";
 import type { PublishedJourneyApi } from "@/lib/published-journey";
 import type { JourneyLabels } from "../labels";
 import styles from "./JourneyContent.module.scss";
@@ -24,6 +25,8 @@ type JourneyContentProps = {
     publishedTimestamp: number | null;
     periodStart: number | null;
     periodEnd: number | null;
+    periodStartLocal?: LocalDateTimeContext | null;
+    periodEndLocal?: LocalDateTimeContext | null;
 };
 
 export default function JourneyContent({
@@ -37,6 +40,8 @@ export default function JourneyContent({
     publishedTimestamp,
     periodStart,
     periodEnd,
+    periodStartLocal,
+    periodEndLocal,
 }: JourneyContentProps) {
     const heroImage = buildJourneyHeroImage(journey.images, journey.title);
     const archivePhotos = buildJourneyArchivePhotos(
@@ -67,6 +72,8 @@ export default function JourneyContent({
                     publishedTimestamp={publishedTimestamp}
                     periodStart={periodStart}
                     periodEnd={periodEnd}
+                    periodStartLocal={periodStartLocal}
+                    periodEndLocal={periodEndLocal}
                     photoCount={photoCount}
                 />
             </SectionReveal>

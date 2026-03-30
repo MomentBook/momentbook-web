@@ -124,6 +124,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 사용자/프로필/사용자별 게시 여정: `lib/public-users.ts`
 - 게시 여정/모먼트/사진: `lib/published-journey.ts` (`GET /v2/journeys/public/:publicId/viewer?viewer=web` 기반 viewer payload + photo endpoint)
 - `lang` query를 지원하는 public journeys/user journeys/photo endpoint에는 현재 route locale(`en-US`, `ko-KR`, `pt-BR` 등)을 함께 전달해 서버가 localized 응답을 치환하도록 한다.
+- public journey/user/photo payload가 제공하는 additive local-time context(`startedAtLocal`, `endedAtLocal`, `timeline[].time.startLocal/endLocal`, `images[].captureTime`, `photo.captureTime`)는 시:분 렌더링의 우선 입력으로 사용하고, 정렬/비교/범위 계산은 기존 absolute timestamp(`startedAt`, `endedAt`, `takenAt`)를 계속 사용한다.
 - journey/moment detail은 viewer payload의 top-level localized title/description/cluster impression을 우선 사용하고, `localizedContent`는 localized hashtags 및 누락 필드 보강 용도로만 사용한다.
 - 공개 리스트 카드(`/`, `/{lang}/journeys`, `/{lang}/users/[userId]`)의 cover thumbnail은 list response가 내려주는 preview field를 우선 사용하며 viewer `images[]`에서 다시 추론하지 않는다.
 - 공통 fetch fallback candidates: `lib/public-api.ts`
@@ -169,8 +170,9 @@ MomentBook Web은 다음 역할만 수행한다.
 - 클라이언트 선호 언어 상태: Jotai `languageAtom`
 - `LanguageSyncProvider`가 Jotai/localStorage/cookie/path language를 동기화하고, 현재 저장값이 비어 있으면 localStorage `language` -> legacy `preferredLanguage` -> cookie -> 브라우저 언어 순서로 복원한다.
 - `app/(localized)/[lang]/layout.tsx`는 SSR 시점부터 route locale에 맞는 `html lang`를 출력하고, 클라이언트에서 추가 보정하지 않는다.
-- `LocalizedDate`, `LocalizedDateRange`, `LocalizedDateTimeRange`는 SSR에서 UTC 스냅샷을 출력하고 hydration 후 viewer locale/timezone 기준으로 갱신한다.
-- photo detail의 `LocalizedDateTime`은 SSR 출력을 만들지 않고 hydration 후 client locale/timezone 기준 문자열을 렌더링한다.
+- `LocalizedDate`, `LocalizedDateRange`, `LocalizedDateTimeRange`는 public API가 local-time context를 제공하면 그 wall-clock date/time을 우선 사용하고, context가 없을 때만 기존 absolute timestamp 기반 UTC SSR 스냅샷 -> hydration 후 viewer locale/timezone 갱신 경로를 사용한다.
+- explicit `unknown` local-time context는 time-of-day를 추정하지 않고 date-only/time-hidden fallback으로 내린다. `floating_local`은 timezone 변환 없이 localDateTime을 그대로 표시한다.
+- photo detail의 `LocalizedDateTime`은 SSR 출력을 만들지 않고 hydration 후 렌더링하며, `captureTime` local-time context를 우선 사용한다.
 
 ## 8) Metadata / SEO / AEO
 

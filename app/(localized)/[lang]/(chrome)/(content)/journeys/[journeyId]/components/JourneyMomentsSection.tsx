@@ -87,6 +87,8 @@ export function JourneyMomentsSection({
                       lang={lang}
                       start={section.cluster.time.startAt}
                       end={section.cluster.time.endAt}
+                      startContext={section.cluster.time.startLocal}
+                      endContext={section.cluster.time.endLocal}
                       fallback="—"
                     />
                     <span>

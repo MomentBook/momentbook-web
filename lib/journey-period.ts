@@ -70,6 +70,20 @@ export function resolveJourneyPeriodRange(options: {
   endedAt?: unknown;
   photoSources?: unknown[];
 }): { start: number | null; end: number | null } {
+  const start = readTimestamp(options.startedAt);
+  const end = readTimestamp(options.endedAt) ?? start;
+
+  if (start !== null || end !== null) {
+    if (start !== null && end !== null && end < start) {
+      return { start: end, end: start };
+    }
+
+    return {
+      start: start ?? end,
+      end: end ?? start,
+    };
+  }
+
   const photoCandidates = (options.photoSources ?? [])
     .flatMap((source) => collectTimestampCandidates(source))
     .filter((value) => Number.isFinite(value))
@@ -81,21 +95,7 @@ export function resolveJourneyPeriodRange(options: {
     return { start, end };
   }
 
-  const start = readTimestamp(options.startedAt);
-  const end = readTimestamp(options.endedAt) ?? start;
-
-  if (start === null && end === null) {
-    return { start: null, end: null };
-  }
-
-  if (start !== null && end !== null && end < start) {
-    return { start: end, end: start };
-  }
-
-  return {
-    start: start ?? end,
-    end: end ?? start,
-  };
+  return { start: null, end: null };
 }
 
 export function formatJourneyPeriodRange(

@@ -57,6 +57,8 @@ export function MomentContent({
                 lang={lang}
                 start={cluster.time.startAt}
                 end={cluster.time.endAt}
+                startContext={cluster.time.startLocal}
+                endContext={cluster.time.endLocal}
               />
             </dd>
           </div>

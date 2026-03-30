@@ -9,6 +9,10 @@ import type {
 import { normalizeHashtags } from "@/lib/hashtags";
 import { appendPublicApiLanguage, fetchPublicApi } from "@/lib/public-api";
 import type { Language } from "@/lib/i18n/config";
+import {
+    normalizeLocalDateTimeContext,
+    type LocalDateTimeContext,
+} from "@/lib/local-time-context";
 
 export type PublicUserApi = PublicUserItemDto & {
     biography?: string;
@@ -20,6 +24,8 @@ export type UserJourneyApi = {
     userId?: string;
     startedAt?: number;
     endedAt?: number;
+    startedAtLocal?: LocalDateTimeContext | null;
+    endedAtLocal?: LocalDateTimeContext | null;
     recapStage?: string;
     photoCount?: number;
     imageCount?: number;
@@ -220,6 +226,8 @@ function normalizeUserJourney(value: unknown): UserJourneyApi | null {
         userId: readText(value.userId) ?? undefined,
         startedAt: readNumber(value.startedAt) ?? undefined,
         endedAt: readNumber(value.endedAt) ?? undefined,
+        startedAtLocal: normalizeLocalDateTimeContext(value.startedAtLocal),
+        endedAtLocal: normalizeLocalDateTimeContext(value.endedAtLocal),
         recapStage: readText(value.recapStage) ?? undefined,
         photoCount: readNumber(value.photoCount) ?? undefined,
         imageCount: readNumber(value.imageCount) ?? undefined,

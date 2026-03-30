@@ -1,4 +1,5 @@
 import type { Language } from "@/lib/i18n/config";
+import type { CaptureTimeContext } from "@/lib/local-time-context";
 import type {
   PublishedJourneyApi,
   PublishedJourneyCluster,
@@ -19,6 +20,7 @@ export type ArchivePhoto = {
   alt: string;
   locationName: string;
   takenAt: number | null;
+  captureTime: CaptureTimeContext | null;
 };
 
 export type ClusterSection = {
@@ -61,6 +63,7 @@ export function buildJourneyArchivePhotos(
     alt: image.locationName || title,
     locationName: image.locationName || locationFallback,
     takenAt: image.takenAt ?? null,
+    captureTime: image.captureTime ?? null,
   }));
 }
 

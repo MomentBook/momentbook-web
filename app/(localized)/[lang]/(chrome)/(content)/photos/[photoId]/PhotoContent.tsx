@@ -45,6 +45,7 @@ export function PhotoContent({
           copy={copy}
           locationName={display.locationName}
           takenAt={photo.takenAt}
+          captureTime={display.captureTime}
         />
       </section>
 
@@ -74,6 +75,7 @@ export function PhotoContent({
                   <LocalizedDateTime
                     lang={lang}
                     timestamp={photo.takenAt}
+                    localContext={display.captureTime}
                   />
                 </dd>
               </div>

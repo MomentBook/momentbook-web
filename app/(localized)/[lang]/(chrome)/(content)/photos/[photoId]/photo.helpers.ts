@@ -1,4 +1,5 @@
 import type { Language } from "@/lib/i18n/config";
+import type { CaptureTimeContext } from "@/lib/local-time-context";
 import type { PublishedPhotoApi } from "@/lib/published-journey";
 import { buildSeoDescription } from "@/lib/seo/public-metadata";
 import { readText } from "@/lib/view-helpers";
@@ -266,6 +267,7 @@ export type PhotoDisplayState = {
   journeyTitle: string | null;
   locationName: string | null;
   takenAt: number | null;
+  captureTime: CaptureTimeContext | null;
   hasTakenAt: boolean;
   location: Coordinates | null;
   description: string;
@@ -348,6 +350,7 @@ export function buildPhotoDisplayState(
     journeyTitle: readText(photo.journey.title),
     locationName: readText(photo.locationName),
     takenAt,
+    captureTime: photo.captureTime ?? null,
     hasTakenAt: takenAt !== null,
     location,
     description: seoText.description,

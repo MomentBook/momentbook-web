@@ -85,6 +85,8 @@ export function JourneysListContent({
                             lang={lang}
                             start={card.periodRange.start}
                             end={card.periodRange.end}
+                            startContext={card.periodStartLocal}
+                            endContext={card.periodEndLocal}
                             fallback={labels.unknownDateLabel}
                           />
                         ),

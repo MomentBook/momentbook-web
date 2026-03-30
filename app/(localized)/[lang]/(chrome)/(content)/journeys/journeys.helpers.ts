@@ -1,5 +1,6 @@
 import type { Language } from "@/lib/i18n/config";
 import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
+import type { LocalDateTimeContext } from "@/lib/local-time-context";
 import {
   fetchPublishedJourney,
   type PublishedJourneyListItemApi,
@@ -29,6 +30,8 @@ export type JourneyCardViewModel = {
     start: number | null;
     end: number | null;
   };
+  periodStartLocal?: LocalDateTimeContext | null;
+  periodEndLocal?: LocalDateTimeContext | null;
 };
 
 function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
@@ -89,6 +92,8 @@ export async function buildJourneyCards(
       authorName: readText(author?.name) ?? labels.unknownUserLabel,
       publishedAt,
       periodRange,
+      periodStartLocal: detail?.startedAtLocal ?? journey.startedAtLocal ?? null,
+      periodEndLocal: detail?.endedAtLocal ?? journey.endedAtLocal ?? null,
     };
   });
 }

@@ -98,6 +98,8 @@ export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps)
               lang={lang}
               start={periodRange.start}
               end={periodRange.end}
+              startContext={journey.startedAtLocal}
+              endContext={journey.endedAtLocal}
               fallback={labels.periodUnknown}
               className={styles.cardMetaValue}
             />

@@ -7,6 +7,12 @@ import type {
 import { normalizeHashtags as normalizeHashtagList } from "@/lib/hashtags";
 import { appendPublicApiLanguage, fetchPublicApi } from "@/lib/public-api";
 import { type Language, toLocaleTag } from "@/lib/i18n/config";
+import {
+    normalizeCaptureTimeContext,
+    normalizeLocalDateTimeContext,
+    type CaptureTimeContext,
+    type LocalDateTimeContext,
+} from "@/lib/local-time-context";
 
 export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
 export type PublishedJourneyContentStatus =
@@ -23,6 +29,7 @@ export type PublishedJourneyImage = {
     height?: number;
     caption?: string;
     takenAt?: number;
+    captureTime?: CaptureTimeContext | null;
     locationName?: string;
     location?: {
         lat: number;
@@ -37,6 +44,8 @@ export type PublishedJourneyCluster = {
         startAt: number;
         endAt: number;
         durationMs: number;
+        startLocal?: LocalDateTimeContext | null;
+        endLocal?: LocalDateTimeContext | null;
     };
     center: {
         lat: number;
@@ -82,6 +91,8 @@ export type PublishedJourneyApi = {
     userId: string;
     startedAt: number;
     endedAt: number;
+    startedAtLocal?: LocalDateTimeContext | null;
+    endedAtLocal?: LocalDateTimeContext | null;
     title: string;
     description?: string;
     mode: JourneyMode;
@@ -103,6 +114,8 @@ export type PublishedJourneyListItemApi = {
     userId: string;
     startedAt?: number;
     endedAt?: number;
+    startedAtLocal?: LocalDateTimeContext | null;
+    endedAtLocal?: LocalDateTimeContext | null;
     recapStage?: string;
     photoCount?: number;
     imageCount?: number;
@@ -126,6 +139,7 @@ export type PublishedPhotoApi = {
     photoId: string;
     url: string;
     takenAt?: number;
+    captureTime?: CaptureTimeContext | null;
     locationName?: string;
     location?: {
         lat: number;
@@ -135,6 +149,10 @@ export type PublishedPhotoApi = {
     journey: {
         publicId: string;
         title: string;
+        startedAt?: number;
+        endedAt?: number;
+        startedAtLocal?: LocalDateTimeContext | null;
+        endedAtLocal?: LocalDateTimeContext | null;
     };
 };
 
@@ -357,6 +375,7 @@ function normalizePublishedJourneyImage(
             readNumber(value.takenAt) ??
             readNumber(value.capturedAt) ??
             undefined,
+        captureTime: normalizeCaptureTimeContext(value.captureTime),
         locationName:
             readText(value.locationName) ??
             (isRecord(value.location)
@@ -422,6 +441,8 @@ function normalizePublishedJourneyCluster(
             startAt,
             endAt,
             durationMs,
+            startLocal: normalizeLocalDateTimeContext(time?.startLocal),
+            endLocal: normalizeLocalDateTimeContext(time?.endLocal),
         },
         center,
         locationName,
@@ -629,6 +650,8 @@ function normalizeJourneyListItem(value: unknown): PublishedJourneyListItemApi |
         userId,
         startedAt: readNumber(value.startedAt) ?? undefined,
         endedAt: readNumber(value.endedAt) ?? undefined,
+        startedAtLocal: normalizeLocalDateTimeContext(value.startedAtLocal),
+        endedAtLocal: normalizeLocalDateTimeContext(value.endedAtLocal),
         recapStage: readText(value.recapStage) ?? undefined,
         photoCount: readNumber(value.photoCount) ?? undefined,
         imageCount: readNumber(value.imageCount) ?? undefined,
@@ -712,6 +735,8 @@ function normalizePublishedJourney(
         userId,
         startedAt,
         endedAt,
+        startedAtLocal: normalizeLocalDateTimeContext(value.startedAtLocal),
+        endedAtLocal: normalizeLocalDateTimeContext(value.endedAtLocal),
         title:
             localizedJourneyEntry?.title ??
             readText(value.title) ??
@@ -780,12 +805,17 @@ function normalizePublishedPhoto(value: unknown): PublishedPhotoApi | null {
             readNumber(value.takenAt) ??
             readNumber(value.capturedAt) ??
             undefined,
+        captureTime: normalizeCaptureTimeContext(value.captureTime),
         locationName,
         location: normalizeLocation(value.location) ?? undefined,
         caption: readText(value.caption) ?? undefined,
         journey: {
             publicId: journeyPublicId,
             title: journeyTitle,
+            startedAt: readNumber(journeySource?.startedAt) ?? undefined,
+            endedAt: readNumber(journeySource?.endedAt) ?? undefined,
+            startedAtLocal: normalizeLocalDateTimeContext(journeySource?.startedAtLocal),
+            endedAtLocal: normalizeLocalDateTimeContext(journeySource?.endedAtLocal),
         },
     };
 }

@@ -4,6 +4,7 @@ import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
 import { getHashtagSearchValue } from "@/lib/hashtags";
 import type { LanguageDisplayInfo } from "@/lib/i18n/language-display";
 import type { Language } from "@/lib/i18n/config";
+import type { LocalDateTimeContext } from "@/lib/local-time-context";
 import type { PublishedJourneyApi } from "@/lib/published-journey";
 import type { JourneyLabels } from "../labels";
 import type { DisplayImage } from "./journey-content.helpers";
@@ -20,6 +21,8 @@ type JourneyHeroProps = {
   publishedTimestamp: number | null;
   periodStart: number | null;
   periodEnd: number | null;
+  periodStartLocal?: LocalDateTimeContext | null;
+  periodEndLocal?: LocalDateTimeContext | null;
   photoCount: number;
 };
 
@@ -34,6 +37,8 @@ export function JourneyHero({
   publishedTimestamp,
   periodStart,
   periodEnd,
+  periodStartLocal,
+  periodEndLocal,
   photoCount,
 }: JourneyHeroProps) {
   const encodedUserId = encodeURIComponent(journey.userId);
@@ -111,6 +116,8 @@ export function JourneyHero({
                       lang={lang}
                       start={periodStart}
                       end={periodEnd}
+                      startContext={periodStartLocal}
+                      endContext={periodEndLocal}
                       fallback="—"
                     />
                   </span>

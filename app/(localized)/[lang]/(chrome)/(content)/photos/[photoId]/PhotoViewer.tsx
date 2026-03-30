@@ -13,6 +13,7 @@ import {
 } from "react";
 import Image from "next/image";
 import type { Language } from "@/lib/i18n/config";
+import type { CaptureTimeContext } from "@/lib/local-time-context";
 import { LocalizedDateTime } from "./LocalizedDateTime";
 import type { PhotoPageCopy } from "./photo.helpers";
 import styles from "./photo.module.scss";
@@ -46,6 +47,7 @@ type PhotoViewerProps = {
   copy: PhotoPageCopy;
   locationName: string | null;
   takenAt?: number;
+  captureTime?: CaptureTimeContext | null;
 };
 
 function clamp(value: number, min: number, max: number) {
@@ -98,6 +100,7 @@ export function PhotoViewer({
   copy,
   locationName,
   takenAt,
+  captureTime,
 }: PhotoViewerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scale, setScale] = useState(1);
@@ -559,7 +562,11 @@ export function PhotoViewer({
                     <div className={styles.viewerMeta} aria-live="polite">
                       {takenAt ? (
                         <span className={styles.viewerMetaItem}>
-                          <LocalizedDateTime lang={lang} timestamp={takenAt} />
+                          <LocalizedDateTime
+                            lang={lang}
+                            timestamp={takenAt}
+                            localContext={captureTime}
+                          />
                         </span>
                       ) : null}
                       {locationName ? (

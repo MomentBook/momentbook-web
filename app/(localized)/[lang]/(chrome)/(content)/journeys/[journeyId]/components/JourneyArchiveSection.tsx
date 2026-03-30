@@ -37,7 +37,12 @@ function JourneyArchivePhotoCard({
       <p className={styles.archivePhotoLocation}>{photo.locationName}</p>
       {photo.takenAt ? (
         <div className={styles.archivePhotoMeta}>
-          <LocalizedDate lang={lang} timestamp={photo.takenAt} fallback="—" />
+          <LocalizedDate
+            lang={lang}
+            timestamp={photo.takenAt}
+            localContext={photo.captureTime}
+            fallback="—"
+          />
         </div>
       ) : null}
     </div>

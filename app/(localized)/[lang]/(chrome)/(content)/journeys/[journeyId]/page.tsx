@@ -321,6 +321,8 @@ export default async function JourneyPage({
                 publishedTimestamp={publishedTimestamp}
                 periodStart={periodRange.start}
                 periodEnd={periodRange.end}
+                periodStartLocal={journey.startedAtLocal}
+                periodEndLocal={journey.endedAtLocal}
                 labels={labels}
             />
         </div>
