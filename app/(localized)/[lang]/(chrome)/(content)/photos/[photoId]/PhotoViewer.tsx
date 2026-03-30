@@ -3,7 +3,6 @@
 import { createPortal } from "react-dom";
 import {
   useEffect,
-  useId,
   useMemo,
   useRef,
   useState,
@@ -12,9 +11,6 @@ import {
   type WheelEvent as ReactWheelEvent,
 } from "react";
 import Image from "next/image";
-import type { Language } from "@/lib/i18n/config";
-import type { CaptureTimeContext } from "@/lib/local-time-context";
-import { LocalizedDateTime } from "./LocalizedDateTime";
 import type { PhotoPageCopy } from "./photo.helpers";
 import styles from "./photo.module.scss";
 
@@ -41,13 +37,9 @@ type Size = {
 };
 
 type PhotoViewerProps = {
-  lang: Language;
   photoUrl: string;
   alt: string;
   copy: PhotoPageCopy;
-  locationName: string | null;
-  takenAt?: number;
-  captureTime?: CaptureTimeContext | null;
 };
 
 function clamp(value: number, min: number, max: number) {
@@ -94,13 +86,9 @@ function clampOffset(offset: Point, scale: number, baseSize: Size): Point {
 }
 
 export function PhotoViewer({
-  lang,
   photoUrl,
   alt,
   copy,
-  locationName,
-  takenAt,
-  captureTime,
 }: PhotoViewerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scale, setScale] = useState(1);
@@ -124,8 +112,6 @@ export function PhotoViewer({
     time: number;
     point: Point;
   } | null>(null);
-  const descriptionId = useId();
-
   const baseSize = useMemo(
     () => getContainedSize(naturalSize, stageSize),
     [naturalSize, stageSize],
@@ -134,10 +120,6 @@ export function PhotoViewer({
     () => clampOffset(offset, scale, baseSize),
     [baseSize, offset, scale],
   );
-
-  const viewerHint = isCoarsePointer
-    ? copy.viewerTouchHint
-    : copy.viewerDesktopHint;
 
   function resetViewerState() {
     activePointersRef.current.clear();
@@ -489,7 +471,6 @@ export function PhotoViewer({
               ref={dialogRef}
               className={styles.viewerDialog}
               aria-label={copy.viewerDialogLabel}
-              aria-describedby={descriptionId}
             >
               <div className={styles.viewerShell} onClick={handleShellClick}>
                 <div
@@ -556,24 +537,6 @@ export function PhotoViewer({
                         }}
                       />
                     </div>
-                  </div>
-
-                  <div id={descriptionId} className={styles.viewerBottomBar}>
-                    <div className={styles.viewerMeta} aria-live="polite">
-                      {takenAt ? (
-                        <span className={styles.viewerMetaItem}>
-                          <LocalizedDateTime
-                            lang={lang}
-                            timestamp={takenAt}
-                            localContext={captureTime}
-                          />
-                        </span>
-                      ) : null}
-                      {locationName ? (
-                        <span className={styles.viewerMetaItem}>{locationName}</span>
-                      ) : null}
-                    </div>
-                    <p className={styles.viewerInstruction}>{viewerHint}</p>
                   </div>
                 </div>
               </div>

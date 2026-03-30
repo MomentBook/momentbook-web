@@ -123,6 +123,13 @@
   text-wrap: balance;
 }
 
+.generatedTitle {
+  color: var(--photo-text-muted);
+  font-size: clamp(1.6rem, 6.8vw, 2.35rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
 .caption {
   margin: 0;
   color: var(--photo-text-muted);
@@ -243,43 +250,30 @@
 }
 
 .viewerDialog::backdrop {
-  background:
-    radial-gradient(circle at 50% 12%, rgba(212, 188, 154, 0.16), transparent 34%),
-    rgba(15, 15, 14, 0.82);
-  backdrop-filter: blur(14px) saturate(118%);
-  -webkit-backdrop-filter: blur(14px) saturate(118%);
+  background: #000;
 }
 
 .viewerShell {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  padding:
-    max(1rem, env(safe-area-inset-top))
-    max(1rem, env(safe-area-inset-right))
-    max(1rem, env(safe-area-inset-bottom))
-    max(1rem, env(safe-area-inset-left));
+  padding: 0;
+  background: #000;
 }
 
 .viewerFrame {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 0.75rem;
-  min-height: 0;
-  width: min(100%, 110rem);
+  position: relative;
+  width: 100%;
   height: 100%;
-  margin: 0 auto;
-}
-
-.viewerTopBar,
-.viewerBottomBar {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  min-width: 0;
 }
 
 .viewerTopBar {
+  position: absolute;
+  inset-block-start: max(1rem, env(safe-area-inset-top));
+  inset-inline-end: max(1rem, env(safe-area-inset-right));
+  z-index: 2;
+  display: flex;
+  align-items: center;
   justify-content: flex-end;
 }
 
@@ -287,23 +281,22 @@
   flex-shrink: 0;
   width: 3rem;
   height: 3rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.56);
   color: rgba(255, 255, 255, 0.96);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .viewerCloseButton:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(0, 0, 0, 0.72);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .viewerCloseButton:focus-visible {
@@ -313,14 +306,13 @@
 
 .viewerStage {
   position: relative;
-  min-height: 0;
+  width: 100%;
+  height: 100%;
   display: grid;
   place-items: center;
   overflow: hidden;
-  border-radius: 0.9rem;
-  background:
-    radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.1), transparent 40%),
-    rgba(255, 255, 255, 0.04);
+  border-radius: 0;
+  background: #000;
   cursor: zoom-in;
   touch-action: none;
   user-select: none;
@@ -342,7 +334,6 @@
   transform-origin: center;
   transition: transform 0.22s ease;
   will-change: transform;
-  filter: drop-shadow(0 18px 48px rgba(0, 0, 0, 0.3));
 }
 
 .viewerStageDragging .viewerImageFrame {
@@ -354,68 +345,13 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 0.5rem;
-}
-
-.viewerBottomBar {
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.viewerMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 0.9rem;
-  min-width: 0;
-}
-
-.viewerMetaItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.9rem;
-  font-size: 0.82rem;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.viewerMetaItem + .viewerMetaItem::before {
-  content: "/";
-  color: rgba(255, 255, 255, 0.34);
-}
-
-.viewerInstruction {
-  margin: 0;
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.66);
+  border-radius: 0;
 }
 
 @media (max-width: 699px) {
-  .viewerShell {
-    padding: 0;
-  }
-
-  .viewerFrame {
-    width: 100%;
-    gap: 0;
-  }
-
-  .viewerTopBar,
-  .viewerBottomBar {
-    padding-inline: 1rem;
-  }
-
   .viewerTopBar {
-    padding-top: max(0.95rem, env(safe-area-inset-top));
-  }
-
-  .viewerBottomBar {
-    gap: 0.35rem;
-    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
-    flex-direction: column;
-    align-items: flex-start;
+    inset-block-start: max(0.95rem, env(safe-area-inset-top));
+    inset-inline-end: max(0.95rem, env(safe-area-inset-right));
   }
 
   .viewerStage,
@@ -448,6 +384,10 @@
 
   .title {
     font-size: clamp(4rem, 7vw, 5.6rem);
+  }
+
+  .generatedTitle {
+    font-size: clamp(2rem, 3vw, 2.8rem);
   }
 
   .caption {

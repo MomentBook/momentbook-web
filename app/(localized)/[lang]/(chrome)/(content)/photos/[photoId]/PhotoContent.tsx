@@ -46,13 +46,9 @@ export function PhotoContent({
       <article className={styles.article}>
         <section className={styles.heroSection}>
           <PhotoViewer
-            lang={lang}
             photoUrl={photo.url}
             alt={display.title || photoId}
             copy={copy}
-            locationName={display.locationName}
-            takenAt={photo.takenAt}
-            captureTime={display.captureTime}
           />
         </section>
 
@@ -66,7 +62,11 @@ export function PhotoContent({
             </div>
           ) : null}
 
-          <h1 className={styles.title}>{display.title}</h1>
+          <h1
+            className={`${styles.title} ${display.hasGeneratedTitle ? styles.generatedTitle : ""}`}
+          >
+            {display.title}
+          </h1>
 
           {showCaptionBlock ? (
             <p className={styles.caption}>{display.caption}</p>

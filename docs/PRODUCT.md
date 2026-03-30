@@ -163,7 +163,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 신고 누적 또는 웹 검수 상태 등으로 웹에서 비노출 처리된 공개 여정 상세는 안내 문구와 noindex metadata를 렌더링한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 - `/{lang}/photos/[photoId]`는 mobile-first 단일 컬럼 editorial flow로 렌더링된다. image-first 구성 뒤에 여정 맥락, title, 선택적 caption, compact metadata list가 이어지며, 데스크톱도 같은 위계를 더 넓은 폭으로 확장한다. 좌표는 별도 map/card 없이 metadata list 안의 한 줄 텍스트로만 노출한다. 동일 정보는 한 번만 보여주며, capture time/place/coordinates/journey title/caption 등 photo payload가 실제로 제공하는 필드만 사용한다.
-- `/{lang}/photos/[photoId]`의 hero photo는 클릭/탭 시 확대 viewer overlay를 연다. 데스크톱에서는 blurred backdrop 위 centered large view + explicit close + `Esc` 닫기를 제공하고, 모바일에서는 edge-to-edge immersive viewer로 전환되며 pinch/double-tap 확대를 지원한다.
+- `/{lang}/photos/[photoId]`의 hero photo는 클릭/탭 시 검정 배경의 immersive viewer overlay를 연다. overlay 안에서는 이미지와 닫기 버튼만 노출하고, 상하 메타데이터 chrome은 표시하지 않는다. 데스크톱과 모바일 모두 `Esc`/명시적 close를 지원하며, 모바일은 edge-to-edge viewer에서 pinch/double-tap 확대를 지원한다.
 
 ## 7) i18n / Preference Behavior
 
