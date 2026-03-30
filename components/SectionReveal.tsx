@@ -11,6 +11,8 @@ import type {
   ReactElement,
   ReactNode,
 } from "react";
+import { usePathname } from "next/navigation";
+import { isLocalizedHomePath } from "@/lib/i18n/pathname";
 import { Reveal } from "./Reveal";
 
 type SectionRevealOwnProps<T extends ElementType> = {
@@ -47,6 +49,8 @@ export function SectionReveal<T extends ElementType = "div">({
   variant = "section",
   ...rest
 }: SectionRevealProps<T>) {
+  const pathname = usePathname();
+  const shouldAnimate = isLocalizedHomePath(pathname);
   const isItem = variant === "item";
   const staggerDelay = Math.max(0, staggerIndex) * STAGGER_STEP_MS;
   const Component = (as ?? "div") as ElementType;
@@ -67,6 +71,23 @@ export function SectionReveal<T extends ElementType = "div">({
       .filter(Boolean)
       .join(" ");
 
+    const renderedChild = cloneElement(child, {
+      ...rest,
+      className: mergedClassName || undefined,
+    });
+
+    if (!shouldAnimate) {
+      if (wrapperClassName) {
+        return (
+          <div className={wrapperClassName}>
+            {renderedChild}
+          </div>
+        );
+      }
+
+      return renderedChild;
+    }
+
     return (
       <Reveal
         className={wrapperClassName}
@@ -75,11 +96,16 @@ export function SectionReveal<T extends ElementType = "div">({
         distance={isItem ? ITEM_DISTANCE : SECTION_DISTANCE}
         threshold={isItem ? ITEM_THRESHOLD : SECTION_THRESHOLD}
       >
-        {cloneElement(child, {
-          ...rest,
-          className: mergedClassName || undefined,
-        })}
+        {renderedChild}
       </Reveal>
+    );
+  }
+
+  if (!shouldAnimate) {
+    return (
+      <Component {...childProps}>
+        {children}
+      </Component>
     );
   }
 

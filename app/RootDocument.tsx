@@ -4,7 +4,9 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { ENV } from "@/src/configs/env.server";
 import GaRouteTracker from "@/app/components/GaRouteTracker";
 import LanguageSyncProvider from "@/app/components/LanguageSyncProvider";
+import { PageAnimationModeSync } from "@/components/PageAnimationModeSync";
 import { APP_LOGO_PATH } from "@/lib/branding/logo";
+import { languageList } from "@/lib/i18n/config";
 
 const GA_ID = ENV.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID;
 
@@ -40,6 +42,20 @@ export function RootDocument({
   children: React.ReactNode;
   htmlLang: string;
 }) {
+  const pageAnimationBootstrapScript = `
+    (function() {
+      const supportedLanguages = ${JSON.stringify(languageList)};
+      const pathname = window.location.pathname || "/";
+      const segments = pathname.split("/").filter(Boolean);
+      const isLocalizedHome = segments.length === 1 && supportedLanguages.includes(segments[0]);
+
+      document.documentElement.setAttribute(
+        "data-page-animations",
+        isLocalizedHome ? "enabled" : "disabled",
+      );
+    })();
+  `;
+
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <head>
@@ -65,9 +81,13 @@ export function RootDocument({
             document.documentElement.setAttribute('data-js', 'true');
           `}
         </Script>
+        <Script id="page-animation-mode-script" strategy="beforeInteractive">
+          {pageAnimationBootstrapScript}
+        </Script>
       </head>
       <body className={`${manrope.variable} ${playfairDisplay.variable}`}>
         <LanguageSyncProvider />
+        <PageAnimationModeSync />
         {process.env.NODE_ENV === "production" ? (
           <>
             <GoogleAnalytics gaId={GA_ID} />

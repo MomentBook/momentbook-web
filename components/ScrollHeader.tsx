@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { isLocalizedHomePath } from "@/lib/i18n/pathname";
 
 type ScrollHeaderProps = {
   children: React.ReactNode;
   className?: string;
 };
 
-export function ScrollHeader({ children, className }: ScrollHeaderProps) {
+function AnimatedScrollHeader({ children, className }: ScrollHeaderProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [isAtTop, setIsAtTop] = useState(true);
   const lastScrollY = useRef(0);
@@ -61,5 +63,23 @@ export function ScrollHeader({ children, className }: ScrollHeaderProps) {
     >
       {children}
     </header>
+  );
+}
+
+export function ScrollHeader({ children, className }: ScrollHeaderProps) {
+  const pathname = usePathname();
+
+  if (!isLocalizedHomePath(pathname)) {
+    return (
+      <header className={className}>
+        {children}
+      </header>
+    );
+  }
+
+  return (
+    <AnimatedScrollHeader className={className}>
+      {children}
+    </AnimatedScrollHeader>
   );
 }

@@ -187,6 +187,25 @@ html {
   scroll-behavior: smooth;
 }
 
+html[data-page-animations="disabled"] {
+  scroll-behavior: auto;
+}
+
+html[data-page-animations="disabled"] *,
+html[data-page-animations="disabled"] *::before,
+html[data-page-animations="disabled"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+html[data-page-animations="disabled"] [data-reveal-state="hidden"],
+html[data-page-animations="disabled"] [data-reveal-state="visible"] {
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  will-change: auto !important;
+}
+
 body {
   font-family: var(--font-sans);
   background: var(--bg-base-gradient);
@@ -245,6 +264,11 @@ body::after {
   right: -10vw;
   bottom: -10vw;
   animation: glassDriftB 26s ease-in-out infinite alternate;
+}
+
+html[data-page-animations="disabled"] body::before,
+html[data-page-animations="disabled"] body::after {
+  animation: none !important;
 }
 
 a {
