@@ -78,7 +78,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 현재 query 동작:
 - `/{lang}/journeys?page=`와 `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.
-- `/{lang}/users?q=`는 최근 공개 프로필 최대 100개를 불러온 뒤 이름/biography 텍스트 기준으로 서버에서 필터링한다.
+- `/{lang}/users?q=`는 최근 공개 프로필 최대 100개를 불러온 뒤 이름/biography와 각 프로필의 최근 공개 여정 해시태그 기준으로 서버에서 필터링한다.
 
 ### 4.2 Acquisition Landing (Noindex)
 
@@ -157,6 +157,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 여정 상세의 신고 버튼/신고 제출 플로우는 제거되어 있다.
 - `/{lang}/journeys/[journeyId]`는 cover-led summary와 moment index를 기본으로 렌더링한다. 상단에는 단일 hero image, 제목, 선택적 설명, 작성자, compact meta row(여행 기간 또는 게시일, 사진 수)만 노출한다. 클러스터가 있는 여정은 그 아래에서 각 moment를 대표 이미지 1장, 위치명, 시간 범위, 사진 수를 담은 clickable card list로 제공하고, 전체 사진 나열은 `/{lang}/journeys/[journeyId]/moments/[clusterId]` 상세에서만 보여준다. 클러스터가 없는 여정은 촬영 시각 기준 photo archive grid로 대체한다. 지도/점프 navigation/장소 요약 패널은 이 상세 화면에서 노출하지 않는다.
 - `/{lang}/journeys/[journeyId]`와 `/{lang}/journeys/[journeyId]/moments/[clusterId]`는 viewer request에 현재 route locale을 `lang` query로 전달한다. 서버가 치환한 localized title/description/cluster impression을 SEO metadata/structured data와 본문에 우선 반영하고, localized hashtags는 `localizedContent`에서 읽는다.
+- 여정 상세와 moment 상세는 locale별 해시태그를 calm chip UI로 노출하며, 각 chip은 `/{lang}/users?q=` 검색으로 연결된다.
 - 신고 누적 또는 웹 검수 상태 등으로 웹에서 비노출 처리된 공개 여정 상세는 안내 문구와 noindex metadata를 렌더링한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 

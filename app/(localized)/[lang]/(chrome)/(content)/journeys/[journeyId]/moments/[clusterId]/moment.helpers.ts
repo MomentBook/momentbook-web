@@ -7,6 +7,7 @@ import { formatTemplate, readText } from "@/lib/view-helpers";
 
 export type MomentLabels = {
   eyebrow: string;
+  hashtagsTitle: string;
   backToJourney: string;
   timeLabel: string;
   photosLabel: string;
@@ -60,6 +61,7 @@ const momentDescriptionWithoutLocationTemplateByLanguage: Record<Language, strin
 export const momentLabels: Record<Language, MomentLabels> = {
   en: {
     eyebrow: "Moment",
+    hashtagsTitle: "Themes",
     backToJourney: "Back to journey",
     timeLabel: "Time",
     photosLabel: "Photos",
@@ -70,6 +72,7 @@ export const momentLabels: Record<Language, MomentLabels> = {
   },
   ko: {
     eyebrow: "순간",
+    hashtagsTitle: "해시태그",
     backToJourney: "여정으로 돌아가기",
     timeLabel: "시간",
     photosLabel: "사진",
@@ -80,6 +83,7 @@ export const momentLabels: Record<Language, MomentLabels> = {
   },
   ja: {
     eyebrow: "瞬間",
+    hashtagsTitle: "ハッシュタグ",
     backToJourney: "旅に戻る",
     timeLabel: "時間",
     photosLabel: "写真",
@@ -90,6 +94,7 @@ export const momentLabels: Record<Language, MomentLabels> = {
   },
   zh: {
     eyebrow: "瞬间",
+    hashtagsTitle: "标签",
     backToJourney: "返回旅程",
     timeLabel: "时间",
     photosLabel: "照片",
@@ -100,6 +105,7 @@ export const momentLabels: Record<Language, MomentLabels> = {
   },
   es: {
     eyebrow: "Momento",
+    hashtagsTitle: "Etiquetas",
     backToJourney: "Volver al viaje",
     timeLabel: "Hora",
     photosLabel: "Fotos",
@@ -110,6 +116,7 @@ export const momentLabels: Record<Language, MomentLabels> = {
   },
   pt: {
     eyebrow: "Momento",
+    hashtagsTitle: "Hashtags",
     backToJourney: "Voltar para a viagem",
     timeLabel: "Horário",
     photosLabel: "Fotos",
@@ -120,6 +127,7 @@ export const momentLabels: Record<Language, MomentLabels> = {
   },
   fr: {
     eyebrow: "Moment",
+    hashtagsTitle: "Hashtags",
     backToJourney: "Retour au voyage",
     timeLabel: "Heure",
     photosLabel: "Photos",
@@ -130,6 +138,7 @@ export const momentLabels: Record<Language, MomentLabels> = {
   },
   th: {
     eyebrow: "ช่วงเวลา",
+    hashtagsTitle: "แฮชแท็ก",
     backToJourney: "กลับไปที่ทริป",
     timeLabel: "เวลา",
     photosLabel: "รูป",
@@ -140,6 +149,7 @@ export const momentLabels: Record<Language, MomentLabels> = {
   },
   vi: {
     eyebrow: "Khoảnh khắc",
+    hashtagsTitle: "Thẻ chủ đề",
     backToJourney: "Quay lại hành trình",
     timeLabel: "Thời gian",
     photosLabel: "Ảnh",

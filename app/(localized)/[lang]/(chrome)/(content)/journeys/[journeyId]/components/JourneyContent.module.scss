@@ -85,6 +85,65 @@
   font-size: 0.94rem;
 }
 
+.hashtagSection {
+  display: grid;
+  gap: 0.7rem;
+  max-width: 42rem;
+  margin: -0.18rem auto 0;
+  padding: 1rem 1.1rem 0;
+  justify-items: center;
+  text-align: center;
+}
+
+.hashtagTitle {
+  margin: 0;
+  color: var(--color-text-tertiary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hashtagList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem 0.6rem;
+}
+
+.hashtagChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.2rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-container-lowest) 94%, #fff) 0%,
+      color-mix(in srgb, var(--surface-container-low) 92%, #fff) 100%
+    );
+  border: 1px solid color-mix(in srgb, var(--outline-variant) 28%, transparent);
+  box-shadow: 0 10px 24px rgba(75, 100, 90, 0.08);
+  color: color-mix(in srgb, var(--primary) 88%, var(--color-text-primary));
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px rgba(75, 100, 90, 0.1);
+    border-color: color-mix(in srgb, var(--primary) 32%, transparent);
+    color: var(--color-text-primary);
+  }
+}
+
 .metaItem {
   display: inline-flex;
   align-items: center;
@@ -119,7 +178,8 @@
 
 .authorLink:focus-visible,
 .momentCard:focus-visible,
-.archivePhotoCard:focus-visible {
+.archivePhotoCard:focus-visible,
+.hashtagChip:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--color-accent) 66%, #fff);
   outline-offset: 3px;
 }

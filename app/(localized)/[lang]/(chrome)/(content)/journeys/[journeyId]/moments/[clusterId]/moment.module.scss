@@ -95,6 +95,50 @@
   gap: 0.65rem;
 }
 
+.hashtagSection {
+  margin-top: 1.1rem;
+}
+
+.hashtagTitle {
+  margin: 0 0 0.65rem;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.hashtagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.hashtagChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.46rem 0.78rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-container-lowest) 96%, #fff);
+  border: 1px solid color-mix(in srgb, var(--outline-variant) 24%, transparent);
+  box-shadow: 0 9px 22px rgba(75, 100, 90, 0.08);
+  color: color-mix(in srgb, var(--primary) 84%, var(--color-text-primary));
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 13px 24px rgba(75, 100, 90, 0.1);
+    color: var(--color-text-primary);
+  }
+}
+
 .metaItem {
   display: flex;
   align-items: center;

@@ -2,6 +2,7 @@ import type { Language } from "@/lib/i18n/config";
 
 export type JourneyLabels = {
     eyebrow: string;
+    hashtagsTitle: string;
     photosStat: string;
     photoCount: string;
     publishedLabel: string;
@@ -16,6 +17,7 @@ export type JourneyLabels = {
 export const journeyLabels: Record<Language, JourneyLabels> = {
     en: {
         eyebrow: "Journey",
+        hashtagsTitle: "Themes",
         photosStat: "Photos",
         photoCount: "photos",
         publishedLabel: "Published",
@@ -29,6 +31,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     ko: {
         eyebrow: "여정",
+        hashtagsTitle: "해시태그",
         photosStat: "사진",
         photoCount: "장",
         publishedLabel: "게시일",
@@ -42,6 +45,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     ja: {
         eyebrow: "旅",
+        hashtagsTitle: "ハッシュタグ",
         photosStat: "写真",
         photoCount: "枚",
         publishedLabel: "公開日",
@@ -55,6 +59,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     zh: {
         eyebrow: "旅程",
+        hashtagsTitle: "标签",
         photosStat: "照片",
         photoCount: "张照片",
         publishedLabel: "发布日期",
@@ -68,6 +73,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     es: {
         eyebrow: "Viaje",
+        hashtagsTitle: "Etiquetas",
         photosStat: "Fotos",
         photoCount: "fotos",
         publishedLabel: "Publicado",
@@ -81,6 +87,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     pt: {
         eyebrow: "Viagem",
+        hashtagsTitle: "Hashtags",
         photosStat: "Fotos",
         photoCount: "fotos",
         publishedLabel: "Publicado em",
@@ -94,6 +101,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     fr: {
         eyebrow: "Voyage",
+        hashtagsTitle: "Hashtags",
         photosStat: "Photos",
         photoCount: "photos",
         publishedLabel: "Publié",
@@ -107,6 +115,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     th: {
         eyebrow: "ทริป",
+        hashtagsTitle: "แฮชแท็ก",
         photosStat: "รูปภาพ",
         photoCount: "รูป",
         publishedLabel: "วันที่เผยแพร่",
@@ -120,6 +129,7 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     vi: {
         eyebrow: "Hành trình",
+        hashtagsTitle: "Thẻ chủ đề",
         photosStat: "Ảnh",
         photoCount: "ảnh",
         publishedLabel: "Đã đăng",

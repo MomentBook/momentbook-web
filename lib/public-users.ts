@@ -6,6 +6,7 @@ import type {
     PublicUsersResponseDto,
     PublishedJourneysResponseDto,
 } from "@/src/apis/client";
+import { normalizeHashtags } from "@/lib/hashtags";
 import { appendPublicApiLanguage, fetchPublicApi } from "@/lib/public-api";
 import type { Language } from "@/lib/i18n/config";
 
@@ -28,6 +29,7 @@ export type UserJourneyApi = {
     createdAt?: string;
     title?: string;
     description?: string;
+    hashtags?: string[];
     images?: Array<
         | {
             url?: string;
@@ -171,6 +173,35 @@ function normalizeJourneyDescriptionFromMetadata(
     );
 }
 
+function normalizeJourneyHashtagsFromMetadata(
+    metadata: Record<string, unknown> | undefined,
+): string[] {
+    if (!metadata) {
+        return [];
+    }
+
+    const candidates = Array.isArray(metadata.hashtags)
+        ? metadata.hashtags
+        : Array.isArray(metadata.localizedHashtags)
+            ? metadata.localizedHashtags
+            : [];
+
+    return normalizeHashtags(
+        candidates.map((value) => (typeof value === "string" ? value : null)),
+    );
+}
+
+function normalizeJourneyHashtags(value: Record<string, unknown>, metadata: Record<string, unknown> | undefined): string[] {
+    const inlineHashtags = Array.isArray(value.hashtags)
+        ? value.hashtags
+        : [];
+
+    return normalizeHashtags([
+        ...normalizeJourneyHashtagsFromMetadata(metadata),
+        ...inlineHashtags.map((item) => (typeof item === "string" ? item : null)),
+    ]);
+}
+
 function normalizeUserJourney(value: unknown): UserJourneyApi | null {
     if (!isRecord(value)) {
         return null;
@@ -204,6 +235,7 @@ function normalizeUserJourney(value: unknown): UserJourneyApi | null {
             normalizeJourneyDescriptionFromMetadata(metadata) ??
             readText(value.description) ??
             undefined,
+        hashtags: normalizeJourneyHashtags(value, metadata),
         images: Array.isArray(value.images)
             ? (value.images as UserJourneyApi["images"])
             : undefined,

@@ -7,6 +7,8 @@ import styles from "./users.module.scss";
 type UserDirectoryCardProps = {
   lang: Language;
   user: PublicUserApi;
+  matchedHashtags: string[];
+  hashtagHint: string;
   journeysLabel: string;
   viewProfileLabel: string;
 };
@@ -44,6 +46,8 @@ function ChevronIcon() {
 export function UserDirectoryCard({
   lang,
   user,
+  matchedHashtags,
+  hashtagHint,
   journeysLabel,
   viewProfileLabel,
 }: UserDirectoryCardProps) {
@@ -71,6 +75,19 @@ export function UserDirectoryCard({
       ) : (
         <div className={styles.bioSpacer} aria-hidden="true" />
       )}
+
+      {matchedHashtags.length > 0 ? (
+        <div className={styles.matchedHashtagBlock}>
+          <p className={styles.matchedHashtagLabel}>{hashtagHint}</p>
+          <div className={styles.matchedHashtagList}>
+            {matchedHashtags.slice(0, 4).map((hashtag) => (
+              <span key={hashtag} className={styles.matchedHashtagChip}>
+                {hashtag}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       <div className={styles.cardFooter}>
         <span className={styles.metaStat}>

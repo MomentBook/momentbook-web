@@ -5,6 +5,7 @@ import type { JourneyLabels } from "../labels";
 import styles from "./JourneyContent.module.scss";
 import { JourneyArchiveSection } from "./JourneyArchiveSection";
 import { JourneyHero } from "./JourneyHero";
+import { HashtagChipList } from "../../components/HashtagChipList";
 import {
     buildJourneyArchivePhotos,
     buildJourneyClusterSections,
@@ -61,6 +62,18 @@ export default function JourneyContent({
                     periodStart={periodStart}
                     periodEnd={periodEnd}
                     photoCount={photoCount}
+                />
+            </SectionReveal>
+
+            <SectionReveal delay={48}>
+                <HashtagChipList
+                    lang={lang}
+                    hashtags={journey.hashtags}
+                    title={labels.hashtagsTitle}
+                    rootClassName={styles.hashtagSection}
+                    titleClassName={styles.hashtagTitle}
+                    listClassName={styles.hashtagList}
+                    chipClassName={styles.hashtagChip}
                 />
             </SectionReveal>
 

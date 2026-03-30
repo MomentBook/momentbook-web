@@ -8,6 +8,7 @@ import type {
 } from "@/lib/published-journey";
 import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import ClientMap from "../../components/ClientMap";
+import { HashtagChipList } from "../../../components/HashtagChipList";
 import styles from "./moment.module.scss";
 import type { MomentLabels, MomentPhoto } from "./moment.helpers";
 
@@ -64,6 +65,15 @@ export function MomentContent({
             <dd className={styles.metaValue}>{clusterPhotos.length}</dd>
           </div>
         </dl>
+        <HashtagChipList
+          lang={lang}
+          hashtags={journey.hashtags}
+          title={labels.hashtagsTitle}
+          rootClassName={styles.hashtagSection}
+          titleClassName={styles.hashtagTitle}
+          listClassName={styles.hashtagList}
+          chipClassName={styles.hashtagChip}
+        />
       </SectionReveal>
 
       <SectionReveal

@@ -4,6 +4,7 @@ import type {
     PublishedJourneyItemDto,
     PublishedJourneysResponseDto,
 } from "@/src/apis/client";
+import { normalizeHashtags as normalizeHashtagList } from "@/lib/hashtags";
 import { appendPublicApiLanguage, fetchPublicApi } from "@/lib/public-api";
 import { type Language, toLocaleTag } from "@/lib/i18n/config";
 
@@ -452,9 +453,9 @@ function normalizeHashtags(value: unknown): string[] {
         return [];
     }
 
-    return value
-        .map((item) => readText(item))
-        .filter((item): item is string => Boolean(item));
+    return normalizeHashtagList(
+        value.map((item) => readText(item)),
+    );
 }
 
 function normalizeLocalizedJourneyEntry(

@@ -14,7 +14,11 @@ import {
   buildOpenGraphBase,
   buildPublicRobots,
 } from "@/lib/seo/public-metadata";
-import { buildCountLabel, filterUsersByQuery, readSearchQuery } from "./users.helpers";
+import {
+  buildCountLabel,
+  filterUsersByQuery,
+  readSearchQuery,
+} from "./users.helpers";
 import { UsersDirectoryContent } from "./UsersDirectoryContent";
 import {
   buildUserListDescription,
@@ -82,7 +86,7 @@ export default async function UsersPage({
 
   const query = readSearchQuery(q);
   const isFiltering = query.length > 0;
-  const filteredUsers = filterUsersByQuery(allUsers, query);
+  const filteredUsers = await filterUsersByQuery(allUsers, query, lang);
   const countText = buildCountLabel(labels.countLabel, filteredUsers.length);
   const siteUrl = resolveStructuredDataSiteUrl();
   const pageUrl = buildStructuredDataUrl(buildOpenGraphUrl(lang, "/users"), siteUrl);
@@ -102,14 +106,14 @@ export default async function UsersPage({
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: filteredUsers.length,
-      itemListElement: filteredUsers.map((user, index) => ({
+      itemListElement: filteredUsers.map((result, index) => ({
         "@type": "ListItem",
         position: index + 1,
         url: buildStructuredDataUrl(
-          buildOpenGraphUrl(lang, `/users/${user.userId}`),
+          buildOpenGraphUrl(lang, `/users/${result.user.userId}`),
           siteUrl,
         ),
-        name: user.name,
+        name: result.user.name,
       })),
     },
   };

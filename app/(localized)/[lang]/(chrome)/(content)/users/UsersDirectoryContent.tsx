@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { SectionReveal } from "@/components/SectionReveal";
 import type { Language } from "@/lib/i18n/config";
-import type { PublicUserApi } from "@/lib/public-users";
 import { UserDirectoryCard } from "./UserDirectoryCard";
 import { UsersEmptyState } from "./UsersEmptyState";
 import { UserSearchForm } from "./UserSearchForm";
+import type { UserDirectorySearchResult } from "./users.helpers";
 import type { UserListLabels } from "./users-page.helpers";
 import styles from "./users.module.scss";
 
 type UsersDirectoryContentProps = {
   lang: Language;
   labels: UserListLabels;
-  filteredUsers: PublicUserApi[];
+  filteredUsers: UserDirectorySearchResult[];
   countText: string;
   isFiltering: boolean;
 };
@@ -61,11 +61,13 @@ export function UsersDirectoryContent({
 
         {filteredUsers.length > 0 ? (
           <div className={styles.grid}>
-            {filteredUsers.map((user, index) => (
-              <SectionReveal key={user.userId} variant="item" staggerIndex={index}>
+            {filteredUsers.map((result, index) => (
+              <SectionReveal key={result.user.userId} variant="item" staggerIndex={index}>
                 <UserDirectoryCard
                   lang={lang}
-                  user={user}
+                  user={result.user}
+                  matchedHashtags={result.matchedHashtags}
+                  hashtagHint={labels.hashtagHint}
                   journeysLabel={labels.journeysLabel}
                   viewProfileLabel={labels.viewProfile}
                 />
