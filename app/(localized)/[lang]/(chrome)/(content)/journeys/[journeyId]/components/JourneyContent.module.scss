@@ -142,6 +142,10 @@
   margin-top: 0.6rem;
 }
 
+.heroMetaRailMobile {
+  display: none;
+}
+
 .heroMetaCard {
   display: grid;
   gap: 0.24rem;
@@ -480,8 +484,50 @@
 
 @media (max-width: 680px) {
   .heroMetaRail {
+    display: none;
+  }
+
+  .heroMetaRailMobile {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 0.9rem;
+    margin-top: 1rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 56%, transparent);
+  }
+
+  .heroMetaRailMobile .heroMetaCard {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    gap: 0.3rem;
+  }
+
+  .heroMetaRailMobile .heroMetaLabel {
+    color: var(--color-text-tertiary);
+  }
+
+  .heroMetaRailMobile .heroMetaValue,
+  .heroMetaRailMobile .heroLanguageValue,
+  .heroMetaRailMobile .heroMetaLink {
+    color: var(--color-text-primary);
+  }
+
+  .heroMetaRailMobile .heroMetaDivider {
+    color: var(--color-text-tertiary);
+  }
+
+  .heroMetaRailMobile .heroMetaNative {
+    color: var(--color-text-secondary);
+  }
+
+  .heroMetaRailMobile .heroMetaLink:hover {
+    color: var(--color-text-secondary);
   }
 
   .momentExcerpt {
@@ -507,18 +553,14 @@
     line-height: 1.68;
   }
 
-  .heroMetaRail {
+  .heroMetaRailMobile {
     grid-template-columns: 1fr;
-    gap: 0.55rem;
+    gap: 0.65rem;
   }
 
-  .heroMetaCard {
-    padding: 0.65rem 0.76rem 0.7rem;
-  }
-
-  .heroMetaValue,
-  .heroLanguageValue,
-  .heroMetaLink {
+  .heroMetaRailMobile .heroMetaValue,
+  .heroMetaRailMobile .heroLanguageValue,
+  .heroMetaRailMobile .heroMetaLink {
     font-size: 0.92rem;
   }
 
