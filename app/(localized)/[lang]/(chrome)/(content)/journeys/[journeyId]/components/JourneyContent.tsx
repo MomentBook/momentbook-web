@@ -6,7 +6,6 @@ import type { JourneyLabels } from "../labels";
 import styles from "./JourneyContent.module.scss";
 import { JourneyArchiveSection } from "./JourneyArchiveSection";
 import { JourneyHero } from "./JourneyHero";
-import { HashtagChipList } from "../../components/HashtagChipList";
 import {
     buildJourneyArchivePhotos,
     buildJourneyClusterSections,
@@ -71,32 +70,6 @@ export default function JourneyContent({
                     photoCount={photoCount}
                 />
             </SectionReveal>
-
-            {journey.description || journey.hashtags.length > 0 ? (
-                <section className={styles.storySection}>
-                    {journey.description ? (
-                        <SectionReveal variant="item" delay={42}>
-                            <div className={styles.storyBody}>
-                                <p className={styles.storyDescription}>{journey.description}</p>
-                            </div>
-                        </SectionReveal>
-                    ) : null}
-
-                    {journey.hashtags.length > 0 ? (
-                        <SectionReveal variant="item" delay={94}>
-                            <HashtagChipList
-                                lang={lang}
-                                hashtags={journey.hashtags}
-                                title={labels.hashtagsTitle}
-                                rootClassName={styles.hashtagSection}
-                                titleClassName={styles.hashtagTitle}
-                                listClassName={styles.hashtagList}
-                                chipClassName={styles.hashtagChip}
-                            />
-                        </SectionReveal>
-                    ) : null}
-                </section>
-            ) : null}
 
             {hasClusters ? (
                 <JourneyMomentsSection

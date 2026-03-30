@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
+import { getHashtagSearchValue } from "@/lib/hashtags";
 import type { LanguageDisplayInfo } from "@/lib/i18n/language-display";
 import type { Language } from "@/lib/i18n/config";
 import type { PublishedJourneyApi } from "@/lib/published-journey";
@@ -61,81 +62,101 @@ export function JourneyHero({
               <p className={styles.heroLocation}>{locationSummary}</p>
             ) : null}
             <h1 className={styles.title}>{journey.title}</h1>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.heroBody}>
-        <div className={styles.metaStrip}>
-          <div className={styles.metaGrid}>
-            {authorName ? (
-              <div className={styles.metaBlock}>
-                <span className={styles.metaLabel}>{labels.authorLabel}</span>
-                <Link
-                  href={`/${lang}/users/${encodedUserId}`}
-                  className={styles.authorLink}
-                >
-                  {authorName}
-                </Link>
-              </div>
-            ) : null}
-
-            {hasTripPeriod ? (
-              <div className={styles.metaBlock}>
-                <span className={styles.metaLabel}>{labels.periodLabel}</span>
-                <span className={styles.metaValue}>
-                  <LocalizedDateRange
-                    lang={lang}
-                    start={periodStart}
-                    end={periodEnd}
-                    fallback="—"
-                  />
-                </span>
-              </div>
-            ) : publishedTimestamp ? (
-              <div className={styles.metaBlock}>
-                <span className={styles.metaLabel}>{labels.publishedLabel}</span>
-                <span className={styles.metaValue}>
-                  <LocalizedDate
-                    lang={lang}
-                    timestamp={publishedTimestamp}
-                    fallback="—"
-                  />
-                </span>
-              </div>
-            ) : null}
-
-            <div className={styles.metaBlock}>
-              <span className={styles.metaLabel}>{labels.photosStat}</span>
-              <span className={styles.metaValue}>
-                {photoCount} {labels.photoCount}
-              </span>
-            </div>
-          </div>
-
-          {sourceLanguage ? (
-            <div className={styles.languageNote}>
-              <span className={styles.languageNoteLabel}>
-                {labels.originalLanguageLabel}
-              </span>
-              <span className={styles.languageNoteValue}>
-                <span>{sourceLanguage.displayName}</span>
-                {showNativeName ? (
-                  <>
-                    <span className={styles.languageNoteDivider} aria-hidden="true">
-                      ·
-                    </span>
-                    <bdi
-                      lang={sourceLanguage.localeTag}
-                      className={styles.languageNoteNative}
-                    >
-                      {sourceLanguage.nativeName}
-                    </bdi>
-                  </>
+            {journey.description || journey.hashtags.length > 0 ? (
+              <div className={styles.heroNarrative}>
+                {journey.description ? (
+                  <p className={styles.heroDescription}>{journey.description}</p>
                 ) : null}
-              </span>
+
+                {journey.hashtags.length > 0 ? (
+                  <div
+                    className={styles.heroHashtagSection}
+                    aria-label={labels.hashtagsTitle}
+                  >
+                    {journey.hashtags.map((hashtag) => (
+                      <Link
+                        key={hashtag}
+                        href={{
+                          pathname: `/${lang}/users`,
+                          query: { q: getHashtagSearchValue(hashtag) },
+                        }}
+                        className={styles.heroHashtagChip}
+                      >
+                        {hashtag}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+
+            <div className={styles.heroMetaRail}>
+              {authorName ? (
+                <div className={styles.heroMetaCard}>
+                  <span className={styles.heroMetaLabel}>{labels.authorLabel}</span>
+                  <Link
+                    href={`/${lang}/users/${encodedUserId}`}
+                    className={styles.heroMetaLink}
+                  >
+                    {authorName}
+                  </Link>
+                </div>
+              ) : null}
+
+              {hasTripPeriod ? (
+                <div className={styles.heroMetaCard}>
+                  <span className={styles.heroMetaLabel}>{labels.periodLabel}</span>
+                  <span className={styles.heroMetaValue}>
+                    <LocalizedDateRange
+                      lang={lang}
+                      start={periodStart}
+                      end={periodEnd}
+                      fallback="—"
+                    />
+                  </span>
+                </div>
+              ) : publishedTimestamp ? (
+                <div className={styles.heroMetaCard}>
+                  <span className={styles.heroMetaLabel}>{labels.publishedLabel}</span>
+                  <span className={styles.heroMetaValue}>
+                    <LocalizedDate
+                      lang={lang}
+                      timestamp={publishedTimestamp}
+                      fallback="—"
+                    />
+                  </span>
+                </div>
+              ) : null}
+
+              <div className={styles.heroMetaCard}>
+                <span className={styles.heroMetaLabel}>{labels.photosStat}</span>
+                <span className={styles.heroMetaValue}>
+                  {photoCount} {labels.photoCount}
+                </span>
+              </div>
+
+              {sourceLanguage ? (
+                <div className={styles.heroMetaCard}>
+                  <span className={styles.heroMetaLabel}>
+                    {labels.originalLanguageLabel}
+                  </span>
+                  <span className={styles.heroLanguageValue}>
+                    <span>{sourceLanguage.displayName}</span>
+                    {showNativeName ? (
+                      <>
+                        <span className={styles.heroMetaDivider} aria-hidden="true">
+                          ·
+                        </span>
+                        <bdi lang={sourceLanguage.localeTag} className={styles.heroMetaNative}>
+                          {sourceLanguage.nativeName}
+                        </bdi>
+                      </>
+                    ) : null}
+                  </span>
+                </div>
+              ) : null}
             </div>
-          ) : null}
+          </div>
         </div>
       </div>
     </header>
