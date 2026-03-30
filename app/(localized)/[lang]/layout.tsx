@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import localFont from "next/font/local";
 import "@/app/globals.scss";
 import {
@@ -8,6 +9,7 @@ import {
 } from "@/app/RootDocument";
 import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
 import {
+  isValidLanguage,
   languageList,
   toLocaleTag,
   toOpenGraphLocale,
@@ -35,13 +37,21 @@ const siteDescriptionByLanguage: Record<Language, string> = {
   en: "An app that quietly remembers the moments of your day.",
   ko: "하루의 순간을 조용히 기억하는 앱.",
   ja: "一日の瞬間を静かに覚えておくアプリ。",
-  zh: "安静记住你一天瞬间的应用。",
+  zh: "一款静静记住你一天中那些瞬间的应用。",
   es: "Una aplicación que recuerda en silencio los momentos de tu día.",
   pt: "Um aplicativo que guarda em silêncio os momentos do seu dia.",
-  fr: "Une application qui garde en douceur les moments de votre journée.",
+  fr: "Une application qui se souvient discrètement des moments de votre journée.",
   th: "แอปที่จดจำช่วงเวลาของวันคุณอย่างเงียบๆ",
   vi: "Ứng dụng lặng lẽ ghi nhớ những khoảnh khắc trong ngày của bạn.",
 };
+
+function resolveRouteLanguage(lang: string): Language {
+  if (!isValidLanguage(lang)) {
+    notFound();
+  }
+
+  return lang;
+}
 
 // Generate static params for all supported languages
 export async function generateStaticParams() {
@@ -54,7 +64,8 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
-  const { lang } = await params as { lang: Language };
+  const { lang: rawLang } = await params;
+  const lang = resolveRouteLanguage(rawLang);
 
   return {
     metadataBase: APP_METADATA_BASE,
@@ -80,7 +91,8 @@ export default async function LangLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params as { lang: Language };
+  const { lang: rawLang } = await params;
+  const lang = resolveRouteLanguage(rawLang);
 
   return (
     <RootDocument htmlLang={toLocaleTag(lang)}>

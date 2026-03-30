@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { type Language } from "@/lib/i18n/config";
+import { isValidLanguage, type Language } from "@/lib/i18n/config";
 import {
   detectLandingPlatform,
   normalizeCampaignParams,
@@ -14,7 +14,12 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ lang: string }> },
 ) {
-  const { lang } = await params as { lang: Language };
+  const { lang: rawLang } = await params;
+  if (!isValidLanguage(rawLang)) {
+    return new Response("Not Found", { status: 404 });
+  }
+
+  const lang: Language = rawLang;
   const rawSearchParams = Object.fromEntries(
     request.nextUrl.searchParams.entries(),
   ) as CampaignSearchParams;
