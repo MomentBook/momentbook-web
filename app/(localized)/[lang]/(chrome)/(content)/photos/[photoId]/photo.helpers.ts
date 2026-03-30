@@ -274,6 +274,7 @@ type Coordinates = {
 export type PhotoDisplayState = {
   title: string;
   caption: string | null;
+  hasGeneratedTitle: boolean;
   journeyTitle: string | null;
   locationName: string | null;
   takenAt: number | null;
@@ -350,14 +351,17 @@ export function buildPhotoDisplayState(
   copy: PhotoPageCopy,
   photo: PublishedPhotoApi,
 ): PhotoDisplayState {
+  const caption = readText(photo.caption);
+  const journeyTitle = readText(photo.journey.title);
   const seoText = buildPhotoSeoText(copy, photo);
   const takenAt = hasValidTimestamp(photo.takenAt) ? photo.takenAt : null;
   const location = hasValidCoordinates(photo.location) ? photo.location : null;
 
   return {
     title: seoText.title,
-    caption: readText(photo.caption),
-    journeyTitle: readText(photo.journey.title),
+    caption,
+    hasGeneratedTitle: !caption,
+    journeyTitle,
     locationName: readText(photo.locationName),
     takenAt,
     captureTime: photo.captureTime ?? null,
