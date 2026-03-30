@@ -28,11 +28,11 @@ export function PhotoContent({
 }: PhotoContentProps) {
   const journeyHref = `/${lang}/journeys/${photo.journey.publicId}`;
   const showJourneyContext = Boolean(display.journeyTitle);
-  const showMobileMeta = display.hasTakenAt || Boolean(display.locationName);
-  const showDesktopMeta =
-    display.hasTakenAt || Boolean(display.locationName) || Boolean(display.location);
+  const showMobileMeta = display.hasTakenAt;
+  const showDesktopMeta = display.hasTakenAt;
   const showCaptionBlock =
     Boolean(display.caption) && display.caption !== display.title;
+  const showLocationSection = Boolean(display.locationName || display.location);
   const hasJourneyDateRange = Boolean(
     photo.journey.startedAt ||
       photo.journey.endedAt ||
@@ -103,21 +103,6 @@ export function PhotoContent({
                   </div>
                 ) : null}
 
-                {display.locationName ? (
-                  <div className={styles.railMetaItem}>
-                    <dt className={styles.metaLabel}>{copy.location}</dt>
-                    <dd className={styles.railValue}>{display.locationName}</dd>
-                  </div>
-                ) : null}
-
-                {display.location ? (
-                  <div className={styles.railMetaItem}>
-                    <dt className={styles.metaLabel}>{copy.coordinates}</dt>
-                    <dd className={`${styles.railValue} ${styles.metaMono}`}>
-                      {formatCoordinates(display.location.lat, display.location.lng)}
-                    </dd>
-                  </div>
-                ) : null}
               </dl>
             ) : null}
           </aside>
@@ -160,75 +145,37 @@ export function PhotoContent({
               </div>
             ) : null}
 
-            {display.locationName ? (
-              <div className={styles.metaItem}>
-                <dt className={styles.metaLabel}>{copy.location}</dt>
-                <dd className={styles.metaValue}>{display.locationName}</dd>
-              </div>
-            ) : null}
           </dl>
         ) : null}
 
-        {display.location ? (
+        {showLocationSection ? (
           <section className={styles.mapSection} aria-labelledby="photo-coordinates-title">
             <div className={styles.mapHeader}>
               <p id="photo-coordinates-title" className={styles.metaLabel}>
-                {copy.coordinates}
+                {display.location ? copy.coordinates : copy.location}
               </p>
               {display.locationName ? (
                 <p className={styles.mapLocation}>{display.locationName}</p>
               ) : null}
-              <p className={`${styles.mapCoordinates} ${styles.metaMono}`}>
-                {formatCoordinates(display.location.lat, display.location.lng)}
-              </p>
+              {display.location ? (
+                <p className={`${styles.mapCoordinates} ${styles.metaMono}`}>
+                  {formatCoordinates(display.location.lat, display.location.lng)}
+                </p>
+              ) : null}
             </div>
 
-            <div className={styles.mapVisual} aria-hidden="true">
-              <div className={styles.mapGrid} />
-              <span className={styles.mapPin} />
-            </div>
+            {display.location ? (
+              <div className={styles.mapVisual} aria-hidden="true">
+                <div className={styles.mapGrid} />
+                <span className={styles.mapPin} />
+              </div>
+            ) : null}
           </section>
         ) : null}
 
         <section className={styles.archiveNoteSection}>
-          <div className={styles.archiveNoteSurface}>
-            <div className={styles.archiveNoteBlock}>
-              <p className={styles.noteLabel}>{copy.archiveNoteLabel}</p>
-              <p className={styles.noteBody}>{copy.archiveNoteBody}</p>
-            </div>
-
-            <div className={styles.archiveSummaryGrid}>
-              {showJourneyContext ? (
-                <div className={styles.summaryItem}>
-                  <p className={styles.metaLabel}>{copy.partOfLabel}</p>
-                  <Link href={journeyHref} className={styles.summaryLink}>
-                    {display.journeyTitle}
-                  </Link>
-                  {renderJourneyDateRange(styles.summarySubline)}
-                </div>
-              ) : null}
-
-              {display.hasTakenAt ? (
-                <div className={styles.summaryItem}>
-                  <p className={styles.metaLabel}>{copy.takenAt}</p>
-                  <p className={styles.summaryValue}>
-                    <LocalizedDateTime
-                      lang={lang}
-                      timestamp={photo.takenAt}
-                      localContext={display.captureTime}
-                    />
-                  </p>
-                </div>
-              ) : null}
-
-              {display.locationName ? (
-                <div className={styles.summaryItem}>
-                  <p className={styles.metaLabel}>{copy.location}</p>
-                  <p className={styles.summaryValue}>{display.locationName}</p>
-                </div>
-              ) : null}
-            </div>
-          </div>
+          <p className={styles.noteLabel}>{copy.archiveNoteLabel}</p>
+          <p className={styles.noteBody}>{copy.archiveNoteBody}</p>
         </section>
       </section>
     </>
