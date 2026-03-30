@@ -6,6 +6,7 @@ import { readText } from "@/lib/view-helpers";
 
 export type PhotoPageCopy = {
   eyebrow: string;
+  archiveMarker: string;
   backToJourney: string;
   partOfLabel: string;
   takenAt: string;
@@ -28,6 +29,7 @@ export type PhotoPageCopy = {
 export const photoCopy: Record<Language, PhotoPageCopy> = {
   en: {
     eyebrow: "Photo",
+    archiveMarker: "Archive",
     backToJourney: "Back to journey",
     partOfLabel: "part of",
     takenAt: "Captured",
@@ -52,6 +54,7 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
   },
   ko: {
     eyebrow: "사진",
+    archiveMarker: "아카이브",
     backToJourney: "여정으로 돌아가기",
     partOfLabel: "다음 여정의 일부",
     takenAt: "기록 시각",
@@ -76,6 +79,7 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
   },
   ja: {
     eyebrow: "写真",
+    archiveMarker: "アーカイブ",
     backToJourney: "旅に戻る",
     partOfLabel: "次の旅の一部",
     takenAt: "記録時刻",
@@ -100,6 +104,7 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
   },
   zh: {
     eyebrow: "照片",
+    archiveMarker: "归档",
     backToJourney: "返回旅程",
     partOfLabel: "属于以下旅程",
     takenAt: "记录时间",
@@ -124,6 +129,7 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
   },
   es: {
     eyebrow: "Foto",
+    archiveMarker: "Archivo",
     backToJourney: "Volver al viaje",
     partOfLabel: "parte de",
     takenAt: "Capturada",
@@ -148,6 +154,7 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
   },
   pt: {
     eyebrow: "Foto",
+    archiveMarker: "Arquivo",
     backToJourney: "Voltar para a viagem",
     partOfLabel: "parte de",
     takenAt: "Registrada",
@@ -172,6 +179,7 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
   },
   fr: {
     eyebrow: "Photo",
+    archiveMarker: "Archive",
     backToJourney: "Retour au voyage",
     partOfLabel: "partie de",
     takenAt: "Prise le",
@@ -196,6 +204,7 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
   },
   th: {
     eyebrow: "รูปภาพ",
+    archiveMarker: "คลังภาพ",
     backToJourney: "กลับไปที่ทริป",
     partOfLabel: "เป็นส่วนหนึ่งของ",
     takenAt: "เวลาที่บันทึก",
@@ -220,6 +229,7 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
   },
   vi: {
     eyebrow: "Ảnh",
+    archiveMarker: "Lưu trữ",
     backToJourney: "Quay lại hành trình",
     partOfLabel: "thuộc về",
     takenAt: "Thời điểm ghi",

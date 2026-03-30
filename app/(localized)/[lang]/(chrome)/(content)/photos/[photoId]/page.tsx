@@ -24,7 +24,6 @@ import {
 import { PhotoContent } from "./PhotoContent";
 import {
     buildPhotoDisplayState,
-    buildPhotoSeoText,
     hasValidTimestamp,
     photoCopy,
     photoNotFoundTitleByLanguage,
@@ -50,7 +49,7 @@ export async function generateMetadata({
         };
     }
 
-    const { title, description } = buildPhotoSeoText(copy, photo);
+    const display = buildPhotoDisplayState(copy, photo);
     const path = `/photos/${photo.photoId}`;
     const takenAt = hasValidTimestamp(photo.takenAt) ? photo.takenAt : null;
     const publishedTime =
@@ -60,20 +59,20 @@ export async function generateMetadata({
     const keywords = buildPublicKeywords({
         lang,
         kind: "photo",
-        title,
-        locationNames: photo.locationName ? [photo.locationName] : [],
-        extra: [photo.journey.title],
+        title: display.title,
+        locationNames: display.locationName ? [display.locationName] : [],
+        extra: display.journeyTitle ? [display.journeyTitle] : [],
     });
     const socialImages = compactSocialImages([
         {
             url: photo.url,
-            alt: title,
+            alt: display.title,
         },
     ]);
 
     return {
-        title,
-        description,
+        title: display.title,
+        description: display.description,
         applicationName: "MomentBook",
         creator: "MomentBook",
         publisher: "MomentBook",
@@ -81,8 +80,8 @@ export async function generateMetadata({
         alternates: buildAlternates(lang, path),
         openGraph: {
             ...buildOpenGraphBase(lang, path),
-            title,
-            description,
+            title: display.title,
+            description: display.description,
             type: "article",
             images: socialImages,
             publishedTime,
@@ -90,8 +89,8 @@ export async function generateMetadata({
         },
         twitter: {
             card: resolveTwitterCard(socialImages),
-            title,
-            description,
+            title: display.title,
+            description: display.description,
             images: socialImages?.map((image) => image.url),
         },
     };
@@ -129,7 +128,7 @@ export default async function PhotoPage({
         kind: "photo",
         title: display.title,
         locationNames: display.locationName ? [display.locationName] : [],
-        extra: [display.journeyTitle ?? photo.journey.title],
+        extra: display.journeyTitle ? [display.journeyTitle] : [],
     });
     const keywordValue = buildStructuredDataKeywordValue(keywords);
 
@@ -164,6 +163,10 @@ export default async function PhotoPage({
         mainEntityOfPage: {
             "@type": "WebPage",
             "@id": pageUrl,
+            name: display.title,
+            description: display.description,
+            inLanguage: toLocaleTag(lang),
+            primaryImageOfPage: photo.url,
         },
     };
 
