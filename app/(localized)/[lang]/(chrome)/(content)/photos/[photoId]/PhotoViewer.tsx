@@ -46,8 +46,6 @@ type PhotoViewerProps = {
   photoUrl: string;
   alt: string;
   copy: PhotoPageCopy;
-  title: string;
-  journeyTitle: string | null;
   locationName: string | null;
   takenAt?: number;
 };
@@ -100,8 +98,6 @@ export function PhotoViewer({
   photoUrl,
   alt,
   copy,
-  title,
-  journeyTitle,
   locationName,
   takenAt,
 }: PhotoViewerProps) {
@@ -129,7 +125,6 @@ export function PhotoViewer({
     time: number;
     point: Point;
   } | null>(null);
-  const titleId = useId();
   const descriptionId = useId();
 
   const baseSize = useMemo(
@@ -456,11 +451,6 @@ export function PhotoViewer({
     setOffset((currentOffset) => clampOffset(currentOffset, nextScale, baseSize));
   };
 
-  const viewerMeta = [
-    journeyTitle,
-    locationName,
-  ].filter((value): value is string => Boolean(value && value.trim()));
-
   return (
     <>
       <button
@@ -470,7 +460,7 @@ export function PhotoViewer({
         onClick={openViewer}
         aria-label={copy.openViewer}
         aria-haspopup="dialog"
-      >
+        >
         <figure className={styles.mediaFrame}>
           <Image
             src={photoUrl}
@@ -480,7 +470,6 @@ export function PhotoViewer({
             className={styles.image}
             sizes="(max-width: 767px) 100vw, (max-width: 1279px) 92vw, 1120px"
           />
-          <span className={styles.viewerHintChip}>{copy.openViewerHint}</span>
         </figure>
       </button>
 
@@ -496,22 +485,10 @@ export function PhotoViewer({
                 role="dialog"
                 aria-modal="true"
                 aria-label={copy.viewerDialogLabel}
-                aria-labelledby={titleId}
                 aria-describedby={descriptionId}
                 onClick={(event) => event.stopPropagation()}
               >
                 <div className={styles.viewerTopBar}>
-                  <div className={styles.viewerHeading}>
-                    <p id={titleId} className={styles.viewerTitle}>
-                      {title}
-                    </p>
-                    {viewerMeta.length > 0 ? (
-                      <p className={styles.viewerSubtitle}>
-                        {viewerMeta.join(" · ")}
-                      </p>
-                    ) : null}
-                  </div>
-
                   <button
                     ref={closeButtonRef}
                     type="button"
@@ -572,7 +549,7 @@ export function PhotoViewer({
                 </div>
 
                 <div id={descriptionId} className={styles.viewerBottomBar}>
-                  <div className={styles.viewerMeta}>
+                  <div className={styles.viewerMeta} aria-live="polite">
                     {takenAt ? (
                       <span className={styles.viewerMetaItem}>
                         <LocalizedDateTime lang={lang} timestamp={takenAt} />

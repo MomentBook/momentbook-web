@@ -43,8 +43,6 @@ export function PhotoContent({
           photoUrl={photo.url}
           alt={display.title || photoId}
           copy={copy}
-          title={display.title}
-          journeyTitle={display.journeyTitle}
           locationName={display.locationName}
           takenAt={photo.takenAt}
         />
