@@ -52,7 +52,7 @@ export function JourneyMomentsSection({
                       src={section.coverPhoto.url}
                       alt={section.coverPhoto.alt}
                       fill
-                      sizes="(max-width: 899px) 100vw, 52vw"
+                      sizes="(max-width: 899px) 100vw, (max-width: 1199px) 46vw, (max-width: 1439px) 32vw, 28rem"
                       className={styles.photoImage}
                     />
                   </div>

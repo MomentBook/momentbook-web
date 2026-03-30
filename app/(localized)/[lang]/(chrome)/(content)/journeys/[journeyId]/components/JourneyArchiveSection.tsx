@@ -26,7 +26,7 @@ function JourneyArchivePhotoCard({
         src={photo.url}
         alt={photo.alt}
         fill
-        sizes="(max-width: 739px) 50vw, (max-width: 1099px) 33vw, 24vw"
+        sizes="(max-width: 739px) 50vw, (max-width: 1099px) 33vw, (max-width: 1439px) 20vw, 12.75rem"
         className={styles.photoImage}
       />
     </div>

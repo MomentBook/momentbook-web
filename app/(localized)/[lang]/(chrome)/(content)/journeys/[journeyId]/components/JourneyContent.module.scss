@@ -5,6 +5,8 @@
 
 .hero {
   display: block;
+  width: min(100%, 72rem);
+  margin: 0 auto;
 }
 
 .heroFrame,
@@ -210,6 +212,8 @@
 .archiveSection {
   display: grid;
   gap: clamp(1.5rem, 4vw, 2.6rem);
+  width: min(100%, 74rem);
+  margin: 0 auto;
 }
 
 .sectionIntro {
@@ -407,58 +411,70 @@
 }
 
 @media (min-width: 900px) {
+  .heroFrame {
+    min-height: clamp(24rem, 52vw, 31rem);
+  }
+
   .heroMetaRail {
     gap: 0.8rem;
   }
 
+  .momentThumbFrame {
+    width: min(100%, 24rem);
+    justify-self: start;
+  }
+
   .momentCard {
-    grid-template-columns: minmax(0, 1.08fr) minmax(19rem, 0.82fr);
-    gap: clamp(1.4rem, 3vw, 2.4rem);
+    position: relative;
+    grid-template-columns: minmax(15rem, 24rem) minmax(0, 1fr);
+    gap: clamp(1.35rem, 2.6vw, 2.05rem);
+    align-items: center;
   }
 
-  .momentListItem:nth-child(2n) .momentCard {
-    grid-template-columns: minmax(19rem, 0.78fr) minmax(0, 1.08fr);
-  }
-
-  .momentListItem:nth-child(2n) .momentThumbFrame {
-    order: 2;
-  }
-
-  .momentListItem:nth-child(2n) .momentCardBody {
-    order: 1;
-    padding-right: clamp(1rem, 4vw, 3.2rem);
-    padding-left: 0;
-  }
-
-  .momentListItem:nth-child(2n + 1) .momentCardBody {
+  .momentCardBody {
+    max-width: 34rem;
     padding-left: clamp(0.2rem, 2vw, 1.25rem);
+    padding-right: clamp(2.75rem, 4vw, 3.5rem);
+    align-content: center;
   }
 
-  .momentListItem:nth-child(2n) .momentThumb {
-    aspect-ratio: 16 / 10;
+  .momentCardTop {
+    justify-content: flex-start;
   }
 
-  .momentListItem:nth-child(3n) .momentCard {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    max-width: 56rem;
-    margin: 0 auto;
+  .momentChevron {
+    position: absolute;
+    top: 50%;
+    right: clamp(0.8rem, 2vw, 1.45rem);
+    transform: translateY(-50%);
   }
 
-  .momentListItem:nth-child(3n) .momentCardBody {
-    max-width: 32rem;
-    padding: 0;
-    text-align: center;
+  .momentCard:hover .momentChevron {
+    transform: translate(3px, -50%);
   }
 
-  .momentListItem:nth-child(3n) .momentCardTop,
-  .momentListItem:nth-child(3n) .momentMeta {
-    justify-content: center;
+  .momentThumb {
+    aspect-ratio: 5 / 4;
   }
 
-  .momentListItem:nth-child(3n) .momentThumb {
-    aspect-ratio: 16 / 10;
-    width: 100%;
+  .archiveGrid {
+    grid-template-columns: repeat(auto-fit, minmax(11.5rem, 12.75rem));
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero {
+    width: min(100%, 70rem);
+  }
+
+  .momentsSection,
+  .archiveSection {
+    width: min(100%, 72rem);
+  }
+
+  .momentList {
+    gap: clamp(2.4rem, 4vw, 3.75rem);
   }
 }
 

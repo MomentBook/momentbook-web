@@ -52,7 +52,7 @@ export function JourneyHero({
           alt={heroImage.alt}
           fill
           priority
-          sizes="(max-width: 1099px) 100vw, 78rem"
+          sizes="(max-width: 899px) 100vw, (max-width: 1199px) 92vw, 70rem"
           className={styles.heroImage}
         />
         <div className={styles.heroOverlay}>
