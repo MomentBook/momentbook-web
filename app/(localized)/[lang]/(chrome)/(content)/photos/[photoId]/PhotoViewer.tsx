@@ -7,6 +7,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
   type WheelEvent as ReactWheelEvent,
 } from "react";
@@ -15,9 +16,6 @@ import type { Language } from "@/lib/i18n/config";
 import { LocalizedDateTime } from "./LocalizedDateTime";
 import type { PhotoPageCopy } from "./photo.helpers";
 import styles from "./photo.module.scss";
-
-const focusableSelector =
-  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 const MIN_SCALE = 1;
 const DOUBLE_TAP_SCALE = 2.4;
@@ -107,10 +105,8 @@ export function PhotoViewer({
   const [naturalSize, setNaturalSize] = useState<Size | null>(null);
   const [stageSize, setStageSize] = useState<Size>({ width: 0, height: 0 });
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
   const activePointersRef = useRef<Map<number, PointerState>>(new Map());
   const panSessionRef = useRef<{
     pointerId: number;
@@ -140,23 +136,22 @@ export function PhotoViewer({
     ? copy.viewerTouchHint
     : copy.viewerDesktopHint;
 
-  function openViewer() {
+  function resetViewerState() {
     activePointersRef.current.clear();
     panSessionRef.current = null;
     pinchSessionRef.current = null;
     lastTouchTapRef.current = null;
     setScale(1);
     setOffset({ x: 0, y: 0 });
+  }
+
+  function openViewer() {
+    resetViewerState();
     setIsOpen(true);
   }
 
   function closeViewer() {
-    activePointersRef.current.clear();
-    panSessionRef.current = null;
-    pinchSessionRef.current = null;
-    lastTouchTapRef.current = null;
-    setScale(1);
-    setOffset({ x: 0, y: 0 });
+    resetViewerState();
     setIsOpen(false);
   }
 
@@ -175,6 +170,67 @@ export function PhotoViewer({
       mediaQuery.removeEventListener("change", syncPointerType);
     };
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const dialog = dialogRef.current;
+
+    if (!dialog || typeof dialog.showModal !== "function" || dialog.open) {
+      return;
+    }
+
+    dialog.showModal();
+  }, [isOpen]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+
+    if (!dialog) {
+      return;
+    }
+
+    const handleCancel = (event: Event) => {
+      event.preventDefault();
+      activePointersRef.current.clear();
+      panSessionRef.current = null;
+      pinchSessionRef.current = null;
+      lastTouchTapRef.current = null;
+      setScale(1);
+      setOffset({ x: 0, y: 0 });
+      setIsOpen(false);
+    };
+
+    const handleClose = () => {
+      activePointersRef.current.clear();
+      panSessionRef.current = null;
+      pinchSessionRef.current = null;
+      lastTouchTapRef.current = null;
+      setScale(1);
+      setOffset({ x: 0, y: 0 });
+      setIsOpen(false);
+    };
+
+    dialog.addEventListener("cancel", handleCancel);
+    dialog.addEventListener("close", handleClose);
+
+    return () => {
+      dialog.removeEventListener("cancel", handleCancel);
+      dialog.removeEventListener("close", handleClose);
+    };
+  }, []);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+
+    if (!dialog || isOpen || !dialog.open) {
+      return;
+    }
+
+    dialog.close();
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen || !stageRef.current || typeof ResizeObserver === "undefined") {
@@ -198,78 +254,6 @@ export function PhotoViewer({
 
     return () => {
       observer.disconnect();
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    const previousOverscrollBehavior = document.body.style.overscrollBehavior;
-    const previousTouchAction = document.body.style.touchAction;
-    const previousFocused =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null;
-    const fallbackTrigger = triggerRef.current;
-
-    document.body.style.overflow = "hidden";
-    document.body.style.overscrollBehavior = "contain";
-    document.body.style.touchAction = "none";
-    closeButtonRef.current?.focus();
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeViewer();
-        return;
-      }
-
-      if (event.key !== "Tab" || !dialogRef.current) {
-        return;
-      }
-
-      const focusable = Array.from(
-        dialogRef.current.querySelectorAll<HTMLElement>(focusableSelector),
-      ).filter((element) => element.tabIndex !== -1);
-
-      if (focusable.length === 0) {
-        return;
-      }
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      const activeElement = document.activeElement;
-
-      if (event.shiftKey) {
-        if (activeElement === first || !dialogRef.current.contains(activeElement)) {
-          event.preventDefault();
-          last?.focus();
-        }
-        return;
-      }
-
-      if (activeElement === last) {
-        event.preventDefault();
-        first?.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.body.style.overscrollBehavior = previousOverscrollBehavior;
-      document.body.style.touchAction = previousTouchAction;
-      document.removeEventListener("keydown", handleKeyDown);
-
-      if (previousFocused?.isConnected) {
-        previousFocused.focus();
-      } else if (fallbackTrigger?.isConnected) {
-        fallbackTrigger.focus();
-      }
     };
   }, [isOpen]);
 
@@ -451,16 +435,21 @@ export function PhotoViewer({
     setOffset((currentOffset) => clampOffset(currentOffset, nextScale, baseSize));
   };
 
+  const handleShellClick = (event: ReactMouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      closeViewer();
+    }
+  };
+
   return (
     <>
       <button
-        ref={triggerRef}
         type="button"
         className={styles.viewerTrigger}
         onClick={openViewer}
         aria-label={copy.openViewer}
         aria-haspopup="dialog"
-        >
+      >
         <figure className={styles.mediaFrame}>
           <Image
             src={photoUrl}
@@ -470,99 +459,118 @@ export function PhotoViewer({
             className={styles.image}
             sizes="(max-width: 767px) 100vw, (max-width: 1279px) 92vw, 1120px"
           />
+          <figcaption className={styles.viewerTriggerHint} aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M15 4h5v5" />
+              <path d="m14 10 6-6" />
+              <path d="M9 20H4v-5" />
+              <path d="m10 14-6 6" />
+            </svg>
+            <span>{copy.openViewerHint}</span>
+          </figcaption>
         </figure>
       </button>
 
-      {isOpen && typeof document !== "undefined"
+      {typeof document !== "undefined"
         ? createPortal(
-            <div
-              className={styles.viewerOverlay}
-              onClick={closeViewer}
+            <dialog
+              ref={dialogRef}
+              className={styles.viewerDialog}
+              aria-label={copy.viewerDialogLabel}
+              aria-describedby={descriptionId}
             >
-              <div
-                ref={dialogRef}
-                className={styles.viewerDialog}
-                role="dialog"
-                aria-modal="true"
-                aria-label={copy.viewerDialogLabel}
-                aria-describedby={descriptionId}
-                onClick={(event) => event.stopPropagation()}
-              >
-                <div className={styles.viewerTopBar}>
-                  <button
-                    ref={closeButtonRef}
-                    type="button"
-                    className={styles.viewerCloseButton}
-                    onClick={closeViewer}
-                    aria-label={copy.closeViewer}
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M18 6 6 18" />
-                      <path d="m6 6 12 12" />
-                    </svg>
-                  </button>
-                </div>
-
+              <div className={styles.viewerShell} onClick={handleShellClick}>
                 <div
-                  ref={stageRef}
-                  className={`${styles.viewerStage} ${scale > 1 ? styles.viewerStageDragging : ""}`}
-                  onDoubleClick={toggleZoom}
-                  onPointerDown={handlePointerDown}
-                  onPointerMove={handlePointerMove}
-                  onPointerUp={finishPointerSession}
-                  onPointerCancel={finishPointerSession}
-                  onLostPointerCapture={finishPointerSession}
-                  onWheel={handleWheel}
+                  className={styles.viewerFrame}
+                  onClick={(event) => event.stopPropagation()}
                 >
                   <div
-                    className={styles.viewerImageFrame}
-                    style={{
-                      width: `${baseSize.width}px`,
-                      height: `${baseSize.height}px`,
-                      transform: `translate3d(${clampedOffset.x}px, ${clampedOffset.y}px, 0) scale(${scale})`,
-                    }}
+                    className={styles.viewerTopBar}
                   >
-                    <Image
-                      src={photoUrl}
-                      alt={alt}
-                      fill
-                      priority
-                      className={styles.viewerImage}
-                      sizes="100vw"
-                      onLoad={(event) => {
-                        setNaturalSize({
-                          width: event.currentTarget.naturalWidth,
-                          height: event.currentTarget.naturalHeight,
-                        });
-                      }}
-                    />
+                    <button
+                      type="button"
+                      className={styles.viewerCloseButton}
+                      onClick={closeViewer}
+                      aria-label={copy.closeViewer}
+                      autoFocus
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                      </svg>
+                    </button>
                   </div>
-                </div>
 
-                <div id={descriptionId} className={styles.viewerBottomBar}>
-                  <div className={styles.viewerMeta} aria-live="polite">
-                    {takenAt ? (
-                      <span className={styles.viewerMetaItem}>
-                        <LocalizedDateTime lang={lang} timestamp={takenAt} />
-                      </span>
-                    ) : null}
-                    {locationName ? (
-                      <span className={styles.viewerMetaItem}>{locationName}</span>
-                    ) : null}
+                  <div
+                    ref={stageRef}
+                    className={`${styles.viewerStage} ${scale > 1 ? styles.viewerStageDragging : ""}`}
+                    onDoubleClick={toggleZoom}
+                    onPointerDown={handlePointerDown}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={finishPointerSession}
+                    onPointerCancel={finishPointerSession}
+                    onLostPointerCapture={finishPointerSession}
+                    onWheel={handleWheel}
+                  >
+                    <div
+                      className={styles.viewerImageFrame}
+                      style={{
+                        width: `${baseSize.width}px`,
+                        height: `${baseSize.height}px`,
+                        transform: `translate3d(${clampedOffset.x}px, ${clampedOffset.y}px, 0) scale(${scale})`,
+                      }}
+                    >
+                      <Image
+                        src={photoUrl}
+                        alt={alt}
+                        fill
+                        priority
+                        className={styles.viewerImage}
+                        sizes="100vw"
+                        onLoad={(event) => {
+                          setNaturalSize({
+                            width: event.currentTarget.naturalWidth,
+                            height: event.currentTarget.naturalHeight,
+                          });
+                        }}
+                      />
+                    </div>
                   </div>
-                  <p className={styles.viewerInstruction}>{viewerHint}</p>
+
+                  <div id={descriptionId} className={styles.viewerBottomBar}>
+                    <div className={styles.viewerMeta} aria-live="polite">
+                      {takenAt ? (
+                        <span className={styles.viewerMetaItem}>
+                          <LocalizedDateTime lang={lang} timestamp={takenAt} />
+                        </span>
+                      ) : null}
+                      {locationName ? (
+                        <span className={styles.viewerMetaItem}>{locationName}</span>
+                      ) : null}
+                    </div>
+                    <p className={styles.viewerInstruction}>{viewerHint}</p>
+                  </div>
                 </div>
               </div>
-            </div>,
+            </dialog>,
             document.body,
           )
         : null}
