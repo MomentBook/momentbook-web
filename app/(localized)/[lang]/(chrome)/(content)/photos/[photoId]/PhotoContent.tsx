@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Language } from "@/lib/i18n/config";
 import type { PublishedPhotoApi } from "@/lib/published-journey";
 import { LocalizedDateTime } from "./LocalizedDateTime";
+import { PhotoViewer } from "./PhotoViewer";
 import {
   formatCoordinates,
   type PhotoDisplayState,
@@ -38,16 +38,16 @@ export function PhotoContent({
       </header>
 
       <section className={styles.hero}>
-        <figure className={styles.mediaFrame}>
-          <Image
-            src={photo.url}
-            alt={display.title || photoId}
-            fill
-            priority
-            className={styles.image}
-            sizes="(max-width: 767px) 100vw, (max-width: 1279px) 92vw, 1120px"
-          />
-        </figure>
+        <PhotoViewer
+          lang={lang}
+          photoUrl={photo.url}
+          alt={display.title || photoId}
+          copy={copy}
+          title={display.title}
+          journeyTitle={display.journeyTitle}
+          locationName={display.locationName}
+          takenAt={photo.takenAt}
+        />
       </section>
 
       <section className={styles.contentSection}>

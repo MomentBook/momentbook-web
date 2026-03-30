@@ -12,6 +12,12 @@ export type PhotoPageCopy = {
   coordinates: string;
   archiveNoteLabel: string;
   archiveNoteBody: string;
+  openViewer: string;
+  openViewerHint: string;
+  viewerDialogLabel: string;
+  closeViewer: string;
+  viewerDesktopHint: string;
+  viewerTouchHint: string;
   metadataTitleTemplate: string;
   metadataDescriptionLocationOnlyTemplate: string;
   metadataDescriptionWithLocationTemplate: string;
@@ -29,6 +35,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "Archive note",
     archiveNoteBody:
       "Shown as part of a published journey archive on MomentBook.",
+    openViewer: "Open larger photo view",
+    openViewerHint: "Open full view",
+    viewerDialogLabel: "Enlarged photo viewer",
+    closeViewer: "Close photo viewer",
+    viewerDesktopHint: "Press Esc to close",
+    viewerTouchHint: "Pinch or double-tap to zoom",
     metadataTitleTemplate: "Photo from {journey}",
     metadataDescriptionLocationOnlyTemplate:
       "Published travel photo captured at {location}, shown in the MomentBook web archive.",
@@ -47,6 +59,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "아카이브 노트",
     archiveNoteBody:
       "MomentBook의 공개 여정 아카이브 일부로 노출되는 사진입니다.",
+    openViewer: "사진 크게 보기 열기",
+    openViewerHint: "크게 보기",
+    viewerDialogLabel: "확대 사진 뷰어",
+    closeViewer: "사진 뷰어 닫기",
+    viewerDesktopHint: "Esc 키로 닫기",
+    viewerTouchHint: "핀치 또는 더블 탭으로 확대",
     metadataTitleTemplate: "{journey}의 사진",
     metadataDescriptionLocationOnlyTemplate:
       "{location}에서 촬영되어 MomentBook 공개 웹 아카이브에 노출되는 여행 사진입니다.",
@@ -65,6 +83,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "アーカイブノート",
     archiveNoteBody:
       "MomentBook の公開旅アーカイブの一部として表示される写真です。",
+    openViewer: "写真を大きく表示",
+    openViewerHint: "大きく見る",
+    viewerDialogLabel: "拡大写真ビューア",
+    closeViewer: "写真ビューアを閉じる",
+    viewerDesktopHint: "Esc キーで閉じる",
+    viewerTouchHint: "ピンチまたはダブルタップで拡大",
     metadataTitleTemplate: "{journey}の写真",
     metadataDescriptionLocationOnlyTemplate:
       "{location}で撮影され、MomentBook の公開 Web アーカイブに表示される旅行写真です。",
@@ -83,6 +107,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "归档说明",
     archiveNoteBody:
       "这张照片作为 MomentBook 公开旅程档案的一部分展示。",
+    openViewer: "打开大图查看",
+    openViewerHint: "查看大图",
+    viewerDialogLabel: "放大照片查看器",
+    closeViewer: "关闭照片查看器",
+    viewerDesktopHint: "按 Esc 关闭",
+    viewerTouchHint: "双指缩放或双击放大",
     metadataTitleTemplate: "{journey} 的照片",
     metadataDescriptionLocationOnlyTemplate:
       "这是一张拍摄于 {location}、展示在 MomentBook 网页公开档案中的旅行照片。",
@@ -101,6 +131,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "Nota de archivo",
     archiveNoteBody:
       "Se muestra como parte de un archivo de viaje publicado en MomentBook.",
+    openViewer: "Abrir foto ampliada",
+    openViewerHint: "Ver en grande",
+    viewerDialogLabel: "Visor de foto ampliada",
+    closeViewer: "Cerrar visor de foto",
+    viewerDesktopHint: "Pulsa Esc para cerrar",
+    viewerTouchHint: "Pellizca o toca dos veces para ampliar",
     metadataTitleTemplate: "Foto de {journey}",
     metadataDescriptionLocationOnlyTemplate:
       "Foto de viaje publicada, tomada en {location} y mostrada en el archivo web de MomentBook.",
@@ -119,6 +155,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "Nota de arquivo",
     archiveNoteBody:
       "Exibida como parte de um arquivo de viagem publicado no MomentBook.",
+    openViewer: "Abrir foto ampliada",
+    openViewerHint: "Ver maior",
+    viewerDialogLabel: "Visualizador de foto ampliada",
+    closeViewer: "Fechar visualizador de foto",
+    viewerDesktopHint: "Pressione Esc para fechar",
+    viewerTouchHint: "Use pinça ou toque duas vezes para ampliar",
     metadataTitleTemplate: "Foto de {journey}",
     metadataDescriptionLocationOnlyTemplate:
       "Foto de viagem publicada, tirada em {location} e exibida no arquivo web do MomentBook.",
@@ -137,6 +179,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "Note d'archive",
     archiveNoteBody:
       "Affichée comme partie d'une archive de voyage publiée sur MomentBook.",
+    openViewer: "Ouvrir la photo en grand",
+    openViewerHint: "Voir en grand",
+    viewerDialogLabel: "Visionneuse de photo agrandie",
+    closeViewer: "Fermer la visionneuse",
+    viewerDesktopHint: "Appuyez sur Échap pour fermer",
+    viewerTouchHint: "Pincez ou touchez deux fois pour zoomer",
     metadataTitleTemplate: "Photo de {journey}",
     metadataDescriptionLocationOnlyTemplate:
       "Photo de voyage publiée, prise à {location} et affichée dans l'archive web de MomentBook.",
@@ -155,6 +203,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "หมายเหตุคลัง",
     archiveNoteBody:
       "รูปนี้แสดงเป็นส่วนหนึ่งของคลังทริปสาธารณะบน MomentBook",
+    openViewer: "เปิดดูรูปขนาดใหญ่",
+    openViewerHint: "ดูแบบเต็ม",
+    viewerDialogLabel: "ตัวดูรูปภาพขยาย",
+    closeViewer: "ปิดตัวดูรูปภาพ",
+    viewerDesktopHint: "กด Esc เพื่อปิด",
+    viewerTouchHint: "บีบนิ้วหรือแตะสองครั้งเพื่อซูม",
     metadataTitleTemplate: "รูปจาก {journey}",
     metadataDescriptionLocationOnlyTemplate:
       "รูปท่องเที่ยวที่ถ่ายที่ {location} และแสดงในคลังเว็บสาธารณะของ MomentBook",
@@ -173,6 +227,12 @@ export const photoCopy: Record<Language, PhotoPageCopy> = {
     archiveNoteLabel: "Ghi chú lưu trữ",
     archiveNoteBody:
       "Ảnh này được hiển thị như một phần của kho lưu trữ hành trình công khai trên MomentBook.",
+    openViewer: "Mở ảnh lớn",
+    openViewerHint: "Xem toàn màn",
+    viewerDialogLabel: "Trình xem ảnh phóng to",
+    closeViewer: "Đóng trình xem ảnh",
+    viewerDesktopHint: "Nhấn Esc để đóng",
+    viewerTouchHint: "Chụm hoặc chạm hai lần để phóng to",
     metadataTitleTemplate: "Ảnh từ {journey}",
     metadataDescriptionLocationOnlyTemplate:
       "Ảnh du lịch đã đăng, chụp tại {location} và hiển thị trong kho lưu trữ web của MomentBook.",

@@ -160,6 +160,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 여정 상세와 moment 상세는 locale별 해시태그를 calm chip UI로 노출하며, 각 chip은 `/{lang}/users?q=` 검색으로 연결된다.
 - 신고 누적 또는 웹 검수 상태 등으로 웹에서 비노출 처리된 공개 여정 상세는 안내 문구와 noindex metadata를 렌더링한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
+- `/{lang}/photos/[photoId]`의 hero photo는 클릭/탭 시 확대 viewer overlay를 연다. 데스크톱에서는 blurred backdrop 위 centered large view + explicit close + `Esc` 닫기를 제공하고, 모바일에서는 edge-to-edge immersive viewer로 전환되며 pinch/double-tap 확대를 지원한다.
 
 ## 7) i18n / Preference Behavior
 
