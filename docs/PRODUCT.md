@@ -155,7 +155,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - 웹 로그인/Auth UI 및 `/api/auth/*` 라우트는 제공하지 않는다.
 - 여정 상세의 신고 버튼/신고 제출 플로우는 제거되어 있다.
-- `/{lang}/journeys/[journeyId]`는 cover-led summary와 moment index를 기본으로 렌더링한다. 상단에는 단일 hero image, 제목, 선택적 설명, 작성자, compact meta row(여행 기간 또는 게시일, 사진 수)만 노출한다. 클러스터가 있는 여정은 그 아래에서 각 moment를 대표 이미지 1장, 위치명, 시간 범위, 사진 수를 담은 clickable card list로 제공하고, 전체 사진 나열은 `/{lang}/journeys/[journeyId]/moments/[clusterId]` 상세에서만 보여준다. 클러스터가 없는 여정은 촬영 시각 기준 photo archive grid로 대체한다. 지도/점프 navigation/장소 요약 패널은 이 상세 화면에서 노출하지 않는다.
+- `/{lang}/journeys/[journeyId]`는 cover image 위 제목 overlay, 그 아래 작성자/여행 기간 또는 게시일/사진 수/원문 언어 메타 스트립, 이어서 에디토리얼한 설명 블록과 해시태그, 비대칭 타임라인형 moment list를 기본으로 렌더링한다. 클러스터가 있는 여정은 각 moment를 대표 이미지, 위치명, 선택적 impression, 시간 범위, 사진 수를 담은 clickable timeline card로 제공하고, 전체 사진 나열은 `/{lang}/journeys/[journeyId]/moments/[clusterId]` 상세에서만 보여준다. 클러스터가 없는 여정은 촬영 시각 기준 photo archive grid로 대체한다. 지도/점프 navigation/장소 요약 패널은 이 상세 화면에서 노출하지 않는다.
 - `/{lang}/journeys/[journeyId]`와 `/{lang}/journeys/[journeyId]/moments/[clusterId]`는 viewer request에 현재 route locale을 `lang` query로 전달한다. 서버가 치환한 localized title/description/cluster impression을 SEO metadata/structured data와 본문에 우선 반영하고, localized hashtags는 `localizedContent`에서 읽는다.
 - 여정 상세와 moment 상세는 locale별 해시태그를 calm chip UI로 노출하며, 각 chip은 `/{lang}/users?q=` 검색으로 연결된다.
 - 신고 누적 또는 웹 검수 상태 등으로 웹에서 비노출 처리된 공개 여정 상세는 안내 문구와 noindex metadata를 렌더링한다.

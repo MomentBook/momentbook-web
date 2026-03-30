@@ -1,4 +1,5 @@
 import type { Language } from "@/lib/i18n/config";
+import type { LanguageDisplayInfo } from "@/lib/i18n/language-display";
 import { SectionReveal } from "@/components/SectionReveal";
 import type { PublishedJourneyApi } from "@/lib/published-journey";
 import type { JourneyLabels } from "../labels";
@@ -19,6 +20,8 @@ type JourneyContentProps = {
     lang: Language;
     labels: JourneyLabels;
     authorName: string | null;
+    locationSummary: string | null;
+    sourceLanguage: LanguageDisplayInfo | null;
     publishedTimestamp: number | null;
     periodStart: number | null;
     periodEnd: number | null;
@@ -30,6 +33,8 @@ export default function JourneyContent({
     lang,
     labels,
     authorName,
+    locationSummary,
+    sourceLanguage,
     publishedTimestamp,
     periodStart,
     periodEnd,
@@ -58,6 +63,8 @@ export default function JourneyContent({
                     lang={lang}
                     labels={labels}
                     authorName={authorName}
+                    locationSummary={locationSummary}
+                    sourceLanguage={sourceLanguage}
                     publishedTimestamp={publishedTimestamp}
                     periodStart={periodStart}
                     periodEnd={periodEnd}
@@ -65,34 +72,44 @@ export default function JourneyContent({
                 />
             </SectionReveal>
 
-            <SectionReveal delay={48}>
-                <HashtagChipList
-                    lang={lang}
-                    hashtags={journey.hashtags}
-                    title={labels.hashtagsTitle}
-                    rootClassName={styles.hashtagSection}
-                    titleClassName={styles.hashtagTitle}
-                    listClassName={styles.hashtagList}
-                    chipClassName={styles.hashtagChip}
-                />
-            </SectionReveal>
+            {journey.description || journey.hashtags.length > 0 ? (
+                <section className={styles.storySection}>
+                    {journey.description ? (
+                        <SectionReveal variant="item" delay={42}>
+                            <div className={styles.storyBody}>
+                                <p className={styles.storyDescription}>{journey.description}</p>
+                            </div>
+                        </SectionReveal>
+                    ) : null}
+
+                    {journey.hashtags.length > 0 ? (
+                        <SectionReveal variant="item" delay={94}>
+                            <HashtagChipList
+                                lang={lang}
+                                hashtags={journey.hashtags}
+                                title={labels.hashtagsTitle}
+                                rootClassName={styles.hashtagSection}
+                                titleClassName={styles.hashtagTitle}
+                                listClassName={styles.hashtagList}
+                                chipClassName={styles.hashtagChip}
+                            />
+                        </SectionReveal>
+                    ) : null}
+                </section>
+            ) : null}
 
             {hasClusters ? (
-                <SectionReveal delay={80}>
-                    <JourneyMomentsSection
-                        lang={lang}
-                        labels={labels}
-                        sections={clusterSections}
-                    />
-                </SectionReveal>
+                <JourneyMomentsSection
+                    lang={lang}
+                    labels={labels}
+                    sections={clusterSections}
+                />
             ) : (
-                <SectionReveal delay={80}>
-                    <JourneyArchiveSection
-                        lang={lang}
-                        labels={labels}
-                        photos={archivePhotos}
-                    />
-                </SectionReveal>
+                <JourneyArchiveSection
+                    lang={lang}
+                    labels={labels}
+                    photos={archivePhotos}
+                />
             )}
         </article>
     );

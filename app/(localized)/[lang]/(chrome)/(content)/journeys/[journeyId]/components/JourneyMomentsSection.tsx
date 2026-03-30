@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SectionReveal } from "@/components/SectionReveal";
 import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import type { Language } from "@/lib/i18n/config";
 import type { JourneyLabels } from "../labels";
@@ -22,14 +23,17 @@ export function JourneyMomentsSection({
       className={styles.momentsSection}
       aria-labelledby="journey-moments-title"
     >
-      <div className={styles.sectionIntro}>
-        <h2
-          id="journey-moments-title"
-          className={styles.sectionTitle}
-        >
-          {labels.momentsTitle}
-        </h2>
-      </div>
+      <SectionReveal>
+        <div className={styles.sectionIntro}>
+          <h2
+            id="journey-moments-title"
+            className={styles.sectionTitle}
+          >
+            {labels.momentsTitle}
+          </h2>
+          <p className={styles.sectionLead}>{labels.momentsLead}</p>
+        </div>
+      </SectionReveal>
 
       <ol className={styles.momentList}>
         {sections.map((section, index) => (
@@ -37,52 +41,62 @@ export function JourneyMomentsSection({
             key={section.cluster.clusterId}
             className={styles.momentListItem}
           >
-            <Link
-              href={section.href}
-              className={styles.momentCard}
-            >
-              <div className={styles.momentThumb}>
-                <Image
-                  src={section.coverPhoto.url}
-                  alt={section.coverPhoto.alt}
-                  fill
-                  sizes="(max-width: 739px) 5.25rem, 7rem"
-                  className={styles.photoImage}
-                />
-              </div>
-
-              <div className={styles.momentCardBody}>
-                <div className={styles.momentCardTop}>
-                  <span className={styles.momentIndex}>
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className={styles.momentChevron}
-                    aria-hidden="true"
-                  >
-                    →
-                  </span>
+            <SectionReveal variant="item" delay={110} staggerIndex={index}>
+              <Link
+                href={section.href}
+                className={styles.momentCard}
+              >
+                <div className={styles.momentThumbFrame}>
+                  <div className={styles.momentThumb}>
+                    <Image
+                      src={section.coverPhoto.url}
+                      alt={section.coverPhoto.alt}
+                      fill
+                      sizes="(max-width: 899px) 100vw, 52vw"
+                      className={styles.photoImage}
+                    />
+                  </div>
                 </div>
 
-                <h3 className={styles.momentTitle}>
-                  {section.cluster.locationName ||
-                    labels.locationFallback}
-                </h3>
+                <div className={styles.momentCardBody}>
+                  <div className={styles.momentCardTop}>
+                    <span className={styles.momentIndex}>
+                      {labels.momentLabel} {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={styles.momentChevron}
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </div>
 
-                <div className={styles.momentMeta}>
-                  <LocalizedDateTimeRange
-                    lang={lang}
-                    start={section.cluster.time.startAt}
-                    end={section.cluster.time.endAt}
-                    fallback="—"
-                  />
-                  <span>
-                    {section.cluster.photoIds.length}{" "}
-                    {labels.photoCount}
-                  </span>
+                  <h3 className={styles.momentTitle}>
+                    {section.cluster.locationName ||
+                      labels.locationFallback}
+                  </h3>
+
+                  {section.cluster.impression ? (
+                    <p className={styles.momentExcerpt}>
+                      {section.cluster.impression}
+                    </p>
+                  ) : null}
+
+                  <div className={styles.momentMeta}>
+                    <LocalizedDateTimeRange
+                      lang={lang}
+                      start={section.cluster.time.startAt}
+                      end={section.cluster.time.endAt}
+                      fallback="—"
+                    />
+                    <span>
+                      {section.cluster.photoIds.length}{" "}
+                      {labels.photoCount}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </SectionReveal>
           </li>
         ))}
       </ol>

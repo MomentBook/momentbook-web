@@ -76,7 +76,7 @@ export function Reveal({
         observer.disconnect();
       },
       {
-        threshold: safeThreshold,
+        threshold: safeThreshold > 0 ? [0, safeThreshold] : 0,
         rootMargin: "0px 0px -8% 0px",
       },
     );

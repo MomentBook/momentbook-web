@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./journey.module.scss";
 import { type Language, toLocaleTag } from "@/lib/i18n/config";
+import { getLanguageDisplayInfo } from "@/lib/i18n/language-display";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublishedJourneyResult } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
@@ -228,6 +229,11 @@ export default async function JourneyPage({
     const labels = journeyLabels[lang] ?? journeyLabels.en;
     const user = await fetchPublicUser(journey.userId);
     const locations = getUniqueJourneyLocations(journey);
+    const locationSummary = locations.length > 0 ? locations.slice(0, 2).join(" · ") : null;
+    const sourceLanguage = getLanguageDisplayInfo(
+        journey.localizedContent?.sourceLanguage,
+        lang,
+    );
     const periodRange = resolveJourneyPeriodRange({
         startedAt: journey.startedAt,
         endedAt: journey.endedAt,
@@ -310,6 +316,8 @@ export default async function JourneyPage({
                 photoImageMap={photoImageMap}
                 lang={lang}
                 authorName={authorName}
+                locationSummary={locationSummary}
+                sourceLanguage={sourceLanguage}
                 publishedTimestamp={publishedTimestamp}
                 periodStart={periodRange.start}
                 periodEnd={periodRange.end}

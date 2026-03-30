@@ -2,12 +2,16 @@ import type { Language } from "@/lib/i18n/config";
 
 export type JourneyLabels = {
     eyebrow: string;
+    authorLabel: string;
+    originalLanguageLabel: string;
     hashtagsTitle: string;
     photosStat: string;
     photoCount: string;
     publishedLabel: string;
     periodLabel: string;
     momentsTitle: string;
+    momentsLead: string;
+    momentLabel: string;
     photoArchiveTitle: string;
     photoArchiveLead: string;
     photoArchiveEmpty: string;
@@ -17,12 +21,16 @@ export type JourneyLabels = {
 export const journeyLabels: Record<Language, JourneyLabels> = {
     en: {
         eyebrow: "Journey",
+        authorLabel: "Author",
+        originalLanguageLabel: "Original language",
         hashtagsTitle: "Themes",
         photosStat: "Photos",
         photoCount: "photos",
         publishedLabel: "Published",
         periodLabel: "Trip period",
-        momentsTitle: "Moment list",
+        momentsTitle: "Timeline",
+        momentsLead: "Follow the published moments in the order this journey unfolds.",
+        momentLabel: "Moment",
         photoArchiveTitle: "Photo archive",
         photoArchiveLead:
             "This journey was published without grouped moments. Browse the captured sequence below.",
@@ -31,12 +39,16 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     ko: {
         eyebrow: "여정",
+        authorLabel: "작성자",
+        originalLanguageLabel: "원문 언어",
         hashtagsTitle: "해시태그",
         photosStat: "사진",
         photoCount: "장",
         publishedLabel: "게시일",
         periodLabel: "여행 기간",
-        momentsTitle: "순간 목록",
+        momentsTitle: "타임라인",
+        momentsLead: "이 여정이 흐르는 순서대로 게시된 순간을 따라가 보세요.",
+        momentLabel: "순간",
         photoArchiveTitle: "사진 아카이브",
         photoArchiveLead:
             "이 여정은 순간 단위로 묶이지 않은 상태로 게시되었습니다. 아래에서 촬영 순서대로 사진을 둘러보세요.",
@@ -45,12 +57,16 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     ja: {
         eyebrow: "旅",
+        authorLabel: "作者",
+        originalLanguageLabel: "原文の言語",
         hashtagsTitle: "ハッシュタグ",
         photosStat: "写真",
         photoCount: "枚",
         publishedLabel: "公開日",
         periodLabel: "旅行期間",
-        momentsTitle: "モーメント一覧",
+        momentsTitle: "タイムライン",
+        momentsLead: "この旅が流れていく順番に、公開されたモーメントをたどれます。",
+        momentLabel: "モーメント",
         photoArchiveTitle: "フォトアーカイブ",
         photoArchiveLead:
             "この旅はモーメント単位のまとまりなしで公開されています。下の写真を撮影順にご覧ください。",
@@ -59,12 +75,16 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     zh: {
         eyebrow: "旅程",
+        authorLabel: "作者",
+        originalLanguageLabel: "原文语言",
         hashtagsTitle: "标签",
         photosStat: "照片",
         photoCount: "张照片",
         publishedLabel: "发布日期",
         periodLabel: "旅行时间",
-        momentsTitle: "瞬间列表",
+        momentsTitle: "时间线",
+        momentsLead: "按这段旅程展开的顺序查看已发布的瞬间。",
+        momentLabel: "瞬间",
         photoArchiveTitle: "照片档案",
         photoArchiveLead:
             "这段旅程在发布时没有按瞬间分组。请按拍摄顺序浏览下面的照片。",
@@ -73,12 +93,16 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     es: {
         eyebrow: "Viaje",
+        authorLabel: "Autor",
+        originalLanguageLabel: "Idioma original",
         hashtagsTitle: "Etiquetas",
         photosStat: "Fotos",
         photoCount: "fotos",
         publishedLabel: "Publicado",
         periodLabel: "Periodo del viaje",
-        momentsTitle: "Lista de momentos",
+        momentsTitle: "Cronología",
+        momentsLead: "Sigue los momentos publicados en el orden en que este viaje se despliega.",
+        momentLabel: "Momento",
         photoArchiveTitle: "Archivo de fotos",
         photoArchiveLead:
             "Este viaje se publicó sin momentos agrupados. Recorre abajo la secuencia de fotos capturadas.",
@@ -87,12 +111,16 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     pt: {
         eyebrow: "Viagem",
+        authorLabel: "Autor",
+        originalLanguageLabel: "Idioma original",
         hashtagsTitle: "Hashtags",
         photosStat: "Fotos",
         photoCount: "fotos",
         publishedLabel: "Publicado em",
         periodLabel: "Período da viagem",
-        momentsTitle: "Lista de momentos",
+        momentsTitle: "Linha do tempo",
+        momentsLead: "Siga os momentos publicados na ordem em que esta viagem se desenrola.",
+        momentLabel: "Momento",
         photoArchiveTitle: "Arquivo de fotos",
         photoArchiveLead:
             "Esta viagem foi publicada sem momentos agrupados. Veja abaixo a sequência das fotos capturadas.",
@@ -101,12 +129,16 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     fr: {
         eyebrow: "Voyage",
+        authorLabel: "Auteur",
+        originalLanguageLabel: "Langue d'origine",
         hashtagsTitle: "Hashtags",
         photosStat: "Photos",
         photoCount: "photos",
         publishedLabel: "Publié",
         periodLabel: "Période du voyage",
-        momentsTitle: "Liste des moments",
+        momentsTitle: "Chronologie",
+        momentsLead: "Suivez les moments publiés dans l'ordre où ce voyage se déploie.",
+        momentLabel: "Moment",
         photoArchiveTitle: "Archive photo",
         photoArchiveLead:
             "Ce voyage a été publié sans regroupement par moment. Parcourez ci-dessous la séquence des photos capturées.",
@@ -115,12 +147,16 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     th: {
         eyebrow: "ทริป",
+        authorLabel: "ผู้เขียน",
+        originalLanguageLabel: "ภาษาต้นฉบับ",
         hashtagsTitle: "แฮชแท็ก",
         photosStat: "รูปภาพ",
         photoCount: "รูป",
         publishedLabel: "วันที่เผยแพร่",
         periodLabel: "ช่วงเวลาการเดินทาง",
-        momentsTitle: "รายการช่วงเวลา",
+        momentsTitle: "ไทม์ไลน์",
+        momentsLead: "ไล่ดูช่วงเวลาที่เผยแพร่ตามลำดับที่ทริปนี้ค่อย ๆ คลี่ออก",
+        momentLabel: "ช่วงเวลา",
         photoArchiveTitle: "คลังรูป",
         photoArchiveLead:
             "ทริปนี้ถูกเผยแพร่โดยไม่มีการจัดกลุ่มเป็นช่วงเวลา เลื่อนดูภาพด้านล่างตามลำดับการถ่ายได้เลย",
@@ -129,12 +165,16 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
     },
     vi: {
         eyebrow: "Hành trình",
+        authorLabel: "Tác giả",
+        originalLanguageLabel: "Ngôn ngữ gốc",
         hashtagsTitle: "Thẻ chủ đề",
         photosStat: "Ảnh",
         photoCount: "ảnh",
         publishedLabel: "Đã đăng",
         periodLabel: "Thời gian chuyến đi",
-        momentsTitle: "Danh sách khoảnh khắc",
+        momentsTitle: "Dòng thời gian",
+        momentsLead: "Đi theo các khoảnh khắc đã đăng theo đúng nhịp của hành trình này.",
+        momentLabel: "Khoảnh khắc",
         photoArchiveTitle: "Kho ảnh",
         photoArchiveLead:
             "Hành trình này được đăng mà không có các nhóm khoảnh khắc. Hãy duyệt chuỗi ảnh đã chụp ở bên dưới.",

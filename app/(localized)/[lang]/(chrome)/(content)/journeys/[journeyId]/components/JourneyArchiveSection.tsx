@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SectionReveal } from "@/components/SectionReveal";
 import { LocalizedDate } from "@/components/LocalizedTime";
 import type { Language } from "@/lib/i18n/config";
 import type { JourneyLabels } from "../labels";
@@ -70,25 +71,30 @@ export function JourneyArchiveSection({
 }: JourneyArchiveSectionProps) {
   return (
     <section className={styles.archiveSection}>
-      <div className={styles.sectionIntro}>
-        <h2 className={styles.sectionTitle}>{labels.photoArchiveTitle}</h2>
-        <p className={styles.sectionLead}>{labels.photoArchiveLead}</p>
-      </div>
+      <SectionReveal>
+        <div className={styles.sectionIntro}>
+          <h2 className={styles.sectionTitle}>{labels.photoArchiveTitle}</h2>
+          <p className={styles.sectionLead}>{labels.photoArchiveLead}</p>
+        </div>
+      </SectionReveal>
 
       {photos.length > 0 ? (
         <div className={styles.archiveGrid}>
-          {photos.map((photo) => (
-            <JourneyArchivePhotoCard
-              key={photo.key}
-              lang={lang}
-              photo={photo}
-            />
+          {photos.map((photo, index) => (
+            <SectionReveal key={photo.key} variant="item" delay={110} staggerIndex={index}>
+              <JourneyArchivePhotoCard
+                lang={lang}
+                photo={photo}
+              />
+            </SectionReveal>
           ))}
         </div>
       ) : (
-        <div className={styles.emptyState}>
-          {labels.photoArchiveEmpty}
-        </div>
+        <SectionReveal variant="item" delay={80}>
+          <div className={styles.emptyState}>
+            {labels.photoArchiveEmpty}
+          </div>
+        </SectionReveal>
       )}
     </section>
   );

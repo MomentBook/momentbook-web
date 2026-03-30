@@ -1,22 +1,22 @@
 .page {
   position: relative;
   isolation: isolate;
-  max-width: 82rem;
+  max-width: 86rem;
   margin: 0 auto;
-  padding: clamp(1.1rem, 3vw, 2rem) var(--spacing-md) clamp(2.8rem, 6vw, 4.6rem);
+  padding: clamp(1rem, 3vw, 1.8rem) clamp(1rem, 3vw, 2.2rem) clamp(3.2rem, 6vw, 5rem);
 }
 
 .page::before {
   content: "";
   position: absolute;
-  inset: -2rem 0 auto;
-  height: 20rem;
+  inset: -3rem -8vw auto;
+  height: 22rem;
   pointer-events: none;
   z-index: -1;
   background:
-    radial-gradient(circle at 12% 14%, color-mix(in srgb, var(--color-accent-soft) 48%, transparent), transparent 36%),
-    radial-gradient(circle at 88% 10%, color-mix(in srgb, var(--color-accent-secondary-soft) 42%, transparent), transparent 34%);
-  opacity: 0.9;
+    radial-gradient(circle at 12% 14%, color-mix(in srgb, var(--color-accent-soft) 26%, transparent), transparent 38%),
+    radial-gradient(circle at 84% 12%, color-mix(in srgb, var(--color-accent-secondary-soft) 22%, transparent), transparent 36%);
+  opacity: 0.54;
 }
 
 .hiddenNotice {
