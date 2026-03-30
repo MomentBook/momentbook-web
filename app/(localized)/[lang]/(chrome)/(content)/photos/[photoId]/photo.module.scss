@@ -81,11 +81,14 @@
 .contentSection {
   display: grid;
   gap: 1.25rem;
+  justify-items: center;
+  text-align: center;
 }
 
 .contextBlock {
   display: grid;
   gap: 0.35rem;
+  justify-items: center;
 }
 
 .contextLabel,
@@ -132,6 +135,7 @@
 
 .caption {
   margin: 0;
+  max-width: 34rem;
   color: var(--photo-text-muted);
   font-family: var(--font-display);
   font-size: clamp(1.02rem, 4.6vw, 1.26rem);
