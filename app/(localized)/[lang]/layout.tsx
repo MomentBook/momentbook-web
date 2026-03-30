@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import "@/app/globals.scss";
+import {
+  APP_ICONS,
+  APP_METADATA_BASE,
+  RootDocument,
+} from "@/app/RootDocument";
 import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
 import {
   languageList,
+  toLocaleTag,
   toOpenGraphLocale,
   type Language,
 } from "@/lib/i18n/config";
@@ -12,19 +19,18 @@ const suit = localFont({
   variable: "--font-suit",
   display: "swap",
   src: [
-    { path: "../../public/fonts/suit/SUIT-Thin.woff2", weight: "100", style: "normal" },
-    { path: "../../public/fonts/suit/SUIT-ExtraLight.woff2", weight: "200", style: "normal" },
-    { path: "../../public/fonts/suit/SUIT-Light.woff2", weight: "300", style: "normal" },
-    { path: "../../public/fonts/suit/SUIT-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../../public/fonts/suit/SUIT-Medium.woff2", weight: "500", style: "normal" },
-    { path: "../../public/fonts/suit/SUIT-SemiBold.woff2", weight: "600", style: "normal" },
-    { path: "../../public/fonts/suit/SUIT-Bold.woff2", weight: "700", style: "normal" },
-    { path: "../../public/fonts/suit/SUIT-ExtraBold.woff2", weight: "800", style: "normal" },
-    { path: "../../public/fonts/suit/SUIT-Heavy.woff2", weight: "900", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-Thin.woff2", weight: "100", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-ExtraLight.woff2", weight: "200", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-Light.woff2", weight: "300", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-ExtraBold.woff2", weight: "800", style: "normal" },
+    { path: "../../../public/fonts/suit/SUIT-Heavy.woff2", weight: "900", style: "normal" },
   ],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
 const siteDescriptionByLanguage: Record<Language, string> = {
   en: "An app that quietly remembers the moments of your day.",
   ko: "하루의 순간을 조용히 기억하는 앱.",
@@ -51,7 +57,8 @@ export async function generateMetadata({
   const { lang } = await params as { lang: Language };
 
   return {
-    metadataBase: new URL(siteUrl),
+    metadataBase: APP_METADATA_BASE,
+    icons: APP_ICONS,
     title: {
       default: "MomentBook",
       template: "%s | MomentBook",
@@ -76,9 +83,11 @@ export default async function LangLayout({
   const { lang } = await params as { lang: Language };
 
   return (
-    <div className={suit.variable}>
-      <LanguagePreferenceSync currentLang={lang} />
-      {children}
-    </div>
+    <RootDocument htmlLang={toLocaleTag(lang)}>
+      <div className={suit.variable}>
+        <LanguagePreferenceSync currentLang={lang} />
+        {children}
+      </div>
+    </RootDocument>
   );
 }

@@ -156,6 +156,7 @@ type FetchPublishedJourneyResult = {
 };
 
 const PUBLIC_JOURNEY_CACHE_TTL_SECONDS = 60;
+const PUBLIC_PHOTO_CACHE_TTL_SECONDS = 3600;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -684,8 +685,8 @@ function normalizePublishedJourney(
     const localizedClusters = clusters.map((cluster) => ({
         ...cluster,
         impression:
-            cluster.impression ??
-            findLocalizedClusterImpression(localizedContent, cluster.clusterId, lang),
+            findLocalizedClusterImpression(localizedContent, cluster.clusterId, lang) ??
+            cluster.impression,
     }));
 
     const clusterStarts = localizedClusters.map((cluster) => cluster.time.startAt);
@@ -711,14 +712,14 @@ function normalizePublishedJourney(
         startedAt,
         endedAt,
         title:
-            readText(value.title) ??
             localizedJourneyEntry?.title ??
+            readText(value.title) ??
             readText(metadata?.title) ??
             readText(metadata?.journeyTitle) ??
             "Untitled journey",
         description:
-            readText(value.description) ??
             localizedJourneyEntry?.description ??
+            readText(value.description) ??
             readText(metadata?.description) ??
             readText(metadata?.summary) ??
             undefined,
@@ -959,7 +960,7 @@ export async function fetchPublishedPhoto(
         const query = params.toString();
         const response = await fetchPublicApi(
             `/v2/journeys/public/photos/${encodeURIComponent(photoId)}${query ? `?${query}` : ""}`,
-            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
+            { next: { revalidate: PUBLIC_PHOTO_CACHE_TTL_SECONDS } },
         );
 
         if (!response || !response.ok) {

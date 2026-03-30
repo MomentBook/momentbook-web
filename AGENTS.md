@@ -37,7 +37,7 @@
 ## 3) Implementation Facts You Must Respect
 
 - i18n routing entrypoint: `proxy.ts` (not `middleware.ts`)
-- Root: `/` -> client-side language redirect (`app/page.tsx`)
+- Root: `/` -> client-side language redirect (`app/(root)/page.tsx`)
 - Web authentication/login routes are removed (public read-only surface only)
 - Public content cache TTL:
   - Journey list/detail/moment: 60s

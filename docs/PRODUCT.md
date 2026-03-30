@@ -42,7 +42,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
 `/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing 안에서 QR handoff 카드를 노출한다.
 `/{lang}/install/redirect`는 QR 전용 redirect route로, 모바일에서는 감지된 플랫폼 스토어로 즉시 이동시키고 데스크톱에서는 `/{lang}/install` 랜딩으로 되돌린다.
-이 경로는 `app/[lang]/install/*`에서 독립적으로 렌더링되고, 나머지 공개 페이지의 공통 chrome은 `app/[lang]/(chrome)/layout.tsx`가 담당한다.
+이 경로는 `app/(localized)/[lang]/install/*`에서 독립적으로 렌더링되고, 나머지 공개 페이지의 공통 chrome은 `app/(localized)/[lang]/(chrome)/layout.tsx`가 담당한다.
 
 1. 여행 종료
 2. 여행 사진 일괄 업로드
@@ -148,7 +148,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Users list/detail, photo detail: `revalidate = 3600`
 - Sitemap routes: `revalidate = 3600`
 - API fetch helper 일부: `next.revalidate = 3600` 또는 60(상수)
-- `app/layout.tsx`는 request-scoped Dynamic API(`headers`, `cookies`)를 사용하지 않음
+- localized root layout은 `app/(localized)/[lang]/layout.tsx`에서 정적 route param 기준으로 `html lang`와 locale metadata를 SSR한다.
 - 단, `/{lang}/install`은 서버에서 UA 기반 플랫폼 힌트를 읽기 위해 `headers()`를 사용한다.
 
 ## 6) Interaction Constraints
@@ -166,6 +166,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `proxy.ts` 언어 감지 순서(redirect): cookie -> `Accept-Language` -> default(`en`)
 - 클라이언트 선호 언어 상태: Jotai `languageAtom`
 - `LanguageSyncProvider`가 Jotai/localStorage/cookie/path language를 동기화하고, 현재 저장값이 비어 있으면 localStorage `language` -> legacy `preferredLanguage` -> cookie -> 브라우저 언어 순서로 복원한다.
+- `app/(localized)/[lang]/layout.tsx`는 SSR 시점부터 route locale에 맞는 `html lang`를 출력하고, 클라이언트에서 추가 보정하지 않는다.
 - `LocalizedDate`, `LocalizedDateRange`, `LocalizedDateTimeRange`는 SSR에서 UTC 스냅샷을 출력하고 hydration 후 viewer locale/timezone 기준으로 갱신한다.
 - photo detail의 `LocalizedDateTime`은 SSR 출력을 만들지 않고 hydration 후 client locale/timezone 기준 문자열을 렌더링한다.
 
@@ -180,7 +181,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - journey/moment/photo/user detail의 `generateMetadata()`는 현재 route locale 기준 localized title/description을 사용하고, content-derived OpenGraph tags를 함께 생성한다.
 - Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - Home(`/`)과 `/{lang}/install`은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
-- `app/[lang]/layout.tsx`는 기본 robots를 noindex/nofollow로 설정하고, 실제 공개 색인 페이지는 각 route의 `generateMetadata()`에서 public robots를 다시 선언한다.
+- `app/(localized)/[lang]/layout.tsx`는 기본 robots를 noindex/nofollow로 설정하고, 실제 공개 색인 페이지는 각 route의 `generateMetadata()`에서 public robots를 다시 선언한다.
 
 ## 8.2 Robots Policy
 
@@ -224,8 +225,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - 글로벌 디자인 토큰: `app/globals.scss`
 - theme: `data-theme="light|dark"`
 - 저장: Jotai `themeAtom` (`localStorage`)
-- 언어 공통 래퍼: `app/[lang]/layout.tsx`
-- 헤더/푸터 공통 레이아웃: `app/[lang]/(chrome)/layout.tsx`
+- 언어별 root layout: `app/(localized)/[lang]/layout.tsx`
+- 헤더/푸터 공통 레이아웃: `app/(localized)/[lang]/(chrome)/layout.tsx`
 - shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus shared download/support CTA and Product/Support/Legal link groups
 - 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, 모바일에서는 현재 플랫폼별 공식 스토어 링크로 이동한다. `/{lang}/install`은 데스크톱에서 QR 카드 + 공식 스토어 배지를 함께 유지한다.
 - `/{lang}/install`은 shared chrome을 타지 않는 standalone route다.
