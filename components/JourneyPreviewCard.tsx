@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { isRemoteImageSource } from "@/lib/image-source";
 import { readText } from "@/lib/view-helpers";
 import styles from "./JourneyPreviewCard.module.scss";
 
@@ -49,6 +50,7 @@ export function JourneyPreviewCard({
           aria-hidden={safeCover ? undefined : true}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
+          unoptimized={isRemoteImageSource(safeCover)}
           className={styles.coverImage}
         />
       </div>

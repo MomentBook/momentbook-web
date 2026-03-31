@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
 import { getHashtagSearchValue } from "@/lib/hashtags";
+import { isRemoteImageSource } from "@/lib/image-source";
 import type { LanguageDisplayInfo } from "@/lib/i18n/language-display";
 import type { Language } from "@/lib/i18n/config";
 import type { LocalDateTimeContext } from "@/lib/local-time-context";
@@ -168,6 +169,7 @@ export function JourneyHero({
             fill
             priority
             sizes="(max-width: 899px) 100vw, (max-width: 1199px) 92vw, 70rem"
+            unoptimized={isRemoteImageSource(heroImage.url)}
             className={styles.heroImage}
           />
           <div className={styles.heroOverlay}>

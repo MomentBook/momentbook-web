@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SectionReveal } from "@/components/SectionReveal";
 import { LocalizedDate } from "@/components/LocalizedTime";
+import { isRemoteImageSource } from "@/lib/image-source";
 import type { Language } from "@/lib/i18n/config";
 import type { JourneyLabels } from "../labels";
 import type { ArchivePhoto } from "./journey-content.helpers";
@@ -27,6 +28,7 @@ function JourneyArchivePhotoCard({
         alt={photo.alt}
         fill
         sizes="(max-width: 739px) 50vw, (max-width: 1099px) 33vw, (max-width: 1439px) 20vw, 12.75rem"
+        unoptimized={isRemoteImageSource(photo.url)}
         className={styles.photoImage}
       />
     </div>

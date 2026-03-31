@@ -3,6 +3,7 @@ import { AnalyticsLink } from "@/components/AnalyticsLink";
 import { LocalizedDate } from "@/components/LocalizedTime";
 import { SectionReveal } from "@/components/SectionReveal";
 import { PUBLIC_WEB_EVENTS } from "@/lib/analytics/public-web";
+import { isRemoteImageSource } from "@/lib/image-source";
 import type { Language } from "@/lib/i18n/config";
 import type { HomeFeaturedCopy, HomeFeaturedJourney } from "./home.helpers";
 import styles from "./page.module.scss";
@@ -67,6 +68,7 @@ export function HomeFeaturedJourneys({
                     alt={journey.title}
                     fill
                     sizes="(max-width: 739px) 100vw, (max-width: 1099px) 50vw, 33vw"
+                    unoptimized={isRemoteImageSource(journey.coverUrl)}
                     className={styles.featuredCardImage}
                   />
                 </div>

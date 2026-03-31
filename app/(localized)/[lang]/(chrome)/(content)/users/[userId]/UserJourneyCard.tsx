@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
+import { isRemoteImageSource } from "@/lib/image-source";
 import type { Language } from "@/lib/i18n/config";
 import { resolveJourneyPeriodRange } from "@/lib/journey-period";
 import type { UserJourneyApi } from "@/lib/public-users";
@@ -74,6 +75,7 @@ export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps)
           aria-hidden={coverUrl ? undefined : true}
           fill
           sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
+          unoptimized={isRemoteImageSource(coverUrl)}
           className={styles.journeyImage}
         />
         {photoCount > 0 ? (

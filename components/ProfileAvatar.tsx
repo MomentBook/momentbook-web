@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { isRemoteImageSource } from "@/lib/image-source";
 import { readText } from "@/lib/view-helpers";
 import styles from "./ProfileAvatar.module.scss";
 
@@ -32,6 +33,7 @@ export function ProfileAvatar({
           alt={name?.trim() || ""}
           fill
           sizes={size === "header" ? "36px" : "120px"}
+          unoptimized={isRemoteImageSource(normalizedPicture)}
           className={styles.image}
           onError={() => setFailedPicture(normalizedPicture)}
         />
