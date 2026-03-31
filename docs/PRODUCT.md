@@ -132,7 +132,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/journeys` 카드 구성은 list response의 title/description/date/local-time/cover field를 우선 사용하고, 카드별 journey detail fan-out fetch를 추가하지 않는다.
 - 공통 fetch fallback candidates: `lib/public-api.ts`
 
-`lib/public-api.ts`는 다음 후보 base URL을 순차 시도한다.
+`lib/public-api.ts`는 운영 환경에서는 `NEXT_PUBLIC_API_BASE_URL` 단일 origin만 사용한다.
+비프로덕션 또는 `NEXT_PUBLIC_APP_IS_LOCAL=true`일 때만 다음 후보 base URL을 순차 시도한다.
 
 1. `NEXT_PUBLIC_API_BASE_URL`
 2. host 치환된 `127.0.0.1` 후보

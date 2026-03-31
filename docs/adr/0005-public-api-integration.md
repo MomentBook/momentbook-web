@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-01-29 (updated: 2026-03-28)
+2026-01-29 (updated: 2026-03-31)
 
 ## Context
 
@@ -32,7 +32,12 @@ Accepted
 
 ### 2) fetch base candidate 전략
 
-`lib/public-api.ts`는 `NEXT_PUBLIC_API_BASE_URL`을 기준으로 host 변형 후보를 시도해 네트워크 환경 편차를 완화한다.
+`lib/public-api.ts`는 운영 환경에서는 `NEXT_PUBLIC_API_BASE_URL` 단일 origin만 사용한다.
+host 변형 fallback은 로컬/비프로덕션 환경 또는 `NEXT_PUBLIC_APP_IS_LOCAL=true`에서만 허용한다.
+
+- primary: `NEXT_PUBLIC_API_BASE_URL`
+- local fallback candidates: `127.0.0.1` host 치환 후보, `NEXT_PUBLIC_SITE_URL` host 치환 후보
+- 기본 재시도 횟수는 운영 1회, 로컬 fallback 모드 2회
 
 ### 3) 타입 계약
 
@@ -52,6 +57,7 @@ Swagger 생성 타입(`@/src/apis/client`)을 기준 계약으로 사용한다.
 ## Rationale
 
 API 기반 구조는 콘텐츠 확장성과 운영 정확성을 제공한다.
+운영 환경에서 origin 후보와 재시도 횟수를 제한하면 장애 시 불필요한 중복 호출과 비용 증폭을 줄일 수 있다.
 null-safe 처리 정책은 크롤러/사용자에게 일관된 실패 경험을 제공한다.
 
 ## Consequences
@@ -60,10 +66,13 @@ null-safe 처리 정책은 크롤러/사용자에게 일관된 실패 경험을 
 - ✅ 실제 게시 데이터 기반 렌더링
 - ✅ route-level revalidate와 결합해 운영 안정성 확보
 - ✅ 타입 계약 불일치의 조기 감지 가능
+- ✅ 운영 환경에서 API 장애 시 중복 origin 호출을 억제할 수 있다
+- ✅ 로컬 개발에서는 host fallback 편의성을 유지한다
 
 ### Negative
 - ⚠️ `src/apis/client.ts`와 백엔드 스키마가 어긋나면 타입/런타임 편차 발생
 - ⚠️ API base URL/백엔드 상태에 따른 런타임 의존 존재
+- ⚠️ 운영 환경에서 `NEXT_PUBLIC_API_BASE_URL` 설정 정확성이 더 중요해진다
 
 ### Neutral
 - 📝 타입 계약 파일은 주기적 재생성/검증 정책이 필요

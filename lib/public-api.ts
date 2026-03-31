@@ -12,8 +12,25 @@ function isLocalHost(hostname: string): boolean {
     return LOCAL_HOSTS.has(hostname.toLowerCase());
 }
 
+function parseBooleanEnv(value: string | undefined): boolean {
+    if (!value) {
+        return false;
+    }
+
+    const normalized = value.trim().toLowerCase();
+    return normalized === "true" || normalized === "1" || normalized === "yes";
+}
+
 function normalizeBaseUrl(value: string): string {
     return value.replace(/\/+$/, "");
+}
+
+function shouldUseLocalApiFallbacks(): boolean {
+    if (process.env.NODE_ENV !== "production") {
+        return true;
+    }
+
+    return parseBooleanEnv(process.env.NEXT_PUBLIC_APP_IS_LOCAL);
 }
 
 function readSiteHostname(): string | null {
@@ -53,6 +70,10 @@ export function getPublicApiBaseCandidates(): string[] {
     }
 
     const candidates: string[] = [normalized];
+
+    if (!shouldUseLocalApiFallbacks()) {
+        return candidates;
+    }
 
     try {
         const parsed = new URL(normalized);
@@ -112,7 +133,10 @@ export async function fetchPublicApi(
         return null;
     }
 
-    const attemptsPerBase = Math.max(1, options?.attemptsPerBase ?? 2);
+    const attemptsPerBase = Math.max(
+        1,
+        options?.attemptsPerBase ?? (shouldUseLocalApiFallbacks() ? 2 : 1),
+    );
 
     for (const base of bases) {
         const response = await fetchWithRetry(
