@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type {
     PublishedJourneyDetailDto,
     PublishedJourneyDetailResponseDto,
@@ -874,7 +875,7 @@ function isPublishedJourneyResponse(
     );
 }
 
-export async function fetchPublishedJourneyResult(
+export const fetchPublishedJourneyResult = cache(async function fetchPublishedJourneyResult(
     publicId: string,
     lang?: Language,
 ): Promise<FetchPublishedJourneyResult> {
@@ -946,7 +947,7 @@ export async function fetchPublishedJourneyResult(
         );
         return { status: "error", data: null };
     }
-}
+});
 
 export async function fetchPublishedJourney(
     publicId: string,
@@ -1025,7 +1026,7 @@ export async function fetchPublishedJourneys(options?: {
     }
 }
 
-export async function fetchPublishedPhoto(
+export const fetchPublishedPhoto = cache(async function fetchPublishedPhoto(
     photoId: string,
     lang?: Language,
 ): Promise<PublishedPhotoApi | null> {
@@ -1068,4 +1069,4 @@ export async function fetchPublishedPhoto(
         );
         return null;
     }
-}
+});
