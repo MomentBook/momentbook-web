@@ -40,8 +40,8 @@
 - Root: `/` -> client-side language redirect (`app/(root)/page.tsx`)
 - Web authentication/login routes are removed (public read-only surface only)
 - Public content cache TTL:
-  - Journey list/detail/moment: 60s
-  - Users/photos: 3600s
+  - Journey list/detail/moment: 300s
+  - Users/photos: 14400s
 - Sitemap:
   - Index: `/sitemap.xml`
   - Sub-sitemaps: static, journeys, journey-moments, photos, users

@@ -54,6 +54,7 @@
 - Legal body coverage: `privacy`/`terms`/`community-guidelines`/`marketing-consent`/`support` 모두 9개 언어(`en/ko/ja/zh/es/pt/fr/th/vi`)별 copy 제공
 - Metadata layering: `app/(localized)/[lang]/layout.tsx` 기본 robots는 noindex이며, 공개 인덱싱 페이지는 page-level metadata에서 `buildPublicRobots()`로 override
 - Time rendering: `LocalizedDate`/`LocalizedDateRange`/`LocalizedDateTimeRange`는 SSR UTC 스냅샷 후 hydrate, photo detail `LocalizedDateTime`는 client-only
+- Public cache TTL: journeys/moments `300s`, users/photos `14400s`
 - Public data runtime: `lib/public-api.ts`, `lib/public-users.ts`, `lib/published-journey.ts`
 - Legacy residue: `lib/public-content.ts`, `lib/content.ts`, `lib/published-photo.ts` are not used by main public routes
 - Sitemap: route handlers (`/sitemap.xml` + segmented sub-sitemaps)

@@ -32,7 +32,7 @@ import {
   JOURNEYS_PER_PAGE,
 } from "./journeys-page.helpers";
 
-export const revalidate = 60;
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
@@ -106,7 +106,7 @@ export default async function JourneysPage({
   const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages);
   const hasPreviousPage = safeCurrentPage > 1;
   const hasNextPage = safeCurrentPage < totalPages;
-  const cards = await buildJourneyCards(journeys, labels, lang);
+  const cards = await buildJourneyCards(journeys, labels);
   const siteUrl = resolveStructuredDataSiteUrl();
   const pagePath = buildOpenGraphUrl(lang, "/journeys");
   const pagePathWithQuery =

@@ -29,7 +29,7 @@ import {
     photoNotFoundTitleByLanguage,
 } from "./photo.helpers";
 
-export const revalidate = 3600;
+export const revalidate = 14400;
 
 export async function generateMetadata({
     params,

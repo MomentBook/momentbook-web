@@ -34,7 +34,7 @@ import {
     serializeJsonLd,
 } from "@/lib/seo/json-ld";
 
-export const revalidate = 60;
+export const revalidate = 300;
 
 const unavailableNoticeByLanguage: Record<Language, { title: string; message: string }> = {
     en: {

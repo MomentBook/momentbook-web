@@ -80,7 +80,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 현재 query 동작:
 - `/{lang}/journeys?page=`와 `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.
-- `/{lang}/users?q=`는 최근 공개 프로필 최대 100개를 불러온 뒤 이름/biography와 각 프로필의 최근 공개 여정 해시태그 기준으로 서버에서 필터링한다.
+- `/{lang}/users?q=`는 최근 공개 프로필 최대 100개를 불러온 뒤 이름/biography와 각 프로필의 recent public journeys list가 이미 제공하는 해시태그 기준으로 서버에서 필터링한다. 검색을 위해 각 journey detail을 추가 fetch하지 않는다.
 
 ### 4.2 Acquisition Landing (Noindex)
 
@@ -129,6 +129,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - public journey/user/photo payload가 제공하는 additive local-time context(`startedAtLocal`, `endedAtLocal`, `timeline[].time.startLocal/endLocal`, `images[].captureTime`, `photo.captureTime`)는 시:분 렌더링의 우선 입력으로 사용하고, 정렬/비교/범위 계산은 기존 absolute timestamp(`startedAt`, `endedAt`, `takenAt`)를 계속 사용한다.
 - journey/moment detail은 viewer payload의 top-level localized title/description/cluster impression을 우선 사용하고, `localizedContent`는 localized hashtags 및 누락 필드 보강 용도로만 사용한다.
 - 공개 리스트 카드(`/`, `/{lang}/journeys`, `/{lang}/users/[userId]`)의 cover thumbnail은 list response가 내려주는 preview field를 우선 사용하며 viewer `images[]`에서 다시 추론하지 않는다.
+- `/{lang}/journeys` 카드 구성은 list response의 title/description/date/local-time/cover field를 우선 사용하고, 카드별 journey detail fan-out fetch를 추가하지 않는다.
 - 공통 fetch fallback candidates: `lib/public-api.ts`
 
 `lib/public-api.ts`는 다음 후보 base URL을 순차 시도한다.
@@ -147,10 +148,10 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ## 5.3 Cache Policy (Current)
 
-- Journey list/detail/moment: `revalidate = 60`
-- Users list/detail, photo detail: `revalidate = 3600`
+- Journey list/detail/moment: `revalidate = 300`
+- Users list/detail, photo detail: `revalidate = 14400`
 - Sitemap routes: `revalidate = 3600`
-- API fetch helper 일부: `next.revalidate = 3600` 또는 60(상수)
+- API fetch helper 일부: `next.revalidate = 300`, `14400` 상수 사용
 - localized root layout은 `app/(localized)/[lang]/layout.tsx`에서 정적 route param 기준으로 `html lang`와 locale metadata를 SSR한다.
 - 단, `/{lang}/install`은 서버에서 UA 기반 플랫폼 힌트를 읽기 위해 `headers()`를 사용한다.
 

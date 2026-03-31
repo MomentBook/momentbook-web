@@ -1,6 +1,5 @@
 import type { Language } from "@/lib/i18n/config";
 import { matchesHashtagQuery, normalizeHashtags } from "@/lib/hashtags";
-import { fetchPublishedJourney } from "@/lib/published-journey";
 import { fetchUserJourneys, type PublicUserApi } from "@/lib/public-users";
 import { formatTemplate } from "@/lib/view-helpers";
 
@@ -42,15 +41,9 @@ async function fetchRecentUserHashtags(userId: string, lang: Language): Promise<
     sort: "recent",
     lang,
   });
-  const journeys = journeysResponse?.data?.journeys ?? [];
-  const detailJourneys = await mapWithConcurrency(
-    journeys,
-    3,
-    async (journey) => fetchPublishedJourney(journey.publicId, lang),
-  );
 
   return normalizeHashtags(
-    detailJourneys.flatMap((journey) => journey?.hashtags ?? []),
+    (journeysResponse?.data?.journeys ?? []).flatMap((journey) => journey.hashtags ?? []),
   );
 }
 

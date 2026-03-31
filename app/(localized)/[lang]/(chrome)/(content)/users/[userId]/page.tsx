@@ -42,7 +42,7 @@ import {
   userNotFoundTitleByLanguage,
 } from "./user-page.helpers";
 
-export const revalidate = 3600;
+export const revalidate = 14400;
 
 export async function generateStaticParams() {
   const response = await fetchPublicUsers({ limit: 1000, sort: "recent" });

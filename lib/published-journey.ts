@@ -4,6 +4,10 @@ import type {
     PublishedJourneyItemDto,
     PublishedJourneysResponseDto,
 } from "@/src/apis/client";
+import {
+    PUBLIC_JOURNEY_REVALIDATE_SECONDS,
+    PUBLIC_PHOTO_REVALIDATE_SECONDS,
+} from "@/lib/cache-policy";
 import { normalizeHashtags as normalizeHashtagList } from "@/lib/hashtags";
 import { appendPublicApiLanguage, fetchPublicApi } from "@/lib/public-api";
 import { type Language, toLocaleTag } from "@/lib/i18n/config";
@@ -173,9 +177,6 @@ type FetchPublishedJourneyResult = {
     data: PublishedJourneyApi | null;
     message?: string;
 };
-
-const PUBLIC_JOURNEY_CACHE_TTL_SECONDS = 60;
-const PUBLIC_PHOTO_CACHE_TTL_SECONDS = 3600;
 
 const untitledJourneyFallbackByLanguage: Record<Language, string> = {
     en: "Untitled journey",
@@ -882,7 +883,7 @@ export async function fetchPublishedJourneyResult(
         appendPublicApiLanguage(params, lang);
         const response = await fetchPublicApi(
             `/v2/journeys/public/${encodeURIComponent(publicId)}/viewer?${params.toString()}`,
-            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
+            { next: { revalidate: PUBLIC_JOURNEY_REVALIDATE_SECONDS } },
         );
 
         if (!response) {
@@ -978,7 +979,7 @@ export async function fetchPublishedJourneys(options?: {
 
         const response = await fetchPublicApi(
             `/v2/journeys/public?${params.toString()}`,
-            { next: { revalidate: PUBLIC_JOURNEY_CACHE_TTL_SECONDS } },
+            { next: { revalidate: PUBLIC_JOURNEY_REVALIDATE_SECONDS } },
         );
 
         if (!response || !response.ok) {
@@ -1034,7 +1035,7 @@ export async function fetchPublishedPhoto(
         const query = params.toString();
         const response = await fetchPublicApi(
             `/v2/journeys/public/photos/${encodeURIComponent(photoId)}${query ? `?${query}` : ""}`,
-            { next: { revalidate: PUBLIC_PHOTO_CACHE_TTL_SECONDS } },
+            { next: { revalidate: PUBLIC_PHOTO_REVALIDATE_SECONDS } },
         );
 
         if (!response || !response.ok) {

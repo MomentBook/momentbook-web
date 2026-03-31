@@ -6,6 +6,7 @@ import type {
     PublicUsersResponseDto,
     PublishedJourneysResponseDto,
 } from "@/src/apis/client";
+import { PUBLIC_USER_REVALIDATE_SECONDS } from "@/lib/cache-policy";
 import { normalizeHashtags } from "@/lib/hashtags";
 import { appendPublicApiLanguage, fetchPublicApi } from "@/lib/public-api";
 import type { Language } from "@/lib/i18n/config";
@@ -267,7 +268,7 @@ export async function fetchPublicUsers(options?: {
 
         const response = await fetchPublicApi(
             `/v2/users/public?${params.toString()}`,
-            { next: { revalidate: 3600 } },
+            { next: { revalidate: PUBLIC_USER_REVALIDATE_SECONDS } },
         );
 
         if (!response || !response.ok) {
@@ -310,7 +311,7 @@ export const fetchPublicUser = cache(async function fetchPublicUser(
     try {
         const response = await fetchPublicApi(
             `/v2/users/public/${encodeURIComponent(userId)}`,
-            { next: { revalidate: 3600 } },
+            { next: { revalidate: PUBLIC_USER_REVALIDATE_SECONDS } },
         );
 
         if (!response || !response.ok) {
@@ -356,7 +357,7 @@ export async function fetchUserJourneys(
 
         const response = await fetchPublicApi(
             `/v2/users/public/${encodeURIComponent(userId)}/journeys?${params.toString()}`,
-            { next: { revalidate: 3600 } },
+            { next: { revalidate: PUBLIC_USER_REVALIDATE_SECONDS } },
         );
 
         if (!response || !response.ok) {

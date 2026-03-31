@@ -26,7 +26,7 @@ import {
 } from "./users-page.helpers";
 import styles from "./users.module.scss";
 
-export const revalidate = 3600;
+export const revalidate = 14400;
 
 export async function generateMetadata({
   params,
