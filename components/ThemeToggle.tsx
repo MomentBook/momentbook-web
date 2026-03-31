@@ -2,20 +2,90 @@
 
 import { useEffect, useSyncExternalStore } from "react";
 import { useAtom } from "jotai";
+import type { Language } from "@/lib/i18n/config";
 import { themeAtom } from "@/lib/state/preferences";
 import styles from "./ThemeToggle.module.scss";
 
 const noopSubscribe = () => () => {};
 
 type ThemeToggleProps = {
+  lang: Language;
   variant?: "default" | "icon" | "drawer";
 };
 
-export function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
+type ThemeToggleLabels = {
+  light: string;
+  dark: string;
+  switchToLight: string;
+  switchToDark: string;
+};
+
+const themeToggleLabelsByLanguage: Record<Language, ThemeToggleLabels> = {
+  en: {
+    light: "Light",
+    dark: "Dark",
+    switchToLight: "Switch to light theme",
+    switchToDark: "Switch to dark theme",
+  },
+  ko: {
+    light: "라이트",
+    dark: "다크",
+    switchToLight: "라이트 테마로 전환",
+    switchToDark: "다크 테마로 전환",
+  },
+  ja: {
+    light: "ライト",
+    dark: "ダーク",
+    switchToLight: "ライトテーマに切り替え",
+    switchToDark: "ダークテーマに切り替え",
+  },
+  zh: {
+    light: "浅色",
+    dark: "深色",
+    switchToLight: "切换到浅色主题",
+    switchToDark: "切换到深色主题",
+  },
+  es: {
+    light: "Claro",
+    dark: "Oscuro",
+    switchToLight: "Cambiar al tema claro",
+    switchToDark: "Cambiar al tema oscuro",
+  },
+  pt: {
+    light: "Claro",
+    dark: "Escuro",
+    switchToLight: "Mudar para o tema claro",
+    switchToDark: "Mudar para o tema escuro",
+  },
+  fr: {
+    light: "Clair",
+    dark: "Sombre",
+    switchToLight: "Passer au thème clair",
+    switchToDark: "Passer au thème sombre",
+  },
+  th: {
+    light: "สว่าง",
+    dark: "มืด",
+    switchToLight: "สลับเป็นธีมสว่าง",
+    switchToDark: "สลับเป็นธีมมืด",
+  },
+  vi: {
+    light: "Sáng",
+    dark: "Tối",
+    switchToLight: "Chuyển sang giao diện sáng",
+    switchToDark: "Chuyển sang giao diện tối",
+  },
+};
+
+export function ThemeToggle({ lang, variant = "default" }: ThemeToggleProps) {
   const [theme, setTheme] = useAtom(themeAtom);
   const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
   const isIcon = variant === "icon";
   const isDrawer = variant === "drawer";
+  const labels = themeToggleLabelsByLanguage[lang] ?? themeToggleLabelsByLanguage.en;
+  const isLightTheme = theme === "light";
+  const nextThemeLabel = isLightTheme ? labels.dark : labels.light;
+  const toggleLabel = isLightTheme ? labels.switchToDark : labels.switchToLight;
 
   useEffect(() => {
     if (!mounted) {
@@ -47,8 +117,8 @@ export function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
     <button
       onClick={toggleTheme}
       className={`${styles.toggle} ${isIcon ? styles.iconOnly : ""} ${isDrawer ? styles.drawer : ""}`}
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
-      title={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
+      aria-label={toggleLabel}
+      title={toggleLabel}
     >
       {theme === "light" ? (
         <svg
@@ -79,7 +149,7 @@ export function ThemeToggle({ variant = "default" }: ThemeToggleProps) {
         </svg>
       )}
       <span className={`${styles.label} ${isDrawer ? styles.drawerLabel : ""}`}>
-        {theme === "light" ? "Dark" : "Light"}
+        {nextThemeLabel}
       </span>
     </button>
   );

@@ -45,7 +45,7 @@ export const fr: Dictionary = {
     learnMore: "Voir comment ça marche",
   },
   footer: {
-    summary: "Gardez plus longtemps les moments de votre voyage.",
+    summary: "Gardez vos moments en mémoire.",
     ctaPrimary: "Télécharger",
     ctaSecondary: "Support",
     social: {

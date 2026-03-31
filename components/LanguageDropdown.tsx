@@ -17,6 +17,18 @@ type LanguageDropdownProps = {
   variant?: "default" | "compact" | "drawer";
 };
 
+const languageDropdownLabelByLanguage: Record<Language, string> = {
+  en: "Select language",
+  ko: "언어 선택",
+  ja: "言語を選択",
+  zh: "选择语言",
+  es: "Seleccionar idioma",
+  pt: "Selecionar idioma",
+  fr: "Choisir la langue",
+  th: "เลือกภาษา",
+  vi: "Chọn ngôn ngữ",
+};
+
 export function LanguageDropdown({
   currentLang,
   variant = "default",
@@ -31,6 +43,8 @@ export function LanguageDropdown({
   const isCompact = variant === "compact";
   const isDrawer = variant === "drawer";
   const currentLabel = isCompact ? currentLang.toUpperCase() : currentLanguage.nativeName;
+  const triggerLabel =
+    languageDropdownLabelByLanguage[currentLang] ?? languageDropdownLabelByLanguage.en;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -74,7 +88,7 @@ export function LanguageDropdown({
       <button
         className={`${styles.trigger} ${isCompact ? styles.compactTrigger : ""} ${isDrawer ? styles.drawerTrigger : ""}`}
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Select language"
+        aria-label={triggerLabel}
         aria-expanded={isOpen}
         aria-haspopup="true"
       >

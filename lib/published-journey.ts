@@ -177,6 +177,30 @@ type FetchPublishedJourneyResult = {
 const PUBLIC_JOURNEY_CACHE_TTL_SECONDS = 60;
 const PUBLIC_PHOTO_CACHE_TTL_SECONDS = 3600;
 
+const untitledJourneyFallbackByLanguage: Record<Language, string> = {
+    en: "Untitled journey",
+    ko: "제목 없는 여정",
+    ja: "タイトル未設定の旅",
+    zh: "未命名旅程",
+    es: "Viaje sin título",
+    pt: "Viagem sem título",
+    fr: "Voyage sans titre",
+    th: "ทริปไม่มีชื่อ",
+    vi: "Hành trình chưa đặt tên",
+};
+
+const genericJourneyFallbackByLanguage: Record<Language, string> = {
+    en: "Journey",
+    ko: "여정",
+    ja: "旅",
+    zh: "旅程",
+    es: "Viaje",
+    pt: "Viagem",
+    fr: "Voyage",
+    th: "ทริป",
+    vi: "Hành trình",
+};
+
 function isRecord(value: unknown): value is Record<string, unknown> {
     return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
@@ -220,6 +244,22 @@ function readMessage(value: unknown): string | null {
     }
 
     return null;
+}
+
+function getUntitledJourneyFallback(lang?: Language): string {
+    if (!lang) {
+        return untitledJourneyFallbackByLanguage.en;
+    }
+
+    return untitledJourneyFallbackByLanguage[lang] ?? untitledJourneyFallbackByLanguage.en;
+}
+
+function getGenericJourneyFallback(lang?: Language): string {
+    if (!lang) {
+        return genericJourneyFallbackByLanguage.en;
+    }
+
+    return genericJourneyFallbackByLanguage[lang] ?? genericJourneyFallbackByLanguage.en;
 }
 
 function isHiddenJourneyMessage(message: string | null | undefined): boolean {
@@ -742,7 +782,7 @@ function normalizePublishedJourney(
             readText(value.title) ??
             readText(metadata?.title) ??
             readText(metadata?.journeyTitle) ??
-            "Untitled journey",
+            getUntitledJourneyFallback(lang),
         description:
             localizedJourneyEntry?.description ??
             readText(value.description) ??
@@ -766,7 +806,10 @@ function normalizePublishedJourney(
     };
 }
 
-function normalizePublishedPhoto(value: unknown): PublishedPhotoApi | null {
+function normalizePublishedPhoto(
+    value: unknown,
+    lang?: Language,
+): PublishedPhotoApi | null {
     if (!isRecord(value)) {
         return null;
     }
@@ -791,7 +834,7 @@ function normalizePublishedPhoto(value: unknown): PublishedPhotoApi | null {
             ? readText(journeySource.metadata.title)
             : null) ??
         readText(journeySource?.title) ??
-        "Journey";
+        getGenericJourneyFallback(lang);
 
     const locationName =
         readText(value.locationName) ??
@@ -1016,7 +1059,7 @@ export async function fetchPublishedPhoto(
                 ? (payload.data as unknown)
                 : payload;
 
-        return normalizePublishedPhoto(source);
+        return normalizePublishedPhoto(source, lang);
     } catch (error) {
         console.warn(
             "[published-journey] Failed to fetch published photo",

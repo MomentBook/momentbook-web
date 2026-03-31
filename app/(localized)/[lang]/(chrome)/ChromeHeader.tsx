@@ -56,7 +56,7 @@ export function ChromeHeader({
               currentLang={lang}
               variant="compact"
             />
-            <ThemeToggle variant="icon" />
+            <ThemeToggle lang={lang} variant="icon" />
           </div>
           <MobileMenu
             lang={lang}

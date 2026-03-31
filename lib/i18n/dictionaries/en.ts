@@ -5,7 +5,7 @@ export const en = {
   nav: {
     home: 'Home',
     about: 'About',
-    howItWorks: 'Two Ways',
+    howItWorks: 'How it works',
     download: 'Download',
     faq: 'FAQ',
     support: 'Support',
@@ -47,12 +47,12 @@ export const en = {
   // Common
   common: {
     comingSoon: 'Coming soon',
-    learnMore: 'See two ways',
+    learnMore: 'See how it works',
   },
 
   // Footer
   footer: {
-    summary: 'Memorize your moments, and keep your travel memories close.',
+    summary: 'Remember your moments.',
     ctaPrimary: 'Download',
     ctaSecondary: 'Support',
     social: {

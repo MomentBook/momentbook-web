@@ -45,7 +45,7 @@ export const vi: Dictionary = {
     learnMore: "Xem cách hoạt động",
   },
   footer: {
-    summary: "Lưu giữ lâu hơn những khoảnh khắc của chuyến đi.",
+    summary: "Ghi nhớ những khoảnh khắc của bạn.",
     ctaPrimary: "Tải xuống",
     ctaSecondary: "Hỗ trợ",
     social: {

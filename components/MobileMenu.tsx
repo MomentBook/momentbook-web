@@ -298,7 +298,7 @@ export function MobileMenu({ lang, dict, journeysLabel }: MobileMenuProps) {
 
                 <div className={styles.menuPrefs}>
                   <LanguageDropdown currentLang={lang} variant="drawer" />
-                  <ThemeToggle variant="drawer" />
+                  <ThemeToggle lang={lang} variant="drawer" />
                 </div>
               </aside>
             </div>,

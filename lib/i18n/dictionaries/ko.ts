@@ -54,7 +54,7 @@ export const ko: Dictionary = {
 
   // Footer
   footer: {
-    summary: '여행의 순간을 오래 기억하세요.',
+    summary: '당신의 순간을 기억하세요',
     ctaPrimary: '다운로드',
     ctaSecondary: '지원',
     social: {

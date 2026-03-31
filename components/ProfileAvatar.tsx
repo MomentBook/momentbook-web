@@ -29,7 +29,7 @@ export function ProfileAvatar({
       {hasCustomAvatar ? (
         <Image
           src={normalizedPicture as string}
-          alt={name?.trim() || "Profile avatar"}
+          alt={name?.trim() || ""}
           fill
           sizes={size === "header" ? "36px" : "120px"}
           className={styles.image}

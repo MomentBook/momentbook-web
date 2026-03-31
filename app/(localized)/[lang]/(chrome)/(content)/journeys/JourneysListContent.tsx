@@ -101,7 +101,7 @@ export function JourneysListContent({
 
           <SectionReveal delay={120}>
             <PaginationNav
-              ariaLabel="Journey list pagination"
+              ariaLabel={labels.paginationLabel}
               currentPage={safeCurrentPage}
               entries={paginationEntries}
               hasPreviousPage={hasPreviousPage}

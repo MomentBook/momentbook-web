@@ -7,7 +7,7 @@ export const zh: Dictionary = {
   nav: {
     home: '首页',
     about: '关于',
-    howItWorks: '两种开始',
+    howItWorks: '运作方式',
     download: '下载',
     faq: '常见问题',
     support: '支持',
@@ -49,12 +49,12 @@ export const zh: Dictionary = {
   // Common
   common: {
     comingSoon: '即将推出',
-    learnMore: '查看两种开始',
+    learnMore: '查看运作方式',
   },
 
   // Footer
   footer: {
-    summary: '长久记住每一个旅行瞬间。',
+    summary: '记住你的每个瞬间。',
     ctaPrimary: '下载',
     ctaSecondary: '支持',
     social: {

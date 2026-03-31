@@ -7,6 +7,7 @@ export type JourneyPageLabels = {
   title: string;
   subtitle: string;
   metaDescription: string;
+  paginationLabel: string;
   countLabel: string;
   empty: string;
   byLabel: string;
@@ -27,6 +28,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "Shared journeys on MomentBook.",
     metaDescription:
       "Public journeys, travel timelines, and published trip photo archives shared on MomentBook.",
+    paginationLabel: "Journey list pagination",
     countLabel: "{count} journeys",
     empty: "No published journeys yet.",
     byLabel: "by",
@@ -45,6 +47,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "MomentBook에서 공유된 여정입니다.",
     metaDescription:
       "MomentBook에서 공유된 공개 여정, 여행 타임라인, 사진 아카이브를 모아둔 페이지입니다.",
+    paginationLabel: "여정 목록 페이지 이동",
     countLabel: "{count}개 여정",
     empty: "아직 게시된 여정이 없습니다.",
     byLabel: "작성자",
@@ -63,6 +66,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "MomentBookで共有された旅です。",
     metaDescription:
       "MomentBook で共有された公開の旅、旅行タイムライン、写真アーカイブをまとめたページです。",
+    paginationLabel: "旅一覧のページ切り替え",
     countLabel: "{count}件の旅",
     empty: "公開された旅はまだありません。",
     byLabel: "投稿者",
@@ -81,6 +85,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "在 MomentBook 上分享的公开旅程。",
     metaDescription:
       "汇集了 MomentBook 上分享的公开旅程、旅行时间线与照片档案。",
+    paginationLabel: "旅程列表分页",
     countLabel: "{count} 段旅程",
     empty: "还没有已发布的旅程。",
     byLabel: "作者",
@@ -99,6 +104,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "Viajes compartidos en MomentBook.",
     metaDescription:
       "Página con viajes públicos, cronologías de viaje y archivos de fotos publicados en MomentBook.",
+    paginationLabel: "Paginación de la lista de viajes",
     countLabel: "{count} viajes",
     empty: "Aún no hay viajes publicados.",
     byLabel: "por",
@@ -117,6 +123,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "Viagens compartilhadas no MomentBook.",
     metaDescription:
       "Página com viagens públicas, linhas do tempo de viagem e arquivos de fotos publicados no MomentBook.",
+    paginationLabel: "Paginação da lista de viagens",
     countLabel: "{count} viagens",
     empty: "Ainda não há viagens publicadas.",
     byLabel: "por",
@@ -135,6 +142,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "Voyages partagés sur MomentBook.",
     metaDescription:
       "Page regroupant les voyages publics, chronologies de voyage et archives photo publiés sur MomentBook.",
+    paginationLabel: "Pagination de la liste des voyages",
     countLabel: "{count} voyages",
     empty: "Aucun voyage publié pour le moment.",
     byLabel: "par",
@@ -153,6 +161,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "ทริปที่แชร์บน MomentBook",
     metaDescription:
       "รวมทริปสาธารณะ ไทม์ไลน์การเดินทาง และคลังรูปที่เผยแพร่บน MomentBook",
+    paginationLabel: "การแบ่งหน้ารายการทริป",
     countLabel: "{count} ทริป",
     empty: "ยังไม่มีทริปที่เผยแพร่",
     byLabel: "โดย",
@@ -171,6 +180,7 @@ const journeyPageLabels: Record<Language, JourneyPageLabels> = {
     subtitle: "Các hành trình được chia sẻ trên MomentBook.",
     metaDescription:
       "Trang tổng hợp hành trình công khai, dòng thời gian chuyến đi và kho ảnh đã đăng trên MomentBook.",
+    paginationLabel: "Phân trang danh sách hành trình",
     countLabel: "{count} hành trình",
     empty: "Chưa có hành trình đã đăng.",
     byLabel: "bởi",
