@@ -252,13 +252,11 @@ function normalizeUserJourney(value: unknown): UserJourneyApi | null {
     };
 }
 
-export async function fetchPublicUsers(options?: {
-    page?: number;
-    limit?: number;
-    sort?: "recent" | "oldest" | "mostJourneys";
-}): Promise<PublicUsersResponse | null> {
-    const { page = 1, limit = 100, sort = "recent" } = options ?? {};
-
+const fetchPublicUsersCached = cache(async function fetchPublicUsersCached(
+    page: number,
+    limit: number,
+    sort: "recent" | "oldest" | "mostJourneys",
+): Promise<PublicUsersResponse | null> {
     try {
         const params = new URLSearchParams({
             page: page.toString(),
@@ -303,6 +301,16 @@ export async function fetchPublicUsers(options?: {
         console.warn("[public-users] Failed to fetch public users", error);
         return null;
     }
+});
+
+export async function fetchPublicUsers(options?: {
+    page?: number;
+    limit?: number;
+    sort?: "recent" | "oldest" | "mostJourneys";
+}): Promise<PublicUsersResponse | null> {
+    const { page = 1, limit = 100, sort = "recent" } = options ?? {};
+
+    return fetchPublicUsersCached(page, limit, sort);
 }
 
 export const fetchPublicUser = cache(async function fetchPublicUser(
@@ -336,17 +344,13 @@ export const fetchPublicUser = cache(async function fetchPublicUser(
     }
 });
 
-export async function fetchUserJourneys(
+const fetchUserJourneysCached = cache(async function fetchUserJourneysCached(
     userId: string,
-    options?: {
-        page?: number;
-        limit?: number;
-        sort?: "recent" | "oldest";
-        lang?: Language;
-    },
+    page: number,
+    limit: number,
+    sort: "recent" | "oldest",
+    lang?: Language,
 ): Promise<PublishedJourneysResponse | null> {
-    const { page = 1, limit = 100, sort = "recent", lang } = options ?? {};
-
     try {
         const params = new URLSearchParams({
             page: page.toString(),
@@ -395,4 +399,18 @@ export async function fetchUserJourneys(
         );
         return null;
     }
+});
+
+export async function fetchUserJourneys(
+    userId: string,
+    options?: {
+        page?: number;
+        limit?: number;
+        sort?: "recent" | "oldest";
+        lang?: Language;
+    },
+): Promise<PublishedJourneysResponse | null> {
+    const { page = 1, limit = 100, sort = "recent", lang } = options ?? {};
+
+    return fetchUserJourneysCached(userId, page, limit, sort, lang);
 }

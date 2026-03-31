@@ -957,15 +957,13 @@ export async function fetchPublishedJourney(
     return result.status === "success" ? result.data : null;
 }
 
-export async function fetchPublishedJourneys(options?: {
-    page?: number;
-    limit?: number;
-    sort?: "recent" | "oldest";
-    userId?: string;
-    lang?: Language;
-}): Promise<PublishedJourneysListApi | null> {
-    const { page = 1, limit = 20, sort = "recent", userId, lang } = options ?? {};
-
+const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneysCached(
+    page: number,
+    limit: number,
+    sort: "recent" | "oldest",
+    userId?: string,
+    lang?: Language,
+): Promise<PublishedJourneysListApi | null> {
     try {
         const params = new URLSearchParams({
             page: page.toString(),
@@ -1024,6 +1022,18 @@ export async function fetchPublishedJourneys(options?: {
         );
         return null;
     }
+});
+
+export async function fetchPublishedJourneys(options?: {
+    page?: number;
+    limit?: number;
+    sort?: "recent" | "oldest";
+    userId?: string;
+    lang?: Language;
+}): Promise<PublishedJourneysListApi | null> {
+    const { page = 1, limit = 20, sort = "recent", userId, lang } = options ?? {};
+
+    return fetchPublishedJourneysCached(page, limit, sort, userId, lang);
 }
 
 export const fetchPublishedPhoto = cache(async function fetchPublishedPhoto(
