@@ -44,6 +44,7 @@ export function ChromeHeader({
           <DownloadActionButton
             lang={lang}
             className={styles.navAction}
+            analyticsSurface="header"
           >
             {dict.nav.download}
           </DownloadActionButton>

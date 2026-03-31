@@ -4,6 +4,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { ENV } from "@/src/configs/env.server";
 import GaRouteTracker from "@/app/components/GaRouteTracker";
 import LanguageSyncProvider from "@/app/components/LanguageSyncProvider";
+import WebVitalsTracker from "@/app/components/WebVitalsTracker";
 import { PageAnimationModeSync } from "@/components/PageAnimationModeSync";
 import { APP_LOGO_PATH } from "@/lib/branding/logo";
 import { languageList } from "@/lib/i18n/config";
@@ -92,6 +93,7 @@ export function RootDocument({
           <>
             <GoogleAnalytics gaId={GA_ID} />
             <GaRouteTracker />
+            <WebVitalsTracker />
           </>
         ) : null}
         {children}

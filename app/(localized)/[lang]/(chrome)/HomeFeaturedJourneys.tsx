@@ -1,7 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
+import { AnalyticsLink } from "@/components/AnalyticsLink";
 import { LocalizedDate } from "@/components/LocalizedTime";
 import { SectionReveal } from "@/components/SectionReveal";
+import { PUBLIC_WEB_EVENTS } from "@/lib/analytics/public-web";
 import type { Language } from "@/lib/i18n/config";
 import type { HomeFeaturedCopy, HomeFeaturedJourney } from "./home.helpers";
 import styles from "./page.module.scss";
@@ -25,9 +26,19 @@ export function HomeFeaturedJourneys({
             {content.featuredTitle}
           </h2>
         </div>
-        <Link href={`/${lang}/journeys`} className={styles.archiveLink}>
+        <AnalyticsLink
+          lang={lang}
+          href={`/${lang}/journeys`}
+          className={styles.archiveLink}
+          analyticsEvent={PUBLIC_WEB_EVENTS.navigationLinkClick}
+          analyticsParams={{
+            surface: "home_featured",
+            link_id: "view_all_journeys",
+            link_kind: "archive",
+          }}
+        >
           {content.featuredArchiveCta}
-        </Link>
+        </AnalyticsLink>
       </SectionReveal>
 
       {journeys.length > 0 ? (
@@ -39,7 +50,17 @@ export function HomeFeaturedJourneys({
               variant="item"
               staggerIndex={index}
             >
-              <Link href={journey.href} className={styles.featuredCardLink}>
+              <AnalyticsLink
+                lang={lang}
+                href={journey.href}
+                className={styles.featuredCardLink}
+                analyticsEvent={PUBLIC_WEB_EVENTS.featuredJourneyClick}
+                analyticsParams={{
+                  surface: "home_featured",
+                  journey_id: journey.publicId,
+                  card_index: index + 1,
+                }}
+              >
                 <div className={styles.featuredCardMedia}>
                   <Image
                     src={journey.coverUrl || "/images/placeholders/journey-cover-fallback.svg"}
@@ -64,7 +85,7 @@ export function HomeFeaturedJourneys({
                     </span>
                   </div>
                 </div>
-              </Link>
+              </AnalyticsLink>
             </SectionReveal>
           ))}
         </div>

@@ -1,6 +1,6 @@
-type AnalyticsEventValue = string | number | boolean;
+export type AnalyticsEventValue = string | number | boolean;
 
-type AnalyticsParams = Record<string, AnalyticsEventValue | null | undefined>;
+export type AnalyticsParams = Record<string, AnalyticsEventValue | null | undefined>;
 
 type GtagFunction = (
   command: "event",

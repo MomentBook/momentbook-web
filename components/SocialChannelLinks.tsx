@@ -1,7 +1,11 @@
+import { AnalyticsLink } from "@/components/AnalyticsLink";
+import { PUBLIC_WEB_EVENTS } from "@/lib/analytics/public-web";
+import { type Language } from "@/lib/i18n/config";
 import { MARKETING_CHANNELS, type MarketingChannelId } from "@/lib/marketing/social-channels";
 import styles from "./SocialChannelLinks.module.scss";
 
 type SocialChannelLinksProps = {
+  lang: Language;
   ariaLabel: string;
   linkLabels: Record<MarketingChannelId, string>;
 };
@@ -74,24 +78,30 @@ function ChannelIcon({ id }: { id: MarketingChannelId }) {
 }
 
 export function SocialChannelLinks({
+  lang,
   ariaLabel,
   linkLabels,
 }: SocialChannelLinksProps) {
   return (
     <div className={styles.links} aria-label={ariaLabel}>
       {MARKETING_CHANNELS.map((channel) => (
-        <a
+        <AnalyticsLink
           key={channel.id}
+          lang={lang}
           href={channel.href}
+          className={styles.link}
+          analyticsEvent={PUBLIC_WEB_EVENTS.socialChannelClick}
+          analyticsParams={{
+            surface: "footer_social",
+            channel: channel.id,
+          }}
           target="_blank"
           rel="noopener noreferrer me"
-          className={styles.link}
-          data-channel={channel.id}
-          aria-label={linkLabels[channel.id]}
+          ariaLabel={linkLabels[channel.id]}
           title={linkLabels[channel.id]}
         >
           <ChannelIcon id={channel.id} />
-        </a>
+        </AnalyticsLink>
       ))}
     </div>
   );

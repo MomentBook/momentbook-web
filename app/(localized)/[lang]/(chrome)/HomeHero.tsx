@@ -1,7 +1,6 @@
-"use client";
-
-import Link from "next/link";
+import { AnalyticsLink } from "@/components/AnalyticsLink";
 import { DownloadActionButton } from "@/components/DownloadActionButton";
+import { PUBLIC_WEB_EVENTS } from "@/lib/analytics/public-web";
 import { SectionReveal } from "@/components/SectionReveal";
 import { type Language } from "@/lib/i18n/config";
 import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
@@ -34,15 +33,24 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
               <DownloadActionButton
                 lang={lang}
                 className={styles.primaryButton}
+                analyticsSurface="home_hero"
               >
                 {content.primaryCta}
               </DownloadActionButton>
-              <Link
+              <AnalyticsLink
+                lang={lang}
                 href={buildHomeSectionHref(lang, HOME_SECTION_IDS.story)}
                 className={styles.secondaryButton}
+                analyticsEvent={PUBLIC_WEB_EVENTS.navigationLinkClick}
+                analyticsParams={{
+                  surface: "home_hero",
+                  link_id: "see_flow",
+                  link_kind: "secondary_cta",
+                  target_section: HOME_SECTION_IDS.story,
+                }}
               >
                 {content.heroExploreCta}
-              </Link>
+              </AnalyticsLink>
             </div>
           </div>
           {content.heroFootnote ? (

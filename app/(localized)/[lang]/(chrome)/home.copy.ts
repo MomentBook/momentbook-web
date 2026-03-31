@@ -8,6 +8,7 @@ type HomePageCopy = {
   metaDescription: string;
   heroTitle: string;
   heroLead: string;
+  heroFootnote: string;
   primaryCta: string;
 };
 
@@ -34,81 +35,99 @@ const homePageCopy: Record<Language, HomePageCopy> = {
     metaTitle: "MomentBook — Upload once, organized all the way to your drive",
     metaDescription:
       "Upload trip photos in one batch. MomentBook organizes them into a timeline by time and place, then automatically syncs the archive to your cloud drive.",
-    heroTitle: "Your trip stays in a shape you can revisit",
+    heroTitle: "Upload your trip once, then revisit it as a timeline",
     heroLead:
-      "Upload trip photos in one batch and MomentBook organizes them by time and place, then carries the organized archive to your drive.",
+      "MomentBook takes one batch of trip photos, organizes them by time and place, and carries the organized archive to your drive.",
+    heroFootnote:
+      "Available on the App Store and Google Play. Journeys stay private unless you choose to publish them.",
     primaryCta: "Install app",
   },
   ko: {
     metaTitle: "MomentBook — 한 번 올리면, 드라이브까지 정리됩니다",
     metaDescription:
       "여행 사진을 한 번에 올리면 시간과 장소 기준 타임라인으로 정리하고, 정리된 아카이브를 클라우드 드라이브에 자동 동기화합니다.",
-    heroTitle: "당신의 여행을 기억하세요",
+    heroTitle: "여행 사진을 한 번 올리면, 다시 보기 쉬운 타임라인이 됩니다",
     heroLead:
-      "여행 사진을 올리면 시간과 장소 기준으로 정리하고, 드라이브까지 자동 동기화합니다.",
+      "이미 찍은 여행 사진을 한 번에 올리면 시간과 장소 흐름으로 정리하고, 정리된 아카이브를 드라이브까지 이어 줍니다.",
+    heroFootnote:
+      "App Store와 Google Play에서 사용할 수 있으며, 여정은 게시를 선택하기 전까지 비공개로 유지됩니다.",
     primaryCta: "앱 설치",
   },
   ja: {
     metaTitle: "MomentBook — 一度アップロードすると、ドライブまで整理されます",
     metaDescription:
       "旅行写真をまとめてアップロードすると、時間と場所の流れでタイムラインに整理し、整理されたアーカイブをクラウドドライブに自動同期します。",
-    heroTitle: "旅の流れが、あとで見返しやすい形で残ります",
+    heroTitle: "旅の写真を一度まとめてアップロードすると、あとで見返しやすいタイムラインになります",
     heroLead:
-      "旅行写真をまとめてアップロードすると、時間と場所で整理され、整理されたアーカイブがドライブまでつながります。",
+      "すでに撮った旅行写真をまとめて取り込むと、時間と場所の流れで整理され、整理されたアーカイブがドライブまでつながります。",
+    heroFootnote:
+      "App Store と Google Play で利用でき、旅は公開を選ぶまで非公開のままです。",
     primaryCta: "アプリをインストール",
   },
   zh: {
     metaTitle: "MomentBook — 一次上传，连云盘都会整理好",
     metaDescription:
       "一次上传旅行照片后，MomentBook 会按时间和地点整理成时间线，并将整理好的档案自动同步到云盘。",
-    heroTitle: "旅程会以更容易回看的脉络留下来",
+    heroTitle: "旅行照片一次上传后，就会整理成便于回看的时间线",
     heroLead:
-      "一次上传旅行照片后，MomentBook 会按时间和地点整理，整理好的档案也会继续同步到云盘。",
+      "把已经拍好的旅行照片一次上传后，MomentBook 会按时间和地点整理，并把整理好的档案继续同步到你的云盘。",
+    heroFootnote:
+      "可在 App Store 和 Google Play 使用，旅程在你选择发布前会保持私密。",
     primaryCta: "安装应用",
   },
   es: {
     metaTitle: "MomentBook — Súbelo una vez y se ordena hasta tu drive",
     metaDescription:
       "Sube las fotos del viaje de una vez. MomentBook las ordena en una línea de tiempo por fecha y lugar, y sincroniza automáticamente el archivo con tu nube.",
-    heroTitle: "Tu viaje queda en una forma fácil de volver a mirar",
+    heroTitle: "Sube tu viaje una vez y vuelve a verlo como una línea de tiempo",
     heroLead:
-      "Sube las fotos del viaje en un solo lote y MomentBook las ordena por fecha y lugar, y lleva el archivo organizado hasta tu drive.",
+      "MomentBook toma un solo lote de fotos del viaje, las organiza por fecha y lugar y lleva ese archivo ordenado hasta tu drive.",
+    heroFootnote:
+      "Disponible en App Store y Google Play. Los viajes siguen siendo privados hasta que decidas publicarlos.",
     primaryCta: "Instalar app",
   },
   pt: {
     metaTitle: "MomentBook — Envie uma vez e tudo segue organizado até o drive",
     metaDescription:
       "Envie as fotos da viagem de uma vez. O MomentBook organiza tudo em uma linha do tempo por data e lugar e sincroniza automaticamente o arquivo com seu drive na nuvem.",
-    heroTitle: "Sua viagem fica em uma forma fácil de revisitar",
+    heroTitle: "Envie sua viagem uma vez e revisite tudo como uma linha do tempo",
     heroLead:
-      "Envie as fotos da viagem de uma vez e o MomentBook organiza tudo por data e lugar, levando o arquivo organizado até o seu drive.",
+      "O MomentBook recebe um único lote de fotos da viagem, organiza por data e lugar e leva o arquivo organizado até o seu drive.",
+    heroFootnote:
+      "Disponível na App Store e no Google Play. As viagens permanecem privadas até você decidir publicar.",
     primaryCta: "Instalar app",
   },
   fr: {
     metaTitle: "MomentBook — Importez une fois, l'organisation va jusqu'au drive",
     metaDescription:
       "Importez les photos du voyage en une fois. MomentBook les range dans une chronologie par date et lieu, puis synchronise automatiquement l'archive avec votre espace cloud.",
-    heroTitle: "Votre voyage reste dans une forme facile à revoir",
+    heroTitle: "Importez votre voyage une fois, puis retrouvez-le comme une chronologie",
     heroLead:
-      "Importez les photos du voyage en une seule fois et MomentBook les organise par date et lieu, puis prolonge l'archive organisée jusqu'à votre drive.",
+      "MomentBook prend un seul lot de photos du voyage, les organise par date et lieu, puis prolonge l'archive organisée jusqu'à votre drive.",
+    heroFootnote:
+      "Disponible sur l'App Store et Google Play. Les voyages restent privés tant que vous ne choisissez pas de les publier.",
     primaryCta: "Installer l'app",
   },
   th: {
     metaTitle: "MomentBook — อัปโหลดครั้งเดียว แล้วจัดไปถึงไดรฟ์",
     metaDescription:
       "อัปโหลดรูปทริปครั้งเดียว MomentBook จะจัดเป็นไทม์ไลน์ตามเวลาและสถานที่ พร้อมซิงก์คลังที่จัดแล้วไปยังคลาวด์ไดรฟ์โดยอัตโนมัติ",
-    heroTitle: "การเดินทางของคุณจะอยู่ในรูปแบบที่ย้อนกลับมาดูได้ง่าย",
+    heroTitle: "อัปโหลดรูปทริปครั้งเดียว แล้วกลับมาดูเป็นไทม์ไลน์ได้ง่าย",
     heroLead:
-      "เมื่ออัปโหลดรูปทริปพร้อมกันครั้งเดียว MomentBook จะจัดตามเวลาและสถานที่ แล้วให้คลังที่จัดแล้วต่อเนื่องไปยังไดรฟ์ของคุณ",
+      "MomentBook รับรูปทริปเป็นชุดเดียว จัดตามเวลาและสถานที่ แล้วพาคลังที่จัดแล้วต่อเนื่องไปยังไดรฟ์ของคุณ",
+    heroFootnote:
+      "ใช้งานได้บน App Store และ Google Play และทริปจะยังเป็นส่วนตัวจนกว่าคุณจะเลือกเผยแพร่",
     primaryCta: "ติดตั้งแอป",
   },
   vi: {
     metaTitle: "MomentBook — Tải lên một lần, sắp xếp tới tận drive",
     metaDescription:
       "Tải ảnh chuyến đi lên một lần. MomentBook sắp thành dòng thời gian theo thời gian và địa điểm, rồi tự động đồng bộ kho lưu trữ đã sắp xếp lên cloud drive.",
-    heroTitle: "Chuyến đi của bạn ở lại trong một mạch dễ nhìn lại",
+    heroTitle: "Tải chuyến đi lên một lần rồi xem lại như một dòng thời gian rõ ràng",
     heroLead:
-      "Tải toàn bộ ảnh chuyến đi lên một lần và MomentBook sẽ sắp xếp theo thời gian, địa điểm rồi đưa kho lưu trữ đã sắp xếp lên drive của bạn.",
+      "MomentBook nhận trọn một lượt ảnh chuyến đi, sắp theo thời gian và địa điểm rồi đưa kho lưu trữ đã sắp xếp lên drive của bạn.",
+    heroFootnote:
+      "Có trên App Store và Google Play. Hành trình vẫn ở chế độ riêng tư cho đến khi bạn chọn công khai.",
     primaryCta: "Cài ứng dụng",
   },
 };
@@ -719,6 +738,6 @@ export function buildHomeHeroContent(
     heroLead: pageCopy.heroLead,
     heroExploreCta: editorialCopy.heroExploreCta,
     primaryCta: pageCopy.primaryCta,
-    heroFootnote: "",
+    heroFootnote: pageCopy.heroFootnote,
   };
 }

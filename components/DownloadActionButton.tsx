@@ -1,7 +1,14 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { DownloadQrModal } from "@/components/DownloadQrModal";
+import { trackAnalyticsEvent } from "@/lib/analytics/gtag";
+import {
+  getPublicPageContext,
+  PUBLIC_WEB_EVENTS,
+  type MarketingSurface,
+} from "@/lib/analytics/public-web";
 import { type Language } from "@/lib/i18n/config";
 import { detectLandingPlatform } from "@/lib/install-campaign";
 import { scrollHomeSectionIntoView } from "@/lib/marketing/home-scroll";
@@ -12,15 +19,19 @@ type DownloadActionButtonProps = {
   lang: Language;
   className?: string;
   children: ReactNode;
+  analyticsSurface?: MarketingSurface;
 };
 
 export function DownloadActionButton({
   lang,
   className,
   children,
+  analyticsSurface,
 }: DownloadActionButtonProps) {
   const launchTimeoutRef = useRef<number | null>(null);
   const [isQrOpen, setIsQrOpen] = useState(false);
+  const pathname = usePathname() ?? "/";
+  const pageContext = getPublicPageContext(pathname);
 
   useEffect(() => {
     return () => {
@@ -40,6 +51,17 @@ export function DownloadActionButton({
       window.navigator.userAgent,
       window.navigator.maxTouchPoints,
     );
+
+    if (analyticsSurface) {
+      trackAnalyticsEvent(PUBLIC_WEB_EVENTS.downloadCtaClick, {
+        route_lang: lang,
+        page_surface: pageContext.pageSurface,
+        page_location: window.location.href,
+        surface: analyticsSurface,
+        platform_hint: platform,
+        action: platform === "desktop" ? "open_qr" : "launch_store",
+      });
+    }
 
     if (platform === "desktop") {
       setIsQrOpen(true);
