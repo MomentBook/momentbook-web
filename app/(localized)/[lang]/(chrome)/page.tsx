@@ -14,6 +14,7 @@ import {
   buildPublicRobots,
   buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
+import { resolveSiteUrl } from "@/lib/site-url";
 import { HashTargetFocus } from "./HashTargetFocus";
 import { HomeMarketingStory } from "./HomeMarketingStory";
 import {
@@ -84,7 +85,7 @@ export default async function Home({
   );
   const heroContent = buildHomeHeroContent(content, editorialContent);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const siteUrl = resolveSiteUrl();
   const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL?.trim() || "support@momentbook.app";
   const pageUrl = new URL(buildOpenGraphUrl(lang, "/"), siteUrl).toString();
   const storeLinks = getCanonicalStoreLinks(lang);

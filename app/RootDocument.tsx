@@ -8,6 +8,7 @@ import WebVitalsTracker from "@/app/components/WebVitalsTracker";
 import { PageAnimationModeSync } from "@/components/PageAnimationModeSync";
 import { APP_LOGO_PATH } from "@/lib/branding/logo";
 import { languageList } from "@/lib/i18n/config";
+import { resolveSiteUrl, resolveSiteUrlObject } from "@/lib/site-url";
 
 const GA_ID = ENV.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID;
 
@@ -26,9 +27,9 @@ const playfairDisplay = Playfair_Display({
   display: "swap",
 });
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+export const SITE_URL = resolveSiteUrl();
 
-export const APP_METADATA_BASE = new URL(SITE_URL);
+export const APP_METADATA_BASE = resolveSiteUrlObject();
 
 export const APP_ICONS = {
   icon: APP_LOGO_PATH,

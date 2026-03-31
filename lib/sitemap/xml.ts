@@ -1,3 +1,5 @@
+import { resolveSiteUrl } from "@/lib/site-url";
+
 const MAX_URLS_PER_SITEMAP = 50000;
 const SITEMAP_CACHE_CONTROL = "public, max-age=3600, s-maxage=3600";
 
@@ -106,7 +108,7 @@ ${body}
 }
 
 export function resolveSitemapSiteUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  return resolveSiteUrl();
 }
 
 export function buildSitemapXmlResponse(xml: string) {

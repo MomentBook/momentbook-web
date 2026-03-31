@@ -1,4 +1,5 @@
 import { buildAbsoluteAppTransparentLogoUrl } from "@/lib/branding/logo";
+import { resolveSiteUrl } from "@/lib/site-url";
 
 export function serializeJsonLd(value: unknown): string {
   return JSON.stringify(value)
@@ -10,7 +11,7 @@ export function serializeJsonLd(value: unknown): string {
 }
 
 export function resolveStructuredDataSiteUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  return resolveSiteUrl();
 }
 
 export function buildStructuredDataUrl(path: string, siteUrl = resolveStructuredDataSiteUrl()) {

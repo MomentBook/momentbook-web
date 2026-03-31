@@ -4,6 +4,7 @@ import {
   type CampaignParams,
   type CampaignQueryKey,
 } from "@/lib/install-campaign";
+import { resolveSiteUrl } from "@/lib/site-url";
 
 type CampaignOverrideMap = Partial<Record<string, string>>;
 
@@ -207,7 +208,7 @@ export function buildAbsoluteInstallLandingUrl(
   lang: Language,
   campaign: CampaignParams = {},
 ) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const siteUrl = resolveSiteUrl();
   const baseUrl = new URL(`/${lang}/install`, siteUrl).toString();
   return appendCampaignQuery(baseUrl, campaign);
 }
@@ -216,7 +217,7 @@ export function buildAbsoluteInstallRedirectUrl(
   lang: Language,
   campaign: CampaignParams = {},
 ) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3100";
+  const siteUrl = resolveSiteUrl();
   const baseUrl = new URL(`/${lang}/install/redirect`, siteUrl).toString();
   return appendCampaignQuery(baseUrl, campaign);
 }

@@ -260,6 +260,10 @@ MomentBook Web은 다음 역할만 수행한다.
 - `NEXT_PUBLIC_SITEMAP_STATIC_LASTMOD` (optional)
 - `NEXT_PUBLIC_FIREBASE_*` (firebase config set)
 
+운영 규칙:
+- `NEXT_PUBLIC_SITE_URL`은 production에서 canonical, hreflang alternates, robots, sitemap, JSON-LD absolute URL의 단일 기준값이다.
+- `http://localhost:3100` fallback은 local/dev 또는 `NEXT_PUBLIC_APP_IS_LOCAL=true`일 때만 허용한다.
+
 ## 12) Build & Ops Commands
 
 - Dev: `yarn dev`
