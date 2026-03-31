@@ -1,4 +1,5 @@
 import styles from "./layout.module.scss";
+import { PublicImageCacheRegistration } from "@/components/PublicImageCacheRegistration";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { type Language } from "@/lib/i18n/config";
 import { ChromeFooter } from "./ChromeFooter";
@@ -18,6 +19,8 @@ export default async function ChromeLayout({
 
     return (
         <>
+            <PublicImageCacheRegistration />
+
             <ChromeHeader
                 lang={lang}
                 dict={dict}

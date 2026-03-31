@@ -100,6 +100,7 @@ export type PublishedJourneyApi = {
     endedAtLocal?: LocalDateTimeContext | null;
     title: string;
     description?: string;
+    thumbnailUrl?: string;
     mode: JourneyMode;
     photoCount: number;
     images: PublishedJourneyImage[];
@@ -790,6 +791,10 @@ function normalizePublishedJourney(
             readText(value.description) ??
             readText(metadata?.description) ??
             readText(metadata?.summary) ??
+            undefined,
+        thumbnailUrl:
+            readText(value.thumbnailUrl) ??
+            readText(metadata?.thumbnailUri) ??
             undefined,
         mode: normalizeJourneyMode(value.mode),
         photoCount: readNumber(value.photoCount) ?? images.length,

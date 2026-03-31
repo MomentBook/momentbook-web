@@ -129,6 +129,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - public journey/user/photo payload가 제공하는 additive local-time context(`startedAtLocal`, `endedAtLocal`, `timeline[].time.startLocal/endLocal`, `images[].captureTime`, `photo.captureTime`)는 시:분 렌더링의 우선 입력으로 사용하고, 정렬/비교/범위 계산은 기존 absolute timestamp(`startedAt`, `endedAt`, `takenAt`)를 계속 사용한다.
 - journey/moment detail은 viewer payload의 top-level localized title/description/cluster impression을 우선 사용하고, `localizedContent`는 localized hashtags 및 누락 필드 보강 용도로만 사용한다.
 - 공개 리스트 카드(`/`, `/{lang}/journeys`, `/{lang}/users/[userId]`)의 cover thumbnail은 list response가 내려주는 preview field를 우선 사용하며 viewer `images[]`에서 다시 추론하지 않는다.
+- 공개 여정 상세 hero는 detail payload의 `thumbnailUrl`(또는 `metadata.thumbnailUri`)가 있으면 이를 우선 사용해 목록/상세 간 같은 이미지 URL을 재사용한다.
 - `/{lang}/journeys` 카드 구성은 list response의 title/description/date/local-time/cover field를 우선 사용하고, 카드별 journey detail fan-out fetch를 추가하지 않는다.
 - 공통 fetch fallback candidates: `lib/public-api.ts`
 
@@ -153,6 +154,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - Users list/detail, photo detail: `revalidate = 14400`
 - Sitemap routes: `revalidate = 3600`
 - API fetch helper 일부: `next.revalidate = 300`, `14400` 상수 사용
+- production browser는 `public-image-cache-sw.js`를 등록해 MomentBook CDN/S3 원격 published image를 client-side cache storage에 `stale-while-revalidate`로 저장한다.
+- 서비스워커는 원격 이미지를 직접 캐시할 뿐 Vercel image optimizer나 app route proxy를 거치지 않는다.
 - localized root layout은 `app/(localized)/[lang]/layout.tsx`에서 정적 route param 기준으로 `html lang`와 locale metadata를 SSR한다.
 - 단, `/{lang}/install`은 서버에서 UA 기반 플랫폼 힌트를 읽기 위해 `headers()`를 사용한다.
 

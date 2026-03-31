@@ -65,6 +65,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/public-image-cache-sw.js",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, max-age=0, must-revalidate",
+          },
+        ],
+      },
+      {
         source: "/:path*",
         headers: [
           {

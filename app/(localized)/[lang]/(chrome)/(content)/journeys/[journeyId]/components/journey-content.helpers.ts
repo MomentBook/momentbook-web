@@ -34,9 +34,14 @@ const JOURNEY_FALLBACK_IMAGE = "/images/placeholders/journey-cover-fallback.svg"
 export function buildJourneyHeroImage(
   images: PublishedJourneyImage[],
   title: string,
+  thumbnailUrl?: string,
 ): DisplayImage {
-  const firstImage = images[0];
-  if (!firstImage) {
+  const preferredImage = thumbnailUrl
+    ? images.find((image) => image.url === thumbnailUrl) ?? images[0]
+    : images[0];
+  const preferredUrl = thumbnailUrl ?? preferredImage?.url;
+
+  if (!preferredUrl) {
     return {
       key: "fallback-cover",
       url: JOURNEY_FALLBACK_IMAGE,
@@ -45,9 +50,9 @@ export function buildJourneyHeroImage(
   }
 
   return {
-    key: firstImage.photoId || firstImage.url,
-    url: firstImage.url,
-    alt: firstImage.locationName || title,
+    key: preferredImage?.photoId || preferredUrl,
+    url: preferredUrl,
+    alt: preferredImage?.locationName || title,
   };
 }
 

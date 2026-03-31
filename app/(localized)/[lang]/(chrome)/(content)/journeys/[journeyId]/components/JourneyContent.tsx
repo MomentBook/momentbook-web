@@ -43,7 +43,11 @@ export default function JourneyContent({
     periodStartLocal,
     periodEndLocal,
 }: JourneyContentProps) {
-    const heroImage = buildJourneyHeroImage(journey.images, journey.title);
+    const heroImage = buildJourneyHeroImage(
+        journey.images,
+        journey.title,
+        journey.thumbnailUrl,
+    );
     const archivePhotos = buildJourneyArchivePhotos(
         journey.images,
         journey.title,
