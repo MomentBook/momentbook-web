@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { getPublicPageSurface, readRouteLanguageFromPathname } from "@/lib/analytics/public-web";
 import { defaultLanguage } from "@/lib/i18n/config";
 import { getNotFoundCopy } from "./not-found.copy";
@@ -41,7 +41,6 @@ export function LocalizedNotFoundView({
   variant,
 }: LocalizedNotFoundViewProps) {
   const pathname = usePathname() ?? "/";
-  const router = useRouter();
   const routeLanguage = readRouteLanguageFromPathname(pathname) ?? defaultLanguage;
   const copy = getNotFoundCopy(routeLanguage);
   const surface = getPublicPageSurface(pathname);
@@ -75,26 +74,6 @@ export function LocalizedNotFoundView({
                     : copy.primaryHome}
               </Link>
             ))}
-          </div>
-
-          <div className={styles.secondaryActions}>
-            <button
-              type="button"
-              className={styles.textAction}
-              onClick={() => {
-                if (typeof window !== "undefined" && window.history.length > 1) {
-                  router.back();
-                  return;
-                }
-
-                router.push(`/${routeLanguage}`);
-              }}
-            >
-              {copy.secondaryBack}
-            </button>
-            <Link href={`/${routeLanguage}/support`} className={styles.textAction}>
-              {copy.secondarySupport}
-            </Link>
           </div>
         </div>
       </section>
