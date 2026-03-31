@@ -1726,7 +1726,7 @@ export interface PublishJourneyRequestDto {
    * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
    */
   photoUrlMapping: object;
-  /** Array of journey images to publish (max 100). Client may send the full published photo set for the journey. */
+  /** Array of journey images to publish. Client may send the full published photo set for the journey. */
   images: JourneyImageDto[];
   /** Journey metadata (title, description, thumbnailUri, etc.) */
   metadata?: JourneyMetadataDto;
@@ -2548,7 +2548,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.18
+ * @version 2.1.23
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3074,7 +3074,7 @@ export class Api<
          */
         page?: number;
         /**
-         * Number of items per page (default: 20, max: 100)
+         * Number of items per page (default: 20)
          * @example 20
          */
         limit?: number;
@@ -3127,7 +3127,7 @@ export class Api<
          */
         page?: number;
         /**
-         * Number of items per page (default: 20, max: 100)
+         * Number of items per page (default: 20)
          * @example 20
          */
         limit?: number;
@@ -3189,7 +3189,7 @@ export class Api<
       }),
 
     /**
-     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. The server generates localized title/description/hashtags and localized cluster impressions for supported locales as a required part of the publish transaction. **Photo Upload:** - Maximum 100 photos allowed per published journey - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED - Publish fails if localization generation cannot be completed
+     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. The server generates localized title/description/hashtags and localized cluster impressions for supported locales as a required part of the publish transaction. **Photo Upload:** - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED - Publish fails if localization generation cannot be completed
      *
      * @tags journeys
      * @name PublishJourneyControllerPublishJourney
@@ -3246,7 +3246,7 @@ export class Api<
          */
         page?: number;
         /**
-         * Number of items per page (default: 20, max: 100)
+         * Number of items per page (default: 20)
          * @example 20
          */
         limit?: number;
