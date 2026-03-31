@@ -80,10 +80,21 @@ export async function filterUsersByQuery(
   }
 
   const normalizedQuery = query.toLowerCase();
+  const searchEntries = users.map((user) => {
+    const searchText = [user.name, user.biography]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return {
+      user,
+      isTextMatch: searchText.includes(normalizedQuery),
+    };
+  });
   const hashtagEntries = await mapWithConcurrency(
-    users,
+    searchEntries.filter((entry) => !entry.isTextMatch),
     USER_SEARCH_CONCURRENCY,
-    async (user) => ({
+    async ({ user }) => ({
       userId: user.userId,
       hashtags: await fetchRecentUserHashtags(user.userId, lang),
     }),
@@ -92,16 +103,16 @@ export async function filterUsersByQuery(
     hashtagEntries.map((entry) => [entry.userId, entry.hashtags]),
   );
 
-  return users.flatMap((user) => {
-    const searchText = [user.name, user.biography]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
+  return searchEntries.flatMap(({ user, isTextMatch }) => {
+    if (isTextMatch) {
+      return [{ user, matchedHashtags: [] }];
+    }
+
     const matchedHashtags = (hashtagMap.get(user.userId) ?? []).filter((hashtag) =>
       matchesHashtagQuery(hashtag, query),
     );
 
-    if (searchText.includes(normalizedQuery) || matchedHashtags.length > 0) {
+    if (matchedHashtags.length > 0) {
       return [{ user, matchedHashtags }];
     }
 
