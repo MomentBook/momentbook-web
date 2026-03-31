@@ -55,9 +55,11 @@ export function LocalizedNotFoundView({
     <div className={className}>
       <section className={styles.heroSection}>
         <div className={styles.heroCard}>
-          <p className={styles.eyebrow}>{copy.eyebrow}</p>
-          <h1 className={styles.title}>{copy.title}</h1>
-          <p className={styles.lead}>{copy.lead}</p>
+          <div className={styles.copyBlock}>
+            <p className={styles.eyebrow}>{copy.eyebrow}</p>
+            <h1 className={styles.title}>{copy.title}</h1>
+            <p className={styles.lead}>{copy.lead}</p>
+          </div>
 
           <div className={styles.primaryActions}>
             {primaryActions.map((action) => (

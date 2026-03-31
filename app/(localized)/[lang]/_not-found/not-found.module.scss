@@ -34,10 +34,10 @@
   position: relative;
   overflow: hidden;
   display: grid;
-  gap: 1.25rem;
-  max-width: 40rem;
+  gap: 1.6rem;
+  max-width: 44rem;
   margin: 0 auto;
-  padding: clamp(2rem, 5vw, 3.2rem);
+  padding: clamp(2.4rem, 5vw, 3.6rem);
   border: 1px solid var(--not-found-shell-border);
   border-radius: 2.2rem;
   background:
@@ -47,6 +47,13 @@
   box-shadow: 0 32px 72px rgba(17, 33, 22, 0.06);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+}
+
+.copyBlock {
+  display: grid;
+  gap: 0.95rem;
+  justify-items: center;
+  text-align: center;
 }
 
 .heroCard::after {
@@ -63,20 +70,20 @@
 .eyebrow {
   margin: 0;
   color: #5f7d69;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .title {
   margin: 0;
-  max-width: 12ch;
+  max-width: 11ch;
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 5vw, 3.65rem);
+  font-size: clamp(2.5rem, 5.4vw, 4.1rem);
   font-weight: 600;
   letter-spacing: -0.04em;
-  line-height: 1.04;
+  line-height: 1;
   text-wrap: balance;
 }
 
@@ -90,30 +97,34 @@
 
 .lead {
   margin: 0;
-  max-width: 33rem;
+  max-width: 32rem;
   color: var(--not-found-text-muted);
-  font-size: 0.98rem;
-  line-height: 1.78;
+  font-size: clamp(1rem, 1.4vw, 1.08rem);
+  line-height: 1.72;
   text-wrap: pretty;
 }
 
 .primaryActions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 0.85rem;
-  padding-top: 0.2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  max-width: 30rem;
+  margin: 0 auto;
 }
 
 .primaryButton,
 .secondaryButton {
-  min-height: 3rem;
-  padding: 0.92rem 1.4rem;
+  min-height: 3.35rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 0.96rem;
+  font-weight: 750;
+  letter-spacing: -0.01em;
   text-decoration: none;
   transition:
     transform 0.2s ease,
@@ -150,9 +161,9 @@
 .secondaryActions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.15rem;
   align-items: center;
-  padding-top: 0.2rem;
+  justify-content: center;
 }
 
 .textAction {
@@ -162,7 +173,7 @@
   padding: 0;
   color: var(--not-found-text-muted);
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
@@ -203,4 +214,52 @@
   border-color: rgba(255, 255, 255, 0.1);
   background: rgba(27, 40, 31, 0.82);
   color: var(--not-found-text);
+}
+
+@media (max-width: 640px) {
+  .pageChrome {
+    padding: clamp(2.2rem, 10vw, 3.5rem) 1rem clamp(3rem, 12vw, 4.4rem);
+  }
+
+  .heroCard {
+    gap: 1.35rem;
+    padding: 1.7rem 1.35rem 1.55rem;
+    border-radius: 1.6rem;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+  }
+
+  .title {
+    max-width: 10ch;
+    font-size: clamp(2.05rem, 9vw, 2.75rem);
+    line-height: 1.04;
+  }
+
+  .lead {
+    max-width: 24rem;
+    font-size: 0.98rem;
+    line-height: 1.68;
+  }
+
+  .primaryActions {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    min-height: 3.1rem;
+    font-size: 0.94rem;
+  }
+
+  .secondaryActions {
+    gap: 0.9rem;
+  }
+
+  .textAction {
+    font-size: 0.9rem;
+  }
 }
