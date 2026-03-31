@@ -76,7 +76,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/users/[userId]`
 - `/{lang}/users/[userId]` 지원 query: `page`
 - `/{lang}/photos/[photoId]`
-- 존재하지 않는 localized public route 또는 삭제된 공개 콘텐츠 진입은 localized recovery 404로 처리한다. shared chrome 하위 content route는 동일 헤더/푸터를 유지한 채 복구 경로(`home`, `journeys`, `users`, `support`, `faq`)를 제공한다.
+- 존재하지 않는 localized public route 또는 삭제된 공개 콘텐츠 진입은 localized recovery 404로 처리한다. shared chrome 하위 content route는 동일 헤더/푸터를 유지한 채 단일 recovery card와 핵심 복구 경로(`home`, `journeys` 또는 `users`, `support`)를 제공한다.
 
 현재 query 동작:
 - `/{lang}/journeys?page=`와 `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.

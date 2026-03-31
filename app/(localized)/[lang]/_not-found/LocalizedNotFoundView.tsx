@@ -9,13 +9,13 @@ import styles from "./not-found.module.scss";
 
 type NotFoundVariant = "chrome" | "standalone";
 type ActionId = "home" | "journeys" | "users";
-type CardId = "journeys" | "users" | "support";
+type LinkTarget = ActionId | "support";
 
 type LocalizedNotFoundViewProps = {
   variant: NotFoundVariant;
 };
 
-function buildLocalizedHref(lang: string, action: ActionId | CardId): string {
+function buildLocalizedHref(lang: string, action: LinkTarget): string {
   switch (action) {
     case "journeys":
       return `/${lang}/journeys`;
@@ -37,14 +37,6 @@ function resolvePrimaryActions(surface: ReturnType<typeof getPublicPageSurface>)
   return ["journeys", "home"];
 }
 
-function resolveHighlightedCard(surface: ReturnType<typeof getPublicPageSurface>): CardId {
-  if (surface === "user_detail" || surface === "users") {
-    return "users";
-  }
-
-  return "journeys";
-}
-
 export function LocalizedNotFoundView({
   variant,
 }: LocalizedNotFoundViewProps) {
@@ -54,7 +46,6 @@ export function LocalizedNotFoundView({
   const copy = getNotFoundCopy(routeLanguage);
   const surface = getPublicPageSurface(pathname);
   const primaryActions = resolvePrimaryActions(surface);
-  const highlightedCard = resolveHighlightedCard(surface);
 
   const className = variant === "chrome"
     ? `${styles.page} ${styles.pageChrome}`
@@ -67,12 +58,6 @@ export function LocalizedNotFoundView({
           <p className={styles.eyebrow}>{copy.eyebrow}</p>
           <h1 className={styles.title}>{copy.title}</h1>
           <p className={styles.lead}>{copy.lead}</p>
-
-          <ul className={styles.reasonList}>
-            <li>{copy.reasonTyped}</li>
-            <li>{copy.reasonSearch}</li>
-            <li>{copy.reasonRecovery}</li>
-          </ul>
 
           <div className={styles.primaryActions}>
             {primaryActions.map((action) => (
@@ -108,42 +93,7 @@ export function LocalizedNotFoundView({
             <Link href={`/${routeLanguage}/support`} className={styles.textAction}>
               {copy.secondarySupport}
             </Link>
-            <Link href={`/${routeLanguage}/faq`} className={styles.textAction}>
-              {copy.secondaryFaq}
-            </Link>
           </div>
-        </div>
-      </section>
-
-      <section className={styles.recoverySection} aria-label={copy.reasonRecovery}>
-        <div className={styles.cardGrid}>
-          <article
-            className={`${styles.recoveryCard} ${highlightedCard === "journeys" ? styles.recoveryCardFeatured : ""}`}
-          >
-            <h2 className={styles.cardTitle}>{copy.cards.journeys.title}</h2>
-            <p className={styles.cardDescription}>{copy.cards.journeys.description}</p>
-            <Link href={`/${routeLanguage}/journeys`} className={styles.cardLink}>
-              {copy.cards.journeys.cta}
-            </Link>
-          </article>
-
-          <article
-            className={`${styles.recoveryCard} ${highlightedCard === "users" ? styles.recoveryCardFeatured : ""}`}
-          >
-            <h2 className={styles.cardTitle}>{copy.cards.users.title}</h2>
-            <p className={styles.cardDescription}>{copy.cards.users.description}</p>
-            <Link href={`/${routeLanguage}/users`} className={styles.cardLink}>
-              {copy.cards.users.cta}
-            </Link>
-          </article>
-
-          <article className={styles.recoveryCard}>
-            <h2 className={styles.cardTitle}>{copy.cards.support.title}</h2>
-            <p className={styles.cardDescription}>{copy.cards.support.description}</p>
-            <Link href={`/${routeLanguage}/support`} className={styles.cardLink}>
-              {copy.cards.support.cta}
-            </Link>
-          </article>
         </div>
       </section>
     </div>
