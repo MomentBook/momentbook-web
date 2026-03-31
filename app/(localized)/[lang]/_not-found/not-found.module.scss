@@ -1,0 +1,317 @@
+.page {
+  --not-found-shell: rgba(255, 255, 255, 0.8);
+  --not-found-shell-strong: rgba(255, 255, 255, 0.92);
+  --not-found-shell-border: rgba(17, 33, 22, 0.08);
+  --not-found-text: #1f2c24;
+  --not-found-text-muted: #62786b;
+  --not-found-accent: #17cf54;
+  --not-found-accent-soft: rgba(23, 207, 84, 0.12);
+  --not-found-accent-strong: rgba(23, 207, 84, 0.2);
+  --not-found-sand: #fdf5e6;
+  --not-found-shadow: 0 28px 60px rgba(17, 33, 22, 0.08);
+  width: 100%;
+  color: var(--not-found-text);
+}
+
+.pageChrome {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 4vw, 3rem) var(--spacing-md) clamp(3rem, 6vw, 4.5rem);
+}
+
+.pageStandalone {
+  min-height: 100svh;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  display: grid;
+  align-content: center;
+}
+
+.heroSection {
+  position: relative;
+}
+
+.heroCard {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 1.15rem;
+  padding: clamp(1.6rem, 4vw, 2.8rem);
+  border: 1px solid var(--not-found-shell-border);
+  border-radius: 2rem;
+  background:
+    radial-gradient(circle at top left, rgba(23, 207, 84, 0.08), transparent 30%),
+    radial-gradient(circle at right bottom, rgba(253, 245, 230, 0.9), transparent 36%),
+    linear-gradient(180deg, var(--not-found-shell-strong) 0%, var(--not-found-shell) 100%);
+  box-shadow: var(--not-found-shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.heroCard::after {
+  content: "";
+  position: absolute;
+  inset: auto -6% -32% auto;
+  width: clamp(11rem, 18vw, 16rem);
+  height: clamp(11rem, 18vw, 16rem);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(23, 207, 84, 0.14) 0%, rgba(23, 207, 84, 0) 68%);
+  pointer-events: none;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #5f7d69;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+:global(html[lang^="ko"]) .title,
+:global(html[lang^="ja"]) .title,
+:global(html[lang^="zh"]) .title,
+:global(html[lang^="th"]) .title {
+  font-family: var(--font-sans);
+  letter-spacing: -0.03em;
+}
+
+.lead {
+  margin: 0;
+  max-width: 54rem;
+  color: var(--not-found-text-muted);
+  font-size: 1rem;
+  line-height: 1.82;
+  text-wrap: pretty;
+}
+
+.reasonList {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reasonList li {
+  position: relative;
+  padding-left: 1.1rem;
+  color: var(--not-found-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.reasonList li::before {
+  content: "";
+  position: absolute;
+  top: 0.62rem;
+  left: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--not-found-accent);
+}
+
+.primaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  padding-top: 0.3rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  min-height: 3rem;
+  padding: 0.92rem 1.35rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.primaryButton {
+  border: 1px solid transparent;
+  background: var(--not-found-accent);
+  color: #112116;
+  box-shadow: 0 16px 34px rgba(23, 207, 84, 0.16);
+}
+
+.secondaryButton {
+  border: 1px solid rgba(17, 33, 22, 0.1);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--not-found-text);
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.cardLink:hover,
+.textAction:hover {
+  transform: translateY(-1px);
+}
+
+.secondaryButton:hover {
+  border-color: rgba(23, 207, 84, 0.24);
+}
+
+.secondaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.textAction {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--not-found-text-muted);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.textAction:hover {
+  color: var(--not-found-text);
+}
+
+.recoverySection {
+  margin-top: 1.45rem;
+}
+
+.cardGrid {
+  display: grid;
+  gap: 1rem;
+
+  @media (min-width: 880px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.recoveryCard {
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+  min-height: 100%;
+  padding: 1.25rem 1.2rem;
+  border: 1px solid rgba(17, 33, 22, 0.08);
+  border-radius: 1.45rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84) 0%, rgba(250, 252, 249, 0.74) 100%);
+  box-shadow: 0 20px 42px rgba(17, 33, 22, 0.05);
+}
+
+.recoveryCardFeatured {
+  border-color: var(--not-found-accent-strong);
+  background:
+    radial-gradient(circle at top left, var(--not-found-accent-soft), transparent 40%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 252, 248, 0.82) 100%);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cardDescription {
+  margin: 0;
+  color: var(--not-found-text-muted);
+  font-size: 0.93rem;
+  line-height: 1.72;
+}
+
+.cardLink {
+  margin-top: auto;
+  justify-self: start;
+  min-height: 2.65rem;
+  padding: 0.72rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(17, 33, 22, 0.08);
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--not-found-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.cardLink:hover {
+  border-color: rgba(23, 207, 84, 0.24);
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.textAction:focus-visible,
+.cardLink:focus-visible {
+  outline: 2px solid rgba(23, 207, 84, 0.58);
+  outline-offset: 3px;
+}
+
+:global([data-theme="dark"]) .page {
+  --not-found-shell: rgba(21, 31, 25, 0.82);
+  --not-found-shell-strong: rgba(20, 30, 24, 0.92);
+  --not-found-shell-border: rgba(255, 255, 255, 0.08);
+  --not-found-text: #edf3ee;
+  --not-found-text-muted: #b0c1b5;
+  --not-found-accent: #6ae285;
+  --not-found-accent-soft: rgba(106, 226, 133, 0.12);
+  --not-found-accent-strong: rgba(106, 226, 133, 0.24);
+  --not-found-shadow: 0 28px 68px rgba(0, 0, 0, 0.28);
+}
+
+:global([data-theme="dark"]) .heroCard {
+  background:
+    radial-gradient(circle at top left, rgba(106, 226, 133, 0.12), transparent 30%),
+    radial-gradient(circle at right bottom, rgba(82, 67, 39, 0.45), transparent 38%),
+    linear-gradient(180deg, rgba(18, 29, 23, 0.96) 0%, rgba(18, 28, 23, 0.88) 100%);
+}
+
+:global([data-theme="dark"]) .secondaryButton,
+:global([data-theme="dark"]) .cardLink {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(27, 40, 31, 0.82);
+  color: var(--not-found-text);
+}
+
+:global([data-theme="dark"]) .recoveryCard {
+  border-color: rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(20, 31, 25, 0.9) 0%, rgba(17, 27, 22, 0.84) 100%);
+  box-shadow: 0 22px 46px rgba(0, 0, 0, 0.2);
+}
+
+:global([data-theme="dark"]) .recoveryCardFeatured {
+  background:
+    radial-gradient(circle at top left, rgba(106, 226, 133, 0.1), transparent 42%),
+    linear-gradient(180deg, rgba(22, 34, 27, 0.94) 0%, rgba(18, 29, 23, 0.88) 100%);
+}

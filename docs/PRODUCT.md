@@ -76,6 +76,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/users/[userId]`
 - `/{lang}/users/[userId]` 지원 query: `page`
 - `/{lang}/photos/[photoId]`
+- 존재하지 않는 localized public route 또는 삭제된 공개 콘텐츠 진입은 localized recovery 404로 처리한다. shared chrome 하위 content route는 동일 헤더/푸터를 유지한 채 복구 경로(`home`, `journeys`, `users`, `support`, `faq`)를 제공한다.
 
 현재 query 동작:
 - `/{lang}/journeys?page=`와 `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.
@@ -161,6 +162,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/journeys/[journeyId]`와 `/{lang}/journeys/[journeyId]/moments/[clusterId]`는 viewer request에 현재 route locale을 `lang` query로 전달한다. 서버가 치환한 localized title/description/cluster impression을 SEO metadata/structured data와 본문에 우선 반영하고, localized hashtags는 `localizedContent`에서 읽는다.
 - 여정 상세와 moment 상세는 locale별 해시태그를 calm chip UI로 노출하며, 각 chip은 `/{lang}/users?q=` 검색으로 연결된다.
 - 신고 누적 또는 웹 검수 상태 등으로 웹에서 비노출 처리된 공개 여정 상세는 안내 문구와 noindex metadata를 렌더링한다.
+- `notFound()`로 수렴하는 localized public content/user/photo/moment 경로는 plain-language recovery 404를 렌더링하며, 오래된 검색 결과/저장 링크/오타 URL을 모두 같은 복구 흐름으로 안내한다. 단, 여정 detail의 explicit hidden 상태는 기존 unavailable notice를 유지한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 - `/{lang}/photos/[photoId]`는 mobile-first 단일 컬럼 editorial flow로 렌더링된다. image-first 구성 뒤에 여정 맥락, title, 선택적 caption, compact metadata list가 이어지며, 데스크톱도 같은 위계를 더 넓은 폭으로 확장한다. 좌표는 별도 map/card 없이 metadata list 안의 한 줄 텍스트로만 노출한다. 동일 정보는 한 번만 보여주며, capture time/place/coordinates/journey title/caption 등 photo payload가 실제로 제공하는 필드만 사용한다.
 - `/{lang}/photos/[photoId]`의 hero photo는 클릭/탭 시 검정 배경의 immersive viewer overlay를 연다. overlay 안에서는 이미지와 닫기 버튼만 노출하고, 상하 메타데이터 chrome은 표시하지 않는다. 데스크톱과 모바일 모두 `Esc`/명시적 close를 지원하며, 모바일은 edge-to-edge viewer에서 pinch/double-tap 확대를 지원한다.
