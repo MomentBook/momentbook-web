@@ -1,12 +1,12 @@
 const CACHE_PREFIX = "momentbook-public-images-";
-const CACHE_NAME = `${CACHE_PREFIX}v1`;
+const CACHE_NAME = `${CACHE_PREFIX}v2`;
 const MAX_CACHE_ENTRIES = 120;
 const CACHEABLE_HOSTNAMES = new Set([
   "cdn.momentbook.app",
-  "yourthink.s3.amazonaws.com",
-  "yourthink.s3.ap-northeast-2.amazonaws.com",
-  "yourthink-dev.s3.amazonaws.com",
-  "yourthink-dev.s3.ap-northeast-2.amazonaws.com",
+  "momentbook-us-east-1.s3.amazonaws.com",
+  "momentbook-us-east-1.s3.us-east-1.amazonaws.com",
+  "momentbook-dev-us-east-1.s3.amazonaws.com",
+  "momentbook-dev-us-east-1.s3.us-east-1.amazonaws.com",
 ]);
 
 function isCacheableImageRequest(request) {

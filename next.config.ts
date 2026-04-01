@@ -35,8 +35,7 @@ const contentSecurityPolicy = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
-    minimumCacheTTL: 2678400,
-    qualities: [75],
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -44,19 +43,19 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "yourthink.s3.amazonaws.com",
+        hostname: "momentbook-us-east-1.s3.amazonaws.com",
       },
       {
         protocol: "https",
-        hostname: "yourthink.s3.ap-northeast-2.amazonaws.com",
+        hostname: "momentbook-us-east-1.s3.us-east-1.amazonaws.com",
       },
       {
         protocol: "https",
-        hostname: "yourthink-dev.s3.amazonaws.com",
+        hostname: "momentbook-dev-us-east-1.s3.amazonaws.com",
       },
       {
         protocol: "https",
-        hostname: "yourthink-dev.s3.ap-northeast-2.amazonaws.com",
+        hostname: "momentbook-dev-us-east-1.s3.us-east-1.amazonaws.com",
       },
       {
         protocol: "https",
