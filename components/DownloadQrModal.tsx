@@ -81,7 +81,6 @@ export function DownloadQrModal({
     () => buildAbsoluteInstallRedirectUrl(lang, {
       source: "download-cta",
       utmMedium: "desktop_qr",
-      variant: "timeline",
     }),
     [lang],
   );

@@ -46,7 +46,7 @@
 - Root redirect: `/` -> client-side language redirect in `app/(root)/page.tsx`
 - Root layouts: route groups split root redirect (`app/(root)/layout.tsx`) and localized public surface (`app/(localized)/[lang]/layout.tsx`)
 - Shared shell: public pages use `app/(localized)/[lang]/(chrome)/layout.tsx`
-- Standalone acquisition landing: `app/(localized)/[lang]/install/*` renders outside shared chrome
+- Download alias: `/{lang}/install` permanently redirects to `/{lang}#download`, while `/{lang}/install/redirect` remains the QR-only store handoff route
 - Header nav: desktop/mobile 모두 `Download`, `Journeys` 중심
 - Public query surface: `/{lang}/journeys?page=`, `/{lang}/users?q=`, `/{lang}/users/[userId]?page=`
 - Users search: `/{lang}/users`는 최근 공개 프로필 최대 100개를 불러와 서버에서 이름/소개 텍스트 기준 필터링

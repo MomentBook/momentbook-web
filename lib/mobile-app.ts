@@ -204,15 +204,6 @@ export function getCanonicalStoreLinks(lang: Language) {
   } satisfies StoreLinks;
 }
 
-export function buildAbsoluteInstallLandingUrl(
-  lang: Language,
-  campaign: CampaignParams = {},
-) {
-  const siteUrl = resolveSiteUrl();
-  const baseUrl = new URL(`/${lang}/install`, siteUrl).toString();
-  return appendCampaignQuery(baseUrl, campaign);
-}
-
 export function buildAbsoluteInstallRedirectUrl(
   lang: Language,
   campaign: CampaignParams = {},

@@ -18,7 +18,6 @@ export type MarketingSurface =
 export type PublicPageSurface =
   | "root_redirect"
   | "home"
-  | "install"
   | "install_redirect"
   | "faq"
   | "journeys"
@@ -81,7 +80,7 @@ export function getPublicPageSurface(pathname: string): PublicPageSurface {
   const [section, resourceId, thirdSegment] = localizedSegments;
 
   if (section === "install") {
-    return resourceId === "redirect" ? "install_redirect" : "install";
+    return resourceId === "redirect" ? "install_redirect" : "other";
   }
 
   if (section === "faq") {

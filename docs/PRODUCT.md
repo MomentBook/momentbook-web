@@ -41,9 +41,9 @@ MomentBook Web은 다음 역할만 수행한다.
 - localized home(`/{lang}`)을 제외한 나머지 공개 페이지는 route-level interaction animation을 비활성화한다. non-home route에서는 reveal/scroll hide-show/CSS transition·animation 없이 정적으로 렌더링된다.
 - shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 홈의 다른 다운로드 액션과 동일한 client-side download flow(데스크톱 QR modal + 모바일 공식 스토어 이동)를 사용한다.
 - FAQ는 `/{lang}/faq` 독립 페이지로 제공되며, 푸터와 support 페이지에서 진입할 수 있다.
-`/{lang}/install`은 쇼츠/캠페인 유입을 위한 모바일 중심 install landing을 제공하며, 공통 헤더/푸터 대신 단순 브랜드 락업과 install CTA에 집중한다. 데스크톱에서는 동일 landing 안에서 QR handoff 카드를 노출한다.
-`/{lang}/install/redirect`는 QR 전용 redirect route로, 모바일에서는 감지된 플랫폼 스토어로 즉시 이동시키고 데스크톱에서는 `/{lang}/install` 랜딩으로 되돌린다.
-이 경로는 `app/(localized)/[lang]/install/*`에서 독립적으로 렌더링되고, 나머지 공개 페이지의 공통 chrome은 `app/(localized)/[lang]/(chrome)/layout.tsx`가 담당한다.
+`/{lang}/install`은 더 이상 standalone landing을 렌더링하지 않으며, 현재는 홈의 `#download` 섹션으로 영구 리다이렉트된다.
+`/{lang}/install/redirect`는 QR 전용 redirect route로, 모바일에서는 감지된 플랫폼 스토어로 즉시 이동시키고 데스크톱에서는 `/{lang}#download`로 되돌린다.
+나머지 공개 페이지의 공통 chrome은 `app/(localized)/[lang]/(chrome)/layout.tsx`가 담당한다.
 
 1. 여행 종료
 2. 여행 사진 일괄 업로드
@@ -66,6 +66,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}` (hero + 3-scene story + value reinforcement + latest public journeys + download section)
 - `/{lang}/how-it-works` (`/{lang}`로 `permanentRedirect`)
 - `/{lang}/download` (`/{lang}#download`로 `permanentRedirect`)
+- `/{lang}/install` (`/{lang}#download`로 `permanentRedirect`)
 - `/{lang}/faq`
 - `/{lang}/journeys`
 - `/{lang}/journeys` 지원 query: `page`
@@ -82,17 +83,14 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/journeys?page=`와 `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.
 - `/{lang}/users?q=`는 최근 공개 프로필 최대 100개를 불러온 뒤 이름/biography와 각 프로필의 recent public journeys list가 이미 제공하는 해시태그 기준으로 서버에서 필터링한다. 검색을 위해 각 journey detail을 추가 fetch하지 않는다.
 
-### 4.2 Acquisition Landing (Noindex)
+### 4.2 QR Redirect Surface
 
-- `/{lang}/install`
 - `/{lang}/install/redirect`
-- `/{lang}/install` 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`
 - `/{lang}/install/redirect` 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`
-- `dest`는 hero/sample copy와 sample section을 config 기반으로 전환한다.
-- query 해석과 UA 기반 플랫폼 힌트는 서버에서 처리하고, client는 CTA 상호작용과 analytics만 담당한다.
+- query 해석과 UA 기반 플랫폼 판별은 서버에서 처리한다.
 - QR은 현재 query를 유지한 `/{lang}/install/redirect` URL을 사용한다.
-- `/{lang}/install/redirect`의 모바일 요청은 감지된 플랫폼(iOS/Android)에 맞는 공식 스토어 URL로 즉시 redirect되고, 데스크톱 요청은 `/{lang}/install`로 redirect된다.
-- non-prefixed `/install?...` 진입은 `proxy.ts`가 언어 prefix로 정규화한다.
+- `/{lang}/install/redirect`의 모바일 요청은 감지된 플랫폼(iOS/Android)에 맞는 공식 스토어 URL로 즉시 redirect되고, 데스크톱 요청은 `/{lang}#download`로 redirect된다.
+- non-prefixed `/install?...` 진입은 `proxy.ts`가 언어 prefix로 정규화한 뒤 `/{lang}/install` alias redirect를 거쳐 `/{lang}#download`로 수렴한다.
 
 ### 4.3 Legal Pages (Noindex)
 
@@ -157,7 +155,6 @@ MomentBook Web은 다음 역할만 수행한다.
 - production browser는 `public-image-cache-sw.js`를 등록해 MomentBook CDN/S3 원격 published image를 client-side cache storage에 `stale-while-revalidate`로 저장한다.
 - 서비스워커는 원격 이미지를 직접 캐시할 뿐 Vercel image optimizer나 app route proxy를 거치지 않는다.
 - localized root layout은 `app/(localized)/[lang]/layout.tsx`에서 정적 route param 기준으로 `html lang`와 locale metadata를 SSR한다.
-- 단, `/{lang}/install`은 서버에서 UA 기반 플랫폼 힌트를 읽기 위해 `headers()`를 사용한다.
 
 ## 6) Interaction Constraints
 
@@ -194,13 +191,12 @@ MomentBook Web은 다음 역할만 수행한다.
 - journey/moment/photo/user detail의 `generateMetadata()`는 현재 route locale 기준 localized title/description을 사용하고, content-derived OpenGraph tags를 함께 생성한다.
 - Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - photo detail JSON-LD는 `ImageObject`를 유지하되 `mainEntityOfPage.primaryImageOfPage`에 현재 공개 사진 URL을 함께 기록한다.
-- Home(`/`)과 `/{lang}/install`은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
+- Home(`/`)은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
 - `app/(localized)/[lang]/layout.tsx`는 기본 robots를 noindex/nofollow로 설정하고, 실제 공개 색인 페이지는 각 route의 `generateMetadata()`에서 public robots를 다시 선언한다.
 
 ## 8.2 Robots Policy
 
 - Public content/marketing pages: index/follow
-- `/{lang}/install`: noindex/nofollow
 - Legal pages: noindex/nofollow
 - `/{lang}/journeys?page=...`와 `/{lang}/users/[userId]?page=...`는 page-specific canonical/alternates를 유지한 index/follow 페이지다.
 - `/users?q=...` 검색 파라미터 페이지: noindex/follow + canonical(`/{lang}/users`)
@@ -231,8 +227,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - response header: `Cache-Control: public, max-age=3600, s-maxage=3600`
 
 주의:
-- static sitemap은 현재 홈과 정적 공개 라우트 일부(`faq`, `journeys`, `users`)를 포함하며 redirect alias(`how-it-works`, `download`)와 legal 경로는 포함하지 않는다.
-- `/{lang}/install`은 acquisition 전용 noindex 경로라 sitemap에 포함하지 않는다.
+- static sitemap은 현재 홈과 정적 공개 라우트 일부(`faq`, `journeys`, `users`)를 포함하며 redirect alias(`how-it-works`, `download`, `install`)와 legal 경로는 포함하지 않는다.
 
 ## 10) UI / Theme
 
@@ -242,8 +237,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - 언어별 root layout: `app/(localized)/[lang]/layout.tsx`
 - 헤더/푸터 공통 레이아웃: `app/(localized)/[lang]/(chrome)/layout.tsx`
 - shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus shared download/support CTA and Product/Support/Legal link groups
-- 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, 모바일에서는 현재 플랫폼별 공식 스토어 링크로 이동한다. `/{lang}/install`은 데스크톱에서 QR 카드 + 공식 스토어 배지를 함께 유지한다.
-- `/{lang}/install`은 shared chrome을 타지 않는 standalone route다.
+- 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, 모바일에서는 현재 플랫폼별 공식 스토어 링크로 이동한다.
+- `/{lang}/install`은 standalone landing이 아니라 홈의 다운로드 섹션으로 정규화하는 redirect alias다.
 
 ## 11) Environment Variables
 

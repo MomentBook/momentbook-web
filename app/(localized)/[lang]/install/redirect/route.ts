@@ -5,10 +5,8 @@ import {
   normalizeCampaignParams,
   type CampaignSearchParams,
 } from "@/lib/install-campaign";
-import {
-  buildAbsoluteInstallLandingUrl,
-  buildStoreLink,
-} from "@/lib/mobile-app";
+import { HOME_SECTION_IDS, buildHomeSectionHref } from "@/lib/marketing/home-sections";
+import { buildStoreLink } from "@/lib/mobile-app";
 
 export async function GET(
   request: NextRequest,
@@ -26,7 +24,7 @@ export async function GET(
   const campaign = normalizeCampaignParams(rawSearchParams, lang);
   const platform = detectLandingPlatform(request.headers.get("user-agent") ?? "");
   const destination = platform === "desktop"
-    ? buildAbsoluteInstallLandingUrl(lang, campaign)
+    ? new URL(buildHomeSectionHref(lang, HOME_SECTION_IDS.download), request.url).toString()
     : buildStoreLink(platform, lang, campaign);
 
   return NextResponse.redirect(destination);
