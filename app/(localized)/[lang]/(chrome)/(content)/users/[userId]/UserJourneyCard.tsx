@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LocalizedDate, LocalizedDateRange } from "@/components/LocalizedTime";
-import { isRemoteImageSource } from "@/lib/image-source";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import type { Language } from "@/lib/i18n/config";
 import { resolveJourneyPeriodRange } from "@/lib/journey-period";
 import type { UserJourneyApi } from "@/lib/public-users";
@@ -59,6 +59,7 @@ export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps)
   const journeyTitle = meta.title ?? readText(journey.title) ?? labels.untitledJourney;
   const journeyDescription = meta.description ?? readText(journey.description);
   const coverUrl = getJourneyCoverUrl(journey);
+  const imageSrc = coverUrl ?? FALLBACK_COVER_SRC;
   const photoCount = getJourneyPhotoCount(journey);
   const periodRange = getJourneyPeriodRange(journey);
 
@@ -70,12 +71,12 @@ export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps)
     >
       <div className={styles.journeyCover}>
         <Image
-          src={coverUrl ?? FALLBACK_COVER_SRC}
+          src={imageSrc}
           alt={coverUrl ? journeyTitle : ""}
           aria-hidden={coverUrl ? undefined : true}
           fill
           sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
-          unoptimized={isRemoteImageSource(coverUrl)}
+          unoptimized={shouldBypassImageOptimization(imageSrc)}
           className={styles.journeyImage}
         />
         {photoCount > 0 ? (

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { isRemoteImageSource } from "@/lib/image-source";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import { readText } from "@/lib/view-helpers";
 import styles from "./ProfileAvatar.module.scss";
 
@@ -21,6 +21,7 @@ export function ProfileAvatar({
 }: ProfileAvatarProps) {
   const [failedPicture, setFailedPicture] = useState<string | null>(null);
   const normalizedPicture = readText(picture);
+  const avatarSrc = normalizedPicture ?? FALLBACK_AVATAR_SRC;
   const hasCustomAvatar =
     Boolean(normalizedPicture) &&
     failedPicture !== normalizedPicture;
@@ -33,7 +34,7 @@ export function ProfileAvatar({
           alt={name?.trim() || ""}
           fill
           sizes={size === "header" ? "36px" : "120px"}
-          unoptimized={isRemoteImageSource(normalizedPicture)}
+          unoptimized={shouldBypassImageOptimization(avatarSrc)}
           className={styles.image}
           onError={() => setFailedPicture(normalizedPicture)}
         />
@@ -44,6 +45,7 @@ export function ProfileAvatar({
           aria-hidden="true"
           fill
           sizes={size === "header" ? "36px" : "120px"}
+          unoptimized={shouldBypassImageOptimization(FALLBACK_AVATAR_SRC)}
           className={styles.image}
         />
       )}

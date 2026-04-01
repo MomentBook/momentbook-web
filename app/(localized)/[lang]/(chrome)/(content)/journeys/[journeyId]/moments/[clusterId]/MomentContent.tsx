@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SectionReveal } from "@/components/SectionReveal";
-import { isRemoteImageSource } from "@/lib/image-source";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import type { Language } from "@/lib/i18n/config";
 import type {
   PublishedJourneyApi,
@@ -129,7 +129,7 @@ export function MomentContent({
                       alt={displayLocationName}
                       fill
                       sizes="(max-width: 767px) 50vw, (max-width: 1279px) 33vw, 22vw"
-                      unoptimized={isRemoteImageSource(photo.url)}
+                      unoptimized={shouldBypassImageOptimization(photo.url)}
                       className={styles.photoImage}
                     />
                   </div>

@@ -11,7 +11,7 @@ import {
   type WheelEvent as ReactWheelEvent,
 } from "react";
 import Image from "next/image";
-import { isRemoteImageSource } from "@/lib/image-source";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import type { PhotoPageCopy } from "./photo.helpers";
 import styles from "./photo.module.scss";
 
@@ -444,7 +444,7 @@ export function PhotoViewer({
             priority
             className={styles.image}
             sizes="(max-width: 767px) 100vw, (max-width: 1279px) 92vw, 1120px"
-            unoptimized={isRemoteImageSource(photoUrl)}
+            unoptimized={shouldBypassImageOptimization(photoUrl)}
           />
           <figcaption className={styles.viewerTriggerHint} aria-hidden="true">
             <svg
@@ -531,7 +531,7 @@ export function PhotoViewer({
                         priority
                         className={styles.viewerImage}
                         sizes="100vw"
-                        unoptimized={isRemoteImageSource(photoUrl)}
+                        unoptimized={shouldBypassImageOptimization(photoUrl)}
                         onLoad={(event) => {
                           setNaturalSize({
                             width: event.currentTarget.naturalWidth,

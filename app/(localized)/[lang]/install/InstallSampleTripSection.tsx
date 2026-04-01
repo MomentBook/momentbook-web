@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SectionReveal } from "@/components/SectionReveal";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import type { InstallLandingContent } from "@/lib/install-landing";
 import { InstallSectionHeader } from "./InstallSectionHeader";
 import styles from "./install.module.scss";
@@ -31,6 +32,7 @@ export function InstallSampleTripSection({ content }: InstallSampleTripSectionPr
               fill
               loading="lazy"
               sizes="(max-width: 819px) 100vw, 28rem"
+              unoptimized={shouldBypassImageOptimization(content.sampleTimelineScreenshotSrc)}
               className={styles.sampleScreenshot}
             />
           </div>

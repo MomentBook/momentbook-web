@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { isRemoteImageSource } from "@/lib/image-source";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import { readText } from "@/lib/view-helpers";
 import styles from "./JourneyPreviewCard.module.scss";
 
@@ -36,6 +36,7 @@ export function JourneyPreviewCard({
   const safeDescription = readText(description);
   const safeCover = readText(coverUrl);
   const safeAuthor = readText(authorText);
+  const imageSrc = safeCover ?? fallbackCover;
   const cardClassName =
     variant === "glimmer" ? `${styles.card} ${styles.cardGlimmer}` : styles.card;
 
@@ -45,12 +46,12 @@ export function JourneyPreviewCard({
 
       <div className={styles.cover}>
         <Image
-          src={safeCover ?? fallbackCover}
+          src={imageSrc}
           alt={safeCover ? title : ""}
           aria-hidden={safeCover ? undefined : true}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          unoptimized={isRemoteImageSource(safeCover)}
+          unoptimized={shouldBypassImageOptimization(imageSrc)}
           className={styles.coverImage}
         />
       </div>

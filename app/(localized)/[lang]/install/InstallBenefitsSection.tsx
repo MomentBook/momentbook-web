@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { SectionReveal } from "@/components/SectionReveal";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import type { InstallLandingContent } from "@/lib/install-landing";
 import { InstallSectionHeader } from "./InstallSectionHeader";
 import styles from "./install.module.scss";
@@ -29,6 +30,7 @@ export function InstallBenefitsSection({ content }: InstallBenefitsSectionProps)
                   fill
                   loading="lazy"
                   sizes="(max-width: 819px) 100vw, 20rem"
+                  unoptimized={shouldBypassImageOptimization(benefit.screenshotSrc)}
                   className={styles.benefitImage}
                   style={{ objectPosition: benefit.objectPosition }}
                 />

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { DeviceMock } from "@/components/DeviceMock";
 import { StoreBadgeLink } from "@/components/StoreBadgeLink";
 import type { Language } from "@/lib/i18n/config";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import type { InstallLandingContent } from "@/lib/install-landing";
 import type { MobilePlatform } from "@/lib/mobile-app";
 import deviceStyles from "@/components/DeviceMock.module.scss";
@@ -99,6 +100,7 @@ export function InstallLandingHero({
                   fill
                   priority={index === 0}
                   sizes="(max-width: 979px) min(92vw, 20rem), 21rem"
+                  unoptimized={shouldBypassImageOptimization(frame.src)}
                   className={`${styles.heroFrame} ${styles[`heroFrame${index}` as keyof typeof styles]}`}
                 />
               ))}

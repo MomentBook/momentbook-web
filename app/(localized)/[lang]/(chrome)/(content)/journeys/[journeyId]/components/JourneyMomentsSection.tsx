@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SectionReveal } from "@/components/SectionReveal";
 import { LocalizedDateTimeRange } from "@/components/LocalizedTime";
-import { isRemoteImageSource } from "@/lib/image-source";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import type { Language } from "@/lib/i18n/config";
 import type { JourneyLabels } from "../labels";
 import type { ClusterSection } from "./journey-content.helpers";
@@ -54,7 +54,7 @@ export function JourneyMomentsSection({
                       alt={section.coverPhoto.alt}
                       fill
                       sizes="(max-width: 899px) 100vw, (max-width: 1199px) 46vw, (max-width: 1439px) 32vw, 28rem"
-                      unoptimized={isRemoteImageSource(section.coverPhoto.url)}
+                      unoptimized={shouldBypassImageOptimization(section.coverPhoto.url)}
                       className={styles.photoImage}
                     />
                   </div>
