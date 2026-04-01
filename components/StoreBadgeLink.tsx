@@ -1,5 +1,8 @@
 import Image from "next/image";
 import type { Language } from "@/lib/i18n/config";
+import appStoreBadgeAsset from "@/assets/ui/download/app-store-button.webp";
+import googlePlayBadgeAsset from "@/assets/ui/download/google-play-button.webp";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import type { MobilePlatform } from "@/lib/mobile-app";
 
 type StoreBadgeLinkProps = {
@@ -62,8 +65,8 @@ export function StoreBadgeLink({
 }: StoreBadgeLinkProps) {
   const isIos = platform === "ios";
   const src = isIos
-    ? "/images/download/app-store-button.webp"
-    : "/images/download/google-play-button.webp";
+    ? appStoreBadgeAsset
+    : googlePlayBadgeAsset;
   const alt = isIos
     ? storeBadgeLabelByLanguage[lang].ios
     : storeBadgeLabelByLanguage[lang].android;
@@ -86,6 +89,7 @@ export function StoreBadgeLink({
         alt={alt}
         width={isIos ? 635 : 636}
         height={200}
+        unoptimized={shouldBypassImageOptimization(src)}
         className={imageClassName}
       />
     </a>

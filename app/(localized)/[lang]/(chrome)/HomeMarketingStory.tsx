@@ -1,6 +1,11 @@
+import type { ImageProps } from "next/image";
 import { SectionReveal } from "@/components/SectionReveal";
 import type { Language } from "@/lib/i18n/config";
 import { HOME_SECTION_IDS } from "@/lib/marketing/home-sections";
+import landing00Poster from "@/assets/ui/posters/landing-00.jpg";
+import landing01Poster from "@/assets/ui/posters/landing-01.jpg";
+import landing02Poster from "@/assets/ui/posters/landing-02.jpg";
+import landing03Poster from "@/assets/ui/posters/landing-03.jpg";
 import {
   getHomeMarketingImagePrompt,
   type HomeMarketingImagePromptKey,
@@ -18,24 +23,24 @@ const HOME_MARKETING_VIDEO_ASSETS: Record<
   Exclude<HomeMarketingImagePromptKey, "resultOverview">,
   {
     videoSrc: string;
-    posterSrc: string;
+    posterSrc: ImageProps["src"];
   }
 > = {
   photoPile: {
     videoSrc: "/videos/landing_00.mp4",
-    posterSrc: "/videos/landing_00.jpg",
+    posterSrc: landing00Poster,
   },
   batchImport: {
     videoSrc: "/videos/landing_01.mp4",
-    posterSrc: "/videos/landing_01.jpg",
+    posterSrc: landing01Poster,
   },
   timelineFormation: {
     videoSrc: "/videos/landing_02.mp4",
-    posterSrc: "/videos/landing_02.jpg",
+    posterSrc: landing02Poster,
   },
   organizedResult: {
     videoSrc: "/videos/landing_03.mp4",
-    posterSrc: "/videos/landing_03.jpg",
+    posterSrc: landing03Poster,
   },
 };
 

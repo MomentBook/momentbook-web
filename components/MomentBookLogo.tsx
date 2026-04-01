@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { APP_LOGO_PATH, APP_WORDMARK_PATH } from "@/lib/branding/logo";
+import { APP_LOGO_UI_ASSET, APP_WORDMARK_PATH } from "@/lib/branding/logo";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 
 const DEFAULT_ICON_SIZE = 40;
 const DEFAULT_WORDMARK_WIDTH = 180;
@@ -41,12 +42,13 @@ export function MomentBookLogo({
       {shouldShowIcon && (
         <Image
           className={iconClassName}
-          src={APP_LOGO_PATH}
+          src={APP_LOGO_UI_ASSET}
           alt=""
           aria-hidden="true"
           width={iconDimension}
           height={iconDimension}
           sizes={px(iconDimension)}
+          unoptimized={shouldBypassImageOptimization(APP_LOGO_UI_ASSET)}
         />
       )}
       {shouldShowWordmark && (
@@ -57,6 +59,7 @@ export function MomentBookLogo({
           width={wordmarkDimensionWidth}
           height={wordmarkDimensionHeight}
           sizes={px(wordmarkDimensionWidth)}
+          unoptimized={shouldBypassImageOptimization(APP_WORDMARK_PATH)}
         />
       )}
     </span>

@@ -1,12 +1,13 @@
 "use client";
 
-import Image from "next/image";
+import Image, { type ImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { shouldBypassImageOptimization } from "@/lib/image-source";
 import styles from "./page.module.scss";
 
 type HomeMarketingVideoProps = {
   videoSrc: string;
-  posterSrc: string;
+  posterSrc: ImageProps["src"];
   ariaLabel: string;
 };
 
@@ -18,6 +19,11 @@ export function HomeMarketingVideo({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const posterUrl = typeof posterSrc === "string"
+    ? posterSrc
+    : "src" in posterSrc
+      ? posterSrc.src
+      : posterSrc.default.src;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -75,6 +81,7 @@ export function HomeMarketingVideo({
           fill
           className={styles.marketingVideoPoster}
           sizes="(min-width: 960px) 38rem, 100vw"
+          unoptimized={shouldBypassImageOptimization(posterSrc)}
         />
         {shouldLoadVideo && !prefersReducedMotion ? (
           <video
@@ -84,7 +91,7 @@ export function HomeMarketingVideo({
             loop
             playsInline
             preload="metadata"
-            poster={posterSrc}
+            poster={posterUrl}
             aria-hidden="true"
           >
             <source src={videoSrc} type="video/mp4" />

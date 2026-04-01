@@ -1,4 +1,8 @@
-import { getLocalizedScreenshotPath, type AppScreenshotKey } from "@/lib/app-screenshots";
+import type { StaticImageData } from "next/image";
+import {
+  getLocalizedUiScreenshotAsset,
+  type AppScreenshotKey,
+} from "@/lib/app-screenshots";
 import { type Language } from "@/lib/i18n/config";
 
 export type InstallLandingVariantKey = "organized-journey" | "timeline" | "sorted-day-place";
@@ -78,7 +82,7 @@ export type InstallLandingContent = {
     key: string;
     title: string;
     body: string;
-    screenshotSrc: string;
+    screenshotSrc: StaticImageData;
     objectPosition: string;
   }>;
   sample: {
@@ -105,9 +109,9 @@ export type InstallLandingContent = {
   dismissLabel: string;
   heroFrames: Array<{
     key: AppScreenshotKey;
-    src: string;
+    src: StaticImageData;
   }>;
-  sampleTimelineScreenshotSrc: string;
+  sampleTimelineScreenshotSrc: StaticImageData;
 };
 
 const DAY_LABELS: Record<"day1" | "day2" | "day3", LocalizedText> = {
@@ -1149,7 +1153,7 @@ export function getInstallLandingContent(
       key: benefit.key,
       title: readText(lang, benefit.title),
       body: readText(lang, benefit.body),
-      screenshotSrc: getLocalizedScreenshotPath(lang, benefit.screenshotKey),
+      screenshotSrc: getLocalizedUiScreenshotAsset(lang, benefit.screenshotKey),
       objectPosition: benefit.objectPosition,
     })),
     sample: {
@@ -1179,11 +1183,11 @@ export function getInstallLandingContent(
     timelineViewLabel: readText(lang, LANDING_COPY.timelineViewLabel),
     dismissLabel: readText(lang, LANDING_COPY.dismissLabel),
     heroFrames: [
-      { key: "intro", src: getLocalizedScreenshotPath(lang, "intro") },
-      { key: "photos", src: getLocalizedScreenshotPath(lang, "photos") },
-      { key: "timeline", src: getLocalizedScreenshotPath(lang, "timeline") },
-      { key: "tracking", src: getLocalizedScreenshotPath(lang, "tracking") },
+      { key: "intro", src: getLocalizedUiScreenshotAsset(lang, "intro") },
+      { key: "photos", src: getLocalizedUiScreenshotAsset(lang, "photos") },
+      { key: "timeline", src: getLocalizedUiScreenshotAsset(lang, "timeline") },
+      { key: "tracking", src: getLocalizedUiScreenshotAsset(lang, "tracking") },
     ],
-    sampleTimelineScreenshotSrc: getLocalizedScreenshotPath(lang, "timeline"),
+    sampleTimelineScreenshotSrc: getLocalizedUiScreenshotAsset(lang, "timeline"),
   };
 }
