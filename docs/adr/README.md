@@ -32,7 +32,7 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 3. [ADR 0003: Static Generation + Revalidation Strategy](./0003-static-site-generation-strategy.md)
 - Date: 2025-01-04 (updated: 2026-04-01)
 - Status: Accepted
-- Summary: 정적 중심 + route별 revalidate(300/14400) + additive local-time context 우선 렌더링/absolute timestamp fallback + published image browser SW cache + route-group root layouts로 SSR `html lang` 유지
+- Summary: 정적 중심 + route별 revalidate(300/14400) + additive local-time context 우선 렌더링/absolute timestamp fallback + direct published image fetch(no app-managed SW cache) + route-group root layouts로 SSR `html lang` 유지
 
 4. [ADR 0004: Footer Navigation Structure](./0004-footer-navigation-structure.md)
 - Date: 2025-01-04 (updated: 2026-03-12)

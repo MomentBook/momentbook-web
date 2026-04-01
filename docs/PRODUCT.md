@@ -152,8 +152,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - Users list/detail, photo detail: `revalidate = 14400`
 - Sitemap routes: `revalidate = 3600`
 - API fetch helper 일부: `next.revalidate = 300`, `14400` 상수 사용
-- production browser는 `public-image-cache-sw.js`를 등록해 MomentBook CDN/S3 원격 published image를 client-side cache storage에 `stale-while-revalidate`로 저장한다.
-- 서비스워커는 원격 이미지를 직접 캐시할 뿐 Vercel image optimizer나 app route proxy를 거치지 않는다.
+- 공개 published image는 원격 asset URL을 브라우저가 직접 요청한다. 앱이 등록하는 runtime image service worker cache는 없다.
+- `public-image-cache-sw.js`와 `LegacyPublicImageCacheCleanup`는 과거 `momentbook-public-images-*` Cache Storage와 등록된 legacy worker를 정리하는 migration 용도만 가진다.
 - localized root layout은 `app/(localized)/[lang]/layout.tsx`에서 정적 route param 기준으로 `html lang`와 locale metadata를 SSR한다.
 
 ## 6) Interaction Constraints

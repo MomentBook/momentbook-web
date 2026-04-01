@@ -1,5 +1,5 @@
 import styles from "./layout.module.scss";
-import { PublicImageCacheRegistration } from "@/components/PublicImageCacheRegistration";
+import { LegacyPublicImageCacheCleanup } from "@/components/LegacyPublicImageCacheCleanup";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { type Language } from "@/lib/i18n/config";
 import { ChromeFooter } from "./ChromeFooter";
@@ -19,7 +19,7 @@ export default async function ChromeLayout({
 
     return (
         <>
-            <PublicImageCacheRegistration />
+            <LegacyPublicImageCacheCleanup />
 
             <ChromeHeader
                 lang={lang}
