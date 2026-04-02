@@ -48,6 +48,7 @@ export function ChromeHeader({
             lang={lang}
             className={styles.navAction}
             analyticsSurface="header"
+            mobileLaunchBehavior="launch-directly"
           >
             <svg
               className={styles.navActionIcon}

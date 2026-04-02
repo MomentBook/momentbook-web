@@ -20,6 +20,7 @@ type DownloadActionButtonProps = {
   className?: string;
   children: ReactNode;
   analyticsSurface?: MarketingSurface;
+  mobileLaunchBehavior?: "scroll-to-download" | "launch-directly";
 };
 
 export function DownloadActionButton({
@@ -27,6 +28,7 @@ export function DownloadActionButton({
   className,
   children,
   analyticsSurface,
+  mobileLaunchBehavior = "scroll-to-download",
 }: DownloadActionButtonProps) {
   const launchTimeoutRef = useRef<number | null>(null);
   const [isQrOpen, setIsQrOpen] = useState(false);
@@ -68,7 +70,10 @@ export function DownloadActionButton({
       return;
     }
 
-    if (downloadSection instanceof HTMLElement) {
+    if (
+      mobileLaunchBehavior === "scroll-to-download"
+      && downloadSection instanceof HTMLElement
+    ) {
       scrollHomeSectionIntoView(downloadSection);
     }
 
