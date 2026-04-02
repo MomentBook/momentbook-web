@@ -1723,7 +1723,7 @@ export interface PublishJourneyRequestDto {
   recapStage: "FINALIZED";
   /**
    * Photo reference to published image URL mapping. For computed drafts, use the client photo identifier/local URI. For export-safe drafts, either photos[].archivePath or photos[].photoId may be used as the key.
-   * @example {"file:///local/photo1.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://yourthink.s3.ap-northeast-2.amazonaws.com/journeys/user123/img2.jpg"}
+   * @example {"file:///local/photo1.jpg":"https://momentbook-us-east-1.s3.us-east-1.amazonaws.com/journeys/user123/img1.jpg","file:///local/photo2.jpg":"https://momentbook-us-east-1.s3.us-east-1.amazonaws.com/journeys/user123/img2.jpg"}
    */
   photoUrlMapping: object;
   /** Array of journey images to publish. Client may send the full published photo set for the journey. */
@@ -1863,6 +1863,19 @@ export interface PublishedJourneyLocalizedContentDto {
   clusterImpressions: PublishedJourneyClusterLocalizedImpressionsDto[];
 }
 
+export interface PublishedJourneyReviewDto {
+  /**
+   * Whether the published journey review is approved
+   * @example true
+   */
+  approved: boolean;
+  /**
+   * Published journey review status
+   * @example "APPROVED"
+   */
+  status: "PENDING" | "APPROVED" | "REJECTED";
+}
+
 export interface PublishedJourneyDetailDto {
   /**
    * Public ID for sharing
@@ -1937,11 +1950,8 @@ export interface PublishedJourneyDetailDto {
   publishedAt: string;
   /** Creation timestamp */
   createdAt: string;
-  /**
-   * Web SEO review status
-   * @example "APPROVED"
-   */
-  webReviewStatus?: "PENDING" | "APPROVED" | "REJECTED";
+  /** Generic review state for this published journey. New documents start as approved by default. */
+  review: PublishedJourneyReviewDto;
   /**
    * Content availability status for rendering
    * @example "available"
@@ -1949,8 +1959,8 @@ export interface PublishedJourneyDetailDto {
   contentStatus?:
     | "available"
     | "reported_hidden"
-    | "web_review_pending"
-    | "web_review_rejected";
+    | "review_pending"
+    | "review_rejected";
   /**
    * Visibility stored in DB
    * @example "public"
@@ -1967,6 +1977,59 @@ export interface PublishedJourneyDetailResponseDto {
   /** @example "success" */
   status: string;
   data: PublishedJourneyDetailDto;
+}
+
+export interface JourneyAccountSummaryDto {
+  /**
+   * Account user ID
+   * @example "507f1f77bcf86cd799439011"
+   */
+  userId: string;
+  /**
+   * Account display name fallback
+   * @example "John Doe"
+   */
+  name?: string | null;
+  /**
+   * Account profile image
+   * @example "https://cdn.momentbook.app/avatars/user123.jpg"
+   */
+  picture?: string | null;
+  /**
+   * Raw email when it belongs to the currently authenticated account. Published-owner summaries omit this field for privacy.
+   * @example "user@example.com"
+   */
+  email?: object | null;
+  /**
+   * Masked email hint for owner-mismatch UX. Null when email is unavailable.
+   * @example "u***@example.com"
+   */
+  emailMasked?: object | null;
+  /** Authentication provider */
+  provider?: "google" | "apple" | "email" | "anonymous" | null;
+}
+
+export interface UnpublishOwnershipPrecheckDataDto {
+  /**
+   * Published journey public ID
+   * @example "abc123xyz789"
+   */
+  publicId: string;
+  /**
+   * Whether the current authenticated account owns this journey
+   * @example false
+   */
+  isOwner: boolean;
+  /** Published-account summary for owner mismatch UX. Email is masked instead of exposed raw. */
+  publishedBy: JourneyAccountSummaryDto;
+  /** Current authenticated account summary */
+  currentAccount: JourneyAccountSummaryDto;
+}
+
+export interface UnpublishOwnershipPrecheckResponseDto {
+  /** @example "success" */
+  status: string;
+  data: UnpublishOwnershipPrecheckDataDto;
 }
 
 export interface UnpublishJourneyResponseDto {
@@ -2548,7 +2611,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.23
+ * @version 2.1.26
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3274,7 +3337,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve published journey data for rendering. Includes DB visibility and returns success for hidden journeys with contentStatus=reported_hidden.
+     * @description Public endpoint to retrieve published journey data for rendering. Includes DB visibility and review state, and returns success for hidden journeys with contentStatus=reported_hidden. For review-gated client rendering, use the viewer endpoint.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourney
@@ -3301,7 +3364,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve viewer payload with server-side policy branching by viewer=web|app. web returns full payload only when webReviewStatus is APPROVED; app can return immediately after publish while still respecting moderation visibility.
+     * @description Public endpoint to retrieve viewer payload with server-side policy branching by viewer=web|app. Both app and web return full payload only after review approval; pending/rejected journeys return a status-focused response with contentStatus and notice.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourneyViewer
@@ -3352,6 +3415,27 @@ export class Api<
         path: `/v2/journeys/public/photos/${photoId}`,
         method: "GET",
         query: query,
+        ...params,
+      }),
+
+    /**
+     * @description JWT-only endpoint for owner mismatch UX before unpublishing. Returns masked published-account hints plus the current authenticated account summary without exposing raw owner email on public journey endpoints.
+     *
+     * @tags journeys
+     * @name PublishJourneyControllerGetUnpublishOwnershipPrecheck
+     * @summary Get unpublish ownership precheck payload
+     * @request GET:/v2/journeys/publish/{publicId}/unpublish-precheck
+     * @secure
+     */
+    publishJourneyControllerGetUnpublishOwnershipPrecheck: (
+      publicId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<UnpublishOwnershipPrecheckResponseDto, void>({
+        path: `/v2/journeys/publish/${publicId}/unpublish-precheck`,
+        method: "GET",
+        secure: true,
+        format: "json",
         ...params,
       }),
 
