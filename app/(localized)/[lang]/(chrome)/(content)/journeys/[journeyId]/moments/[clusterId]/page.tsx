@@ -10,9 +10,9 @@ import {
   buildOpenGraphBase,
   buildPublicKeywords,
   buildPublicRobots,
+  buildSocialImageSequence,
   buildSeoTitle,
   buildStructuredDataKeywordValue,
-  compactSocialImages,
   resolveTwitterCard,
   buildSeoDescription,
 } from "@/lib/seo/public-metadata";
@@ -46,6 +46,37 @@ function buildVisibleMomentTopics(hashtags: string[]): Array<{ "@type": "Defined
       "@type": "DefinedTerm" as const,
       name: tag,
     }));
+}
+
+function buildJourneyThumbnailSocialImages(
+  journey: NonNullable<Awaited<ReturnType<typeof fetchPublishedJourney>>>,
+  fallbackImages: Array<{ url: string }>,
+  alt: string,
+) {
+  const thumbnailImage = journey.thumbnailUrl
+    ? journey.images.find((image) => image.url === journey.thumbnailUrl)
+    : undefined;
+  const fallbackImage = fallbackImages[0];
+
+  return buildSocialImageSequence(
+    [
+      journey.thumbnailUrl
+        ? {
+            url: journey.thumbnailUrl,
+            width: thumbnailImage?.width,
+            height: thumbnailImage?.height,
+            alt,
+          }
+        : null,
+      fallbackImage
+        ? {
+            url: fallbackImage.url,
+            alt,
+          }
+        : null,
+    ],
+    { limit: 1 },
+  );
 }
 
 export async function generateMetadata({
@@ -99,14 +130,8 @@ export async function generateMetadata({
   });
   const path = `/journeys/${journey.publicId}/moments/${cluster.clusterId}`;
   const imageUrlMap = buildMomentImageUrlMap(journey);
-  const clusterImages = compactSocialImages(
-    buildMomentPhotos(cluster, imageUrlMap)
-      .slice(0, 6)
-      .map((photo) => ({
-        url: photo.url,
-        alt: title,
-      })),
-  );
+  const momentPhotos = buildMomentPhotos(cluster, imageUrlMap);
+  const clusterImages = buildJourneyThumbnailSocialImages(journey, momentPhotos, title);
 
   return {
     title,
@@ -164,7 +189,10 @@ export default async function JourneyMomentPage({
   const displayLocationName = buildMomentDisplayLocationName(labels, locationName);
   const imageUrlMap = buildMomentImageUrlMap(journey);
   const clusterPhotos = buildMomentPhotos(cluster, imageUrlMap);
-  const clusterImageUrls = clusterPhotos.map((photo) => photo.url);
+  const structuredImages =
+    buildJourneyThumbnailSocialImages(journey, clusterPhotos, displayLocationName)?.map(
+      (image) => image.url,
+    ) ?? clusterPhotos.map((photo) => photo.url);
   const user = await fetchPublicUser(journey.userId);
   const authorName = readMomentLocationName(user?.name);
   const siteUrl = resolveStructuredDataSiteUrl();
@@ -213,7 +241,7 @@ export default async function JourneyMomentPage({
     "@type": "Article",
     headline,
     description: seoDescription,
-    image: clusterImageUrls,
+    image: structuredImages,
     inLanguage: toLocaleTag(lang),
     ...(keywordValue ? { keywords: keywordValue } : {}),
     datePublished: journey.publishedAt,

@@ -417,6 +417,59 @@ export function compactSocialImages<T>(
   return filtered.length > 0 ? filtered : undefined;
 }
 
+type SocialImageCandidate = {
+  url?: string | null;
+  width?: number;
+  height?: number;
+  alt?: string | null;
+};
+
+type SocialImage = {
+  url: string;
+  width?: number;
+  height?: number;
+  alt?: string;
+};
+
+export function buildSocialImageSequence(
+  images: Array<SocialImageCandidate | null | undefined | false>,
+  options?: {
+    limit?: number;
+  },
+): SocialImage[] | undefined {
+  const normalized: SocialImage[] = [];
+  const seen = new Set<string>();
+  const limit = options?.limit;
+
+  for (const image of images) {
+    if (!image) {
+      continue;
+    }
+
+    const url = readText(image?.url);
+    const alt = readText(image.alt);
+
+    if (!url || seen.has(url)) {
+      continue;
+    }
+
+    seen.add(url);
+
+    normalized.push({
+      url,
+      ...(typeof image.width === "number" ? { width: image.width } : {}),
+      ...(typeof image.height === "number" ? { height: image.height } : {}),
+      ...(alt ? { alt } : {}),
+    });
+
+    if (limit && normalized.length >= limit) {
+      break;
+    }
+  }
+
+  return normalized.length > 0 ? normalized : undefined;
+}
+
 export function resolveTwitterCard(
   images: Array<unknown> | undefined,
   fallback: "summary" | "summary_large_image" = "summary",

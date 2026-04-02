@@ -233,6 +233,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Public pages use lean metadata: title/description/canonical/alternates + basic OpenGraph/Twitter
 - `buildPublicRobots()`는 public index/follow 외에 Google snippet/image preview용 `max-snippet=-1`, `max-image-preview=large`, `max-video-preview=-1`를 함께 선언한다.
 - journey/moment/photo/user detail의 `generateMetadata()`는 현재 route locale 기준 localized title/description을 사용하고, location/journey/archive 맥락을 보조적으로 합성해 query relevance를 높인다.
+- journey detail과 moment detail의 공유 preview metadata(`og:image`, `twitter:image`)는 journey `thumbnailUrl`을 대표 이미지로 우선 사용하고, thumbnail이 없을 때만 첫 detail photo를 fallback으로 사용한다.
 - Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - photo detail JSON-LD는 `ImageObject`를 유지하되 `mainEntityOfPage.primaryImageOfPage`에 현재 공개 사진 URL을 함께 기록한다.
 - 루트 gateway(`/`)는 canonical `/` + `x-default=/` alternates를 제공하고, localized home/정적 상세 route는 언어 prefix canonical을 유지한다.

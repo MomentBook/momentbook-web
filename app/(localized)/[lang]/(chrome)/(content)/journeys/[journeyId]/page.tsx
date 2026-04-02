@@ -21,9 +21,9 @@ import {
     buildOpenGraphBase,
     buildPublicKeywords,
     buildPublicRobots,
+    buildSocialImageSequence,
     buildSeoTitle,
     buildStructuredDataKeywordValue,
-    compactSocialImages,
     resolveTwitterCard,
     buildSeoDescription,
 } from "@/lib/seo/public-metadata";
@@ -107,6 +107,37 @@ function buildVisibleJourneyTopics(hashtags: string[]): Array<{ "@type": "Define
         }));
 }
 
+function buildJourneySocialImages(
+    journey: NonNullable<Awaited<ReturnType<typeof fetchPublishedJourneyResult>>["data"]>,
+): Array<{ url: string; width?: number; height?: number; alt?: string }> | undefined {
+    const thumbnailImage = journey.thumbnailUrl
+        ? journey.images.find((image) => image.url === journey.thumbnailUrl)
+        : undefined;
+    const fallbackImage = journey.images[0];
+
+    return buildSocialImageSequence(
+        [
+            journey.thumbnailUrl
+                ? {
+                      url: journey.thumbnailUrl,
+                      width: thumbnailImage?.width,
+                      height: thumbnailImage?.height,
+                      alt: journey.title,
+                  }
+                : null,
+            fallbackImage
+                ? {
+                      url: fallbackImage.url,
+                      width: fallbackImage.width,
+                      height: fallbackImage.height,
+                      alt: journey.title,
+                  }
+                : null,
+        ],
+        { limit: 1 },
+    );
+}
+
 export async function generateMetadata({
     params,
 }: {
@@ -160,14 +191,7 @@ export async function generateMetadata({
         hashtags: journey.hashtags,
         extra: [journeyLabels[lang]?.eyebrow ?? journeyLabels.en.eyebrow],
     });
-    const images = compactSocialImages(
-        journey.images.slice(0, 6).map((img) => ({
-            url: img.url,
-            alt: journey.title,
-            width: img.width,
-            height: img.height,
-        })),
-    );
+    const images = buildJourneySocialImages(journey);
 
     return {
         title,
@@ -290,13 +314,17 @@ export default async function JourneyPage({
         })),
         ...buildVisibleJourneyTopics(journey.hashtags),
     ];
+    const socialImages = buildJourneySocialImages(journey);
+    const structuredImages =
+        socialImages?.map((image) => image.url) ??
+        journey.images.map((image) => image.url);
 
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Article",
         headline: title,
         description,
-        image: journey.images.map((img) => img.url),
+        image: structuredImages,
         inLanguage: toLocaleTag(lang),
         ...(keywordValue ? { keywords: keywordValue } : {}),
         datePublished: journey.publishedAt,
