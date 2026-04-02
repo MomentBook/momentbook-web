@@ -3880,6 +3880,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^6.2.2":
+  version: 6.2.2
+  resolution: "jose@npm:6.2.2"
+  checksum: 37838e1654b2f76f939678d0528c82100156e12eb717bbce2c6e9fd136f83e8c960f9ffb3b675dcb768b6cdd56d5c806bf56f468f8edd8fb57b165c3f18f0902
+  languageName: node
+  linkType: hard
+
 "jotai@npm:^2.16.1":
   version: 2.17.0
   resolution: "jotai@npm:2.17.0"
@@ -4271,6 +4278,7 @@ __metadata:
     eslint: ^9
     eslint-config-next: 16.1.1
     firebase: ^12.8.0
+    jose: ^6.2.2
     jotai: ^2.16.1
     leaflet: ^1.9.4
     next: 16.1.1

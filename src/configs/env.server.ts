@@ -11,6 +11,7 @@ export const ENV = {
     APP_ENV: process.env.NEXT_PUBLIC_APP_ENV as "production" | "development",
     APP_IS_LOCAL: parseBooleanEnv(process.env.NEXT_PUBLIC_APP_IS_LOCAL),
     API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL as string,
+    ADMIN_SESSION_SECRET: process.env.ADMIN_SESSION_SECRET as string,
 
     NEXT_PUBLIC_FIREBASE_API_KEY: process.env
         .NEXT_PUBLIC_FIREBASE_API_KEY as string,

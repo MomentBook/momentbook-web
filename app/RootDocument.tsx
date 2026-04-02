@@ -40,9 +40,15 @@ export const APP_ICONS = {
 export function RootDocument({
   children,
   htmlLang,
+  includeAnalytics = true,
+  includeLanguageSync = true,
+  includePageAnimationSync = true,
 }: {
   children: React.ReactNode;
   htmlLang: string;
+  includeAnalytics?: boolean;
+  includeLanguageSync?: boolean;
+  includePageAnimationSync?: boolean;
 }) {
   const pageAnimationBootstrapScript = `
     (function() {
@@ -84,13 +90,17 @@ export function RootDocument({
           `}
         </Script>
         <Script id="page-animation-mode-script" strategy="beforeInteractive">
-          {pageAnimationBootstrapScript}
+          {includePageAnimationSync
+            ? pageAnimationBootstrapScript
+            : `
+              document.documentElement.setAttribute('data-page-animations', 'disabled');
+            `}
         </Script>
       </head>
       <body className={`${manrope.variable} ${playfairDisplay.variable}`}>
-        <LanguageSyncProvider />
-        <PageAnimationModeSync />
-        {process.env.NODE_ENV === "production" ? (
+        {includeLanguageSync ? <LanguageSyncProvider /> : null}
+        {includePageAnimationSync ? <PageAnimationModeSync /> : null}
+        {includeAnalytics && process.env.NODE_ENV === "production" ? (
           <>
             <GoogleAnalytics gaId={GA_ID} />
             <GaRouteTracker />

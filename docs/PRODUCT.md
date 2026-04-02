@@ -12,6 +12,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - MomentBook 앱의 철학/사용 맥락을 웹에서 설명
 - 앱에서 게시된 공개 콘텐츠를 읽기 전용으로 노출
 - 기본 검색/공유 접근성을 위한 SEO 인프라 제공
+- 내부 운영자가 공개 여정 심사를 수행하는 비공개 관리자 표면을 제공
 
 다음을 수행하지 않는다.
 
@@ -58,6 +59,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 라우트 프리픽스: `/{lang}/...`
 - 루트(`/`)는 클라이언트에서 `?lang=` -> 선호 언어 상태(Jotai/localStorage) -> cookie -> 브라우저 언어 순서로 언어를 정한 뒤 리다이렉트
 - 언어 없는 경로는 `proxy.ts`에서 `?lang=` -> cookie -> `Accept-Language` -> `en` 순서로 언어 프리픽스로 리다이렉트
+- `/admin` 경로는 언어 프리픽스 대상이 아니며 `proxy.ts`가 그대로 통과시킨다.
 
 ## 4) Route Surface
 
@@ -83,7 +85,21 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/journeys?page=`와 `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.
 - `/{lang}/users?q=`는 최근 공개 프로필 최대 100개를 불러온 뒤 이름/biography와 각 프로필의 recent public journeys list가 이미 제공하는 해시태그 기준으로 서버에서 필터링한다. 검색을 위해 각 journey detail을 추가 fetch하지 않는다.
 
-### 4.2 QR Redirect Surface
+### 4.2 Internal Admin Pages (Noindex)
+
+- `/admin` (세션 상태에 따라 `/admin/login` 또는 `/admin/reviews`로 redirect)
+- `/admin/login`
+- `/admin/reviews`
+- `/admin/reviews` 지원 query: `status`, `page`, `publicId`, `error`
+
+운영 규칙:
+- 관리자 표면은 localized public tree와 분리된 route group(`app/(admin)/admin/**`)에서 렌더링된다.
+- public header/footer, language sync, public analytics를 사용하지 않는다.
+- `robots.txt`에서 `/admin`을 차단하고 sitemap에는 포함하지 않는다.
+- 접근 자체는 backend email login + `admin` role 검증이 필요하므로 URL만 알아도 진입할 수 없다.
+- 현재 review queue/detail payload는 mock data이며 approve/reject control은 비활성 boilerplate 상태다.
+
+### 4.3 QR Redirect Surface
 
 - `/{lang}/install/redirect`
 - `/{lang}/install/redirect` 지원 query: `source`, `dest`, `lang`, `utm_*`, `variant`
@@ -92,7 +108,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/install/redirect`의 모바일 요청은 감지된 플랫폼(iOS/Android)에 맞는 공식 스토어 URL로 즉시 redirect되고, 데스크톱 요청은 `/{lang}#download`로 redirect된다.
 - non-prefixed `/install?...` 진입은 `proxy.ts`가 언어 prefix로 정규화한 뒤 `/{lang}/install` alias redirect를 거쳐 `/{lang}#download`로 수렴한다.
 
-### 4.3 Legal Pages (Noindex)
+### 4.4 Legal Pages (Noindex)
 
 - `/{lang}/privacy`
 - `/{lang}/terms`
@@ -104,7 +120,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `privacy`, `terms`, `community-guidelines`, `marketing-consent` 본문은 9개 지원 언어(`en`, `ko`, `ja`, `zh`, `es`, `pt`, `fr`, `th`, `vi`)에 대해 authored copy를 사용한다.
 - `support` 페이지 copy는 9개 언어에 대해 별도 문자열을 제공한다.
 
-### 4.4 SEO Infrastructure Routes
+### 4.5 SEO Infrastructure Routes
 
 - `/robots.txt` (via `app/robots.ts`)
 - `/sitemap.xml`
@@ -138,7 +154,25 @@ MomentBook Web은 다음 역할만 수행한다.
 2. host 치환된 `127.0.0.1` 후보
 3. `NEXT_PUBLIC_SITE_URL` 호스트 치환 후보
 
-## 5.2 Legacy Data (Currently Unused In Runtime)
+## 5.2 Internal Admin Auth
+
+관리자 표면은 별도 auth 시스템을 만들지 않고 기존 backend email auth를 사용한다.
+
+- `POST /v2/auth/email/login`
+- `POST /v2/auth/refresh`
+- `POST /v2/auth/logout`
+
+세션 정책:
+- 웹은 backend access/refresh token pair를 `ADMIN_SESSION_SECRET` 기반 encrypted HttpOnly cookie에 저장한다.
+- access token 만료가 가까우면 backend refresh endpoint로 갱신하고, refresh token이 만료되면 `/admin/login`으로 되돌린다.
+- JWT access token의 `role=admin` claim이 있어야 `/admin`에 진입할 수 있다.
+
+## 5.3 Internal Admin Mock Content
+
+- `/admin/reviews`는 현재 mock queue/detail dataset으로 렌더링된다.
+- approve / reject button, rejection reason field는 레이아웃 검토용 boilerplate이며 live API write를 호출하지 않는다.
+
+## 5.4 Legacy Data (Currently Unused In Runtime)
 
 - `lib/public-content.ts`
 - `lib/content.ts`
@@ -159,6 +193,7 @@ MomentBook Web은 다음 역할만 수행한다.
 ## 6) Interaction Constraints
 
 - 웹 로그인/Auth UI 및 `/api/auth/*` 라우트는 제공하지 않는다.
+- 단, `/admin/login`은 내부 운영자 전용 이메일 로그인 화면이며 public web auth 복구를 의미하지 않는다.
 - 여정 상세의 신고 버튼/신고 제출 플로우는 제거되어 있다.
 - `/{lang}/journeys/[journeyId]`는 cover image 위 제목 overlay 안에 선택적 설명, 해시태그, 작성자/여행 기간 또는 게시일/사진 수/원문 언어 핵심 메타 카드를 함께 배치하고, 그 다음 일관된 좌측 이미지/우측 텍스트 리듬의 timeline형 moment list를 기본으로 렌더링한다. 클러스터가 있는 여정은 각 moment를 대표 이미지, 위치명, 선택적 impression, 시간 범위, 사진 수를 담은 clickable timeline card로 제공하고, 전체 사진 나열은 `/{lang}/journeys/[journeyId]/moments/[clusterId]` 상세에서만 보여준다. 클러스터가 없는 여정은 촬영 시각 기준 photo archive grid로 대체한다. 지도/점프 navigation/장소 요약 패널은 이 상세 화면에서 노출하지 않는다.
 - `/{lang}/journeys/[journeyId]`와 `/{lang}/journeys/[journeyId]/moments/[clusterId]`는 viewer request에 현재 route locale을 `lang` query로 전달한다. 서버가 치환한 localized title/description/cluster impression을 SEO metadata/structured data와 본문에 우선 반영하고, localized hashtags는 `localizedContent`에서 읽는다.
@@ -166,6 +201,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 신고 누적 또는 웹 검수 상태 등으로 웹에서 비노출 처리된 공개 여정 상세는 안내 문구와 noindex metadata를 렌더링한다.
 - `notFound()`로 수렴하는 localized public content/user/photo/moment 경로는 plain-language recovery 404를 렌더링하며, 오래된 검색 결과/저장 링크/오타 URL을 모두 같은 복구 흐름으로 안내한다. 단, 여정 detail의 explicit hidden 상태는 기존 unavailable notice를 유지한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
+- 관리자 심사 표면은 현재 mock queue/detail UI만 제공하며, 공개 콘텐츠 자체를 웹에서 편집하지 않는다.
 - `/{lang}/photos/[photoId]`는 mobile-first 단일 컬럼 editorial flow로 렌더링된다. image-first 구성 뒤에 여정 맥락, title, 선택적 caption, compact metadata list가 이어지며, 데스크톱도 같은 위계를 더 넓은 폭으로 확장한다. 좌표는 별도 map/card 없이 metadata list 안의 한 줄 텍스트로만 노출한다. 동일 정보는 한 번만 보여주며, capture time/place/coordinates/journey title/caption 등 photo payload가 실제로 제공하는 필드만 사용한다.
 - `/{lang}/photos/[photoId]`의 hero photo는 클릭/탭 시 검정 배경의 immersive viewer overlay를 연다. overlay 안에서는 이미지와 닫기 버튼만 노출하고, 상하 메타데이터 chrome은 표시하지 않는다. 데스크톱과 모바일 모두 `Esc`/명시적 close를 지원하며, 모바일은 edge-to-edge viewer에서 pinch/double-tap 확대를 지원한다.
 
@@ -197,6 +233,7 @@ MomentBook Web은 다음 역할만 수행한다.
 ## 8.2 Robots Policy
 
 - Public content/marketing pages: index/follow
+- Internal admin pages: noindex/nofollow + `robots.txt` disallow(`/admin`)
 - Legal pages: noindex/nofollow
 - `/{lang}/journeys?page=...`와 `/{lang}/users/[userId]?page=...`는 page-specific canonical/alternates를 유지한 index/follow 페이지다.
 - `/users?q=...` 검색 파라미터 페이지: noindex/follow + canonical(`/{lang}/users`)
@@ -236,9 +273,11 @@ MomentBook Web은 다음 역할만 수행한다.
 - 저장: Jotai `themeAtom` (`localStorage`)
 - 언어별 root layout: `app/(localized)/[lang]/layout.tsx`
 - 헤더/푸터 공통 레이아웃: `app/(localized)/[lang]/(chrome)/layout.tsx`
+- 관리자 레이아웃: `app/(admin)/admin/layout.tsx`
 - shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus shared download/support CTA and Product/Support/Legal link groups
 - 헤더/홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, 모바일에서는 현재 플랫폼별 공식 스토어 링크로 이동한다.
 - `/{lang}/install`은 standalone landing이 아니라 홈의 다운로드 섹션으로 정규화하는 redirect alias다.
+- 관리자 화면은 Stitch 시안의 calm editorial dashboard 방향을 참고하되, 실제 구현은 기존 light theme 토큰/유리 질감과 맞춘다.
 
 ## 11) Environment Variables
 
@@ -258,6 +297,14 @@ MomentBook Web은 다음 역할만 수행한다.
 운영 규칙:
 - `NEXT_PUBLIC_SITE_URL`은 production에서 canonical, hreflang alternates, robots, sitemap, JSON-LD absolute URL의 단일 기준값이다.
 - `http://localhost:3100` fallback은 local/dev 또는 `NEXT_PUBLIC_APP_IS_LOCAL=true`일 때만 허용한다.
+
+## 11.2 Server-only Runtime
+
+- `ADMIN_SESSION_SECRET` (`lib/admin/session.ts`에서 required)
+
+운영 규칙:
+- `ADMIN_SESSION_SECRET`은 `/admin` 세션 cookie 암호화 키다.
+- production에서는 충분히 긴 랜덤 secret을 사용해야 한다.
 
 ## 12) Build & Ops Commands
 

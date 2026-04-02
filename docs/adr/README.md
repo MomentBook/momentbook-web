@@ -69,6 +69,11 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Status: Accepted
 - Summary: 웹 로그인/API auth/report UI 제거, 공개 읽기 전용 표면으로 단순화
 
+11. [ADR 0011: Internal Admin Moderation Surface](./0011-internal-admin-moderation-surface.md)
+- Date: 2026-04-02
+- Status: Accepted
+- Summary: 공개 웹과 분리된 `/admin` 운영 표면, noindex/robots 차단, backend admin role + encrypted HttpOnly session cookie 기반 심사 도구
+
 ## Status Definitions
 
 | Status | Meaning |
@@ -80,7 +85,7 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 
 ## Creating New ADRs
 
-1. Number: 다음 순번 사용 (`0010`, `0011`, ...)
+1. Number: 다음 순번 사용 (`0011`, `0012`, ...)
 2. Filename: `XXXX-descriptive-title.md`
 3. Template: 기존 ADR 형식 준수
 4. Index update: 이 README 인덱스 동시 갱신

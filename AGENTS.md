@@ -21,6 +21,7 @@
 ### 2.1 Product Guardrails
 - 이 웹은 네이티브 앱을 설명하는 공개 웹이다.
 - 읽기 전용(public read-only) 범위를 벗어나는 기능을 제안/구현하지 않는다.
+- 단, `/admin` 아래의 내부 운영 표면은 공개 웹과 분리된 관리자 심사 도구로만 취급한다.
 - 앱 기능을 웹에서 새로 정의하거나 UX 상태를 재해석하지 않는다.
 - 과장형 카피(생산성/습관/성과/랭킹/경쟁) 금지.
 
@@ -38,7 +39,8 @@
 
 - i18n routing entrypoint: `proxy.ts` (not `middleware.ts`)
 - Root: `/` -> client-side language redirect (`app/(root)/page.tsx`)
-- Web authentication/login routes are removed (public read-only surface only)
+- Public web authentication/login routes are removed
+- Internal admin routes live under `/admin` and bypass language-prefix redirect in `proxy.ts`
 - Public content cache TTL:
   - Journey list/detail/moment: 300s
   - Users/photos: 14400s

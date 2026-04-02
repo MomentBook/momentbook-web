@@ -39,10 +39,12 @@
 - Language: TypeScript
 - UI: React 18 + SCSS Modules
 - State: Jotai (`theme`, `language`)
-- Auth (web): no web login/auth route (public read-only only)
+- Auth (public web): no public login/auth route
+- Internal admin surface: `/admin` email sign-in + backend `admin` role gate + encrypted HttpOnly session cookie, with mock moderation content for now
 - Analytics: GA4 (`@next/third-parties/google`) + route page_view tracking
 - i18n: 9개 언어 (`en/ko/ja/zh/es/pt/fr/th/vi`)
 - Routing guard: `proxy.ts` (non-prefixed path -> language-prefixed redirect)
+- Admin routing: `/admin` is excluded from language-prefix redirect and public chrome
 - Root redirect: `/` -> client-side language redirect in `app/(root)/page.tsx`
 - Root layouts: route groups split root redirect (`app/(root)/layout.tsx`) and localized public surface (`app/(localized)/[lang]/layout.tsx`)
 - Shared shell: public pages use `app/(localized)/[lang]/(chrome)/layout.tsx`
