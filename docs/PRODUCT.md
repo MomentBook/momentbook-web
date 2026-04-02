@@ -30,7 +30,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 2.1 Core Intro Flow (Marketing Surface)
 
-현재 홈(`/`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
+현재 localized home(`/{lang}`)은 소개/다운로드를 하나의 연속 스크롤 표면으로 제공한다.
 
 - Hero 섹션: 여행 사진을 한 번 올리면 시간·장소 기준으로 정리되고 클라우드 드라이브 동기화까지 이어진다는 메시지를 단일 컬럼으로 중앙 정렬해 노출한다. 1차 CTA는 다운로드 액션(데스크톱 QR modal + 모바일 스토어 이동), 2차 CTA는 홈의 `#story` 섹션으로 이동한다.
 - Story sequence 섹션: hero 아래에서 사진 적재, 일괄 가져오기, 타임라인 형성의 3개 장면을 각각 최적화된 로컬 루프 비디오(`public/videos/landing_00.mp4`~`landing_02.mp4`)와 제목/보조 설명으로 교차 배치한다. 비디오는 poster-first로 렌더링되고, 뷰포트 근접 시점에만 로드된다.
@@ -57,7 +57,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 - `en`, `ko`, `ja`, `zh`, `es`, `pt`, `fr`, `th`, `vi` (총 9개)
 - 라우트 프리픽스: `/{lang}/...`
-- 루트(`/`)는 클라이언트에서 `?lang=` -> 선호 언어 상태(Jotai/localStorage) -> cookie -> 브라우저 언어 순서로 언어를 정한 뒤 리다이렉트
+- 루트(`/`)는 서버 렌더링 단계에서 x-default language gateway metadata/JSON-LD/언어 링크를 제공하고, 클라이언트에서는 `?lang=` -> 선호 언어 상태(Jotai/localStorage) -> cookie -> 브라우저 언어 순서로 언어를 정한 뒤 `/{lang}`로 리다이렉트한다.
 - 언어 없는 경로는 `proxy.ts`에서 `?lang=` -> cookie -> `Accept-Language` -> `en` 순서로 언어 프리픽스로 리다이렉트
 - `/admin` 경로는 언어 프리픽스 대상이 아니며 `proxy.ts`가 그대로 통과시킨다.
 
@@ -65,6 +65,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 4.1 Public Pages
 
+- `/` (server-rendered language gateway + client-side redirect + fallback language links)
 - `/{lang}` (hero + 3-scene story + value reinforcement + latest public journeys + download section)
 - `/{lang}/how-it-works` (`/{lang}`로 `permanentRedirect`)
 - `/{lang}/download` (`/{lang}#download`로 `permanentRedirect`)
@@ -226,6 +227,7 @@ MomentBook Web은 다음 역할만 수행한다.
 ## 8.1 Metadata Helpers
 
 - `buildAlternates(lang, path)`
+- `buildRootAlternates()`
 - `buildOpenGraphUrl(lang, path)`
 - `buildPublicRobots()` / `buildNoIndexFollowRobots()` / `buildNoIndexRobots()`
 - Public pages use lean metadata: title/description/canonical/alternates + basic OpenGraph/Twitter
@@ -233,12 +235,14 @@ MomentBook Web은 다음 역할만 수행한다.
 - journey/moment/photo/user detail의 `generateMetadata()`는 현재 route locale 기준 localized title/description을 사용하고, location/journey/archive 맥락을 보조적으로 합성해 query relevance를 높인다.
 - Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - photo detail JSON-LD는 `ImageObject`를 유지하되 `mainEntityOfPage.primaryImageOfPage`에 현재 공개 사진 URL을 함께 기록한다.
-- Home(`/`)은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
+- 루트 gateway(`/`)는 canonical `/` + `x-default=/` alternates를 제공하고, localized home/정적 상세 route는 언어 prefix canonical을 유지한다.
+- 루트 gateway(`/`)와 localized home(`/{lang}`)은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
 - `app/(localized)/[lang]/layout.tsx`는 기본 robots를 noindex/nofollow로 설정하고, 실제 공개 색인 페이지는 각 route의 `generateMetadata()`에서 public robots를 다시 선언한다.
 
 ## 8.2 Robots Policy
 
 - Public content/marketing pages: index/follow + Google large image preview / unrestricted snippet preview
+- 루트(`/`)는 index/follow 가능한 x-default gateway이며, no-JS/비정상 redirect 상황을 위한 언어 링크를 함께 렌더링한다.
 - Internal admin pages: noindex/nofollow + `robots.txt` disallow(`/admin`)
 - Legal pages: noindex/nofollow
 - `/{lang}/journeys?page=...`와 `/{lang}/users/[userId]?page=...`는 page-specific canonical/alternates를 유지한 index/follow 페이지다.
@@ -250,7 +254,8 @@ MomentBook Web은 다음 역할만 수행한다.
 
 페이지별 JSON-LD가 구현되어 있다.
 
-- Home: Organization, WebSite, SoftwareApplication
+- Root gateway(`/`): Organization, WebSite
+- Localized home(`/{lang}`): Organization, WebSite, SoftwareApplication
 - FAQ: FAQPage
 - Journeys/Moments: Article
 - Users: ProfilePage
@@ -270,7 +275,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 실제 URL set은 `/sitemaps/**` 아래 part sitemap route들이 담당한다.
 - dynamic sitemap part는 50,000 URL 제한 이하로 분할되며, localized alternates는 각 canonical entry에 함께 기록된다.
 - image-bearing sitemap entry는 image sitemap extension(`<image:loc>`)을 함께 emit한다.
-- 모든 sitemap은 absolute URL + hreflang alternates 생성
+- 모든 sitemap은 absolute URL + hreflang alternates를 생성하며, 홈 entry는 `x-default=/`, deeper route는 `x-default=/en/...` 규칙을 따른다.
 - response header: `Cache-Control: public, max-age=3600, s-maxage=3600`
 
 주의:

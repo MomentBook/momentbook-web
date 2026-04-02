@@ -128,7 +128,8 @@ export function generateAlternateLinks(pathname: string) {
  *
  * SEO Best Practices:
  * - Includes all 9 language variants with proper hreflang codes
- * - Adds x-default pointing to English as the primary/fallback language
+ * - Uses `/` as x-default for the localized home surface
+ * - Uses the default localized URL as x-default for deeper routes
  * - Returns absolute URLs required by sitemap.xml format
  *
  * @param siteUrl - Full site URL (e.g., "https://momentbook.app")
@@ -142,11 +143,14 @@ export function buildSitemapAlternates(siteUrl: string, path: string) {
       lang: toHreflang(lang),
       href: `${siteUrl}/${lang}${normalizedPath}`,
     })),
-    // x-default: Primary language shown when user's language preference
-    // doesn't match any of our supported languages
+    // x-default: Home points to the language gateway (`/`),
+    // while deeper routes fall back to the default localized URL.
     {
       lang: "x-default",
-      href: `${siteUrl}/${defaultLanguage}${normalizedPath}`,
+      href:
+        normalizedPath === ""
+          ? `${siteUrl}/`
+          : `${siteUrl}/${defaultLanguage}${normalizedPath}`,
     },
   ];
 }

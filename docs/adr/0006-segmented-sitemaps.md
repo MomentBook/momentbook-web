@@ -50,7 +50,10 @@ Accepted
 
 ### 4) hreflang / alternates
 
-모든 URL entry는 9개 언어 variant + `x-default(en)` alternates를 생성한다.
+모든 URL entry는 9개 언어 variant alternates를 생성한다.
+
+- 홈 entry는 `x-default(/)`를 사용한다.
+- deeper route entry는 non-prefixed public URL이 없으므로 `x-default(/en/...)`를 사용한다.
 
 ### 5) URL limit + image discovery
 

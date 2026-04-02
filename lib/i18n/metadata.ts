@@ -13,6 +13,10 @@ function normalizePath(path: string) {
   return path.startsWith("/") ? path : `/${path}`;
 }
 
+function buildXDefaultPath(normalizedPath: string) {
+  return normalizedPath === "" ? "/" : `/${defaultLanguage}${normalizedPath}`;
+}
+
 /**
  * Builds alternate language links for SEO (hreflang + canonical).
  *
@@ -21,7 +25,7 @@ function normalizePath(path: string) {
  *
  * SEO Strategy:
  * - Includes all 9 supported languages as hreflang alternates
- * - Sets x-default to English (en) as the primary/fallback language
+ * - Uses `/` as x-default for the localized home surface and English for deeper routes
  * - Canonical points to the current language variant
  *
  * @param lang - Current page language
@@ -48,9 +52,9 @@ export function buildAlternates(lang: Language, path: string) {
       toHreflang(code),
       `/${code}${normalizedPath}`,
     ]),
-    // x-default: Signals to search engines which version to show when
-    // no language preference matches. We use English as it's our primary language.
-    ["x-default", `/${defaultLanguage}${normalizedPath}`],
+    // x-default: Home points to the generic language gateway (`/`),
+    // while deeper routes fall back to English because no non-prefixed variant exists.
+    ["x-default", buildXDefaultPath(normalizedPath)],
   ]) as Record<string, string>;
 
   return {
@@ -74,7 +78,7 @@ export function buildPaginatedAlternates(
       toHreflang(code),
       `/${code}${normalizedPath}?page=${page}`,
     ]),
-    ["x-default", `/${defaultLanguage}${normalizedPath}?page=${page}`],
+    ["x-default", `${buildXDefaultPath(normalizedPath)}?page=${page}`],
   ]) as Record<string, string>;
 
   return {
@@ -96,4 +100,16 @@ export function buildOpenGraphUrl(lang: Language, path: string) {
   const normalizedPath = normalizePath(path);
 
   return `/${lang}${normalizedPath}`;
+}
+
+export function buildRootAlternates() {
+  const languages = Object.fromEntries([
+    ...languageList.map((code) => [toHreflang(code), `/${code}`]),
+    ["x-default", "/"],
+  ]) as Record<string, string>;
+
+  return {
+    canonical: "/",
+    languages,
+  };
 }
