@@ -185,6 +185,9 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 html[data-page-animations="disabled"] {
@@ -211,7 +214,10 @@ body {
   background: var(--bg-base-gradient);
   color: var(--color-text-primary);
   line-height: var(--line-height-body);
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
+  overflow-x: clip;
   font-size: 1rem;
   min-height: 100vh;
   position: relative;

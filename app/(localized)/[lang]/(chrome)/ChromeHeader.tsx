@@ -41,16 +41,34 @@ export function ChromeHeader({
           >
             {journeysLabel}
           </Link>
+        </div>
+
+        <div className={styles.controls}>
           <DownloadActionButton
             lang={lang}
             className={styles.navAction}
             analyticsSurface="header"
           >
-            {dict.nav.download}
+            <svg
+              className={styles.navActionIcon}
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 3v11" />
+              <path d="m7 11 5 5 5-5" />
+              <path d="M5 21h14" />
+            </svg>
+            <span className={styles.navActionLabel}>
+              {dict.nav.download}
+            </span>
           </DownloadActionButton>
-        </div>
-
-        <div className={styles.controls}>
           <div className={styles.desktopPrefs}>
             <LanguageDropdown
               currentLang={lang}

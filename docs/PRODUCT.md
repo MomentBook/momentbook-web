@@ -36,7 +36,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Value reinforcement 섹션: story sequence 아래에서 정리 후 남는 가치(여행 순서, 장소 기준 묶음, 드라이브 연속성)를 bullet list와 최적화된 결과 비디오(`public/videos/landing_03.mp4`)로 다시 강조한다.
 - Recent journeys 섹션: value reinforcement 아래에 현재 환경(API base URL 기준)에서 최근 공개된 여정 3개를 카드로 노출한다. 각 카드는 cover image, title, description, author, photo count, published date를 포함하며 해당 공개 상세로 이동한다.
 - Download 섹션: warm sand 배경 안에서 짧은 설치 유도 카피와 App Store / Google Play CTA를 중앙 정렬로 노출한다.
-- 헤더/모바일 메뉴는 `Download`, `Journeys` 탭을 제공하며, `Download`는 홈의 `#download` 섹션으로 이동하고 홈 섹션 이동은 대상 섹션이 뷰포트 중앙에 오도록 정렬한다.
+- 헤더는 모든 공개 페이지에서 persistent download CTA와 `Journeys` 탐색 축을 유지한다. 헤더의 다운로드 CTA는 데스크톱에서 QR modal을 열고, 모바일에서는 현재 플랫폼별 공식 스토어 이동을 시작한다. 모바일 메뉴는 `Download`, `Journeys` 링크를 함께 제공한다.
 - 홈의 story/value/recent journeys/download 섹션 텍스트·카드·미디어 블록은 뷰포트 진입 시 1회성의 미세한 reveal motion(opacity + small upward translate)으로 나타나며, `prefers-reduced-motion`에서는 해당 모션을 줄인다. 홈의 story/value 비디오는 `prefers-reduced-motion`에서 autoplay 대신 static poster를 유지한다.
 - localized home(`/{lang}`)을 제외한 나머지 공개 페이지는 route-level interaction animation을 비활성화한다. non-home route에서는 reveal/scroll hide-show/CSS transition·animation 없이 정적으로 렌더링된다.
 - shared footer는 브랜드 요약, `Download`/`Support` CTA, 소셜 채널 아이콘, Product/Support/Legal 링크 컬럼으로 구성되며, footer의 `Download` CTA는 홈의 다른 다운로드 액션과 동일한 client-side download flow(데스크톱 QR modal + 모바일 공식 스토어 이동)를 사용한다.
@@ -237,7 +237,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 언어별 root layout: `app/(localized)/[lang]/layout.tsx`
 - 헤더/푸터 공통 레이아웃: `app/(localized)/[lang]/(chrome)/layout.tsx`
 - shared footer exposes official external channel icons for YouTube, Instagram, and TikTok, plus shared download/support CTA and Product/Support/Legal link groups
-- 홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, 모바일에서는 현재 플랫폼별 공식 스토어 링크로 이동한다.
+- 헤더/홈/푸터/인트로 guide의 다운로드 CTA는 데스크톱에서 `/{lang}/install/redirect`를 인코딩한 QR modal을 열고, 모바일에서는 현재 플랫폼별 공식 스토어 링크로 이동한다.
 - `/{lang}/install`은 standalone landing이 아니라 홈의 다운로드 섹션으로 정규화하는 redirect alias다.
 
 ## 11) Environment Variables

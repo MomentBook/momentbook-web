@@ -55,7 +55,9 @@ function AnimatedScrollHeader({ children, className }: ScrollHeaderProps) {
 
   return (
     <header
-      className={`${className || ""} ${!isVisible ? "header-hidden" : ""} ${isAtTop ? "header-at-top" : "header-scrolled"}`}
+      className={className}
+      data-header-state={isAtTop ? "top" : "scrolled"}
+      data-header-visible={isVisible ? "true" : "false"}
       style={{
         transition: "transform 0.3s ease-in-out",
         transform: isVisible ? "translateY(0)" : "translateY(-100%)",
@@ -71,7 +73,11 @@ export function ScrollHeader({ children, className }: ScrollHeaderProps) {
 
   if (!isLocalizedHomePath(pathname)) {
     return (
-      <header className={className}>
+      <header
+        className={className}
+        data-header-state="static"
+        data-header-visible="true"
+      >
         {children}
       </header>
     );
