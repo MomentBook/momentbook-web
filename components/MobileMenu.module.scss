@@ -50,7 +50,7 @@ $menu-drawer-control-focus: color-mix(in srgb, var(--color-accent) 72%, #fff);
   cursor: pointer;
   transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 
-  @media (min-width: 768px) {
+  @media (min-width: 960px) {
     display: none;
   }
 
