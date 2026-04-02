@@ -19,6 +19,53 @@ export function JourneyMomentsSection({
   labels,
   sections,
 }: JourneyMomentsSectionProps) {
+  function renderMomentMedia(section: ClusterSection) {
+    const previewPhotos = section.previewPhotos.slice(0, 3);
+    const overflowCount = Math.max(0, section.photoCount - previewPhotos.length);
+    const usesMosaic = previewPhotos.length > 1;
+
+    return (
+      <div className={styles.momentMediaFrame}>
+        <div
+          className={
+            usesMosaic ? styles.momentMediaGrid : styles.momentMediaSingle
+          }
+        >
+          {previewPhotos.map((photo, index) => (
+            <div
+              key={photo.key}
+              className={[
+                styles.momentMediaTile,
+                usesMosaic && index === 0 ? styles.momentMediaTilePrimary : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              <Image
+                src={photo.url}
+                alt={photo.alt}
+                fill
+                sizes="(max-width: 899px) 100vw, (max-width: 1199px) 46vw, (max-width: 1439px) 32vw, 28rem"
+                unoptimized={shouldBypassImageOptimization(photo.url)}
+                className={styles.photoImage}
+              />
+
+              {overflowCount > 0 && index === previewPhotos.length - 1 ? (
+                <span className={styles.momentMediaOverflow}>
+                  +{overflowCount}
+                </span>
+              ) : null}
+            </div>
+          ))}
+        </div>
+
+        <span className={styles.momentMediaBadge}>
+          {section.photoCount} {labels.photoCount}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <section
       className={styles.momentsSection}
@@ -39,7 +86,7 @@ export function JourneyMomentsSection({
       <ol className={styles.momentList}>
         {sections.map((section, index) => (
           <li
-            key={section.cluster.clusterId}
+            key={section.key}
             className={styles.momentListItem}
           >
             <SectionReveal variant="item" delay={110} staggerIndex={index}>
@@ -47,57 +94,32 @@ export function JourneyMomentsSection({
                 href={section.href}
                 className={styles.momentCard}
               >
-                <div className={styles.momentThumbFrame}>
-                  <div className={styles.momentThumb}>
-                    <Image
-                      src={section.coverPhoto.url}
-                      alt={section.coverPhoto.alt}
-                      fill
-                      sizes="(max-width: 899px) 100vw, (max-width: 1199px) 46vw, (max-width: 1439px) 32vw, 28rem"
-                      unoptimized={shouldBypassImageOptimization(section.coverPhoto.url)}
-                      className={styles.photoImage}
-                    />
-                  </div>
-                </div>
+                {renderMomentMedia(section)}
 
                 <div className={styles.momentCardBody}>
                   <div className={styles.momentCardTop}>
                     <span className={styles.momentIndex}>
                       {labels.momentLabel} {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span
-                      className={styles.momentChevron}
-                      aria-hidden="true"
-                    >
-                      →
+                    <span className={styles.momentTime}>
+                      <LocalizedDateTimeRange
+                        lang={lang}
+                        start={section.time.startAt}
+                        end={section.time.endAt}
+                        startContext={section.time.startLocal}
+                        endContext={section.time.endLocal}
+                        fallback="—"
+                      />
                     </span>
                   </div>
 
-                  <h3 className={styles.momentTitle}>
-                    {section.cluster.locationName ||
-                      labels.locationFallback}
-                  </h3>
+                  <h3 className={styles.momentTitle}>{section.title}</h3>
 
-                  {section.cluster.impression ? (
+                  {section.impression ? (
                     <p className={styles.momentExcerpt}>
-                      {section.cluster.impression}
+                      {section.impression}
                     </p>
                   ) : null}
-
-                  <div className={styles.momentMeta}>
-                    <LocalizedDateTimeRange
-                      lang={lang}
-                      start={section.cluster.time.startAt}
-                      end={section.cluster.time.endAt}
-                      startContext={section.cluster.time.startLocal}
-                      endContext={section.cluster.time.endLocal}
-                      fallback="—"
-                    />
-                    <span>
-                      {section.cluster.photoIds.length}{" "}
-                      {labels.photoCount}
-                    </span>
-                  </div>
                 </div>
               </Link>
             </SectionReveal>

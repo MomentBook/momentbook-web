@@ -32,19 +32,22 @@ type JourneyHeroMetaItem = {
   key: string;
   label: string;
   value: ReactNode;
+  tone?: "default" | "secondary";
 };
 
-function JourneyHeroMetaRail({
-  items,
-  className,
-}: {
-  items: JourneyHeroMetaItem[];
-  className: string;
-}) {
+function JourneyHeroMetaRail({ items }: { items: JourneyHeroMetaItem[] }) {
   return (
-    <dl className={className}>
+    <dl className={styles.heroMetaRail}>
       {items.map((item) => (
-        <div key={item.key} className={styles.heroMetaItem}>
+        <div
+          key={item.key}
+          className={[
+            styles.heroMetaItem,
+            item.tone === "secondary" ? styles.heroMetaItemSecondary : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
           <dt className={styles.heroMetaLabel}>{item.label}</dt>
           <dd className={styles.heroMetaContent}>{item.value}</dd>
         </div>
@@ -139,6 +142,7 @@ export function JourneyHero({
     metaItems.push({
       key: "source-language",
       label: labels.originalLanguageLabel,
+      tone: "secondary",
       value: (
         <span className={styles.heroLanguageValue}>
           <span>{sourceLanguage.displayName}</span>
@@ -212,10 +216,7 @@ export function JourneyHero({
 
         {hasMetaRail ? (
           <div className={styles.heroMetaPanel}>
-            <JourneyHeroMetaRail
-              items={metaItems}
-              className={styles.heroMetaRail}
-            />
+            <JourneyHeroMetaRail items={metaItems} />
           </div>
         ) : null}
       </div>

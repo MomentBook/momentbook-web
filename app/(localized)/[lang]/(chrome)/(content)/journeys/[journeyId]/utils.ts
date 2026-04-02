@@ -55,15 +55,3 @@ export function getUniqueJourneyLocations(
 
     return Array.from(locationSet);
 }
-
-export function buildPhotoIdToImageUrlMap(
-    journey: PublishedJourneyApi,
-): Map<string, string> {
-    const map = new Map<string, string>();
-
-    journey.images.forEach((img) => {
-        map.set(img.photoId, img.url);
-    });
-
-    return map;
-}

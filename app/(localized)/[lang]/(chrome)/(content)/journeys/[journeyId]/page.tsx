@@ -14,7 +14,6 @@ import {
 } from "./labels";
 import {
     getUniqueJourneyLocations,
-    buildPhotoIdToImageUrlMap,
 } from "./utils";
 import {
     buildNoIndexRobots,
@@ -239,8 +238,6 @@ export default async function JourneyPage({
         endedAt: journey.endedAt,
         photoSources: [journey.images, journey.clusters],
     });
-    const photoImageMap = buildPhotoIdToImageUrlMap(journey);
-
     const siteUrl = resolveStructuredDataSiteUrl();
     const pageUrl = buildStructuredDataUrl(
         buildOpenGraphUrl(lang, `/journeys/${journey.publicId}`),
@@ -313,7 +310,6 @@ export default async function JourneyPage({
 
             <JourneyContent
                 journey={journey}
-                photoImageMap={photoImageMap}
                 lang={lang}
                 authorName={authorName}
                 locationSummary={locationSummary}

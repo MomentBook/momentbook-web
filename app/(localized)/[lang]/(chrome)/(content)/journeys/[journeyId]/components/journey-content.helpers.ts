@@ -2,7 +2,6 @@ import type { Language } from "@/lib/i18n/config";
 import type { CaptureTimeContext } from "@/lib/local-time-context";
 import type {
   PublishedJourneyApi,
-  PublishedJourneyCluster,
   PublishedJourneyImage,
 } from "@/lib/published-journey";
 import { sortJourneyClustersByTimeline, sortJourneyImagesByCaptureTime } from "../utils";
@@ -24,12 +23,17 @@ export type ArchivePhoto = {
 };
 
 export type ClusterSection = {
-  cluster: PublishedJourneyCluster;
+  key: string;
   href: string;
-  coverPhoto: DisplayImage;
+  title: string;
+  impression: string | null;
+  time: PublishedJourneyApi["clusters"][number]["time"];
+  photoCount: number;
+  previewPhotos: DisplayImage[];
 };
 
 const JOURNEY_FALLBACK_IMAGE = "/images/placeholders/journey-cover-fallback.svg";
+const CLUSTER_PREVIEW_LIMIT = 3;
 
 export function buildJourneyHeroImage(
   images: PublishedJourneyImage[],
@@ -72,38 +76,54 @@ export function buildJourneyArchivePhotos(
   }));
 }
 
-function buildClusterCoverPhoto(
-  cluster: PublishedJourneyCluster,
-  photoImageMap: Map<string, string>,
+function buildClusterPreviewPhotos(
+  cluster: PublishedJourneyApi["clusters"][number],
+  imageByPhotoId: Map<string, PublishedJourneyImage>,
   title: string,
   locationFallback: string,
-): DisplayImage {
-  const firstPhotoId = cluster.photoIds.find((photoId) => photoImageMap.has(photoId));
-  const url = firstPhotoId ? photoImageMap.get(firstPhotoId) : null;
+): DisplayImage[] {
+  const fallbackAlt = cluster.locationName || locationFallback || title;
+  const previewPhotos = cluster.photoIds
+    .map((photoId) => imageByPhotoId.get(photoId))
+    .filter((image): image is PublishedJourneyImage => Boolean(image))
+    .slice(0, CLUSTER_PREVIEW_LIMIT)
+    .map((image, index) => ({
+      key: image.photoId || `${cluster.clusterId}-${index}`,
+      url: image.url,
+      alt: image.locationName || fallbackAlt,
+    }));
 
-  return {
-    key: firstPhotoId
-      ? `${cluster.clusterId}-${firstPhotoId}`
-      : `${cluster.clusterId}-fallback`,
-    url: url || JOURNEY_FALLBACK_IMAGE,
-    alt: cluster.locationName || locationFallback || title,
-  };
+  return previewPhotos.length > 0
+    ? previewPhotos
+    : [
+        {
+          key: `${cluster.clusterId}-fallback`,
+          url: JOURNEY_FALLBACK_IMAGE,
+          alt: fallbackAlt,
+        },
+      ];
 }
 
 export function buildJourneyClusterSections(
   journey: PublishedJourneyApi,
-  photoImageMap: Map<string, string>,
   lang: Language,
   locationFallback: string,
 ): ClusterSection[] {
   const encodedJourneyId = encodeURIComponent(journey.publicId);
+  const imageByPhotoId = new Map(
+    journey.images.map((image) => [image.photoId, image] as const),
+  );
 
   return sortJourneyClustersByTimeline(journey.clusters).map<ClusterSection>((cluster) => ({
-    cluster,
+    key: cluster.clusterId,
     href: `/${lang}/journeys/${encodedJourneyId}/moments/${encodeURIComponent(cluster.clusterId)}`,
-    coverPhoto: buildClusterCoverPhoto(
+    title: cluster.locationName || locationFallback,
+    impression: cluster.impression?.trim() || null,
+    time: cluster.time,
+    photoCount: cluster.photoIds.length,
+    previewPhotos: buildClusterPreviewPhotos(
       cluster,
-      photoImageMap,
+      imageByPhotoId,
       journey.title,
       locationFallback,
     ),

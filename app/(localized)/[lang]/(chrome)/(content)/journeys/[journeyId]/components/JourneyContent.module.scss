@@ -147,7 +147,7 @@
 }
 
 .heroMetaPanel {
-  padding: clamp(1rem, 3vw, 1.3rem) clamp(1rem, 3vw, 1.4rem) clamp(1.05rem, 3vw, 1.4rem);
+  padding: clamp(0.92rem, 2.6vw, 1.15rem) clamp(0.95rem, 3vw, 1.35rem) clamp(1rem, 3vw, 1.35rem);
   border-top: 1px solid color-mix(in srgb, var(--color-border) 62%, transparent);
   background:
     linear-gradient(
@@ -158,49 +158,60 @@
 }
 
 .heroMetaRail {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  gap: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: flex-start;
 }
 
 .heroMetaItem {
-  display: grid;
-  gap: 0.28rem;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.24rem 0.46rem;
   min-width: 0;
-  padding: 0.84rem 0.9rem 0.88rem;
-  border-radius: 1rem;
-  border: 1px solid color-mix(in srgb, var(--color-border) 68%, transparent);
+  max-width: 100%;
+  padding: 0.56rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-border) 62%, transparent);
   background: color-mix(in srgb, var(--surface-glass) 74%, #fff);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.heroMetaItemSecondary {
+  background: color-mix(in srgb, var(--color-bg-subtle) 72%, #fff);
+  border-color: color-mix(in srgb, var(--color-border) 52%, transparent);
 }
 
 .heroMetaLabel {
   margin: 0;
   color: var(--color-text-tertiary);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .heroMetaContent {
   margin: 0;
+  min-width: 0;
 }
 
 .heroMetaValue,
 .heroLanguageValue,
 .heroMetaLink {
   color: var(--color-text-primary);
-  font-size: 0.94rem;
+  font-size: 0.88rem;
   font-weight: 560;
-  line-height: 1.5;
+  line-height: 1.34;
+  text-wrap: pretty;
 }
 
 .heroLanguageValue {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.34rem;
+  gap: 0.28rem;
 }
 
 .heroMetaLink,
@@ -273,7 +284,7 @@
 
 .momentList {
   display: grid;
-  gap: clamp(2.75rem, 6vw, 4.75rem);
+  gap: clamp(1.2rem, 3.6vw, 1.75rem);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -285,25 +296,110 @@
 
 .momentCard {
   display: grid;
-  gap: clamp(1rem, 2.5vw, 1.5rem);
+  gap: clamp(1rem, 2.5vw, 1.35rem);
   align-items: center;
+  padding: clamp(0.9rem, 2.6vw, 1.15rem);
+  border-radius: clamp(1.1rem, 2.8vw, 1.5rem);
+  border: 1px solid color-mix(in srgb, var(--color-border) 64%, rgba(255, 255, 255, 0.32));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-glass-soft) 88%, #fff) 0%,
+      color-mix(in srgb, var(--surface-primary) 98%, #fff) 100%
+    );
+  box-shadow: 0 18px 32px rgba(15, 35, 42, 0.08);
   color: inherit;
   text-decoration: none;
 }
 
-.momentThumbFrame {
+.momentMediaFrame {
+  position: relative;
+  overflow: hidden;
   width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: clamp(0.95rem, 2.4vw, 1.2rem);
+  background:
+    radial-gradient(circle at 18% 16%, color-mix(in srgb, var(--color-accent-soft) 24%, transparent), transparent 44%),
+    color-mix(in srgb, var(--surface-glass-soft) 86%, #fff);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.26);
 }
 
-.momentThumb {
-  aspect-ratio: 4 / 5;
-  border-radius: clamp(1rem, 2.6vw, 1.4rem);
-  box-shadow: 0 20px 36px rgba(15, 35, 42, 0.12);
+.momentMediaSingle,
+.momentMediaGrid {
+  position: absolute;
+  inset: 0;
+}
+
+.momentMediaSingle {
+  display: grid;
+}
+
+.momentMediaSingle .momentMediaTile {
+  height: 100%;
+}
+
+.momentMediaGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 0.18rem;
+}
+
+.momentMediaTile {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  background: color-mix(in srgb, var(--surface-glass-soft) 84%, #fff);
+}
+
+.momentMediaTilePrimary {
+  grid-row: 1 / span 2;
+}
+
+.momentMediaOverflow {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0.78rem;
+  background: linear-gradient(
+    180deg,
+    rgba(9, 16, 20, 0.02) 0%,
+    rgba(9, 16, 20, 0.2) 52%,
+    rgba(9, 16, 20, 0.62) 100%
+  );
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.momentMediaBadge {
+  position: absolute;
+  top: 0.72rem;
+  right: 0.72rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.8rem;
+  padding: 0.3rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(9, 16, 20, 0.48);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 0.74rem;
+  font-weight: 620;
+  letter-spacing: 0.01em;
 }
 
 .momentCardBody {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.62rem;
   align-content: start;
   min-width: 0;
 }
@@ -311,24 +407,31 @@
 .momentCardTop {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
 }
 
 .momentIndex {
   color: var(--color-text-tertiary);
-  font-size: 0.7rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.momentTime {
+  color: var(--color-text-tertiary);
+  font-size: 0.84rem;
+  line-height: 1.55;
 }
 
 .momentTitle {
   margin: 0;
   color: var(--color-text-primary);
-  font-size: clamp(1.35rem, 3vw, 1.95rem);
+  font-size: clamp(1.18rem, 2.8vw, 1.72rem);
   font-weight: 620;
-  line-height: 1.16;
+  line-height: 1.14;
   text-wrap: balance;
 }
 
@@ -343,38 +446,21 @@
 
 .momentExcerpt {
   margin: 0;
-  max-width: 32rem;
+  max-width: 34rem;
   color: var(--color-text-secondary);
-  font-size: 0.98rem;
-  line-height: 1.8;
+  font-size: 0.95rem;
+  line-height: 1.72;
   text-wrap: pretty;
-}
-
-.momentMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.85rem;
-  color: var(--color-text-tertiary);
-  font-size: 0.88rem;
-}
-
-.momentChevron {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-secondary);
-  font-size: 1rem;
-  line-height: 1;
-  transition: transform 0.24s ease, color 0.2s ease;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .momentCard:hover {
   transform: translateY(-2px);
-}
-
-.momentCard:hover .momentChevron {
-  transform: translateX(3px);
-  color: var(--color-text-primary);
+  border-color: color-mix(in srgb, var(--color-border) 48%, var(--color-accent) 18%);
+  box-shadow: 0 24px 40px rgba(15, 35, 42, 0.12);
 }
 
 .momentCard:hover .momentTitle {
@@ -438,42 +524,17 @@
     min-height: clamp(24rem, 52vw, 31rem);
   }
 
-  .momentThumbFrame {
-    width: min(100%, 24rem);
-    justify-self: start;
-  }
-
   .momentCard {
-    position: relative;
-    grid-template-columns: minmax(15rem, 24rem) minmax(0, 1fr);
-    gap: clamp(1.35rem, 2.6vw, 2.05rem);
+    grid-template-columns: minmax(19rem, 26rem) minmax(0, 1fr);
+    gap: clamp(1.2rem, 2.5vw, 1.75rem);
     align-items: center;
+    padding: clamp(1rem, 2vw, 1.28rem);
   }
 
   .momentCardBody {
     max-width: 34rem;
-    padding-left: clamp(0.2rem, 2vw, 1.25rem);
-    padding-right: clamp(2.75rem, 4vw, 3.5rem);
+    padding-right: clamp(0.15rem, 1.4vw, 0.6rem);
     align-content: center;
-  }
-
-  .momentCardTop {
-    justify-content: flex-start;
-  }
-
-  .momentChevron {
-    position: absolute;
-    top: 50%;
-    right: clamp(0.8rem, 2vw, 1.45rem);
-    transform: translateY(-50%);
-  }
-
-  .momentCard:hover .momentChevron {
-    transform: translate(3px, -50%);
-  }
-
-  .momentThumb {
-    aspect-ratio: 5 / 4;
   }
 
   .archiveGrid {
@@ -499,16 +560,25 @@
 
 @media (max-width: 680px) {
   .heroMetaPanel {
-    padding: 0.95rem 0.95rem 1rem;
+    padding: 0.88rem 0.9rem 0.96rem;
   }
 
   .heroMetaRail {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.7rem;
+    gap: 0.46rem;
+  }
+
+  .heroMetaItem {
+    padding: 0.5rem 0.72rem;
+  }
+
+  .momentMediaBadge {
+    top: 0.62rem;
+    right: 0.62rem;
+    font-size: 0.7rem;
   }
 
   .momentExcerpt {
-    font-size: 0.94rem;
+    font-size: 0.92rem;
   }
 }
 
@@ -530,22 +600,36 @@
     line-height: 1.62;
   }
 
-  .heroMetaRail {
-    grid-template-columns: 1fr;
+  .heroMetaItemSecondary {
+    display: none;
   }
 
   .heroMetaItem {
-    padding: 0.74rem 0.82rem 0.78rem;
+    padding: 0.48rem 0.66rem;
+    gap: 0.2rem 0.4rem;
+  }
+
+  .heroMetaLabel {
+    font-size: 0.58rem;
   }
 
   .heroMetaValue,
   .heroLanguageValue,
   .heroMetaLink {
-    font-size: 0.92rem;
+    font-size: 0.82rem;
   }
 
   .momentCard {
-    gap: 1rem;
+    gap: 0.9rem;
+    padding: 0.82rem;
+  }
+
+  .momentTime {
+    font-size: 0.8rem;
+  }
+
+  .momentTitle {
+    font-size: clamp(1.08rem, 5.6vw, 1.3rem);
   }
 }
 
@@ -553,8 +637,7 @@
   .heroMetaLink,
   .momentCard,
   .archivePhotoCard,
-  .heroHashtagChip,
-  .momentChevron {
+  .heroHashtagChip {
     transition: none;
   }
 }

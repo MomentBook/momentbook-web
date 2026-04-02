@@ -16,7 +16,6 @@ import { JourneyMomentsSection } from "./JourneyMomentsSection";
 
 type JourneyContentProps = {
     journey: PublishedJourneyApi;
-    photoImageMap: Map<string, string>;
     lang: Language;
     labels: JourneyLabels;
     authorName: string | null;
@@ -31,7 +30,6 @@ type JourneyContentProps = {
 
 export default function JourneyContent({
     journey,
-    photoImageMap,
     lang,
     labels,
     authorName,
@@ -55,7 +53,6 @@ export default function JourneyContent({
     );
     const clusterSections = buildJourneyClusterSections(
         journey,
-        photoImageMap,
         lang,
         labels.locationFallback,
     );
