@@ -20,6 +20,9 @@ export type UserPageLabels = {
   emptyJourneys: string;
   pageStatus: string;
   metaPageLabel: string;
+  openProfileImage: string;
+  profileImageDialogLabel: string;
+  closeProfileImage: string;
 };
 
 export const userLabels: Record<Language, UserPageLabels> = {
@@ -38,6 +41,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "No published journeys yet.",
     pageStatus: "Page {current} of {total}",
     metaPageLabel: "Page {page}",
+    openProfileImage: "Open profile image",
+    profileImageDialogLabel: "Profile image viewer",
+    closeProfileImage: "Close profile image viewer",
   },
   ko: {
     profileEyebrow: "프로필",
@@ -54,6 +60,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "아직 공개된 여정이 없습니다.",
     pageStatus: "{total}페이지 중 {current}페이지",
     metaPageLabel: "{page}페이지",
+    openProfileImage: "프로필 이미지 크게 보기 열기",
+    profileImageDialogLabel: "프로필 이미지 뷰어",
+    closeProfileImage: "프로필 이미지 뷰어 닫기",
   },
   ja: {
     profileEyebrow: "プロフィール",
@@ -70,6 +79,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "公開された旅はまだありません。",
     pageStatus: "{total}ページ中 {current}ページ",
     metaPageLabel: "{page}ページ",
+    openProfileImage: "プロフィール画像を大きく表示",
+    profileImageDialogLabel: "プロフィール画像ビューア",
+    closeProfileImage: "プロフィール画像ビューアを閉じる",
   },
   zh: {
     profileEyebrow: "个人资料",
@@ -86,6 +98,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "还没有公开旅程。",
     pageStatus: "第 {current} / {total} 页",
     metaPageLabel: "第 {page} 页",
+    openProfileImage: "打开个人头像大图",
+    profileImageDialogLabel: "个人头像查看器",
+    closeProfileImage: "关闭个人头像查看器",
   },
   es: {
     profileEyebrow: "Perfil",
@@ -102,6 +117,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "Aún no hay viajes publicados.",
     pageStatus: "Página {current} de {total}",
     metaPageLabel: "Página {page}",
+    openProfileImage: "Abrir imagen de perfil ampliada",
+    profileImageDialogLabel: "Visor de imagen de perfil",
+    closeProfileImage: "Cerrar visor de imagen de perfil",
   },
   pt: {
     profileEyebrow: "Perfil",
@@ -118,6 +136,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "Ainda não há viagens publicadas.",
     pageStatus: "Página {current} de {total}",
     metaPageLabel: "Página {page}",
+    openProfileImage: "Abrir imagem de perfil ampliada",
+    profileImageDialogLabel: "Visualizador de imagem de perfil",
+    closeProfileImage: "Fechar visualizador de imagem de perfil",
   },
   fr: {
     profileEyebrow: "Profil",
@@ -134,6 +155,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "Aucun voyage publié pour le moment.",
     pageStatus: "Page {current} sur {total}",
     metaPageLabel: "Page {page}",
+    openProfileImage: "Ouvrir l'image de profil en grand",
+    profileImageDialogLabel: "Visionneuse d'image de profil",
+    closeProfileImage: "Fermer la visionneuse d'image de profil",
   },
   th: {
     profileEyebrow: "โปรไฟล์",
@@ -150,6 +174,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "ยังไม่มีทริปที่เผยแพร่",
     pageStatus: "หน้า {current} จาก {total}",
     metaPageLabel: "หน้า {page}",
+    openProfileImage: "เปิดดูรูปโปรไฟล์ขนาดใหญ่",
+    profileImageDialogLabel: "ตัวดูรูปโปรไฟล์",
+    closeProfileImage: "ปิดตัวดูรูปโปรไฟล์",
   },
   vi: {
     profileEyebrow: "Hồ sơ",
@@ -166,6 +193,9 @@ export const userLabels: Record<Language, UserPageLabels> = {
     emptyJourneys: "Chưa có hành trình đã đăng.",
     pageStatus: "Trang {current} trên {total}",
     metaPageLabel: "Trang {page}",
+    openProfileImage: "Mở ảnh hồ sơ lớn",
+    profileImageDialogLabel: "Trình xem ảnh hồ sơ",
+    closeProfileImage: "Đóng trình xem ảnh hồ sơ",
   },
 };
 

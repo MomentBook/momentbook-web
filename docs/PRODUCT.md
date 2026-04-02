@@ -196,12 +196,13 @@ MomentBook Web은 다음 역할만 수행한다.
 - 단, `/admin/login`은 내부 운영자 전용 이메일 로그인 화면이며 public web auth 복구를 의미하지 않는다.
 - 여정 상세의 신고 버튼/신고 제출 플로우는 제거되어 있다.
 - `/{lang}/journeys/[journeyId]`는 cover image 위 제목 overlay 안에 선택적 설명, 해시태그, 작성자/여행 기간 또는 게시일/사진 수/원문 언어 핵심 메타 카드를 함께 배치하고, 그 다음 일관된 좌측 이미지/우측 텍스트 리듬의 timeline형 moment list를 기본으로 렌더링한다. 클러스터가 있는 여정은 각 moment를 대표 이미지, 위치명, 선택적 impression, 시간 범위, 사진 수를 담은 clickable timeline card로 제공하고, 전체 사진 나열은 `/{lang}/journeys/[journeyId]/moments/[clusterId]` 상세에서만 보여준다. 클러스터가 없는 여정은 촬영 시각 기준 photo archive grid로 대체한다. 지도/점프 navigation/장소 요약 패널은 이 상세 화면에서 노출하지 않는다.
-- `/{lang}/journeys/[journeyId]`와 `/{lang}/journeys/[journeyId]/moments/[clusterId]`는 viewer request에 현재 route locale을 `lang` query로 전달한다. 서버가 치환한 localized title/description/cluster impression을 SEO metadata/structured data와 본문에 우선 반영하고, localized hashtags는 `localizedContent`에서 읽는다.
+- `/{lang}/journeys/[journeyId]`와 `/{lang}/journeys/[journeyId]/moments/[clusterId]`는 viewer request에 현재 route locale을 `lang` query로 전달한다. 서버가 치환한 localized title/description/cluster impression을 SEO metadata/structured data와 본문에 우선 반영하고, localized hashtags는 `localizedContent`에서 읽는다. moment detail hero도 localized impression이 있으면 본문 상단에 함께 노출한다.
 - 여정 상세와 moment 상세는 locale별 해시태그를 calm chip UI로 노출하며, 각 chip은 `/{lang}/users?q=` 검색으로 연결된다.
 - 신고 누적 또는 웹 검수 상태 등으로 웹에서 비노출 처리된 공개 여정 상세는 안내 문구와 noindex metadata를 렌더링한다.
 - `notFound()`로 수렴하는 localized public content/user/photo/moment 경로는 plain-language recovery 404를 렌더링하며, 오래된 검색 결과/저장 링크/오타 URL을 모두 같은 복구 흐름으로 안내한다. 단, 여정 detail의 explicit hidden 상태는 기존 unavailable notice를 유지한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 - 관리자 심사 표면은 현재 mock queue/detail UI만 제공하며, 공개 콘텐츠 자체를 웹에서 편집하지 않는다.
+- `/{lang}/users/[userId]`는 프로필 hero에서 공개 프로필 이미지를 보여주며, 이미지가 있으면 클릭/탭 시 `photos/[photoId]`와 동일한 immersive viewer contract(`Esc`, explicit close, full-screen black backdrop, pinch/double-tap zoom)를 사용한다. 유저의 공개 여정 목록은 모바일에서 더 조밀한 horizontal card 우선 배치, larger breakpoint에서 더 짧은 cover ratio의 grid card로 렌더링한다.
 - `/{lang}/photos/[photoId]`는 mobile-first 단일 컬럼 editorial flow로 렌더링된다. image-first 구성 뒤에 여정 맥락, title, 선택적 caption, compact metadata list가 이어지며, 데스크톱도 같은 위계를 더 넓은 폭으로 확장한다. 좌표는 별도 map/card 없이 metadata list 안의 한 줄 텍스트로만 노출한다. 동일 정보는 한 번만 보여주며, capture time/place/coordinates/journey title/caption 등 photo payload가 실제로 제공하는 필드만 사용한다.
 - `/{lang}/photos/[photoId]`의 hero photo는 클릭/탭 시 검정 배경의 immersive viewer overlay를 연다. overlay 안에서는 이미지와 닫기 버튼만 노출하고, 상하 메타데이터 chrome은 표시하지 않는다. 데스크톱과 모바일 모두 `Esc`/명시적 close를 지원하며, 모바일은 edge-to-edge viewer에서 pinch/double-tap 확대를 지원한다.
 

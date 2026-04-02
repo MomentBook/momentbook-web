@@ -1,3 +1,4 @@
+import { FullscreenImageDialog } from "@/components/FullscreenImageDialog";
 import { PaginationNav } from "@/components/PaginationNav";
 import { ProfileAvatar } from "@/components/ProfileAvatar";
 import { SectionReveal } from "@/components/SectionReveal";
@@ -40,19 +41,57 @@ export function UserProfileContent({
   safeCurrentPage,
   totalPages,
 }: UserProfileContentProps) {
+  const showAvatarViewer = Boolean(profileImageUrl);
+  const viewerProfileImageUrl = profileImageUrl ?? "";
+  const avatarFigure = (
+    <div className={styles.avatarHalo}>
+      <div className={styles.avatarFrame}>
+        <ProfileAvatar
+          name={user.name}
+          picture={profileImageUrl}
+          size="profile"
+        />
+      </div>
+      {showAvatarViewer ? (
+        <span className={styles.avatarExpandBadge} aria-hidden="true">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M15 4h5v5" />
+            <path d="m14 10 6-6" />
+            <path d="M9 20H4v-5" />
+            <path d="m10 14-6 6" />
+          </svg>
+        </span>
+      ) : null}
+    </div>
+  );
+
   return (
     <>
       <SectionReveal as="header" className={styles.hero}>
         <div className={styles.heroInner}>
-          <div className={styles.avatarHalo}>
-            <div className={styles.avatarFrame}>
-              <ProfileAvatar
-                name={user.name}
-                picture={profileImageUrl}
-                size="profile"
-              />
-            </div>
-          </div>
+          {showAvatarViewer ? (
+            <FullscreenImageDialog
+              src={viewerProfileImageUrl}
+              alt={user.name}
+              triggerAriaLabel={labels.openProfileImage}
+              dialogAriaLabel={labels.profileImageDialogLabel}
+              closeAriaLabel={labels.closeProfileImage}
+              triggerClassName={styles.avatarButton}
+              imageSizes="100vw"
+              trigger={avatarFigure}
+            />
+          ) : (
+            avatarFigure
+          )}
 
           <div className={styles.heroText}>
             <p className={styles.eyebrow}>{labels.profileEyebrow}</p>

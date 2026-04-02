@@ -30,6 +30,8 @@ export function MomentContent({
   displayLocationName,
   clusterPhotos,
 }: MomentContentProps) {
+  const momentImpression = cluster.impression?.trim();
+
   return (
     <>
       <SectionReveal as="header" className={styles.header}>
@@ -68,6 +70,9 @@ export function MomentContent({
             <dd className={styles.metaValue}>{clusterPhotos.length}</dd>
           </div>
         </dl>
+        {momentImpression ? (
+          <p className={styles.impression}>{momentImpression}</p>
+        ) : null}
         <HashtagChipList
           lang={lang}
           hashtags={journey.hashtags}

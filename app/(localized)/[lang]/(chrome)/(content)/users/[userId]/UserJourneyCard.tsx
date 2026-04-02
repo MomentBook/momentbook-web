@@ -75,7 +75,7 @@ export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps)
           alt={coverUrl ? journeyTitle : ""}
           aria-hidden={coverUrl ? undefined : true}
           fill
-          sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
+          sizes="(max-width: 719px) 38vw, (max-width: 1039px) 50vw, (max-width: 1379px) 33vw, 25vw"
           unoptimized={shouldBypassImageOptimization(imageSrc)}
           className={styles.journeyImage}
         />
@@ -89,9 +89,9 @@ export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps)
       <div className={styles.cardBody}>
         <div className={styles.cardHeading}>
           <h3 className={styles.cardTitle}>{journeyTitle}</h3>
-          <p className={styles.cardDescription}>
-            {journeyDescription ?? "\u00A0"}
-          </p>
+          {journeyDescription ? (
+            <p className={styles.cardDescription}>{journeyDescription}</p>
+          ) : null}
         </div>
 
         <div className={styles.cardMeta}>

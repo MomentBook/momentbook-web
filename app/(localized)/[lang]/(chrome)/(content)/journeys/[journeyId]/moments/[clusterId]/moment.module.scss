@@ -95,6 +95,16 @@
   gap: 0.65rem;
 }
 
+.impression {
+  margin: 1rem 0 0;
+  max-width: min(100%, 42rem);
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  line-height: 1.72;
+  white-space: pre-line;
+  text-wrap: pretty;
+}
+
 .hashtagSection {
   margin-top: 1.1rem;
 }
