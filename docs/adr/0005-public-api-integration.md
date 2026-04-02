@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-01-29 (updated: 2026-03-31)
+2026-01-29 (updated: 2026-04-02)
 
 ## Context
 
@@ -48,7 +48,7 @@ Swagger 생성 타입(`@/src/apis/client`)을 기준 계약으로 사용한다.
 - helper 함수는 실패 시 `null`
 - detail 페이지는 `notFound()`
 - list 페이지는 empty state
-- viewer payload가 웹 비노출 상태(`contentStatus`, `webReviewStatus`, `notice`)를 반환하면 웹은 콘텐츠 본문 대신 안내 상태를 렌더링한다.
+- viewer payload가 웹 비노출 상태(`contentStatus`, `review.status`, `notice`)를 반환하면 웹은 콘텐츠 본문 대신 안내 상태를 렌더링한다.
 
 ### 5) 레거시 샘플 데이터
 

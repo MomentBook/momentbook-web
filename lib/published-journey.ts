@@ -23,9 +23,9 @@ export type JourneyMode = "ROUTE_STRONG" | "ROUTE_WEAK" | "ROUTE_NONE";
 export type PublishedJourneyContentStatus =
     | "available"
     | "reported_hidden"
-    | "web_review_pending"
-    | "web_review_rejected";
-export type PublishedJourneyWebReviewStatus = "PENDING" | "APPROVED" | "REJECTED";
+    | "review_pending"
+    | "review_rejected";
+export type PublishedJourneyReviewStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 export type PublishedJourneyImage = {
     url: string;
@@ -109,7 +109,8 @@ export type PublishedJourneyApi = {
     createdAt: string;
     hashtags: string[];
     localizedContent?: PublishedJourneyLocalizedContent;
-    webReviewStatus?: PublishedJourneyWebReviewStatus;
+    reviewApproved?: boolean;
+    reviewStatus?: PublishedJourneyReviewStatus;
     contentStatus?: PublishedJourneyContentStatus;
     notice?: string;
 };
@@ -232,6 +233,24 @@ function readNumber(value: unknown): number | null {
     return null;
 }
 
+function readBoolean(value: unknown): boolean | null {
+    if (typeof value === "boolean") {
+        return value;
+    }
+
+    if (typeof value === "string") {
+        if (value === "true") {
+            return true;
+        }
+
+        if (value === "false") {
+            return false;
+        }
+    }
+
+    return null;
+}
+
 function readMessage(value: unknown): string | null {
     if (typeof value === "string") {
         return value;
@@ -292,18 +311,26 @@ function normalizeContentStatus(
     if (
         value === "available" ||
         value === "reported_hidden" ||
-        value === "web_review_pending" ||
-        value === "web_review_rejected"
+        value === "review_pending" ||
+        value === "review_rejected"
     ) {
         return value;
+    }
+
+    if (value === "web_review_pending") {
+        return "review_pending";
+    }
+
+    if (value === "web_review_rejected") {
+        return "review_rejected";
     }
 
     return undefined;
 }
 
-function normalizeWebReviewStatus(
+function normalizeReviewStatus(
     value: unknown,
-): PublishedJourneyWebReviewStatus | undefined {
+): PublishedJourneyReviewStatus | undefined {
     if (value === "PENDING" || value === "APPROVED" || value === "REJECTED") {
         return value;
     }
@@ -312,13 +339,20 @@ function normalizeWebReviewStatus(
 }
 
 function isUnavailableForWeb(
-    journey: Pick<PublishedJourneyApi, "contentStatus" | "webReviewStatus">,
+    journey: Pick<
+        PublishedJourneyApi,
+        "contentStatus" | "reviewApproved" | "reviewStatus"
+    >,
 ): boolean {
     if (journey.contentStatus && journey.contentStatus !== "available") {
         return true;
     }
 
-    if (journey.webReviewStatus && journey.webReviewStatus !== "APPROVED") {
+    if (journey.reviewApproved === false) {
+        return true;
+    }
+
+    if (journey.reviewStatus && journey.reviewStatus !== "APPROVED") {
         return true;
     }
 
@@ -733,6 +767,7 @@ function normalizePublishedJourney(
 
     const metadata = normalizeJourneyMetadata(value.metadata);
     const localizedContent = normalizeLocalizedContent(value.localizedContent);
+    const review = isRecord(value.review) ? value.review : null;
     const localizedJourneyEntry = findLocalizedJourneyEntry(localizedContent, lang);
     const images = Array.isArray(value.images)
         ? value.images
@@ -772,6 +807,13 @@ function normalizePublishedJourney(
         readNumber(value.endedAt) ??
         (clusterEnds.length > 0 ? Math.max(...clusterEnds) : null) ??
         startedAt;
+    const reviewStatus = normalizeReviewStatus(
+        review?.status ?? value.webReviewStatus,
+    );
+    const reviewApproved =
+        readBoolean(review?.approved) ??
+        (reviewStatus ? reviewStatus === "APPROVED" : null) ??
+        undefined;
 
     return {
         publicId,
@@ -807,7 +849,8 @@ function normalizePublishedJourney(
                 ? localizedJourneyEntry?.hashtags ?? []
                 : normalizeHashtags(value.hashtags),
         localizedContent,
-        webReviewStatus: normalizeWebReviewStatus(value.webReviewStatus),
+        reviewApproved,
+        reviewStatus,
         contentStatus: normalizeContentStatus(value.contentStatus),
         notice: readMessage(value.notice) ?? fallbackMessage,
     };
