@@ -1,55 +1,27 @@
-import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
-import { fetchPublishedJourney } from "@/lib/published-journey";
-import {
-  fetchAllPublishedJourneysForSitemap,
-  mapWithConcurrency,
-} from "@/lib/sitemap/public-content";
 import {
   buildSitemapXmlResponse,
-  normalizeSitemapUrls,
-  renderSitemapUrlset,
+  renderSitemapIndex,
   resolveSitemapSiteUrl,
-  toIsoDateOrNull,
-  type SitemapUrlEntry,
+  validateSitemapEntries,
 } from "@/lib/sitemap/xml";
+import { fetchJourneyMediaSitemapCatalog } from "@/lib/sitemap/public-content";
 
 export const revalidate = 3600;
 
 export async function GET() {
   const siteUrl = resolveSitemapSiteUrl();
-  const journeys = await fetchAllPublishedJourneysForSitemap();
-  const journeyDetails = await mapWithConcurrency(
-    journeys,
-    6,
-    async (journey) => fetchPublishedJourney(journey.publicId),
-  );
+  const catalog = await fetchJourneyMediaSitemapCatalog();
 
-  const urls: SitemapUrlEntry[] = [];
-
-  for (const publishedJourney of journeyDetails) {
-    if (!publishedJourney) {
-      continue;
-    }
-
-    const lastmod = toIsoDateOrNull(publishedJourney.publishedAt);
-
-    for (const cluster of publishedJourney.clusters) {
-      const encodedClusterId = encodeURIComponent(cluster.clusterId);
-      for (const lang of languageList) {
-        urls.push({
-          loc: `${siteUrl}/${lang}/journeys/${publishedJourney.publicId}/moments/${encodedClusterId}`,
-          lastmod,
-          alternates: buildSitemapAlternates(
-            siteUrl,
-            `/journeys/${publishedJourney.publicId}/moments/${encodedClusterId}`,
-          ),
-        });
-      }
-    }
-  }
-
-  const xml = renderSitemapUrlset(
-    normalizeSitemapUrls(urls, "sitemap-journey-moments"),
+  const xml = renderSitemapIndex(
+    validateSitemapEntries(
+      catalog.flatMap((entry) =>
+        Array.from({ length: entry.momentParts }, (_, index) => ({
+          loc: `${siteUrl}/sitemaps/journey-moments/${encodeURIComponent(entry.publicId)}/${index + 1}.xml`,
+          lastmod: entry.lastmod,
+        })),
+      ),
+      "sitemap-journey-moments-index",
+    ),
   );
 
   return buildSitemapXmlResponse(xml);

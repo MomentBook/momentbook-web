@@ -203,6 +203,15 @@ export default async function UserPage({
       name: user.name,
       identifier: user.userId,
       description,
+      ...(user.publishedJourneyCount > 0
+        ? {
+            agentInteractionStatistic: {
+              "@type": "InteractionCounter",
+              interactionType: "https://schema.org/WriteAction",
+              userInteractionCount: user.publishedJourneyCount,
+            },
+          }
+        : {}),
       ...(profileImageUrl ? { image: profileImageUrl } : {}),
       url: profileUrl,
     },

@@ -10,6 +10,7 @@ import {
   buildOpenGraphBase,
   buildPublicKeywords,
   buildPublicRobots,
+  buildSeoTitle,
   buildStructuredDataKeywordValue,
   compactSocialImages,
   resolveTwitterCard,
@@ -35,6 +36,17 @@ import {
 } from "./moment.helpers";
 
 export const revalidate = 300;
+
+function buildVisibleMomentTopics(hashtags: string[]): Array<{ "@type": "DefinedTerm"; name: string }> {
+  return hashtags
+    .map((tag) => tag.replace(/^#+/, "").trim())
+    .filter((tag) => tag.length > 0)
+    .slice(0, 8)
+    .map((tag) => ({
+      "@type": "DefinedTerm" as const,
+      name: tag,
+    }));
+}
 
 export async function generateMetadata({
   params,
@@ -64,7 +76,10 @@ export async function generateMetadata({
 
   const labels = momentLabels[lang] ?? momentLabels.en;
   const locationName = readMomentLocationName(cluster.locationName);
-  const title = buildMomentSeoTitle(journey.title, locationName);
+  const title = buildSeoTitle([
+    buildMomentSeoTitle(journey.title, locationName),
+    labels.eyebrow,
+  ]);
   const description = buildSeoDescription([
     cluster.impression,
     buildMomentSeoDescription(
@@ -157,7 +172,10 @@ export default async function JourneyMomentPage({
     buildOpenGraphUrl(lang, `/journeys/${journey.publicId}/moments/${cluster.clusterId}`),
     siteUrl,
   );
-  const headline = buildMomentSeoTitle(journey.title, locationName);
+  const headline = buildSeoTitle([
+    buildMomentSeoTitle(journey.title, locationName),
+    labels.eyebrow,
+  ]);
   const description = buildMomentSeoDescription(
     lang,
     journey.title,
@@ -178,6 +196,17 @@ export default async function JourneyMomentPage({
     extra: [labels.eyebrow, journey.title],
   });
   const keywordValue = buildStructuredDataKeywordValue(keywords);
+  const about = [
+    ...(cluster.locationName
+      ? [
+          {
+            "@type": "Place" as const,
+            name: cluster.locationName,
+          },
+        ]
+      : []),
+    ...buildVisibleMomentTopics(journey.hashtags),
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -189,16 +218,7 @@ export default async function JourneyMomentPage({
     ...(keywordValue ? { keywords: keywordValue } : {}),
     datePublished: journey.publishedAt,
     dateModified: journey.publishedAt,
-    ...(cluster.locationName
-      ? {
-          about: [
-            {
-              "@type": "Place",
-              name: cluster.locationName,
-            },
-          ],
-        }
-      : {}),
+    ...(about.length > 0 ? { about } : {}),
     ...(authorName
       ? {
           author: {

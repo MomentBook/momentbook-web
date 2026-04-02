@@ -1,10 +1,10 @@
 import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
 import {
   buildSitemapXmlResponse,
-  normalizeSitemapUrls,
   renderSitemapUrlset,
   resolveSitemapSiteUrl,
   toIsoDateOrNull,
+  validateSitemapEntries,
   type SitemapUrlEntry,
 } from "@/lib/sitemap/xml";
 
@@ -41,7 +41,7 @@ export async function GET() {
     });
   });
 
-  const xml = renderSitemapUrlset(normalizeSitemapUrls(urls, "sitemap-static"));
+  const xml = renderSitemapUrlset(validateSitemapEntries(urls, "sitemap-static"));
 
   return buildSitemapXmlResponse(xml);
 }

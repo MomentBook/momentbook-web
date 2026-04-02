@@ -115,6 +115,10 @@ function collapseWhitespace(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
+function normalizeComparableText(value: string): string {
+  return value.normalize("NFKC").toLocaleLowerCase();
+}
+
 function normalizeKeyword(value: string): string | null {
   const compact = value.replace(/\s+/g, " ").trim();
   if (!compact) {
@@ -282,6 +286,49 @@ export function buildSeoDescription(
   return `${truncated.slice(0, safeBoundary).trim()}...`;
 }
 
+export function buildSeoTitle(
+  parts: Array<string | null | undefined>,
+  maxLength = 70,
+): string {
+  const titleParts = parts
+    .map((part) => readText(part))
+    .filter((part): part is string => Boolean(part));
+
+  if (titleParts.length === 0) {
+    return SITE_NAME;
+  }
+
+  const deduped: string[] = [];
+
+  for (const part of titleParts) {
+    const comparablePart = normalizeComparableText(part);
+    const isRedundant = deduped.some((existing) => {
+      const comparableExisting = normalizeComparableText(existing);
+      return (
+        comparableExisting === comparablePart ||
+        comparableExisting.includes(comparablePart) ||
+        comparablePart.includes(comparableExisting)
+      );
+    });
+
+    if (!isRedundant) {
+      deduped.push(part);
+    }
+  }
+
+  let title = deduped[0];
+  for (let index = 1; index < deduped.length; index += 1) {
+    const nextTitle = `${title} · ${deduped[index]}`;
+    if (nextTitle.length > maxLength) {
+      break;
+    }
+
+    title = nextTitle;
+  }
+
+  return title;
+}
+
 export function buildOpenGraphBase(lang: Language, path: string) {
   return {
     url: buildOpenGraphUrl(lang, path),
@@ -385,9 +432,15 @@ export function buildPublicRobots(): Metadata["robots"] {
   return {
     index: true,
     follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
     googleBot: {
       index: true,
       follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
     },
   };
 }

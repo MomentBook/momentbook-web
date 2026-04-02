@@ -45,9 +45,9 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: 공개 콘텐츠 API 우선, lang query 기반 localized public fetch, web detail viewer endpoint 사용, list preview server thumbnail 우선, 운영 단일 origin + 로컬 fallback, generated API 타입 계약
 
 6. [ADR 0006: Segmented Sitemaps (Index + Sub-sitemaps)](./0006-segmented-sitemaps.md)
-- Date: 2026-01-29 (updated: 2026-03-06)
+- Date: 2026-01-29 (updated: 2026-04-02)
 - Status: Accepted
-- Summary: `/sitemap.xml` index + 리소스 분할 sitemap route handlers + home/faq/journeys/users 중심 static sitemap
+- Summary: `/sitemap.xml` index + type-level sitemap indexes + part sitemap routes + image sitemap extension + no-truncation 분할 전략
 
 7. [ADR 0007: Web Analytics Integration (GA4 + Firebase-ready modules)](./0007-firebase-analytics-integration.md)
 - Date: 2026-02-06 (updated: 2026-03-12)

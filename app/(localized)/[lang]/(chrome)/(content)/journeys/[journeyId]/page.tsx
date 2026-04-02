@@ -21,6 +21,7 @@ import {
     buildOpenGraphBase,
     buildPublicKeywords,
     buildPublicRobots,
+    buildSeoTitle,
     buildStructuredDataKeywordValue,
     compactSocialImages,
     resolveTwitterCard,
@@ -95,6 +96,17 @@ function readAuthorName(value: string | null | undefined): string | null {
     return trimmed.length > 0 ? trimmed : null;
 }
 
+function buildVisibleJourneyTopics(hashtags: string[]): Array<{ "@type": "DefinedTerm"; name: string }> {
+    return hashtags
+        .map((tag) => tag.replace(/^#+/, "").trim())
+        .filter((tag) => tag.length > 0)
+        .slice(0, 8)
+        .map((tag) => ({
+            "@type": "DefinedTerm" as const,
+            name: tag,
+        }));
+}
+
 export async function generateMetadata({
     params,
 }: {
@@ -135,10 +147,14 @@ export async function generateMetadata({
         journey.description,
         buildJourneyDescription(lang, locations, journey.photoCount),
     ]);
+    const title = buildSeoTitle([
+        journey.title,
+        locations[0] ?? null,
+    ]);
     const keywords = buildPublicKeywords({
         lang,
         kind: "journey",
-        title: journey.title,
+        title,
         locationNames: locations,
         authorName,
         hashtags: journey.hashtags,
@@ -154,7 +170,7 @@ export async function generateMetadata({
     );
 
     return {
-        title: journey.title,
+        title,
         description,
         applicationName: "MomentBook",
         ...(authorName
@@ -173,7 +189,7 @@ export async function generateMetadata({
         alternates: buildAlternates(lang, path),
         openGraph: {
             ...buildOpenGraphBase(lang, path),
-            title: journey.title,
+            title,
             description,
             type: "article",
             images,
@@ -252,36 +268,40 @@ export default async function JourneyPage({
         journey.description,
         buildJourneyDescription(lang, locations, journey.photoCount),
     ]);
+    const title = buildSeoTitle([
+        journey.title,
+        locations[0] ?? null,
+    ]);
     const authorName = readAuthorName(user?.name);
     const keywords = buildPublicKeywords({
         lang,
         kind: "journey",
-        title: journey.title,
+        title,
         locationNames: locations,
         authorName,
         hashtags: journey.hashtags,
         extra: [labels.eyebrow],
     });
     const keywordValue = buildStructuredDataKeywordValue(keywords);
+    const about = [
+        ...locations.slice(0, 5).map((location) => ({
+            "@type": "Place" as const,
+            name: location,
+        })),
+        ...buildVisibleJourneyTopics(journey.hashtags),
+    ];
 
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Article",
-        headline: journey.title,
+        headline: title,
         description,
         image: journey.images.map((img) => img.url),
         inLanguage: toLocaleTag(lang),
         ...(keywordValue ? { keywords: keywordValue } : {}),
         datePublished: journey.publishedAt,
         dateModified: journey.publishedAt,
-        ...(locations.length > 0
-            ? {
-                  about: locations.slice(0, 5).map((location) => ({
-                      "@type": "Place",
-                      name: location,
-                  })),
-              }
-            : {}),
+        ...(about.length > 0 ? { about } : {}),
         ...(authorName
             ? {
                   author: {

@@ -1,58 +1,28 @@
-import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
-import { fetchPublishedJourney } from "@/lib/published-journey";
-import {
-  fetchAllPublishedJourneysForSitemap,
-  mapWithConcurrency,
-} from "@/lib/sitemap/public-content";
 import {
   buildSitemapXmlResponse,
-  normalizeSitemapUrls,
-  renderSitemapUrlset,
+  renderSitemapIndex,
   resolveSitemapSiteUrl,
-  toIsoDateOrNull,
-  type SitemapUrlEntry,
+  validateSitemapEntries,
 } from "@/lib/sitemap/xml";
+import { fetchJourneyMediaSitemapCatalog } from "@/lib/sitemap/public-content";
 
 export const revalidate = 3600;
 
 export async function GET() {
   const siteUrl = resolveSitemapSiteUrl();
-  const journeys = await fetchAllPublishedJourneysForSitemap();
-  const journeyDetails = await mapWithConcurrency(
-    journeys,
-    6,
-    async (journey) => fetchPublishedJourney(journey.publicId),
+  const catalog = await fetchJourneyMediaSitemapCatalog();
+
+  const xml = renderSitemapIndex(
+    validateSitemapEntries(
+      catalog.flatMap((entry) =>
+        Array.from({ length: entry.photoParts }, (_, index) => ({
+          loc: `${siteUrl}/sitemaps/photos/${encodeURIComponent(entry.publicId)}/${index + 1}.xml`,
+          lastmod: entry.lastmod,
+        })),
+      ),
+      "sitemap-photos-index",
+    ),
   );
-
-  const urls: SitemapUrlEntry[] = [];
-  const seenPhotoIds = new Set<string>();
-
-  for (const publishedJourney of journeyDetails) {
-    if (!publishedJourney) {
-      continue;
-    }
-
-    const images = publishedJourney.images ?? [];
-    const publishedAt = toIsoDateOrNull(publishedJourney.publishedAt);
-
-    for (const image of images) {
-      if (!image.photoId || seenPhotoIds.has(image.photoId)) {
-        continue;
-      }
-
-      seenPhotoIds.add(image.photoId);
-
-      for (const lang of languageList) {
-        urls.push({
-          loc: `${siteUrl}/${lang}/photos/${image.photoId}`,
-          lastmod: publishedAt,
-          alternates: buildSitemapAlternates(siteUrl, `/photos/${image.photoId}`),
-        });
-      }
-    }
-  }
-
-  const xml = renderSitemapUrlset(normalizeSitemapUrls(urls, "sitemap-photos"));
 
   return buildSitemapXmlResponse(xml);
 }

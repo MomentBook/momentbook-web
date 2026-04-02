@@ -1,10 +1,69 @@
-import type { PublishedJourneyListItemApi } from "@/lib/published-journey";
-import { fetchPublishedJourneys } from "@/lib/published-journey";
+import { languageList } from "@/lib/i18n/config";
+import type {
+  PublishedJourneyApi,
+  PublishedJourneyImage,
+  PublishedJourneyListItemApi,
+} from "@/lib/published-journey";
+import { fetchPublishedJourney, fetchPublishedJourneys } from "@/lib/published-journey";
 import type { PublicUserApi } from "@/lib/public-users";
 import { fetchPublicUsers } from "@/lib/public-users";
+import { MAX_URLS_PER_SITEMAP, toIsoDateOrNull } from "@/lib/sitemap/xml";
 
 const DEFAULT_PAGE_LIMIT = 100;
 const MAX_API_PAGES = 200;
+const LOCALIZED_URLS_PER_RESOURCE = languageList.length;
+
+export const MAX_RESOURCES_PER_SITEMAP = Math.max(
+  1,
+  Math.floor(MAX_URLS_PER_SITEMAP / LOCALIZED_URLS_PER_RESOURCE),
+);
+
+export type SitemapChunk<T> = {
+  index: number;
+  items: T[];
+};
+
+export type JourneyMediaSitemapCatalogEntry = {
+  publicId: string;
+  lastmod: string | null;
+  momentParts: number;
+  photoParts: number;
+};
+
+function chunkItems<T>(items: T[], size: number): T[][] {
+  const safeSize = Math.max(1, Math.floor(size));
+  const chunks: T[][] = [];
+
+  for (let index = 0; index < items.length; index += safeSize) {
+    chunks.push(items.slice(index, index + safeSize));
+  }
+
+  return chunks;
+}
+
+function buildSitemapChunks<T>(items: T[], size: number): SitemapChunk<T>[] {
+  return chunkItems(items, size).map((chunk, index) => ({
+    index: index + 1,
+    items: chunk,
+  }));
+}
+
+function dedupeJourneyImages(images: PublishedJourneyImage[]): PublishedJourneyImage[] {
+  const uniqueImages: PublishedJourneyImage[] = [];
+  const seen = new Set<string>();
+
+  for (const image of images) {
+    const key = image.photoId || image.url;
+    if (!key || seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    uniqueImages.push(image);
+  }
+
+  return uniqueImages;
+}
 
 export async function fetchAllPublicUsersForSitemap(): Promise<PublicUserApi[]> {
   const users: PublicUserApi[] = [];
@@ -73,6 +132,101 @@ export async function fetchAllPublishedJourneysForSitemap(): Promise<PublishedJo
   return journeys;
 }
 
+export async function fetchPublishedJourneySitemapChunks(): Promise<
+  SitemapChunk<PublishedJourneyListItemApi>[]
+> {
+  const journeys = await fetchAllPublishedJourneysForSitemap();
+  return buildSitemapChunks(journeys, MAX_RESOURCES_PER_SITEMAP);
+}
+
+export async function fetchPublicUserSitemapChunks(): Promise<SitemapChunk<PublicUserApi>[]> {
+  const users = await fetchAllPublicUsersForSitemap();
+  return buildSitemapChunks(users, MAX_RESOURCES_PER_SITEMAP);
+}
+
+export async function fetchJourneyMediaSitemapCatalog(): Promise<
+  JourneyMediaSitemapCatalogEntry[]
+> {
+  const journeys = await fetchAllPublishedJourneysForSitemap();
+  const details = await mapWithConcurrency(
+    journeys,
+    6,
+    async (journey): Promise<JourneyMediaSitemapCatalogEntry | null> => {
+      const detail = await fetchPublishedJourney(journey.publicId);
+
+      if (!detail) {
+        return null;
+      }
+
+      const uniqueImages = dedupeJourneyImages(detail.images);
+
+      return {
+        publicId: detail.publicId,
+        lastmod: toIsoDateOrNull(detail.publishedAt ?? detail.createdAt),
+        momentParts:
+          detail.clusters.length > 0
+            ? Math.ceil(detail.clusters.length / MAX_RESOURCES_PER_SITEMAP)
+            : 0,
+        photoParts:
+          uniqueImages.length > 0
+            ? Math.ceil(uniqueImages.length / MAX_RESOURCES_PER_SITEMAP)
+            : 0,
+      };
+    },
+  );
+
+  return details.filter(
+    (entry): entry is JourneyMediaSitemapCatalogEntry => Boolean(entry),
+  );
+}
+
+export async function fetchPublishedJourneyMomentSitemapPart(
+  publicId: string,
+  part: number,
+): Promise<{
+  journey: PublishedJourneyApi;
+  clusters: PublishedJourneyApi["clusters"];
+} | null> {
+  const journey = await fetchPublishedJourney(publicId);
+
+  if (!journey) {
+    return null;
+  }
+
+  const chunks = chunkItems(journey.clusters, MAX_RESOURCES_PER_SITEMAP);
+  const clusters = chunks[part - 1];
+
+  if (!clusters) {
+    return null;
+  }
+
+  return { journey, clusters };
+}
+
+export async function fetchPublishedJourneyPhotoSitemapPart(
+  publicId: string,
+  part: number,
+): Promise<{
+  journey: PublishedJourneyApi;
+  images: PublishedJourneyImage[];
+} | null> {
+  const journey = await fetchPublishedJourney(publicId);
+
+  if (!journey) {
+    return null;
+  }
+
+  const uniqueImages = dedupeJourneyImages(journey.images);
+  const chunks = chunkItems(uniqueImages, MAX_RESOURCES_PER_SITEMAP);
+  const images = chunks[part - 1];
+
+  if (!images) {
+    return null;
+  }
+
+  return { journey, images };
+}
+
 export async function mapWithConcurrency<T, R>(
   items: T[],
   concurrency: number,
@@ -99,4 +253,3 @@ export async function mapWithConcurrency<T, R>(
 
   return results;
 }
-

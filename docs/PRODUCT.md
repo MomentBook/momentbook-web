@@ -129,6 +129,10 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/sitemap-journey-moments.xml`
 - `/sitemap-photos.xml`
 - `/sitemap-users.xml`
+- `/sitemaps/journeys/[part].xml`
+- `/sitemaps/journey-moments/[publicId]/[part].xml`
+- `/sitemaps/photos/[publicId]/[part].xml`
+- `/sitemaps/users/[part].xml`
 - `/llms.txt` (static file in `public/`)
 
 ## 5) Data Sources
@@ -225,7 +229,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - `buildOpenGraphUrl(lang, path)`
 - `buildPublicRobots()` / `buildNoIndexFollowRobots()` / `buildNoIndexRobots()`
 - Public pages use lean metadata: title/description/canonical/alternates + basic OpenGraph/Twitter
-- journey/moment/photo/user detail의 `generateMetadata()`는 현재 route locale 기준 localized title/description을 사용하고, content-derived OpenGraph tags를 함께 생성한다.
+- `buildPublicRobots()`는 public index/follow 외에 Google snippet/image preview용 `max-snippet=-1`, `max-image-preview=large`, `max-video-preview=-1`를 함께 선언한다.
+- journey/moment/photo/user detail의 `generateMetadata()`는 현재 route locale 기준 localized title/description을 사용하고, location/journey/archive 맥락을 보조적으로 합성해 query relevance를 높인다.
 - Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - photo detail JSON-LD는 `ImageObject`를 유지하되 `mainEntityOfPage.primaryImageOfPage`에 현재 공개 사진 URL을 함께 기록한다.
 - Home(`/`)은 iOS Safari용 `apple-itunes-app` Smart App Banner metadata를 포함한다.
@@ -233,13 +238,13 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ## 8.2 Robots Policy
 
-- Public content/marketing pages: index/follow
+- Public content/marketing pages: index/follow + Google large image preview / unrestricted snippet preview
 - Internal admin pages: noindex/nofollow + `robots.txt` disallow(`/admin`)
 - Legal pages: noindex/nofollow
 - `/{lang}/journeys?page=...`와 `/{lang}/users/[userId]?page=...`는 page-specific canonical/alternates를 유지한 index/follow 페이지다.
 - `/users?q=...` 검색 파라미터 페이지: noindex/follow + canonical(`/{lang}/users`)
 - hidden journey detail metadata: noindex/nofollow
-- No aggressive googlebot `max-*` overrides
+- `robots.txt`는 root sitemap index와 type-level sitemap index를 함께 노출한다.
 
 ## 8.3 Structured Data
 
@@ -251,6 +256,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Users: ProfilePage
 - Photos: ImageObject
 - locale-specific public detail JSON-LD는 `inLanguage`를 포함하고, localized title/location/hashtags 기반의 절제된 keyword signal을 사용한다. `meta keywords` 태그는 사용하지 않는다.
+- user profile JSON-LD는 현재 공개 프로필에 실제로 노출되는 published journey count를 `agentInteractionStatistic`으로 함께 기록한다.
 
 ## 8.4 llms.txt
 
@@ -260,7 +266,10 @@ MomentBook Web은 다음 역할만 수행한다.
 ## 9) Sitemap Strategy
 
 - Index: `/sitemap.xml`
-- 분할 sitemap: static / journeys / journey-moments / photos / users
+- top-level sitemap routes: `/sitemap-static.xml` urlset + `/sitemap-journeys.xml` / `/sitemap-journey-moments.xml` / `/sitemap-photos.xml` / `/sitemap-users.xml` indexes
+- 실제 URL set은 `/sitemaps/**` 아래 part sitemap route들이 담당한다.
+- dynamic sitemap part는 50,000 URL 제한 이하로 분할되며, localized alternates는 각 canonical entry에 함께 기록된다.
+- image-bearing sitemap entry는 image sitemap extension(`<image:loc>`)을 함께 emit한다.
 - 모든 sitemap은 absolute URL + hreflang alternates 생성
 - response header: `Cache-Control: public, max-age=3600, s-maxage=3600`
 

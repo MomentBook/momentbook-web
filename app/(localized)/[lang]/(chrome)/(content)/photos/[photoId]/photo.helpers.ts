@@ -1,7 +1,7 @@
 import type { Language } from "@/lib/i18n/config";
 import type { CaptureTimeContext } from "@/lib/local-time-context";
 import type { PublishedPhotoApi } from "@/lib/published-journey";
-import { buildSeoDescription } from "@/lib/seo/public-metadata";
+import { buildSeoDescription, buildSeoTitle } from "@/lib/seo/public-metadata";
 import { readText } from "@/lib/view-helpers";
 
 export type PhotoPageCopy = {
@@ -319,12 +319,14 @@ export function buildPhotoSeoText(
   const journeyTitle = readText(photo.journey.title);
   const caption = readText(photo.caption);
   const locationName = readText(photo.locationName);
-
-  const title =
-    caption ??
-    (journeyTitle
-      ? fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle })
-      : copy.eyebrow);
+  const generatedTitle = journeyTitle
+    ? fillTemplate(copy.metadataTitleTemplate, { journey: journeyTitle })
+    : copy.eyebrow;
+  const title = buildSeoTitle([
+    caption,
+    !caption && locationName ? locationName : null,
+    generatedTitle,
+  ]);
 
   const description = buildSeoDescription([
     caption,

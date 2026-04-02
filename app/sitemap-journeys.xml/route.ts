@@ -1,34 +1,42 @@
-import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
-import { fetchAllPublishedJourneysForSitemap } from "@/lib/sitemap/public-content";
 import {
   buildSitemapXmlResponse,
-  normalizeSitemapUrls,
-  renderSitemapUrlset,
+  renderSitemapIndex,
   resolveSitemapSiteUrl,
   toIsoDateOrNull,
-  type SitemapUrlEntry,
+  validateSitemapEntries,
 } from "@/lib/sitemap/xml";
+import { fetchPublishedJourneySitemapChunks } from "@/lib/sitemap/public-content";
 
 export const revalidate = 3600;
 
-export async function GET() {
-  const siteUrl = resolveSitemapSiteUrl();
-  const journeys = await fetchAllPublishedJourneysForSitemap();
+function resolveChunkLastmod(values: Array<string | null | undefined>) {
+  const timestamps = values
+    .map((value) => toIsoDateOrNull(value ?? null))
+    .filter((value): value is string => Boolean(value))
+    .map((value) => Date.parse(value))
+    .filter((value) => Number.isFinite(value));
 
-  const urls: SitemapUrlEntry[] = [];
-  for (const journey of journeys) {
-    const lastmod = toIsoDateOrNull(journey.publishedAt ?? journey.createdAt);
-    for (const lang of languageList) {
-      urls.push({
-        loc: `${siteUrl}/${lang}/journeys/${journey.publicId}`,
-        lastmod,
-        alternates: buildSitemapAlternates(siteUrl, `/journeys/${journey.publicId}`),
-      });
-    }
+  if (timestamps.length === 0) {
+    return null;
   }
 
-  const xml = renderSitemapUrlset(
-    normalizeSitemapUrls(urls, "sitemap-journeys"),
+  return new Date(Math.max(...timestamps)).toISOString();
+}
+
+export async function GET() {
+  const siteUrl = resolveSitemapSiteUrl();
+  const chunks = await fetchPublishedJourneySitemapChunks();
+
+  const xml = renderSitemapIndex(
+    validateSitemapEntries(
+      chunks.map((chunk) => ({
+        loc: `${siteUrl}/sitemaps/journeys/${chunk.index}.xml`,
+        lastmod: resolveChunkLastmod(
+          chunk.items.map((journey) => journey.publishedAt ?? journey.createdAt),
+        ),
+      })),
+      "sitemap-journeys-index",
+    ),
   );
 
   return buildSitemapXmlResponse(xml);

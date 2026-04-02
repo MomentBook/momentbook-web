@@ -1,7 +1,11 @@
 import { resolveSiteUrl } from "@/lib/site-url";
 
-const MAX_URLS_PER_SITEMAP = 50000;
+export const MAX_URLS_PER_SITEMAP = 50000;
 const SITEMAP_CACHE_CONTROL = "public, max-age=3600, s-maxage=3600";
+
+export type SitemapImageEntry = {
+  loc: string;
+};
 
 export type SitemapAlternate = {
   lang: string;
@@ -12,6 +16,7 @@ export type SitemapUrlEntry = {
   loc: string;
   lastmod?: string | null;
   alternates?: SitemapAlternate[];
+  images?: SitemapImageEntry[];
 };
 
 export type SitemapIndexEntry = {
@@ -41,18 +46,18 @@ export function xmlEscape(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
-export function normalizeSitemapUrls<T>(urls: T[], label: string): T[] {
-  if (urls.length <= MAX_URLS_PER_SITEMAP) {
-    return urls;
+export function validateSitemapEntries<T>(entries: T[], label: string): T[] {
+  if (entries.length <= MAX_URLS_PER_SITEMAP) {
+    return entries;
   }
 
-  console.warn(
-    `[${label}] URL count ${urls.length} exceeds ${MAX_URLS_PER_SITEMAP}. Truncating to protocol limit.`,
+  throw new Error(
+    `[${label}] Entry count ${entries.length} exceeds the sitemap protocol limit of ${MAX_URLS_PER_SITEMAP}.`,
   );
-  return urls.slice(0, MAX_URLS_PER_SITEMAP);
 }
 
 export function renderSitemapUrlset(urls: SitemapUrlEntry[]): string {
+  const hasImages = urls.some((url) => (url.images?.length ?? 0) > 0);
   const body = urls
     .map((url) => {
       const lines = [
@@ -71,6 +76,14 @@ export function renderSitemapUrlset(urls: SitemapUrlEntry[]): string {
           ),
         );
       }
+      if (url.images?.length) {
+        lines.push(
+          ...url.images.map(
+            (image) =>
+              `    <image:image><image:loc>${xmlEscape(image.loc)}</image:loc></image:image>`,
+          ),
+        );
+      }
 
       lines.push("  </url>");
       return lines.join("\n");
@@ -79,7 +92,7 @@ export function renderSitemapUrlset(urls: SitemapUrlEntry[]): string {
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"${hasImages ? '\n        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"' : ""}>
 ${body}
 </urlset>`;
 }

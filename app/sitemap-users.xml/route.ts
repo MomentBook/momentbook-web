@@ -1,29 +1,25 @@
-import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
-import { fetchAllPublicUsersForSitemap } from "@/lib/sitemap/public-content";
 import {
   buildSitemapXmlResponse,
-  normalizeSitemapUrls,
-  renderSitemapUrlset,
+  renderSitemapIndex,
   resolveSitemapSiteUrl,
-  type SitemapUrlEntry,
+  validateSitemapEntries,
 } from "@/lib/sitemap/xml";
+import { fetchPublicUserSitemapChunks } from "@/lib/sitemap/public-content";
 
 export const revalidate = 3600;
 
 export async function GET() {
   const siteUrl = resolveSitemapSiteUrl();
+  const chunks = await fetchPublicUserSitemapChunks();
 
-  const users = await fetchAllPublicUsersForSitemap();
-
-  const urls: SitemapUrlEntry[] = users.flatMap((user) =>
-    languageList.map((lang) => ({
-      loc: `${siteUrl}/${lang}/users/${user.userId}`,
-      lastmod: null,
-      alternates: buildSitemapAlternates(siteUrl, `/users/${user.userId}`),
-    })),
+  const xml = renderSitemapIndex(
+    validateSitemapEntries(
+      chunks.map((chunk) => ({
+        loc: `${siteUrl}/sitemaps/users/${chunk.index}.xml`,
+      })),
+      "sitemap-users-index",
+    ),
   );
-
-  const xml = renderSitemapUrlset(normalizeSitemapUrls(urls, "sitemap-users"));
 
   return buildSitemapXmlResponse(xml);
 }
