@@ -9,6 +9,7 @@ import { createAdminSession } from "@/lib/admin/session";
 type SessionBootstrapRequest = {
   user?: {
     _id?: unknown;
+    userId?: unknown;
     name?: unknown;
     email?: unknown;
   };
@@ -54,6 +55,12 @@ function resolveSessionEmail(input: {
   return claimEmail ?? loginEmail;
 }
 
+function readSessionUserId(
+  user: SessionBootstrapRequest["user"],
+): string | null {
+  return readText(user?._id) ?? readText(user?.userId);
+}
+
 export async function POST(request: Request) {
   const payload = (await request.json().catch(() => null)) as
     | SessionBootstrapRequest
@@ -67,7 +74,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const userId = readText(payload.user?._id);
+  const userId = readSessionUserId(payload.user);
   const accessToken = readText(payload.accessToken);
   const refreshToken = readText(payload.refreshToken);
 
@@ -126,7 +133,18 @@ export async function POST(request: Request) {
       accessTokenExpiresAt: readTokenExpiryMs(accessToken),
       refreshTokenExpiresAt: readTokenExpiryMs(refreshToken),
     });
-  } catch {
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message.includes("ADMIN_SESSION_SECRET")
+    ) {
+      return buildErrorResponse(
+        500,
+        "server_misconfigured",
+        "The admin session secret is not configured on this web server.",
+      );
+    }
+
     return buildErrorResponse(
       500,
       "session_create_failed",

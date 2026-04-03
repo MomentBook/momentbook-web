@@ -326,6 +326,7 @@ MomentBook Web은 다음 역할만 수행한다.
 운영 규칙:
 - `NEXT_PUBLIC_SITE_URL`은 production에서 canonical, hreflang alternates, robots, sitemap, JSON-LD absolute URL의 단일 기준값이다.
 - `http://localhost:3100` fallback은 local/dev 또는 `NEXT_PUBLIC_APP_IS_LOCAL=true`일 때만 허용한다.
+- `NEXT_PUBLIC_API_BASE_URL`은 `/admin/login`의 browser-direct backend login에도 사용되므로, 관리자 브라우저에서 실제로 도달 가능한 origin이어야 한다. 원격 브라우저 접속 환경에서는 `127.0.0.1` loopback을 사용할 수 없다.
 
 ## 11.2 Server-only Runtime
 
@@ -334,6 +335,7 @@ MomentBook Web은 다음 역할만 수행한다.
 운영 규칙:
 - `ADMIN_SESSION_SECRET`은 `/admin` 세션 cookie 암호화 키다.
 - production에서는 충분히 긴 랜덤 secret을 사용해야 한다.
+- 값이 없으면 backend login이 성공해도 `/admin/session`이 local admin session cookie를 만들 수 없다.
 
 ## 12) Build & Ops Commands
 

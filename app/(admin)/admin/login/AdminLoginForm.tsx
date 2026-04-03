@@ -11,6 +11,7 @@ type DirectLoginSuccessPayload = {
   data?: {
     user?: {
       _id?: string;
+      userId?: string;
       name?: string | null;
       email?: string | null;
     };
@@ -72,6 +73,8 @@ function resolveSessionBootstrapError(
       return `Only ${ADMIN_ALLOWED_EMAIL} can use this admin workspace.`;
     case "invalid_tokens":
       return "The returned admin token could not be validated.";
+    case "server_misconfigured":
+      return "This web server is missing ADMIN_SESSION_SECRET, so the admin session could not be created.";
     case "session_create_failed":
       return "The admin session could not be created.";
     default:
@@ -125,7 +128,8 @@ export function AdminLoginForm({ nextPath }: { nextPath: string }) {
 
       if (
         loginPayload?.status !== "success" ||
-        !loginPayload.data?.user?._id ||
+        (!loginPayload.data?.user?._id &&
+          !loginPayload.data?.user?.userId) ||
         !loginPayload.data.accessToken ||
         !loginPayload.data.refreshToken
       ) {
