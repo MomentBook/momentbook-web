@@ -7,7 +7,6 @@ import {
   APP_METADATA_BASE,
   RootDocument,
 } from "@/app/RootDocument";
-import { LanguagePreferenceSync } from "@/components/LanguagePreferenceSync";
 import {
   isValidLanguage,
   languageList,
@@ -97,7 +96,6 @@ export default async function LangLayout({
   return (
     <RootDocument htmlLang={toLocaleTag(lang)}>
       <div className={suit.variable}>
-        <LanguagePreferenceSync currentLang={lang} />
         {children}
       </div>
     </RootDocument>

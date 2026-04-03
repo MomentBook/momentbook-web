@@ -228,10 +228,12 @@ MomentBook Web은 다음 역할만 수행한다.
 ## 7) i18n / Preference Behavior
 
 - 라우팅 언어 유효성: `lib/i18n/config.ts`
-- `proxy.ts` 언어 감지 순서(redirect): cookie -> `Accept-Language` -> default(`en`)
+- `/`는 `app/(root)/page.tsx`의 language gateway를 먼저 렌더링하고, 클라이언트에서 `?lang=` -> 저장된 선호 언어 -> cookie -> 브라우저 언어 -> default(`en`) 순서로 `/{lang}`로 이동한다.
+- `proxy.ts` 언어 감지 순서(redirect): `?lang=` -> cookie -> `Accept-Language` -> default(`en`) (`/`는 제외)
 - 클라이언트 선호 언어 상태: Jotai `languageAtom`
 - `LanguageSyncProvider`가 Jotai/localStorage/cookie/path language를 동기화하고, 현재 저장값이 비어 있으면 localStorage `language` -> legacy `preferredLanguage` -> cookie -> 브라우저 언어 순서로 복원한다.
-- `app/(localized)/[lang]/layout.tsx`는 SSR 시점부터 route locale에 맞는 `html lang`를 출력하고, 클라이언트에서 추가 보정하지 않는다.
+- localized public route(`/{lang}/...`) 방문은 해당 언어를 현재 선호 언어로 간주하고 다음 non-prefixed 진입을 위한 저장값(atom/localStorage/cookie)으로 반영한다.
+- `app/(localized)/[lang]/layout.tsx`는 SSR 시점부터 route locale에 맞는 `html lang`를 출력하고, 클라이언트 navigation 중에는 `LanguageSyncProvider`가 현재 localized path에 맞춰 `document.documentElement.lang`를 유지한다.
 - `LocalizedDate`, `LocalizedDateRange`, `LocalizedDateTimeRange`는 public API가 local-time context를 제공하면 그 wall-clock date/time을 우선 사용하고, context가 없을 때만 기존 absolute timestamp 기반 UTC SSR 스냅샷 -> hydration 후 viewer locale/timezone 갱신 경로를 사용한다.
 - explicit `unknown` local-time context는 time-of-day를 추정하지 않고 date-only/time-hidden fallback으로 내린다. `floating_local`은 timezone 변환 없이 localDateTime을 그대로 표시한다.
 - photo detail의 `LocalizedDateTime`은 SSR 출력을 만들지 않고 hydration 후 렌더링하며, `captureTime` local-time context를 우선 사용한다.

@@ -75,10 +75,60 @@ export const languageList: Language[] = Object.keys(languages) as Language[];
 const languagePrefixRegex = new RegExp(
   `^/(${languageList.map((code) => code.replace("-", "\\-")).join("|")})(?=/|$)`,
 );
+const localeToLanguage = new Map<string, Language>(
+  languageList.map((lang) => [languages[lang].locale.toLowerCase(), lang]),
+);
 
 // Check if a language code is valid
 export function isValidLanguage(lang: string): lang is Language {
   return lang in languages;
+}
+
+function canonicalizeLanguageTag(value: string): string | null {
+  const normalized = value.trim().replaceAll("_", "-");
+  if (!normalized) {
+    return null;
+  }
+
+  try {
+    return Intl.getCanonicalLocales(normalized)[0]?.toLowerCase() ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export function resolveSupportedLanguage(
+  value: string | null | undefined,
+): Language | null {
+  if (!value) {
+    return null;
+  }
+
+  const canonical = canonicalizeLanguageTag(value);
+  if (!canonical || canonical === "*") {
+    return null;
+  }
+
+  let candidate = canonical;
+  while (candidate) {
+    const localeMatch = localeToLanguage.get(candidate);
+    if (localeMatch) {
+      return localeMatch;
+    }
+
+    if (isValidLanguage(candidate)) {
+      return candidate;
+    }
+
+    const separatorIndex = candidate.lastIndexOf("-");
+    if (separatorIndex < 0) {
+      return null;
+    }
+
+    candidate = candidate.slice(0, separatorIndex);
+  }
+
+  return null;
 }
 
 export function toLocaleTag(lang: Language): string {
@@ -101,8 +151,7 @@ export function stripLanguagePrefix(pathname: string): string {
   return pathname.replace(languagePrefixRegex, "");
 }
 
-// Get language from path or return default
-export function getLanguageFromPath(path: string): Language {
+export function getPathLanguage(path: string): Language | null {
   const segments = path.split("/").filter(Boolean);
   const firstSegment = segments[0];
 
@@ -110,7 +159,12 @@ export function getLanguageFromPath(path: string): Language {
     return firstSegment;
   }
 
-  return defaultLanguage;
+  return null;
+}
+
+// Get language from path or return default
+export function getLanguageFromPath(path: string): Language {
+  return getPathLanguage(path) ?? defaultLanguage;
 }
 
 // Generate alternate language links for SEO
@@ -155,33 +209,95 @@ export function buildSitemapAlternates(siteUrl: string, path: string) {
   ];
 }
 
+type ParsedLanguagePreference = {
+  order: number;
+  quality: number;
+  value: string;
+};
+
+function parseLanguageQuality(raw: string | undefined): number {
+  if (!raw) {
+    return 1;
+  }
+
+  const parsed = Number.parseFloat(raw);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    return 0;
+  }
+
+  return Math.min(parsed, 1);
+}
+
+export function parseAcceptLanguageHeader(
+  acceptLanguageHeader: string | null,
+): string[] {
+  if (!acceptLanguageHeader) {
+    return [];
+  }
+
+  const parsed = acceptLanguageHeader
+    .split(",")
+    .map<ParsedLanguagePreference | null>((part, order) => {
+      const [rangePart, ...paramParts] = part.split(";");
+      const value = rangePart?.trim();
+
+      if (!value) {
+        return null;
+      }
+
+      const qualityParameter = paramParts.find((param) =>
+        param.trim().toLowerCase().startsWith("q="),
+      );
+      const quality = parseLanguageQuality(
+        qualityParameter?.split("=")[1]?.trim(),
+      );
+
+      if (quality <= 0) {
+        return null;
+      }
+
+      return {
+        order,
+        quality,
+        value,
+      };
+    })
+    .filter((entry): entry is ParsedLanguagePreference => entry !== null);
+
+  parsed.sort((left, right) => {
+    if (right.quality !== left.quality) {
+      return right.quality - left.quality;
+    }
+
+    return left.order - right.order;
+  });
+
+  return parsed.map((entry) => entry.value);
+}
+
+export function detectLanguageFromLanguageList(
+  candidates: readonly string[],
+): Language | null {
+  for (const candidate of candidates) {
+    if (candidate.trim() === "*") {
+      return defaultLanguage;
+    }
+
+    const resolved = resolveSupportedLanguage(candidate);
+    if (resolved) {
+      return resolved;
+    }
+  }
+
+  return null;
+}
+
 export function detectLanguageFromAcceptLanguage(
   acceptLanguageHeader: string | null,
 ): Language {
-  if (!acceptLanguageHeader) {
-    return defaultLanguage;
-  }
-
-  const languageByLocale = new Map<string, Language>(
-    languageList.map((lang) => [toLocaleTag(lang).toLowerCase(), lang]),
+  return (
+    detectLanguageFromLanguageList(
+      parseAcceptLanguageHeader(acceptLanguageHeader),
+    ) ?? defaultLanguage
   );
-
-  const candidates = acceptLanguageHeader
-    .split(",")
-    .map((part) => part.split(";")[0]?.trim().toLowerCase())
-    .filter(Boolean) as string[];
-
-  for (const candidate of candidates) {
-    const fullMatch = languageByLocale.get(candidate);
-    if (fullMatch) {
-      return fullMatch;
-    }
-
-    const base = candidate.split("-")[0];
-    if (base && isValidLanguage(base)) {
-      return base;
-    }
-  }
-
-  return defaultLanguage;
 }

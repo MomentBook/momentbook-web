@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-04 (updated: 2026-04-02)
+2025-01-04 (updated: 2026-04-03)
 
 ## Context
 
@@ -31,18 +31,21 @@ MomentBook 웹은 9개 언어를 URL prefix 기반으로 제공한다.
 ### 2) Non-prefixed 경로 처리
 
 - Next.js 16의 `proxy.ts`를 사용한다.
-- `/`는 `app/(root)/page.tsx`에서 서버 렌더링된 language gateway 마크업을 먼저 제공한 뒤, 클라이언트에서 `/{lang}`로 리다이렉트한다.
+- `/`는 `proxy.ts`가 우회하고, `app/(root)/page.tsx`에서 서버 렌더링된 language gateway 마크업을 먼저 제공한 뒤 클라이언트에서 `/{lang}`로 리다이렉트한다.
 - `/`를 제외한 언어 prefix 없는 요청은 다음 우선순위로 `/{lang}`로 리다이렉트한다.
   1. query `lang`
   2. `preferredLanguage` cookie
   3. `Accept-Language`
   4. default language (`en`)
+- 언어 태그 매칭은 공통 유틸에서 수행하며, BCP 47 locale tag normalization과 `Accept-Language` q-value 우선순위를 함께 처리한다.
+- `proxy.ts` redirect 응답은 `Accept-Language`와 `Cookie`를 기준으로 달라질 수 있으므로 `Vary`를 명시한다.
 
 ### 3) 클라이언트 선호 언어 동기화
 
 - Jotai `languageAtom`에 선호 언어를 저장한다.
-- `LanguageSyncProvider`가 경로 언어/저장값/cookie를 동기화한다.
-- `LanguagePreferenceSync`가 현재 라우트 언어를 상태에 반영한다.
+- `LanguageSyncProvider`가 경로 언어/저장값/cookie를 단일 지점에서 동기화한다.
+- localized route 방문 자체를 현재 언어 선택으로 취급해, 해당 route language를 다음 non-prefixed 진입을 위한 선호 언어로 저장한다.
+- localized route navigation 중 `LanguageSyncProvider`가 `document.documentElement.lang`를 현재 route locale에 맞게 유지한다.
 
 ### 4) i18n metadata 정책
 
@@ -93,8 +96,9 @@ Rejected: 현재 요구 대비 과도한 복잡도
 - `app/(localized)/[lang]/layout.tsx`
 - `app/RootDocument.tsx`
 - `app/components/LanguageSyncProvider.tsx`
-- `components/LanguagePreferenceSync.tsx`
 - `lib/i18n/config.ts`
+- `lib/i18n/preference.ts`
+- `lib/i18n/preference.client.ts`
 - `lib/i18n/metadata.ts`
 - `lib/i18n/dictionaries/*`
 

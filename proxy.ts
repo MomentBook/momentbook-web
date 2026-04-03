@@ -3,12 +3,17 @@ import type { NextRequest } from "next/server";
 import {
   defaultLanguage,
   detectLanguageFromAcceptLanguage,
-  isValidLanguage,
-  languageList,
+  getPathLanguage,
+  resolveSupportedLanguage,
 } from "@/lib/i18n/config";
+import { PREFERRED_LANGUAGE_COOKIE_NAME } from "@/lib/state/preferences";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname === "/") {
+    return NextResponse.next();
+  }
 
   // Skip proxy for static files and API routes
   if (
@@ -21,11 +26,7 @@ export function proxy(request: NextRequest) {
   }
 
   // Check if pathname already has a language prefix
-  const hasLanguagePrefix = languageList.some(
-    (lang) => pathname === `/${lang}` || pathname.startsWith(`/${lang}/`),
-  );
-
-  if (hasLanguagePrefix) {
+  if (getPathLanguage(pathname)) {
     return NextResponse.next();
   }
 
@@ -34,12 +35,15 @@ export function proxy(request: NextRequest) {
   const queryLang = request.nextUrl.searchParams.get("lang");
 
   // 1. Honor explicit query language for campaign links
-  if (queryLang && isValidLanguage(queryLang)) {
-    preferredLanguage = queryLang;
+  const explicitLanguage = resolveSupportedLanguage(queryLang);
+  if (explicitLanguage) {
+    preferredLanguage = explicitLanguage;
   } else {
     // 2. Check cookie
-    const cookieLang = request.cookies.get("preferredLanguage")?.value;
-    if (cookieLang && isValidLanguage(cookieLang)) {
+    const cookieLang = resolveSupportedLanguage(
+      request.cookies.get(PREFERRED_LANGUAGE_COOKIE_NAME)?.value,
+    );
+    if (cookieLang) {
       preferredLanguage = cookieLang;
     } else {
       // 3. Fallback to Accept-Language header
@@ -54,7 +58,10 @@ export function proxy(request: NextRequest) {
   url.pathname = `/${preferredLanguage}${pathname}`;
   url.searchParams.delete("lang");
 
-  return NextResponse.redirect(url);
+  const response = NextResponse.redirect(url);
+  response.headers.set("Vary", "Accept-Language, Cookie");
+
+  return response;
 }
 
 export const config = {

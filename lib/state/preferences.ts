@@ -1,5 +1,5 @@
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
-import { type Language, isValidLanguage } from "@/lib/i18n/config";
+import { type Language, resolveSupportedLanguage } from "@/lib/i18n/config";
 
 export type Theme = "light" | "dark";
 export const LANGUAGE_STORAGE_KEY = "language";
@@ -32,11 +32,7 @@ export function parseStoredLanguageValue(raw: string | null): string | null {
 }
 
 export function normalizeLanguage(value: string | null): Language | "" {
-  if (!value) {
-    return "";
-  }
-
-  return isValidLanguage(value) ? value : "";
+  return resolveSupportedLanguage(value) ?? "";
 }
 
 export function normalizeStoredLanguageValue(raw: string | null): Language | "" {

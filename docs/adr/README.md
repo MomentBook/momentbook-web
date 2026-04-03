@@ -20,9 +20,9 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 ### Current ADRs
 
 1. [ADR 0001: Multilingual Routing Architecture](./0001-multilingual-routing-architecture.md)
-- Date: 2025-01-04 (updated: 2026-04-02)
+- Date: 2025-01-04 (updated: 2026-04-03)
 - Status: Accepted
-- Summary: route-group root layouts + `app/(localized)/[lang]` + root x-default gateway(`/`) + `proxy.ts` 기반 언어 prefix 라우팅, SSR `html lang`, hreflang alternates
+- Summary: route-group root layouts + `app/(localized)/[lang]` + root x-default gateway(`/`) bypassing `proxy.ts`, shared language matching for query/cookie/header/browser preferences, localized path visit persistence, SSR + client-synced `html lang`, hreflang alternates
 
 2. [ADR 0002: Legal Document Internationalization](./0002-legal-document-internationalization.md)
 - Date: 2025-01-04 (updated: 2026-03-28)
