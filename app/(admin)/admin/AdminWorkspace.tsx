@@ -150,33 +150,22 @@ function resolveDefaultReviewStatus(options: {
 }
 
 function getActiveTabMeta(tab: AdminWorkspaceTab): {
-  eyebrow: string;
   title: string;
-  description: string;
 } {
   if (tab === "reviews") {
     return {
-      eyebrow: "Queue preview",
       title: "Reviews",
-      description:
-        "Use the mock queue to inspect pending items and keep context before applying a live status update.",
     };
   }
 
   if (tab === "live") {
     return {
-      eyebrow: "Live mutation",
       title: "Live update",
-      description:
-        "Write the canonical review status for a known public ID. Queue and detail previews remain mock-only.",
     };
   }
 
   return {
-    eyebrow: "Moderation workspace",
     title: "Overview",
-    description:
-      "Keep the admin surface calm and factual. Overview summarizes the queue, access scope, and the currently selected preview.",
   };
 }
 
@@ -196,24 +185,20 @@ function Sidebar({
   const navigationItems: Array<{
     tab: AdminWorkspaceTab;
     label: string;
-    caption: string;
     badge?: string;
   }> = [
     {
       tab: "overview",
       label: "Overview",
-      caption: "Summary and scope",
     },
     {
       tab: "reviews",
       label: "Reviews",
-      caption: "Mock queue and detail",
       badge: String(queue.summary.pendingCount),
     },
     {
       tab: "live",
       label: "Live update",
-      caption: "Known public ID write",
     },
   ];
 
@@ -221,10 +206,7 @@ function Sidebar({
     <aside className={styles.sidebar}>
       <div className={styles.brandBlock}>
         <span className={styles.brandEyebrow}>MomentBook Admin</span>
-        <h1 className={styles.brandTitle}>Moderation workspace</h1>
-        <p className={styles.brandBody}>
-          Keep the internal review surface simple, scoped, and easy to scan.
-        </p>
+        <h1 className={styles.brandTitle}>Moderation</h1>
       </div>
 
       <nav className={styles.nav} aria-label="Workspace sections">
@@ -247,7 +229,6 @@ function Sidebar({
             >
               <div className={styles.navCopy}>
                 <span className={styles.navLabel}>{item.label}</span>
-                <span className={styles.navCaption}>{item.caption}</span>
               </div>
               {item.badge ? (
                 <span className={styles.navBadge}>{item.badge}</span>
@@ -258,13 +239,10 @@ function Sidebar({
       </nav>
 
       <div className={styles.sidebarCard}>
-        <span className={styles.sidebarLabel}>Signed in as</span>
+        <span className={styles.sidebarLabel}>Account</span>
         <strong className={styles.sidebarValue}>
           {session.email || session.name || "Admin"}
         </strong>
-        <p className={styles.sidebarBody}>
-          Access is limited to <strong>{ADMIN_ALLOWED_EMAIL}</strong>.
-        </p>
       </div>
 
       <form action={logoutAdminAction}>
@@ -290,12 +268,10 @@ function ContentHeader({
   return (
     <header className={styles.contentHeader}>
       <div className={styles.headerCopy}>
-        <span className={styles.sectionLabel}>{meta.eyebrow}</span>
         <div className={styles.headerTitleRow}>
           <h2 className={styles.contentTitle}>{meta.title}</h2>
           <span className={styles.pendingBadge}>{pendingCount} pending</span>
         </div>
-        <p className={styles.contentBody}>{meta.description}</p>
       </div>
 
       {banner ? (
@@ -345,12 +321,10 @@ function SummaryMetric({
 function SelectedJourneyCard({
   detail,
   title,
-  description,
   actions,
 }: {
   detail: AdminReviewDetail | null;
   title: string;
-  description: string;
   actions?: ReactNode;
 }) {
   const journey = detail?.journey ?? null;
@@ -361,13 +335,11 @@ function SelectedJourneyCard({
       <section className={styles.card}>
         <div className={styles.cardHeader}>
           <div className={styles.cardHeading}>
-            <span className={styles.sectionLabel}>Current focus</span>
             <h3 className={styles.cardTitle}>{title}</h3>
           </div>
         </div>
         <div className={styles.emptyState}>
-          <h4 className={styles.emptyTitle}>No journey selected</h4>
-          <p className={styles.emptyBody}>{description}</p>
+          <h4 className={styles.emptyTitle}>No selection</h4>
         </div>
       </section>
     );
@@ -379,7 +351,6 @@ function SelectedJourneyCard({
     <section className={styles.card}>
       <div className={styles.cardHeader}>
         <div className={styles.cardHeading}>
-          <span className={styles.sectionLabel}>Current focus</span>
           <h3 className={styles.cardTitle}>{title}</h3>
         </div>
         {actions}
@@ -412,10 +383,6 @@ function SelectedJourneyCard({
           <h4 className={styles.previewTitle}>
             {journey.title || "Untitled journey"}
           </h4>
-
-          {journey.description ? (
-            <p className={styles.previewDescription}>{journey.description}</p>
-          ) : null}
 
           {journey.notice ? (
             <p className={styles.noticeCard}>{journey.notice}</p>
@@ -549,11 +516,10 @@ function QueuePanel({
     <section className={styles.card}>
       <div className={styles.cardHeader}>
         <div className={styles.cardHeading}>
-          <span className={styles.sectionLabel}>Queue</span>
-          <h3 className={styles.cardTitle}>Review list</h3>
+          <h3 className={styles.cardTitle}>Reviews</h3>
         </div>
         <span className={styles.sectionMeta}>
-          {queue.total} items · page {queue.page} of {queue.pages}
+          {queue.total} items
         </span>
       </div>
 
@@ -699,11 +665,10 @@ function OverviewPanel({
       <div className={styles.infoGrid}>
         <SelectedJourneyCard
           detail={selectedDetail}
-          title="Selected preview"
-          description="Open the reviews tab to inspect the queue and load a preview item."
+          title="Preview"
           actions={
             <Link href={reviewsHref} className={styles.secondaryButton}>
-              Open reviews
+              Reviews
             </Link>
           }
         />
@@ -711,37 +676,7 @@ function OverviewPanel({
         <section className={styles.card}>
           <div className={styles.cardHeader}>
             <div className={styles.cardHeading}>
-              <span className={styles.sectionLabel}>Operational model</span>
-              <h3 className={styles.cardTitle}>Current scope</h3>
-            </div>
-          </div>
-
-          <div className={styles.stackList}>
-            <div className={styles.noteCard}>
-              Queue and detail cards are rendered from the local mock preview dataset.
-            </div>
-            <div className={styles.noteCard}>
-              Live writes are limited to a known public ID and a canonical review
-              status.
-            </div>
-            <div className={styles.noteCard}>
-              The public website remains read-only. This surface only manages
-              moderation state.
-            </div>
-          </div>
-
-          <div className={styles.inlineActions}>
-            <Link href={liveHref} className={styles.primaryButton}>
-              Open live update
-            </Link>
-          </div>
-        </section>
-
-        <section className={styles.card}>
-          <div className={styles.cardHeader}>
-            <div className={styles.cardHeading}>
-              <span className={styles.sectionLabel}>Access</span>
-              <h3 className={styles.cardTitle}>Session and account</h3>
+              <h3 className={styles.cardTitle}>Access</h3>
             </div>
           </div>
 
@@ -755,10 +690,16 @@ function OverviewPanel({
               <dd>Admin</dd>
             </div>
             <div className={styles.metaItemWide}>
-              <dt>Access boundary</dt>
-              <dd>Only {ADMIN_ALLOWED_EMAIL} can keep an admin session.</dd>
+              <dt>Allowed</dt>
+              <dd>{ADMIN_ALLOWED_EMAIL}</dd>
             </div>
           </dl>
+
+          <div className={styles.inlineActions}>
+            <Link href={liveHref} className={styles.primaryButton}>
+              Live update
+            </Link>
+          </div>
         </section>
       </div>
     </div>
@@ -789,11 +730,10 @@ function ReviewsPanel({
 
       <SelectedJourneyCard
         detail={selectedDetail}
-        title="Journey detail"
-        description="Choose a queue item to load its preview detail."
+        title="Preview"
         actions={
           <Link href={liveHref} className={styles.primaryButton}>
-            Open live update
+            Live update
           </Link>
         }
       />
@@ -826,15 +766,13 @@ function LiveUpdatePanel({
     <div className={styles.workspaceColumns}>
       <SelectedJourneyCard
         detail={selectedDetail}
-        title="Reference preview"
-        description="The live update form can target a different public ID, but the selected preview is useful as local context."
+        title="Preview"
       />
 
       <section className={styles.card}>
         <div className={styles.cardHeader}>
           <div className={styles.cardHeading}>
-            <span className={styles.sectionLabel}>Live mutation</span>
-            <h3 className={styles.cardTitle}>Update review status</h3>
+            <h3 className={styles.cardTitle}>Update status</h3>
           </div>
 
           {liveMutation ? (
@@ -866,7 +804,7 @@ function LiveUpdatePanel({
               name="targetPublicId"
               className={styles.input}
               defaultValue={effectiveTargetPublicId}
-              placeholder="Enter a published journey public ID"
+              placeholder="Public ID"
               autoCapitalize="none"
               autoCorrect="off"
               spellCheck={false}
@@ -886,7 +824,6 @@ function LiveUpdatePanel({
                 />
                 <span className={styles.statusCard}>
                   <strong className={styles.statusTitle}>Pending</strong>
-                  <span className={styles.statusCaption}>Keep in review queue</span>
                 </span>
               </label>
 
@@ -900,9 +837,6 @@ function LiveUpdatePanel({
                 />
                 <span className={styles.statusCard}>
                   <strong className={styles.statusTitle}>Approved</strong>
-                  <span className={styles.statusCaption}>
-                    Eligible for public read-only web
-                  </span>
                 </span>
               </label>
 
@@ -916,20 +850,14 @@ function LiveUpdatePanel({
                 />
                 <span className={styles.statusCard}>
                   <strong className={styles.statusTitle}>Rejected</strong>
-                  <span className={styles.statusCaption}>Keep off public web</span>
                 </span>
               </label>
             </div>
           </fieldset>
 
           <div className={styles.formFooter}>
-            <p className={styles.formNote}>
-              Preview content is mock-only. Saving writes the live review status
-              for the public ID in this form.
-            </p>
-
             <button type="submit" className={styles.primaryButton}>
-              Save review status
+              Save
             </button>
           </div>
         </form>

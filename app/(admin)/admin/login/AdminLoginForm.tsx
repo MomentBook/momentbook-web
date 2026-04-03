@@ -55,10 +55,10 @@ function resolveDirectLoginError(
 ) {
   const fallbackMessage =
     status === 401
-      ? "The password was not accepted."
+      ? "Invalid password."
       : status === 403
-        ? "This account cannot access the admin workspace."
-        : "The admin login service is temporarily unavailable.";
+        ? "This account cannot access admin."
+        : "Service unavailable.";
 
   return readMessage(payload?.message) ?? fallbackMessage;
 }
@@ -68,17 +68,17 @@ function resolveSessionBootstrapError(
 ) {
   switch (payload?.error) {
     case "admin_only":
-      return "This account does not have admin review access.";
+      return "This account does not have admin access.";
     case "account_not_allowed":
-      return `Only ${ADMIN_ALLOWED_EMAIL} can use this admin workspace.`;
+      return `Only ${ADMIN_ALLOWED_EMAIL} can sign in.`;
     case "invalid_tokens":
-      return "The returned admin token could not be validated.";
+      return "Invalid token response.";
     case "server_misconfigured":
-      return "This web server is missing ADMIN_SESSION_SECRET, so the admin session could not be created.";
+      return "Server misconfigured.";
     case "session_create_failed":
-      return "The admin session could not be created.";
+      return "Could not create session.";
     default:
-      return readMessage(payload?.message) ?? "The admin session could not be created.";
+      return readMessage(payload?.message) ?? "Could not create session.";
   }
 }
 
@@ -96,7 +96,7 @@ export function AdminLoginForm({ nextPath }: { nextPath: string }) {
       typeof passwordValue === "string" ? passwordValue.trim() : "";
 
     if (!password) {
-      setErrorMessage("Enter the admin password to continue.");
+      setErrorMessage("Enter password.");
       return;
     }
 
@@ -133,7 +133,7 @@ export function AdminLoginForm({ nextPath }: { nextPath: string }) {
         !loginPayload.data.accessToken ||
         !loginPayload.data.refreshToken
       ) {
-        setErrorMessage("The admin login response was incomplete.");
+        setErrorMessage("Incomplete login response.");
         return;
       }
 
@@ -161,9 +161,7 @@ export function AdminLoginForm({ nextPath }: { nextPath: string }) {
 
       window.location.assign(nextPath);
     } catch {
-      setErrorMessage(
-        "The admin login request could not reach the API server. Check network and CORS settings.",
-      );
+      setErrorMessage("Could not reach the API server.");
     } finally {
       setIsSubmitting(false);
     }
@@ -174,7 +172,7 @@ export function AdminLoginForm({ nextPath }: { nextPath: string }) {
       <input type="hidden" name="next" value={nextPath} />
 
       <label className={styles.field}>
-        <span className={styles.label}>Admin ID</span>
+        <span className={styles.label}>Email</span>
         <input
           className={`${styles.input} ${styles.inputLocked}`}
           type="email"
@@ -192,7 +190,7 @@ export function AdminLoginForm({ nextPath }: { nextPath: string }) {
           type="password"
           name="password"
           autoComplete="current-password"
-          placeholder="Enter the provisioned admin password"
+          placeholder="Password"
           required
           disabled={isSubmitting}
         />
@@ -209,7 +207,7 @@ export function AdminLoginForm({ nextPath }: { nextPath: string }) {
         className={styles.submitButton}
         disabled={isSubmitting}
       >
-        {isSubmitting ? "Signing in..." : "Sign in to review workspace"}
+        {isSubmitting ? "Signing in..." : "Sign in"}
       </button>
     </form>
   );

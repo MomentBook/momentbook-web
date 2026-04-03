@@ -31,7 +31,7 @@ function resolveLoginNotice(
   if (loggedOut) {
     return {
       tone: "success",
-      message: "The admin session was closed. Sign in again when you need to review new submissions.",
+      message: "Signed out.",
     };
   }
 
@@ -39,27 +39,27 @@ function resolveLoginNotice(
     case "missing_fields":
       return {
         tone: "error",
-        message: "Enter both email and password to continue.",
+        message: "Enter email and password.",
       };
     case "invalid_credentials":
       return {
         tone: "error",
-        message: "The email or password was not accepted.",
+        message: "Invalid password.",
       };
     case "admin_only":
       return {
         tone: "error",
-        message: `Only ${ADMIN_ALLOWED_EMAIL} can access this admin workspace.`,
+        message: `Only ${ADMIN_ALLOWED_EMAIL} can sign in.`,
       };
     case "session_expired":
       return {
         tone: "default",
-        message: "The previous admin session expired. Sign in again to continue reviewing submissions.",
+        message: "Session expired. Sign in again.",
       };
     case "service_unavailable":
       return {
         tone: "error",
-        message: "The admin service is temporarily unavailable. Try again after the backend is healthy.",
+        message: "Service unavailable.",
       };
     default:
       return null;
@@ -95,7 +95,7 @@ export default async function AdminLoginPage({
     <main className={styles.page}>
       <section className={styles.card}>
         <div className={styles.brand}>
-          <span className={styles.eyebrow}>Internal Review Workspace</span>
+          <span className={styles.eyebrow}>MomentBook Admin</span>
           <div className={styles.logoRow}>
             <span className={styles.logoMark}>M</span>
             <span className={styles.brandName}>MomentBook</span>
@@ -103,12 +103,8 @@ export default async function AdminLoginPage({
         </div>
 
         <div className={styles.heading}>
-          <h1 className={styles.title}>Admin sign in</h1>
-          <p className={styles.body}>
-            Access the internal moderation workspace with the provisioned admin
-            account only. The browser sends the login request directly to the
-            API server, and this app stores only the encrypted admin session.
-          </p>
+          <h1 className={styles.title}>Sign in</h1>
+          <p className={styles.body}>Use the admin account to continue.</p>
         </div>
 
         {notice ? (
@@ -127,16 +123,6 @@ export default async function AdminLoginPage({
         ) : null}
 
         <AdminLoginForm nextPath={nextPath} />
-
-        <p className={styles.securityNote}>
-          Admin sessions are stored in an encrypted HttpOnly cookie and continue
-          to renew against the backend token lifecycle while the refresh token
-          remains valid.
-        </p>
-
-        <p className={styles.footer}>
-          The admin workspace accepts only <strong>{ADMIN_ALLOWED_EMAIL}</strong>.
-        </p>
       </section>
     </main>
   );
