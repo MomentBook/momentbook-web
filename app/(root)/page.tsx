@@ -283,12 +283,10 @@ export default function RootPage() {
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteSchema) }}
       />
 
-      <section className={styles.card} aria-labelledby="root-language-gateway-title">
-        <p className={styles.brand}>MomentBook</p>
-
+      <section className={styles.status} aria-labelledby="root-language-gateway-title">
         <div className={styles.copy} role="status" aria-live="polite">
           <h1 id="root-language-gateway-title" className={styles.title}>
-            Redirecting to your language
+            Redirecting...
           </h1>
         </div>
 
@@ -296,7 +294,7 @@ export default function RootPage() {
 
         <details className={styles.languageChooser}>
           <summary className={styles.languageSummary}>
-            Choose manually
+            Language
           </summary>
           <nav className={styles.languageGrid} aria-label="Language options">
             {ROOT_LANGUAGE_ITEMS.map((item) => (
