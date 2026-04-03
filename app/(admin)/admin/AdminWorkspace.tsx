@@ -317,6 +317,7 @@ function SelectedJourneyCard({
   const journey = detail.journey;
   const review = detail.review;
   const coverImage = journey.thumbnailUrl ?? journey.images[0]?.url ?? null;
+  const galleryImages = journey.images;
 
   return (
     <section className={styles.card}>
@@ -396,6 +397,40 @@ function SelectedJourneyCard({
           </dl>
         </div>
       </article>
+
+      <section className={styles.photoSection}>
+        <div className={styles.cardHeader}>
+          <div className={styles.cardHeading}>
+            <h4 className={styles.cardTitle}>Photos</h4>
+          </div>
+          <span className={styles.sectionMeta}>{galleryImages.length} items</span>
+        </div>
+
+        {galleryImages.length > 0 ? (
+          <div className={styles.photoGrid}>
+            {galleryImages.map((image, index) => (
+              <article
+                key={image.photoId ?? `${journey.publicId}-${index}`}
+                className={styles.photoTile}
+              >
+                <div className={styles.photoImageWrap}>
+                  <Image
+                    src={image.url}
+                    alt={`Journey photo ${index + 1}`}
+                    fill
+                    className={styles.photoImage}
+                    sizes="(max-width: 820px) 50vw, (max-width: 1200px) 33vw, 240px"
+                  />
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.emptyState}>
+            <h4 className={styles.emptyTitle}>No photos</h4>
+          </div>
+        )}
+      </section>
     </section>
   );
 }

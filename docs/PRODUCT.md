@@ -106,7 +106,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 현재 moderation workspace는 `overview`, `reviews` 탭으로 구성된다.
 - `overview` 탭은 moderation summary, queue snapshot, session/access 상태를 보여주는 내부 대시보드다.
 - `reviews` 탭은 mock preview dataset 기반 review table로 구성되며, 행 클릭 시 `/admin/reviews/[publicId]` 상세로 이동한다.
-- `/admin/reviews/[publicId]`는 preview와 status update form을 제공한다.
+- `/admin/reviews/[publicId]`는 preview, 전체 사진 gallery, status update form을 제공한다.
 - backend에는 아직 admin queue/list read API가 없으므로 pending 목록을 backend read API로 나열하지 않는다.
 
 ### 4.3 QR Redirect Surface
@@ -194,7 +194,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/admin/reviews`는 review queue로 직접 진입하던 기존 링크를 유지하기 위한 alias redirect다.
 - `overview` 탭은 selected review preview 없이 moderation summary, queue snapshot, session/access 상태만 노출한다.
 - `reviews` 탭은 현재 mock preview dataset을 data-table 형태로 렌더링하고, 각 row는 `/admin/reviews/[publicId]` detail route로 이동한다.
-- `/admin/reviews/[publicId]`는 selected preview와 status update panel에서 known `publicId`와 canonical review status(`PENDING` | `APPROVED` | `REJECTED`)를 받아 `PATCH /v2/admin/journeys/publish/:publicId/review`를 호출한다.
+- `/admin/reviews/[publicId]`는 selected preview, 전체 사진 gallery, status update panel에서 known `publicId`와 canonical review status(`PENDING` | `APPROVED` | `REJECTED`)를 받아 `PATCH /v2/admin/journeys/publish/:publicId/review`를 호출한다.
 - backend에 admin queue/list read API가 없으므로 실제 pending 목록/상세 조회는 이 웹이 직접 제공하지 않는다.
 - rejection reason textarea는 사용하지 않는다. 현재 backend write contract는 canonical review status만 받는다.
 
