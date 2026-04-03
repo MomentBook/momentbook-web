@@ -3,7 +3,7 @@ export const ADMIN_LOGIN_PATH = "/admin/login";
 export const ADMIN_REVIEWS_PATH = "/admin/reviews";
 export const ADMIN_DEFAULT_WORKSPACE_TAB = "overview";
 
-export type AdminWorkspaceTab = "overview" | "reviews" | "live";
+export type AdminWorkspaceTab = "overview" | "reviews";
 
 function buildUrl(path: string): URL {
   return new URL(path, "https://momentbook.admin.local");
@@ -72,7 +72,11 @@ export function withAdminQuery(
 export function parseAdminWorkspaceTab(
   value: string | null | undefined,
 ): AdminWorkspaceTab {
-  if (value === "reviews" || value === "live" || value === "overview") {
+  if (value === "reviews" || value === "live") {
+    return "reviews";
+  }
+
+  if (value === "overview") {
     return value;
   }
 

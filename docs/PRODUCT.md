@@ -101,10 +101,10 @@ MomentBook Web은 다음 역할만 수행한다.
 - 접근 자체는 backend email login + `admin` role 검증이 필요하므로 URL만 알아도 진입할 수 없다.
 - 관리자 로그인은 브라우저가 backend `POST /v2/auth/email/login`을 직접 호출하고, 웹은 `/admin/session`에서 returned token pair를 encrypted HttpOnly cookie 세션으로만 저장한다.
 - 허용 계정은 현재 `admin@momentbook.app` 하나로 고정된다.
-- 현재 moderation workspace는 `overview`, `reviews`, `live update` 탭으로 구성된다.
-- `reviews` 탭의 queue/detail card는 mock preview dataset으로 렌더링된다.
-- `live update` 탭은 known `publicId`를 직접 입력해 `PATCH /v2/admin/journeys/publish/:publicId/review`를 호출한다.
-- backend에는 아직 admin queue/list read API가 없으므로 pending 목록을 live API로 나열하지 않는다.
+- 현재 moderation workspace는 `overview`, `reviews` 탭으로 구성된다.
+- `overview` 탭은 moderation summary, queue snapshot, session/access 상태를 보여주는 내부 대시보드다.
+- `reviews` 탭은 mock preview dataset 기반 review table, preview panel, status update form으로 구성된다.
+- backend에는 아직 admin queue/list read API가 없으므로 pending 목록을 backend read API로 나열하지 않는다.
 
 ### 4.3 QR Redirect Surface
 
@@ -187,10 +187,10 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ## 5.3 Internal Admin Review Workspace
 
-- `/admin` moderation workspace는 `overview`, `reviews`, `live update`의 세 가지 탭을 제공한다.
+- `/admin` moderation workspace는 `overview`, `reviews`의 두 가지 탭을 제공한다.
 - `/admin/reviews`는 review queue로 직접 진입하던 기존 링크를 유지하기 위한 alias redirect다.
-- `reviews` 탭의 queue/detail card는 현재 mock preview dataset으로 렌더링된다.
-- `live update` 탭의 moderation form은 known `publicId`와 canonical review status(`PENDING` | `APPROVED` | `REJECTED`)를 받아 `PATCH /v2/admin/journeys/publish/:publicId/review`를 호출한다.
+- `overview` 탭은 selected review preview 없이 moderation summary, queue snapshot, session/access 상태만 노출한다.
+- `reviews` 탭은 현재 mock preview dataset을 data-table 형태로 렌더링하고, 우측 preview/status update panel에서 known `publicId`와 canonical review status(`PENDING` | `APPROVED` | `REJECTED`)를 받아 `PATCH /v2/admin/journeys/publish/:publicId/review`를 호출한다.
 - backend에 admin queue/list read API가 없으므로 실제 pending 목록/상세 조회는 이 웹이 직접 제공하지 않는다.
 - rejection reason textarea는 사용하지 않는다. 현재 backend write contract는 canonical review status만 받는다.
 
@@ -223,7 +223,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 신고 누적(`reported_hidden`) 상태의 공개 여정 상세는 generic unavailable notice와 noindex metadata를 렌더링한다.
 - `notFound()`로 수렴하는 localized public content/user/photo/moment 경로는 plain-language recovery 404를 렌더링하며, 오래된 검색 결과/저장 링크/오타 URL을 모두 같은 복구 흐름으로 안내한다. 공개 여정 detail도 검토 대기/반려 등 비공개 상태는 동일한 recovery 흐름으로 처리하고, `reported_hidden`만 별도 unavailable notice를 렌더링한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
-- 관리자 심사 표면은 mock queue/detail preview와 known `publicId` 기반 live review status update만 제공하며, 공개 콘텐츠 자체를 웹에서 편집하지 않는다.
+- 관리자 심사 표면은 mock review table/preview와 known `publicId` 기반 review status update만 제공하며, 공개 콘텐츠 자체를 웹에서 편집하지 않는다.
 - `/{lang}/users/[userId]`는 프로필 hero에서 공개 프로필 이미지를 보여주며, 이미지가 있으면 클릭/탭 시 `photos/[photoId]`와 동일한 immersive viewer contract(`Esc`, explicit close, full-screen black backdrop, pinch/double-tap zoom)를 사용한다. 유저의 공개 여정 목록은 모바일에서 더 조밀한 horizontal card 우선 배치, larger breakpoint에서 더 짧은 cover ratio의 grid card로 렌더링한다.
 - `/{lang}/photos/[photoId]`는 mobile-first 단일 컬럼 editorial flow로 렌더링된다. image-first 구성 뒤에 여정 맥락, title, 선택적 caption, compact metadata list가 이어지며, 데스크톱도 같은 위계를 더 넓은 폭으로 확장한다. 좌표는 별도 map/card 없이 metadata list 안의 한 줄 텍스트로만 노출한다. 동일 정보는 한 번만 보여주며, capture time/place/coordinates/journey title/caption 등 photo payload가 실제로 제공하는 필드만 사용한다.
 - `/{lang}/photos/[photoId]`의 hero photo는 클릭/탭 시 검정 배경의 immersive viewer overlay를 연다. overlay 안에서는 이미지와 닫기 버튼만 노출하고, 상하 메타데이터 chrome은 표시하지 않는다. 데스크톱과 모바일 모두 `Esc`/명시적 close를 지원하며, 모바일은 edge-to-edge viewer에서 pinch/double-tap 확대를 지원한다.

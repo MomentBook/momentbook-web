@@ -200,7 +200,7 @@ export default async function AdminIndexPage({
       tab: activeTab,
     });
 
-  const liveMutation =
+  const reviewMutation =
     mutation === "review_updated" && targetPublicId && reviewStatus
       ? {
           publicId: targetPublicId,
@@ -212,7 +212,7 @@ export default async function AdminIndexPage({
     <AdminWorkspace
       activeTab={activeTab}
       banner={banner}
-      liveMutation={liveMutation}
+      reviewMutation={reviewMutation}
       queue={queue}
       returnTo={returnTo}
       selectedDetail={selectedDetail}

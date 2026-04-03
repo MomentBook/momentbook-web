@@ -17,7 +17,6 @@ import { defaultLanguage } from "@/lib/i18n/config";
 import type {
   AdminReviewDetail,
   AdminReviewQueueData,
-  AdminReviewQueueItem,
   AdminReviewQueueStatus,
   AdminReviewStatus,
 } from "@/lib/admin/mock-data";
@@ -30,7 +29,7 @@ type DashboardBanner = {
   message: string;
 };
 
-type LiveMutationSummary = {
+type ReviewMutationSummary = {
   publicId: string;
   reviewStatus: AdminReviewStatus;
 };
@@ -38,7 +37,7 @@ type LiveMutationSummary = {
 type AdminWorkspaceProps = {
   activeTab: AdminWorkspaceTab;
   banner: DashboardBanner | null;
-  liveMutation: LiveMutationSummary | null;
+  reviewMutation: ReviewMutationSummary | null;
   queue: AdminReviewQueueData;
   returnTo: string;
   selectedDetail: AdminReviewDetail | null;
@@ -89,6 +88,22 @@ function buildContentStatusLabel(
   return "Available";
 }
 
+function buildQueueStatusLabel(status: AdminReviewQueueStatus): string {
+  if (status === "approved") {
+    return "Approved";
+  }
+
+  if (status === "rejected") {
+    return "Rejected";
+  }
+
+  if (status === "all") {
+    return "All";
+  }
+
+  return "Pending";
+}
+
 function buildQueueHref(
   page: number,
   status: AdminReviewQueueStatus,
@@ -127,7 +142,7 @@ function buildTabHref(
 }
 
 function resolveDefaultReviewStatus(options: {
-  liveMutation: LiveMutationSummary | null;
+  reviewMutation: ReviewMutationSummary | null;
   selectedDetail: AdminReviewDetail | null;
   selectedPublicId: string | null;
   targetPublicId: string | null;
@@ -135,8 +150,11 @@ function resolveDefaultReviewStatus(options: {
   const trimmedTarget = options.targetPublicId?.trim() || "";
   const activeTarget = trimmedTarget || options.selectedPublicId || "";
 
-  if (options.liveMutation && options.liveMutation.publicId === activeTarget) {
-    return options.liveMutation.reviewStatus;
+  if (
+    options.reviewMutation &&
+    options.reviewMutation.publicId === activeTarget
+  ) {
+    return options.reviewMutation.reviewStatus;
   }
 
   if (
@@ -155,12 +173,6 @@ function getActiveTabMeta(tab: AdminWorkspaceTab): {
   if (tab === "reviews") {
     return {
       title: "Reviews",
-    };
-  }
-
-  if (tab === "live") {
-    return {
-      title: "Live update",
     };
   }
 
@@ -195,10 +207,6 @@ function Sidebar({
       tab: "reviews",
       label: "Reviews",
       badge: String(queue.summary.pendingCount),
-    },
-    {
-      tab: "live",
-      label: "Live update",
     },
   ];
 
@@ -429,83 +437,7 @@ function SelectedJourneyCard({
   );
 }
 
-function QueueItem({
-  href,
-  isActive,
-  item,
-}: {
-  href: string;
-  isActive: boolean;
-  item: AdminReviewQueueItem;
-}) {
-  const thumbUrl = item.thumbnailUrl ?? null;
-
-  return (
-    <Link
-      href={href}
-      className={isActive ? styles.queueItemActive : styles.queueItem}
-      aria-current={isActive ? "page" : undefined}
-    >
-      <div className={styles.queueThumbWrap}>
-        {thumbUrl ? (
-          <Image
-            src={thumbUrl}
-            alt=""
-            fill
-            className={styles.queueThumb}
-            sizes="72px"
-          />
-        ) : (
-          <div className={styles.imageFallback}>No image</div>
-        )}
-      </div>
-
-      <div className={styles.queueBody}>
-        <div className={styles.queueTopRow}>
-          <div className={styles.inlineMeta}>
-            <span className={buildStatusClassName(item.review.status)}>
-              {buildStatusLabel(item.review.status)}
-            </span>
-            <span className={styles.metaPill}>{item.photoCount} photos</span>
-          </div>
-          <span className={styles.metaText}>{item.visibility}</span>
-        </div>
-
-        <strong className={styles.queueTitle}>
-          {item.title || "Untitled journey"}
-        </strong>
-
-        <div className={styles.queueMetaRow}>
-          <span>{item.author.name || "Unknown author"}</span>
-          <span>{item.publicId}</span>
-        </div>
-
-        <div className={styles.queueMetaRow}>
-          <span>
-            Created{" "}
-            <LocalizedDate
-              lang={ADMIN_DISPLAY_LANGUAGE}
-              timestamp={Date.parse(item.createdAt)}
-            />
-          </span>
-          {item.publishedAt ? (
-            <span>
-              Published{" "}
-              <LocalizedDate
-                lang={ADMIN_DISPLAY_LANGUAGE}
-                timestamp={Date.parse(item.publishedAt)}
-              />
-            </span>
-          ) : (
-            <span>Not published</span>
-          )}
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-function QueuePanel({
+function ReviewTablePanel({
   queue,
   selectedPublicId,
 }: {
@@ -546,15 +478,65 @@ function QueuePanel({
 
       {queue.items.length > 0 ? (
         <>
-          <div className={styles.queueList}>
-            {queue.items.map((item) => (
-              <QueueItem
-                key={item.publicId}
-                href={buildQueueHref(queue.page, queue.status, item.publicId)}
-                isActive={item.publicId === selectedPublicId}
-                item={item}
-              />
-            ))}
+          <div className={styles.tableScroll}>
+            <table className={styles.queueTable}>
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Journey</th>
+                  <th>Author</th>
+                  <th>Public ID</th>
+                  <th>Photos</th>
+                  <th>Created</th>
+                  <th>Published</th>
+                </tr>
+              </thead>
+              <tbody>
+                {queue.items.map((item) => (
+                  <tr
+                    key={item.publicId}
+                    className={
+                      item.publicId === selectedPublicId
+                        ? styles.queueTableRowActive
+                        : styles.queueTableRow
+                    }
+                  >
+                    <td>
+                      <span className={buildStatusClassName(item.review.status)}>
+                        {buildStatusLabel(item.review.status)}
+                      </span>
+                    </td>
+                    <td>
+                      <Link
+                        href={buildQueueHref(queue.page, queue.status, item.publicId)}
+                        className={styles.tablePrimaryLink}
+                      >
+                        {item.title || "Untitled journey"}
+                      </Link>
+                    </td>
+                    <td>{item.author.name || "Unknown author"}</td>
+                    <td className={styles.tableMono}>{item.publicId}</td>
+                    <td>{item.photoCount}</td>
+                    <td>
+                      <LocalizedDate
+                        lang={ADMIN_DISPLAY_LANGUAGE}
+                        timestamp={Date.parse(item.createdAt)}
+                      />
+                    </td>
+                    <td>
+                      {item.publishedAt ? (
+                        <LocalizedDate
+                          lang={ADMIN_DISPLAY_LANGUAGE}
+                          timestamp={Date.parse(item.publishedAt)}
+                        />
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
           {queue.pages > 1 ? (
@@ -601,7 +583,7 @@ function QueuePanel({
         <div className={styles.emptyState}>
           <h4 className={styles.emptyTitle}>No records in this filter</h4>
           <p className={styles.emptyBody}>
-            Switch the queue filter or return to the pending list.
+            Switch the filter or return to pending.
           </p>
           {queue.status !== "pending" ? (
             <Link
@@ -617,15 +599,131 @@ function QueuePanel({
   );
 }
 
+function ReviewUpdateCard({
+  reviewMutation,
+  returnTo,
+  selectedDetail,
+  selectedPublicId,
+  targetPublicId,
+}: {
+  reviewMutation: ReviewMutationSummary | null;
+  returnTo: string;
+  selectedDetail: AdminReviewDetail | null;
+  selectedPublicId: string | null;
+  targetPublicId: string | null;
+}) {
+  const effectiveTargetPublicId = targetPublicId ?? selectedPublicId ?? "";
+  const defaultReviewStatus = resolveDefaultReviewStatus({
+    reviewMutation,
+    selectedDetail,
+    selectedPublicId,
+    targetPublicId,
+  });
+
+  return (
+    <section className={styles.card}>
+      <div className={styles.cardHeader}>
+        <div className={styles.cardHeading}>
+          <h3 className={styles.cardTitle}>Update status</h3>
+        </div>
+
+        {reviewMutation ? (
+          <div className={styles.resultCard} role="status" aria-live="polite">
+            <span className={styles.sidebarLabel}>Last saved</span>
+            <div className={styles.inlineMeta}>
+              <span className={buildStatusClassName(reviewMutation.reviewStatus)}>
+                {buildStatusLabel(reviewMutation.reviewStatus)}
+              </span>
+              <span className={styles.metaPill}>{reviewMutation.publicId}</span>
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      <form action={updatePublishedJourneyReviewAction} className={styles.formCard}>
+        <input
+          type="hidden"
+          name="returnTo"
+          value={withAdminQuery(returnTo, {
+            publicId: selectedPublicId,
+          })}
+        />
+
+        <label className={styles.field}>
+          <span className={styles.fieldLabel}>Public ID</span>
+          <input
+            type="text"
+            name="targetPublicId"
+            className={styles.input}
+            defaultValue={effectiveTargetPublicId}
+            placeholder="Public ID"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+          />
+        </label>
+
+        <fieldset className={styles.statusFieldset}>
+          <legend className={styles.fieldLabel}>Review status</legend>
+          <div className={styles.statusOptions}>
+            <label className={styles.statusOption}>
+              <input
+                className={styles.statusInput}
+                type="radio"
+                name="reviewStatus"
+                value="PENDING"
+                defaultChecked={defaultReviewStatus === "PENDING"}
+              />
+              <span className={styles.statusCard}>
+                <strong className={styles.statusTitle}>Pending</strong>
+              </span>
+            </label>
+
+            <label className={styles.statusOption}>
+              <input
+                className={styles.statusInput}
+                type="radio"
+                name="reviewStatus"
+                value="APPROVED"
+                defaultChecked={defaultReviewStatus === "APPROVED"}
+              />
+              <span className={styles.statusCard}>
+                <strong className={styles.statusTitle}>Approved</strong>
+              </span>
+            </label>
+
+            <label className={styles.statusOption}>
+              <input
+                className={styles.statusInput}
+                type="radio"
+                name="reviewStatus"
+                value="REJECTED"
+                defaultChecked={defaultReviewStatus === "REJECTED"}
+              />
+              <span className={styles.statusCard}>
+                <strong className={styles.statusTitle}>Rejected</strong>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div className={styles.formFooter}>
+          <button type="submit" className={styles.primaryButton}>
+            Save
+          </button>
+        </div>
+      </form>
+    </section>
+  );
+}
+
 function OverviewPanel({
   queue,
-  selectedDetail,
   selectedPublicId,
   session,
   targetPublicId,
 }: {
   queue: AdminReviewQueueData;
-  selectedDetail: AdminReviewDetail | null;
   selectedPublicId: string | null;
   session: AdminSession;
   targetPublicId: string | null;
@@ -635,12 +733,6 @@ function OverviewPanel({
     selectedPublicId,
     status: queue.status,
     targetPublicId,
-  });
-  const liveHref = buildTabHref("live", {
-    page: queue.page,
-    selectedPublicId,
-    status: queue.status,
-    targetPublicId: targetPublicId ?? selectedPublicId,
   });
 
   return (
@@ -663,26 +755,51 @@ function OverviewPanel({
       </section>
 
       <div className={styles.infoGrid}>
-        <SelectedJourneyCard
-          detail={selectedDetail}
-          title="Preview"
-          actions={
-            <Link href={reviewsHref} className={styles.secondaryButton}>
-              Reviews
-            </Link>
-          }
-        />
-
         <section className={styles.card}>
           <div className={styles.cardHeader}>
             <div className={styles.cardHeading}>
-              <h3 className={styles.cardTitle}>Access</h3>
+              <h3 className={styles.cardTitle}>Queue</h3>
             </div>
           </div>
 
           <dl className={styles.metaGrid}>
             <div className={styles.metaItem}>
-              <dt>Current account</dt>
+              <dt>Filter</dt>
+              <dd>{buildQueueStatusLabel(queue.status)}</dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>Total</dt>
+              <dd>{queue.total}</dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>Page</dt>
+              <dd>
+                {queue.page} / {queue.pages}
+              </dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>Visible rows</dt>
+              <dd>{queue.items.length}</dd>
+            </div>
+          </dl>
+
+          <div className={styles.inlineActions}>
+            <Link href={reviewsHref} className={styles.primaryButton}>
+              Open reviews
+            </Link>
+          </div>
+        </section>
+
+        <section className={styles.card}>
+          <div className={styles.cardHeader}>
+            <div className={styles.cardHeading}>
+              <h3 className={styles.cardTitle}>Session</h3>
+            </div>
+          </div>
+
+          <dl className={styles.metaGrid}>
+            <div className={styles.metaItem}>
+              <dt>Account</dt>
               <dd>{session.email || session.name || "Admin"}</dd>
             </div>
             <div className={styles.metaItem}>
@@ -694,12 +811,33 @@ function OverviewPanel({
               <dd>{ADMIN_ALLOWED_EMAIL}</dd>
             </div>
           </dl>
+        </section>
 
-          <div className={styles.inlineActions}>
-            <Link href={liveHref} className={styles.primaryButton}>
-              Live update
-            </Link>
+        <section className={styles.card}>
+          <div className={styles.cardHeader}>
+            <div className={styles.cardHeading}>
+              <h3 className={styles.cardTitle}>Workspace</h3>
+            </div>
           </div>
+
+          <dl className={styles.metaGrid}>
+            <div className={styles.metaItem}>
+              <dt>Tabs</dt>
+              <dd>Overview, Reviews</dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>Write path</dt>
+              <dd>Review status</dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>Source</dt>
+              <dd>Mock queue</dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>Entry</dt>
+              <dd>/admin</dd>
+            </div>
+          </dl>
         </section>
       </div>
     </div>
@@ -707,161 +845,34 @@ function OverviewPanel({
 }
 
 function ReviewsPanel({
+  reviewMutation,
   queue,
-  selectedDetail,
-  selectedPublicId,
-  targetPublicId,
-}: {
-  queue: AdminReviewQueueData;
-  selectedDetail: AdminReviewDetail | null;
-  selectedPublicId: string | null;
-  targetPublicId: string | null;
-}) {
-  const liveHref = buildTabHref("live", {
-    page: queue.page,
-    selectedPublicId,
-    status: queue.status,
-    targetPublicId: targetPublicId ?? selectedPublicId,
-  });
-
-  return (
-    <div className={styles.workspaceColumns}>
-      <QueuePanel queue={queue} selectedPublicId={selectedPublicId} />
-
-      <SelectedJourneyCard
-        detail={selectedDetail}
-        title="Preview"
-        actions={
-          <Link href={liveHref} className={styles.primaryButton}>
-            Live update
-          </Link>
-        }
-      />
-    </div>
-  );
-}
-
-function LiveUpdatePanel({
-  liveMutation,
   returnTo,
   selectedDetail,
   selectedPublicId,
   targetPublicId,
 }: {
-  liveMutation: LiveMutationSummary | null;
+  reviewMutation: ReviewMutationSummary | null;
+  queue: AdminReviewQueueData;
   returnTo: string;
   selectedDetail: AdminReviewDetail | null;
   selectedPublicId: string | null;
   targetPublicId: string | null;
 }) {
-  const effectiveTargetPublicId = targetPublicId ?? selectedPublicId ?? "";
-  const defaultReviewStatus = resolveDefaultReviewStatus({
-    liveMutation,
-    selectedDetail,
-    selectedPublicId,
-    targetPublicId,
-  });
-
   return (
     <div className={styles.workspaceColumns}>
-      <SelectedJourneyCard
-        detail={selectedDetail}
-        title="Preview"
-      />
+      <ReviewTablePanel queue={queue} selectedPublicId={selectedPublicId} />
 
-      <section className={styles.card}>
-        <div className={styles.cardHeader}>
-          <div className={styles.cardHeading}>
-            <h3 className={styles.cardTitle}>Update status</h3>
-          </div>
-
-          {liveMutation ? (
-            <div className={styles.resultCard} role="status" aria-live="polite">
-              <span className={styles.sidebarLabel}>Last saved</span>
-              <div className={styles.inlineMeta}>
-                <span className={buildStatusClassName(liveMutation.reviewStatus)}>
-                  {buildStatusLabel(liveMutation.reviewStatus)}
-                </span>
-                <span className={styles.metaPill}>{liveMutation.publicId}</span>
-              </div>
-            </div>
-          ) : null}
-        </div>
-
-        <form action={updatePublishedJourneyReviewAction} className={styles.formCard}>
-          <input
-            type="hidden"
-            name="returnTo"
-            value={withAdminQuery(returnTo, {
-              publicId: selectedPublicId,
-            })}
-          />
-
-          <label className={styles.field}>
-            <span className={styles.fieldLabel}>Public ID</span>
-            <input
-              type="text"
-              name="targetPublicId"
-              className={styles.input}
-              defaultValue={effectiveTargetPublicId}
-              placeholder="Public ID"
-              autoCapitalize="none"
-              autoCorrect="off"
-              spellCheck={false}
-            />
-          </label>
-
-          <fieldset className={styles.statusFieldset}>
-            <legend className={styles.fieldLabel}>Review status</legend>
-            <div className={styles.statusOptions}>
-              <label className={styles.statusOption}>
-                <input
-                  className={styles.statusInput}
-                  type="radio"
-                  name="reviewStatus"
-                  value="PENDING"
-                  defaultChecked={defaultReviewStatus === "PENDING"}
-                />
-                <span className={styles.statusCard}>
-                  <strong className={styles.statusTitle}>Pending</strong>
-                </span>
-              </label>
-
-              <label className={styles.statusOption}>
-                <input
-                  className={styles.statusInput}
-                  type="radio"
-                  name="reviewStatus"
-                  value="APPROVED"
-                  defaultChecked={defaultReviewStatus === "APPROVED"}
-                />
-                <span className={styles.statusCard}>
-                  <strong className={styles.statusTitle}>Approved</strong>
-                </span>
-              </label>
-
-              <label className={styles.statusOption}>
-                <input
-                  className={styles.statusInput}
-                  type="radio"
-                  name="reviewStatus"
-                  value="REJECTED"
-                  defaultChecked={defaultReviewStatus === "REJECTED"}
-                />
-                <span className={styles.statusCard}>
-                  <strong className={styles.statusTitle}>Rejected</strong>
-                </span>
-              </label>
-            </div>
-          </fieldset>
-
-          <div className={styles.formFooter}>
-            <button type="submit" className={styles.primaryButton}>
-              Save
-            </button>
-          </div>
-        </form>
-      </section>
+      <div className={styles.stackList}>
+        <SelectedJourneyCard detail={selectedDetail} title="Preview" />
+        <ReviewUpdateCard
+          reviewMutation={reviewMutation}
+          returnTo={returnTo}
+          selectedDetail={selectedDetail}
+          selectedPublicId={selectedPublicId}
+          targetPublicId={targetPublicId}
+        />
+      </div>
     </div>
   );
 }
@@ -869,7 +880,7 @@ function LiveUpdatePanel({
 export function AdminWorkspace({
   activeTab,
   banner,
-  liveMutation,
+  reviewMutation,
   queue,
   returnTo,
   selectedDetail,
@@ -897,14 +908,8 @@ export function AdminWorkspace({
 
           {activeTab === "reviews" ? (
             <ReviewsPanel
+              reviewMutation={reviewMutation}
               queue={queue}
-              selectedDetail={selectedDetail}
-              selectedPublicId={selectedPublicId}
-              targetPublicId={targetPublicId}
-            />
-          ) : activeTab === "live" ? (
-            <LiveUpdatePanel
-              liveMutation={liveMutation}
               returnTo={returnTo}
               selectedDetail={selectedDetail}
               selectedPublicId={selectedPublicId}
@@ -913,7 +918,6 @@ export function AdminWorkspace({
           ) : (
             <OverviewPanel
               queue={queue}
-              selectedDetail={selectedDetail}
               selectedPublicId={selectedPublicId}
               session={session}
               targetPublicId={targetPublicId}
