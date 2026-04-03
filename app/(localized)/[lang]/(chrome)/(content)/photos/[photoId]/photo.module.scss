@@ -30,9 +30,10 @@
 }
 
 .archiveBar {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: flex-start;
+  gap: 0.75rem;
   margin-bottom: clamp(1rem, 2vw, 1.75rem);
 }
 

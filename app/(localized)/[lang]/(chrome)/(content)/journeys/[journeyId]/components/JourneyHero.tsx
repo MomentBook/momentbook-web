@@ -178,6 +178,7 @@ export function JourneyHero({
           />
           <div className={styles.heroOverlay}>
             <div className={styles.heroOverlayInner}>
+              <p className={styles.eyebrow}>{labels.eyebrow}</p>
               {locationSummary ? (
                 <p className={styles.heroLocation}>{locationSummary}</p>
               ) : null}

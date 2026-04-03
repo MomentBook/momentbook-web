@@ -143,6 +143,9 @@ export function HomeMarketingStory({
                 staggerIndex={index}
               >
                 <h3 className={styles.marketingSceneTitle}>{scene.title}</h3>
+                <p className={styles.marketingSceneDescription}>
+                  {scene.description}
+                </p>
               </SectionReveal>
             </article>
           ))}

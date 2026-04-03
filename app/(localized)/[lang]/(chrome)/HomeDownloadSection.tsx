@@ -17,7 +17,7 @@ type HomeDownloadSectionProps = {
   narrative: HomeDownloadNarrativeContent;
 };
 
-export function HomeDownloadSection({ lang, narrative }: HomeDownloadSectionProps) {
+export function HomeDownloadSection({ lang, content, narrative }: HomeDownloadSectionProps) {
   const storeLinks = getCanonicalStoreLinks(lang);
 
   return (
@@ -33,6 +33,7 @@ export function HomeDownloadSection({ lang, narrative }: HomeDownloadSectionProp
             <h2 id="download-title" className={styles.downloadHeroTitle}>
               {narrative.title}
             </h2>
+            <p className={styles.downloadHeroLead}>{narrative.lead}</p>
 
             <div className={styles.downloadStoreButtons}>
               <StoreBadgeLink
@@ -52,6 +53,8 @@ export function HomeDownloadSection({ lang, narrative }: HomeDownloadSectionProp
                 openInNewTab
               />
             </div>
+
+            <p className={styles.downloadAvailability}>{content.availability}</p>
           </div>
         </SectionReveal>
       </div>

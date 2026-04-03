@@ -36,6 +36,7 @@ import { UserProfileContent } from "./UserProfileContent";
 import {
   buildUserMetadataDescription,
   buildUserMetadataTitle,
+  buildUserPageStatusText,
   buildUserProfileDescription,
   buildUserProfilePageHref,
   buildUserSharedCountText,
@@ -172,6 +173,7 @@ export default async function UserPage({
   const hasNextPage = safeCurrentPage < totalPages;
   const labels = getUserPageLabels(lang);
   const sharedCountText = buildUserSharedCountText(labels, user.publishedJourneyCount);
+  const pageStatusText = buildUserPageStatusText(labels, safeCurrentPage, totalPages);
   const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages, {
     includeSinglePage: false,
   });
@@ -249,6 +251,7 @@ export default async function UserPage({
         journeys={journeys}
         profileImageUrl={profileImageUrl}
         sharedCountText={sharedCountText}
+        pageStatusText={pageStatusText}
         paginationEntries={paginationEntries}
         hasPreviousPage={hasPreviousPage}
         hasNextPage={hasNextPage}

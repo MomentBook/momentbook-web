@@ -57,6 +57,7 @@ function getJourneyPhotoCount(journey: UserJourneyApi): number {
 export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps) {
   const meta = resolveJourneyMetadata(journey);
   const journeyTitle = meta.title ?? readText(journey.title) ?? labels.untitledJourney;
+  const journeyDescription = meta.description ?? readText(journey.description);
   const coverUrl = getJourneyCoverUrl(journey);
   const imageSrc = coverUrl ?? FALLBACK_COVER_SRC;
   const photoCount = getJourneyPhotoCount(journey);
@@ -88,6 +89,9 @@ export function UserJourneyCard({ journey, lang, labels }: UserJourneyCardProps)
       <div className={styles.cardBody}>
         <div className={styles.cardHeading}>
           <h3 className={styles.cardTitle}>{journeyTitle}</h3>
+          {journeyDescription ? (
+            <p className={styles.cardDescription}>{journeyDescription}</p>
+          ) : null}
         </div>
 
         <div className={styles.cardMeta}>

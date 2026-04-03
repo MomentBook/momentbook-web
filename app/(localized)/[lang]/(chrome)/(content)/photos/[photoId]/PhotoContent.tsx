@@ -39,6 +39,8 @@ export function PhotoContent({
           <span aria-hidden="true">←</span>
           <span>{copy.backToJourney}</span>
         </Link>
+        <p className={styles.archiveMarker}>{copy.archiveMarker}</p>
+        <div className={styles.archiveSpacer} aria-hidden="true" />
       </header>
 
       <article className={styles.article}>
@@ -53,6 +55,7 @@ export function PhotoContent({
         <section className={styles.contentSection}>
           {showJourneyContext ? (
             <div className={styles.contextBlock}>
+              <p className={styles.contextLabel}>{copy.partOfLabel}</p>
               <Link href={journeyHref} className={styles.contextLink}>
                 {display.journeyTitle}
               </Link>

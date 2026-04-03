@@ -25,8 +25,16 @@ export function UsersDirectoryContent({
 }: UsersDirectoryContentProps) {
   return (
     <>
+      <div className={styles.backdrop} aria-hidden="true">
+        <div className={styles.backdropOrbPrimary} />
+        <div className={styles.backdropOrbSecondary} />
+        <div className={styles.backdropLine} />
+      </div>
+
       <SectionReveal as="header" className={styles.hero}>
+        <p className={styles.kicker}>{labels.directoryEyebrow}</p>
         <h1 className={styles.title}>{labels.title}</h1>
+        <p className={styles.subtitle}>{labels.subtitle}</p>
 
         <div className={styles.searchShell}>
           <UserSearchForm
@@ -40,6 +48,7 @@ export function UsersDirectoryContent({
       <section className={styles.contentShell}>
         <SectionReveal className={styles.sectionHeader}>
           <div className={styles.sectionHeading}>
+            <p className={styles.sectionEyebrow}>{labels.resultsEyebrow}</p>
             <h2 className={styles.sectionTitle}>{countText}</h2>
           </div>
 
@@ -58,6 +67,7 @@ export function UsersDirectoryContent({
                   lang={lang}
                   user={result.user}
                   matchedHashtags={result.matchedHashtags}
+                  hashtagHint={labels.hashtagHint}
                   journeysLabel={labels.journeysLabel}
                   viewProfileLabel={labels.viewProfile}
                 />

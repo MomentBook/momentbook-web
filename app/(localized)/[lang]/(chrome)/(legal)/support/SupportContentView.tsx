@@ -18,6 +18,7 @@ export function SupportContentView({
     <article className={styles.content}>
       <header className={styles.header}>
         <h1 className={styles.title}>{content.title}</h1>
+        <p className={styles.subtitle}>{content.subtitle}</p>
       </header>
 
       <div className={`${styles.textContent} ${styles.supportTextContent}`}>
