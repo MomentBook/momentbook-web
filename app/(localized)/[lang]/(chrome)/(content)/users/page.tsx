@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { type Language } from "@/lib/i18n/config";
+import { type Language, toLocaleTag } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { fetchPublicUsers } from "@/lib/public-users";
 import {
@@ -13,6 +13,7 @@ import {
   buildNoIndexFollowRobots,
   buildLocalizedAppScreenshotImage,
   buildOpenGraphBase,
+  buildPublicKeywords,
   buildPublicRobots,
 } from "@/lib/seo/public-metadata";
 import {
@@ -45,9 +46,16 @@ export async function generateMetadata({
   const description = buildUserListDescription(labels, query);
   const socialImages = [buildLocalizedAppScreenshotImage(lang, labels.title)];
 
+  const keywords = buildPublicKeywords({
+    lang,
+    kind: "user",
+    extra: [labels.title],
+  });
+
   return {
     title: labels.title,
     description,
+    keywords,
     applicationName: "MomentBook",
     creator: "MomentBook",
     publisher: "MomentBook",
@@ -99,6 +107,7 @@ export default async function UsersPage({
     name: labels.title,
     description,
     url: pageUrl,
+    inLanguage: toLocaleTag(lang),
     publisher: buildPublisherOrganizationJsonLd(siteUrl),
     mainEntityOfPage: {
       "@type": "WebPage",

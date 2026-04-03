@@ -135,6 +135,7 @@ export async function generateMetadata({
     return {
         title,
         description,
+        keywords,
         applicationName: "MomentBook",
         ...(authorName
             ? {

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import styles from "./journeys.module.scss";
 import {
   type Language,
+  toLocaleTag,
 } from "@/lib/i18n/config";
 import { buildOpenGraphUrl, buildAlternates } from "@/lib/i18n/metadata";
 import {
@@ -18,6 +19,7 @@ import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
 import {
   buildLocalizedAppScreenshotImage,
   buildOpenGraphBase,
+  buildPublicKeywords,
   buildPublicRobots,
 } from "@/lib/seo/public-metadata";
 import { buildJourneyCards } from "./journeys.helpers";
@@ -43,9 +45,16 @@ export async function generateMetadata({
   const socialImages = [buildLocalizedAppScreenshotImage(lang, title)];
   const path = "/journeys";
 
+  const keywords = buildPublicKeywords({
+    lang,
+    kind: "journey",
+    extra: [title],
+  });
+
   return {
     title,
     description,
+    keywords,
     applicationName: "MomentBook",
     creator: "MomentBook",
     publisher: "MomentBook",
@@ -105,6 +114,7 @@ export default async function JourneysPage({
     name: pageTitle,
     description,
     url: pageUrl,
+    inLanguage: toLocaleTag(lang),
     publisher: buildPublisherOrganizationJsonLd(siteUrl),
     mainEntityOfPage: {
       "@type": "WebPage",

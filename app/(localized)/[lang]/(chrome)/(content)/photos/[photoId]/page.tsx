@@ -76,6 +76,7 @@ export async function generateMetadata({
     return {
         title: display.title,
         description: display.description,
+        keywords,
         applicationName: "MomentBook",
         creator: "MomentBook",
         publisher: "MomentBook",

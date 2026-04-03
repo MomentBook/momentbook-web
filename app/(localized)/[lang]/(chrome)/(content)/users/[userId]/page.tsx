@@ -91,9 +91,19 @@ export async function generateMetadata({
     title,
   );
 
+  const labels = getUserPageLabels(lang);
+  const keywords = buildPublicKeywords({
+    lang,
+    kind: "user",
+    title: user.name,
+    authorName: user.name,
+    extra: [labels.profileEyebrow, labels.journeys],
+  });
+
   return {
     title,
     description,
+    keywords,
     applicationName: "MomentBook",
     authors: [
       {

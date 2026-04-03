@@ -25,13 +25,20 @@ export function buildHomeStructuredData({
   storeLinks,
   contactType,
 }: BuildHomeStructuredDataParams) {
+  const organizationId = `${siteUrl}#organization`;
+  const websiteId = `${siteUrl}#website`;
+
   return {
     organizationSchema: {
       "@context": "https://schema.org",
       "@type": "Organization",
+      "@id": organizationId,
       name: "MomentBook",
       url: siteUrl,
-      logo: buildAbsoluteAppTransparentLogoUrl(siteUrl),
+      logo: {
+        "@type": "ImageObject",
+        url: buildAbsoluteAppTransparentLogoUrl(siteUrl),
+      },
       sameAs: [...MARKETING_CHANNEL_URLS, storeLinks.ios, storeLinks.android],
       contactPoint: {
         "@type": "ContactPoint",
@@ -42,9 +49,11 @@ export function buildHomeStructuredData({
     websiteSchema: {
       "@context": "https://schema.org",
       "@type": "WebSite",
+      "@id": websiteId,
       name: "MomentBook",
-      url: pageUrl,
+      url: siteUrl,
       description: metaDescription,
+      publisher: { "@id": organizationId },
     },
     softwareApplicationSchema: {
       "@context": "https://schema.org",

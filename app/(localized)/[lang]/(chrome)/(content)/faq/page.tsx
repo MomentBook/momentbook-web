@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { type Language } from "@/lib/i18n/config";
+import { type Language, toLocaleTag } from "@/lib/i18n/config";
 import { buildAlternates, buildOpenGraphUrl } from "@/lib/i18n/metadata";
 import { flattenFaqItems, getFaqContent } from "@/lib/marketing/faq-content";
 import {
@@ -89,6 +89,7 @@ export default async function FAQPage({
     name: content.metaTitle,
     description,
     url: pageUrl,
+    inLanguage: toLocaleTag(lang),
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": pageUrl,
