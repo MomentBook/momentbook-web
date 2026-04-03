@@ -22,18 +22,19 @@ import {
     buildOpenGraphBase,
     buildPublicKeywords,
     buildPublicRobots,
-    buildSocialImageSequence,
     buildSeoTitle,
     buildStructuredDataKeywordValue,
-    resolveTwitterCard,
     buildSeoDescription,
 } from "@/lib/seo/public-metadata";
+import { buildSocialImageMetadata } from "@/lib/seo/social-image";
 import {
     buildPublisherOrganizationJsonLd,
     buildStructuredDataUrl,
     resolveStructuredDataSiteUrl,
     serializeJsonLd,
 } from "@/lib/seo/json-ld";
+import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
+import { getJourneyPageLabels } from "../journeys-page.helpers";
 
 export const revalidate = 300;
 
@@ -67,37 +68,6 @@ function buildVisibleJourneyTopics(hashtags: string[]): Array<{ "@type": "Define
             "@type": "DefinedTerm" as const,
             name: tag,
         }));
-}
-
-function buildJourneySocialImages(
-    journey: NonNullable<Awaited<ReturnType<typeof fetchPublishedJourneyResult>>["data"]>,
-): Array<{ url: string; width?: number; height?: number; alt?: string }> | undefined {
-    const thumbnailImage = journey.thumbnailUrl
-        ? journey.images.find((image) => image.url === journey.thumbnailUrl)
-        : undefined;
-    const fallbackImage = journey.images[0];
-
-    return buildSocialImageSequence(
-        [
-            journey.thumbnailUrl
-                ? {
-                      url: journey.thumbnailUrl,
-                      width: thumbnailImage?.width,
-                      height: thumbnailImage?.height,
-                      alt: journey.title,
-                  }
-                : null,
-            fallbackImage
-                ? {
-                      url: fallbackImage.url,
-                      width: fallbackImage.width,
-                      height: fallbackImage.height,
-                      alt: journey.title,
-                  }
-                : null,
-        ],
-        { limit: 1 },
-    );
 }
 
 export async function generateMetadata({
@@ -153,7 +123,14 @@ export async function generateMetadata({
         hashtags: journey.hashtags,
         extra: [journeyLabels[lang]?.eyebrow ?? journeyLabels.en.eyebrow],
     });
-    const images = buildJourneySocialImages(journey);
+    const images = buildSocialImageMetadata(
+        {
+            kind: "journey",
+            lang,
+            journeyId: journey.publicId,
+        },
+        title,
+    );
 
     return {
         title,
@@ -186,7 +163,7 @@ export async function generateMetadata({
             tags: buildOpenGraphArticleTags(keywords),
         },
         twitter: {
-            card: resolveTwitterCard(images),
+            card: "summary_large_image",
             title: journey.title,
             description,
             images: images?.map((img) => img.url),
@@ -276,10 +253,12 @@ export default async function JourneyPage({
         })),
         ...buildVisibleJourneyTopics(journey.hashtags),
     ];
-    const socialImages = buildJourneySocialImages(journey);
-    const structuredImages =
-        socialImages?.map((image) => image.url) ??
-        journey.images.map((image) => image.url);
+    const structuredImages = [
+        ...(journey.thumbnailUrl ? [journey.thumbnailUrl] : []),
+        ...journey.images
+            .map((image) => image.url)
+            .filter((url) => url !== journey.thumbnailUrl),
+    ];
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -311,8 +290,18 @@ export default async function JourneyPage({
         },
     };
 
+    const journeyPageLabels = getJourneyPageLabels(lang);
+    const breadcrumbJsonLd = buildPageBreadcrumbJsonLd(lang, [
+        { name: journeyPageLabels.title, path: `/${lang}/journeys` },
+        { name: journey.title || journeyPageLabels.title, path: `/${lang}/journeys/${journey.publicId}` },
+    ], siteUrl);
+
     return (
         <div className={styles.page}>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+            />
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}

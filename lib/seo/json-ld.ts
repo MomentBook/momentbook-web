@@ -31,3 +31,41 @@ export function buildPublisherOrganizationJsonLd(
     },
   };
 }
+
+// ---------------------------------------------------------------------------
+// BreadcrumbList
+// ---------------------------------------------------------------------------
+
+export type BreadcrumbItem = {
+  name: string;
+  path: string;
+};
+
+/**
+ * Builds a BreadcrumbList JSON-LD schema from an ordered list of items.
+ *
+ * Each item becomes a ListItem whose `position` is 1-indexed.
+ * Paths are resolved to absolute URLs using the site URL.
+ *
+ * @example
+ * buildBreadcrumbListJsonLd([
+ *   { name: "Home", path: "/en" },
+ *   { name: "Journeys", path: "/en/journeys" },
+ *   { name: "Trip to Seoul", path: "/en/journeys/abc" },
+ * ]);
+ */
+export function buildBreadcrumbListJsonLd(
+  items: BreadcrumbItem[],
+  siteUrl = resolveStructuredDataSiteUrl(),
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: buildStructuredDataUrl(item.path, siteUrl),
+    })),
+  };
+}

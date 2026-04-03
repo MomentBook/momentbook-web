@@ -13,15 +13,17 @@ import {
   buildSocialImageSequence,
   buildSeoTitle,
   buildStructuredDataKeywordValue,
-  resolveTwitterCard,
   buildSeoDescription,
 } from "@/lib/seo/public-metadata";
+import { buildSocialImageMetadata } from "@/lib/seo/social-image";
 import {
   buildPublisherOrganizationJsonLd,
   buildStructuredDataUrl,
   resolveStructuredDataSiteUrl,
   serializeJsonLd,
 } from "@/lib/seo/json-ld";
+import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
+import { getJourneyPageLabels } from "../../journeys-page.helpers";
 import { MomentContent } from "./MomentContent";
 import {
   buildMomentDisplayLocationName,
@@ -129,9 +131,15 @@ export async function generateMetadata({
     extra: [labels.eyebrow, journey.title],
   });
   const path = `/journeys/${journey.publicId}/moments/${cluster.clusterId}`;
-  const imageUrlMap = buildMomentImageUrlMap(journey);
-  const momentPhotos = buildMomentPhotos(cluster, imageUrlMap);
-  const clusterImages = buildJourneyThumbnailSocialImages(journey, momentPhotos, title);
+  const clusterImages = buildSocialImageMetadata(
+    {
+      kind: "moment",
+      lang,
+      journeyId: journey.publicId,
+      clusterId: cluster.clusterId,
+    },
+    title,
+  );
 
   return {
     title,
@@ -153,7 +161,7 @@ export async function generateMetadata({
       tags: buildOpenGraphArticleTags(keywords),
     },
     twitter: {
-      card: resolveTwitterCard(clusterImages),
+      card: "summary_large_image",
       title,
       description,
       images: clusterImages?.map((img) => img.url),
@@ -274,8 +282,19 @@ export default async function JourneyMomentPage({
     },
   };
 
+  const journeyPageLabels = getJourneyPageLabels(lang);
+  const breadcrumbJsonLd = buildPageBreadcrumbJsonLd(lang, [
+    { name: journeyPageLabels.title, path: `/${lang}/journeys` },
+    { name: journey.title || journeyPageLabels.title, path: `/${lang}/journeys/${journey.publicId}` },
+    { name: displayLocationName, path: `/${lang}/journeys/${journey.publicId}/moments/${cluster.clusterId}` },
+  ], siteUrl);
+
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}

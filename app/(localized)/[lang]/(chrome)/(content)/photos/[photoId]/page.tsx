@@ -12,15 +12,16 @@ import {
     buildPublicKeywords,
     buildPublicRobots,
     buildStructuredDataKeywordValue,
-    compactSocialImages,
-    resolveTwitterCard,
 } from "@/lib/seo/public-metadata";
+import { buildSocialImageMetadata } from "@/lib/seo/social-image";
 import {
     buildPublisherOrganizationJsonLd,
     buildStructuredDataUrl,
     resolveStructuredDataSiteUrl,
     serializeJsonLd,
 } from "@/lib/seo/json-ld";
+import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
+import { getJourneyPageLabels } from "../../journeys/journeys-page.helpers";
 import { PhotoContent } from "./PhotoContent";
 import {
     buildPhotoDisplayState,
@@ -63,12 +64,14 @@ export async function generateMetadata({
         locationNames: display.locationName ? [display.locationName] : [],
         extra: display.journeyTitle ? [display.journeyTitle] : [],
     });
-    const socialImages = compactSocialImages([
+    const socialImages = buildSocialImageMetadata(
         {
-            url: photo.url,
-            alt: display.title,
+            kind: "photo",
+            lang,
+            photoId: photo.photoId,
         },
-    ]);
+        display.title,
+    );
 
     return {
         title: display.title,
@@ -88,7 +91,7 @@ export async function generateMetadata({
             tags: buildOpenGraphArticleTags(keywords),
         },
         twitter: {
-            card: resolveTwitterCard(socialImages),
+            card: "summary_large_image",
             title: display.title,
             description: display.description,
             images: socialImages?.map((image) => image.url),
@@ -170,8 +173,19 @@ export default async function PhotoPage({
         },
     };
 
+    const journeyPageLabels = getJourneyPageLabels(lang);
+    const breadcrumbJsonLd = buildPageBreadcrumbJsonLd(lang, [
+        { name: journeyPageLabels.title, path: `/${lang}/journeys` },
+        { name: display.journeyTitle || journeyPageLabels.title, path: `/${lang}/journeys/${photo.journey.publicId}` },
+        { name: display.title, path: `/${lang}/photos/${photo.photoId}` },
+    ], siteUrl);
+
     return (
         <div className={styles.page}>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+            />
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}

@@ -17,17 +17,19 @@ import {
 } from "@/lib/seo/json-ld";
 import {
   buildAbsoluteTitle,
-  buildLocalizedAppScreenshotImage,
   buildPublicRobots,
 } from "@/lib/seo/public-metadata";
+import {
+  buildSocialImageMetadata,
+} from "@/lib/seo/social-image";
 import { RootRedirectClient } from "./RootRedirectClient";
 import styles from "./page.module.scss";
 
 const ROOT_TITLE = "MomentBook";
 const ROOT_DESCRIPTION =
   "MomentBook is the public web for exploring published journeys, moments, photos, and traveler profiles from the app in your preferred language.";
-const ROOT_SOCIAL_IMAGE = buildLocalizedAppScreenshotImage(
-  defaultLanguage,
+const ROOT_SOCIAL_IMAGES = buildSocialImageMetadata(
+  { kind: "home", lang: defaultLanguage },
   ROOT_TITLE,
 );
 const ROOT_LANGUAGE_ITEMS = languageList.map((code) => ({
@@ -51,13 +53,13 @@ export const metadata: Metadata = {
     siteName: ROOT_TITLE,
     title: ROOT_TITLE,
     description: ROOT_DESCRIPTION,
-    images: [ROOT_SOCIAL_IMAGE],
+    images: ROOT_SOCIAL_IMAGES,
   },
   twitter: {
     card: "summary_large_image",
     title: ROOT_TITLE,
     description: ROOT_DESCRIPTION,
-    images: [ROOT_SOCIAL_IMAGE.url],
+    images: ROOT_SOCIAL_IMAGES.map((image) => image.url),
   },
   other: {
     "apple-itunes-app": buildAppleSmartBannerContent(defaultLanguage),

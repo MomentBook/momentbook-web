@@ -7,18 +7,20 @@ import {
   buildPaginatedAlternates,
 } from "@/lib/i18n/metadata";
 import {
-  buildLocalizedAppScreenshotImage,
   buildOpenGraphBase,
   buildPublicKeywords,
   buildPublicRobots,
   buildStructuredDataKeywordValue,
 } from "@/lib/seo/public-metadata";
+import { buildSocialImageMetadata } from "@/lib/seo/social-image";
 import {
   buildPublisherOrganizationJsonLd,
   buildStructuredDataUrl,
   resolveStructuredDataSiteUrl,
   serializeJsonLd,
 } from "@/lib/seo/json-ld";
+import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
+import { getUserListLabels } from "../users-page.helpers";
 import {
   fetchPublicUsers,
   fetchPublicUser,
@@ -79,16 +81,15 @@ export async function generateMetadata({
     currentPage > 1 ? `${path}?page=${currentPage}` : path;
   const title = buildUserMetadataTitle(lang, user.name, currentPage);
   const description = buildUserMetadataDescription(lang, user, currentPage);
-  const socialImages = user.picture
-    ? [
-        {
-          url: user.picture,
-          width: 800,
-          height: 800,
-          alt: user.name,
-        },
-      ]
-    : [buildLocalizedAppScreenshotImage(lang, title)];
+  const socialImages = buildSocialImageMetadata(
+    {
+      kind: "user",
+      lang,
+      userId: user.userId,
+      page: currentPage,
+    },
+    title,
+  );
 
   return {
     title,
@@ -217,8 +218,18 @@ export default async function UserPage({
     },
   };
 
+  const userListLabels = getUserListLabels(lang);
+  const breadcrumbJsonLd = buildPageBreadcrumbJsonLd(lang, [
+    { name: userListLabels.title, path: `/${lang}/users` },
+    { name: user.name, path: `/${lang}/users/${user.userId}` },
+  ], siteUrl);
+
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}

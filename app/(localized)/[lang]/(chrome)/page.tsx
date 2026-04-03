@@ -10,10 +10,10 @@ import { fetchPublishedJourneys } from "@/lib/published-journey";
 import { fetchPublicUser } from "@/lib/public-users";
 import { serializeJsonLd } from "@/lib/seo/json-ld";
 import {
-  buildLocalizedAppScreenshotImage,
   buildPublicRobots,
   buildStandardPageMetadata,
 } from "@/lib/seo/public-metadata";
+import { buildSocialImageMetadata } from "@/lib/seo/social-image";
 import { resolveSiteUrl } from "@/lib/site-url";
 import { HashTargetFocus } from "./HashTargetFocus";
 import { HomeMarketingStory } from "./HomeMarketingStory";
@@ -47,9 +47,10 @@ export async function generateMetadata(
     robots: buildPublicRobots(),
     absoluteTitle: true,
     twitterCard: "summary_large_image",
-    socialImages: [
-      buildLocalizedAppScreenshotImage(lang, content.metaTitle),
-    ],
+    socialImages: buildSocialImageMetadata(
+      { kind: "home", lang },
+      content.metaTitle,
+    ),
     other: {
       "apple-itunes-app": buildAppleSmartBannerContent(lang),
     },

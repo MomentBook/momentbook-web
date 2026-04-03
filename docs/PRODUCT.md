@@ -249,7 +249,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - Public pages use lean metadata: title/description/canonical/alternates + basic OpenGraph/Twitter
 - `buildPublicRobots()`는 public index/follow 외에 Google snippet/image preview용 `max-snippet=-1`, `max-image-preview=large`, `max-video-preview=-1`를 함께 선언한다.
 - journey/moment/photo/user detail의 `generateMetadata()`는 현재 route locale 기준 localized title/description을 사용하고, location/journey/archive 맥락을 보조적으로 합성해 query relevance를 높인다.
-- journey detail과 moment detail의 공유 preview metadata(`og:image`, `twitter:image`)는 journey `thumbnailUrl`을 대표 이미지로 우선 사용하고, thumbnail이 없을 때만 첫 detail photo를 fallback으로 사용한다.
+- 공유 preview metadata(`og:image`, `twitter:image`)는 first-party `image/png` share-image endpoint(`/api/share-image`)를 사용한다. root/localized home과 public detail(`journeys`, `moments`, `photos`, `users`)은 각 route kind별 URL 하나만 metadata에 연결하고, raw public asset URL(S3/webp 등)을 직접 대표 이미지로 노출하지 않는다.
 - Public metadata/JSON-LD emit only verified public values; placeholder author/location/journey fallback strings are omitted when source fields are missing.
 - photo detail JSON-LD는 `ImageObject`를 유지하되 `mainEntityOfPage.primaryImageOfPage`에 현재 공개 사진 URL을 함께 기록한다.
 - 루트 gateway(`/`)는 canonical `/` + `x-default=/` alternates를 제공하고, localized home/정적 상세 route는 언어 prefix canonical을 유지한다.
@@ -329,6 +329,7 @@ MomentBook Web은 다음 역할만 수행한다.
 
 운영 규칙:
 - `NEXT_PUBLIC_SITE_URL`은 production에서 canonical, hreflang alternates, robots, sitemap, JSON-LD absolute URL의 단일 기준값이다.
+- `NEXT_PUBLIC_SITE_URL`은 production에서 canonical, hreflang alternates, robots, sitemap, JSON-LD, `og:url`, generated share-image absolute URL의 단일 기준값이며, 실제 최종 public host와 정확히 일치해야 한다(`www` 포함 여부 포함).
 - `http://localhost:3100` fallback은 local/dev 또는 `NEXT_PUBLIC_APP_IS_LOCAL=true`일 때만 허용한다.
 - `NEXT_PUBLIC_API_BASE_URL`은 `/admin/login`의 browser-direct backend login에도 사용되므로, 관리자 브라우저에서 실제로 도달 가능한 origin이어야 한다. 원격 브라우저 접속 환경에서는 `127.0.0.1` loopback을 사용할 수 없다.
 

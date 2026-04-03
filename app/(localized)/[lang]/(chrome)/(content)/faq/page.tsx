@@ -7,6 +7,7 @@ import {
   resolveStructuredDataSiteUrl,
   serializeJsonLd,
 } from "@/lib/seo/json-ld";
+import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
 import {
   buildAbsoluteTitle,
   buildLocalizedAppScreenshotImage,
@@ -102,8 +103,16 @@ export default async function FAQPage({
     })),
   };
 
+  const breadcrumbJsonLd = buildPageBreadcrumbJsonLd(lang, [
+    { name: content.metaTitle, path: `/${lang}/faq` },
+  ], siteUrl);
+
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }}

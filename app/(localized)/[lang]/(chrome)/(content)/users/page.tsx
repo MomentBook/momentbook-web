@@ -8,6 +8,7 @@ import {
   resolveStructuredDataSiteUrl,
   serializeJsonLd,
 } from "@/lib/seo/json-ld";
+import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
 import {
   buildNoIndexFollowRobots,
   buildLocalizedAppScreenshotImage,
@@ -118,8 +119,16 @@ export default async function UsersPage({
     },
   };
 
+  const breadcrumbJsonLd = buildPageBreadcrumbJsonLd(lang, [
+    { name: labels.title, path: `/${lang}/users` },
+  ], siteUrl);
+
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       {shouldExposeStructuredData ? (
         <script
           type="application/ld+json"

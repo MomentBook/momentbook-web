@@ -14,6 +14,7 @@ import {
   resolveStructuredDataSiteUrl,
   serializeJsonLd,
 } from "@/lib/seo/json-ld";
+import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
 import {
   buildLocalizedAppScreenshotImage,
   buildOpenGraphBase,
@@ -124,8 +125,16 @@ export default async function JourneysPage({
     },
   };
 
+  const breadcrumbJsonLd = buildPageBreadcrumbJsonLd(lang, [
+    { name: pageTitle, path: `/${lang}/journeys` },
+  ], siteUrl);
+
   return (
     <div className={styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
