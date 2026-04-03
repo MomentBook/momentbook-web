@@ -294,7 +294,7 @@ function segmentSingleToken(
       }
 
       const segToken = normalizeTopicTerm(segment.segment);
-      if (!segToken || segToken === normalized) {
+      if (!segToken || segToken === normalized || segToken.length < 2) {
         continue;
       }
 
