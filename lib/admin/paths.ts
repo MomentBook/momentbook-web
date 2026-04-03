@@ -92,3 +92,13 @@ export function buildAdminWorkspaceHref(
     tab: tab === ADMIN_DEFAULT_WORKSPACE_TAB ? null : tab,
   });
 }
+
+export function buildAdminReviewDetailHref(
+  publicId: string,
+  entries?: Record<string, string | null | undefined>,
+): string {
+  return withAdminQuery(
+    `${ADMIN_REVIEWS_PATH}/${encodeURIComponent(publicId)}`,
+    entries ?? {},
+  );
+}

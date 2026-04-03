@@ -8,9 +8,9 @@ import {
 } from "@/app/(admin)/admin/actions";
 import { ADMIN_ALLOWED_EMAIL } from "@/lib/admin/config";
 import {
+  buildAdminReviewDetailHref,
   buildAdminWorkspaceHref,
   type AdminWorkspaceTab,
-  withAdminQuery,
 } from "@/lib/admin/paths";
 import type { AdminSession } from "@/lib/admin/session";
 import { defaultLanguage } from "@/lib/i18n/config";
@@ -20,14 +20,10 @@ import type {
   AdminReviewQueueStatus,
   AdminReviewStatus,
 } from "@/lib/admin/mock-data";
+import type { AdminDashboardBanner } from "./workspace-data";
 import styles from "./workspace.module.scss";
 
 const ADMIN_DISPLAY_LANGUAGE = defaultLanguage;
-
-type DashboardBanner = {
-  tone: "default" | "error" | "success";
-  message: string;
-};
 
 type ReviewMutationSummary = {
   publicId: string;
@@ -36,12 +32,17 @@ type ReviewMutationSummary = {
 
 type AdminWorkspaceProps = {
   activeTab: AdminWorkspaceTab;
-  banner: DashboardBanner | null;
-  reviewMutation: ReviewMutationSummary | null;
+  banner: AdminDashboardBanner | null;
   queue: AdminReviewQueueData;
+  session: AdminSession;
+};
+
+type AdminReviewDetailPageViewProps = {
+  banner: AdminDashboardBanner | null;
+  detail: AdminReviewDetail;
+  queue: AdminReviewQueueData;
+  reviewMutation: ReviewMutationSummary | null;
   returnTo: string;
-  selectedDetail: AdminReviewDetail | null;
-  selectedPublicId: string | null;
   session: AdminSession;
   targetPublicId: string | null;
 };
@@ -104,23 +105,10 @@ function buildQueueStatusLabel(status: AdminReviewQueueStatus): string {
   return "Pending";
 }
 
-function buildQueueHref(
-  page: number,
-  status: AdminReviewQueueStatus,
-  publicId: string | null,
-): string {
-  return buildAdminWorkspaceHref("reviews", {
-    page: page > 1 ? String(page) : null,
-    status: status === "pending" ? null : status,
-    publicId,
-  });
-}
-
 function buildFilterHref(status: AdminReviewQueueStatus): string {
   return buildAdminWorkspaceHref("reviews", {
     status: status === "pending" ? null : status,
     page: null,
-    publicId: null,
   });
 }
 
@@ -128,27 +116,35 @@ function buildTabHref(
   tab: AdminWorkspaceTab,
   options: {
     page: number;
-    selectedPublicId: string | null;
     status: AdminReviewQueueStatus;
-    targetPublicId: string | null;
   },
 ): string {
   return buildAdminWorkspaceHref(tab, {
     page: options.page > 1 ? String(options.page) : null,
-    publicId: options.selectedPublicId,
     status: options.status === "pending" ? null : options.status,
-    targetPublicId: options.targetPublicId,
+  });
+}
+
+function buildReviewDetailTableHref(
+  publicId: string,
+  options: {
+    page: number;
+    status: AdminReviewQueueStatus;
+  },
+): string {
+  return buildAdminReviewDetailHref(publicId, {
+    page: options.page > 1 ? String(options.page) : null,
+    status: options.status === "pending" ? null : options.status,
   });
 }
 
 function resolveDefaultReviewStatus(options: {
+  detail: AdminReviewDetail;
   reviewMutation: ReviewMutationSummary | null;
-  selectedDetail: AdminReviewDetail | null;
-  selectedPublicId: string | null;
   targetPublicId: string | null;
 }): AdminReviewStatus {
   const trimmedTarget = options.targetPublicId?.trim() || "";
-  const activeTarget = trimmedTarget || options.selectedPublicId || "";
+  const activeTarget = trimmedTarget || options.detail.journey.publicId;
 
   if (
     options.reviewMutation &&
@@ -157,42 +153,29 @@ function resolveDefaultReviewStatus(options: {
     return options.reviewMutation.reviewStatus;
   }
 
-  if (
-    options.selectedDetail &&
-    (!trimmedTarget || trimmedTarget === options.selectedDetail.journey.publicId)
-  ) {
-    return options.selectedDetail.review.status;
+  if (!trimmedTarget || trimmedTarget === options.detail.journey.publicId) {
+    return options.detail.review.status;
   }
 
   return "PENDING";
 }
 
-function getActiveTabMeta(tab: AdminWorkspaceTab): {
-  title: string;
-} {
+function getActiveTabTitle(tab: AdminWorkspaceTab): string {
   if (tab === "reviews") {
-    return {
-      title: "Reviews",
-    };
+    return "Reviews";
   }
 
-  return {
-    title: "Overview",
-  };
+  return "Overview";
 }
 
 function Sidebar({
   activeTab,
   queue,
-  selectedPublicId,
   session,
-  targetPublicId,
 }: {
   activeTab: AdminWorkspaceTab;
   queue: AdminReviewQueueData;
-  selectedPublicId: string | null;
   session: AdminSession;
-  targetPublicId: string | null;
 }) {
   const navigationItems: Array<{
     tab: AdminWorkspaceTab;
@@ -221,9 +204,7 @@ function Sidebar({
         {navigationItems.map((item) => {
           const href = buildTabHref(item.tab, {
             page: queue.page,
-            selectedPublicId,
             status: queue.status,
-            targetPublicId,
           });
 
           return (
@@ -263,21 +244,19 @@ function Sidebar({
 }
 
 function ContentHeader({
-  activeTab,
   banner,
   pendingCount,
+  title,
 }: {
-  activeTab: AdminWorkspaceTab;
-  banner: DashboardBanner | null;
+  banner: AdminDashboardBanner | null;
   pendingCount: number;
+  title: string;
 }) {
-  const meta = getActiveTabMeta(activeTab);
-
   return (
     <header className={styles.contentHeader}>
       <div className={styles.headerCopy}>
         <div className={styles.headerTitleRow}>
-          <h2 className={styles.contentTitle}>{meta.title}</h2>
+          <h2 className={styles.contentTitle}>{title}</h2>
           <span className={styles.pendingBadge}>{pendingCount} pending</span>
         </div>
       </div>
@@ -331,29 +310,13 @@ function SelectedJourneyCard({
   title,
   actions,
 }: {
-  detail: AdminReviewDetail | null;
+  detail: AdminReviewDetail;
   title: string;
   actions?: ReactNode;
 }) {
-  const journey = detail?.journey ?? null;
-  const coverImage = journey?.thumbnailUrl ?? journey?.images[0]?.url ?? null;
-
-  if (!detail || !journey) {
-    return (
-      <section className={styles.card}>
-        <div className={styles.cardHeader}>
-          <div className={styles.cardHeading}>
-            <h3 className={styles.cardTitle}>{title}</h3>
-          </div>
-        </div>
-        <div className={styles.emptyState}>
-          <h4 className={styles.emptyTitle}>No selection</h4>
-        </div>
-      </section>
-    );
-  }
-
+  const journey = detail.journey;
   const review = detail.review;
+  const coverImage = journey.thumbnailUrl ?? journey.images[0]?.url ?? null;
 
   return (
     <section className={styles.card}>
@@ -439,10 +402,8 @@ function SelectedJourneyCard({
 
 function ReviewTablePanel({
   queue,
-  selectedPublicId,
 }: {
   queue: AdminReviewQueueData;
-  selectedPublicId: string | null;
 }) {
   return (
     <section className={styles.card}>
@@ -450,9 +411,7 @@ function ReviewTablePanel({
         <div className={styles.cardHeading}>
           <h3 className={styles.cardTitle}>Reviews</h3>
         </div>
-        <span className={styles.sectionMeta}>
-          {queue.total} items
-        </span>
+        <span className={styles.sectionMeta}>{queue.total} items</span>
       </div>
 
       <div className={styles.filterRow} aria-label="Queue status filters">
@@ -493,14 +452,7 @@ function ReviewTablePanel({
               </thead>
               <tbody>
                 {queue.items.map((item) => (
-                  <tr
-                    key={item.publicId}
-                    className={
-                      item.publicId === selectedPublicId
-                        ? styles.queueTableRowActive
-                        : styles.queueTableRow
-                    }
-                  >
+                  <tr key={item.publicId} className={styles.queueTableRow}>
                     <td>
                       <span className={buildStatusClassName(item.review.status)}>
                         {buildStatusLabel(item.review.status)}
@@ -508,7 +460,10 @@ function ReviewTablePanel({
                     </td>
                     <td>
                       <Link
-                        href={buildQueueHref(queue.page, queue.status, item.publicId)}
+                        href={buildReviewDetailTableHref(item.publicId, {
+                          page: queue.page,
+                          status: queue.status,
+                        })}
                         className={styles.tablePrimaryLink}
                       >
                         {item.title || "Untitled journey"}
@@ -546,7 +501,6 @@ function ReviewTablePanel({
                   page:
                     queue.page > 1 ? String(Math.max(1, queue.page - 1)) : null,
                   status: queue.status === "pending" ? null : queue.status,
-                  publicId: selectedPublicId,
                 })}
                 aria-disabled={queue.page <= 1}
                 className={
@@ -565,7 +519,6 @@ function ReviewTablePanel({
                       ? String(Math.min(queue.pages, queue.page + 1))
                       : String(queue.pages),
                   status: queue.status === "pending" ? null : queue.status,
-                  publicId: selectedPublicId,
                 })}
                 aria-disabled={queue.page >= queue.pages}
                 className={
@@ -600,23 +553,20 @@ function ReviewTablePanel({
 }
 
 function ReviewUpdateCard({
+  detail,
   reviewMutation,
   returnTo,
-  selectedDetail,
-  selectedPublicId,
   targetPublicId,
 }: {
+  detail: AdminReviewDetail;
   reviewMutation: ReviewMutationSummary | null;
   returnTo: string;
-  selectedDetail: AdminReviewDetail | null;
-  selectedPublicId: string | null;
   targetPublicId: string | null;
 }) {
-  const effectiveTargetPublicId = targetPublicId ?? selectedPublicId ?? "";
+  const effectiveTargetPublicId = targetPublicId ?? detail.journey.publicId;
   const defaultReviewStatus = resolveDefaultReviewStatus({
+    detail,
     reviewMutation,
-    selectedDetail,
-    selectedPublicId,
     targetPublicId,
   });
 
@@ -641,13 +591,7 @@ function ReviewUpdateCard({
       </div>
 
       <form action={updatePublishedJourneyReviewAction} className={styles.formCard}>
-        <input
-          type="hidden"
-          name="returnTo"
-          value={withAdminQuery(returnTo, {
-            publicId: selectedPublicId,
-          })}
-        />
+        <input type="hidden" name="returnTo" value={returnTo} />
 
         <label className={styles.field}>
           <span className={styles.fieldLabel}>Public ID</span>
@@ -719,29 +663,20 @@ function ReviewUpdateCard({
 
 function OverviewPanel({
   queue,
-  selectedPublicId,
   session,
-  targetPublicId,
 }: {
   queue: AdminReviewQueueData;
-  selectedPublicId: string | null;
   session: AdminSession;
-  targetPublicId: string | null;
 }) {
   const reviewsHref = buildTabHref("reviews", {
     page: queue.page,
-    selectedPublicId,
     status: queue.status,
-    targetPublicId,
   });
 
   return (
     <div className={styles.sectionStack}>
       <section className={styles.metricGrid}>
-        <SummaryMetric
-          label="Pending now"
-          value={queue.summary.pendingCount}
-        />
+        <SummaryMetric label="Pending now" value={queue.summary.pendingCount} />
         <SummaryMetric
           label="Approved today"
           value={queue.summary.approvedTodayCount}
@@ -827,7 +762,7 @@ function OverviewPanel({
             </div>
             <div className={styles.metaItem}>
               <dt>Write path</dt>
-              <dd>Review status</dd>
+              <dd>Review detail</dd>
             </div>
             <div className={styles.metaItem}>
               <dt>Source</dt>
@@ -845,83 +780,88 @@ function OverviewPanel({
 }
 
 function ReviewsPanel({
-  reviewMutation,
   queue,
-  returnTo,
-  selectedDetail,
-  selectedPublicId,
-  targetPublicId,
 }: {
-  reviewMutation: ReviewMutationSummary | null;
   queue: AdminReviewQueueData;
-  returnTo: string;
-  selectedDetail: AdminReviewDetail | null;
-  selectedPublicId: string | null;
-  targetPublicId: string | null;
 }) {
   return (
-    <div className={styles.workspaceColumns}>
-      <ReviewTablePanel queue={queue} selectedPublicId={selectedPublicId} />
-
-      <div className={styles.stackList}>
-        <SelectedJourneyCard detail={selectedDetail} title="Preview" />
-        <ReviewUpdateCard
-          reviewMutation={reviewMutation}
-          returnTo={returnTo}
-          selectedDetail={selectedDetail}
-          selectedPublicId={selectedPublicId}
-          targetPublicId={targetPublicId}
-        />
-      </div>
+    <div className={styles.sectionStack}>
+      <ReviewTablePanel queue={queue} />
     </div>
+  );
+}
+
+export function AdminReviewDetailPageView({
+  banner,
+  detail,
+  queue,
+  reviewMutation,
+  returnTo,
+  session,
+  targetPublicId,
+}: AdminReviewDetailPageViewProps) {
+  const backHref = buildAdminWorkspaceHref("reviews", {
+    page: queue.page > 1 ? String(queue.page) : null,
+    status: queue.status === "pending" ? null : queue.status,
+  });
+
+  return (
+    <main className={styles.page}>
+      <div className={styles.shell}>
+        <Sidebar activeTab="reviews" queue={queue} session={session} />
+
+        <section className={styles.content}>
+          <ContentHeader
+            banner={banner}
+            pendingCount={queue.summary.pendingCount}
+            title="Review detail"
+          />
+
+          <div className={styles.stackList}>
+            <SelectedJourneyCard
+              detail={detail}
+              title="Preview"
+              actions={
+                <Link href={backHref} className={styles.secondaryButton}>
+                  Back to reviews
+                </Link>
+              }
+            />
+            <ReviewUpdateCard
+              detail={detail}
+              reviewMutation={reviewMutation}
+              returnTo={returnTo}
+              targetPublicId={targetPublicId}
+            />
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
 
 export function AdminWorkspace({
   activeTab,
   banner,
-  reviewMutation,
   queue,
-  returnTo,
-  selectedDetail,
-  selectedPublicId,
   session,
-  targetPublicId,
 }: AdminWorkspaceProps) {
   return (
     <main className={styles.page}>
       <div className={styles.shell}>
-        <Sidebar
-          activeTab={activeTab}
-          queue={queue}
-          selectedPublicId={selectedPublicId}
-          session={session}
-          targetPublicId={targetPublicId}
-        />
+        <Sidebar activeTab={activeTab} queue={queue} session={session} />
 
         <section className={styles.content}>
           <ContentHeader
-            activeTab={activeTab}
             banner={banner}
             pendingCount={queue.summary.pendingCount}
+            title={getActiveTabTitle(activeTab)}
           />
 
           {activeTab === "reviews" ? (
-            <ReviewsPanel
-              reviewMutation={reviewMutation}
-              queue={queue}
-              returnTo={returnTo}
-              selectedDetail={selectedDetail}
-              selectedPublicId={selectedPublicId}
-              targetPublicId={targetPublicId}
-            />
+            <ReviewsPanel queue={queue} />
           ) : (
-            <OverviewPanel
-              queue={queue}
-              selectedPublicId={selectedPublicId}
-              session={session}
-              targetPublicId={targetPublicId}
-            />
+            <OverviewPanel queue={queue} session={session} />
           )}
         </section>
       </div>

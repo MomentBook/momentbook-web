@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import { buildAdminWorkspaceHref, parseAdminWorkspaceTab } from "@/lib/admin/paths";
+import { redirect } from "next/navigation";
+import { AdminReviewDetailPageView } from "@/app/(admin)/admin/AdminWorkspace";
+import { getAdminReviewDetailMock } from "@/lib/admin/mock-data";
+import {
+  buildAdminReviewDetailHref,
+  buildAdminWorkspaceHref,
+} from "@/lib/admin/paths";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
-import { AdminWorkspace } from "./AdminWorkspace";
 import {
   loadAdminWorkspaceShell,
   parsePage,
@@ -9,22 +14,23 @@ import {
   parseStatus,
   readQueryParam,
   resolveBanner,
-} from "./workspace-data";
+} from "../../workspace-data";
 
 export const metadata: Metadata = {
-  title: "Moderation Workspace",
+  title: "Review Detail",
   robots: buildNoIndexRobots(),
 };
 
-export default async function AdminIndexPage({
+export default async function AdminReviewDetailPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ publicId: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
-  const activeTab = parseAdminWorkspaceTab(
-    readQueryParam(resolvedSearchParams.tab),
-  );
+  const publicId = decodeURIComponent(resolvedParams.publicId);
   const page = parsePage(readQueryParam(resolvedSearchParams.page));
   const status = parseStatus(readQueryParam(resolvedSearchParams.status));
   const targetPublicId = readQueryParam(resolvedSearchParams.targetPublicId);
@@ -32,10 +38,20 @@ export default async function AdminIndexPage({
   const reviewStatus = parseReviewStatus(
     readQueryParam(resolvedSearchParams.reviewStatus),
   );
-  const returnTo = buildAdminWorkspaceHref(activeTab, {
+  const returnTo = buildAdminReviewDetailHref(publicId, {
     page: page > 1 ? String(page) : null,
     status: status === "pending" ? null : status,
   });
+  const detail = getAdminReviewDetailMock(publicId);
+
+  if (!detail) {
+    redirect(
+      buildAdminWorkspaceHref("reviews", {
+        page: page > 1 ? String(page) : null,
+        status: status === "pending" ? null : status,
+      }),
+    );
+  }
 
   const banner = resolveBanner({
     error: readQueryParam(resolvedSearchParams.error),
@@ -44,6 +60,14 @@ export default async function AdminIndexPage({
     targetPublicId,
   });
 
+  const reviewMutation =
+    mutation === "review_updated" && targetPublicId && reviewStatus
+      ? {
+          publicId: targetPublicId,
+          reviewStatus,
+        }
+      : null;
+
   const { queue, session } = await loadAdminWorkspaceShell({
     page,
     returnTo,
@@ -51,11 +75,14 @@ export default async function AdminIndexPage({
   });
 
   return (
-    <AdminWorkspace
-      activeTab={activeTab}
+    <AdminReviewDetailPageView
       banner={banner}
+      detail={detail}
       queue={queue}
+      reviewMutation={reviewMutation}
+      returnTo={returnTo}
       session={session}
+      targetPublicId={targetPublicId}
     />
   );
 }

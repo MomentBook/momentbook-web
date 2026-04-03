@@ -25,7 +25,6 @@ export default async function AdminReviewsPage({
     buildAdminWorkspaceHref("reviews", {
       page: readQueryParam(resolvedSearchParams.page),
       status: readQueryParam(resolvedSearchParams.status),
-      publicId: readQueryParam(resolvedSearchParams.publicId),
       targetPublicId: readQueryParam(resolvedSearchParams.targetPublicId),
       mutation: readQueryParam(resolvedSearchParams.mutation),
       reviewStatus: readQueryParam(resolvedSearchParams.reviewStatus),
