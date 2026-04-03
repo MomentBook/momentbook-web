@@ -2700,7 +2700,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.28
+ * @version 2.1.30
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3383,7 +3383,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve publicly visible approved journeys for the discovery feed. Supports legacy offset pagination and additive cursor pagination for short-feed style clients. Creator-specific lists should prefer `/v2/users/public/:userId/journeys`.
+     * @description Public endpoint to retrieve publicly visible approved journeys for the discovery feed. Supports legacy offset pagination and additive cursor pagination for short-feed style clients. Optional `reviewStatus=APPROVED` may be supplied to make the approved-only contract explicit. Creator-specific lists should prefer `/v2/users/public/:userId/journeys`.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourneys
@@ -3418,6 +3418,11 @@ export class Api<
          * @example "507f1f77bcf86cd799439011"
          */
         userId?: string;
+        /**
+         * Optional review-status selector for the public feed. This endpoint exposes only approved content, so the only supported value is APPROVED.
+         * @example "APPROVED"
+         */
+        reviewStatus?: "APPROVED";
         /**
          * Opaque cursor for discovery-feed pagination. When present, the response returns nextCursor/hasMore and ignores offset traversal beyond page=1.
          * @example "eyJzb3J0QXQiOiIyMDI2LTA0LTAzVDA3OjAwOjAwLjAwMFoiLCJpZCI6IjY2MGQ4MzFhN2FlOGVjYzA0YmQ1OWJiMSJ9"
