@@ -36,7 +36,6 @@ const ROOT_LANGUAGE_ITEMS = languageList.map((code) => ({
   code,
   href: `/${code}`,
   nativeName: languages[code].nativeName,
-  name: languages[code].name,
 }));
 
 export const metadata: Metadata = {
@@ -105,28 +104,37 @@ export default function RootPage() {
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteSchema) }}
       />
 
-      <section className={styles.panel} aria-labelledby="root-language-gateway-title">
-        <p className={styles.eyebrow}>MomentBook</p>
-        <h1 id="root-language-gateway-title" className={styles.title}>
-          Redirecting to your language
-        </h1>
-        <p className={styles.description}>
-          MomentBook is the public web for exploring published journeys,
-          moments, photos, and traveler profiles from the app. You are being
-          redirected to the best language match now.
-        </p>
-        <p className={styles.hint}>
-          If the redirect does not start, continue in your language.
-        </p>
+      <section className={styles.card} aria-labelledby="root-language-gateway-title">
+        <p className={styles.brand}>MomentBook</p>
 
-        <nav className={styles.languageGrid} aria-label="Language options">
-          {ROOT_LANGUAGE_ITEMS.map((item) => (
-            <Link key={item.code} href={item.href} className={styles.languageLink}>
-              <span className={styles.languageName}>{item.nativeName}</span>
-              <span className={styles.languageMeta}>{item.name}</span>
-            </Link>
-          ))}
-        </nav>
+        <div className={styles.copy} role="status" aria-live="polite">
+          <h1 id="root-language-gateway-title" className={styles.title}>
+            Redirecting to your language
+          </h1>
+          <p className={styles.description}>
+            Finding the best version for you now, or choose one manually below.
+          </p>
+        </div>
+
+        <div className={styles.progress} aria-hidden="true" />
+
+        <details className={styles.languageChooser}>
+          <summary className={styles.languageSummary}>
+            Choose language manually
+          </summary>
+          <nav className={styles.languageGrid} aria-label="Language options">
+            {ROOT_LANGUAGE_ITEMS.map((item) => (
+              <Link
+                key={item.code}
+                href={item.href}
+                className={styles.languageLink}
+                lang={toLocaleTag(item.code)}
+              >
+                {item.nativeName}
+              </Link>
+            ))}
+          </nav>
+        </details>
       </section>
     </main>
   );
