@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { loginAdminAction } from "@/app/(admin)/admin/actions";
 import styles from "./login.module.scss";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 import {
@@ -8,6 +7,8 @@ import {
   sanitizeAdminPath,
 } from "@/lib/admin/paths";
 import { getAdminSession } from "@/lib/admin/session";
+import { ADMIN_ALLOWED_EMAIL } from "@/lib/admin/config";
+import { AdminLoginForm } from "./AdminLoginForm";
 
 function readQueryParam(
   value: string | string[] | undefined,
@@ -48,7 +49,7 @@ function resolveLoginNotice(
     case "admin_only":
       return {
         tone: "error",
-        message: "This account can sign in, but it does not have admin review access.",
+        message: `Only ${ADMIN_ALLOWED_EMAIL} can access this admin workspace.`,
       };
     case "session_expired":
       return {
@@ -104,9 +105,9 @@ export default async function AdminLoginPage({
         <div className={styles.heading}>
           <h1 className={styles.title}>Admin sign in</h1>
           <p className={styles.body}>
-            Access the internal moderation workspace. Queue cards remain mock
-            previews for now, but live review status updates are limited to
-            internal admin accounts only.
+            Access the internal moderation workspace with the provisioned admin
+            account only. The browser sends the login request directly to the
+            API server, and this app stores only the encrypted admin session.
           </p>
         </div>
 
@@ -125,46 +126,16 @@ export default async function AdminLoginPage({
           </p>
         ) : null}
 
-        <form action={loginAdminAction} className={styles.form}>
-          <input type="hidden" name="next" value={nextPath} />
-
-          <label className={styles.field}>
-            <span className={styles.label}>Email</span>
-            <input
-              className={styles.input}
-              type="email"
-              name="email"
-              autoComplete="email"
-              placeholder="admin@momentbook.app"
-              required
-            />
-          </label>
-
-          <label className={styles.field}>
-            <span className={styles.label}>Password</span>
-            <input
-              className={styles.input}
-              type="password"
-              name="password"
-              autoComplete="current-password"
-              placeholder="Enter the provisioned admin password"
-              required
-            />
-          </label>
-
-          <button type="submit" className={styles.submitButton}>
-            Sign in to review workspace
-          </button>
-        </form>
+        <AdminLoginForm nextPath={nextPath} />
 
         <p className={styles.securityNote}>
-          Admin sessions are stored in an encrypted HttpOnly cookie and renew
-          against the backend token lifecycle while the refresh token remains valid.
+          Admin sessions are stored in an encrypted HttpOnly cookie and continue
+          to renew against the backend token lifecycle while the refresh token
+          remains valid.
         </p>
 
         <p className={styles.footer}>
-          If you need a new admin account, provision it through the API-side
-          admin role workflow before using this screen.
+          The admin workspace accepts only <strong>{ADMIN_ALLOWED_EMAIL}</strong>.
         </p>
       </section>
     </main>

@@ -91,6 +91,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/admin` (세션 상태에 따라 `/admin/login` 또는 `/admin/reviews`로 redirect)
 - `/admin/login`
 - `/admin/reviews`
+- `/admin/session` (internal POST-only session bootstrap route)
 - `/admin/reviews` 지원 query: `status`, `page`, `publicId`, `targetPublicId`, `mutation`, `reviewStatus`, `error`
 
 운영 규칙:
@@ -98,6 +99,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - public header/footer, language sync, public analytics를 사용하지 않는다.
 - `robots.txt`에서 `/admin`을 차단하고 sitemap에는 포함하지 않는다.
 - 접근 자체는 backend email login + `admin` role 검증이 필요하므로 URL만 알아도 진입할 수 없다.
+- 관리자 로그인은 브라우저가 backend `POST /v2/auth/email/login`을 직접 호출하고, 웹은 `/admin/session`에서 returned token pair를 encrypted HttpOnly cookie 세션으로만 저장한다.
+- 허용 계정은 현재 `admin@momentbook.app` 하나로 고정된다.
 - 현재 review queue/detail card는 mock preview dataset으로 렌더링된다.
 - live moderation mutation은 known `publicId`를 직접 입력해 `PATCH /v2/admin/journeys/publish/:publicId/review`로 호출한다.
 - backend에는 아직 admin queue/list read API가 없으므로 pending 목록을 live API로 나열하지 않는다.
@@ -171,9 +174,12 @@ MomentBook Web은 다음 역할만 수행한다.
 - `POST /v2/auth/refresh`
 - `POST /v2/auth/logout`
 - `PATCH /v2/admin/journeys/publish/:publicId/review`
+- internal session bootstrap: `POST /admin/session`
 
 세션 정책:
-- 웹은 backend access/refresh token pair를 `ADMIN_SESSION_SECRET` 기반 encrypted HttpOnly cookie에 저장한다.
+- 로그인 요청은 브라우저가 backend `POST /v2/auth/email/login`으로 직접 보낸다.
+- 웹은 login response의 token pair를 `/admin/session`에서 검증한 뒤 `ADMIN_SESSION_SECRET` 기반 encrypted HttpOnly cookie에 저장한다.
+- `/admin/session`, token refresh, moderation write는 `admin@momentbook.app` 단일 관리자 계정만 허용한다.
 - access token 만료가 가까우면 backend refresh endpoint로 갱신하고, refresh token이 만료되면 `/admin/login`으로 되돌린다.
 - JWT access token의 `role=admin` claim이 있어야 `/admin`에 진입할 수 있다.
 

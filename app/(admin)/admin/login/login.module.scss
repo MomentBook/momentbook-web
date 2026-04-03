@@ -158,6 +158,11 @@
   box-shadow: 0 0 0 0.22rem color-mix(in srgb, var(--color-accent-soft) 68%, transparent);
 }
 
+.inputLocked {
+  color: var(--color-text-secondary);
+  background: rgba(244, 248, 247, 0.92);
+}
+
 .submitButton {
   appearance: none;
   border: 0;
@@ -173,6 +178,11 @@
   );
   box-shadow: 0 18px 34px rgba(24, 107, 94, 0.2);
   cursor: pointer;
+}
+
+.submitButton:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 
 .securityNote {

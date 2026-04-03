@@ -9,6 +9,7 @@ import {
   readTokenExpiryMs,
   refreshAdminTokens,
 } from "@/lib/admin/api";
+import { isAllowedAdminEmail } from "@/lib/admin/config";
 import { buildAdminLoginHref } from "@/lib/admin/paths";
 import { ENV } from "@/src/configs/env.server";
 
@@ -105,6 +106,11 @@ export async function getStoredAdminSession(): Promise<AdminSession | null> {
     return null;
   }
 
+  if (!isAllowedAdminEmail(session.email)) {
+    await clearAdminSession();
+    return null;
+  }
+
   return session;
 }
 
@@ -133,6 +139,11 @@ export async function getAdminSession(): Promise<AdminSession | null> {
       accessTokenExpiresAt: readTokenExpiryMs(refreshed.accessToken),
       refreshTokenExpiresAt: readTokenExpiryMs(refreshed.refreshToken),
     };
+
+    if (!isAllowedAdminEmail(nextSession.email)) {
+      await clearAdminSession();
+      return null;
+    }
 
     await createAdminSession(nextSession);
     return nextSession;

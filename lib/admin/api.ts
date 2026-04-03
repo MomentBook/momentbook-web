@@ -12,18 +12,6 @@ type Envelope<T> = {
   message?: string;
 };
 
-type EmailLoginResponseData = {
-  user: {
-    _id: string;
-    name?: string;
-    email?: string | null;
-    picture?: string | null;
-    isGuest: boolean;
-  };
-  accessToken: string;
-  refreshToken: string;
-};
-
 type TokenRefreshResponseData = {
   accessToken: string;
   refreshToken: string;
@@ -126,19 +114,6 @@ async function requestEnvelope<T>(options: {
   });
 
   return parseEnvelope<T>(response);
-}
-
-export async function loginAdminWithEmail(input: {
-  email: string;
-  password: string;
-}): Promise<EmailLoginResponseData> {
-  const response = await requestEnvelope<EmailLoginResponseData>({
-    pathname: "/v2/auth/email/login",
-    method: "POST",
-    body: input,
-  });
-
-  return response.data;
 }
 
 export async function logoutAdminFromBackend(
