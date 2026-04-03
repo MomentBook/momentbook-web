@@ -1866,12 +1866,12 @@ export interface PublishedJourneyLocalizedContentDto {
 export interface PublishedJourneyReviewDto {
   /**
    * Whether the published journey review is approved
-   * @example true
+   * @example false
    */
   approved: boolean;
   /**
    * Published journey review status
-   * @example "APPROVED"
+   * @example "PENDING"
    */
   status: "PENDING" | "APPROVED" | "REJECTED";
 }
@@ -1950,7 +1950,7 @@ export interface PublishedJourneyDetailDto {
   publishedAt: string;
   /** Creation timestamp */
   createdAt: string;
-  /** Generic review state for this published journey. New documents start as approved by default. */
+  /** Generic review state for this published journey. New documents start as pending until admin approval. */
   review: PublishedJourneyReviewDto;
   /**
    * Content availability status for rendering
@@ -2042,6 +2042,50 @@ export interface UnpublishJourneyResponseDto {
     /** Number of S3 images deleted */
     deletedImages?: number;
   };
+}
+
+export interface UpdatePublishedJourneyReviewRequestDto {
+  /**
+   * Canonical review status to assign. Admins can move a published journey between review states.
+   * @example "APPROVED"
+   */
+  status: "PENDING" | "APPROVED" | "REJECTED";
+}
+
+export interface UpdatePublishedJourneyReviewDataDto {
+  /**
+   * Public ID of the published journey
+   * @example "abc123xyz789"
+   */
+  publicId: string;
+  /**
+   * Canonical journey ID
+   * @example "journey_123"
+   */
+  journeyId: string;
+  /**
+   * Whether the published record is still in a published state
+   * @example true
+   */
+  published: boolean;
+  /**
+   * Stored moderation visibility flag
+   * @example "public"
+   */
+  visibility: "public" | "hidden";
+  /** Updated canonical review state */
+  review: PublishedJourneyReviewDto;
+  /**
+   * Last updated timestamp after the review mutation
+   * @example "2026-04-03T12:34:56.000Z"
+   */
+  updatedAt: string;
+}
+
+export interface UpdatePublishedJourneyReviewResponseDto {
+  /** @example "success" */
+  status: string;
+  data: UpdatePublishedJourneyReviewDataDto;
 }
 
 export interface RegisterFcmTokenDto {
@@ -3122,7 +3166,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve a paginated list of users who have published journeys
+     * @description Public endpoint to retrieve a paginated list of users who have publicly visible approved journeys
      *
      * @tags users
      * @name PublicUsersControllerGetPublicUsers
@@ -3155,7 +3199,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve user profile data for users who have published journeys
+     * @description Public endpoint to retrieve user profile data for users who have publicly visible approved journeys
      *
      * @tags users
      * @name PublicUsersControllerGetPublicUserProfile
@@ -3174,7 +3218,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve a paginated list of published journeys by a specific user
+     * @description Public endpoint to retrieve a paginated list of approved public journeys by a specific user
      *
      * @tags users
      * @name PublicUsersControllerGetPublicUserJourneys
@@ -3252,7 +3296,7 @@ export class Api<
       }),
 
     /**
-     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. The server generates localized title/description/hashtags and localized cluster impressions for supported locales as a required part of the publish transaction. **Photo Upload:** - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED - Publish fails if localization generation cannot be completed
+     * @description Store published journey content with images. Client provides title, description, and thumbnail in metadata. If title is not provided, a default title will be generated based on journey date. The server generates localized title/description/hashtags and localized cluster impressions for supported locales as a required part of the publish transaction. **Photo Upload:** - Client may send the full published photo set for the journey - recapDraft may reference only a subset of images[], but every recapDraft photo must exist in images[] **Publish Stage Contract:** - recapStage must be FINALIZED - Publish fails if localization generation cannot be completed - Successful publish records start with review.status=PENDING and become publicly visible on approved public surfaces after admin approval
      *
      * @tags journeys
      * @name PublishJourneyControllerPublishJourney
@@ -3294,7 +3338,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve a paginated list of all published journeys. Optionally filter by userId to get a specific user's published journeys.
+     * @description Public endpoint to retrieve a paginated list of publicly visible approved journeys. Optionally filter by userId to get a specific user's approved public journeys.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourneys
@@ -3337,7 +3381,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve published journey data for rendering. Includes DB visibility and review state, and returns success for hidden journeys with contentStatus=reported_hidden. For review-gated client rendering, use the viewer endpoint.
+     * @description Public endpoint to retrieve published journey data for rendering. Returns full payload only when the journey is publicly visible and review-approved. Hidden or pending/rejected journeys return a status-focused payload with contentStatus, notice, and review.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourney
@@ -3456,6 +3500,30 @@ export class Api<
         path: `/v2/journeys/publish/${publicId}`,
         method: "DELETE",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Admin-only moderation endpoint to move a published journey between canonical review states. New publishes start as PENDING and become publicly visible on approved public surfaces only after APPROVED.
+     *
+     * @tags journeys-admin
+     * @name PublishJourneyAdminControllerUpdatePublishedJourneyReview
+     * @summary Update published journey review status
+     * @request PATCH:/v2/admin/journeys/publish/{publicId}/review
+     * @secure
+     */
+    publishJourneyAdminControllerUpdatePublishedJourneyReview: (
+      publicId: string,
+      data: UpdatePublishedJourneyReviewRequestDto,
+      params: RequestParams = {},
+    ) =>
+      this.request<UpdatePublishedJourneyReviewResponseDto, void>({
+        path: `/v2/admin/journeys/publish/${publicId}/review`,
+        method: "PATCH",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
