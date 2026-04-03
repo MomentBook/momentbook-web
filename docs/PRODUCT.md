@@ -88,11 +88,11 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ### 4.2 Internal Admin Pages (Noindex)
 
-- `/admin` (세션 상태에 따라 `/admin/login` 또는 `/admin/reviews`로 redirect)
+- `/admin` (세션이 유효하면 moderation workspace 렌더링, 아니면 `/admin/login`으로 redirect)
 - `/admin/login`
-- `/admin/reviews`
+- `/admin/reviews` (`/admin?tab=reviews`로 redirect하는 review tab alias)
 - `/admin/session` (internal POST-only session bootstrap route)
-- `/admin/reviews` 지원 query: `status`, `page`, `publicId`, `targetPublicId`, `mutation`, `reviewStatus`, `error`
+- `/admin` 지원 query: `tab`, `status`, `page`, `publicId`, `targetPublicId`, `mutation`, `reviewStatus`, `error`
 
 운영 규칙:
 - 관리자 표면은 localized public tree와 분리된 route group(`app/(admin)/admin/**`)에서 렌더링된다.
@@ -101,8 +101,9 @@ MomentBook Web은 다음 역할만 수행한다.
 - 접근 자체는 backend email login + `admin` role 검증이 필요하므로 URL만 알아도 진입할 수 없다.
 - 관리자 로그인은 브라우저가 backend `POST /v2/auth/email/login`을 직접 호출하고, 웹은 `/admin/session`에서 returned token pair를 encrypted HttpOnly cookie 세션으로만 저장한다.
 - 허용 계정은 현재 `admin@momentbook.app` 하나로 고정된다.
-- 현재 review queue/detail card는 mock preview dataset으로 렌더링된다.
-- live moderation mutation은 known `publicId`를 직접 입력해 `PATCH /v2/admin/journeys/publish/:publicId/review`로 호출한다.
+- 현재 moderation workspace는 `overview`, `reviews`, `live update` 탭으로 구성된다.
+- `reviews` 탭의 queue/detail card는 mock preview dataset으로 렌더링된다.
+- `live update` 탭은 known `publicId`를 직접 입력해 `PATCH /v2/admin/journeys/publish/:publicId/review`를 호출한다.
 - backend에는 아직 admin queue/list read API가 없으므로 pending 목록을 live API로 나열하지 않는다.
 
 ### 4.3 QR Redirect Surface
@@ -186,8 +187,10 @@ MomentBook Web은 다음 역할만 수행한다.
 
 ## 5.3 Internal Admin Review Workspace
 
-- `/admin/reviews`의 queue/detail card는 현재 mock preview dataset으로 렌더링된다.
-- live moderation form은 known `publicId`와 canonical review status(`PENDING` | `APPROVED` | `REJECTED`)를 받아 `PATCH /v2/admin/journeys/publish/:publicId/review`를 호출한다.
+- `/admin` moderation workspace는 `overview`, `reviews`, `live update`의 세 가지 탭을 제공한다.
+- `/admin/reviews`는 review queue로 직접 진입하던 기존 링크를 유지하기 위한 alias redirect다.
+- `reviews` 탭의 queue/detail card는 현재 mock preview dataset으로 렌더링된다.
+- `live update` 탭의 moderation form은 known `publicId`와 canonical review status(`PENDING` | `APPROVED` | `REJECTED`)를 받아 `PATCH /v2/admin/journeys/publish/:publicId/review`를 호출한다.
 - backend에 admin queue/list read API가 없으므로 실제 pending 목록/상세 조회는 이 웹이 직접 제공하지 않는다.
 - rejection reason textarea는 사용하지 않는다. 현재 backend write contract는 canonical review status만 받는다.
 

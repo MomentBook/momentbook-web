@@ -9,7 +9,7 @@ import {
   updatePublishedJourneyReviewStatus,
 } from "@/lib/admin/api";
 import {
-  ADMIN_REVIEWS_PATH,
+  ADMIN_ROOT_PATH,
   buildAdminLoginHref,
   sanitizeAdminPath,
   withAdminQuery,
@@ -69,7 +69,7 @@ export async function updatePublishedJourneyReviewAction(
   formData: FormData,
 ): Promise<never> {
   const nextPath =
-    sanitizeAdminPath(readText(formData.get("returnTo"))) ?? ADMIN_REVIEWS_PATH;
+    sanitizeAdminPath(readText(formData.get("returnTo"))) ?? ADMIN_ROOT_PATH;
   const targetPublicId = readText(formData.get("targetPublicId"));
   const reviewStatus = readReviewStatus(formData.get("reviewStatus"));
 

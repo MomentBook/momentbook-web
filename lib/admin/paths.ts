@@ -1,6 +1,9 @@
 export const ADMIN_ROOT_PATH = "/admin";
 export const ADMIN_LOGIN_PATH = "/admin/login";
 export const ADMIN_REVIEWS_PATH = "/admin/reviews";
+export const ADMIN_DEFAULT_WORKSPACE_TAB = "overview";
+
+export type AdminWorkspaceTab = "overview" | "reviews" | "live";
 
 function buildUrl(path: string): URL {
   return new URL(path, "https://momentbook.admin.local");
@@ -33,7 +36,7 @@ export function buildAdminLoginHref(options?: {
   const url = buildUrl(ADMIN_LOGIN_PATH);
   const next = sanitizeAdminPath(options?.next);
 
-  if (next && next !== ADMIN_REVIEWS_PATH) {
+  if (next && next !== ADMIN_ROOT_PATH) {
     url.searchParams.set("next", next);
   }
 
@@ -64,4 +67,24 @@ export function withAdminQuery(
   }
 
   return `${url.pathname}${url.search}`;
+}
+
+export function parseAdminWorkspaceTab(
+  value: string | null | undefined,
+): AdminWorkspaceTab {
+  if (value === "reviews" || value === "live" || value === "overview") {
+    return value;
+  }
+
+  return ADMIN_DEFAULT_WORKSPACE_TAB;
+}
+
+export function buildAdminWorkspaceHref(
+  tab: AdminWorkspaceTab,
+  entries?: Record<string, string | null | undefined>,
+): string {
+  return withAdminQuery(ADMIN_ROOT_PATH, {
+    ...entries,
+    tab: tab === ADMIN_DEFAULT_WORKSPACE_TAB ? null : tab,
+  });
 }

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import styles from "./login.module.scss";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 import {
-  ADMIN_REVIEWS_PATH,
+  ADMIN_ROOT_PATH,
   sanitizeAdminPath,
 } from "@/lib/admin/paths";
 import { getAdminSession } from "@/lib/admin/session";
@@ -80,7 +80,7 @@ export default async function AdminLoginPage({
   const resolvedSearchParams = await searchParams;
   const nextPath =
     sanitizeAdminPath(readQueryParam(resolvedSearchParams.next)) ??
-    ADMIN_REVIEWS_PATH;
+    ADMIN_ROOT_PATH;
 
   if (session) {
     redirect(nextPath);
