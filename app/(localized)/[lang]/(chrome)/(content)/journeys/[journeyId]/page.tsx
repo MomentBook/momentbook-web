@@ -11,6 +11,7 @@ import JourneyContent from "./components/JourneyContent";
 import {
     journeyLabels,
     buildJourneyDescription,
+    resolveJourneyUnavailableCopy,
 } from "./labels";
 import {
     getUniqueJourneyLocations,
@@ -35,45 +36,6 @@ import {
 } from "@/lib/seo/json-ld";
 
 export const revalidate = 300;
-
-const unavailableNoticeByLanguage: Record<Language, { title: string; message: string }> = {
-    en: {
-        title: "This journey is unavailable",
-        message: "This journey is currently unavailable on the web.",
-    },
-    ko: {
-        title: "이 여정은 웹에서 볼 수 없습니다",
-        message: "이 여정은 현재 웹에서 볼 수 없습니다.",
-    },
-    ja: {
-        title: "この旅はウェブでは表示できません",
-        message: "この旅は現在ウェブでは表示できません。",
-    },
-    zh: {
-        title: "此旅程暂时无法在网页上查看",
-        message: "此旅程当前无法在网页上查看。",
-    },
-    es: {
-        title: "Este viaje no está disponible en la web",
-        message: "Este viaje no está disponible actualmente en la web.",
-    },
-    pt: {
-        title: "Esta viagem não está disponível na web",
-        message: "Esta viagem não está disponível no momento na web.",
-    },
-    fr: {
-        title: "Ce voyage n'est pas disponible sur le web",
-        message: "Ce voyage n'est actuellement pas disponible sur le web.",
-    },
-    th: {
-        title: "ทริปนี้ไม่สามารถดูบนเว็บได้",
-        message: "ขณะนี้ทริปนี้ไม่สามารถดูบนเว็บได้",
-    },
-    vi: {
-        title: "Hành trình này hiện không xem được trên web",
-        message: "Hành trình này hiện không xem được trên web.",
-    },
-};
 
 const journeyNotFoundTitleByLanguage: Record<Language, string> = {
     en: "Journey not found",
@@ -150,14 +112,14 @@ export async function generateMetadata({
     const result = await fetchPublishedJourneyResult(journeyId, lang);
 
     if (result.status === "hidden") {
-        const hiddenNotice = unavailableNoticeByLanguage[lang] ?? unavailableNoticeByLanguage.en;
-        const hiddenMessage =
-            result.data?.notice?.trim() ||
-            result.message ||
-            hiddenNotice.message;
+        const hiddenNotice = resolveJourneyUnavailableCopy(
+            lang,
+            result.data,
+            result.message,
+        );
         return {
             title: hiddenNotice.title,
-            description: hiddenMessage,
+            description: hiddenNotice.message,
             alternates: buildAlternates(lang, `/journeys/${journeyId}`),
             robots: buildNoIndexRobots(),
         };
@@ -242,19 +204,19 @@ export default async function JourneyPage({
         journeyId: string;
     };
     const result = await fetchPublishedJourneyResult(journeyId, lang);
-    const hiddenNotice = unavailableNoticeByLanguage[lang] ?? unavailableNoticeByLanguage.en;
 
     if (result.status === "hidden") {
-        const hiddenMessage =
-            result.data?.notice?.trim() ||
-            result.message ||
-            hiddenNotice.message;
+        const hiddenNotice = resolveJourneyUnavailableCopy(
+            lang,
+            result.data,
+            result.message,
+        );
 
         return (
             <div className={styles.page}>
                 <section className={styles.hiddenNotice}>
                     <h1 className={styles.hiddenNoticeTitle}>{hiddenNotice.title}</h1>
-                    <p className={styles.hiddenNoticeMessage}>{hiddenMessage}</p>
+                    <p className={styles.hiddenNoticeMessage}>{hiddenNotice.message}</p>
                 </section>
             </div>
         );

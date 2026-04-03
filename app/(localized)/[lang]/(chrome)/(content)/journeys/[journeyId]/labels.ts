@@ -1,4 +1,5 @@
 import type { Language } from "@/lib/i18n/config";
+import type { PublishedJourneyApi } from "@/lib/published-journey";
 
 export type JourneyLabels = {
     eyebrow: string;
@@ -16,6 +17,13 @@ export type JourneyLabels = {
     photoArchiveLead: string;
     photoArchiveEmpty: string;
     locationFallback: string;
+};
+
+type JourneyUnavailableVariant = "pending" | "rejected" | "hidden";
+
+type JourneyUnavailableCopy = {
+    title: string;
+    message: string;
 };
 
 export const journeyLabels: Record<Language, JourneyLabels> = {
@@ -182,6 +190,199 @@ export const journeyLabels: Record<Language, JourneyLabels> = {
         locationFallback: "Địa điểm",
     },
 };
+
+const journeyUnavailableLabels: Record<
+    Language,
+    Record<JourneyUnavailableVariant, JourneyUnavailableCopy>
+> = {
+    en: {
+        pending: {
+            title: "This journey is waiting for review",
+            message:
+                "This journey was submitted for publishing and is still waiting for admin review.",
+        },
+        rejected: {
+            title: "This journey was not approved for the web",
+            message:
+                "This journey was reviewed and is not currently available on the public web.",
+        },
+        hidden: {
+            title: "This journey is unavailable",
+            message: "This journey is currently unavailable on the public web.",
+        },
+    },
+    ko: {
+        pending: {
+            title: "이 여정은 검토 대기 중입니다",
+            message:
+                "이 여정은 게시 요청이 저장되었지만 관리자 검토가 끝날 때까지 웹에 노출되지 않습니다.",
+        },
+        rejected: {
+            title: "이 여정은 웹에 공개되지 않았습니다",
+            message: "이 여정은 검토 결과 현재 웹에 공개되지 않습니다.",
+        },
+        hidden: {
+            title: "이 여정은 웹에서 볼 수 없습니다",
+            message: "이 여정은 현재 웹에서 볼 수 없습니다.",
+        },
+    },
+    ja: {
+        pending: {
+            title: "この旅は審査待ちです",
+            message:
+                "この旅は公開リクエストとして保存されましたが、管理者の審査が終わるまでウェブには表示されません。",
+        },
+        rejected: {
+            title: "この旅はウェブ公開の対象外です",
+            message: "この旅は審査の結果、現在ウェブでは公開されていません。",
+        },
+        hidden: {
+            title: "この旅はウェブでは表示できません",
+            message: "この旅は現在ウェブでは表示できません。",
+        },
+    },
+    zh: {
+        pending: {
+            title: "此旅程正在等待审核",
+            message: "此旅程已保存为发布记录，但在管理员审核完成前不会显示在网页上。",
+        },
+        rejected: {
+            title: "此旅程未通过网页公开审核",
+            message: "此旅程经过审核后，当前不会在公开网页上显示。",
+        },
+        hidden: {
+            title: "此旅程暂时无法在网页上查看",
+            message: "此旅程当前无法在网页上查看。",
+        },
+    },
+    es: {
+        pending: {
+            title: "Este viaje está pendiente de revisión",
+            message:
+                "Este viaje se guardó como una publicación, pero no aparecerá en la web hasta que termine la revisión administrativa.",
+        },
+        rejected: {
+            title: "Este viaje no fue aprobado para la web",
+            message: "Este viaje fue revisado y no está disponible actualmente en la web pública.",
+        },
+        hidden: {
+            title: "Este viaje no está disponible en la web",
+            message: "Este viaje no está disponible actualmente en la web.",
+        },
+    },
+    pt: {
+        pending: {
+            title: "Esta viagem está aguardando revisão",
+            message:
+                "Esta viagem foi salva como publicação, mas não aparecerá na web até a revisão administrativa ser concluída.",
+        },
+        rejected: {
+            title: "Esta viagem não foi aprovada para a web",
+            message: "Esta viagem foi revisada e não está disponível no momento na web pública.",
+        },
+        hidden: {
+            title: "Esta viagem não está disponível na web",
+            message: "Esta viagem não está disponível no momento na web.",
+        },
+    },
+    fr: {
+        pending: {
+            title: "Ce voyage est en attente de validation",
+            message:
+                "Ce voyage a bien été enregistré pour publication, mais il ne sera pas visible sur le web avant la fin de la validation admin.",
+        },
+        rejected: {
+            title: "Ce voyage n'a pas été approuvé pour le web",
+            message:
+                "Ce voyage a été examiné et n'est actuellement pas disponible sur le web public.",
+        },
+        hidden: {
+            title: "Ce voyage n'est pas disponible sur le web",
+            message: "Ce voyage n'est actuellement pas disponible sur le web.",
+        },
+    },
+    th: {
+        pending: {
+            title: "ทริปนี้กำลังรอการตรวจสอบ",
+            message:
+                "ทริปนี้ถูกบันทึกไว้เพื่อเผยแพร่แล้ว แต่จะยังไม่แสดงบนเว็บจนกว่าผู้ดูแลจะตรวจสอบเสร็จ",
+        },
+        rejected: {
+            title: "ทริปนี้ยังไม่ได้รับอนุมัติให้แสดงบนเว็บ",
+            message: "ทริปนี้ผ่านการตรวจสอบแล้วและขณะนี้ยังไม่พร้อมแสดงบนเว็บสาธารณะ",
+        },
+        hidden: {
+            title: "ทริปนี้ไม่สามารถดูบนเว็บได้",
+            message: "ขณะนี้ทริปนี้ไม่สามารถดูบนเว็บได้",
+        },
+    },
+    vi: {
+        pending: {
+            title: "Hành trình này đang chờ duyệt",
+            message:
+                "Hành trình này đã được lưu để xuất bản nhưng sẽ chưa hiển thị trên web cho đến khi quản trị viên duyệt xong.",
+        },
+        rejected: {
+            title: "Hành trình này chưa được chấp thuận cho web",
+            message: "Hành trình này đã được xem xét và hiện không hiển thị trên web công khai.",
+        },
+        hidden: {
+            title: "Hành trình này hiện không xem được trên web",
+            message: "Hành trình này hiện không xem được trên web.",
+        },
+    },
+};
+
+function trimMessage(value: string | null | undefined): string | null {
+    if (typeof value !== "string") {
+        return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+}
+
+function resolveJourneyUnavailableVariant(
+    journey?: Pick<PublishedJourneyApi, "contentStatus" | "reviewStatus"> | null,
+): JourneyUnavailableVariant {
+    if (
+        journey?.contentStatus === "review_pending" ||
+        journey?.reviewStatus === "PENDING"
+    ) {
+        return "pending";
+    }
+
+    if (
+        journey?.contentStatus === "review_rejected" ||
+        journey?.reviewStatus === "REJECTED"
+    ) {
+        return "rejected";
+    }
+
+    return "hidden";
+}
+
+export function resolveJourneyUnavailableCopy(
+    lang: Language,
+    journey?: Pick<
+        PublishedJourneyApi,
+        "contentStatus" | "reviewStatus" | "notice"
+    > | null,
+    fallbackMessage?: string,
+) {
+    const variant = resolveJourneyUnavailableVariant(journey);
+    const labels =
+        journeyUnavailableLabels[lang] ?? journeyUnavailableLabels.en;
+    const defaultCopy = labels[variant];
+
+    return {
+        ...defaultCopy,
+        message:
+            trimMessage(journey?.notice) ??
+            trimMessage(fallbackMessage) ??
+            defaultCopy.message,
+    };
+}
 
 export function buildJourneyDescription(
     lang: Language,

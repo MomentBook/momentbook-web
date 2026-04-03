@@ -10,7 +10,11 @@ import {
 
 export const revalidate = 3600;
 
-function parsePositiveInteger(value: string): number | null {
+function parsePositiveInteger(value: string | undefined): number | null {
+  if (!value) {
+    return null;
+  }
+
   const parsed = Number(value);
 
   if (!Number.isInteger(parsed) || parsed < 1) {
@@ -26,7 +30,7 @@ function buildNotFoundResponse() {
 
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ part: string }> },
+  { params }: { params: Promise<{ part?: string }> },
 ) {
   const { part: rawPart } = await params;
   const part = parsePositiveInteger(rawPart);

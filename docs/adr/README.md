@@ -70,9 +70,9 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: 웹 로그인/API auth/report UI 제거, 공개 읽기 전용 표면으로 단순화
 
 11. [ADR 0011: Internal Admin Moderation Surface](./0011-internal-admin-moderation-surface.md)
-- Date: 2026-04-02
+- Date: 2026-04-03
 - Status: Accepted
-- Summary: 공개 웹과 분리된 `/admin` 운영 표면, noindex/robots 차단, backend admin role + encrypted HttpOnly session cookie 기반 심사 도구
+- Summary: 공개 웹과 분리된 `/admin` 운영 표면, noindex/robots 차단, backend admin role + encrypted HttpOnly session cookie, mock queue/detail preview + known `publicId` 기반 live review-status mutation
 
 ## Status Definitions
 

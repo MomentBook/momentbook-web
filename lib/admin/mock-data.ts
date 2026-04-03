@@ -281,7 +281,7 @@ const MOCK_JOURNEYS: MockJourneyRecord[] = [
       visibility: "public",
       contentStatus: "review_pending",
       notice:
-        "Boilerplate workspace preview. Live moderation API is not connected yet.",
+        "Preview-only pending example for the admin review workspace.",
     },
     review: {
       status: "PENDING",
@@ -447,7 +447,7 @@ const MOCK_JOURNEYS: MockJourneyRecord[] = [
       reviewedAt: "2026-03-30T15:20:00.000Z",
       reviewedByUserId: "user_admin_demo",
       rejectionReason:
-        "Example rejected state for the boilerplate. Live moderation write API is not connected yet.",
+        "Preview-only rejected example for the admin review workspace.",
     },
   },
 ];

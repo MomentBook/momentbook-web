@@ -4,7 +4,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import { AdminSessionExpiredError } from "@/lib/admin/api";
-import { logoutAdminAction } from "@/app/(admin)/admin/actions";
+import {
+  logoutAdminAction,
+  updatePublishedJourneyReviewAction,
+} from "@/app/(admin)/admin/actions";
 import {
   ADMIN_REVIEWS_PATH,
   buildAdminLoginHref,
@@ -17,6 +20,7 @@ import {
   type AdminReviewDetail,
   type AdminReviewQueueItem,
   type AdminReviewQueueStatus,
+  type AdminReviewStatus,
 } from "@/lib/admin/mock-data";
 import { requireAdminSession } from "@/lib/admin/session";
 import { defaultLanguage } from "@/lib/i18n/config";
@@ -55,18 +59,64 @@ function parseStatus(value: string | null): AdminReviewQueueStatus {
   return "pending";
 }
 
-function resolveBanner(
-  error: string | null,
-): { tone: "default" | "error"; message: string } | null {
-  if (error === "actions_pending") {
-    return {
-      tone: "default",
-      message:
-        "Approve and reject controls are shown for layout review only. The moderation write API is not connected yet.",
-    };
+function parseReviewStatus(value: string | null): AdminReviewStatus | null {
+  if (
+    value === "PENDING" ||
+    value === "APPROVED" ||
+    value === "REJECTED"
+  ) {
+    return value;
   }
 
   return null;
+}
+
+function resolveBanner(options: {
+  error: string | null;
+  mutation: string | null;
+  targetPublicId: string | null;
+  reviewStatus: AdminReviewStatus | null;
+}): { tone: "default" | "error" | "success"; message: string } | null {
+  if (options.mutation === "review_updated" && options.targetPublicId && options.reviewStatus) {
+    return {
+      tone: "success",
+      message:
+        `Review status for ${options.targetPublicId} is now ${buildStatusLabel(options.reviewStatus)}. Public surfaces expose only approved journeys with public visibility.`,
+    };
+  }
+
+  switch (options.error) {
+    case "missing_public_id":
+      return {
+        tone: "error",
+        message: "Enter a public ID before sending a live review update.",
+      };
+    case "invalid_review_status":
+      return {
+        tone: "error",
+        message: "Choose a valid review status before submitting.",
+      };
+    case "admin_access_denied":
+      return {
+        tone: "error",
+        message:
+          "The current admin session is valid, but it is not allowed to update journey review status.",
+      };
+    case "review_target_not_found":
+      return {
+        tone: "error",
+        message:
+          "No published journey matched that public ID. Check the identifier and try again.",
+      };
+    case "review_update_failed":
+      return {
+        tone: "error",
+        message:
+          "The review status could not be updated. Check backend health and try again.",
+      };
+    default:
+      return null;
+  }
 }
 
 function buildStatusChipClass(status: AdminReviewQueueItem["review"]["status"]): string {
@@ -396,41 +446,119 @@ function DetailPanel({ detail }: { detail: AdminReviewDetail }) {
 
       <section className={styles.actions}>
         <div>
-          <h3 className={styles.sectionTitle}>Review actions</h3>
+          <h3 className={styles.sectionTitle}>Preview notes</h3>
           <p className={styles.actionsBody}>
-            This screen is a boilerplate moderation workspace. The approve and
-            reject controls are shown for layout review only.
+            This panel still shows static mock content for layout review. Use
+            the live review status form above with a real public ID when you
+            need to change moderation state.
           </p>
         </div>
-
-        <form className={styles.approveForm}>
-          <button type="button" className={styles.approveButton} disabled>
-            Approve submission
-          </button>
-        </form>
-
-        <form className={styles.rejectForm}>
-          <label className={styles.field}>
-            <span className={styles.label}>Rejection reason</span>
-            <textarea
-              name="rejectionReason"
-              className={styles.textarea}
-              defaultValue={detail.review.rejectionReason ?? ""}
-              placeholder="Explain why this submission should stay off the public web."
+        {detail.review.reviewedAt ? (
+          <p className={styles.actionsNote}>
+            Mock review timestamp:{" "}
+            <LocalizedDate
+              lang={ADMIN_DISPLAY_LANGUAGE}
+              timestamp={Date.parse(detail.review.reviewedAt)}
             />
-          </label>
-          <div className={styles.buttonRow}>
-            <button type="button" className={styles.rejectButton} disabled>
-              Reject submission
-            </button>
-          </div>
-        </form>
+          </p>
+        ) : null}
+        {detail.review.rejectionReason ? (
+          <p className={styles.actionsNote}>
+            Mock rejection note: {detail.review.rejectionReason}
+          </p>
+        ) : null}
         <p className={styles.actionsNote}>
-          Live review read/write integration will be connected after the backend
-          moderation API is implemented.
+          The backend write contract only accepts the canonical review status.
+          Rejection reasons are not stored by the current API.
         </p>
       </section>
     </div>
+  );
+}
+
+function LiveModerationCard({
+  returnTo,
+  targetPublicId,
+  liveMutation,
+}: {
+  returnTo: string;
+  targetPublicId: string | null;
+  liveMutation: { publicId: string; reviewStatus: AdminReviewStatus } | null;
+}) {
+  return (
+    <section className={styles.liveCard}>
+      <div className={styles.liveHeader}>
+        <div>
+          <h3 className={styles.sectionTitle}>Live review status update</h3>
+          <p className={styles.actionsBody}>
+            The queue below is still a mock preview. Because the backend does
+            not expose an admin read API yet, live moderation currently works
+            only when you already know the target public ID.
+          </p>
+        </div>
+        {liveMutation ? (
+          <div className={styles.liveResultCard}>
+            <span className={styles.summaryLabel}>Last update</span>
+            <div className={styles.queueMetaRow}>
+              <span className={buildStatusChipClass(liveMutation.reviewStatus)}>
+                {buildStatusLabel(liveMutation.reviewStatus)}
+              </span>
+              <span className={styles.chip}>{liveMutation.publicId}</span>
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      <form action={updatePublishedJourneyReviewAction} className={styles.liveForm}>
+        <input type="hidden" name="returnTo" value={returnTo} />
+
+        <label className={styles.field}>
+          <span className={styles.label}>Public ID</span>
+          <input
+            type="text"
+            name="targetPublicId"
+            className={styles.input}
+            defaultValue={targetPublicId ?? ""}
+            placeholder="abc123xyz789"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+          />
+        </label>
+
+        <div className={styles.buttonRow}>
+          <button
+            type="submit"
+            name="reviewStatus"
+            value="PENDING"
+            className={styles.pendingButton}
+          >
+            Mark pending
+          </button>
+          <button
+            type="submit"
+            name="reviewStatus"
+            value="APPROVED"
+            className={styles.approveButton}
+          >
+            Approve
+          </button>
+          <button
+            type="submit"
+            name="reviewStatus"
+            value="REJECTED"
+            className={styles.rejectButton}
+          >
+            Reject
+          </button>
+        </div>
+      </form>
+
+      <p className={styles.actionsNote}>
+        `published: true` does not guarantee public visibility. Only approved
+        records with public visibility appear on public surfaces.
+      </p>
+    </section>
   );
 }
 
@@ -443,13 +571,33 @@ export default async function AdminReviewsPage({
   const page = parsePage(readQueryParam(resolvedSearchParams.page));
   const status = parseStatus(readQueryParam(resolvedSearchParams.status));
   const currentPublicId = readQueryParam(resolvedSearchParams.publicId);
-  const banner = resolveBanner(readQueryParam(resolvedSearchParams.error));
+  const targetPublicId = readQueryParam(resolvedSearchParams.targetPublicId);
+  const mutation = readQueryParam(resolvedSearchParams.mutation);
+  const reviewStatus = parseReviewStatus(
+    readQueryParam(resolvedSearchParams.reviewStatus),
+  );
+  const banner = resolveBanner({
+    error: readQueryParam(resolvedSearchParams.error),
+    mutation,
+    targetPublicId,
+    reviewStatus,
+  });
   const { session, queue, selectedPublicId, selectedDetail, returnTo } =
     await loadWorkspaceData({
       page,
       status,
       publicId: currentPublicId,
     });
+  const liveActionReturnTo = withAdminQuery(returnTo, {
+    publicId: selectedPublicId,
+  });
+  const liveMutation =
+    mutation === "review_updated" && targetPublicId && reviewStatus
+      ? {
+          publicId: targetPublicId,
+          reviewStatus,
+        }
+      : null;
 
   return (
     <main className={styles.page}>
@@ -459,7 +607,8 @@ export default async function AdminReviewsPage({
             <span className={styles.sidebarEyebrow}>MomentBook</span>
             <h1 className={styles.sidebarTitle}>Review workspace</h1>
             <p className={styles.sidebarBody}>
-              Internal moderation surface for designing the future review flow.
+              Internal moderation surface with live status updates and a mock
+              queue preview.
             </p>
           </div>
 
@@ -492,13 +641,22 @@ export default async function AdminReviewsPage({
             <span className={styles.heroTopline}>Calm moderation workflow</span>
             <h2 className={styles.heroTitle}>Published journey review queue</h2>
             <p className={styles.heroBody}>
-              Boilerplate review workspace for the future moderation flow. Admin
-              access is real, but the queue and detail content are mock data for now.
+              Admin authentication and review status mutation are live. The
+              queue and detail cards remain mock preview data until the backend
+              exposes an admin read API.
             </p>
           </header>
 
           {banner ? (
-            <p className={banner.tone === "error" ? styles.bannerError : styles.banner}>
+            <p
+              className={
+                banner.tone === "error"
+                  ? styles.bannerError
+                  : banner.tone === "success"
+                    ? styles.bannerSuccess
+                    : styles.banner
+              }
+            >
               {banner.message}
             </p>
           ) : null}
@@ -507,19 +665,25 @@ export default async function AdminReviewsPage({
             <SummaryCard
               label="Pending now"
               value={queue.summary.pendingCount}
-              hint="Mock records waiting for future API wiring"
+              hint="Static mock records for queue preview"
             />
             <SummaryCard
               label="Approved set"
               value={queue.summary.approvedTodayCount}
-              hint="Static examples for layout verification"
+              hint="Static approved examples for layout verification"
             />
             <SummaryCard
               label="Rejected set"
               value={queue.summary.rejectedTodayCount}
-              hint="Static rejected-state example"
+              hint="Static rejected examples for layout verification"
             />
           </section>
+
+          <LiveModerationCard
+            returnTo={liveActionReturnTo}
+            targetPublicId={targetPublicId}
+            liveMutation={liveMutation}
+          />
 
           <div className={styles.filters}>
             {(
@@ -553,9 +717,9 @@ export default async function AdminReviewsPage({
           <div className={styles.grid}>
             <section className={styles.panel}>
               <div className={styles.panelHeader}>
-                <h3 className={styles.panelTitle}>Queue</h3>
+                <h3 className={styles.panelTitle}>Queue preview</h3>
                 <span className={styles.panelMeta}>
-                  {queue.total} submission{queue.total === 1 ? "" : "s"}
+                  {queue.total} mock submission{queue.total === 1 ? "" : "s"}
                 </span>
               </div>
 
@@ -613,7 +777,7 @@ export default async function AdminReviewsPage({
 
             <section className={styles.panel}>
               <div className={styles.panelHeader}>
-                <h3 className={styles.panelTitle}>Selected submission</h3>
+                <h3 className={styles.panelTitle}>Selected preview</h3>
                 <span className={styles.panelMeta}>
                   {selectedDetail ? selectedDetail.journey.publicId : "No selection"}
                 </span>

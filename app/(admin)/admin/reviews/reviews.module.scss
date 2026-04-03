@@ -157,7 +157,8 @@
 }
 
 .banner,
-.bannerError {
+.bannerError,
+.bannerSuccess {
   border-radius: 1.2rem;
   padding: 0.9rem 1rem;
   background: rgba(255, 255, 255, 0.78);
@@ -167,6 +168,11 @@
 .bannerError {
   background: color-mix(in srgb, var(--color-status-error-soft) 72%, white);
   color: var(--color-status-error);
+}
+
+.bannerSuccess {
+  background: color-mix(in srgb, var(--color-status-success-soft) 76%, white);
+  color: var(--color-status-success);
 }
 
 .summaryGrid {
@@ -413,6 +419,40 @@
   font-size: 0.84rem;
 }
 
+.liveCard {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border-radius: 1.8rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(245, 251, 250, 0.72)),
+    var(--surface-glass);
+  border: 1px solid rgba(205, 226, 223, 0.68);
+  box-shadow: var(--shadow-md);
+}
+
+.liveHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.liveResultCard {
+  min-width: 13rem;
+  padding: 0.9rem 0.95rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(205, 226, 223, 0.62);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.liveForm {
+  display: grid;
+  gap: 0.75rem;
+}
+
 .detailWrap {
   padding: 1rem;
   display: grid;
@@ -571,9 +611,9 @@
   color: var(--color-text-secondary);
 }
 
+.input,
 .textarea {
   min-height: 7.5rem;
-  resize: vertical;
   border: 1px solid rgba(188, 220, 216, 0.78);
   border-radius: 1.05rem;
   background: rgba(255, 255, 255, 0.88);
@@ -582,6 +622,15 @@
   font: inherit;
 }
 
+.input {
+  min-height: auto;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.input:focus,
 .textarea:focus {
   outline: none;
   border-color: color-mix(in srgb, var(--color-accent) 70%, white);
@@ -595,6 +644,7 @@
 }
 
 .approveButton,
+.pendingButton,
 .rejectButton {
   appearance: none;
   border: 0;
@@ -614,6 +664,16 @@
   );
 }
 
+.pendingButton {
+  color: var(--color-text-primary);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-status-warning-soft) 78%, white),
+    color-mix(in srgb, var(--color-accent-soft) 56%, white)
+  );
+  border: 1px solid rgba(205, 226, 223, 0.68);
+}
+
 .rejectButton {
   color: #fff;
   background: linear-gradient(
@@ -624,6 +684,7 @@
 }
 
 .approveButton:disabled,
+.pendingButton:disabled,
 .rejectButton:disabled {
   cursor: not-allowed;
   opacity: 0.58;
@@ -670,6 +731,10 @@
   .summaryGrid,
   .detailMetaGrid {
     grid-template-columns: 1fr;
+  }
+
+  .liveHeader {
+    flex-direction: column;
   }
 
   .queueCardTop {

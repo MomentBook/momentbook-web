@@ -104,8 +104,9 @@ export default async function AdminLoginPage({
         <div className={styles.heading}>
           <h1 className={styles.title}>Admin sign in</h1>
           <p className={styles.body}>
-            Access the internal moderation workspace preview. This area is
-            reserved for internal admin accounts only.
+            Access the internal moderation workspace. Queue cards remain mock
+            previews for now, but live review status updates are limited to
+            internal admin accounts only.
           </p>
         </div>
 
@@ -152,7 +153,7 @@ export default async function AdminLoginPage({
           </label>
 
           <button type="submit" className={styles.submitButton}>
-            Sign in to review queue
+            Sign in to review workspace
           </button>
         </form>
 

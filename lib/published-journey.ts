@@ -758,16 +758,28 @@ function normalizePublishedJourney(
         return null;
     }
 
-    const publicId = readText(value.publicId);
-    const userId = readText(value.userId);
-
-    if (!publicId || !userId) {
-        return null;
-    }
-
     const metadata = normalizeJourneyMetadata(value.metadata);
     const localizedContent = normalizeLocalizedContent(value.localizedContent);
     const review = isRecord(value.review) ? value.review : null;
+    const reviewStatus = normalizeReviewStatus(
+        review?.status ?? value.webReviewStatus,
+    );
+    const reviewApproved =
+        readBoolean(review?.approved) ??
+        (reviewStatus ? reviewStatus === "APPROVED" : null) ??
+        undefined;
+    const contentStatus = normalizeContentStatus(value.contentStatus);
+    const publicId = readText(value.publicId);
+    const userId = readText(value.userId);
+    const unavailableForWeb =
+        (contentStatus && contentStatus !== "available") ||
+        reviewApproved === false ||
+        (reviewStatus ? reviewStatus !== "APPROVED" : false);
+
+    if (!publicId || (!userId && !unavailableForWeb)) {
+        return null;
+    }
+
     const localizedJourneyEntry = findLocalizedJourneyEntry(localizedContent, lang);
     const images = Array.isArray(value.images)
         ? value.images
@@ -807,17 +819,10 @@ function normalizePublishedJourney(
         readNumber(value.endedAt) ??
         (clusterEnds.length > 0 ? Math.max(...clusterEnds) : null) ??
         startedAt;
-    const reviewStatus = normalizeReviewStatus(
-        review?.status ?? value.webReviewStatus,
-    );
-    const reviewApproved =
-        readBoolean(review?.approved) ??
-        (reviewStatus ? reviewStatus === "APPROVED" : null) ??
-        undefined;
 
     return {
         publicId,
-        userId,
+        userId: userId ?? "",
         startedAt,
         endedAt,
         startedAtLocal: normalizeLocalDateTimeContext(value.startedAtLocal),
@@ -851,7 +856,7 @@ function normalizePublishedJourney(
         localizedContent,
         reviewApproved,
         reviewStatus,
-        contentStatus: normalizeContentStatus(value.contentStatus),
+        contentStatus,
         notice: readMessage(value.notice) ?? fallbackMessage,
     };
 }

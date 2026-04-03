@@ -1,5 +1,9 @@
 import "server-only";
 
+import type {
+  UpdatePublishedJourneyReviewDataDto,
+  UpdatePublishedJourneyReviewRequestDto,
+} from "@/src/apis/client";
 import { ENV } from "@/src/configs/env.server";
 
 type Envelope<T> = {
@@ -103,7 +107,7 @@ async function parseEnvelope<T>(response: Response): Promise<Envelope<T>> {
 
 async function requestEnvelope<T>(options: {
   pathname: string;
-  method?: "GET" | "POST";
+  method?: "GET" | "POST" | "PATCH";
   accessToken?: string;
   body?: Record<string, unknown>;
   query?: Record<string, string | number>;
@@ -154,6 +158,23 @@ export async function refreshAdminTokens(
     pathname: "/v2/auth/refresh",
     method: "POST",
     body: { refreshToken },
+  });
+
+  return response.data;
+}
+
+export async function updatePublishedJourneyReviewStatus(input: {
+  accessToken: string;
+  publicId: string;
+  status: UpdatePublishedJourneyReviewRequestDto["status"];
+}): Promise<UpdatePublishedJourneyReviewDataDto> {
+  const response = await requestEnvelope<UpdatePublishedJourneyReviewDataDto>({
+    pathname: `/v2/admin/journeys/publish/${encodeURIComponent(input.publicId)}/review`,
+    method: "PATCH",
+    accessToken: input.accessToken,
+    body: {
+      status: input.status,
+    },
   });
 
   return response.data;
