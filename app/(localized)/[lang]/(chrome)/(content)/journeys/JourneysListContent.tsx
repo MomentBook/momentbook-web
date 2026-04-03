@@ -97,15 +97,8 @@ export function JourneysListContent({
 
   return (
     <>
-      <div className={styles.backdrop} aria-hidden="true">
-        <span className={styles.backdropOrbPrimary} />
-        <span className={styles.backdropOrbSecondary} />
-        <span className={styles.backdropLine} />
-      </div>
-
       <SectionReveal as="header" className={styles.hero}>
         <h1 className={styles.title}>{labels.title}</h1>
-        <p className={styles.subtitle}>{labels.subtitle}</p>
         {totalJourneys > 0 ? (
           <div className={styles.heroChips}>
             <span className={styles.heroChip}>{countText}</span>
@@ -127,18 +120,18 @@ export function JourneysListContent({
                 >
                   <JourneyPreviewCard
                     href={`/${lang}/journeys/${card.publicId}`}
-                    variant="glimmer"
+                    variant="default"
                     title={card.title}
-                    description={card.description}
                     coverUrl={card.coverUrl}
                     topMeta={(
                       <>
-                        {labels.publishedLabel} ·{" "}
                         <LocalizedDate
                           lang={lang}
                           timestamp={card.publishedAt}
                           fallback={labels.unknownDateLabel}
                         />
+                        {" · "}
+                        {card.authorName}
                       </>
                     )}
                     metaItems={[
@@ -157,7 +150,6 @@ export function JourneysListContent({
                         ),
                       },
                     ]}
-                    authorText={`${labels.byLabel} ${card.authorName}`}
                   />
                 </SectionReveal>
               ))}

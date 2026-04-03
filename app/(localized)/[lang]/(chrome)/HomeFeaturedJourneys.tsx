@@ -84,7 +84,6 @@ export function HomeFeaturedJourneys({
                       <span>{journey.authorName}</span>
                     </div>
                     <h3 className={styles.featuredCardTitle}>{journey.title}</h3>
-                    <p className={styles.featuredCardDescription}>{journey.description}</p>
                     <div className={styles.featuredCardFooter}>
                       <span>
                         {journey.photoCount} {content.photoCountLabel}

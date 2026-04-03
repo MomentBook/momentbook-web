@@ -19,7 +19,6 @@ type UserProfileContentProps = {
   journeys: UserJourneyApi[];
   profileImageUrl: string | null;
   sharedCountText: string;
-  pageStatusText: string;
   paginationEntries: PaginationEntry[];
   hasPreviousPage: boolean;
   hasNextPage: boolean;
@@ -34,7 +33,6 @@ export function UserProfileContent({
   journeys,
   profileImageUrl,
   sharedCountText,
-  pageStatusText,
   paginationEntries,
   hasPreviousPage,
   hasNextPage,
@@ -94,7 +92,6 @@ export function UserProfileContent({
           )}
 
           <div className={styles.heroText}>
-            <p className={styles.eyebrow}>{labels.profileEyebrow}</p>
             <h1 className={styles.name}>{user.name}</h1>
 
             <div className={styles.heroMeta}>
@@ -111,15 +108,11 @@ export function UserProfileContent({
       <section className={styles.section}>
         <SectionReveal className={styles.sectionHeader}>
           <div className={styles.sectionHeadingGroup}>
-            <p className={styles.sectionEyebrow}>{labels.profileEyebrow}</p>
             <h2 className={styles.sectionTitle}>{labels.journeys}</h2>
           </div>
 
           <div className={styles.sectionSummary}>
             <p className={styles.sectionCount}>{sharedCountText}</p>
-            {totalPages > 1 ? (
-              <p className={styles.pageStatus}>{pageStatusText}</p>
-            ) : null}
           </div>
         </SectionReveal>
 

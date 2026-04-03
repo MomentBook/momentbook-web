@@ -18,7 +18,6 @@ export function FaqContentView({
     <>
       <header className={styles.header}>
         <h1 className={styles.title}>{content.pageTitle}</h1>
-        <p className={styles.subtitle}>{content.pageSubtitle}</p>
       </header>
 
       <div className={styles.groups}>
@@ -32,7 +31,6 @@ export function FaqContentView({
               <h2 id={`faq-group-${groupIndex}`} className={styles.groupTitle}>
                 {group.title}
               </h2>
-              <p className={styles.groupDescription}>{group.description}</p>
             </header>
 
             <div className={styles.faqList}>

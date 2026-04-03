@@ -43,14 +43,12 @@ export function MomentContent({
             ←
           </span>
           <span className={styles.backCopy}>
-            <span className={styles.backEyebrow}>{labels.eyebrow}</span>
             <span className={styles.backJourney}>{journey.title}</span>
           </span>
         </Link>
       </SectionReveal>
 
       <SectionReveal as="section" className={styles.hero} delay={40}>
-        <p className={styles.journeyEyebrow}>{journey.title}</p>
         <h1 className={styles.title}>{displayLocationName}</h1>
         <dl className={styles.metaList}>
           <div className={styles.metaItem}>

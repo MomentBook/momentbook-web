@@ -119,10 +119,6 @@ export function ChromeFooter({
                 hideIcon
               />
             </Link>
-
-            <p className={styles.footerSummary}>
-              {dict.footer.summary}
-            </p>
           </div>
           <div className={styles.footerActions}>
             <DownloadActionButton

@@ -8,7 +8,6 @@ type UserDirectoryCardProps = {
   lang: Language;
   user: PublicUserApi;
   matchedHashtags: string[];
-  hashtagHint: string;
   journeysLabel: string;
   viewProfileLabel: string;
 };
@@ -47,7 +46,6 @@ export function UserDirectoryCard({
   lang,
   user,
   matchedHashtags,
-  hashtagHint,
   journeysLabel,
   viewProfileLabel,
 }: UserDirectoryCardProps) {
@@ -70,17 +68,10 @@ export function UserDirectoryCard({
         </div>
       </div>
 
-      {user.biography ? (
-        <p className={styles.bio}>{user.biography}</p>
-      ) : (
-        <div className={styles.bioSpacer} aria-hidden="true" />
-      )}
-
       {matchedHashtags.length > 0 ? (
         <div className={styles.matchedHashtagBlock}>
-          <p className={styles.matchedHashtagLabel}>{hashtagHint}</p>
           <div className={styles.matchedHashtagList}>
-            {matchedHashtags.slice(0, 4).map((hashtag) => (
+            {matchedHashtags.slice(0, 2).map((hashtag) => (
               <span key={hashtag} className={styles.matchedHashtagChip}>
                 {hashtag}
               </span>

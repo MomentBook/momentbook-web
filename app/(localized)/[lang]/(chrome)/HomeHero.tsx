@@ -25,7 +25,6 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
     <section className={styles.hero}>
       <SectionReveal className={styles.heroGrid}>
         <div className={styles.heroCopy}>
-          <p className={styles.heroEyebrow}>{content.heroEyebrow}</p>
           <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
           <p className={styles.heroLead}>{content.heroLead}</p>
           <div className={styles.heroActionsWrap}>
@@ -53,9 +52,6 @@ export function HomeHero({ lang, content }: HomeHeroProps) {
               </AnalyticsLink>
             </div>
           </div>
-          {content.heroFootnote ? (
-            <p className={styles.heroFootnote}>{content.heroFootnote}</p>
-          ) : null}
         </div>
       </SectionReveal>
     </section>
