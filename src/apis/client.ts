@@ -1061,12 +1061,22 @@ export interface PublishedJourneysDataDto {
   journeys: PublishedJourneyItemDto[];
   /** Total number of published journeys */
   total: number;
-  /** Current page number */
-  page: number;
-  /** Total number of pages */
-  pages: number;
+  /** Current page number for legacy offset pagination responses. Omitted when cursor mode is used. */
+  page?: number;
+  /** Total number of pages for legacy offset pagination responses. Omitted when cursor mode is used. */
+  pages?: number;
   /** Items per page limit */
   limit: number;
+  /**
+   * Whether additional items remain after this batch. Present for both offset and cursor responses to help discovery UIs preload safely.
+   * @example true
+   */
+  hasMore: boolean;
+  /**
+   * Opaque cursor for the next discovery batch. Present when the current result can continue in recent-order cursor mode.
+   * @example "eyJzb3J0QXQiOiIyMDI2LTA0LTAzVDA3OjAwOjAwLjAwMFoiLCJpZCI6IjY2MGQ4MzFhN2FlOGVjYzA0YmQ1OWJiMSJ9"
+   */
+  nextCursor?: object | null;
 }
 
 export interface PublishedJourneysResponseDto {
@@ -2655,7 +2665,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.26
+ * @version 2.1.28
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3338,32 +3348,52 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve a paginated list of publicly visible approved journeys. Optionally filter by userId to get a specific user's approved public journeys.
+     * @description Public endpoint to retrieve publicly visible approved journeys for the discovery feed. Supports legacy offset pagination and additive cursor pagination for short-feed style clients. Creator-specific lists should prefer `/v2/users/public/:userId/journeys`.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourneys
      * @summary Get list of published journeys (public feed)
      * @request GET:/v2/journeys/public
+     * @secure
      */
     publishJourneyControllerGetPublishedJourneys: (
       query?: {
         /**
-         * Page number (default: 1)
-         * @example 1
+         * Offset pagination page number. Keep using this for legacy clients. Cursor mode requires page=1 or omission.
+         * @min 1
+         * @default 1
          */
         page?: number;
         /**
-         * Number of items per page (default: 20)
-         * @example 20
+         * Number of journeys to fetch. Discovery clients should keep this modest because each item carries image metadata.
+         * @min 1
+         * @max 50
+         * @default 20
          */
         limit?: number;
-        /** Sort order (default: recent) */
+        /**
+         * Sort order. Cursor mode currently supports only recent to keep the feed contract stable.
+         * @default "recent"
+         * @example "recent"
+         */
         sort?: "recent" | "oldest";
         /**
-         * Filter by user ID (optional)
+         * Deprecated creator filter on the discovery endpoint. Prefer /v2/users/public/:userId/journeys for creator-specific lists.
+         * @deprecated
          * @example "507f1f77bcf86cd799439011"
          */
         userId?: string;
+        /**
+         * Opaque cursor for discovery-feed pagination. When present, the response returns nextCursor/hasMore and ignores offset traversal beyond page=1.
+         * @example "eyJzb3J0QXQiOiIyMDI2LTA0LTAzVDA3OjAwOjAwLjAwMFoiLCJpZCI6IjY2MGQ4MzFhN2FlOGVjYzA0YmQ1OWJiMSJ9"
+         */
+        cursor?: string;
+        /**
+         * Exclude journeys authored by the currently authenticated user from the discovery feed. Requires an optional Bearer token on this request.
+         * @default false
+         * @example true
+         */
+        excludeMine?: boolean;
         /**
          * Optional response language for localized title/description/impressions. Accepts language code or locale: ko, en, ja, zh, es, pt, fr, th, vi, ko-KR, pt-BR, etc.
          * @example "ja"
@@ -3376,6 +3406,7 @@ export class Api<
         path: `/v2/journeys/public`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
