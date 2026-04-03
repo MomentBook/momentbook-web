@@ -11,6 +11,7 @@ import {
   buildPublicKeywords,
   buildPublicRobots,
   buildStructuredDataKeywordValue,
+  buildStructuredDataTopicTerms,
 } from "@/lib/seo/public-metadata";
 import { buildSocialImageMetadata } from "@/lib/seo/social-image";
 import {
@@ -188,14 +189,13 @@ export default async function UserPage({
   const pageUrl = buildStructuredDataUrl(pagePath, siteUrl);
   const description = buildUserProfileDescription(lang, user);
   const pageDescription = buildUserMetadataDescription(lang, user, safeCurrentPage);
-  const keywords = buildPublicKeywords({
+  const structuredDataTopics = buildStructuredDataTopicTerms({
     lang,
-    kind: "user",
     title: user.name,
-    authorName: user.name,
-    extra: [labels.profileEyebrow, labels.journeys],
   });
-  const keywordValue = buildStructuredDataKeywordValue(keywords);
+  const keywordValue = buildStructuredDataKeywordValue(
+    structuredDataTopics.keywords,
+  );
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfilePage",

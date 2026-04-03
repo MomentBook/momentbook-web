@@ -23,7 +23,9 @@ import {
     buildPublicKeywords,
     buildPublicRobots,
     buildSeoTitle,
+    buildStructuredDataDefinedTerms,
     buildStructuredDataKeywordValue,
+    buildStructuredDataTopicTerms,
     buildSeoDescription,
 } from "@/lib/seo/public-metadata";
 import { buildSocialImageMetadata } from "@/lib/seo/social-image";
@@ -237,22 +239,22 @@ export default async function JourneyPage({
         locations[0] ?? null,
     ]);
     const authorName = readAuthorName(user?.name);
-    const keywords = buildPublicKeywords({
+    const structuredDataTopics = buildStructuredDataTopicTerms({
         lang,
-        kind: "journey",
-        title,
+        title: journey.title,
         locationNames: locations,
-        authorName,
         hashtags: journey.hashtags,
-        extra: [labels.eyebrow],
     });
-    const keywordValue = buildStructuredDataKeywordValue(keywords);
+    const keywordValue = buildStructuredDataKeywordValue(
+        structuredDataTopics.keywords,
+    );
     const about = [
         ...locations.slice(0, 5).map((location) => ({
             "@type": "Place" as const,
             name: location,
         })),
         ...buildVisibleJourneyTopics(journey.hashtags),
+        ...buildStructuredDataDefinedTerms(structuredDataTopics.about),
     ];
     const structuredImages = [
         ...(journey.thumbnailUrl ? [journey.thumbnailUrl] : []),

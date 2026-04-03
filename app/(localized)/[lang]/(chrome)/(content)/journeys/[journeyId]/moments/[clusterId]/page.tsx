@@ -12,7 +12,9 @@ import {
   buildPublicRobots,
   buildSocialImageSequence,
   buildSeoTitle,
+  buildStructuredDataDefinedTerms,
   buildStructuredDataKeywordValue,
+  buildStructuredDataTopicTerms,
   buildSeoDescription,
 } from "@/lib/seo/public-metadata";
 import { buildSocialImageMetadata } from "@/lib/seo/social-image";
@@ -223,16 +225,16 @@ export default async function JourneyMomentPage({
     cluster.impression,
     description,
   ]);
-  const keywords = buildPublicKeywords({
+  const structuredDataTopics = buildStructuredDataTopicTerms({
     lang,
-    kind: "moment",
-    title: headline,
+    title: buildMomentSeoTitle(journey.title, locationName),
     locationNames: cluster.locationName ? [cluster.locationName] : [],
-    authorName,
     hashtags: journey.hashtags,
-    extra: [labels.eyebrow, journey.title],
+    extra: cluster.impression ? [cluster.impression] : [],
   });
-  const keywordValue = buildStructuredDataKeywordValue(keywords);
+  const keywordValue = buildStructuredDataKeywordValue(
+    structuredDataTopics.keywords,
+  );
   const about = [
     ...(cluster.locationName
       ? [
@@ -243,6 +245,7 @@ export default async function JourneyMomentPage({
         ]
       : []),
     ...buildVisibleMomentTopics(journey.hashtags),
+    ...buildStructuredDataDefinedTerms(structuredDataTopics.about),
   ];
 
   const jsonLd = {

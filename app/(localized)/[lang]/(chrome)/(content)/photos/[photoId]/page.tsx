@@ -11,7 +11,9 @@ import {
     buildOpenGraphBase,
     buildPublicKeywords,
     buildPublicRobots,
+    buildStructuredDataDefinedTerms,
     buildStructuredDataKeywordValue,
+    buildStructuredDataTopicTerms,
 } from "@/lib/seo/public-metadata";
 import { buildSocialImageMetadata } from "@/lib/seo/social-image";
 import {
@@ -127,14 +129,15 @@ export default async function PhotoPage({
     const datePublished = display.hasTakenAt && display.takenAt !== null
         ? new Date(display.takenAt).toISOString()
         : undefined;
-    const keywords = buildPublicKeywords({
+    const structuredDataTopics = buildStructuredDataTopicTerms({
         lang,
-        kind: "photo",
         title: display.title,
         locationNames: display.locationName ? [display.locationName] : [],
-        extra: display.journeyTitle ? [display.journeyTitle] : [],
+        extra: display.caption ? [display.caption] : [],
     });
-    const keywordValue = buildStructuredDataKeywordValue(keywords);
+    const keywordValue = buildStructuredDataKeywordValue(
+        structuredDataTopics.keywords,
+    );
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -147,6 +150,13 @@ export default async function PhotoPage({
         inLanguage: toLocaleTag(lang),
         ...(keywordValue ? { keywords: keywordValue } : {}),
         ...(datePublished && { datePublished }),
+        ...(structuredDataTopics.about.length > 0
+            ? {
+                  about: buildStructuredDataDefinedTerms(
+                      structuredDataTopics.about,
+                  ),
+              }
+            : {}),
         ...(display.locationName
             ? {
                   contentLocation: {

@@ -20,6 +20,19 @@ type BuildPublicKeywordsOptions = {
   extra?: string[];
 };
 
+type BuildStructuredDataTopicTermsOptions = {
+  lang: Language;
+  title?: string | null;
+  locationNames?: string[];
+  hashtags?: string[];
+  extra?: string[];
+};
+
+type StructuredDataTopicTerms = {
+  keywords: string[];
+  about: string[];
+};
+
 const COMMON_PUBLIC_KEYWORDS: Record<Language, string[]> = {
   en: ["MomentBook", "travel memories", "journey timeline"],
   ko: ["MomentBook", "여행 기록", "여정 타임라인"],
@@ -102,6 +115,20 @@ const SEGMENTABLE_SCRIPT_PATTERNS: Record<Language, RegExp> = {
   vi: /$^/,
 };
 
+const SPACE_DELIMITED_TOPIC_TOKEN_PATTERN = /[\p{L}\p{N}][\p{L}\p{N}'’-]*/gu;
+
+const SPACE_DELIMITED_STOPWORDS_BY_LANGUAGE: Record<Language, string[]> = {
+  en: ["a", "an", "and", "as", "at", "by", "for", "from", "in", "into", "of", "on", "or", "the", "to", "with"],
+  ko: [],
+  ja: [],
+  zh: [],
+  es: ["al", "con", "de", "del", "el", "en", "la", "las", "lo", "los", "o", "para", "por", "un", "una", "y"],
+  pt: ["a", "ao", "com", "da", "das", "de", "do", "dos", "e", "em", "na", "nas", "no", "nos", "o", "os", "ou", "para", "por", "um", "uma"],
+  fr: ["au", "aux", "avec", "de", "des", "du", "en", "et", "la", "le", "les", "ou", "par", "pour", "sur", "un", "une"],
+  th: [],
+  vi: ["cho", "cua", "của", "la", "là", "mot", "một", "nhung", "những", "o", "ở", "tai", "tại", "tren", "trên", "trong", "tu", "từ", "va", "và", "voi", "với"],
+};
+
 function readText(value: string | null | undefined): string | null {
   if (!value) {
     return null;
@@ -170,44 +197,148 @@ function normalizeTopicTerm(value: string): string | null {
   return stripped.length > 0 ? stripped : null;
 }
 
-function splitTopicPhrase(phrase: string, lang: Language): string[] {
-  if (!SEGMENTABLE_LANGUAGES.has(lang) || /\s/.test(phrase)) {
-    return [];
-  }
+function normalizeComparableTopicToken(value: string, lang: Language): string {
+  return value.normalize("NFKC").toLocaleLowerCase(toLocaleTag(lang));
+}
 
+function splitWhitespaceTopicPhrase(phrase: string, lang: Language): string[] {
   const locale = toLocaleTag(lang);
-  const normalizedPhrase = phrase.trim();
-  const scriptPattern = SEGMENTABLE_SCRIPT_PATTERNS[lang];
-
-  if (normalizedPhrase.length < 2) {
-    return [];
-  }
-
-  if (!scriptPattern.test(normalizedPhrase)) {
-    return [];
-  }
-
-  if (typeof Intl.Segmenter !== "function") {
-    return [];
-  }
-
-  const segmenter = new Intl.Segmenter(locale, { granularity: "word" });
+  const stopwords = new Set(
+    (SPACE_DELIMITED_STOPWORDS_BY_LANGUAGE[lang] ?? []).map((word) =>
+      word.toLocaleLowerCase(locale),
+    ),
+  );
+  const matches = phrase.match(SPACE_DELIMITED_TOPIC_TOKEN_PATTERN) ?? [];
   const candidates: string[] = [];
 
-  for (const segment of segmenter.segment(normalizedPhrase)) {
-    if (!segment.isWordLike) {
+  for (const match of matches) {
+    const token = normalizeTopicTerm(match);
+    if (!token) {
       continue;
     }
 
-    const token = normalizeTopicTerm(segment.segment);
-    if (!token || token === normalizedPhrase) {
+    if (/^\d+$/u.test(token)) {
+      continue;
+    }
+
+    if (/^[\p{Script=Latin}\d'’-]+$/u.test(token) && token.length < 3) {
+      continue;
+    }
+
+    if (stopwords.has(normalizeComparableTopicToken(token, lang))) {
       continue;
     }
 
     candidates.push(token);
   }
 
-  return dedupeKeywords(candidates).slice(0, 4);
+  return dedupeKeywords(candidates).slice(0, 6);
+}
+
+// ---------------------------------------------------------------------------
+// Korean particle stripping
+// ---------------------------------------------------------------------------
+
+const KOREAN_PARTICLES = [
+  "으로서", "으로써", "에서는", "에서의",
+  "으로", "에서", "부터", "까지", "처럼", "만큼",
+  "에게", "한테", "보다",
+  "이는", "에는", "과는", "와는",
+  "을", "를", "이", "가", "은", "는", "의", "에", "와", "과", "로", "도", "만",
+];
+
+function stripKoreanParticle(word: string): string | null {
+  for (const particle of KOREAN_PARTICLES) {
+    if (word.length > particle.length && word.endsWith(particle)) {
+      const stem = word.slice(0, -particle.length);
+      if (/[\p{Script=Hangul}]/u.test(stem) && stem.length >= 2) {
+        return stem;
+      }
+    }
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// Topic phrase segmentation
+// ---------------------------------------------------------------------------
+
+function segmentSingleToken(
+  token: string,
+  lang: Language,
+  locale: string,
+  scriptPattern: RegExp,
+): string[] {
+  const normalized = token.trim();
+  if (normalized.length < 2 || !scriptPattern.test(normalized)) {
+    return [];
+  }
+
+  const candidates: string[] = [];
+
+  // For Korean: strip particles to extract noun stems
+  if (lang === "ko") {
+    const stem = stripKoreanParticle(normalized);
+    if (stem) {
+      candidates.push(stem);
+    }
+  }
+
+  // For CJK compound words: split using Intl.Segmenter
+  if (typeof Intl.Segmenter === "function" && !/\s/.test(normalized)) {
+    const segmenter = new Intl.Segmenter(locale, { granularity: "word" });
+
+    for (const segment of segmenter.segment(normalized)) {
+      if (!segment.isWordLike) {
+        continue;
+      }
+
+      const segToken = normalizeTopicTerm(segment.segment);
+      if (!segToken || segToken === normalized) {
+        continue;
+      }
+
+      candidates.push(segToken);
+    }
+  }
+
+  return candidates;
+}
+
+function splitTopicPhrase(phrase: string, lang: Language): string[] {
+  const normalizedPhrase = phrase.trim();
+
+  if (normalizedPhrase.length < 2) {
+    return [];
+  }
+
+  if (!SEGMENTABLE_LANGUAGES.has(lang)) {
+    return splitWhitespaceTopicPhrase(normalizedPhrase, lang);
+  }
+
+  const locale = toLocaleTag(lang);
+  const scriptPattern = SEGMENTABLE_SCRIPT_PATTERNS[lang];
+
+  if (!scriptPattern.test(normalizedPhrase)) {
+    return [];
+  }
+
+  const candidates: string[] = [];
+
+  // Split on whitespace and process each word individually
+  const words = normalizedPhrase.split(/\s+/).filter((w) => w.length > 0);
+  for (const word of words) {
+    candidates.push(...segmentSingleToken(word, lang, locale, scriptPattern));
+  }
+
+  // Also segment the whole phrase if it has no spaces (compound word)
+  if (!/\s/.test(normalizedPhrase)) {
+    candidates.push(
+      ...segmentSingleToken(normalizedPhrase, lang, locale, scriptPattern),
+    );
+  }
+
+  return dedupeKeywords(candidates).slice(0, 6);
 }
 
 export function buildPublicKeywords({
@@ -239,7 +370,7 @@ export function buildPublicKeywords({
     ...(COMMON_PUBLIC_KEYWORDS[lang] ?? COMMON_PUBLIC_KEYWORDS.en),
     ...(KEYWORDS_BY_KIND[lang]?.[kind] ?? KEYWORDS_BY_KIND.en[kind]),
     ...(extra ?? []),
-    ...(cleanTitle ? [cleanTitle, `${cleanTitle} MomentBook`] : []),
+    ...(cleanTitle ? [cleanTitle] : []),
     ...(cleanAuthor ? [cleanAuthor] : []),
     ...cleanLocations,
     ...cleanHashtags,
@@ -247,6 +378,57 @@ export function buildPublicKeywords({
   ]);
 
   return keywords.slice(0, 24);
+}
+
+export function buildStructuredDataTopicTerms({
+  lang,
+  title,
+  locationNames,
+  hashtags,
+  extra,
+}: BuildStructuredDataTopicTermsOptions): StructuredDataTopicTerms {
+  const cleanTitle = readText(title);
+  const cleanLocations = (locationNames ?? [])
+    .map((value) => readText(value))
+    .filter((value): value is string => Boolean(value))
+    .slice(0, 5);
+  const cleanHashtags = (hashtags ?? [])
+    .map((value) => normalizeTopicTerm(value))
+    .filter((value): value is string => Boolean(value))
+    .slice(0, 8);
+  const cleanExtra = (extra ?? [])
+    .map((value) => readText(value))
+    .filter((value): value is string => Boolean(value))
+    .slice(0, 3);
+
+  const about = dedupeKeywords([
+    ...(cleanTitle ? splitTopicPhrase(cleanTitle, lang) : []),
+    ...cleanExtra.flatMap((value) => splitTopicPhrase(value, lang)),
+  ]).slice(0, 10);
+
+  const keywords = dedupeKeywords([
+    ...(cleanTitle ? [cleanTitle] : []),
+    ...cleanLocations,
+    ...cleanHashtags,
+    ...cleanExtra,
+    ...about,
+  ]).slice(0, 18);
+
+  return {
+    keywords,
+    about,
+  };
+}
+
+export function buildStructuredDataDefinedTerms(
+  values: string[],
+): Array<{ "@type": "DefinedTerm"; name: string }> {
+  return dedupeKeywords(values)
+    .slice(0, 8)
+    .map((name) => ({
+      "@type": "DefinedTerm" as const,
+      name,
+    }));
 }
 
 export function buildOpenGraphArticleTags(keywords: string[]): string[] {
