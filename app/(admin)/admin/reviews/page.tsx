@@ -91,7 +91,7 @@ function resolveBanner(options: {
   ) {
     return {
       tone: "success",
-      message: `Review status for ${options.targetPublicId} is now ${buildReviewStatusLabel(options.reviewStatus)}. Public surfaces expose only approved journeys with public visibility.`,
+      message: `${options.targetPublicId} updated to ${buildReviewStatusLabel(options.reviewStatus)}.`,
     };
   }
 
@@ -99,30 +99,27 @@ function resolveBanner(options: {
     case "missing_public_id":
       return {
         tone: "error",
-        message: "Enter a public ID before sending a live review update.",
+        message: "Enter a public ID.",
       };
     case "invalid_review_status":
       return {
         tone: "error",
-        message: "Choose a valid review status before submitting.",
+        message: "Choose a review status.",
       };
     case "admin_access_denied":
       return {
         tone: "error",
-        message:
-          "The current admin session is valid, but it is not allowed to update journey review status.",
+        message: "This session cannot update review status.",
       };
     case "review_target_not_found":
       return {
         tone: "error",
-        message:
-          "No published journey matched that public ID. Check the identifier and try again.",
+        message: "No published journey matched that public ID.",
       };
     case "review_update_failed":
       return {
         tone: "error",
-        message:
-          "The review status could not be updated. Check backend health and try again.",
+        message: "Could not update review status. Try again.",
       };
     default:
       return null;
@@ -185,7 +182,7 @@ async function loadWorkspaceData(options: {
 }
 
 export const metadata: Metadata = {
-  title: "Review Dashboard",
+  title: "Journey Review",
   robots: buildNoIndexRobots(),
 };
 
