@@ -50,7 +50,7 @@
 - Shared shell: public pages use `app/(localized)/[lang]/(chrome)/layout.tsx`
 - Download alias: `/{lang}/install` permanently redirects to `/{lang}#download`, while `/{lang}/install/redirect` remains the QR-only store handoff route
 - Header nav: desktop/mobile 모두 `Download`, `Journeys` 중심
-- Public query surface: `/{lang}/journeys?page=`, `/{lang}/users?q=`, `/{lang}/users/[userId]?page=`
+- Public query surface: `/{lang}/users?q=`, `/{lang}/users/[userId]?page=` (`/{lang}/journeys`는 동일 route에서 cursor-based load more 사용, legacy `?page=`는 base route로 정리)
 - Users search: `/{lang}/users`는 최근 공개 프로필 최대 100개를 불러와 서버에서 이름/소개 텍스트 기준 필터링
 - Download CTA behavior: desktop은 QR handoff, mobile은 현재 공식 스토어 링크로 이동 (open-in-app deep link helper는 미설정)
 - Legal body coverage: `privacy`/`terms`/`community-guidelines`/`marketing-consent`/`support` 모두 9개 언어(`en/ko/ja/zh/es/pt/fr/th/vi`)별 copy 제공

@@ -72,7 +72,6 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/install` (`/{lang}#download`로 `permanentRedirect`)
 - `/{lang}/faq`
 - `/{lang}/journeys`
-- `/{lang}/journeys` 지원 query: `page`
 - `/{lang}/journeys/[journeyId]`
 - `/{lang}/journeys/[journeyId]/moments/[clusterId]`
 - `/{lang}/users`
@@ -83,7 +82,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - 존재하지 않는 localized public route 또는 삭제된 공개 콘텐츠 진입은 localized recovery 404로 처리한다. shared chrome 하위 content route는 동일 헤더/푸터를 유지한 채 단일 recovery card와 핵심 복구 경로(`home`, `journeys` 또는 `users`, `support`)를 제공한다.
 
 현재 query 동작:
-- `/{lang}/journeys?page=`와 `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.
+- `/{lang}/journeys`는 첫 batch를 server-rendered로 노출한 뒤, 같은 route 안에서 recent-order cursor pagination 기반 `load more`를 사용한다. legacy `?page=` 진입은 base route로 redirect한다.
+- `/{lang}/users/[userId]?page=`는 잘못된/초과 페이지 요청 시 정규화된 페이지로 redirect한다.
 - `/{lang}/users?q=`는 최근 공개 프로필 최대 100개를 불러온 뒤 이름/biography와 각 프로필의 recent public journeys list가 이미 제공하는 해시태그 기준으로 서버에서 필터링한다. 검색을 위해 각 journey detail을 추가 fetch하지 않는다.
 
 ### 4.2 Internal Admin Pages (Noindex)
@@ -150,6 +150,7 @@ MomentBook Web은 다음 역할만 수행한다.
 - 사용자/프로필/사용자별 게시 여정: `lib/public-users.ts`
 - 게시 여정/모먼트/사진: `lib/published-journey.ts` (`GET /v2/journeys/public/:publicId/viewer?viewer=web` 기반 viewer payload + photo endpoint)
 - `GET /v2/journeys/public`, `GET /v2/users/public/:userId/journeys`, `GET /v2/users/public`, `GET /v2/journeys/public/photos/:photoId`는 현재 `APPROVED + visibility=public` 데이터만 반환하는 정책을 전제로 사용한다.
+- `GET /v2/journeys/public`는 discovery feed endpoint로 사용한다. `/{lang}/journeys`는 초기 recent batch를 offset page 1로 받은 뒤, 추가 batch는 `cursor`/`hasMore`/`nextCursor` 기반으로 이어받는다. 작성자별 목록은 deprecated `userId` query를 쓰지 않고 `GET /v2/users/public/:userId/journeys`를 사용한다.
 - `GET /v2/journeys/public/:publicId/viewer?viewer=web`는 `APPROVED + hidden 아님`일 때만 full payload를 사용하고, `PENDING` / `REJECTED` / hidden 상태에서는 `contentStatus`, `review`, `notice` 중심의 status-focused payload로 분기한다.
 - `lang` query를 지원하는 public journeys/user journeys/photo endpoint에는 현재 route locale(`en-US`, `ko-KR`, `pt-BR` 등)을 함께 전달해 서버가 localized 응답을 치환하도록 한다.
 - public journey/user/photo payload가 제공하는 additive local-time context(`startedAtLocal`, `endedAtLocal`, `timeline[].time.startLocal/endLocal`, `images[].captureTime`, `photo.captureTime`)는 시:분 렌더링의 우선 입력으로 사용하고, 정렬/비교/범위 계산은 기존 absolute timestamp(`startedAt`, `endedAt`, `takenAt`)를 계속 사용한다.
@@ -259,7 +260,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - 루트(`/`)는 index/follow 가능한 x-default gateway이며, no-JS/비정상 redirect 상황을 위한 언어 링크를 함께 렌더링한다.
 - Internal admin pages: noindex/nofollow + `robots.txt` disallow(`/admin`)
 - Legal pages: noindex/nofollow
-- `/{lang}/journeys?page=...`와 `/{lang}/users/[userId]?page=...`는 page-specific canonical/alternates를 유지한 index/follow 페이지다.
+- `/{lang}/journeys`는 단일 canonical/alternates를 유지하는 index/follow discovery route다. 추가 discovery batch는 client-side cursor 요청으로 이어지며 별도 공개 URL을 만들지 않는다.
+- `/{lang}/users/[userId]?page=...`는 page-specific canonical/alternates를 유지한 index/follow 페이지다.
 - `/users?q=...` 검색 파라미터 페이지: noindex/follow + canonical(`/{lang}/users`)
 - hidden journey detail metadata: noindex/nofollow
 - `robots.txt`는 root sitemap index와 type-level sitemap index를 함께 노출한다.

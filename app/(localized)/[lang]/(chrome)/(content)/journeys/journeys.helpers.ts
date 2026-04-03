@@ -1,4 +1,3 @@
-import type { Language } from "@/lib/i18n/config";
 import { readTimestamp, resolveJourneyPeriodRange } from "@/lib/journey-period";
 import type { LocalDateTimeContext } from "@/lib/local-time-context";
 import type { PublishedJourneyListItemApi } from "@/lib/published-journey";
@@ -38,14 +37,6 @@ function resolveJourneyMetadata(journey: PublishedJourneyListItemApi) {
     title: readText(metadata?.title),
     description: readText(metadata?.description),
   };
-}
-
-export function buildJourneyPageHref(lang: Language, page: number): string {
-  if (page <= 1) {
-    return `/${lang}/journeys`;
-  }
-
-  return `/${lang}/journeys?page=${page}`;
 }
 
 export async function buildJourneyCards(

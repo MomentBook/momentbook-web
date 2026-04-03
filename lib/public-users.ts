@@ -73,6 +73,8 @@ type PublishedJourneysResponse = {
         page?: number;
         pages?: number;
         limit?: number;
+        hasMore?: boolean;
+        nextCursor?: unknown;
     };
 };
 
@@ -98,6 +100,24 @@ function readNumber(value: unknown): number | null {
         const parsed = Number(value);
         if (Number.isFinite(parsed)) {
             return parsed;
+        }
+    }
+
+    return null;
+}
+
+function readBoolean(value: unknown): boolean | null {
+    if (typeof value === "boolean") {
+        return value;
+    }
+
+    if (typeof value === "string") {
+        if (value === "true") {
+            return true;
+        }
+
+        if (value === "false") {
+            return false;
         }
     }
 
@@ -390,6 +410,11 @@ const fetchUserJourneysCached = cache(async function fetchUserJourneysCached(
                 page: readNumber(payload.data.page) ?? page,
                 pages: readNumber(payload.data.pages) ?? 1,
                 limit: readNumber(payload.data.limit) ?? limit,
+                hasMore:
+                    readBoolean(payload.data.hasMore) ??
+                    ((readNumber(payload.data.page) ?? page) <
+                        (readNumber(payload.data.pages) ?? 1)),
+                nextCursor: readText(payload.data.nextCursor) ?? undefined,
             },
         };
     } catch (error) {

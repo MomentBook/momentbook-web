@@ -1,33 +1,100 @@
-import { PaginationNav } from "@/components/PaginationNav";
+"use client";
+
+import { useState, useTransition } from "react";
 import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
 import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import { SectionReveal } from "@/components/SectionReveal";
-import type { PaginationEntry } from "@/lib/pagination";
 import type { Language } from "@/lib/i18n/config";
 import type { JourneyCardViewModel } from "./journeys.helpers";
-import { buildJourneyPageHref } from "./journeys.helpers";
 import type { JourneyPageLabels } from "./journeys-page.helpers";
+import { JOURNEYS_BATCH_SIZE } from "./journeys-page.helpers";
+import { loadMoreJourneysAction } from "./actions";
 import styles from "./journeys.module.scss";
 
 type JourneysListContentProps = {
   lang: Language;
   labels: JourneyPageLabels;
-  cards: JourneyCardViewModel[];
-  safeCurrentPage: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
-  paginationEntries: PaginationEntry[];
+  initialCards: JourneyCardViewModel[];
+  initialTotalJourneys: number;
+  initialHasMore: boolean;
+  initialNextCursor: string | null;
 };
+
+function mergeJourneyCards(
+  currentCards: JourneyCardViewModel[],
+  nextCards: JourneyCardViewModel[],
+): JourneyCardViewModel[] {
+  const seen = new Set(currentCards.map((card) => card.publicId));
+  const merged = [...currentCards];
+
+  nextCards.forEach((card) => {
+    if (seen.has(card.publicId)) {
+      return;
+    }
+
+    seen.add(card.publicId);
+    merged.push(card);
+  });
+
+  return merged;
+}
 
 export function JourneysListContent({
   lang,
   labels,
-  cards,
-  safeCurrentPage,
-  hasPreviousPage,
-  hasNextPage,
-  paginationEntries,
+  initialCards,
+  initialTotalJourneys,
+  initialHasMore,
+  initialNextCursor,
 }: JourneysListContentProps) {
+  const [cards, setCards] = useState(initialCards);
+  const [totalJourneys, setTotalJourneys] = useState(initialTotalJourneys);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [nextCursor, setNextCursor] = useState(initialNextCursor);
+  const [loadMoreError, setLoadMoreError] = useState<string | null>(null);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const canLoadMore = hasMore && typeof nextCursor === "string" && nextCursor.length > 0;
+  const countText = labels.countLabel.replace(
+    "{count}",
+    new Intl.NumberFormat(lang).format(totalJourneys),
+  );
+
+  async function handleLoadMore() {
+    if (!canLoadMore || !nextCursor || isLoadingMore) {
+      return;
+    }
+
+    setLoadMoreError(null);
+    setIsLoadingMore(true);
+
+    try {
+      const result = await loadMoreJourneysAction({
+        lang,
+        cursor: nextCursor,
+        limit: JOURNEYS_BATCH_SIZE,
+      });
+
+      if (result.status !== "success") {
+        setLoadMoreError(labels.loadMoreErrorLabel);
+        return;
+      }
+
+      startTransition(() => {
+        setCards((currentCards) => mergeJourneyCards(currentCards, result.cards));
+        setTotalJourneys((currentTotal) =>
+          result.total > 0 ? result.total : currentTotal,
+        );
+        setHasMore(result.hasMore);
+        setNextCursor(result.nextCursor);
+      });
+    } catch {
+      setLoadMoreError(labels.loadMoreErrorLabel);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }
+
   return (
     <>
       <div className={styles.backdrop} aria-hidden="true">
@@ -37,15 +104,13 @@ export function JourneysListContent({
       </div>
 
       <SectionReveal as="header" className={styles.hero}>
-        <h1 className={styles.title}>
-          {labels.title}
-          {safeCurrentPage > 1 ? (
-            <span className={styles.pageBadge}>
-              {labels.pageLabel.replace("{page}", String(safeCurrentPage))}
-            </span>
-          ) : null}
-        </h1>
+        <h1 className={styles.title}>{labels.title}</h1>
         <p className={styles.subtitle}>{labels.subtitle}</p>
+        {totalJourneys > 0 ? (
+          <div className={styles.heroChips}>
+            <span className={styles.heroChip}>{countText}</span>
+          </div>
+        ) : null}
       </SectionReveal>
 
       {cards.length === 0 ? (
@@ -99,27 +164,32 @@ export function JourneysListContent({
             </div>
           </SectionReveal>
 
-          <SectionReveal delay={120}>
-            <PaginationNav
-              ariaLabel={labels.paginationLabel}
-              currentPage={safeCurrentPage}
-              entries={paginationEntries}
-              hasPreviousPage={hasPreviousPage}
-              hasNextPage={hasNextPage}
-              previousLabel={labels.previousPage}
-              nextLabel={labels.nextPage}
-              buildHref={(targetPage) => buildJourneyPageHref(lang, targetPage)}
-              classNames={{
-                nav: styles.pagination,
-                button: styles.pageButton,
-                buttonDisabled: styles.pageButtonDisabled,
-                numbers: styles.pageNumbers,
-                ellipsis: styles.pageEllipsis,
-                current: styles.pageNumberCurrent,
-                page: styles.pageNumber,
-              }}
-            />
-          </SectionReveal>
+          {loadMoreError ? (
+            <SectionReveal delay={120}>
+              <p className={styles.loadMoreError} role="status">
+                {loadMoreError}
+              </p>
+            </SectionReveal>
+          ) : null}
+
+          {canLoadMore ? (
+            <SectionReveal delay={120} className={styles.feedActions}>
+              <button
+                type="button"
+                className={
+                  isLoadingMore || isPending
+                    ? styles.loadMoreButtonDisabled
+                    : styles.loadMoreButton
+                }
+                onClick={() => {
+                  void handleLoadMore();
+                }}
+                disabled={isLoadingMore || isPending}
+              >
+                {isLoadingMore ? labels.loadingMoreLabel : labels.loadMoreLabel}
+              </button>
+            </SectionReveal>
+          ) : null}
         </>
       )}
     </>

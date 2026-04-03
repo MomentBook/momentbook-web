@@ -137,9 +137,11 @@ export type PublishedJourneyListItemApi = {
 export type PublishedJourneysListApi = {
     journeys: PublishedJourneyListItemApi[];
     total: number;
-    page: number;
-    pages: number;
+    page?: number;
+    pages?: number;
     limit: number;
+    hasMore: boolean;
+    nextCursor: string | null;
 };
 
 export type PublishedPhotoApi = {
@@ -1010,28 +1012,135 @@ export async function fetchPublishedJourney(
     return result.status === "success" ? result.data : null;
 }
 
-const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneysCached(
-    page: number,
-    limit: number,
-    sort: "recent" | "oldest",
-    userId?: string,
+type PublishedJourneySort = "recent" | "oldest";
+
+type BaseFetchPublishedJourneysOptions = {
+    limit?: number;
+    lang?: Language;
+    excludeMine?: boolean;
+    accessToken?: string;
+};
+
+type OffsetPublishedJourneysOptions = BaseFetchPublishedJourneysOptions & {
+    page?: number,
+    sort?: PublishedJourneySort,
+    cursor?: never;
+};
+
+type CursorPublishedJourneysOptions = BaseFetchPublishedJourneysOptions & {
+    cursor: string;
+    limit?: number;
+    page?: number;
+    sort?: "recent";
+};
+
+export type FetchPublishedJourneysOptions =
+    | OffsetPublishedJourneysOptions
+    | CursorPublishedJourneysOptions;
+
+type ResolvedPublishedJourneysRequest = {
+    page: number;
+    limit: number;
+    sort: PublishedJourneySort;
+    cursor: string | null;
+    excludeMine: boolean;
+    accessToken?: string;
     lang?: Language,
+};
+
+function resolvePublishedJourneysRequest(
+    options?: FetchPublishedJourneysOptions,
+): ResolvedPublishedJourneysRequest {
+    const page = Math.max(1, options?.page ?? 1);
+    const limit = Math.max(1, options?.limit ?? 20);
+    const sort = options?.sort ?? "recent";
+    const excludeMine = options?.excludeMine === true;
+    const accessToken = readText(options?.accessToken) ?? undefined;
+    const cursorOption =
+        options && "cursor" in options ? options.cursor : undefined;
+    const cursor = readText(cursorOption) ?? null;
+
+    if ("cursor" in (options ?? {}) && !cursor) {
+        throw new Error(
+            "[published-journey] Cursor pagination requires a non-empty cursor.",
+        );
+    }
+
+    if (cursor && sort !== "recent") {
+        throw new Error(
+            "[published-journey] Cursor pagination supports only recent sort.",
+        );
+    }
+
+    if (cursor && page > 1) {
+        throw new Error(
+            "[published-journey] Cursor pagination does not support page > 1.",
+        );
+    }
+
+    if (excludeMine && !accessToken) {
+        throw new Error(
+            "[published-journey] excludeMine requires an access token.",
+        );
+    }
+
+    return {
+        page,
+        limit,
+        sort,
+        cursor,
+        excludeMine,
+        accessToken,
+        lang: options?.lang,
+    };
+}
+
+function normalizeHasMore(
+    value: unknown,
+    page: number,
+    pages: number | null,
+): boolean {
+    const hasMore = readBoolean(value);
+    if (hasMore !== null) {
+        return hasMore;
+    }
+
+    return pages !== null ? page < pages : false;
+}
+
+async function requestPublishedJourneys(
+    request: ResolvedPublishedJourneysRequest,
 ): Promise<PublishedJourneysListApi | null> {
     try {
         const params = new URLSearchParams({
-            page: page.toString(),
-            limit: limit.toString(),
-            sort,
+            page: request.page.toString(),
+            limit: request.limit.toString(),
+            sort: request.sort,
         });
 
-        if (userId) {
-            params.set("userId", userId);
+        if (request.cursor) {
+            params.set("cursor", request.cursor);
         }
-        appendPublicApiLanguage(params, lang);
+
+        if (request.excludeMine) {
+            params.set("excludeMine", "true");
+        }
+
+        appendPublicApiLanguage(params, request.lang);
+
+        const headers =
+            request.excludeMine && request.accessToken
+                ? {
+                    Authorization: `Bearer ${request.accessToken}`,
+                }
+                : undefined;
 
         const response = await fetchPublicApi(
             `/v2/journeys/public?${params.toString()}`,
-            { next: { revalidate: PUBLIC_JOURNEY_REVALIDATE_SECONDS } },
+            {
+                next: { revalidate: PUBLIC_JOURNEY_REVALIDATE_SECONDS },
+                ...(headers ? { headers } : {}),
+            },
             { attemptsPerBase: 2 },
         );
 
@@ -1049,6 +1158,8 @@ const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneys
                     page?: number;
                     pages?: number;
                     limit?: number;
+                    hasMore?: boolean;
+                    nextCursor?: unknown;
                 };
             };
 
@@ -1061,13 +1172,21 @@ const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneys
                 .map((item) => normalizeJourneyListItem(item))
                 .filter((item): item is PublishedJourneyListItemApi => Boolean(item))
             : [];
+        const currentPage = readNumber(payload.data.page);
+        const totalPages = readNumber(payload.data.pages);
 
         return {
             journeys,
             total: readNumber(payload.data.total) ?? journeys.length,
-            page: readNumber(payload.data.page) ?? page,
-            pages: readNumber(payload.data.pages) ?? 1,
-            limit: readNumber(payload.data.limit) ?? limit,
+            page: currentPage ?? undefined,
+            pages: totalPages ?? undefined,
+            limit: readNumber(payload.data.limit) ?? request.limit,
+            hasMore: normalizeHasMore(
+                payload.data.hasMore,
+                currentPage ?? request.page,
+                totalPages,
+            ),
+            nextCursor: readText(payload.data.nextCursor) ?? null,
         };
     } catch (error) {
         console.warn(
@@ -1076,18 +1195,41 @@ const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneys
         );
         return null;
     }
+}
+
+const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneysCached(
+    page: number,
+    limit: number,
+    sort: PublishedJourneySort,
+    cursor: string | null,
+    lang?: Language,
+): Promise<PublishedJourneysListApi | null> {
+    return requestPublishedJourneys({
+        page,
+        limit,
+        sort,
+        cursor,
+        excludeMine: false,
+        lang,
+    });
 });
 
-export async function fetchPublishedJourneys(options?: {
-    page?: number;
-    limit?: number;
-    sort?: "recent" | "oldest";
-    userId?: string;
-    lang?: Language;
-}): Promise<PublishedJourneysListApi | null> {
-    const { page = 1, limit = 20, sort = "recent", userId, lang } = options ?? {};
+export async function fetchPublishedJourneys(
+    options?: FetchPublishedJourneysOptions,
+): Promise<PublishedJourneysListApi | null> {
+    const request = resolvePublishedJourneysRequest(options);
 
-    return fetchPublishedJourneysCached(page, limit, sort, userId, lang);
+    if (request.excludeMine || request.accessToken) {
+        return requestPublishedJourneys(request);
+    }
+
+    return fetchPublishedJourneysCached(
+        request.page,
+        request.limit,
+        request.sort,
+        request.cursor,
+        request.lang,
+    );
 }
 
 export const fetchPublishedPhoto = cache(async function fetchPublishedPhoto(

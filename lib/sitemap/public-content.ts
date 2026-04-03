@@ -125,8 +125,11 @@ export const fetchAllPublishedJourneysForSitemap = cache(async function fetchAll
       journeys.push(journey);
     }
 
-    const totalPages = Math.max(1, response.pages ?? page);
-    if (page >= totalPages) {
+    const totalPages = response.pages;
+    if (
+      (typeof totalPages === "number" && page >= Math.max(1, totalPages)) ||
+      (typeof totalPages !== "number" && !response.hasMore)
+    ) {
       break;
     }
   }

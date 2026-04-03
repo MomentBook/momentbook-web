@@ -4,14 +4,10 @@ import styles from "./journeys.module.scss";
 import {
   type Language,
 } from "@/lib/i18n/config";
-import { buildOpenGraphUrl, buildPaginatedAlternates } from "@/lib/i18n/metadata";
+import { buildOpenGraphUrl, buildAlternates } from "@/lib/i18n/metadata";
 import {
   fetchPublishedJourneys,
 } from "@/lib/published-journey";
-import {
-  buildPaginationEntries,
-  parsePositiveIntegerPage,
-} from "@/lib/pagination";
 import {
   buildPublisherOrganizationJsonLd,
   buildStructuredDataUrl,
@@ -23,34 +19,28 @@ import {
   buildOpenGraphBase,
   buildPublicRobots,
 } from "@/lib/seo/public-metadata";
-import { buildJourneyCards, buildJourneyPageHref } from "./journeys.helpers";
+import { buildJourneyCards } from "./journeys.helpers";
 import { JourneysListContent } from "./JourneysListContent";
 import {
   buildJourneyPageDescription,
   buildJourneyPageTitle,
   getJourneyPageLabels,
-  JOURNEYS_PER_PAGE,
+  JOURNEYS_BATCH_SIZE,
 } from "./journeys-page.helpers";
 
 export const revalidate = 300;
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<{ page?: string | string[] }>;
 }): Promise<Metadata> {
   const { lang } = (await params) as { lang: Language };
-  const { page } = (await searchParams) as { page?: string | string[] };
   const labels = getJourneyPageLabels(lang);
-  const currentPage = parsePositiveIntegerPage(page);
-  const title = buildJourneyPageTitle(labels, currentPage);
-  const description = buildJourneyPageDescription(labels, currentPage);
+  const title = buildJourneyPageTitle(labels);
+  const description = buildJourneyPageDescription(labels);
   const socialImages = [buildLocalizedAppScreenshotImage(lang, title)];
   const path = "/journeys";
-  const openGraphPath =
-    currentPage > 1 ? `${path}?page=${currentPage}` : path;
 
   return {
     title,
@@ -59,9 +49,9 @@ export async function generateMetadata({
     creator: "MomentBook",
     publisher: "MomentBook",
     robots: buildPublicRobots(),
-    alternates: buildPaginatedAlternates(lang, path, currentPage),
+    alternates: buildAlternates(lang, path),
     openGraph: {
-      ...buildOpenGraphBase(lang, openGraphPath),
+      ...buildOpenGraphBase(lang, path),
       type: "website",
       title,
       description,
@@ -85,36 +75,29 @@ export default async function JourneysPage({
 }) {
   const { lang } = (await params) as { lang: Language };
   const { page } = (await searchParams) as { page?: string | string[] };
+  const hasLegacyPageQuery =
+    typeof page === "string" || (Array.isArray(page) && page.length > 0);
+
+  if (hasLegacyPageQuery) {
+    redirect(`/${lang}/journeys`);
+  }
+
   const labels = getJourneyPageLabels(lang);
-  const requestedPage = parsePositiveIntegerPage(page);
   const journeysData = await fetchPublishedJourneys({
-    page: requestedPage,
-    limit: JOURNEYS_PER_PAGE,
+    page: 1,
+    limit: JOURNEYS_BATCH_SIZE,
     sort: "recent",
     lang,
   });
 
   const journeys = journeysData?.journeys ?? [];
   const totalJourneys = journeysData?.total ?? 0;
-  const totalPages = Math.max(1, journeysData?.pages ?? 1);
-  const safeCurrentPage = Math.min(requestedPage, totalPages);
-
-  if (requestedPage !== safeCurrentPage) {
-    redirect(buildJourneyPageHref(lang, safeCurrentPage));
-  }
-
-  const paginationEntries = buildPaginationEntries(safeCurrentPage, totalPages);
-  const hasPreviousPage = safeCurrentPage > 1;
-  const hasNextPage = safeCurrentPage < totalPages;
   const cards = await buildJourneyCards(journeys, labels);
   const siteUrl = resolveStructuredDataSiteUrl();
   const pagePath = buildOpenGraphUrl(lang, "/journeys");
-  const pagePathWithQuery =
-    safeCurrentPage > 1 ? `${pagePath}?page=${safeCurrentPage}` : pagePath;
-  const pageUrl = buildStructuredDataUrl(pagePathWithQuery, siteUrl);
-  const offset = (safeCurrentPage - 1) * JOURNEYS_PER_PAGE;
-  const pageTitle = buildJourneyPageTitle(labels, safeCurrentPage);
-  const description = buildJourneyPageDescription(labels, safeCurrentPage);
+  const pageUrl = buildStructuredDataUrl(pagePath, siteUrl);
+  const pageTitle = buildJourneyPageTitle(labels);
+  const description = buildJourneyPageDescription(labels);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -131,7 +114,7 @@ export default async function JourneysPage({
       numberOfItems: totalJourneys,
       itemListElement: cards.map((card, index) => ({
         "@type": "ListItem",
-        position: offset + index + 1,
+        position: index + 1,
         url: buildStructuredDataUrl(
           buildOpenGraphUrl(lang, `/journeys/${card.publicId}`),
           siteUrl,
@@ -150,11 +133,10 @@ export default async function JourneysPage({
       <JourneysListContent
         lang={lang}
         labels={labels}
-        cards={cards}
-        safeCurrentPage={safeCurrentPage}
-        hasPreviousPage={hasPreviousPage}
-        hasNextPage={hasNextPage}
-        paginationEntries={paginationEntries}
+        initialCards={cards}
+        initialTotalJourneys={totalJourneys}
+        initialHasMore={journeysData?.hasMore ?? false}
+        initialNextCursor={journeysData?.nextCursor ?? null}
       />
     </div>
   );
