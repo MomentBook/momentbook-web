@@ -16,8 +16,8 @@ import {
 } from "@/lib/admin/paths";
 import {
   clearAdminSession,
+  requireAdminActionSession,
   getStoredAdminSession,
-  requireAdminSession,
 } from "@/lib/admin/session";
 import type { UpdatePublishedJourneyReviewRequestDto } from "@/src/apis/client";
 
@@ -101,7 +101,7 @@ export async function updatePublishedJourneyReviewAction(
     );
   }
 
-  const session = await requireAdminSession(nextPath);
+  const session = await requireAdminActionSession(nextPath);
 
   try {
     const result = await updatePublishedJourneyReviewStatus({

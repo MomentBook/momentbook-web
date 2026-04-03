@@ -102,12 +102,10 @@ export async function getStoredAdminSession(): Promise<AdminSession | null> {
   }
 
   if (session.refreshTokenExpiresAt <= Date.now()) {
-    await clearAdminSession();
     return null;
   }
 
   if (!isAllowedAdminEmail(session.email)) {
-    await clearAdminSession();
     return null;
   }
 
@@ -121,6 +119,12 @@ export async function getAdminSession(): Promise<AdminSession | null> {
     return null;
   }
 
+  return session;
+}
+
+async function refreshAdminSession(
+  session: AdminSession,
+): Promise<AdminSession | null> {
   if (session.accessTokenExpiresAt - Date.now() > ACCESS_TOKEN_REFRESH_WINDOW_MS) {
     return session;
   }
@@ -178,4 +182,32 @@ export async function requireAdminSession(nextPath: string): Promise<AdminSessio
   }
 
   return session;
+}
+
+export async function requireAdminActionSession(
+  nextPath: string,
+): Promise<AdminSession> {
+  const session = await getStoredAdminSession();
+
+  if (!session) {
+    redirect(
+      buildAdminLoginHref({
+        next: nextPath,
+        error: "session_expired",
+      }),
+    );
+  }
+
+  const refreshedSession = await refreshAdminSession(session);
+
+  if (!refreshedSession) {
+    redirect(
+      buildAdminLoginHref({
+        next: nextPath,
+        error: "session_expired",
+      }),
+    );
+  }
+
+  return refreshedSession;
 }
