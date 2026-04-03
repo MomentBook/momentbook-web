@@ -1,15 +1,24 @@
 import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
-import { fetchPublishedJourneySitemapChunks } from "@/lib/sitemap/public-content";
+import {
+  fetchPublicUserSitemapChunks,
+  fetchPublicUserSitemapPartParams,
+} from "@/lib/sitemap/public-content";
+import {
+  readSingleRouteParam,
+  resolveAppRouteParams,
+  stripRequiredRouteSuffix,
+  type AppRouteContext,
+} from "@/lib/sitemap/route-params";
 import {
   buildSitemapXmlResponse,
   renderSitemapUrlset,
   resolveSitemapSiteUrl,
-  toIsoDateOrNull,
   validateSitemapEntries,
   type SitemapUrlEntry,
 } from "@/lib/sitemap/xml";
 
 export const revalidate = 3600;
+export const dynamicParams = true;
 
 function parsePositiveInteger(value: string | undefined): number | null {
   if (!value) {
@@ -29,18 +38,30 @@ function buildNotFoundResponse() {
   return new Response("Not found", { status: 404 });
 }
 
+type UserSitemapRouteParams = {
+  part?: string;
+};
+
+export async function generateStaticParams() {
+  return fetchPublicUserSitemapPartParams();
+}
+
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ part?: string }> },
+  context: AppRouteContext<UserSitemapRouteParams>,
 ) {
-  const { part: rawPart } = await params;
+  const params = await resolveAppRouteParams(context);
+  const rawPart = stripRequiredRouteSuffix(
+    readSingleRouteParam(params?.part),
+    ".xml",
+  );
   const part = parsePositiveInteger(rawPart);
 
   if (!part) {
     return buildNotFoundResponse();
   }
 
-  const chunks = await fetchPublishedJourneySitemapChunks();
+  const chunks = await fetchPublicUserSitemapChunks();
   const chunk = chunks.find((entry) => entry.index === part);
 
   if (!chunk) {
@@ -50,20 +71,17 @@ export async function GET(
   const siteUrl = resolveSitemapSiteUrl();
   const urls: SitemapUrlEntry[] = [];
 
-  for (const journey of chunk.items) {
-    const lastmod = toIsoDateOrNull(journey.publishedAt ?? journey.createdAt);
-
+  for (const user of chunk.items) {
     for (const lang of languageList) {
       urls.push({
-        loc: `${siteUrl}/${lang}/journeys/${journey.publicId}`,
-        lastmod,
-        alternates: buildSitemapAlternates(siteUrl, `/journeys/${journey.publicId}`),
-        images: journey.thumbnailUrl ? [{ loc: journey.thumbnailUrl }] : undefined,
+        loc: `${siteUrl}/${lang}/users/${user.userId}`,
+        alternates: buildSitemapAlternates(siteUrl, `/users/${user.userId}`),
+        images: user.picture ? [{ loc: user.picture }] : undefined,
       });
     }
   }
 
   return buildSitemapXmlResponse(
-    renderSitemapUrlset(validateSitemapEntries(urls, `sitemap-journeys-part-${part}`)),
+    renderSitemapUrlset(validateSitemapEntries(urls, `sitemap-users-part-${part}`)),
   );
 }

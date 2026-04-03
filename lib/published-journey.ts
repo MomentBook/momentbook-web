@@ -1032,6 +1032,7 @@ const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneys
         const response = await fetchPublicApi(
             `/v2/journeys/public?${params.toString()}`,
             { next: { revalidate: PUBLIC_JOURNEY_REVALIDATE_SECONDS } },
+            { attemptsPerBase: 2 },
         );
 
         if (!response || !response.ok) {

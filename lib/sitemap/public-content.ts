@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { languageList } from "@/lib/i18n/config";
 import type {
   PublishedJourneyApi,
@@ -9,7 +10,8 @@ import type { PublicUserApi } from "@/lib/public-users";
 import { fetchPublicUsers } from "@/lib/public-users";
 import { MAX_URLS_PER_SITEMAP, toIsoDateOrNull } from "@/lib/sitemap/xml";
 
-const DEFAULT_PAGE_LIMIT = 100;
+const DEFAULT_USER_PAGE_LIMIT = 100;
+const DEFAULT_JOURNEY_PAGE_LIMIT = 50;
 const MAX_API_PAGES = 200;
 const LOCALIZED_URLS_PER_RESOURCE = languageList.length;
 
@@ -65,14 +67,14 @@ function dedupeJourneyImages(images: PublishedJourneyImage[]): PublishedJourneyI
   return uniqueImages;
 }
 
-export async function fetchAllPublicUsersForSitemap(): Promise<PublicUserApi[]> {
+export const fetchAllPublicUsersForSitemap = cache(async function fetchAllPublicUsersForSitemap(): Promise<PublicUserApi[]> {
   const users: PublicUserApi[] = [];
   const seen = new Set<string>();
 
   for (let page = 1; page <= MAX_API_PAGES; page += 1) {
     const response = await fetchPublicUsers({
       page,
-      limit: DEFAULT_PAGE_LIMIT,
+      limit: DEFAULT_USER_PAGE_LIMIT,
       sort: "recent",
     });
     const data = response?.data;
@@ -97,16 +99,16 @@ export async function fetchAllPublicUsersForSitemap(): Promise<PublicUserApi[]> 
   }
 
   return users;
-}
+});
 
-export async function fetchAllPublishedJourneysForSitemap(): Promise<PublishedJourneyListItemApi[]> {
+export const fetchAllPublishedJourneysForSitemap = cache(async function fetchAllPublishedJourneysForSitemap(): Promise<PublishedJourneyListItemApi[]> {
   const journeys: PublishedJourneyListItemApi[] = [];
   const seen = new Set<string>();
 
   for (let page = 1; page <= MAX_API_PAGES; page += 1) {
     const response = await fetchPublishedJourneys({
       page,
-      limit: DEFAULT_PAGE_LIMIT,
+      limit: DEFAULT_JOURNEY_PAGE_LIMIT,
       sort: "recent",
     });
 
@@ -130,7 +132,7 @@ export async function fetchAllPublishedJourneysForSitemap(): Promise<PublishedJo
   }
 
   return journeys;
-}
+});
 
 export async function fetchPublishedJourneySitemapChunks(): Promise<
   SitemapChunk<PublishedJourneyListItemApi>[]
@@ -139,12 +141,32 @@ export async function fetchPublishedJourneySitemapChunks(): Promise<
   return buildSitemapChunks(journeys, MAX_RESOURCES_PER_SITEMAP);
 }
 
+export async function fetchPublishedJourneySitemapPartParams(): Promise<
+  Array<{ part: string }>
+> {
+  const chunks = await fetchPublishedJourneySitemapChunks();
+
+  return chunks.map((chunk) => ({
+    part: `${chunk.index}.xml`,
+  }));
+}
+
 export async function fetchPublicUserSitemapChunks(): Promise<SitemapChunk<PublicUserApi>[]> {
   const users = await fetchAllPublicUsersForSitemap();
   return buildSitemapChunks(users, MAX_RESOURCES_PER_SITEMAP);
 }
 
-export async function fetchJourneyMediaSitemapCatalog(): Promise<
+export async function fetchPublicUserSitemapPartParams(): Promise<
+  Array<{ part: string }>
+> {
+  const chunks = await fetchPublicUserSitemapChunks();
+
+  return chunks.map((chunk) => ({
+    part: `${chunk.index}.xml`,
+  }));
+}
+
+export const fetchJourneyMediaSitemapCatalog = cache(async function fetchJourneyMediaSitemapCatalog(): Promise<
   JourneyMediaSitemapCatalogEntry[]
 > {
   const journeys = await fetchAllPublishedJourneysForSitemap();
@@ -177,6 +199,32 @@ export async function fetchJourneyMediaSitemapCatalog(): Promise<
 
   return details.filter(
     (entry): entry is JourneyMediaSitemapCatalogEntry => Boolean(entry),
+  );
+});
+
+export async function fetchJourneyMomentSitemapPartParams(): Promise<
+  Array<{ publicId: string; part: string }>
+> {
+  const catalog = await fetchJourneyMediaSitemapCatalog();
+
+  return catalog.flatMap((entry) =>
+    Array.from({ length: entry.momentParts }, (_, index) => ({
+      publicId: entry.publicId,
+      part: `${index + 1}.xml`,
+    })),
+  );
+}
+
+export async function fetchJourneyPhotoSitemapPartParams(): Promise<
+  Array<{ publicId: string; part: string }>
+> {
+  const catalog = await fetchJourneyMediaSitemapCatalog();
+
+  return catalog.flatMap((entry) =>
+    Array.from({ length: entry.photoParts }, (_, index) => ({
+      publicId: entry.publicId,
+      part: `${index + 1}.xml`,
+    })),
   );
 }
 

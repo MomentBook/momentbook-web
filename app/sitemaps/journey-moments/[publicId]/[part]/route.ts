@@ -1,5 +1,14 @@
 import { buildSitemapAlternates, languageList } from "@/lib/i18n/config";
-import { fetchPublishedJourneyMomentSitemapPart } from "@/lib/sitemap/public-content";
+import {
+  fetchJourneyMomentSitemapPartParams,
+  fetchPublishedJourneyMomentSitemapPart,
+} from "@/lib/sitemap/public-content";
+import {
+  readSingleRouteParam,
+  resolveAppRouteParams,
+  stripRequiredRouteSuffix,
+  type AppRouteContext,
+} from "@/lib/sitemap/route-params";
 import {
   buildSitemapXmlResponse,
   renderSitemapUrlset,
@@ -11,8 +20,13 @@ import {
 } from "@/lib/sitemap/xml";
 
 export const revalidate = 3600;
+export const dynamicParams = true;
 
-function parsePositiveInteger(value: string): number | null {
+function parsePositiveInteger(value: string | undefined): number | null {
+  if (!value) {
+    return null;
+  }
+
   const parsed = Number(value);
 
   if (!Number.isInteger(parsed) || parsed < 1) {
@@ -51,18 +65,28 @@ function buildClusterImages(
   return images.length > 0 ? images : undefined;
 }
 
+type JourneyMomentSitemapRouteParams = {
+  publicId?: string;
+  part?: string;
+};
+
+export async function generateStaticParams() {
+  return fetchJourneyMomentSitemapPartParams();
+}
+
 export async function GET(
   _request: Request,
-  {
-    params,
-  }: {
-    params: Promise<{ publicId: string; part: string }>;
-  },
+  context: AppRouteContext<JourneyMomentSitemapRouteParams>,
 ) {
-  const { publicId, part: rawPart } = await params;
+  const params = await resolveAppRouteParams(context);
+  const publicId = readSingleRouteParam(params?.publicId);
+  const rawPart = stripRequiredRouteSuffix(
+    readSingleRouteParam(params?.part),
+    ".xml",
+  );
   const part = parsePositiveInteger(rawPart);
 
-  if (!part) {
+  if (!publicId || !part) {
     return buildNotFoundResponse();
   }
 
