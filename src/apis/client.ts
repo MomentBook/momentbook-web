@@ -1780,6 +1780,37 @@ export interface PublishJourneyInfoResponseDto {
   };
 }
 
+export interface PublishedJourneyImageDto {
+  /**
+   * Stable published photo identifier for public timeline/media reconstruction
+   * @example "external-photo-1"
+   */
+  photoId: string;
+  /**
+   * Public URL of the published image asset
+   * @example "https://cdn.momentbook.app/journeys/user123/1234567890-abc.jpg"
+   */
+  url: string;
+  /**
+   * Image width in pixels
+   * @example 1080
+   */
+  width?: number;
+  /**
+   * Image height in pixels
+   * @example 1920
+   */
+  height?: number;
+  /** Photo captured time (ms) */
+  takenAt?: number;
+  /** Optional location coordinates kept for public image parity */
+  location?: JourneyImageLocationDto;
+  /** Optional human-friendly location label */
+  locationName?: string;
+  /** Original capture local-time context preserved from ingest. Unknown values are explicit rather than guessed. */
+  captureTime?: CaptureTimeContextDto;
+}
+
 export interface PublishedJourneyLocalizationEntryDto {
   /**
    * BCP 47 locale for the localized content
@@ -1920,8 +1951,8 @@ export interface PublishedJourneyDetailDto {
   mode: "PHOTO_ONLY";
   /** Total photo count */
   photoCount: number;
-  /** Published images with S3 URLs */
-  images: string[];
+  /** Published image registry keyed by stable photoId for public timeline/media reconstruction */
+  images: PublishedJourneyImageDto[];
   /** Clusters for rendering (stops + orphan clusters) */
   clusters: string[];
   /** Timeline blocks for public viewer rendering */
@@ -1935,7 +1966,9 @@ export interface PublishedJourneyDetailDto {
     };
     locationName?: string;
     impression?: string;
+    /** Stable published photo IDs referencing top-level images[].photoId */
     photoIds?: string[];
+    photos?: PublishedJourneyImageDto[];
   }[];
   /** Export-safe recap draft summary for public rendering */
   recapDraft: {
@@ -1949,7 +1982,9 @@ export interface PublishedJourneyDetailDto {
       };
       locationName?: string;
       impression?: string;
+      /** Stable published photo IDs referencing top-level images[].photoId */
       photoIds?: string[];
+      photos?: PublishedJourneyImageDto[];
     }[];
     photoCount?: number;
     imageCount?: number;
@@ -1966,7 +2001,7 @@ export interface PublishedJourneyDetailDto {
    * Content availability status for rendering
    * @example "available"
    */
-  contentStatus?:
+  contentStatus:
     | "available"
     | "reported_hidden"
     | "review_pending"
@@ -3412,7 +3447,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve published journey data for rendering. Returns full payload only when the journey is publicly visible and review-approved. Hidden or pending/rejected journeys return a status-focused payload with contentStatus, notice, and review.
+     * @description Public endpoint to retrieve published journey data for rendering. Returns full payload only when the journey is publicly visible and review-approved. Full payload includes a stable images[] registry plus timeline block photoIds/photos for media reconstruction. Hidden or pending/rejected journeys return a status-focused payload with contentStatus, notice, and review.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourney
@@ -3439,7 +3474,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve viewer payload with server-side policy branching by viewer=web|app. Both app and web return full payload only after review approval; pending/rejected journeys return a status-focused response with contentStatus and notice.
+     * @description Public endpoint to retrieve viewer payload with server-side policy branching by viewer=web|app. Both app and web return full payload only after review approval, including stable timeline media references via images[] and timeline[].photos; pending/rejected journeys return a status-focused response with contentStatus and notice.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourneyViewer
