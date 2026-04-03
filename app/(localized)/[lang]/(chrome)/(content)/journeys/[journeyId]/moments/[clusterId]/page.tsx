@@ -23,7 +23,7 @@ import {
   serializeJsonLd,
 } from "@/lib/seo/json-ld";
 import { buildPageBreadcrumbJsonLd } from "@/lib/seo/breadcrumb";
-import { getJourneyPageLabels } from "../../journeys-page.helpers";
+import { getJourneyPageLabels } from "../../../journeys-page.helpers";
 import { MomentContent } from "./MomentContent";
 import {
   buildMomentDisplayLocationName,

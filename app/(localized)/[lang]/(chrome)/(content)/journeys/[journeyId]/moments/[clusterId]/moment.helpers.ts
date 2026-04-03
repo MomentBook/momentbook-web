@@ -173,6 +173,10 @@ export function buildMomentImageUrlMap(
   const imageUrlMap = new Map<string, string>();
 
   journey.images.forEach((image) => {
+    if (!image.photoId) {
+      return;
+    }
+
     imageUrlMap.set(image.photoId, image.url);
   });
 
@@ -180,15 +184,39 @@ export function buildMomentImageUrlMap(
 }
 
 export function buildMomentPhotos(
-  cluster: Pick<PublishedJourneyCluster, "photoIds">,
+  cluster: Pick<PublishedJourneyCluster, "photoIds" | "photos">,
   imageUrlMap: Map<string, string>,
 ): MomentPhoto[] {
-  return cluster.photoIds
-    .map((photoId) => {
-      const url = imageUrlMap.get(photoId);
-      return url ? { photoId, url } : null;
-    })
-    .filter((photo): photo is MomentPhoto => Boolean(photo));
+  const directPhotoById = new Map<string, MomentPhoto>();
+
+  cluster.photos.forEach((photo, index) => {
+    const photoId = photo.photoId || cluster.photoIds[index];
+
+    if (!photoId || directPhotoById.has(photoId)) {
+      return;
+    }
+
+    directPhotoById.set(photoId, {
+      photoId,
+      url: photo.url,
+    });
+  });
+
+  if (cluster.photoIds.length > 0) {
+    return cluster.photoIds
+      .map((photoId) => {
+        const directPhoto = directPhotoById.get(photoId);
+        if (directPhoto) {
+          return directPhoto;
+        }
+
+        const url = imageUrlMap.get(photoId);
+        return url ? { photoId, url } : null;
+      })
+      .filter((photo): photo is MomentPhoto => Boolean(photo));
+  }
+
+  return Array.from(directPhotoById.values());
 }
 
 export function readMomentLocationName(

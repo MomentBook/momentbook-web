@@ -2,6 +2,7 @@ import type { Language } from "@/lib/i18n/config";
 import type { CaptureTimeContext } from "@/lib/local-time-context";
 import type {
   PublishedJourneyApi,
+  PublishedJourneyCluster,
   PublishedJourneyImage,
 } from "@/lib/published-journey";
 import { sortJourneyClustersByTimeline, sortJourneyImagesByCaptureTime } from "../utils";
@@ -77,15 +78,34 @@ export function buildJourneyArchivePhotos(
 }
 
 function buildClusterPreviewPhotos(
-  cluster: PublishedJourneyApi["clusters"][number],
+  cluster: PublishedJourneyCluster,
   imageByPhotoId: Map<string, PublishedJourneyImage>,
   title: string,
   locationFallback: string,
 ): DisplayImage[] {
   const fallbackAlt = cluster.locationName || locationFallback || title;
-  const previewPhotos = cluster.photoIds
-    .map((photoId) => imageByPhotoId.get(photoId))
-    .filter((image): image is PublishedJourneyImage => Boolean(image))
+  const directPhotoById = new Map<string, PublishedJourneyImage>();
+
+  cluster.photos.forEach((image, index) => {
+    const photoId = image.photoId || cluster.photoIds[index];
+
+    if (!photoId || directPhotoById.has(photoId)) {
+      return;
+    }
+
+    directPhotoById.set(photoId, {
+      ...image,
+      photoId,
+    });
+  });
+
+  const resolvedPhotos =
+    cluster.photoIds.length > 0
+      ? cluster.photoIds
+          .map((photoId) => directPhotoById.get(photoId) ?? imageByPhotoId.get(photoId))
+          .filter((image): image is PublishedJourneyImage => Boolean(image))
+      : cluster.photos;
+  const previewPhotos = resolvedPhotos
     .slice(0, CLUSTER_PREVIEW_LIMIT)
     .map((image, index) => ({
       key: image.photoId || `${cluster.clusterId}-${index}`,
@@ -111,7 +131,9 @@ export function buildJourneyClusterSections(
 ): ClusterSection[] {
   const encodedJourneyId = encodeURIComponent(journey.publicId);
   const imageByPhotoId = new Map(
-    journey.images.map((image) => [image.photoId, image] as const),
+    journey.images
+      .filter((image) => Boolean(image.photoId))
+      .map((image) => [image.photoId, image] as const),
   );
 
   return sortJourneyClustersByTimeline(journey.clusters).map<ClusterSection>((cluster) => ({
@@ -120,7 +142,7 @@ export function buildJourneyClusterSections(
     title: cluster.locationName || locationFallback,
     impression: cluster.impression?.trim() || null,
     time: cluster.time,
-    photoCount: cluster.photoIds.length,
+    photoCount: cluster.photoIds.length > 0 ? cluster.photoIds.length : cluster.photos.length,
     previewPhotos: buildClusterPreviewPhotos(
       cluster,
       imageByPhotoId,

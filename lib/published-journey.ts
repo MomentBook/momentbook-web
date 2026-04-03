@@ -44,7 +44,7 @@ export type PublishedJourneyImage = {
 
 export type PublishedJourneyCluster = {
     clusterId: string;
-    type: "STOP" | "ORPHAN";
+    type: "STOP" | "MOVE" | "ORPHAN";
     time: {
         startAt: number;
         endAt: number;
@@ -59,6 +59,7 @@ export type PublishedJourneyCluster = {
     locationName?: string;
     impression?: string;
     photoIds: string[];
+    photos: PublishedJourneyImage[];
 };
 
 export type PublishedJourneyLocalizedEntry = {
@@ -400,9 +401,13 @@ function normalizePhotoIds(value: unknown): string[] {
         .filter((item): item is string => Boolean(item));
 }
 
-function normalizeClusterType(value: unknown): "STOP" | "ORPHAN" {
+function normalizeClusterType(value: unknown): "STOP" | "MOVE" | "ORPHAN" {
     if (value === "STOP" || value === "ROUTE_STOP") {
         return "STOP";
+    }
+
+    if (value === "MOVE" || value === "ROUTE_MOVE") {
+        return "MOVE";
     }
 
     return "ORPHAN";
@@ -512,6 +517,11 @@ function normalizePublishedJourneyCluster(
 
     const photoIds = normalizePhotoIds(value.photoIds);
     const singlePhotoId = readText(value.photoId);
+    const photos = Array.isArray(value.photos)
+        ? value.photos
+            .map((item) => normalizePublishedJourneyImage(item))
+            .filter((item): item is PublishedJourneyImage => Boolean(item))
+        : [];
 
     return {
         clusterId,
@@ -527,6 +537,7 @@ function normalizePublishedJourneyCluster(
         locationName,
         impression: readText(value.impression) ?? undefined,
         photoIds: singlePhotoId ? [...photoIds, singlePhotoId] : photoIds,
+        photos,
     };
 }
 
