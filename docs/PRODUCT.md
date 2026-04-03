@@ -150,8 +150,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - 사용자/프로필/사용자별 게시 여정: `lib/public-users.ts`
 - 게시 여정/모먼트/사진: `lib/published-journey.ts` (`GET /v2/journeys/public/:publicId/viewer?viewer=web` 기반 viewer payload + photo endpoint)
 - `GET /v2/journeys/public`, `GET /v2/users/public/:userId/journeys`, `GET /v2/users/public`, `GET /v2/journeys/public/photos/:photoId`는 현재 `APPROVED + visibility=public` 데이터만 반환하는 정책을 전제로 사용한다.
-- `GET /v2/journeys/public`는 discovery feed endpoint로 사용한다. `/{lang}/journeys`는 초기 recent batch를 offset page 1로 받은 뒤, 추가 batch는 `cursor`/`hasMore`/`nextCursor` 기반으로 이어받는다. 작성자별 목록은 deprecated `userId` query를 쓰지 않고 `GET /v2/users/public/:userId/journeys`를 사용한다.
-- `GET /v2/journeys/public/:publicId/viewer?viewer=web`는 `APPROVED + hidden 아님`일 때만 full payload를 사용하고, `PENDING` / `REJECTED` / hidden 상태에서는 `contentStatus`, `review`, `notice` 중심의 status-focused payload로 분기한다.
+- `GET /v2/journeys/public`는 discovery feed endpoint로 사용한다. 웹의 public/discovery feed 요청은 approved-only 계약을 명시하기 위해 항상 `reviewStatus=APPROVED`를 포함한다. `/{lang}/journeys`는 초기 recent batch를 offset page 1로 받은 뒤, 추가 batch는 `cursor`/`hasMore`/`nextCursor` 기반으로 이어받는다. 작성자별 목록은 deprecated `userId` query를 쓰지 않고 `GET /v2/users/public/:userId/journeys`를 사용한다.
+- `GET /v2/journeys/public/:publicId/viewer?viewer=web`는 공개 가능한 여정 detail 렌더링에 사용한다. viewer payload가 `reported_hidden` 상태를 반환하면 웹은 generic unavailable notice와 noindex metadata를 렌더링하고, 검토 대기/반려 등 공개 비노출 상태는 `notFound()` recovery 흐름으로 수렴시킨다.
 - `lang` query를 지원하는 public journeys/user journeys/photo endpoint에는 현재 route locale(`en-US`, `ko-KR`, `pt-BR` 등)을 함께 전달해 서버가 localized 응답을 치환하도록 한다.
 - public journey/user/photo payload가 제공하는 additive local-time context(`startedAtLocal`, `endedAtLocal`, `timeline[].time.startLocal/endLocal`, `images[].captureTime`, `photo.captureTime`)는 시:분 렌더링의 우선 입력으로 사용하고, 정렬/비교/범위 계산은 기존 absolute timestamp(`startedAt`, `endedAt`, `takenAt`)를 계속 사용한다.
 - journey/moment detail은 viewer payload의 top-level localized title/description/cluster impression을 우선 사용하고, `localizedContent`는 localized hashtags 및 누락 필드 보강 용도로만 사용한다.
@@ -217,8 +217,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/{lang}/journeys/[journeyId]`는 cover image 위 제목 overlay 안에 선택적 설명, 해시태그, 작성자/여행 기간 또는 게시일/사진 수/원문 언어 핵심 메타 카드를 함께 배치하고, 그 다음 일관된 좌측 이미지/우측 텍스트 리듬의 timeline형 moment list를 기본으로 렌더링한다. 클러스터가 있는 여정은 각 moment를 대표 이미지, 위치명, 선택적 impression, 시간 범위, 사진 수를 담은 clickable timeline card로 제공하고, 전체 사진 나열은 `/{lang}/journeys/[journeyId]/moments/[clusterId]` 상세에서만 보여준다. 클러스터가 없는 여정은 촬영 시각 기준 photo archive grid로 대체한다. 지도/점프 navigation/장소 요약 패널은 이 상세 화면에서 노출하지 않는다.
 - `/{lang}/journeys/[journeyId]`와 `/{lang}/journeys/[journeyId]/moments/[clusterId]`는 viewer request에 현재 route locale을 `lang` query로 전달한다. 서버가 치환한 localized title/description/cluster impression을 SEO metadata/structured data와 본문에 우선 반영하고, localized hashtags는 `localizedContent`에서 읽는다. moment detail hero도 localized impression이 있으면 본문 상단에 함께 노출한다.
 - 여정 상세와 moment 상세는 locale별 해시태그를 calm chip UI로 노출하며, 각 chip은 `/{lang}/users?q=` 검색으로 연결된다.
-- 신고 누적(`reported_hidden`) 또는 검토 대기/반려(`review_pending`, `review_rejected`) 상태의 공개 여정 상세는 status별 안내 문구와 noindex metadata를 렌더링한다.
-- `notFound()`로 수렴하는 localized public content/user/photo/moment 경로는 plain-language recovery 404를 렌더링하며, 오래된 검색 결과/저장 링크/오타 URL을 모두 같은 복구 흐름으로 안내한다. 여정 detail만 review/hidden status-focused notice를 별도로 렌더링한다.
+- 신고 누적(`reported_hidden`) 상태의 공개 여정 상세는 generic unavailable notice와 noindex metadata를 렌더링한다.
+- `notFound()`로 수렴하는 localized public content/user/photo/moment 경로는 plain-language recovery 404를 렌더링하며, 오래된 검색 결과/저장 링크/오타 URL을 모두 같은 복구 흐름으로 안내한다. 공개 여정 detail도 검토 대기/반려 등 비공개 상태는 동일한 recovery 흐름으로 처리하고, `reported_hidden`만 별도 unavailable notice를 렌더링한다.
 - 공개 웹은 읽기 전용 탐색과 콘텐츠 소비에 한정된다.
 - 관리자 심사 표면은 mock queue/detail preview와 known `publicId` 기반 live review status update만 제공하며, 공개 콘텐츠 자체를 웹에서 편집하지 않는다.
 - `/{lang}/users/[userId]`는 프로필 hero에서 공개 프로필 이미지를 보여주며, 이미지가 있으면 클릭/탭 시 `photos/[photoId]`와 동일한 immersive viewer contract(`Esc`, explicit close, full-screen black backdrop, pinch/double-tap zoom)를 사용한다. 유저의 공개 여정 목록은 모바일에서 더 조밀한 horizontal card 우선 배치, larger breakpoint에서 더 짧은 cover ratio의 grid card로 렌더링한다.

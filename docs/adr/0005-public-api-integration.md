@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-01-29 (updated: 2026-04-02)
+2026-01-29 (updated: 2026-04-03)
 
 ## Context
 
@@ -24,7 +24,7 @@ Accepted
 공개 콘텐츠는 v2 public endpoint에서 조회한다.
 
 - users/profile/user journeys: `lib/public-users.ts`
-- public journey list seed: `GET /v2/journeys/public`
+- public journey list seed: `GET /v2/journeys/public` with explicit `reviewStatus=APPROVED`
 - journey/moment web detail: `lib/published-journey.ts`가 `GET /v2/journeys/public/:publicId/viewer?viewer=web` viewer payload를 기준으로 사용한다.
 - list preview thumbnail은 list response의 server-provided preview field를 우선 사용하고 viewer `images[]`에서 재계산하지 않는다.
 - `lang` query를 지원하는 public journeys/user journeys/photo endpoint에는 현재 route locale(`en-US`, `ko-KR`, `pt-BR` 등)을 전달해 서버가 localized title/description/impression 또는 metadata field를 치환한 응답을 받는다.
@@ -48,7 +48,8 @@ Swagger 생성 타입(`@/src/apis/client`)을 기준 계약으로 사용한다.
 - helper 함수는 실패 시 `null`
 - detail 페이지는 `notFound()`
 - list 페이지는 empty state
-- viewer payload가 웹 비노출 상태(`contentStatus`, `review.status`, `notice`)를 반환하면 웹은 콘텐츠 본문 대신 안내 상태를 렌더링한다.
+- public discovery feed 요청은 approved-only 계약을 명시하기 위해 `reviewStatus=APPROVED`를 항상 포함한다.
+- viewer payload가 `reported_hidden` 상태를 반환하면 웹은 generic unavailable 안내 상태를 렌더링하고, 검토 대기/반려 등 비공개 상태는 detail route를 `notFound()`로 수렴시킨다.
 
 ### 5) 레거시 샘플 데이터
 

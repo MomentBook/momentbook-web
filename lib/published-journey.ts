@@ -26,6 +26,7 @@ export type PublishedJourneyContentStatus =
     | "review_pending"
     | "review_rejected";
 export type PublishedJourneyReviewStatus = "PENDING" | "APPROVED" | "REJECTED";
+export type ApprovedPublicJourneyReviewStatus = "APPROVED";
 
 export type PublishedJourneyImage = {
     url: string;
@@ -184,6 +185,8 @@ type FetchPublishedJourneyResult = {
     message?: string;
 };
 
+const APPROVED_PUBLIC_JOURNEY_REVIEW_STATUS: ApprovedPublicJourneyReviewStatus = "APPROVED";
+
 const untitledJourneyFallbackByLanguage: Record<Language, string> = {
     en: "Untitled journey",
     ko: "제목 없는 여정",
@@ -296,11 +299,23 @@ function isHiddenJourneyMessage(message: string | null | undefined): boolean {
     return (
         message.includes("숨김") ||
         message.includes("신고가 누적") ||
+        normalized.includes("hidden") ||
+        normalized.includes("reported")
+    );
+}
+
+function isPendingOrRejectedJourneyMessage(
+    message: string | null | undefined,
+): boolean {
+    if (!message) {
+        return false;
+    }
+
+    const normalized = message.toLowerCase();
+    return (
         message.includes("심사") ||
         message.includes("검토") ||
         message.includes("반려") ||
-        normalized.includes("hidden") ||
-        normalized.includes("reported") ||
         normalized.includes("review") ||
         normalized.includes("pending") ||
         normalized.includes("rejected") ||
@@ -360,6 +375,12 @@ function isUnavailableForWeb(
     }
 
     return false;
+}
+
+function shouldRenderHiddenJourneyNotice(
+    journey: Pick<PublishedJourneyApi, "contentStatus">,
+): boolean {
+    return journey.contentStatus === "reported_hidden";
 }
 
 function normalizeJourneyMode(value: unknown): JourneyMode {
@@ -983,6 +1004,14 @@ export const fetchPublishedJourneyResult = cache(async function fetchPublishedJo
             }
 
             if (isUnavailableForWeb(data)) {
+                if (!shouldRenderHiddenJourneyNotice(data)) {
+                    return {
+                        status: "not_found",
+                        data: null,
+                        message: data.notice ?? message,
+                    };
+                }
+
                 return {
                     status: "hidden",
                     data,
@@ -998,6 +1027,10 @@ export const fetchPublishedJourneyResult = cache(async function fetchPublishedJo
         }
 
         if (response.status === 403 || response.status === 404) {
+            if (isPendingOrRejectedJourneyMessage(message)) {
+                return { status: "not_found", data: null, message };
+            }
+
             if (isHiddenJourneyMessage(message)) {
                 return { status: "hidden", data: null, message };
             }
@@ -1054,6 +1087,7 @@ type ResolvedPublishedJourneysRequest = {
     limit: number;
     sort: PublishedJourneySort;
     cursor: string | null;
+    reviewStatus: ApprovedPublicJourneyReviewStatus;
     excludeMine: boolean;
     accessToken?: string;
     lang?: Language,
@@ -1100,6 +1134,7 @@ function resolvePublishedJourneysRequest(
         limit,
         sort,
         cursor,
+        reviewStatus: APPROVED_PUBLIC_JOURNEY_REVIEW_STATUS,
         excludeMine,
         accessToken,
         lang: options?.lang,
@@ -1127,6 +1162,7 @@ async function requestPublishedJourneys(
             page: request.page.toString(),
             limit: request.limit.toString(),
             sort: request.sort,
+            reviewStatus: request.reviewStatus,
         });
 
         if (request.cursor) {
@@ -1220,6 +1256,7 @@ const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneys
         limit,
         sort,
         cursor,
+        reviewStatus: APPROVED_PUBLIC_JOURNEY_REVIEW_STATUS,
         excludeMine: false,
         lang,
     });
