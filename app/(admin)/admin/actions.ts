@@ -102,22 +102,14 @@ export async function updatePublishedJourneyReviewAction(
   }
 
   const session = await requireAdminActionSession(nextPath);
+  let result: Awaited<ReturnType<typeof updatePublishedJourneyReviewStatus>>;
 
   try {
-    const result = await updatePublishedJourneyReviewStatus({
+    result = await updatePublishedJourneyReviewStatus({
       accessToken: session.accessToken,
       publicId: targetPublicId,
       status: reviewStatus,
     });
-
-    buildReviewActionRedirect(
-      nextPath,
-      buildReturnEntries({
-        targetPublicId: result.publicId,
-        mutation: "review_updated",
-        reviewStatus: result.review.status,
-      }),
-    );
   } catch (error) {
     if (error instanceof AdminSessionExpiredError) {
       await clearAdminSession();
@@ -155,4 +147,13 @@ export async function updatePublishedJourneyReviewAction(
       }),
     );
   }
+
+  buildReviewActionRedirect(
+    nextPath,
+    buildReturnEntries({
+      targetPublicId: result.publicId,
+      mutation: "review_updated",
+      reviewStatus: result.review.status,
+    }),
+  );
 }
