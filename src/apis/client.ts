@@ -2089,6 +2089,85 @@ export interface UnpublishJourneyResponseDto {
   };
 }
 
+export interface AdminPublishedJourneyItemDto {
+  /**
+   * Public ID
+   * @example "abc123xyz789"
+   */
+  publicId: string;
+  /**
+   * Journey ID
+   * @example "journey_123"
+   */
+  journeyId: string;
+  /** Author user ID */
+  userId: string;
+  /** Journey start timestamp (ms) */
+  startedAt: number;
+  /** Journey end timestamp (ms) */
+  endedAt?: number;
+  /** Journey-local display context for startedAt. Unknown values are explicit rather than guessed. */
+  startedAtLocal: LocalDateTimeContextDto;
+  /** Journey-local display context for endedAt. Null when endedAt itself is absent. */
+  endedAtLocal?: LocalDateTimeContextDto | null;
+  /**
+   * Recap stage at publish time. FINALIZED means recap is completed for BI/analytics.
+   * @example "FINALIZED"
+   */
+  recapStage: "NONE" | "FINALIZED";
+  /** Number of published photos */
+  photoCount: number;
+  /**
+   * Number of images (deprecated, use photoCount)
+   * @deprecated
+   */
+  imageCount: number;
+  /** First image URL for preview */
+  thumbnailUrl?: string;
+  /** Journey metadata */
+  metadata?: object;
+  /** Published timestamp */
+  publishedAt: string;
+  /** Creation timestamp */
+  createdAt: string;
+  /**
+   * Whether this record is currently in an active published state.
+   * @example true
+   */
+  published: boolean;
+  /**
+   * Stored moderation visibility flag
+   * @example "public"
+   */
+  visibility: "public" | "hidden";
+  /** Current canonical review state for this published journey */
+  review: PublishedJourneyReviewDto;
+}
+
+export interface AdminPublishedJourneysDataDto {
+  /** Admin paginated list of published journey records */
+  journeys: AdminPublishedJourneyItemDto[];
+  /** Total number of published journey records */
+  total: number;
+  /** Current page number */
+  page: number;
+  /** Total number of pages */
+  pages: number;
+  /** Items per page limit */
+  limit: number;
+  /**
+   * Whether additional admin pages remain after this batch
+   * @example true
+   */
+  hasMore: boolean;
+}
+
+export interface AdminPublishedJourneysResponseDto {
+  /** @example "success" */
+  status: string;
+  data: AdminPublishedJourneysDataDto;
+}
+
 export interface UpdatePublishedJourneyReviewRequestDto {
   /**
    * Canonical review status to assign. Admins can move a published journey between review states.
@@ -2700,7 +2779,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.31
+ * @version 2.1.32
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3570,6 +3649,42 @@ export class Api<
       this.request<UnpublishJourneyResponseDto, void>({
         path: `/v2/journeys/publish/${publicId}`,
         method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Admin-only operational list of active published journey records. Ordered by publish time descending with createdAt fallback for legacy records. Unlike public surfaces, this list includes pending/rejected review states and hidden records so moderators can inspect the full published queue.
+     *
+     * @tags journeys-admin
+     * @name PublishJourneyAdminControllerGetAdminPublishedJourneys
+     * @summary Get paginated published journeys for admin
+     * @request GET:/v2/admin/journeys/publish
+     * @secure
+     */
+    publishJourneyAdminControllerGetAdminPublishedJourneys: (
+      query?: {
+        /**
+         * Offset pagination page number for the admin published-journey list.
+         * @min 1
+         * @default 1
+         */
+        page?: number;
+        /**
+         * Number of published journeys to fetch for the current admin page.
+         * @min 1
+         * @max 50
+         * @default 20
+         */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<AdminPublishedJourneysResponseDto, void>({
+        path: `/v2/admin/journeys/publish`,
+        method: "GET",
+        query: query,
         secure: true,
         format: "json",
         ...params,
