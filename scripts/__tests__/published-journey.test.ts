@@ -63,7 +63,7 @@ afterEach(() => {
 });
 
 describe("fetchPublishedJourneys", () => {
-  it("always sends reviewStatus=APPROVED for the cached discovery feed path", async () => {
+  it("always sends reviewStatus=APPROVED for the cached recent feed path", async () => {
     process.env.NEXT_PUBLIC_API_BASE_URL = "https://api.example.com";
     process.env.NEXT_PUBLIC_SITE_URL = "https://momentbook.app";
 
@@ -89,6 +89,32 @@ describe("fetchPublishedJourneys", () => {
     expect(requestUrl.searchParams.get("limit")).toBe("3");
     expect(requestUrl.searchParams.get("sort")).toBe("recent");
     expect(requestUrl.searchParams.get("lang")).toBe("en-US");
+  });
+
+  it("supports discovery sort for offset-based public feed requests", async () => {
+    process.env.NEXT_PUBLIC_API_BASE_URL = "https://api.example.com";
+    process.env.NEXT_PUBLIC_SITE_URL = "https://momentbook.app";
+
+    const fetchMock = mockSuccessfulFeedFetch();
+    const fetchPublishedJourneys = await loadFetchPublishedJourneys();
+
+    await fetchPublishedJourneys({
+      page: 2,
+      limit: 16,
+      sort: "discovery",
+      lang: "en",
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    const [input] = fetchMock.mock.calls[0];
+    const requestUrl = new URL(String(input));
+
+    expect(requestUrl.pathname).toBe("/v2/journeys/public");
+    expect(requestUrl.searchParams.get("page")).toBe("2");
+    expect(requestUrl.searchParams.get("limit")).toBe("16");
+    expect(requestUrl.searchParams.get("sort")).toBe("discovery");
+    expect(requestUrl.searchParams.get("reviewStatus")).toBe("APPROVED");
   });
 
   it("always sends reviewStatus=APPROVED for the direct excludeMine path", async () => {
@@ -120,5 +146,23 @@ describe("fetchPublishedJourneys", () => {
     expect(requestUrl.searchParams.get("excludeMine")).toBe("true");
     expect(requestUrl.searchParams.get("lang")).toBe("ko-KR");
     expect(headers.get("Authorization")).toBe("Bearer test-token");
+  });
+
+  it("rejects cursor pagination for non-recent sorts before making a request", async () => {
+    process.env.NEXT_PUBLIC_API_BASE_URL = "https://api.example.com";
+    process.env.NEXT_PUBLIC_SITE_URL = "https://momentbook.app";
+
+    const fetchMock = mockSuccessfulFeedFetch();
+    const fetchPublishedJourneys = await loadFetchPublishedJourneys();
+
+    await expect(
+      fetchPublishedJourneys({
+        cursor: "cursor-token",
+        sort: "discovery" as never,
+        lang: "en",
+      }),
+    ).rejects.toThrow("Cursor pagination supports only recent sort.");
+
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

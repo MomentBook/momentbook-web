@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2026-01-29 (updated: 2026-04-03)
+2026-01-29 (updated: 2026-04-04)
 
 ## Context
 
@@ -25,6 +25,8 @@ Accepted
 
 - users/profile/user journeys: `lib/public-users.ts`
 - public journey list seed: `GET /v2/journeys/public` with explicit `reviewStatus=APPROVED`
+- `/{lang}/journeys` discovery route는 `sort=discovery` + offset pagination을 사용한다.
+- recent-order cursor pagination은 short-feed style client가 `sort=recent`를 명시할 때만 사용하며, `sort=discovery`와 `cursor`는 함께 사용하지 않는다.
 - journey/moment web detail: `lib/published-journey.ts`가 `GET /v2/journeys/public/:publicId/viewer?viewer=web` viewer payload를 기준으로 사용한다.
 - list preview thumbnail은 list response의 server-provided preview field를 우선 사용하고 viewer `images[]`에서 재계산하지 않는다.
 - `lang` query를 지원하는 public journeys/user journeys/photo endpoint에는 현재 route locale(`en-US`, `ko-KR`, `pt-BR` 등)을 전달해 서버가 localized title/description/impression 또는 metadata field를 치환한 응답을 받는다.

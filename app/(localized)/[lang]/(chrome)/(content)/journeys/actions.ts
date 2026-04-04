@@ -13,9 +13,9 @@ export type LoadMoreJourneysActionResult =
   | {
       status: "success";
       cards: JourneyCardViewModel[];
+      page: number;
       total: number;
       hasMore: boolean;
-      nextCursor: string | null;
     }
   | {
       status: "error";
@@ -23,21 +23,17 @@ export type LoadMoreJourneysActionResult =
 
 export async function loadMoreJourneysAction(input: {
   lang: Language;
-  cursor: string;
+  page: number;
   limit?: number;
-  excludeMine?: boolean;
-  accessToken?: string;
 }): Promise<LoadMoreJourneysActionResult> {
   const labels = getJourneyPageLabels(input.lang);
   const response = await fetchPublishedJourneys({
-    cursor: input.cursor,
+    page: input.page,
     limit: input.limit ?? JOURNEYS_BATCH_SIZE,
-    sort: "recent",
+    sort: "discovery",
     lang: input.lang,
-    excludeMine: input.excludeMine,
-    accessToken: input.accessToken,
   }).catch((error) => {
-    console.warn("[journeys] Failed to load the next discovery batch", error);
+    console.warn("[journeys] Failed to load the next discovery page", error);
     return null;
   });
 
@@ -52,8 +48,8 @@ export async function loadMoreJourneysAction(input: {
   return {
     status: "success",
     cards,
+    page: response.page ?? input.page,
     total: response.total,
     hasMore: response.hasMore,
-    nextCursor: response.nextCursor,
   };
 }

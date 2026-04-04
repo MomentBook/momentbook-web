@@ -96,7 +96,7 @@ export default async function JourneysPage({
   const journeysData = await fetchPublishedJourneys({
     page: 1,
     limit: JOURNEYS_BATCH_SIZE,
-    sort: "recent",
+    sort: "discovery",
     lang,
   });
 
@@ -153,9 +153,9 @@ export default async function JourneysPage({
         lang={lang}
         labels={labels}
         initialCards={cards}
+        initialPage={journeysData?.page ?? 1}
         initialTotalJourneys={totalJourneys}
         initialHasMore={journeysData?.hasMore ?? false}
-        initialNextCursor={journeysData?.nextCursor ?? null}
       />
     </div>
   );

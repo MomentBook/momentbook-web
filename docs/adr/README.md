@@ -40,9 +40,9 @@ MomentBook Web 프로젝트의 핵심 아키텍처 의사결정을 관리한다.
 - Summary: lead block(브랜드/CTA/소셜) + Product/Support/Legal link grid 구조
 
 5. [ADR 0005: Public API Integration for Published Content](./0005-public-api-integration.md)
-- Date: 2026-01-29 (updated: 2026-04-03)
+- Date: 2026-01-29 (updated: 2026-04-04)
 - Status: Accepted
-- Summary: 공개 콘텐츠 API 우선, discovery feed의 explicit `reviewStatus=APPROVED`, lang query 기반 localized public fetch, hidden detail notice와 non-public detail 404 분리, 운영 단일 origin + 로컬 fallback, generated API 타입 계약
+- Summary: 공개 콘텐츠 API 우선, discovery feed의 explicit `reviewStatus=APPROVED` + `/{lang}/journeys`의 `sort=discovery` offset pagination, lang query 기반 localized public fetch, hidden detail notice와 non-public detail 404 분리, 운영 단일 origin + 로컬 fallback, generated API 타입 계약
 
 6. [ADR 0006: Segmented Sitemaps (Index + Sub-sitemaps)](./0006-segmented-sitemaps.md)
 - Date: 2026-01-29 (updated: 2026-04-02)

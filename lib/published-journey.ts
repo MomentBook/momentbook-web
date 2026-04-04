@@ -1,5 +1,6 @@
 import { cache } from "react";
 import type {
+    Api,
     PublishedJourneyDetailDto,
     PublishedJourneyDetailResponseDto,
     PublishedJourneyItemDto,
@@ -1056,7 +1057,15 @@ export async function fetchPublishedJourney(
     return result.status === "success" ? result.data : null;
 }
 
-type PublishedJourneySort = "recent" | "oldest";
+type PublishedJourneysQuery = NonNullable<
+    Parameters<Api<unknown>["v2"]["publishJourneyControllerGetPublishedJourneys"]>[0]
+>;
+
+export type PublishedJourneyListSort = NonNullable<
+    PublishedJourneysQuery["sort"]
+>;
+
+type CursorPublishedJourneySort = Extract<PublishedJourneyListSort, "recent">;
 
 type BaseFetchPublishedJourneysOptions = {
     limit?: number;
@@ -1067,15 +1076,15 @@ type BaseFetchPublishedJourneysOptions = {
 
 type OffsetPublishedJourneysOptions = BaseFetchPublishedJourneysOptions & {
     page?: number,
-    sort?: PublishedJourneySort,
+    sort?: PublishedJourneyListSort,
     cursor?: never;
 };
 
 type CursorPublishedJourneysOptions = BaseFetchPublishedJourneysOptions & {
     cursor: string;
     limit?: number;
-    page?: number;
-    sort?: "recent";
+    page?: never;
+    sort?: CursorPublishedJourneySort;
 };
 
 export type FetchPublishedJourneysOptions =
@@ -1085,7 +1094,7 @@ export type FetchPublishedJourneysOptions =
 type ResolvedPublishedJourneysRequest = {
     page: number;
     limit: number;
-    sort: PublishedJourneySort;
+    sort: PublishedJourneyListSort;
     cursor: string | null;
     reviewStatus: ApprovedPublicJourneyReviewStatus;
     excludeMine: boolean;
@@ -1247,7 +1256,7 @@ async function requestPublishedJourneys(
 const fetchPublishedJourneysCached = cache(async function fetchPublishedJourneysCached(
     page: number,
     limit: number,
-    sort: PublishedJourneySort,
+    sort: PublishedJourneyListSort,
     cursor: string | null,
     lang?: Language,
 ): Promise<PublishedJourneysListApi | null> {

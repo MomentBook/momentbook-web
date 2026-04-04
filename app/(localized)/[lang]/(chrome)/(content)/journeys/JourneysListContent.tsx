@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { JourneyPreviewCard } from "@/components/JourneyPreviewCard";
 import { LocalizedDate, LocalizedDateTimeRange } from "@/components/LocalizedTime";
 import { SectionReveal } from "@/components/SectionReveal";
@@ -15,9 +15,9 @@ type JourneysListContentProps = {
   lang: Language;
   labels: JourneyPageLabels;
   initialCards: JourneyCardViewModel[];
+  initialPage: number;
   initialTotalJourneys: number;
   initialHasMore: boolean;
-  initialNextCursor: string | null;
 };
 
 function mergeJourneyCards(
@@ -43,25 +43,24 @@ export function JourneysListContent({
   lang,
   labels,
   initialCards,
+  initialPage,
   initialTotalJourneys,
   initialHasMore,
-  initialNextCursor,
 }: JourneysListContentProps) {
   const [cards, setCards] = useState(initialCards);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalJourneys, setTotalJourneys] = useState(initialTotalJourneys);
   const [hasMore, setHasMore] = useState(initialHasMore);
-  const [nextCursor, setNextCursor] = useState(initialNextCursor);
   const [loadMoreError, setLoadMoreError] = useState<string | null>(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [isPending, startTransition] = useTransition();
-  const canLoadMore = hasMore && typeof nextCursor === "string" && nextCursor.length > 0;
+  const canLoadMore = hasMore;
   const countText = labels.countLabel.replace(
     "{count}",
     new Intl.NumberFormat(lang).format(totalJourneys),
   );
 
   async function handleLoadMore() {
-    if (!canLoadMore || !nextCursor || isLoadingMore) {
+    if (!canLoadMore || isLoadingMore) {
       return;
     }
 
@@ -71,7 +70,7 @@ export function JourneysListContent({
     try {
       const result = await loadMoreJourneysAction({
         lang,
-        cursor: nextCursor,
+        page: currentPage + 1,
         limit: JOURNEYS_BATCH_SIZE,
       });
 
@@ -80,14 +79,12 @@ export function JourneysListContent({
         return;
       }
 
-      startTransition(() => {
-        setCards((currentCards) => mergeJourneyCards(currentCards, result.cards));
-        setTotalJourneys((currentTotal) =>
-          result.total > 0 ? result.total : currentTotal,
-        );
-        setHasMore(result.hasMore);
-        setNextCursor(result.nextCursor);
-      });
+      setCards((currentCards) => mergeJourneyCards(currentCards, result.cards));
+      setCurrentPage(result.page);
+      setTotalJourneys((currentTotal) =>
+        result.total > 0 ? result.total : currentTotal,
+      );
+      setHasMore(result.hasMore);
     } catch {
       setLoadMoreError(labels.loadMoreErrorLabel);
     } finally {
@@ -176,15 +173,13 @@ export function JourneysListContent({
             <SectionReveal delay={120} className={styles.feedActions}>
               <button
                 type="button"
-                className={
-                  isLoadingMore || isPending
-                    ? styles.loadMoreButtonDisabled
-                    : styles.loadMoreButton
-                }
+                className={isLoadingMore
+                  ? styles.loadMoreButtonDisabled
+                  : styles.loadMoreButton}
                 onClick={() => {
                   void handleLoadMore();
                 }}
-                disabled={isLoadingMore || isPending}
+                disabled={isLoadingMore}
               >
                 {isLoadingMore ? labels.loadingMoreLabel : labels.loadMoreLabel}
               </button>
