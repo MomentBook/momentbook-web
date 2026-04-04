@@ -11,9 +11,8 @@ import {
   type AdminReviewStatus,
   parseAdminReviewStatus,
 } from "@/lib/admin/reviews";
-import { buildAdminLoginHref } from "@/lib/admin/paths";
+import { buildAdminSessionInvalidateHref } from "@/lib/admin/paths";
 import {
-  clearAdminSession,
   type AdminSession,
   requireAdminApiSession,
 } from "@/lib/admin/session";
@@ -125,9 +124,8 @@ async function withAdminWorkspaceSession<T>(options: {
     };
   } catch (error) {
     if (error instanceof AdminSessionExpiredError) {
-      await clearAdminSession();
       redirect(
-        buildAdminLoginHref({
+        buildAdminSessionInvalidateHref({
           next: options.returnTo,
           error: "session_expired",
         }),
@@ -135,9 +133,8 @@ async function withAdminWorkspaceSession<T>(options: {
     }
 
     if (error instanceof AdminAccessDeniedError) {
-      await clearAdminSession();
       redirect(
-        buildAdminLoginHref({
+        buildAdminSessionInvalidateHref({
           next: options.returnTo,
           error: "admin_access_denied",
         }),

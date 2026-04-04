@@ -10,7 +10,10 @@ import {
   refreshAdminTokens,
 } from "@/lib/admin/api";
 import { isAllowedAdminEmail } from "@/lib/admin/config";
-import { buildAdminLoginHref } from "@/lib/admin/paths";
+import {
+  buildAdminLoginHref,
+  buildAdminSessionRefreshHref,
+} from "@/lib/admin/paths";
 import { ENV } from "@/src/configs/env.server";
 
 const ADMIN_SESSION_COOKIE_NAME = "momentbook_admin_session";
@@ -122,16 +125,22 @@ export async function getAdminSession(): Promise<AdminSession | null> {
   return session;
 }
 
-async function refreshAdminSession(
+function requiresAdminSessionRefresh(session: AdminSession): boolean {
+  return (
+    session.accessTokenExpiresAt - Date.now() <= ACCESS_TOKEN_REFRESH_WINDOW_MS
+  );
+}
+
+async function buildRefreshedAdminSession(
   session: AdminSession,
 ): Promise<AdminSession | null> {
-  if (session.accessTokenExpiresAt - Date.now() > ACCESS_TOKEN_REFRESH_WINDOW_MS) {
-    return session;
-  }
-
   try {
     const refreshed = await refreshAdminTokens(session.refreshToken);
     const claims = readAccessTokenClaims(refreshed.accessToken);
+    if (claims.role !== "admin") {
+      return null;
+    }
+
     const nextSession: AdminSession = {
       userId: session.userId,
       role: "admin",
@@ -145,16 +154,31 @@ async function refreshAdminSession(
     };
 
     if (!isAllowedAdminEmail(nextSession.email)) {
-      await clearAdminSession();
       return null;
     }
 
-    await createAdminSession(nextSession);
     return nextSession;
   } catch {
+    return null;
+  }
+}
+
+export async function refreshAdminSession(
+  session: AdminSession,
+): Promise<AdminSession | null> {
+  if (!requiresAdminSessionRefresh(session)) {
+    return session;
+  }
+
+  const nextSession = await buildRefreshedAdminSession(session);
+
+  if (!nextSession) {
     await clearAdminSession();
     return null;
   }
+
+  await createAdminSession(nextSession);
+  return nextSession;
 }
 
 export async function clearAdminSession(): Promise<void> {
@@ -198,6 +222,31 @@ export async function requireAdminApiSession(
     );
   }
 
+  if (requiresAdminSessionRefresh(session)) {
+    redirect(
+      buildAdminSessionRefreshHref({
+        next: nextPath,
+      }),
+    );
+  }
+
+  return session;
+}
+
+export async function requireAdminActionSession(
+  nextPath: string,
+): Promise<AdminSession> {
+  const session = await getStoredAdminSession();
+
+  if (!session) {
+    redirect(
+      buildAdminLoginHref({
+        next: nextPath,
+        error: "session_expired",
+      }),
+    );
+  }
+
   const refreshedSession = await refreshAdminSession(session);
 
   if (!refreshedSession) {
@@ -210,10 +259,4 @@ export async function requireAdminApiSession(
   }
 
   return refreshedSession;
-}
-
-export async function requireAdminActionSession(
-  nextPath: string,
-): Promise<AdminSession> {
-  return requireAdminApiSession(nextPath);
 }

@@ -1,9 +1,15 @@
 export const ADMIN_ROOT_PATH = "/admin";
 export const ADMIN_LOGIN_PATH = "/admin/login";
 export const ADMIN_REVIEWS_PATH = "/admin/reviews";
+export const ADMIN_SESSION_PATH = "/admin/session";
+export const ADMIN_SESSION_REFRESH_PATH = "/admin/session/refresh";
+export const ADMIN_SESSION_INVALIDATE_PATH = "/admin/session/invalidate";
 export const ADMIN_DEFAULT_WORKSPACE_TAB = "overview";
 
 export type AdminWorkspaceTab = "overview" | "reviews";
+export type AdminSessionRedirectError =
+  | "session_expired"
+  | "admin_access_denied";
 
 function buildUrl(path: string): URL {
   return new URL(path, "https://momentbook.admin.local");
@@ -51,6 +57,16 @@ export function buildAdminLoginHref(options?: {
   return `${url.pathname}${url.search}`;
 }
 
+export function sanitizeAdminSessionRedirectError(
+  value: string | null | undefined,
+): AdminSessionRedirectError | null {
+  if (value === "session_expired" || value === "admin_access_denied") {
+    return value;
+  }
+
+  return null;
+}
+
 export function withAdminQuery(
   path: string,
   entries: Record<string, string | null | undefined>,
@@ -67,6 +83,24 @@ export function withAdminQuery(
   }
 
   return `${url.pathname}${url.search}`;
+}
+
+export function buildAdminSessionRefreshHref(options?: {
+  next?: string | null;
+}): string {
+  return withAdminQuery(ADMIN_SESSION_REFRESH_PATH, {
+    next: sanitizeAdminPath(options?.next),
+  });
+}
+
+export function buildAdminSessionInvalidateHref(options?: {
+  next?: string | null;
+  error?: AdminSessionRedirectError | null;
+}): string {
+  return withAdminQuery(ADMIN_SESSION_INVALIDATE_PATH, {
+    next: sanitizeAdminPath(options?.next),
+    error: sanitizeAdminSessionRedirectError(options?.error),
+  });
 }
 
 export function parseAdminWorkspaceTab(

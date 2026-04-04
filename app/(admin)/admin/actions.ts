@@ -120,6 +120,7 @@ export async function updatePublishedJourneyReviewAction(
     );
   } catch (error) {
     if (error instanceof AdminSessionExpiredError) {
+      await clearAdminSession();
       redirect(
         buildAdminLoginHref({
           next: nextPath,
@@ -129,9 +130,10 @@ export async function updatePublishedJourneyReviewAction(
     }
 
     if (error instanceof AdminAccessDeniedError) {
-      buildReviewActionRedirect(
-        nextPath,
-        buildReturnEntries({
+      await clearAdminSession();
+      redirect(
+        buildAdminLoginHref({
+          next: nextPath,
           error: "admin_access_denied",
         }),
       );

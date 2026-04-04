@@ -93,6 +93,8 @@ MomentBook Web은 다음 역할만 수행한다.
 - `/admin/reviews` (`/admin?tab=reviews`로 redirect하는 review tab alias)
 - `/admin/reviews/[publicId]` (review detail + status update page)
 - `/admin/session` (internal POST-only session bootstrap route)
+- `/admin/session/refresh` (internal GET-only session refresh redirect route)
+- `/admin/session/invalidate` (internal GET-only session clear + login redirect route)
 - `/admin` 지원 query: `tab`, `status`, `page`, `targetPublicId`, `mutation`, `reviewStatus`, `error`
 - `/admin/reviews/[publicId]` 지원 query: `status`, `page`, `targetPublicId`, `mutation`, `reviewStatus`, `error`
 
@@ -181,12 +183,15 @@ MomentBook Web은 다음 역할만 수행한다.
 - `GET /v2/admin/journeys/publish`
 - `PATCH /v2/admin/journeys/publish/:publicId/review`
 - internal session bootstrap: `POST /admin/session`
+- internal session refresh redirect: `GET /admin/session/refresh`
+- internal session invalidate redirect: `GET /admin/session/invalidate`
 
 세션 정책:
 - 로그인 요청은 브라우저가 backend `POST /v2/auth/email/login`으로 직접 보낸다.
 - 웹은 login response의 token pair를 `/admin/session`에서 검증한 뒤 `ADMIN_SESSION_SECRET` 기반 encrypted HttpOnly cookie에 저장한다.
 - `/admin/session`, token refresh, moderation write는 `admin@momentbook.app` 단일 관리자 계정만 허용한다.
-- access token 만료가 가까우면 backend refresh endpoint로 갱신하고, refresh token이 만료되면 `/admin/login`으로 되돌린다.
+- admin read route render 중 access token 만료가 가까우면 `/admin/session/refresh`로 1회 redirect해 backend refresh 후 기존 admin route로 되돌린다.
+- refresh 실패 또는 backend access 거부가 확인되면 `/admin/session/invalidate`가 admin cookie를 지우고 `/admin/login`으로 되돌린다.
 - JWT access token의 `role=admin` claim이 있어야 `/admin`에 진입할 수 있다.
 
 ## 5.3 Internal Admin Review Workspace

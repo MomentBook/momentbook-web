@@ -16,8 +16,32 @@ function readOrigin(raw?: string): string | null {
   }
 }
 
+function readHostname(raw?: string): string | null {
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(raw);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return null;
+    }
+    return parsed.hostname.toLowerCase();
+  } catch {
+    return null;
+  }
+}
+
 const apiOrigin = readOrigin(process.env.NEXT_PUBLIC_API_BASE_URL);
 const isDev = process.env.NODE_ENV !== "production";
+const allowedDevOrigins = Array.from(
+  new Set(
+    [
+      readHostname(process.env.NEXT_PUBLIC_SITE_URL),
+      readHostname(process.env.NEXT_PUBLIC_API_BASE_URL),
+    ].filter((value): value is string => Boolean(value)),
+  ),
+);
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -34,6 +58,9 @@ const contentSecurityPolicy = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  allowedDevOrigins: isDev && allowedDevOrigins.length > 0
+    ? allowedDevOrigins
+    : undefined,
   images: {
     unoptimized: true,
     remotePatterns: [
