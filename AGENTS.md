@@ -29,6 +29,12 @@
 - ADR과 충돌하는 변경은 금지.
 - ADR에 없는 새 설계 결정이 생기면 코드보다 ADR을 먼저 업데이트한다.
 - 라우팅, SEO, 데이터소스, 인증 구조 변경 시 문서 동시 수정은 필수.
+- route group responsibility를 혼합하지 않는다.
+  - `app/(root)`: 언어 게이트웨이/redirect 전용
+  - `app/(localized)/[lang]/(chrome)`: 공개 localized shell 전용
+  - `app/(localized)/[lang]/(chrome)/(marketing)`: 소개/다운로드/FAQ 등 marketing/static public surface
+  - `app/(localized)/[lang]/(chrome)/(content)`: journeys/users/photos 등 read-only public content surface
+  - `app/(admin)/admin`: 내부 moderation surface
 
 ### 2.3 Safety Guardrails
 - 불명확한 사실을 추정으로 문서화하지 않는다.
@@ -39,6 +45,12 @@
 
 - i18n routing entrypoint: `proxy.ts` (not `middleware.ts`)
 - Root: `/` -> client-side language redirect (`app/(root)/page.tsx`)
+- Route ownership:
+  - `app/(root)`: x-default/root gateway only
+  - `app/(localized)/[lang]/(chrome)`: public header/footer shell only
+  - `app/(localized)/[lang]/(chrome)/(marketing)`: marketing/static public pages
+  - `app/(localized)/[lang]/(chrome)/(content)`: read-only public content pages
+  - `app/(admin)/admin`: admin-only moderation pages
 - Public web authentication/login routes are removed
 - Internal admin routes live under `/admin` and bypass language-prefix redirect in `proxy.ts`
 - Public content cache TTL:

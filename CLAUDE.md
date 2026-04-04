@@ -48,6 +48,12 @@
 - Root redirect: `/` -> client-side language redirect in `app/(root)/page.tsx`
 - Root layouts: route groups split root redirect (`app/(root)/layout.tsx`) and localized public surface (`app/(localized)/[lang]/layout.tsx`)
 - Shared shell: public pages use `app/(localized)/[lang]/(chrome)/layout.tsx`
+- Route ownership:
+  - `app/(root)`: root language gateway only
+  - `app/(localized)/[lang]/(chrome)`: localized public chrome shared by marketing/content/legal pages
+  - `app/(localized)/[lang]/(chrome)/(marketing)`: home/download/how-it-works/faq style marketing or static public routes
+  - `app/(localized)/[lang]/(chrome)/(content)`: read-only public content routes such as journeys/users/photos
+  - `app/(admin)/admin`: internal moderation routes, separated from public chrome and i18n redirect flow
 - Download alias: `/{lang}/install` permanently redirects to `/{lang}#download`, while `/{lang}/install/redirect` remains the QR-only store handoff route
 - Header nav: desktop/mobile 모두 `Download`, `Journeys` 중심
 - Public query surface: `/{lang}/users?q=`, `/{lang}/users/[userId]?page=` (`/{lang}/journeys`는 동일 route에서 discovery-order offset pagination 기반 `load more` 사용, legacy `?page=`는 base route로 정리)
@@ -76,6 +82,8 @@
 - 요청이 기존 ADR 범위인지
 - 제품 철학 위반 가능성이 있는지
 - 라우팅/metadata/robots 영향이 있는지
+- 대상 파일이 `root`/`chrome`/`marketing`/`content`/`admin` 중 어느 표면에 속하는지 먼저 확인한다.
+- `marketing` 카피/정적 안내 변경과 `content`/`admin` 동작 변경을 같은 변경으로 섞지 않는다.
 
 3. 변경 후 반드시 실행한다.
 - `npx tsc --noEmit`
