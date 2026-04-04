@@ -12,6 +12,7 @@ import {
   buildAdminWorkspaceHref,
   type AdminWorkspaceTab,
 } from "@/lib/admin/paths";
+import { getAdminReviewStatusLabel } from "@/lib/admin/reviews";
 import type {
   AdminReviewDetail,
   AdminReviewQueueData,
@@ -46,18 +47,6 @@ type AdminReviewDetailPageViewProps = {
   session: AdminSession;
   targetPublicId: string | null;
 };
-
-function buildStatusLabel(status: AdminReviewStatus): string {
-  if (status === "APPROVED") {
-    return "Approved";
-  }
-
-  if (status === "REJECTED") {
-    return "Rejected";
-  }
-
-  return "Pending";
-}
 
 function buildStatusClassName(status: AdminReviewStatus): string {
   if (status === "APPROVED") {
@@ -327,7 +316,7 @@ function SelectedJourneyCard({
         <div className={styles.previewContent}>
           <div className={styles.inlineMeta}>
             <span className={buildStatusClassName(review.status)}>
-              {buildStatusLabel(review.status)}
+              {getAdminReviewStatusLabel(review.status)}
             </span>
             <span className={styles.metaPill}>{journey.visibility}</span>
             <span className={styles.metaPill}>{journey.photoCount} photos</span>
@@ -455,7 +444,7 @@ function ReviewTablePanel({
                   <tr key={item.publicId} className={styles.queueTableRow}>
                     <td>
                       <span className={buildStatusClassName(item.review.status)}>
-                        {buildStatusLabel(item.review.status)}
+                        {getAdminReviewStatusLabel(item.review.status)}
                       </span>
                     </td>
                     <td>
@@ -583,7 +572,7 @@ function ReviewUpdateCard({
             <span className={styles.sidebarLabel}>Last saved</span>
             <div className={styles.inlineMeta}>
               <span className={buildStatusClassName(reviewMutation.reviewStatus)}>
-                {buildStatusLabel(reviewMutation.reviewStatus)}
+                {getAdminReviewStatusLabel(reviewMutation.reviewStatus)}
               </span>
               <span className={styles.metaPill}>{reviewMutation.publicId}</span>
             </div>

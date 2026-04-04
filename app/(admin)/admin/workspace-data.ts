@@ -5,13 +5,16 @@ import {
 } from "@/lib/admin/api";
 import {
   ADMIN_REVIEW_PAGE_SIZE,
+  getAdminReviewStatusLabel,
   loadAdminReviewWorkspaceData,
   type AdminReviewQueueStatus,
   type AdminReviewStatus,
+  parseAdminReviewStatus,
 } from "@/lib/admin/reviews";
 import { buildAdminLoginHref } from "@/lib/admin/paths";
 import {
   clearAdminSession,
+  type AdminSession,
   requireAdminApiSession,
 } from "@/lib/admin/session";
 
@@ -53,27 +56,7 @@ export function parseStatus(value: string | null): AdminReviewQueueStatus {
 }
 
 export function parseReviewStatus(value: string | null): AdminReviewStatus | null {
-  if (
-    value === "PENDING" ||
-    value === "APPROVED" ||
-    value === "REJECTED"
-  ) {
-    return value;
-  }
-
-  return null;
-}
-
-function buildReviewStatusLabel(status: AdminReviewStatus): string {
-  if (status === "APPROVED") {
-    return "Approved";
-  }
-
-  if (status === "REJECTED") {
-    return "Rejected";
-  }
-
-  return "Pending";
+  return parseAdminReviewStatus(value);
 }
 
 export function resolveBanner(options: {
@@ -89,7 +72,7 @@ export function resolveBanner(options: {
   ) {
     return {
       tone: "success",
-      message: `${options.targetPublicId} updated to ${buildReviewStatusLabel(options.reviewStatus)}.`,
+      message: `${options.targetPublicId} updated to ${getAdminReviewStatusLabel(options.reviewStatus)}.`,
     };
   }
 
@@ -124,35 +107,39 @@ export function resolveBanner(options: {
   }
 }
 
-export async function loadAdminWorkspaceShell(options: {
-  page: number;
+async function withAdminWorkspaceSession<T>(options: {
   returnTo: string;
-  status: AdminReviewQueueStatus;
-}) {
+  load: (accessToken: string) => Promise<T>;
+}): Promise<{
+  data: T;
+  session: AdminSession;
+}> {
   const session = await requireAdminApiSession(options.returnTo);
 
   try {
-    const { queue } = await loadAdminReviewWorkspaceData({
-      accessToken: session.accessToken,
-      page: options.page,
-      status: options.status,
-      limit: ADMIN_REVIEW_PAGE_SIZE,
-    });
+    const data = await options.load(session.accessToken);
 
     return {
-      queue,
+      data,
       session,
     };
   } catch (error) {
-    if (
-      error instanceof AdminSessionExpiredError ||
-      error instanceof AdminAccessDeniedError
-    ) {
+    if (error instanceof AdminSessionExpiredError) {
       await clearAdminSession();
       redirect(
         buildAdminLoginHref({
           next: options.returnTo,
           error: "session_expired",
+        }),
+      );
+    }
+
+    if (error instanceof AdminAccessDeniedError) {
+      await clearAdminSession();
+      redirect(
+        buildAdminLoginHref({
+          next: options.returnTo,
+          error: "admin_access_denied",
         }),
       );
     }
@@ -161,42 +148,47 @@ export async function loadAdminWorkspaceShell(options: {
   }
 }
 
+export async function loadAdminWorkspaceShell(options: {
+  page: number;
+  returnTo: string;
+  status: AdminReviewQueueStatus;
+}) {
+  const { data, session } = await withAdminWorkspaceSession({
+    returnTo: options.returnTo,
+    load: (accessToken) => loadAdminReviewWorkspaceData({
+      accessToken,
+      page: options.page,
+      status: options.status,
+      limit: ADMIN_REVIEW_PAGE_SIZE,
+    }),
+  });
+
+  return {
+    queue: data.queue,
+    session,
+  };
+}
+
 export async function loadAdminReviewDetailShell(options: {
   page: number;
   publicId: string;
   returnTo: string;
   status: AdminReviewQueueStatus;
 }) {
-  const session = await requireAdminApiSession(options.returnTo);
-
-  try {
-    const { detail, queue } = await loadAdminReviewWorkspaceData({
-      accessToken: session.accessToken,
+  const { data, session } = await withAdminWorkspaceSession({
+    returnTo: options.returnTo,
+    load: (accessToken) => loadAdminReviewWorkspaceData({
+      accessToken,
       page: options.page,
       status: options.status,
       limit: ADMIN_REVIEW_PAGE_SIZE,
       publicId: options.publicId,
-    });
+    }),
+  });
 
-    return {
-      detail,
-      queue,
-      session,
-    };
-  } catch (error) {
-    if (
-      error instanceof AdminSessionExpiredError ||
-      error instanceof AdminAccessDeniedError
-    ) {
-      await clearAdminSession();
-      redirect(
-        buildAdminLoginHref({
-          next: options.returnTo,
-          error: "session_expired",
-        }),
-      );
-    }
-
-    throw error;
-  }
+  return {
+    detail: data.detail,
+    queue: data.queue,
+    session,
+  };
 }

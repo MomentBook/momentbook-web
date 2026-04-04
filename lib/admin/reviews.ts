@@ -5,6 +5,7 @@ import {
   normalizeLocalDateTimeContext,
   type LocalDateTimeContext,
 } from "@/lib/local-time-context";
+import { readText, resolveJourneyListCoverUrl } from "@/lib/view-helpers";
 import type {
   AdminPublishedJourneyItemDto,
   PublishedJourneyReviewDto,
@@ -66,17 +67,28 @@ export type AdminReviewDetail = {
   review: AdminReviewState;
 };
 
+const ADMIN_REVIEW_STATUS_LABELS: Record<AdminReviewStatus, string> = {
+  PENDING: "Pending",
+  APPROVED: "Approved",
+  REJECTED: "Rejected",
+};
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
-function readText(value: unknown): string | null {
-  if (typeof value !== "string") {
-    return null;
+export function parseAdminReviewStatus(
+  value: string | null,
+): AdminReviewStatus | null {
+  if (value === "PENDING" || value === "APPROVED" || value === "REJECTED") {
+    return value;
   }
 
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
+  return null;
+}
+
+export function getAdminReviewStatusLabel(status: AdminReviewStatus): string {
+  return ADMIN_REVIEW_STATUS_LABELS[status];
 }
 
 function normalizeJourneyMetadata(
@@ -95,8 +107,8 @@ function normalizeJourneyMetadata(
   }
 
   return {
-    title: readText(value.title),
-    description: readText(value.description),
+    title: readText(value.title) ?? readText(value.journeyTitle),
+    description: readText(value.description) ?? readText(value.summary),
     thumbnailUri: readText(value.thumbnailUri),
   };
 }
@@ -112,7 +124,10 @@ function normalizeAdminReviewItem(
     userId: item.userId,
     title: metadata.title,
     description: metadata.description,
-    thumbnailUrl: item.thumbnailUrl ?? metadata.thumbnailUri,
+    thumbnailUrl: resolveJourneyListCoverUrl({
+      thumbnailUrl: item.thumbnailUrl,
+      metadata: item.metadata,
+    }) ?? metadata.thumbnailUri,
     photoCount: item.photoCount,
     createdAt: item.createdAt,
     publishedAt: item.publishedAt ?? null,
@@ -185,11 +200,27 @@ async function readAllAdminReviewItems(
 }
 
 function buildSummary(items: AdminReviewQueueItem[]): AdminReviewSummary {
-  return {
-    pendingCount: items.filter((item) => item.review.status === "PENDING").length,
-    approvedCount: items.filter((item) => item.review.status === "APPROVED").length,
-    rejectedCount: items.filter((item) => item.review.status === "REJECTED").length,
+  const summary: AdminReviewSummary = {
+    pendingCount: 0,
+    approvedCount: 0,
+    rejectedCount: 0,
   };
+
+  for (const item of items) {
+    if (item.review.status === "APPROVED") {
+      summary.approvedCount += 1;
+      continue;
+    }
+
+    if (item.review.status === "REJECTED") {
+      summary.rejectedCount += 1;
+      continue;
+    }
+
+    summary.pendingCount += 1;
+  }
+
+  return summary;
 }
 
 function buildQueue(options: {

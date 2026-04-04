@@ -51,6 +51,11 @@ function resolveLoginNotice(
         tone: "error",
         message: `Only ${ADMIN_ALLOWED_EMAIL} can sign in.`,
       };
+    case "admin_access_denied":
+      return {
+        tone: "error",
+        message: "This account no longer has admin access.",
+      };
     case "session_expired":
       return {
         tone: "default",
