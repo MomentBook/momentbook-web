@@ -184,7 +184,7 @@ export async function requireAdminSession(nextPath: string): Promise<AdminSessio
   return session;
 }
 
-export async function requireAdminActionSession(
+export async function requireAdminApiSession(
   nextPath: string,
 ): Promise<AdminSession> {
   const session = await getStoredAdminSession();
@@ -210,4 +210,10 @@ export async function requireAdminActionSession(
   }
 
   return refreshedSession;
+}
+
+export async function requireAdminActionSession(
+  nextPath: string,
+): Promise<AdminSession> {
+  return requireAdminApiSession(nextPath);
 }

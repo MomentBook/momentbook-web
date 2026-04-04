@@ -40,7 +40,7 @@
 - UI: React 18 + SCSS Modules
 - State: Jotai (`theme`, `language`)
 - Auth (public web): no public login/auth route
-- Internal admin surface: `/admin` fixed account (`admin@momentbook.app`) only, browser-direct backend login + encrypted HttpOnly session bootstrap, mock queue/detail preview, live review-status mutation by known `publicId`
+- Internal admin surface: `/admin` fixed account (`admin@momentbook.app`) only, browser-direct backend login + encrypted HttpOnly session bootstrap, backend-backed published journey list (`GET /v2/admin/journeys/publish`), list-backed review detail summary, live review-status mutation by known `publicId`
 - Analytics: GA4 (`@next/third-parties/google`) + route page_view tracking
 - i18n: 9개 언어 (`en/ko/ja/zh/es/pt/fr/th/vi`)
 - Routing guard: `proxy.ts` (non-prefixed path -> language-prefixed redirect)

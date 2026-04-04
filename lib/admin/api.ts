@@ -1,6 +1,7 @@
 import "server-only";
 
 import type {
+  AdminPublishedJourneysDataDto,
   UpdatePublishedJourneyReviewDataDto,
   UpdatePublishedJourneyReviewRequestDto,
 } from "@/src/apis/client";
@@ -133,6 +134,23 @@ export async function refreshAdminTokens(
     pathname: "/v2/auth/refresh",
     method: "POST",
     body: { refreshToken },
+  });
+
+  return response.data;
+}
+
+export async function getAdminPublishedJourneysPage(input: {
+  accessToken: string;
+  page: number;
+  limit: number;
+}): Promise<AdminPublishedJourneysDataDto> {
+  const response = await requestEnvelope<AdminPublishedJourneysDataDto>({
+    pathname: "/v2/admin/journeys/publish",
+    accessToken: input.accessToken,
+    query: {
+      page: input.page,
+      limit: input.limit,
+    },
   });
 
   return response.data;

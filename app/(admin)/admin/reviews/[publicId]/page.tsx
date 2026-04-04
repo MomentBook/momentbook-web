@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { AdminReviewDetailPageView } from "@/app/(admin)/admin/AdminWorkspace";
-import { getAdminReviewDetailMock } from "@/lib/admin/mock-data";
 import {
   buildAdminReviewDetailHref,
   buildAdminWorkspaceHref,
 } from "@/lib/admin/paths";
 import { buildNoIndexRobots } from "@/lib/seo/public-metadata";
 import {
-  loadAdminWorkspaceShell,
+  loadAdminReviewDetailShell,
   parsePage,
   parseReviewStatus,
   parseStatus,
@@ -42,16 +41,6 @@ export default async function AdminReviewDetailPage({
     page: page > 1 ? String(page) : null,
     status: status === "pending" ? null : status,
   });
-  const detail = getAdminReviewDetailMock(publicId);
-
-  if (!detail) {
-    redirect(
-      buildAdminWorkspaceHref("reviews", {
-        page: page > 1 ? String(page) : null,
-        status: status === "pending" ? null : status,
-      }),
-    );
-  }
 
   const banner = resolveBanner({
     error: readQueryParam(resolvedSearchParams.error),
@@ -68,11 +57,21 @@ export default async function AdminReviewDetailPage({
         }
       : null;
 
-  const { queue, session } = await loadAdminWorkspaceShell({
+  const { detail, queue, session } = await loadAdminReviewDetailShell({
     page,
+    publicId,
     returnTo,
     status,
   });
+
+  if (!detail) {
+    redirect(
+      buildAdminWorkspaceHref("reviews", {
+        page: page > 1 ? String(page) : null,
+        status: status === "pending" ? null : status,
+      }),
+    );
+  }
 
   return (
     <AdminReviewDetailPageView

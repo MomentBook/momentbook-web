@@ -12,14 +12,14 @@ import {
   buildAdminWorkspaceHref,
   type AdminWorkspaceTab,
 } from "@/lib/admin/paths";
-import type { AdminSession } from "@/lib/admin/session";
-import { defaultLanguage } from "@/lib/i18n/config";
 import type {
   AdminReviewDetail,
   AdminReviewQueueData,
   AdminReviewQueueStatus,
   AdminReviewStatus,
-} from "@/lib/admin/mock-data";
+} from "@/lib/admin/reviews";
+import type { AdminSession } from "@/lib/admin/session";
+import { defaultLanguage } from "@/lib/i18n/config";
 import type { AdminDashboardBanner } from "./workspace-data";
 import styles from "./workspace.module.scss";
 
@@ -69,24 +69,6 @@ function buildStatusClassName(status: AdminReviewStatus): string {
   }
 
   return `${styles.statusChip} ${styles.statusPending}`;
-}
-
-function buildContentStatusLabel(
-  status: AdminReviewDetail["journey"]["contentStatus"],
-): string {
-  if (status === "reported_hidden") {
-    return "Reported hidden";
-  }
-
-  if (status === "review_pending") {
-    return "Review pending";
-  }
-
-  if (status === "review_rejected") {
-    return "Review rejected";
-  }
-
-  return "Available";
 }
 
 function buildQueueStatusLabel(status: AdminReviewQueueStatus): string {
@@ -316,8 +298,7 @@ function SelectedJourneyCard({
 }) {
   const journey = detail.journey;
   const review = detail.review;
-  const coverImage = journey.thumbnailUrl ?? journey.images[0]?.url ?? null;
-  const galleryImages = journey.images;
+  const coverImage = journey.thumbnailUrl;
 
   return (
     <section className={styles.card}>
@@ -356,8 +337,8 @@ function SelectedJourneyCard({
             {journey.title || "Untitled journey"}
           </h4>
 
-          {journey.notice ? (
-            <p className={styles.noticeCard}>{journey.notice}</p>
+          {journey.description ? (
+            <p className={styles.previewDescription}>{journey.description}</p>
           ) : null}
 
           <dl className={styles.metaGrid}>
@@ -366,12 +347,12 @@ function SelectedJourneyCard({
               <dd>{journey.publicId}</dd>
             </div>
             <div className={styles.metaItem}>
-              <dt>Content status</dt>
-              <dd>{buildContentStatusLabel(journey.contentStatus)}</dd>
+              <dt>Journey ID</dt>
+              <dd>{journey.journeyId}</dd>
             </div>
             <div className={styles.metaItem}>
-              <dt>Author</dt>
-              <dd>{journey.author.name || "Unknown author"}</dd>
+              <dt>User ID</dt>
+              <dd>{journey.userId}</dd>
             </div>
             <div className={styles.metaItem}>
               <dt>Created</dt>
@@ -381,6 +362,23 @@ function SelectedJourneyCard({
                   timestamp={Date.parse(journey.createdAt)}
                 />
               </dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>Published</dt>
+              <dd>
+                {journey.publishedAt ? (
+                  <LocalizedDate
+                    lang={ADMIN_DISPLAY_LANGUAGE}
+                    timestamp={Date.parse(journey.publishedAt)}
+                  />
+                ) : (
+                  "—"
+                )}
+              </dd>
+            </div>
+            <div className={styles.metaItem}>
+              <dt>Recap stage</dt>
+              <dd>{journey.recapStage}</dd>
             </div>
             <div className={styles.metaItemWide}>
               <dt>Journey window</dt>
@@ -397,40 +395,6 @@ function SelectedJourneyCard({
           </dl>
         </div>
       </article>
-
-      <section className={styles.photoSection}>
-        <div className={styles.cardHeader}>
-          <div className={styles.cardHeading}>
-            <h4 className={styles.cardTitle}>Photos</h4>
-          </div>
-          <span className={styles.sectionMeta}>{galleryImages.length} items</span>
-        </div>
-
-        {galleryImages.length > 0 ? (
-          <div className={styles.photoGrid}>
-            {galleryImages.map((image, index) => (
-              <article
-                key={image.photoId ?? `${journey.publicId}-${index}`}
-                className={styles.photoTile}
-              >
-                <div className={styles.photoImageWrap}>
-                  <Image
-                    src={image.url}
-                    alt={`Journey photo ${index + 1}`}
-                    fill
-                    className={styles.photoImage}
-                    sizes="(max-width: 820px) 50vw, (max-width: 1200px) 33vw, 240px"
-                  />
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className={styles.emptyState}>
-            <h4 className={styles.emptyTitle}>No photos</h4>
-          </div>
-        )}
-      </section>
     </section>
   );
 }
@@ -478,8 +442,9 @@ function ReviewTablePanel({
                 <tr>
                   <th>Status</th>
                   <th>Journey</th>
-                  <th>Author</th>
+                  <th>User ID</th>
                   <th>Public ID</th>
+                  <th>Visibility</th>
                   <th>Photos</th>
                   <th>Created</th>
                   <th>Published</th>
@@ -504,8 +469,9 @@ function ReviewTablePanel({
                         {item.title || "Untitled journey"}
                       </Link>
                     </td>
-                    <td>{item.author.name || "Unknown author"}</td>
+                    <td className={styles.tableMono}>{item.userId}</td>
                     <td className={styles.tableMono}>{item.publicId}</td>
+                    <td>{item.visibility}</td>
                     <td>{item.photoCount}</td>
                     <td>
                       <LocalizedDate
@@ -713,13 +679,13 @@ function OverviewPanel({
       <section className={styles.metricGrid}>
         <SummaryMetric label="Pending now" value={queue.summary.pendingCount} />
         <SummaryMetric
-          label="Approved today"
-          value={queue.summary.approvedTodayCount}
+          label="Approved"
+          value={queue.summary.approvedCount}
           tone="success"
         />
         <SummaryMetric
-          label="Rejected today"
-          value={queue.summary.rejectedTodayCount}
+          label="Rejected"
+          value={queue.summary.rejectedCount}
           tone="danger"
         />
       </section>
@@ -801,7 +767,7 @@ function OverviewPanel({
             </div>
             <div className={styles.metaItem}>
               <dt>Source</dt>
-              <dd>Mock queue</dd>
+              <dd>Admin publish API</dd>
             </div>
             <div className={styles.metaItem}>
               <dt>Entry</dt>
