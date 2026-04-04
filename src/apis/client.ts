@@ -2700,7 +2700,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
 /**
  * @title MomentBook API
- * @version 2.1.30
+ * @version 2.1.31
  * @contact
  *
  * MomentBook API 문서 - 생각을 공유하고 관리하는 플랫폼
@@ -3383,7 +3383,7 @@ export class Api<
       }),
 
     /**
-     * @description Public endpoint to retrieve publicly visible approved journeys for the discovery feed. Supports legacy offset pagination and additive cursor pagination for short-feed style clients. Optional `reviewStatus=APPROVED` may be supplied to make the approved-only contract explicit. Creator-specific lists should prefer `/v2/users/public/:userId/journeys`.
+     * @description Public endpoint to retrieve publicly visible approved journeys for the discovery feed. Supports legacy offset pagination and additive cursor pagination for short-feed style clients. `sort=discovery` provides a non-personalized exploration order that keeps newly published journeys first and then rotates older approved journeys more broadly. Optional `reviewStatus=APPROVED` may be supplied to make the approved-only contract explicit. Creator-specific lists should prefer `/v2/users/public/:userId/journeys`.
      *
      * @tags journeys
      * @name PublishJourneyControllerGetPublishedJourneys
@@ -3407,11 +3407,11 @@ export class Api<
          */
         limit?: number;
         /**
-         * Sort order. Cursor mode currently supports only recent to keep the feed contract stable.
+         * Sort order. `discovery` is a non-personalized feed mode: newest journeys stay first, then older approved journeys are re-ordered with stable exploration. Cursor mode currently supports only recent to keep the feed contract stable.
          * @default "recent"
          * @example "recent"
          */
-        sort?: "recent" | "oldest";
+        sort?: "recent" | "oldest" | "discovery";
         /**
          * Deprecated creator filter on the discovery endpoint. Prefer /v2/users/public/:userId/journeys for creator-specific lists.
          * @deprecated
